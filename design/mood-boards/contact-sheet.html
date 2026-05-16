@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Saigon Dusk Mood Board — Contact Sheet · FR-DS-001</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --brand-gold-200: #F9D966;
+      --brand-gold-400: #E8B523;
+      --brand-brown-400: #6E3A18;
+      --brand-brown-500: #4A2208;
+      --brand-brown-700: #2C1304;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--brand-brown-700);
+      color: var(--brand-gold-200);
+      font: 16px/1.5 system-ui, -apple-system, sans-serif;
+      padding: 2rem;
+    }
+    h1, h2, h3 { color: var(--brand-gold-400); font-weight: 800; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(28px, 4vw, 48px); margin: 0 0 0.5rem; }
+    h2 { font-size: clamp(20px, 2.5vw, 30px); margin: 2rem 0 1rem; border-bottom: 1px solid var(--brand-brown-400); padding-bottom: 0.5rem; }
+    .meta { color: var(--brand-gold-200); opacity: 0.7; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 14px; }
+    .cluster { background: var(--brand-brown-500); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+    .cluster.avoid { background: #5A1818; border: 2px solid #DA251D; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .ref { background: var(--brand-brown-700); padding: 1rem; border-radius: 4px; border-left: 4px solid var(--brand-gold-400); }
+    .ref.avoid { border-left-color: #DA251D; }
+    .ref h4 { color: var(--brand-gold-200); margin: 0 0 0.5rem; font-size: 1rem; }
+    .ref .id { display: inline-block; background: var(--brand-brown-400); color: var(--brand-gold-200); padding: 2px 8px; border-radius: 3px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; }
+    .ref .annotation { color: var(--brand-gold-200); opacity: 0.9; font-size: 14px; line-height: 1.4; }
+    .ref .search { color: var(--brand-gold-200); opacity: 0.5; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; margin-top: 0.5rem; }
+    .ref a { color: var(--brand-gold-400); text-decoration: underline; word-break: break-all; }
+    .footnote { color: var(--brand-gold-200); opacity: 0.6; font-size: 13px; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--brand-brown-400); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Saigon Dusk Mood Board</h1>
+    <p class="meta">FR-DS-001 · v1.0.0 · 2026-05-16 · contact-sheet</p>
+    <p>
+      Reference catalog for the CyberSkill landing-page tonal direction. 4 clusters + counter-examples.
+      Designer fills in actual image URLs as references are sourced; this sheet displays the
+      "take this / not that" annotations + counter-examples for design review.
+    </p>
+  </header>
+
+  <div id="board"></div>
+
+  <p class="footnote">
+    Generated from <code>references-catalog.json</code>. Companion rationale: <code>rationale.md</code>.
+    Cluster requirements: A (4-6 refs), B (3-4), C (3-4 — Igloo + Lusion + 1 other REQUIRED), D (2-4).
+    Counter-examples (3) explicitly mark the boundary.
+  </p>
+
+  <script>
+    fetch('./references-catalog.json').then(r => r.json()).then(data => {
+      const board = document.getElementById('board');
+      for (const [key, cluster] of Object.entries(data.clusters)) {
+        const sec = document.createElement('section');
+        sec.className = 'cluster';
+        sec.innerHTML = `<h2>${key} · ${cluster.description}</h2>
+          <p class="meta">${cluster.references.length} / ${cluster.min}-${cluster.max} references</p>
+          <div class="grid">${cluster.references.map(r => `
+            <div class="ref">
+              <span class="id">${r.id}</span>
+              <h4>${r.title}</h4>
+              <p class="annotation">${r.annotation}</p>
+              ${r.url ? `<p><a href="${r.url}" target="_blank">${r.url}</a></p>` : ''}
+              ${r.search_term ? `<p class="search">search: ${r.search_term}</p>` : ''}
+            </div>`).join('')}</div>`;
+        board.appendChild(sec);
+      }
+      // Counter-examples
+      const avoid = document.createElement('section');
+      avoid.className = 'cluster avoid';
+      avoid.innerHTML = `<h2>✗ Counter-examples — we are NOT this</h2>
+        <div class="grid">${data.counter_examples.map(r => `
+          <div class="ref avoid">
+            <span class="id">${r.id}</span>
+            <h4>${r.title}</h4>
+            <p class="annotation">${r.annotation}</p>
+          </div>`).join('')}</div>`;
+      board.appendChild(avoid);
+    });
+  </script>
+</body>
+</html>

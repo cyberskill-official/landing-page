@@ -1,0 +1,25 @@
+{
+  "name": "@cyberskill/ds-cinematic",
+  "version": "0.0.1",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./tokens": { "types": "./dist/tokens/index.d.ts", "import": "./dist/tokens/index.js" },
+    "./tokens/colors": { "types": "./dist/tokens/colors.d.ts", "import": "./dist/tokens/colors.js" },
+    "./tokens/motion": { "types": "./dist/tokens/motion.d.ts", "import": "./dist/tokens/motion.js" },
+    "./tokens/typography": { "types": "./dist/tokens/typography.d.ts", "import": "./dist/tokens/typography.js" },
+    "./tokens/glow": { "types": "./dist/tokens/glow.d.ts", "import": "./dist/tokens/glow.js" },
+    "./tokens/accents": { "types": "./dist/tokens/accents.d.ts", "import": "./dist/tokens/accents.js" },
+    "./lifecycle": { "types": "./dist/lifecycle.d.ts", "import": "./dist/lifecycle.js" }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": { "typescript": "^5.6", "vitest": "^2" }
+}

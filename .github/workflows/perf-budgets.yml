@@ -1,0 +1,22 @@
+name: perf-budgets
+on:
+  pull_request: { paths-ignore: ['**/*.md'] }
+  push: { branches: [main] }
+
+jobs:
+  budgets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: true }
+      - uses: pnpm/action-setup@v3
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -F web build
+      - run: pnpm exec node tools/perf-budgets/check-js-bundle.mjs
+      - run: pnpm exec node tools/perf-budgets/check-asset-sizes.mjs
+      - run: pnpm exec npx @lhci/cli autorun --config apps/web/lighthouserc.json
+      - run: pnpm exec node tools/perf-budgets/check-cwv.mjs .lighthouseci/lhr-*.json

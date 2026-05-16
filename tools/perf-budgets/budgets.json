@@ -1,0 +1,24 @@
+{
+  "$comment": "Canonical CI thresholds per FR-PERF-001 §1 #1. Threshold changes require an FR-PERF-NNN-budget-amendment per AGENTS.md §16.2.",
+  "cwv": {
+    "lcp_ms_p75":  { "target": 2500, "fail": 3000 },
+    "inp_ms_p75":  { "target":  200, "fail":  300 },
+    "cls":         { "target":  0.1, "fail":  0.15 },
+    "fps_desktop": { "target":   60, "fail":   50 },
+    "fps_mobile":  { "target":   30, "fail":   25 }
+  },
+  "js_bundle": {
+    "main_chunk_kb_gz": { "target": 200, "fail": 220 }
+  },
+  "page_weight": {
+    "first_scene_mb": { "target": 3.0, "fail": 3.5 },
+    "all_scenes_mb":  { "target": 14,  "fail": 16  }
+  },
+  "assets": {
+    "lumi_glb_mb":         { "target": 3.0, "fail": 3.5 },
+    "nonla_glb_kb":        { "target": 200, "fail": 250 },
+    "hero_scene_props_mb": { "target": 1.0, "fail": 1.2 },
+    "each_scene_props_mb": { "target": 1.5, "fail": 1.8 }
+  },
+  "draw_calls_per_scene_max": { "target": 100, "fail": 150 }
+}

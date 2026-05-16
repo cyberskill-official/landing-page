@@ -1,0 +1,90 @@
+[
+  {
+    "id": "scene-0",
+    "ordinal": 0,
+    "title": "What if your will became real?",
+    "viewportHeights": 1.0,
+    "lumiRole": "Fly-in, lands beside headline, points at scroll cue",
+    "emotionBeat": "Curiosity / intrigue",
+    "narrativeFunction": "Hook + mascot intro + above-fold CTA #1 (Buy)",
+    "narration_line_ids": ["scene-0-hero-primary"],
+    "comp_fr_id": "FR-SCENE-001"
+  },
+  {
+    "id": "scene-1",
+    "ordinal": 1,
+    "title": "Saigon, 2020.",
+    "viewportHeights": 1.5,
+    "lumiRole": "Wisp tail coils around floating idea-spark; voiceover-style captions tell Stephen's origin",
+    "emotionBeat": "Empathy",
+    "narrativeFunction": "Establishes humanity of founder + slogan meaning",
+    "narration_line_ids": ["scene-1-origin-primary"],
+    "comp_fr_id": "FR-SCENE-002"
+  },
+  {
+    "id": "scene-2",
+    "ordinal": 2,
+    "title": "From sketch to system.",
+    "viewportHeights": 1.5,
+    "lumiRole": "Uncrosses arms, becomes a paintbrush of light — draws a wireframe that morphs into a working app shell",
+    "emotionBeat": "Wonder",
+    "narrativeFunction": "Proof of capability via two real long-term engagements",
+    "narration_line_ids": ["scene-2-transformation-primary"],
+    "comp_fr_id": "FR-SCENE-003"
+  },
+  {
+    "id": "scene-3",
+    "ordinal": 3,
+    "title": "How we turn will into real.",
+    "viewportHeights": 1.5,
+    "lumiRole": "Splits into 4 wisp-ribbons that orbit 4 capability pillars",
+    "emotionBeat": "Confidence",
+    "narrativeFunction": "Stack credibility — React, Three.js, AI/RAG, design systems",
+    "narration_line_ids": ["scene-3-capabilities-primary"],
+    "comp_fr_id": "FR-SCENE-004"
+  },
+  {
+    "id": "scene-4",
+    "ordinal": 4,
+    "title": "Ten people. One craft.",
+    "viewportHeights": 1.0,
+    "lumiRole": "Dim/quiet — pulls back to reveal 10 small hovering avatars",
+    "emotionBeat": "Trust / warmth",
+    "narrativeFunction": "Humanize the team; doubles as recruit hook",
+    "narration_line_ids": ["scene-4-team-primary"],
+    "comp_fr_id": "FR-SCENE-005"
+  },
+  {
+    "id": "scene-5",
+    "ordinal": 5,
+    "title": "From Sài Gòn to your time zone.",
+    "viewportHeights": 1.5,
+    "lumiRole": "Red nón lá with yellow star fades onto Lumi's hood; tilts hat in salute; becomes luminous arc connecting HCMC to NA/EU pins",
+    "emotionBeat": "Pride / scale-readiness",
+    "narrativeFunction": "Address the 'but you're in Vietnam' objection head-on",
+    "narration_line_ids": ["scene-5-vietnam-global-primary"],
+    "comp_fr_id": "FR-SCENE-006"
+  },
+  {
+    "id": "scene-6",
+    "ordinal": 6,
+    "title": "What do you want to make real?",
+    "viewportHeights": 1.0,
+    "lumiRole": "Splits into 3 paths — Lumi turns toward whichever CTA you focus",
+    "emotionBeat": "Decision",
+    "narrativeFunction": "The 3-track conversion fork",
+    "narration_line_ids": ["scene-6-cta-hub-primary"],
+    "comp_fr_id": "FR-SCENE-007"
+  },
+  {
+    "id": "footer",
+    "ordinal": 7,
+    "title": "Trust signals + secondary nav",
+    "viewportHeights": 0.7,
+    "lumiRole": "Lumi waves goodbye, curls into persistent corner avatar (nón lá stays on)",
+    "emotionBeat": "Closure",
+    "narrativeFunction": "DUNS, address, contact, hreflang",
+    "narration_line_ids": ["footer-goodbye-primary"],
+    "comp_fr_id": "FR-SCENE-008"
+  }
+]

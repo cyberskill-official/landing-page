@@ -1,0 +1,127 @@
+fr,phase,priority,status,size_kb,tier,sections,musts,acs,title
+FR-A11Y-001-reduced-motion-fallback,P3,MUST,accepted,20.9,FULL,7/7,20,14,Reduced-motion fallback — 7-panel SVG storyboard at /lite and @media swap inline
+FR-A11Y-002-shadow-dom-mirror,P3,MUST,accepted,1.5,THIN,3/7,4,0,Shadow-DOM mirror for Scene 0 — section role=img + aria-labelledby pattern
+FR-A11Y-003-skip-story-pill,P3,MUST,accepted,1.2,MINIMAL,3/7,4,0,Skip-story pill (top-right) → jumps to Scene 6
+FR-A11Y-004-mute-toggle,P3,MUST,accepted,1.2,MINIMAL,3/7,4,0,Mute toggle (default ON) + localStorage persistence
+FR-A11Y-005-skip-3d-toggle,P3,MUST,accepted,1.2,MINIMAL,3/7,4,0,'Skip 3D entirely' toggle in header → /lite redirect
+FR-A11Y-006-impl,P5,MUST,accepted,1.1,MINIMAL,3/7,4,0,"Captions for every Lumi line — gold-on-charcoal, 18px min, aria-live polite"
+FR-A11Y-007-impl,P5,MUST,accepted,1.0,MINIMAL,3/7,3,0,Keyboard nav cycle — Skip story → header → scene anchors → footer
+FR-A11Y-008-impl,P5,MUST,accepted,1.1,MINIMAL,3/7,3,0,"Focus rings — 2 px gold outline + 2 px offset, visible on every interactive"
+FR-A11Y-009-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,3,0,Target size 44×44 (AAA) for all CTAs
+FR-A11Y-010-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,3,0,Form autofill + Redundant-Entry compliance
+FR-A11Y-011-impl,P5,MUST,accepted,1.0,MINIMAL,3/7,4,0,Public /accessibility compliance documentation page
+FR-A11Y-012-impl,P5,MUST,accepted,1.0,MINIMAL,3/7,4,0,Full pre-launch axe + manual VO + NVDA audit + fixes
+FR-A11Y-013-IMPL,P6,MUST,accepted,1.0,MINIMAL,3/7,4,0,Monthly post-launch axe-core CI scan + quarterly manual review
+FR-CHAR-001-lumi-2d-character-sheet,P0,MUST,shipped,21.2,FULL,7/7,11,8,Lumi 2D character sheet — 4 poses + 6 expressions in brand palette
+FR-CHAR-002-silhouette-test,P0,MUST,shipped,11.5,FULL,7/7,10,9,Lumi silhouette test at 32×32 px — readability gate vs CyberSkill logo
+FR-CHAR-003-nonla-accessory-design,P0,MUST,shipped,15.8,FULL,7/7,13,10,"Nón lá accessory design — exterior red, interior gold lining, single yellow star"
+FR-CHAR-004-lumi-greybox,P1,MUST,accepted,13.6,FULL,7/7,13,12,"Lumi greybox mesh — proxy proportions, silhouette pass, no textures"
+FR-CHAR-005-per-scene-greybox-sets,P1,MUST,accepted,8.5,FULL,7/7,12,10,"Per-scene greybox sets — props, camera frusta, scene-scale checks"
+FR-CHAR-006-production-mesh,P2,MUST,accepted,35.3,FULL,7/7,16,15,Lumi production mesh — ≤ 40k tri watertight; polygon distribution per spec; silhouette parity vs FR-
+FR-CHAR-007-uv-layout,P2,MUST,accepted,24.3,FULL,7/7,15,15,Lumi UV layout — locked 2k/1k/512 atlas trio with seam discipline + texel-density floor
+FR-CHAR-008-substance-pbr-textures,P2,MUST,accepted,23.1,FULL,7/7,14,16,Substance Painter PBR textures — BaseColor / ORM-packed / Normal / Emissive at locked 2k
+FR-CHAR-009-custom-armature-rig,P2,MUST,accepted,23.1,FULL,7/7,14,15,Custom armature ~27 bones (NOT Rigify) — spine / arms / wisp / hood / jaw / eyes / hat-socket
+FR-CHAR-010-shape-keys,P2,MUST,accepted,22.1,FULL,7/7,12,13,Shape keys — 10 named keys + driver hookups via c_head custom properties
+FR-CHAR-011-animation-library,P2,MUST,accepted,25.7,FULL,7/7,16,16,Animation library — 11 clips per master plan §3.3a; NLA-strip-named for clean glTF split
+FR-CHAR-012-nonla-production-mesh,P2,MUST,accepted,23.1,FULL,7/7,15,16,Nón lá accessory production mesh ≤ 600 tri; parented to `hat_socket`; casual-register only
+FR-CMS-001-master-narrative-arc,P0,MUST,shipped,20.2,FULL,7/7,11,12,"Master narrative arc — 7 scenes, EN-first, Lumi voice rules locked"
+FR-CMS-002-per-scene-narration,P0,MUST,shipped,17.6,FULL,7/7,13,12,"Per-scene Lumi narration lines — EN-first, ≤ 12 words, voice-rules-compliant"
+FR-CMS-003-vietnamese-localised-variants,P0,SHOULD,shipped,17.9,FULL,7/7,12,13,"Vietnamese localised variants for all narration — slightly poetic register, native review"
+FR-CMS-004-sanity-schema,P4,MUST,accepted,1.1,MINIMAL,3/7,4,0,Sanity.io schema — Case Study / Testimonial / Capability / TeamMember / Job
+FR-CMS-005-isr-revalidation,P4,MUST,accepted,1.0,MINIMAL,3/7,3,0,ISR (`revalidate: 3600`) for marketing page + case-study sub-routes
+FR-CMS-006-work-slug-route,P4,MUST,accepted,1.0,MINIMAL,3/7,4,0,/work/<slug> case-study route + Sanity-driven content
+FR-CMS-007-i18n-loader,P4,MUST,accepted,1.1,MINIMAL,3/7,4,0,"`i18n/{en,vi}.json` content store + language switcher"
+FR-CMS-008-hreflang,P4,MUST,accepted,1.0,MINIMAL,3/7,3,0,hreflang link tags + x-default
+FR-CMS-009-vi-native-review,P5,MUST,accepted,1.1,MINIMAL,3/7,4,0,Vietnamese script + UI string review pass by native speaker
+FR-CMS-010-vi-tagline-hover,P5,SHOULD,accepted,1.0,MINIMAL,3/7,4,0,Lumi hover-reveal Vietnamese tagline
+FR-CMS-011-IMPL,P6,SHOULD,accepted,1.1,MINIMAL,3/7,4,0,Quarterly content refresh cadence — new case study + refreshed metrics
+FR-CTA-001-three-track-cta-hub,P4,MUST,accepted,20.3,FULL,7/7,16,14,Three-track CTA hub component (Buy / Partner / Join) with audience-routed forms
+FR-CTA-002-calendly-embed,P4,MUST,accepted,1.3,MINIMAL,3/7,4,0,Calendly embed — 3-step Buy form (What kind of help → details → slot)
+FR-CTA-003-hubspot-partner-form,P4,MUST,accepted,1.1,MINIMAL,3/7,4,0,HubSpot multi-step partner form integration
+FR-CTA-004-ats-jobs-form,P4,MUST,accepted,1.0,MINIMAL,3/7,4,0,ATS-fed 'We're hiring N' badge + Join form
+FR-CTA-005-form-validation,P4,MUST,accepted,1.0,MINIMAL,3/7,4,0,react-hook-form + zod schema-validated forms (a11y first)
+FR-CTA-006-lead-api-endpoint,P4,MUST,accepted,1.1,MINIMAL,3/7,5,0,/api/lead/route.ts server endpoint posting to HubSpot CRM
+FR-CTA-007-lumi-form-reactions,P4,SHOULD,accepted,1.0,MINIMAL,3/7,3,0,Lumi reactions to form step changes (mouth_smile / summon)
+FR-CTA-008-timezone-clock,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,Time-zone-honesty live-clock widget (HCMC + visitor zone + overlap windows)
+FR-CTA-009-IMPL,P6,MUST,accepted,1.0,MINIMAL,3/7,3,0,HubSpot deal-stage routing — buy / partner / join into separate pipelines
+FR-CTA-010-IMPL,P6,SHOULD,accepted,1.0,MINIMAL,3/7,4,0,Form error states + retry logic + abandonment-prevention
+FR-CTA-011-IMPL,P6,SHOULD,accepted,1.0,MINIMAL,3/7,4,0,A/B testbed — one test per month per master plan §12.2
+FR-DS-001-mood-board,P0,MUST,shipped,11.7,FULL,7/7,10,11,Mood board — Lumi-Inception-Saigon-Dusk reference assembly
+FR-DS-002-palette-swatch-wcag-matrix,P0,MUST,shipped,15.2,FULL,7/7,10,11,Approved colour palette swatch sheet + WCAG contrast matrix
+FR-DS-003-cinematic-pack-skeleton,P1,MUST,accepted,16.8,FULL,7/7,10,10,"@cyberskill/ds-cinematic package skeleton — workspace, exports, peer-dep on ds-foundations"
+FR-DS-004-gold-brown-token-export,P1,MUST,accepted,8.2,FULL,7/7,8,8,"Brand-gold + brand-brown token export — TS const + CSS custom properties, generator-driven"
+FR-DS-005-flag-accent-tokens,P1,MUST,accepted,5.8,MEDIUM,7/7,8,6,Vietnamese-flag accent tokens — Scene-5-scoped via CSS cascade + TS runtime guard
+FR-DS-006-motion-tokens,P1,MUST,accepted,7.8,MEDIUM,7/7,8,8,Motion tokens — duration scale + easing curves (--ease-genie et al.) with reduced-motion honour
+FR-DS-007-cinematic-typography,P1,MUST,accepted,10.4,FULL,7/7,10,9,Cinematic typography pairing — display face (Inter Display) + caption mono (JetBrains Mono)
+FR-DS-008-glow-recipes,P1,SHOULD,accepted,5.8,MEDIUM,7/7,6,6,Glow recipes — rim / soft / scene-edge token set
+FR-DS-009-component-lifecycle-marker,P1,MUST,accepted,9.7,FULL,7/7,8,7,Component lifecycle marker — Experimental → Stable migration table for Cinematic Pack
+FR-OPS-001-gltf-transform-pipeline,P2,MUST,accepted,23.6,FULL,7/7,15,14,"scripts/gltf-pipeline.mjs — two-stage Blender → glTF-Transform pipeline (Meshopt for Lumi, Draco for"
+FR-OPS-002-budgets-json-canonical,P2,MUST,accepted,9.7,FULL,7/7,9,10,Per-asset budget definition file `tools/perf-budgets/budgets.json` — canonical CI source of truth
+FR-OPS-003-pr-comment-integration,P2,MUST,accepted,2.4,THIN,3/7,7,0,PR comment integration — gltf-transform inspect markdown comment with delta vs main
+FR-OPS-004-ktx2-basis-texture-compression,P2,MUST,accepted,1.9,THIN,2/7,6,0,"KTX2 + Basis Universal texture compression (UASTC for normals, ETC1S for color/MR/emissive)"
+FR-OPS-005-decoder-bundling,P2,MUST,accepted,1.8,THIN,2/7,5,0,Decoder bundling — Draco / Meshopt / KTX2 WASM under /public/decoders/ (no CDN)
+FR-OPS-006-cowork-recipe-pr-triage,P2,SHOULD,accepted,1.9,THIN,2/7,4,0,Cowork Recipe A — PR triage automation (size delta + draw-call estimate + screenshot diff)
+FR-OPS-007-cowork-recipes-bg,P2,COULD,accepted,2.3,THIN,2/7,0,0,Cowork Recipes B-G — texture variants / motion previs / Blender Python / Substance / async review / 
+FR-OPS-008-lfs-configuration,P2,MUST,accepted,1.6,THIN,2/7,5,0,Git LFS configuration for `/assets-source/blender/**` + `.psd` / `.sbs`
+FR-OPS-009-source-asset-manifest,P2,SHOULD,accepted,1.7,THIN,2/7,4,0,assets-source/manifest.json lockfile for source-asset dependency tracking
+FR-OPS-010-github-actions-ci,P3,MUST,accepted,8.8,FULL,7/7,12,12,GitHub Actions CI — install / lint / typecheck / test / build with pnpm + Next cache
+FR-OPS-011-lighthouse-ci,P3,MUST,accepted,1.2,MINIMAL,3/7,4,0,Lighthouse CI on every PR — fail if CWV regresses
+FR-OPS-012-axe-a11y-gate,P3,MUST,accepted,1.2,MINIMAL,3/7,3,0,axe-core/playwright a11y CI gate
+FR-OPS-013-file-size-ci-gate,P3,MUST,accepted,1.2,MINIMAL,3/7,4,0,File-size CI gate — fail PR if any GLB exceeds budgets.json
+FR-OPS-014-IMPL,P6,MUST,accepted,1.0,MINIMAL,3/7,4,0,Production deployment + DNS + CDN (Vercel or equivalent)
+FR-OPS-015-IMPL,P6,SHOULD,accepted,1.0,MINIMAL,3/7,3,0,Awwwards / FWA / SOTY submission packet
+FR-OPS-016-IMPL,P6,MUST,accepted,1.0,MINIMAL,3/7,4,0,Soft-launch partner-share URL (gated) for week-8 proof-of-concept
+FR-PERF-001-cwv-budget-ci-gates,P5,MUST,accepted,19.1,FULL,7/7,12,11,Performance budget CI gates — LCP / INP / CLS / FPS / total JS / total page weight / per-asset GLB
+FR-PERF-002-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,3,0,Lumi LOD-1 variant (~8k tri) for distance + low-memory paths
+FR-PERF-003-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,3,0,Per-scene frameloop='demand' for non-animating scenes
+FR-PERF-004-impl,P5,MUST,accepted,1.0,MINIMAL,3/7,3,0,Drei <Preload> + intersection-observer prefetch of next-scene GLBs (200% rootMargin)
+FR-PERF-005-impl,P5,MUST,accepted,1.1,MINIMAL,3/7,3,0,disposeAll audit — geometries / materials / textures / render targets on unmount
+FR-PERF-006-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,3,0,Linting rule — no allocations in useFrame; Vector3/Quaternion useMemo'd
+FR-PERF-007-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,3,0,scheduler.yield() + scheduler.postTask() for INP < 200ms p75
+FR-PERF-008-impl,P5,MUST,accepted,1.0,MINIMAL,3/7,4,0,Draw-call ceiling — < 100 per scene at any moment; instancing audit
+FR-PERF-009-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,4,0,"navigator.deviceMemory < 4 → LOD-1 + no post-processing + dpr=[1,1]"
+FR-PERF-010-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,4,0,navigator.connection.saveData → auto-prompt switch to /lite
+FR-PERF-011-IMPL,P6,SHOULD,accepted,1.0,MINIMAL,3/7,4,0,Post-launch RUM (Real User Monitoring) dashboard via Plausible + web-vitals
+FR-SCENE-001-scene-0-hero-figma-comp,P1,MUST,accepted,18.2,FULL,7/7,14,12,Scene 0 Hero — Figma comp at 3 breakpoints + 6 motion frames + storyboard
+FR-SCENE-002-scene-1-origin-figma-comp,P1,MUST,accepted,12.1,FULL,7/7,12,11,Scene 1 Origin — Figma comp at 3 breakpoints + camera-path notes + storyboard
+FR-SCENE-003-scene-2-transformation-comp,P1,MUST,accepted,5.0,MEDIUM,6/7,9,11,Scene 2 Transformation — Figma comp + paint-trail spec + sketch→system morph
+FR-SCENE-004-scene-3-capabilities-comp,P1,MUST,accepted,4.1,MEDIUM,3/7,8,9,Scene 3 Capabilities — quadrant comp + 4-satellite art direction + split-to-4 anim cue
+FR-SCENE-005-scene-4-team-comp,P1,MUST,accepted,4.9,MEDIUM,4/7,8,10,Scene 4 Team — bokeh ten-avatar comp + parallax notes + recruit hook
+FR-SCENE-006-scene-5-vietnam-global-comp,P1,MUST,accepted,6.3,MEDIUM,4/7,12,11,Scene 5 Vietnam → Global — globe + nón lá moment + HCMC→NA/EU arc
+FR-SCENE-007-scene-6-cta-hub-comp,P1,MUST,accepted,4.6,MEDIUM,4/7,10,10,Scene 6 CTA Hub — three-portal comp + audience colour-coding + Lumi-focus behaviour
+FR-SCENE-008-footer-comp,P1,MUST,accepted,4.9,MEDIUM,4/7,10,12,Footer + persistent Lumi corner — comp + state diagram + trust signals layout
+FR-SCENE-009-scene-0-hero-implementation,P3,MUST,accepted,11.2,FULL,7/7,12,12,"Scene 0 Hero implementation — DOM headline as LCP, canvas mounts post-FCP, fly_in→idle Lumi"
+FR-SCENE-010-lumi-fly-in-idle-wiring,P3,MUST,accepted,11.3,FULL,7/7,10,9,Lumi animation wiring — Zustand-driven anim picker with 200ms crossfade + default-to-idle
+FR-SCENE-011-above-fold-cta,P3,MUST,accepted,10.9,FULL,7/7,12,12,Above-fold CTA — primary 'Book Discovery Call' + scroll-pinned sticky variant
+FR-SCENE-012-particulate-dust,P3,SHOULD,accepted,10.4,FULL,7/7,11,12,"Particulate dust — 200 instanced points (responsive: 100 tablet / 50 mobile), additive-blend + alpha"
+FR-SCENE-013-implementation,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,Scene 1 Origin implementation — coil_idle anim around idea-spark + typed captions
+FR-SCENE-014-implementation,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,Scene 2 Transformation implementation — paint clip + wireframe morph + pull-quote
+FR-SCENE-015-implementation,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,Scene 3 Capabilities implementation — split_to_4 anim + 4 satellites
+FR-SCENE-016-implementation,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,Scene 4 Team implementation — 10 bokeh avatars + Lumi dim + recruit hook
+FR-SCENE-017-implementation,P4,MUST,accepted,1.4,MINIMAL,3/7,5,0,Scene 5 Vietnam→Global implementation — globe ~6k tri + nonla_appear + arc
+FR-SCENE-018-implementation,P4,MUST,accepted,1.1,MINIMAL,3/7,4,0,Scene 6 CTA Hub implementation — 3 portals + Lumi-turn behaviour
+FR-SCENE-019-implementation,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,Footer Lumi corner + nón lá persisted + trust signals strip
+FR-SCENE-020-implementation,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,GSAP scroll-orchestrator timeline binding scenes 0-6
+FR-SCENE-021-implementation,P4,MUST,accepted,1.2,MINIMAL,3/7,4,0,"Mobile compressed scene flow (1+2 merge, 3+4 merge → 5 scenes total)"
+FR-SCENE-022-implementation,P4,MUST,accepted,1.0,MINIMAL,3/7,3,0,DPR + particle scaling per breakpoint per master plan §5.5
+FR-SCENE-023-implementation,P4,SHOULD,accepted,0.9,MINIMAL,3/7,3,0,`<Detailed>` LOD swap for Lumi at distance > 12m (Scene 5)
+FR-SCENE-024-implementation,P4,COULD,accepted,1.0,MINIMAL,3/7,3,0,Easter-egg nón lá hover-reveal (Recipe G variants)
+FR-SEO-001-schema-org-professional-service,P5,MUST,accepted,18.4,FULL,7/7,20,14,"Schema.org ProfessionalService JSON-LD with DUNS, founder, areaServed, knowsAbout"
+FR-SEO-002-impl,P5,SHOULD,accepted,1.0,MINIMAL,3/7,3,0,Service schema sub-blocks per capability
+FR-SEO-003-impl,P5,SHOULD,accepted,0.9,MINIMAL,3/7,3,0,Person schema for the founder bio anchor
+FR-SEO-004-impl,P5,MUST,accepted,1.1,MINIMAL,3/7,4,0,OpenGraph + Twitter summary_large_image meta with 1200×630 hero render
+FR-SEO-005-impl,P5,MUST,accepted,0.9,MINIMAL,3/7,4,0,<title> ≤ 60 chars + meta-description ≤ 158 chars (EN + VI)
+FR-SEO-006-impl,P5,MUST,accepted,1.0,MINIMAL,3/7,4,0,XML sitemap + robots.txt + canonical
+FR-SEO-007-IMPL,P6,MUST,accepted,1.0,MINIMAL,3/7,4,0,GA4 + Plausible dual-pipe via /api/analytics cookieless proxy
+FR-SEO-008-IMPL,P6,MUST,accepted,1.1,MINIMAL,3/7,3,0,Analytics event taxonomy per master plan §8.4 (10 events)
+FR-SEO-009-IMPL,P6,SHOULD,accepted,0.9,MINIMAL,3/7,3,0,web-vitals dashboard wired to Plausible custom events
+FR-WEB-001-next15-r3f-globalcanvas-bootstrap,P3,MUST,accepted,23.0,FULL,7/7,16,14,Next.js 15 + React 19 + R3F 9 monorepo bootstrap with persistent GlobalCanvas outside router
+FR-WEB-002-lenis-smooth-scroll,P3,MUST,accepted,21.2,FULL,7/7,14,15,"Lenis 1.3 smooth-scroll provider — singleton, ScrollTrigger-integrated, no scroll-hijack, reduced-mo"
+FR-WEB-003-usecanvas-tunneling,P3,MUST,accepted,22.4,FULL,7/7,15,15,<UseCanvas> tunneling — scene-mesh portaling into persistent GlobalCanvas with DOM tracking + dispos
+FR-WEB-004-zustand-store-pattern,P3,MUST,accepted,23.6,FULL,7/7,15,15,Zustand state — sceneStore + lumiStore + scrollStore; typed selectors; banned-in-useFrame
+FR-WEB-005-next-dynamic-ssr-false,P3,MUST,accepted,17.6,FULL,7/7,15,15,next/dynamic({ ssr: false }) discipline — three.js + R3F off the SSR + critical-path
+FR-WEB-006-suspense-boundary-per-scene,P3,MUST,accepted,16.8,FULL,7/7,15,15,Suspense boundary per scene + Drei useGLTF.preload chaining — soft golden fallback
+FR-WEB-007-transpile-tree-shake,P3,MUST,accepted,14.9,FULL,7/7,15,15,Next config — transpilePackages ['three'] + tree-shake + named-imports-only enforcement
+FR-WEB-008-routing,P3,MUST,accepted,19.2,FULL,7/7,15,15,App Router routes — / + /lite + /work/[slug] + /accessibility + minimal /api/* with canonical + href
+FR-WEB-009-webgl2-detection,P3,MUST,accepted,19.8,FULL,7/7,14,15,Client capability gate — WebGL2 + save-data + deviceMemory → /lite redirect with persisted user pref
+

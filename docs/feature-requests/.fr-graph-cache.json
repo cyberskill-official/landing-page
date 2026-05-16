@@ -1,0 +1,1691 @@
+{
+  "cycles": [],
+  "downstream": {
+    "FR-A11Y-001": 0,
+    "FR-A11Y-002": 0,
+    "FR-A11Y-003": 0,
+    "FR-A11Y-004": 0,
+    "FR-A11Y-005": 0,
+    "FR-A11Y-006": 0,
+    "FR-A11Y-007": 0,
+    "FR-A11Y-008": 0,
+    "FR-A11Y-009": 0,
+    "FR-A11Y-010": 0,
+    "FR-A11Y-011": 0,
+    "FR-A11Y-012": 0,
+    "FR-A11Y-013": 0,
+    "FR-CHAR-001": 102,
+    "FR-CHAR-002": 35,
+    "FR-CHAR-003": 16,
+    "FR-CHAR-004": 34,
+    "FR-CHAR-005": 0,
+    "FR-CHAR-006": 32,
+    "FR-CHAR-007": 1,
+    "FR-CHAR-008": 0,
+    "FR-CHAR-009": 27,
+    "FR-CHAR-010": 25,
+    "FR-CHAR-011": 24,
+    "FR-CHAR-012": 12,
+    "FR-CMS-001": 38,
+    "FR-CMS-002": 37,
+    "FR-CMS-003": 5,
+    "FR-CMS-004": 16,
+    "FR-CMS-005": 2,
+    "FR-CMS-006": 1,
+    "FR-CMS-007": 3,
+    "FR-CMS-008": 0,
+    "FR-CMS-009": 0,
+    "FR-CMS-010": 0,
+    "FR-CMS-011": 0,
+    "FR-CTA-001": 20,
+    "FR-CTA-002": 1,
+    "FR-CTA-003": 0,
+    "FR-CTA-004": 0,
+    "FR-CTA-005": 8,
+    "FR-CTA-006": 3,
+    "FR-CTA-007": 0,
+    "FR-CTA-008": 0,
+    "FR-CTA-009": 0,
+    "FR-CTA-010": 0,
+    "FR-CTA-011": 0,
+    "FR-DS-001": 90,
+    "FR-DS-002": 89,
+    "FR-DS-003": 79,
+    "FR-DS-004": 0,
+    "FR-DS-005": 0,
+    "FR-DS-006": 0,
+    "FR-DS-007": 0,
+    "FR-DS-008": 0,
+    "FR-DS-009": 0,
+    "FR-OPS-001": 9,
+    "FR-OPS-002": 5,
+    "FR-OPS-003": 4,
+    "FR-OPS-004": 0,
+    "FR-OPS-005": 1,
+    "FR-OPS-006": 2,
+    "FR-OPS-007": 1,
+    "FR-OPS-008": 1,
+    "FR-OPS-009": 0,
+    "FR-OPS-010": 6,
+    "FR-OPS-011": 3,
+    "FR-OPS-012": 0,
+    "FR-OPS-013": 0,
+    "FR-OPS-014": 1,
+    "FR-OPS-015": 0,
+    "FR-OPS-016": 0,
+    "FR-PERF-001": 2,
+    "FR-PERF-002": 1,
+    "FR-PERF-003": 0,
+    "FR-PERF-004": 0,
+    "FR-PERF-005": 0,
+    "FR-PERF-006": 0,
+    "FR-PERF-007": 0,
+    "FR-PERF-008": 0,
+    "FR-PERF-009": 0,
+    "FR-PERF-010": 0,
+    "FR-PERF-011": 0,
+    "FR-SCENE-001": 31,
+    "FR-SCENE-002": 16,
+    "FR-SCENE-003": 15,
+    "FR-SCENE-004": 14,
+    "FR-SCENE-005": 13,
+    "FR-SCENE-006": 12,
+    "FR-SCENE-007": 9,
+    "FR-SCENE-008": 9,
+    "FR-SCENE-009": 22,
+    "FR-SCENE-010": 16,
+    "FR-SCENE-011": 0,
+    "FR-SCENE-012": 1,
+    "FR-SCENE-013": 15,
+    "FR-SCENE-014": 14,
+    "FR-SCENE-015": 13,
+    "FR-SCENE-016": 12,
+    "FR-SCENE-017": 11,
+    "FR-SCENE-018": 8,
+    "FR-SCENE-019": 7,
+    "FR-SCENE-020": 4,
+    "FR-SCENE-021": 0,
+    "FR-SCENE-022": 0,
+    "FR-SCENE-023": 0,
+    "FR-SCENE-024": 0,
+    "FR-SEO-001": 10,
+    "FR-SEO-002": 0,
+    "FR-SEO-003": 0,
+    "FR-SEO-004": 0,
+    "FR-SEO-005": 0,
+    "FR-SEO-006": 0,
+    "FR-SEO-007": 4,
+    "FR-SEO-008": 1,
+    "FR-SEO-009": 1,
+    "FR-WEB-001": 60,
+    "FR-WEB-002": 23,
+    "FR-WEB-003": 3,
+    "FR-WEB-004": 18,
+    "FR-WEB-005": 2,
+    "FR-WEB-006": 1,
+    "FR-WEB-007": 0,
+    "FR-WEB-008": 9,
+    "FR-WEB-009": 3
+  },
+  "edges": {
+    "FR-A11Y-001": [
+      "FR-WEB-008"
+    ],
+    "FR-A11Y-002": [
+      "FR-SCENE-009"
+    ],
+    "FR-A11Y-003": [
+      "FR-WEB-001"
+    ],
+    "FR-A11Y-004": [
+      "FR-WEB-001"
+    ],
+    "FR-A11Y-005": [
+      "FR-WEB-009"
+    ],
+    "FR-A11Y-006": [
+      "FR-CMS-002",
+      "FR-SCENE-020"
+    ],
+    "FR-A11Y-008": [
+      "FR-DS-003"
+    ],
+    "FR-A11Y-009": [
+      "FR-CTA-001"
+    ],
+    "FR-A11Y-010": [
+      "FR-CTA-005"
+    ],
+    "FR-A11Y-011": [
+      "FR-WEB-008"
+    ],
+    "FR-CHAR-002": [
+      "FR-CHAR-001"
+    ],
+    "FR-CHAR-003": [
+      "FR-CHAR-001"
+    ],
+    "FR-CHAR-004": [
+      "FR-CHAR-001",
+      "FR-CHAR-002"
+    ],
+    "FR-CHAR-005": [
+      "FR-CHAR-004",
+      "FR-SCENE-008"
+    ],
+    "FR-CHAR-006": [
+      "FR-CHAR-001",
+      "FR-CHAR-004"
+    ],
+    "FR-CHAR-007": [
+      "FR-CHAR-006"
+    ],
+    "FR-CHAR-008": [
+      "FR-CHAR-006",
+      "FR-CHAR-007",
+      "FR-OPS-001"
+    ],
+    "FR-CHAR-009": [
+      "FR-CHAR-006"
+    ],
+    "FR-CHAR-010": [
+      "FR-CHAR-009"
+    ],
+    "FR-CHAR-011": [
+      "FR-CHAR-009",
+      "FR-CHAR-010"
+    ],
+    "FR-CHAR-012": [
+      "FR-CHAR-003",
+      "FR-CHAR-009"
+    ],
+    "FR-CMS-002": [
+      "FR-CMS-001"
+    ],
+    "FR-CMS-003": [
+      "FR-CMS-002"
+    ],
+    "FR-CMS-005": [
+      "FR-CMS-004"
+    ],
+    "FR-CMS-006": [
+      "FR-CMS-005",
+      "FR-WEB-008"
+    ],
+    "FR-CMS-007": [
+      "FR-CMS-003"
+    ],
+    "FR-CMS-008": [
+      "FR-CMS-007"
+    ],
+    "FR-CMS-009": [
+      "FR-CMS-003"
+    ],
+    "FR-CMS-010": [
+      "FR-CMS-007"
+    ],
+    "FR-CMS-011": [
+      "FR-CMS-006"
+    ],
+    "FR-CTA-001": [
+      "FR-DS-003"
+    ],
+    "FR-CTA-002": [
+      "FR-CTA-001",
+      "FR-CTA-005"
+    ],
+    "FR-CTA-003": [
+      "FR-CTA-001",
+      "FR-CTA-005",
+      "FR-CTA-006"
+    ],
+    "FR-CTA-004": [
+      "FR-CTA-001",
+      "FR-CTA-005",
+      "FR-CTA-006"
+    ],
+    "FR-CTA-005": [
+      "FR-CTA-001"
+    ],
+    "FR-CTA-006": [
+      "FR-CTA-005"
+    ],
+    "FR-CTA-007": [
+      "FR-CTA-002",
+      "FR-CHAR-011"
+    ],
+    "FR-CTA-008": [
+      "FR-SCENE-017"
+    ],
+    "FR-CTA-009": [
+      "FR-CTA-006"
+    ],
+    "FR-CTA-010": [
+      "FR-CTA-005"
+    ],
+    "FR-CTA-011": [
+      "FR-SEO-008"
+    ],
+    "FR-DS-001": [
+      "FR-CHAR-001"
+    ],
+    "FR-DS-002": [
+      "FR-DS-001"
+    ],
+    "FR-DS-003": [
+      "FR-DS-002"
+    ],
+    "FR-DS-004": [
+      "FR-DS-002",
+      "FR-DS-003"
+    ],
+    "FR-DS-005": [
+      "FR-DS-003",
+      "FR-DS-002"
+    ],
+    "FR-DS-006": [
+      "FR-DS-003"
+    ],
+    "FR-DS-007": [
+      "FR-DS-003"
+    ],
+    "FR-DS-008": [
+      "FR-DS-003"
+    ],
+    "FR-DS-009": [
+      "FR-DS-003"
+    ],
+    "FR-OPS-002": [
+      "FR-OPS-001"
+    ],
+    "FR-OPS-003": [
+      "FR-OPS-001",
+      "FR-OPS-002"
+    ],
+    "FR-OPS-004": [
+      "FR-OPS-001",
+      "FR-OPS-005"
+    ],
+    "FR-OPS-005": [
+      "FR-OPS-001"
+    ],
+    "FR-OPS-006": [
+      "FR-OPS-001",
+      "FR-OPS-003"
+    ],
+    "FR-OPS-007": [
+      "FR-OPS-001",
+      "FR-OPS-006"
+    ],
+    "FR-OPS-009": [
+      "FR-OPS-008"
+    ],
+    "FR-OPS-010": [
+      "FR-WEB-001"
+    ],
+    "FR-OPS-011": [
+      "FR-OPS-010"
+    ],
+    "FR-OPS-012": [
+      "FR-OPS-010"
+    ],
+    "FR-OPS-013": [
+      "FR-OPS-002",
+      "FR-OPS-010",
+      "FR-OPS-003"
+    ],
+    "FR-OPS-014": [
+      "FR-OPS-010",
+      "FR-PERF-001"
+    ],
+    "FR-OPS-015": [
+      "FR-OPS-014"
+    ],
+    "FR-OPS-016": [
+      "FR-SCENE-009"
+    ],
+    "FR-PERF-001": [
+      "FR-OPS-011",
+      "FR-WEB-001"
+    ],
+    "FR-PERF-002": [
+      "FR-CHAR-006"
+    ],
+    "FR-PERF-003": [
+      "FR-SCENE-020"
+    ],
+    "FR-PERF-004": [
+      "FR-WEB-006"
+    ],
+    "FR-PERF-005": [
+      "FR-WEB-003"
+    ],
+    "FR-PERF-006": [
+      "FR-WEB-004"
+    ],
+    "FR-PERF-007": [
+      "FR-WEB-001"
+    ],
+    "FR-PERF-008": [
+      "FR-SCENE-020"
+    ],
+    "FR-PERF-009": [
+      "FR-PERF-002",
+      "FR-WEB-009"
+    ],
+    "FR-PERF-010": [
+      "FR-WEB-009"
+    ],
+    "FR-PERF-011": [
+      "FR-SEO-007",
+      "FR-SEO-009"
+    ],
+    "FR-SCENE-001": [
+      "FR-CHAR-001",
+      "FR-DS-001",
+      "FR-DS-002"
+    ],
+    "FR-SCENE-002": [
+      "FR-SCENE-001",
+      "FR-CHAR-001",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-003": [
+      "FR-SCENE-001",
+      "FR-CHAR-001",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-004": [
+      "FR-SCENE-001",
+      "FR-CHAR-001",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-005": [
+      "FR-SCENE-001",
+      "FR-CHAR-001",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-006": [
+      "FR-SCENE-001",
+      "FR-CHAR-001",
+      "FR-CHAR-003",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-007": [
+      "FR-SCENE-001",
+      "FR-CHAR-001",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-008": [
+      "FR-SCENE-001",
+      "FR-CHAR-001",
+      "FR-CHAR-003",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-009": [
+      "FR-WEB-001",
+      "FR-SCENE-001",
+      "FR-CHAR-011",
+      "FR-CMS-002"
+    ],
+    "FR-SCENE-010": [
+      "FR-SCENE-009",
+      "FR-WEB-004",
+      "FR-CHAR-011"
+    ],
+    "FR-SCENE-011": [
+      "FR-SCENE-009",
+      "FR-CTA-001"
+    ],
+    "FR-SCENE-012": [
+      "FR-SCENE-009"
+    ],
+    "FR-SCENE-013": [
+      "FR-SCENE-010",
+      "FR-SCENE-002",
+      "FR-CHAR-011"
+    ],
+    "FR-SCENE-014": [
+      "FR-SCENE-013",
+      "FR-SCENE-003",
+      "FR-CHAR-011"
+    ],
+    "FR-SCENE-015": [
+      "FR-SCENE-014",
+      "FR-SCENE-004",
+      "FR-CHAR-011"
+    ],
+    "FR-SCENE-016": [
+      "FR-SCENE-015",
+      "FR-SCENE-005",
+      "FR-CHAR-011",
+      "FR-CMS-004"
+    ],
+    "FR-SCENE-017": [
+      "FR-SCENE-016",
+      "FR-SCENE-006",
+      "FR-CHAR-011",
+      "FR-CHAR-012"
+    ],
+    "FR-SCENE-018": [
+      "FR-SCENE-017",
+      "FR-SCENE-007",
+      "FR-CTA-001",
+      "FR-CHAR-011"
+    ],
+    "FR-SCENE-019": [
+      "FR-SCENE-018",
+      "FR-SCENE-008",
+      "FR-CHAR-011",
+      "FR-SEO-001"
+    ],
+    "FR-SCENE-020": [
+      "FR-SCENE-013",
+      "FR-SCENE-019",
+      "FR-WEB-002",
+      "FR-WEB-004"
+    ],
+    "FR-SCENE-021": [
+      "FR-SCENE-020"
+    ],
+    "FR-SCENE-022": [
+      "FR-WEB-001",
+      "FR-SCENE-012"
+    ],
+    "FR-SCENE-023": [
+      "FR-SCENE-017",
+      "FR-CHAR-004",
+      "FR-CHAR-006"
+    ],
+    "FR-SCENE-024": [
+      "FR-SCENE-019",
+      "FR-OPS-007",
+      "FR-CHAR-012"
+    ],
+    "FR-SEO-001": [
+      "FR-WEB-001"
+    ],
+    "FR-SEO-002": [
+      "FR-SEO-001"
+    ],
+    "FR-SEO-003": [
+      "FR-SEO-001"
+    ],
+    "FR-SEO-004": [
+      "FR-SCENE-019"
+    ],
+    "FR-SEO-005": [
+      "FR-CMS-007"
+    ],
+    "FR-SEO-006": [
+      "FR-WEB-008"
+    ],
+    "FR-SEO-007": [
+      "FR-WEB-001"
+    ],
+    "FR-SEO-008": [
+      "FR-SEO-007"
+    ],
+    "FR-SEO-009": [
+      "FR-SEO-007"
+    ],
+    "FR-WEB-001": [
+      "FR-DS-003"
+    ],
+    "FR-WEB-002": [
+      "FR-WEB-001"
+    ],
+    "FR-WEB-003": [
+      "FR-WEB-001",
+      "FR-WEB-002"
+    ],
+    "FR-WEB-004": [
+      "FR-WEB-001",
+      "FR-WEB-002"
+    ],
+    "FR-WEB-005": [
+      "FR-WEB-001"
+    ],
+    "FR-WEB-006": [
+      "FR-WEB-003",
+      "FR-WEB-005"
+    ],
+    "FR-WEB-007": [
+      "FR-WEB-001"
+    ],
+    "FR-WEB-008": [
+      "FR-WEB-001"
+    ],
+    "FR-WEB-009": [
+      "FR-WEB-001",
+      "FR-WEB-008"
+    ]
+  },
+  "nodes": [
+    {
+      "engineering_anchor": true,
+      "id": "FR-A11Y-001",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-001-reduced-motion-fallback.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Reduced-motion fallback \u2014 7-panel SVG storyboard at /lite and @media swap inline"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-A11Y-002",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-002-shadow-dom-mirror.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Shadow-DOM mirror for canvas scenes \u2014 semantic <section role='img'> + aria-labelledby + aria-live narration"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-A11Y-003",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-003-skip-story-pill.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Skip-story pill (top-right) \u2014 first focusable element, jumps to Scene 6 #cta-hub"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-A11Y-004",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-004-mute-toggle.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Mute toggle \u2014 default ON (muted), localStorage persistence, aria-pressed reflective"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-A11Y-005",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-005-skip-3d-toggle.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Skip 3D entirely' toggle \u2014 /lite redirect with localStorage persistence + back-to-cinematic link"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-006",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-006-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Captions for every Lumi line \u2014 gold-on-charcoal, 18px min, aria-live polite, WCAG 1.4.3 + 1.2.2 compliance"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-007",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-007-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Keyboard nav cycle \u2014 Skip story \u2192 header \u2192 scene anchors \u2192 footer, with focus trap for modals + Escape return"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-008",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-008-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Focus rings \u2014 2px gold outline + 2px offset on every interactive, no outline:none without replacement"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-009",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-009-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Target size 44\u00d744 (WCAG 2.5.5 AAA) for all interactive controls \u2014 bounding-box gate + hit-area audit"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-010",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-010-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Form autofill + Redundant-Entry compliance \u2014 autocomplete attrs + cross-form data carry"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-011",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-011-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Public /accessibility compliance page \u2014 WCAG 2.2 AA statement, criteria coverage, contact for complaints"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-012",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-012-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Pre-launch a11y audit \u2014 full axe + VoiceOver + NVDA + JAWS + manual flows + archived report"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-A11Y-013",
+      "module": "A11Y",
+      "path": "a11y/FR-A11Y-013-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Post-launch a11y monitoring \u2014 monthly axe scan + quarterly manual + auto-issue creation"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-001",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-001-lumi-2d-character-sheet.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "Lumi 2D character sheet \u2014 4 poses + 6 expressions in brand palette"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-002",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-002-silhouette-test.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "Lumi silhouette test at 32\u00d732 px \u2014 readability gate vs CyberSkill logo"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-003",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-003-nonla-accessory-design.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "N\u00f3n l\u00e1 accessory design \u2014 exterior red, interior gold lining, single yellow star"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-004",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-004-lumi-greybox.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Lumi greybox mesh \u2014 proxy proportions, silhouette pass, no textures"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-005",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-005-per-scene-greybox-sets.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Per-scene greybox sets \u2014 props, camera frusta, scene-scale checks"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-006",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-006-production-mesh.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Lumi production mesh \u2014 \u2264 40k tri watertight; polygon distribution per spec; silhouette parity vs FR-CHAR-001"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-007",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-007-uv-layout.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Lumi UV layout \u2014 locked 2k/1k/512 atlas trio with seam discipline + texel-density floor"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-008",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-008-substance-pbr-textures.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Substance Painter PBR textures \u2014 BaseColor / ORM-packed / Normal / Emissive at locked 2k"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-009",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-009-custom-armature-rig.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Custom armature ~27 bones (NOT Rigify) \u2014 spine / arms / wisp / hood / jaw / eyes / hat-socket"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-010",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-010-shape-keys.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Shape keys \u2014 10 named keys + driver hookups via c_head custom properties"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-011",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-011-animation-library.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Animation library \u2014 11 clips per master plan \u00a73.3a; NLA-strip-named for clean glTF split"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CHAR-012",
+      "module": "CHAR",
+      "path": "char/FR-CHAR-012-nonla-production-mesh.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "N\u00f3n l\u00e1 accessory production mesh \u2264 600 tri; parented to `hat_socket`; casual-register only"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CMS-001",
+      "module": "CMS",
+      "path": "cms/FR-CMS-001-master-narrative-arc.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "Master narrative arc \u2014 7 scenes, EN-first, Lumi voice rules locked"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CMS-002",
+      "module": "CMS",
+      "path": "cms/FR-CMS-002-per-scene-narration.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "Per-scene Lumi narration lines \u2014 EN-first, \u2264 12 words, voice-rules-compliant"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CMS-003",
+      "module": "CMS",
+      "path": "cms/FR-CMS-003-vietnamese-localised-variants.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "Vietnamese localised variants for all narration \u2014 slightly poetic register, native review"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-004",
+      "module": "CMS",
+      "path": "cms/FR-CMS-004-sanity-schema.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Sanity.io schema \u2014 CaseStudy / Testimonial / Capability / TeamMember / Job document types with type-safe codegen"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-005",
+      "module": "CMS",
+      "path": "cms/FR-CMS-005-isr-revalidation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "ISR (Incremental Static Regeneration) \u2014 3600s revalidate + Sanity webhook \u2192 /api/revalidate with shared-secret guard"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-006",
+      "module": "CMS",
+      "path": "cms/FR-CMS-006-work-slug-route.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "/work/[slug] case-study route \u2014 Sanity-driven content + Article JSON-LD + draft preview mode"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-007",
+      "module": "CMS",
+      "path": "cms/FR-CMS-007-i18n-loader.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "i18n/{en,vi}.json content store + language switcher \u2014 Next 15 locale-aware routing with localStorage persistence"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-008",
+      "module": "CMS",
+      "path": "cms/FR-CMS-008-hreflang.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "hreflang link tags + x-default \u2014 SEO locale signaling across all routes with Google Search Console validation"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-009",
+      "module": "CMS",
+      "path": "cms/FR-CMS-009-vi-native-review.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Vietnamese script + UI string native-speaker review \u2014 out-of-team paid reviewer, rubric-driven, register defense"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-010",
+      "module": "CMS",
+      "path": "cms/FR-CMS-010-vi-tagline-hover.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Lumi hover-reveal Vietnamese tagline \u2014 soft fade-in, cultural Easter egg, /vi-always + /en-first-time"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CMS-011",
+      "module": "CMS",
+      "path": "cms/FR-CMS-011-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Quarterly content refresh cadence \u2014 new case study + refreshed metrics + voice-rules guard"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CTA-001",
+      "module": "CTA",
+      "path": "cta/FR-CTA-001-three-track-cta-hub.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Three-track CTA hub component (Buy / Partner / Join) with audience-routed forms"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-CTA-002",
+      "module": "CTA",
+      "path": "cta/FR-CTA-002-calendly-embed.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Buy form (Calendly embed) \u2014 3-step flow + Lumi reactions + lazy-loaded chunk"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-003",
+      "module": "CTA",
+      "path": "cta/FR-CTA-003-hubspot-partner-form.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "HubSpot multi-step partner form \u2014 agency intake with 4-field flow, lazy-chunk loaded, retry-on-error"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-004",
+      "module": "CTA",
+      "path": "cta/FR-CTA-004-ats-jobs-form.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "ATS-fed 'We're hiring N' badge + Join form \u2014 Workable / Greenhouse role-source, multi-step intake"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-005",
+      "module": "CTA",
+      "path": "cta/FR-CTA-005-form-validation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "react-hook-form + zod validation foundation \u2014 a11y-first error messaging across all CTA forms"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-006",
+      "module": "CTA",
+      "path": "cta/FR-CTA-006-lead-api-endpoint.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "/api/lead/route.ts \u2014 server endpoint posting to HubSpot CRM + ATS with rate-limit + bot defense"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-007",
+      "module": "CTA",
+      "path": "cta/FR-CTA-007-lumi-form-reactions.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Lumi form reactions \u2014 mouth_smile/summon/wave_goodbye animations on form step changes + outcomes"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-008",
+      "module": "CTA",
+      "path": "cta/FR-CTA-008-timezone-clock.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Time-zone-honesty live-clock widget \u2014 HCMC + visitor zone + overlap-hours indicator (4h Vietnam working window)"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-009",
+      "module": "CTA",
+      "path": "cta/FR-CTA-009-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "HubSpot deal-stage routing \u2014 buy/partner/join \u2192 separate pipelines with UTM + scene_id metadata"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-010",
+      "module": "CTA",
+      "path": "cta/FR-CTA-010-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Form error states + retry logic + abandonment prevention \u2014 exponential backoff + beforeunload + sessionStorage drafts"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-CTA-011",
+      "module": "CTA",
+      "path": "cta/FR-CTA-011-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "A/B testbed \u2014 cookie-based variant assignment + alt-narration testing + force-variant QA + SSR-safe"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-001",
+      "module": "DS",
+      "path": "ds/FR-DS-001-mood-board.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "Mood board \u2014 Lumi-Inception-Saigon-Dusk reference assembly"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-002",
+      "module": "DS",
+      "path": "ds/FR-DS-002-palette-swatch-wcag-matrix.md",
+      "phase": "P0",
+      "status": "shipped",
+      "title": "Approved colour palette swatch sheet + WCAG contrast matrix"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-003",
+      "module": "DS",
+      "path": "ds/FR-DS-003-cinematic-pack-skeleton.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "@cyberskill/ds-cinematic package skeleton \u2014 workspace, exports, peer-dep on ds-foundations"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-004",
+      "module": "DS",
+      "path": "ds/FR-DS-004-gold-brown-token-export.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Brand-gold + brand-brown token export \u2014 TS const + CSS custom properties, generator-driven"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-005",
+      "module": "DS",
+      "path": "ds/FR-DS-005-flag-accent-tokens.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Vietnamese-flag accent tokens \u2014 Scene-5-scoped via CSS cascade + TS runtime guard"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-006",
+      "module": "DS",
+      "path": "ds/FR-DS-006-motion-tokens.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Motion tokens \u2014 duration scale + easing curves (--ease-genie et al.) with reduced-motion honour"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-007",
+      "module": "DS",
+      "path": "ds/FR-DS-007-cinematic-typography.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Cinematic typography pairing \u2014 display face (Inter Display) + caption mono (JetBrains Mono)"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-008",
+      "module": "DS",
+      "path": "ds/FR-DS-008-glow-recipes.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Glow recipes \u2014 rim / soft / scene-edge token set"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-DS-009",
+      "module": "DS",
+      "path": "ds/FR-DS-009-component-lifecycle-marker.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Component lifecycle marker \u2014 Experimental \u2192 Stable migration table for Cinematic Pack"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-001",
+      "module": "OPS",
+      "path": "ops/FR-OPS-001-gltf-transform-pipeline.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "scripts/gltf-pipeline.mjs \u2014 two-stage Blender \u2192 glTF-Transform pipeline (Meshopt for Lumi, Draco for static, KTX2/Basis textures)"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-002",
+      "module": "OPS",
+      "path": "ops/FR-OPS-002-budgets-json-canonical.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Per-asset budget definition file `tools/perf-budgets/budgets.json` \u2014 canonical CI source of truth"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-003",
+      "module": "OPS",
+      "path": "ops/FR-OPS-003-pr-comment-integration.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "PR comment integration \u2014 gltf-transform inspect markdown comment with delta vs main + budget verdict"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-004",
+      "module": "OPS",
+      "path": "ops/FR-OPS-004-ktx2-basis-texture-compression.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "KTX2 + Basis Universal texture compression \u2014 UASTC for normals, ETC1S for color/MR/emissive"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-005",
+      "module": "OPS",
+      "path": "ops/FR-OPS-005-decoder-bundling.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Decoder bundling \u2014 Draco / Meshopt / KTX2 WASM under /public/decoders/ (no CDN at runtime)"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-006",
+      "module": "OPS",
+      "path": "ops/FR-OPS-006-cowork-recipe-pr-triage.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Cowork Recipe A \u2014 PR triage automation (size delta + draw-call estimate + screenshot diff + semantic explanation)"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-007",
+      "module": "OPS",
+      "path": "ops/FR-OPS-007-cowork-recipes-bg.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Cowork Recipes B\u2013G \u2014 texture variants / motion previs / Blender Python / Substance / async review / n\u00f3n l\u00e1 variants"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-008",
+      "module": "OPS",
+      "path": "ops/FR-OPS-008-lfs-configuration.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "Git LFS configuration for source assets \u2014 .blend / .psd / .sbs / .fig / .exr / .hdr"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-009",
+      "module": "OPS",
+      "path": "ops/FR-OPS-009-source-asset-manifest.md",
+      "phase": "P2",
+      "status": "accepted",
+      "title": "assets-source/manifest.json lockfile \u2014 source-asset dependency tracking with sha256 + stale detection"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-010",
+      "module": "OPS",
+      "path": "ops/FR-OPS-010-github-actions-ci.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "GitHub Actions CI \u2014 install / lint / typecheck / test / build with pnpm + Next cache"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-011",
+      "module": "OPS",
+      "path": "ops/FR-OPS-011-lighthouse-ci.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Lighthouse CI on every PR \u2014 CWV regression gate + median-of-3 reporting"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-012",
+      "module": "OPS",
+      "path": "ops/FR-OPS-012-axe-a11y-gate.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "axe-core/playwright a11y CI gate \u2014 fail on serious/critical WCAG 2.2 AA violations"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-OPS-013",
+      "module": "OPS",
+      "path": "ops/FR-OPS-013-file-size-ci-gate.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "File-size CI gate \u2014 fail PR if any GLB/KTX2/asset exceeds budgets.json + ban CDN decoder loads"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-OPS-014",
+      "module": "OPS",
+      "path": "ops/FR-OPS-014-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Production deployment + DNS + CDN \u2014 Vercel standalone, HSTS preload, /lite alias, regional edge for Vietnam"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-OPS-015",
+      "module": "OPS",
+      "path": "ops/FR-OPS-015-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Awards submission packet \u2014 Awwwards / FWA / CSSDA with cultural-narrative description, within 2 weeks of launch"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-OPS-016",
+      "module": "OPS",
+      "path": "ops/FR-OPS-016-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Soft-launch staging URL \u2014 Scene-0-only preview at week 8 P3 exit, gated invite list, structured feedback"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-PERF-001",
+      "module": "PERF",
+      "path": "perf/FR-PERF-001-cwv-budget-ci-gates.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Performance budget CI gates \u2014 LCP / INP / CLS / FPS / total JS / total page weight / per-asset GLB"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-002",
+      "module": "PERF",
+      "path": "perf/FR-PERF-002-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Lumi LOD-1 variant (~8k tri) \u2014 for distance > 12m + low-memory device fallback"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-003",
+      "module": "PERF",
+      "path": "perf/FR-PERF-003-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Per-scene frameloop='demand' \u2014 Canvas idle when no animation; flip to 'always' on scene activity"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-004",
+      "module": "PERF",
+      "path": "perf/FR-PERF-004-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Preload chain \u2014 IntersectionObserver-driven prefetch of next-scene GLBs (200% rootMargin, depth 1, save-data aware)"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-005",
+      "module": "PERF",
+      "path": "perf/FR-PERF-005-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "disposeAll audit \u2014 geometries/materials/textures/render-targets on unmount + Vitest no-leak gate"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-006",
+      "module": "PERF",
+      "path": "perf/FR-PERF-006-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "ESLint no-alloc-in-useFrame \u2014 forbid new Vector3/Quaternion inside useFrame; require useMemo"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-007",
+      "module": "PERF",
+      "path": "perf/FR-PERF-007-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "scheduler.yield() + requestIdleCallback for INP < 200ms p75 \u2014 long-task interrupting + deferred analytics"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-008",
+      "module": "PERF",
+      "path": "perf/FR-PERF-008-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Draw-call ceiling \u2014 < 100 per scene + instancing audit (particles, avatars, repeated meshes)"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-009",
+      "module": "PERF",
+      "path": "perf/FR-PERF-009-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Low-memory device path \u2014 deviceMemory < 4 \u2192 LOD-1 + no post-FX + DPR cap 1.0"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-010",
+      "module": "PERF",
+      "path": "perf/FR-PERF-010-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "saveData detection \u2192 non-modal /lite banner \u2014 opt-in with localStorage persistence"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-PERF-011",
+      "module": "PERF",
+      "path": "perf/FR-PERF-011-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Post-launch RUM dashboard \u2014 Plausible + web-vitals percentiles, segment-by-route/breakpoint/connection"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-001",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-001-scene-0-hero-figma-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Scene 0 Hero \u2014 Figma comp at 3 breakpoints + 6 motion frames + storyboard"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-002",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-002-scene-1-origin-figma-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Scene 1 Origin \u2014 Figma comp at 3 breakpoints + camera-path notes + storyboard"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-003",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-003-scene-2-transformation-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Scene 2 Transformation \u2014 Figma comp + paint-trail spec + sketch\u2192system morph"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-004",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-004-scene-3-capabilities-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Scene 3 Capabilities \u2014 quadrant comp + 4-satellite art direction + split-to-4 anim cue"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-005",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-005-scene-4-team-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Scene 4 Team \u2014 bokeh ten-avatar comp + parallax notes + recruit hook"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-006",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-006-scene-5-vietnam-global-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Scene 5 Vietnam \u2192 Global \u2014 globe + n\u00f3n l\u00e1 moment + HCMC\u2192NA/EU arc"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-007",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-007-scene-6-cta-hub-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Scene 6 CTA Hub \u2014 three-portal comp + audience colour-coding + Lumi-focus behaviour"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-008",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-008-footer-comp.md",
+      "phase": "P1",
+      "status": "accepted",
+      "title": "Footer + persistent Lumi corner \u2014 comp + state diagram + trust signals layout"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-009",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-009-scene-0-hero-implementation.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Scene 0 Hero implementation \u2014 DOM headline as LCP, canvas mounts post-FCP, fly_in\u2192idle Lumi"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-010",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-010-lumi-fly-in-idle-wiring.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Lumi animation wiring \u2014 Zustand-driven anim picker with 200ms crossfade + default-to-idle"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-011",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-011-above-fold-cta.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Above-fold CTA \u2014 primary 'Book Discovery Call' + scroll-pinned sticky variant"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-012",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-012-particulate-dust.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Particulate dust \u2014 200 instanced points (responsive: 100 tablet / 50 mobile), additive-blend + alpha-fade, reduced-motion-aware"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-013",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-013-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Scene 1 Origin implementation \u2014 `coil_idle` wisp-wrap around idea-spark + typed caption + sepia interior"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-014",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-014-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Scene 2 Transformation impl \u2014 `paint` clip + paint-trail shader + sketch\u2192app morph + pull-quote"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-015",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-015-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Scene 3 Capabilities impl \u2014 `split_to_4` anim + 4 satellites at 12/3/6/9 + cool-tone discipline"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-016",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-016-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Scene 4 Team impl \u2014 10 bokeh avatars + Lumi dim + privacy-by-default hover anonymisation"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-017",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-017-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Scene 5 Vietnam\u2192Global impl \u2014 globe + `nonla_appear`/`nonla_tip` + HCMC\u2192NA/EU arc + cultural-arc closure"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-018",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-018-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Scene 6 CTA Hub impl \u2014 `<CtaHub>` mount + Lumi-head-turn-on-portal-focus + deep-link"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-019",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-019-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Footer + persistent Lumi corner \u2014 `wave_goodbye` clip + corner avatar + trust signals + language switcher"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-020",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-020-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Scroll orchestrator \u2014 GSAP master timeline binding scenes 0..footer + data-scene attribute drive"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-021",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-021-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Mobile compressed scene flow \u2014 Scenes 1+2 merge + Scenes 3+4 merge \u2192 5-scene flow at < 768px"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-022",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-022-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "DPR + particle scaling per breakpoint \u2014 high 1.5 / mid 1.0 / low 0.75 + particle count caps"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-023",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-023-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "Drei `<Detailed>` LOD swap \u2014 Lumi production-mesh \u2194 greybox at 12m distance threshold"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SCENE-024",
+      "module": "SCENE",
+      "path": "scene/FR-SCENE-024-implementation.md",
+      "phase": "P4",
+      "status": "accepted",
+      "title": "N\u00f3n l\u00e1 Easter-egg hover-reveal \u2014 3 cultural-variant textures (T\u1ebft / Mid-Autumn / sunset-lit)"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-SEO-001",
+      "module": "SEO",
+      "path": "seo/FR-SEO-001-schema-org-professional-service.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Schema.org ProfessionalService JSON-LD with DUNS, founder, areaServed, knowsAbout"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-002",
+      "module": "SEO",
+      "path": "seo/FR-SEO-002-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Service schema sub-blocks \u2014 JSON-LD per capability with @id provider linkage to ProfessionalService"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-003",
+      "module": "SEO",
+      "path": "seo/FR-SEO-003-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Person JSON-LD for founder \u2014 Stephen Cheng / Tr\u1ecbnh Th\u00e1i Anh with affiliation + UTF-8 diacritic guard"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-004",
+      "module": "SEO",
+      "path": "seo/FR-SEO-004-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "OpenGraph + Twitter meta \u2014 1200\u00d7630 hero render, per-route OG variants, absolute URLs"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-005",
+      "module": "SEO",
+      "path": "seo/FR-SEO-005-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "Title + meta description budgets \u2014 \u2264 60 chars title, \u2264 158 chars description, EN + VI localized"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-006",
+      "module": "SEO",
+      "path": "seo/FR-SEO-006-impl.md",
+      "phase": "P5",
+      "status": "accepted",
+      "title": "XML sitemap + robots.txt + canonical \u2014 Next 15 sitemap/robots routes, dynamic case-study inclusion, hreflang"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-007",
+      "module": "SEO",
+      "path": "seo/FR-SEO-007-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Analytics proxy \u2014 GA4 + Plausible dual-pipe via /api/analytics cookieless, PII-stripped, retry-queued"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-008",
+      "module": "SEO",
+      "path": "seo/FR-SEO-008-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "Analytics event taxonomy \u2014 10 typed events with documented properties + Playwright coverage"
+    },
+    {
+      "engineering_anchor": false,
+      "id": "FR-SEO-009",
+      "module": "SEO",
+      "path": "seo/FR-SEO-009-IMPL.md",
+      "phase": "P6",
+      "status": "accepted",
+      "title": "web-vitals integration \u2014 LCP/INP/CLS/FCP custom events to Plausible, sample 100% P6 / 10% stable"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-001",
+      "module": "WEB",
+      "path": "web/FR-WEB-001-next15-r3f-globalcanvas-bootstrap.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Next.js 15 + React 19 + R3F 9 monorepo bootstrap with persistent GlobalCanvas outside router"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-002",
+      "module": "WEB",
+      "path": "web/FR-WEB-002-lenis-smooth-scroll.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Lenis 1.3 smooth-scroll provider \u2014 singleton, ScrollTrigger-integrated, no scroll-hijack, reduced-motion aware"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-003",
+      "module": "WEB",
+      "path": "web/FR-WEB-003-usecanvas-tunneling.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "<UseCanvas> tunneling \u2014 scene-mesh portaling into persistent GlobalCanvas with DOM tracking + disposal"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-004",
+      "module": "WEB",
+      "path": "web/FR-WEB-004-zustand-store-pattern.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Zustand state \u2014 sceneStore + lumiStore + scrollStore; typed selectors; banned-in-useFrame"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-005",
+      "module": "WEB",
+      "path": "web/FR-WEB-005-next-dynamic-ssr-false.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "next/dynamic({ ssr: false }) discipline \u2014 three.js + R3F off the SSR + critical-path"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-006",
+      "module": "WEB",
+      "path": "web/FR-WEB-006-suspense-boundary-per-scene.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Suspense boundary per scene + Drei useGLTF.preload chaining \u2014 soft golden fallback"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-007",
+      "module": "WEB",
+      "path": "web/FR-WEB-007-transpile-tree-shake.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Next config \u2014 transpilePackages ['three'] + tree-shake + named-imports-only enforcement"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-008",
+      "module": "WEB",
+      "path": "web/FR-WEB-008-routing.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "App Router routes \u2014 / + /lite + /work/[slug] + /accessibility + minimal /api/* with canonical + hreflang"
+    },
+    {
+      "engineering_anchor": true,
+      "id": "FR-WEB-009",
+      "module": "WEB",
+      "path": "web/FR-WEB-009-webgl2-detection.md",
+      "phase": "P3",
+      "status": "accepted",
+      "title": "Client capability gate \u2014 WebGL2 + save-data + deviceMemory \u2192 /lite redirect with persisted user preference"
+    }
+  ]
+}

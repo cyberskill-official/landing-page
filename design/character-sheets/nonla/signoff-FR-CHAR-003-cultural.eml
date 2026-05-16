@@ -1,0 +1,32 @@
+From: Stephen Cheng <zintaen@gmail.com>
+To: Designer (Art Director); 3D Modeller; Animator; Copywriter
+Date: 2026-05-16
+Subject: APPROVED — FR-CHAR-003 nón lá accessory design (cultural)
+
+I approve FR-CHAR-003.
+
+Approving as the:
+  - CULTURAL authority (distinct from brand signoff, which is on FR-CHAR-001)
+
+Locked register decisions (per design/character-sheets/nonla/cultural-note.md):
+  ✓ Casual, not ceremonial — Lumi wears it like a baseball cap, not a formal garment
+  ✓ Smooth solid red surface — NO weave texture, NO crease lines, NO painted patterns
+  ✓ Exterior #DA251D (--accent-flag-red, Vietnamese flag red — exact)
+  ✓ Interior #F9D966 (--brand-gold-200, visible on nonla_tip animation)
+  ✓ Single 5-point star, #FFEB3B, ~30% of brim diameter, front-centre
+  ✓ Wear angle: forward + slightly down on hood (cap-like, not formal)
+  ✓ Scoped: appears Scene 5 entry → persists through footer
+  ✓ Modeller register: clean edges, slightly worn, NOT pristine-new, NOT aged-distressed
+
+What this gates downstream:
+  - FR-CHAR-012 (production nón lá mesh ≤ 600 tri)
+  - FR-SCENE-006 (Scene 5 Vietnam→Global Figma comp)
+  - FR-SCENE-017 (Scene 5 implementation — the cultural beat)
+  - All cultural writing in FR-CMS-002 Scene 5 narration ("from Sài Gòn to your time zone")
+
+This signoff is the cultural-register contract for the team. Future variants (Tết edition, etc.)
+require a NEW accessory FR (FR-CHAR-NNN-nonla-tet-variant), not a revision of FR-CHAR-003.
+
+— Stephen Cheng (Trịnh Thái Anh)
+  Founder, CyberSkill JSC
+  2026-05-16
