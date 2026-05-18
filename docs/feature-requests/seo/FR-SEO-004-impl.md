@@ -3,7 +3,7 @@ id: FR-SEO-004
 title: "OpenGraph + Twitter meta — 1200×630 hero render, per-route OG variants, absolute URLs"
 module: SEO
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P5
 slice: 1
 owner: SEO + Designer + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-019, FR-CMS-006, FR-CMS-007, FR-SEO-001, FR-DS-001]
 depends_on: [FR-SCENE-019]
 blocks: []

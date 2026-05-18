@@ -3,7 +3,7 @@ id: FR-OPS-010
 title: "GitHub Actions CI — install / lint / typecheck / test / build with pnpm + Next cache"
 module: OPS
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,7 @@ phase: P3
 slice: 2
 owner: Backend / DevOps
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-WEB-001, FR-OPS-002, FR-OPS-011, FR-OPS-012, FR-OPS-013]
 depends_on: [FR-WEB-001]
 blocks: [FR-OPS-011, FR-OPS-012, FR-OPS-013]

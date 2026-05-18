@@ -1,0 +1,42 @@
+{
+  "format": "figma-handoff-manifest",
+  "title": "Scene 4 Team v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-17",
+  "frames": [
+    {
+      "name": "desktop-1920",
+      "path": "scene-4-desktop-1920.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "name": "tablet-1024",
+      "path": "scene-4-tablet-1024.png",
+      "size": [
+        1024,
+        1366
+      ]
+    },
+    {
+      "name": "mobile-390",
+      "path": "scene-4-mobile-390.png",
+      "size": [
+        390,
+        844
+      ]
+    }
+  ],
+  "avatarCount": 10,
+  "annotations": [
+    "Background #6E3A18 / brown-400 warm golden-hour",
+    "MeshTransmissionMaterial bokeh layer: 10 soft depth orbs",
+    "Exactly 10 abstract avatar proxies with gold-200 rim-light",
+    "Lumi pulled back above frame center, emissive 0.1",
+    "Caption is DOM overlay: Ten of us. All senior. All Vietnamese. All remote.",
+    "We're hiring 3 is a subordinate text link, not a CTA button",
+    "Hover reveals first name + role only; no photos, no LinkedIn links"
+  ]
+}

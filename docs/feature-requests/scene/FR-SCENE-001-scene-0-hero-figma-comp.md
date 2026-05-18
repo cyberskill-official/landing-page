@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Scene 0 Hero — Figma comp at 3 breakpoints + 6 motion frames + storyboard"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I
@@ -13,7 +13,7 @@ milestone: P1 · slice 2
 slice: 1
 owner: Designer (Art Director)
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 brain_chain_hash: null
 related_frs: [FR-SCENE-002, FR-SCENE-003, FR-SCENE-004, FR-SCENE-005, FR-SCENE-006, FR-SCENE-007, FR-SCENE-008, FR-SCENE-009]
 depends_on: [FR-CHAR-001, FR-DS-001, FR-DS-002]

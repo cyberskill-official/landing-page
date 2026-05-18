@@ -3,7 +3,7 @@ id: FR-A11Y-005
 title: "'Skip 3D entirely' toggle — /lite redirect with localStorage persistence + back-to-cinematic link"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P3
 slice: 2
 owner: Frontend Lead + A11Y reviewer
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-A11Y-001, FR-A11Y-003, FR-A11Y-004, FR-WEB-009, FR-SCENE-009, FR-CMS-007]
 depends_on: [FR-A11Y-003, FR-A11Y-001, FR-WEB-009]
 blocks: [FR-CMS-007]
@@ -20,8 +21,8 @@ service: apps/web/components/a11y/
 new_files:
   - apps/web/components/a11y/Skip3DToggle.tsx
   - apps/web/components/a11y/BackToCinematicLink.tsx
-  - apps/web/components/a11y/__tests__/Skip3DToggle.unit.test.tsx
-  - apps/web/tests/a11y/skip-3d.e2e.spec.ts
+  - apps/web/tests/unit/skip-3d-toggle.test.ts
+  - apps/web/tests/a11y/skip-3d.spec.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §2.3 — "Skip 3D entirely toggle, persisted in localStorage"

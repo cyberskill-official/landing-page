@@ -3,7 +3,7 @@ id: FR-WEB-005
 title: "next/dynamic({ ssr: false }) discipline — three.js + R3F off the SSR + critical-path"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 1
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-WEB-001, FR-WEB-003, FR-WEB-006, FR-PERF-001, FR-PERF-004]
 depends_on: [FR-WEB-001]
 blocks: [FR-WEB-006, FR-PERF-004]
@@ -297,5 +299,63 @@ The `curl http://localhost:3000/` response includes the loading fallback HTML an
 **On future framework upgrades:** Next.js 16 may change `next/dynamic` API. Pin the project to 15.x and revisit on framework upgrade.
 
 **On RSC + Suspense (FR-WEB-006):** This FR provides the dynamic-load boundary; FR-WEB-006 layers Suspense boundaries on top per scene. They're complementary, not redundant.
+
+---
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Status: `shipped + strict-audited`.
+
+Edge-case matrix coverage:
+
+| Vector | Evidence |
+|---|---|
+| Null inputs | `CanvasLoadingFallback` is HTML-only and SSR-safe before the client R3F chunk hydrates. |
+| Malformed payload | Scattered dynamic imports are forbidden outside `lib/dynamic-three.ts`; grep found no offenders. |
+| Extreme bounds | Production build reports `/` First Load JS at 110 kB and main chunk gzip at 36.5 KiB. |
+| Invalid content | Post-build server chunk grep found no direct `three`, `@react-three`, or scroll-rig imports. |
+| Concurrent race | SSR HTML contains the loading fallback and no `<canvas>`, so hydration owns the only R3F mount. |
+| Observability | Chunk gzip script and Playwright SSR response check provide repeatable boundary evidence. |
+
+Validation log:
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+✓ Compiled successfully in 1591ms
+✓ Generating static pages (18/18)
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                    7.54 kB         110 kB
++ First Load JS shared by all             103 kB
+```
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/unit/no-three-in-ssr.test.ts --config vitest.config.ts
+Test Files  1 passed (1)
+Tests       1 passed (1)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+passed
+```
+
+```text
+$ cd apps/web && node - <<'NODE'
+main-92f645139bfbf979.js gzip=37368 bytes (36.5 KiB)
+main-app-72bbfac3d2b420a8.js gzip=226 bytes (0.2 KiB)
+NODE
+```
+
+```text
+$ cd apps/web && rg -n "dynamic\s*\(\s*\(\)\s*=>\s*import\(['\"](@react-three|three|@14islands)" app components lib --glob '!lib/dynamic-three.ts'
+no matches
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/dynamic-three.spec.ts --project=chromium
+Running 1 test using 1 worker
+  ✓ SSR HTML contains the loading fallback and no Three/R3F script names
+1 passed (4.0s)
+```
 
 *End of FR-WEB-005.*

@@ -3,7 +3,7 @@ id: FR-SCENE-009
 title: "Scene 0 Hero implementation — DOM headline as LCP, canvas mounts post-FCP, fly_in→idle Lumi"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,9 @@ phase: P3
 slice: 2
 owner: Frontend Lead + R3F Architect
 created: 2026-05-16
+shipped: 2026-05-18
+strict_audited: 2026-05-18
+mocked_dependency: "Final Lumi GLB animation clips are represented by a deterministic R3F mock mesh and store-sequence contract until the production /lumi.glb replaces FR-CHAR-011's mocked asset."
 related_frs: [FR-WEB-001, FR-WEB-003, FR-WEB-005, FR-WEB-006, FR-SCENE-001, FR-CHAR-011, FR-CMS-002, FR-DS-007, FR-PERF-001, FR-PERF-004]
 depends_on: [FR-WEB-001, FR-SCENE-001, FR-CHAR-011, FR-CMS-002]
 blocks: [FR-SCENE-010, FR-SCENE-011, FR-SCENE-012, FR-PERF-004]
@@ -28,7 +31,7 @@ new_files:
   - apps/web/components/scenes/scene-0-hero/Scene0Hero.tsx
   - apps/web/components/scenes/scene-0-hero/Scene0Hero.client.tsx
   - apps/web/components/scenes/scene-0-hero/Scene0HeroCanvas.tsx
-  - apps/web/components/scenes/scene-0-hero/__tests__/scene-0.spec.ts
+  - apps/web/tests/web/scene-0-hero.spec.ts
   - apps/web/components/scenes/scene-0-hero/__tests__/scene-0.unit.test.ts
 
 effort_hours: 10
@@ -196,5 +199,69 @@ Loading `/` in browser:
 **On LCP attribution:** Some Lighthouse runs may attribute LCP to a background image or large character. Test on cold-cache 4G; manually inspect `web-vitals` LCP attribution.
 
 **On future enhancement:** Slice 3 could add subtle parallax on hero h1 driven by mouse position. Out of scope for this slice.
+
+## §10 — Zero-touch strict audit evidence (2026-05-18)
+
+### Implementation
+
+- Added `apps/web/components/scenes/scene-0-hero/Scene0Hero.tsx`, `Scene0Hero.client.tsx`, and `Scene0HeroCanvas.tsx`.
+- Replaced the inline home-page hero with `<Scene0Hero />` while preserving SSR h1 output and the canonical FR-CMS-002 caption.
+- Added canvas accessibility labeling in `apps/web/components/canvas/CanvasMount.tsx`.
+- Added contract tests and browser tests for SSR, mount timing, reduced motion, and `fly_in -> idle` state.
+- Wrote `docs/contracts/FR-SCENE-009-lumi-animation-contract.md` because the final animation-bearing Lumi GLB remains a mocked dependency.
+
+### Edge-case matrix
+
+| Vector | Edge case | Coverage |
+|---|---|---|
+| Null inputs | Locale or narrative line is absent | `getScene0HeroCopy()` falls back to EN canonical text and unit tests assert fallback. |
+| Malformed payload | `/lumi.glb` exists without final animation clips | Mock contract renders `scene-0-hero-lumi-mock-contract` and asserts store sequence. |
+| Extreme bounds | WebGL2 missing or reduced motion enabled | Capability gate and reduced-motion Playwright path keep canvas absent and static image visible. |
+| Invalid content | Tunnel id, caption, or Scene 0 accessory scope drifts | Unit tests assert `scene-0-hero`, FR-CMS-002 caption, and no nón lá/hat content. |
+| Concurrent race | Canvas appears after React hydration or the R3F child readiness signal races DOM mount | Animation start is idempotent and probes the persistent canvas DOM before setting `fly_in`. |
+| Observability | Scene 0 runtime state is opaque | `window.__scene0HeroState.sequence`, `window.__stores.lumi.currentAnim`, and `scene_enter` analytics expose state. |
+
+### Verification
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run components/scenes/scene-0-hero/__tests__/scene-0.unit.test.ts components/scenes/scene-0-hero/__tests__/scene-0.client.test.tsx components/scenes/scene-0-hero/__tests__/scene-0.canvas.test.tsx --config vitest.config.ts --coverage.enabled true --coverage.provider v8 --coverage.include 'components/scenes/scene-0-hero/Scene0Hero.tsx' --coverage.include 'components/scenes/scene-0-hero/Scene0Hero.client.tsx' --coverage.include 'components/scenes/scene-0-hero/Scene0HeroCanvas.tsx'
+Test Files  3 passed (3)
+Tests  9 passed (9)
+Coverage: All files 98.72% statements, 94.73% branches, 75% functions, 98.72% lines
+```
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run components/scenes/scene-0-hero/__tests__/scene-0.unit.test.ts components/scenes/scene-0-hero/__tests__/scene-0.client.test.tsx components/scenes/scene-0-hero/__tests__/scene-0.canvas.test.tsx tests/bootstrap.test.ts tests/unit/no-three-in-ssr.test.ts --config vitest.config.ts
+Test Files  5 passed (5)
+Tests  21 passed (21)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+exit 0
+```
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+Compiled successfully
+/ First Load JS 112 kB
+/lite First Load JS 105 kB
+```
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/unit/no-three-in-ssr.test.ts --config vitest.config.ts
+Test Files  1 passed (1)
+Tests  1 passed (1)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/scene-0-hero.spec.ts tests/web/dynamic-three.spec.ts --project=chromium
+5 passed
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/a11y/all-routes.spec.ts --project=chromium
+34 passed
+```
 
 *End of FR-SCENE-009.*

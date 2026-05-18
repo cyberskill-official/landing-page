@@ -1,0 +1,21 @@
+/* FR-DS-006 — closed cinematic motion token set. */
+
+:root {
+  --duration-instant: 80ms;
+  --duration-swift: 240ms;
+  --duration-cinematic: 720ms;
+  --duration-epic: 1400ms;
+
+  --ease-genie: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-breath: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-anchor: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 1ms;
+    --duration-swift: 1ms;
+    --duration-cinematic: 1ms;
+    --duration-epic: 1ms;
+  }
+}

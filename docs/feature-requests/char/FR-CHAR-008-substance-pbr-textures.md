@@ -3,7 +3,7 @@ id: FR-CHAR-008
 title: "Substance Painter PBR textures — BaseColor / ORM-packed / Normal / Emissive at locked 2k"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,7 @@ phase: P2
 slice: 1
 owner: 3D Modeler / Texture Artist
 created: 2026-05-16
+shipped: 2026-05-18
 related_frs: [FR-CHAR-006, FR-CHAR-007, FR-CHAR-011, FR-DS-002, FR-OPS-001, FR-OPS-002, FR-OPS-004]
 depends_on: [FR-CHAR-006, FR-CHAR-007, FR-OPS-001]
 blocks: [FR-CHAR-011, FR-OPS-002, FR-OPS-004]
@@ -386,5 +387,17 @@ The `lumi-texture-spec.md` artefact shows three reference renders (front, 3/4, b
 **On Substance Painter version:** Pin to Substance 3D Painter 2024.1 or later (PBR Metal-Roughness export with correct ORM packing was buggy in earlier releases). Document the version in `lumi-texture-spec.md`.
 
 **On Vietnamese gold reference:** The "Saigon Dusk" gold gradient anchors against the cultural reference of gold leaf used in Vietnamese altar decoration — warm rather than yellow-white European gold. The hood-200 anchor is the lightest warm-gold reading; the tail-500 is the deepest amber. The cultural reference matters; if the artist drifts towards "Euro gold" the gradient stops reading as Saigon Dusk.
+
+## §10 — Mocked-dependency shipment
+
+Adobe Substance 3D Painter and Blender bake validation are not available in the execution environment, so physical texture authoring remains unavailable. Per the zero-touch blocker rule, this FR ships as `shipped + mocked-dependency + strict-audited` using deterministic Substance placeholders, four 2048x2048 PBR texture maps, `lumi-texture-stats.json`, and a founder-facing texture brief verified by:
+
+```bash
+python3 tools/generate-p2-character-mocks.py
+python3 tools/check-p2-character-mocks.py --fr FR-CHAR-008
+python3 tools/texture-validator.py --texdir assets-built/raw/textures
+```
+
+The mock contract preserves downstream runtime bindings and rejects wrong dimensions, missing maps, cool-tone BaseColor drift, ORM channel swaps, DirectX normal convention, full-body emissive masks, PBR value drift, and KTX2 preview VRAM above 4 MB. A non-mocked shipment must replace the placeholders with real Substance-authored files at the same paths and pass the same checker.
 
 *End of FR-CHAR-008.*

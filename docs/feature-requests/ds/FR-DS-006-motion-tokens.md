@@ -3,7 +3,7 @@ id: FR-DS-006
 title: "Motion tokens — duration scale + easing curves (--ease-genie et al.) with reduced-motion honour"
 module: DS
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,7 +11,7 @@ phase: P1
 slice: 1
 owner: Designer + Frontend Lead
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 related_frs: [FR-DS-003, FR-DS-004, FR-SCENE-009, FR-CHAR-011, FR-A11Y-001]
 depends_on: [FR-DS-003]
 blocks: [FR-SCENE-009, FR-SCENE-013, FR-SCENE-020]

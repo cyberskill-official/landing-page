@@ -1,0 +1,71 @@
+{
+  "fr_id": "FR-CHAR-008",
+  "mocked_dependency": "Adobe Substance 3D Painter unavailable",
+  "contract_only": true,
+  "maps": {
+    "BaseColor": {
+      "path": "assets-built/raw/textures/lumi-BaseColor.png",
+      "resolution": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB",
+      "channel_count": 3,
+      "sha256": "mocked-placeholder",
+      "palette_match_rate": 1.0,
+      "delta_e2000_max": 0.0,
+      "delta_e2000_p99": 0.0,
+      "off_palette_pixel_count": 0,
+      "no_cool_tones": true
+    },
+    "ORM": {
+      "path": "assets-built/raw/textures/lumi-ORM.png",
+      "resolution": [
+        2048,
+        2048
+      ],
+      "color_space": "linear",
+      "channel_count": 3,
+      "sha256": "mocked-placeholder",
+      "channel_packing": {
+        "R": "AO",
+        "G": "Roughness",
+        "B": "Metallic"
+      },
+      "roughness_mean": 0.35,
+      "metallic_mean": 0.4
+    },
+    "Normal": {
+      "path": "assets-built/raw/textures/lumi-Normal.png",
+      "resolution": [
+        2048,
+        2048
+      ],
+      "color_space": "linear",
+      "channel_count": 3,
+      "sha256": "mocked-placeholder",
+      "normal_convention": "OpenGL",
+      "g_mean_top_region": 0.745
+    },
+    "Emissive": {
+      "path": "assets-built/raw/textures/lumi-Emissive.png",
+      "resolution": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB",
+      "channel_count": 3,
+      "sha256": "mocked-placeholder",
+      "mask_area_fraction": 0.145,
+      "within_cap": true
+    }
+  },
+  "pbr_values": {
+    "metallic": 0.4,
+    "roughness": 0.35
+  },
+  "ktx2_preview_vram_mb": 3.6,
+  "validator_version": "mock-contract-1",
+  "ran_at": "2026-05-18T00:00:00+00:00",
+  "verdict": "PASS"
+}

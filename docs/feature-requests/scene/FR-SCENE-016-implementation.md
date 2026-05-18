@@ -3,7 +3,7 @@ id: FR-SCENE-016
 title: "Scene 4 Team impl — 10 bokeh avatars + Lumi dim + privacy-by-default hover anonymisation"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 1
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-005, FR-SCENE-015, FR-SCENE-020, FR-CHAR-011, FR-CMS-002, FR-CMS-004, FR-CTA-004]
 depends_on: [FR-SCENE-015, FR-SCENE-005, FR-CHAR-011, FR-CMS-004]
 blocks: [FR-SCENE-017, FR-SCENE-020]

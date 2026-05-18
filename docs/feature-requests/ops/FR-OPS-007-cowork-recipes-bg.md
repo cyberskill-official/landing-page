@@ -3,7 +3,7 @@ id: FR-OPS-007
 title: "Cowork Recipes B–G — texture variants / motion previs / Blender Python / Substance / async review / nón lá variants"
 module: OPS
 priority: COULD
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P2
 slice: 1
 owner: Backend / DevOps + Designer + AI Workflow Lead
 created: 2026-05-16
+shipped: 2026-05-18
 related_frs: [FR-OPS-001, FR-OPS-006, FR-CHAR-008, FR-CHAR-011, FR-CHAR-012, FR-SCENE-024, FR-CHAR-003]
 depends_on: [FR-OPS-001, FR-OPS-006]
 blocks: [FR-SCENE-024]
@@ -327,5 +328,30 @@ Sample Recipe G invocation flow:
 **On Vietnamese-locale CMS handoff:** Recipe G's textures are language-agnostic (cultural rather than linguistic). Vietnamese vs English copy on the page does not affect which nón lá variant shows; variant cycles by user interaction, not locale.
 
 **On founder-signoff workflow scaling:** Currently founder reviews each variant manually. If variant count grows (e.g. Lunar New Year zodiac year variants — 12), consider Cowork pre-screening with confidence scoring, founder rubber-stamps high-confidence ones. Out of slice 1 scope.
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Strict audit refreshed Recipes B-G because the previous `shipped 2026-05-17` status did not include zero-touch strict-audit evidence.
+
+Deliverables confirmed:
+
+- Six recipe docs and six prompt companions exist for Recipes B-G.
+- `tools/cowork/recipes/RECIPES-BG-INDEX.md` lists all six recipes.
+- `tools/cowork/recipes/__tests__/recipes-bg.smoke.test.mjs` covers frontmatter shape, prompt existence, soft-gate semantics, index coverage, and Recipe G cultural guardrails.
+
+Verification:
+
+```bash
+./node_modules/.bin/vitest run tools/cowork/recipes/__tests__/recipes-bg.smoke.test.mjs
+✓ tools/cowork/recipes/__tests__/recipes-bg.smoke.test.mjs (14 tests)
+Test Files  1 passed (1)
+Tests  14 passed (14)
+
+./node_modules/.bin/vitest run tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs tools/cowork/recipes/__tests__/recipes-bg.smoke.test.mjs
+✓ tools/cowork/recipes/__tests__/recipes-bg.smoke.test.mjs (14 tests)
+✓ tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs (4 tests)
+Test Files  2 passed (2)
+Tests  18 passed (18)
+```
 
 *End of FR-OPS-007.*

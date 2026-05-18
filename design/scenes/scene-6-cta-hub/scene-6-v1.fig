@@ -1,0 +1,68 @@
+{
+  "format": "figma-handoff-manifest",
+  "title": "Scene 6 CTA Hub v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-17",
+  "frames": [
+    {
+      "name": "desktop-1920",
+      "path": "scene-6-desktop-1920.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "name": "tablet-1024",
+      "path": "scene-6-tablet-1024.png",
+      "size": [
+        1024,
+        1366
+      ]
+    },
+    {
+      "name": "mobile-390",
+      "path": "scene-6-mobile-390.png",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "focus-variants",
+      "path": "lumi-focus-variants.png",
+      "size": [
+        1800,
+        720
+      ]
+    },
+    {
+      "name": "partner-deep-link",
+      "path": "scene-6-partner-deeplink.png",
+      "size": [
+        1920,
+        1080
+      ]
+    }
+  ],
+  "portalCount": 3,
+  "deepLinkVariant": "?track=partner",
+  "focusStates": [
+    "default",
+    "hover",
+    "focused-keyboard",
+    "focused-deep-link",
+    "clicked-opens-modal"
+  ],
+  "annotations": [
+    "Exactly 3 portals: buy, partner, join",
+    "Buy portal: #E8B523 fill with dark label",
+    "Partner portal: #4A2208 fill with #E8B523 edge",
+    "Join portal: #FCEAA8 fill with #4A2208 edge",
+    "Caption is DOM overlay: You bring the will. We bring the real.",
+    "Focus ring is 2px gold-400 with 2px offset",
+    "Every portal target is annotated at >= 44x44",
+    "Partner deep-link variant shows ?track=partner pre-focused",
+    "Modal fallback shows Loading... aria-live=\"polite\""
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "format": "BLENDER_4_4_PLACEHOLDER",
+  "fr_id": "FR-CHAR-010",
+  "mocked_dependency": "Blender 4.4 unavailable in this workspace",
+  "replace_with": "Real Blender 4.4 custom armature, weights, and direct mesh binding before non-mocked shipment",
+  "armature_name": "lumi_arm",
+  "custom_armature": true,
+  "rigify_detected": false,
+  "bones": [
+    "hip",
+    "torso",
+    "neck",
+    "head",
+    "shoulder_L",
+    "elbow_L",
+    "wrist_L",
+    "ik_target_L",
+    "shoulder_R",
+    "elbow_R",
+    "wrist_R",
+    "ik_target_R",
+    "wisp_01",
+    "wisp_02",
+    "wisp_03",
+    "wisp_04",
+    "wisp_05",
+    "wisp_06",
+    "wisp_07",
+    "wisp_08",
+    "hood_root",
+    "hood_tip",
+    "jaw",
+    "eye_L",
+    "eye_R",
+    "brow_L",
+    "brow_R",
+    "hat_socket",
+    "c_head"
+  ],
+  "bones_per_group": {
+    "spine": 4,
+    "arm_L": 4,
+    "arm_R": 4,
+    "wisp": 8,
+    "hood": 2,
+    "jaw": 1,
+    "eyes": 2,
+    "brows": 2,
+    "hat_socket": 1,
+    "c_head": 1
+  },
+  "c_head_custom_props": [
+    "mouth_speak",
+    "mouth_smile",
+    "mouth_neutral",
+    "brow_raise",
+    "brow_concern",
+    "eye_blink_L",
+    "eye_blink_R",
+    "mouth_o",
+    "cheek_puff",
+    "glow_pulse",
+    "hood_tip"
+  ],
+  "mesh_parent_type": "ARMATURE",
+  "preserve_volume_disabled": true,
+  "forbidden_payloads": [
+    "rigify",
+    "actions",
+    "nla_tracks",
+    "mouth_neutral_shape_key",
+    "_test_pose_actions"
+  ],
+  "extends_fr": "FR-CHAR-009",
+  "fr_history": [
+    "FR-CHAR-009",
+    "FR-CHAR-010"
+  ],
+  "shape_keys": [
+    "eye_close",
+    "eye_squint",
+    "mouth_smile",
+    "mouth_speak",
+    "mouth_o",
+    "brow_raise",
+    "brow_concern",
+    "cheek_puff",
+    "glow_pulse",
+    "hood_tip"
+  ],
+  "shape_key_drivers": {
+    "eye_close": {
+      "target": [
+        "c_head[\"eye_blink_L\"]",
+        "c_head[\"eye_blink_R\"]"
+      ],
+      "expression": "max(var1, var2)"
+    },
+    "eye_squint": {
+      "target": [
+        "c_head[\"eye_blink_L\"]",
+        "c_head[\"eye_blink_R\"]"
+      ],
+      "expression": "min(var1, var2) * 2.0"
+    },
+    "mouth_smile": {
+      "target": "c_head[\"mouth_smile\"]",
+      "expression": "var"
+    },
+    "mouth_speak": {
+      "target": "c_head[\"mouth_speak\"]",
+      "expression": "var"
+    },
+    "mouth_o": {
+      "target": "c_head[\"mouth_o\"]",
+      "expression": "var"
+    },
+    "brow_raise": {
+      "target": "c_head[\"brow_raise\"]",
+      "expression": "var"
+    },
+    "brow_concern": {
+      "target": "c_head[\"brow_concern\"]",
+      "expression": "var"
+    },
+    "cheek_puff": {
+      "target": "c_head[\"cheek_puff\"]",
+      "expression": "var"
+    },
+    "glow_pulse": {
+      "target": "c_head[\"glow_pulse\"]",
+      "expression": "var"
+    },
+    "hood_tip": {
+      "target": "c_head[\"hood_tip\"]",
+      "expression": "var"
+    }
+  }
+}

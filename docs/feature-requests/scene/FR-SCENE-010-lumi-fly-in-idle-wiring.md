@@ -3,7 +3,7 @@ id: FR-SCENE-010
 title: "Lumi animation wiring — Zustand-driven anim picker with 200ms crossfade + default-to-idle"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,9 @@ phase: P3
 slice: 2
 owner: R3F Architect
 created: 2026-05-16
+shipped: 2026-05-18
+strict_audited: 2026-05-18
+mocked_dependency: "Production /lumi.glb animation clips are represented by a deterministic Drei/useAnimations mock contract until the final FR-CHAR-011 asset replaces the greybox GLB."
 related_frs: [FR-SCENE-009, FR-WEB-004, FR-CHAR-011, FR-DS-006, FR-A11Y-001]
 depends_on: [FR-SCENE-009, FR-WEB-004, FR-CHAR-011]
 blocks: [FR-SCENE-013, FR-SCENE-014, FR-SCENE-015, FR-SCENE-016, FR-SCENE-017, FR-SCENE-018]
@@ -220,5 +223,60 @@ useLumiStore.getState().setCurrentAnim("wave");
 **On idle clip availability:** This FR assumes `idle` clip exists in the loaded animations. FR-CHAR-011 §1 #1 enumerates idle as the first clip, guaranteed by the animation library.
 
 **On animation-track compression:** Meshopt compresses animation tracks but doesn't affect runtime mixer behavior. FR-OPS-002 enables Meshopt; this FR doesn't need to know about it.
+
+## §10 — Zero-touch strict audit evidence (2026-05-18)
+
+### Implementation
+
+- Added `apps/web/components/lumi/useLumiAnimations.ts` with the typed Zustand store -> Drei action picker.
+- Added `apps/web/components/lumi/Lumi.tsx` to load `/lumi.glb`, pass its `scene` and `animations` into the picker, and preload the asset.
+- Added `apps/web/components/lumi/__tests__/lumi-animations.unit.test.ts` covering the acceptance criteria and edge cases.
+- Wrote `docs/contracts/FR-SCENE-010-lumi-animation-picker-contract.md` because the production animation-bearing `/lumi.glb` remains a mocked dependency.
+- Added structured runtime observability through `window.__lumiAnimationEvents` for transitions, missing clips, and mixer completion.
+
+### Edge-case matrix
+
+| Vector | Edge case | Coverage |
+|---|---|---|
+| Null inputs | Missing action for a typed store clip | Hook logs `[FR-SCENE-010] no action for clip ...` in development and records `lumi_animation_missing_clip`. |
+| Malformed payload | GLB clip table lacks a required FR-CHAR-011 clip | Contract test mocks absent `wave` action and asserts warning/event behavior. |
+| Extreme bounds | Rapid store transitions | Hook reacts through `useEffect` and crossfades once per `currentAnim` change with token-derived 200ms duration. |
+| Invalid content | Picker drifts into scene-specific logic or `useFrame` state writes | Source guard asserts no `useFrame`, no `setState(`, and no scene module imports. |
+| Concurrent race | Non-loop clip completion intersects scene store updates | Mixer `finished` listener only maps known non-loop clips to `idle`; scenes can override through the same store. |
+| Reduced motion | User prefers reduced motion | Unit test asserts new action plays, old action stops, and `crossFadeFrom` is skipped. |
+| Lifecycle leak | R3F unmount or HMR leaves mixer cached | Unmount test asserts `stopAllAction()` and `uncacheRoot(rootBone)`. |
+| Observability | Clip lookup problems are opaque | `window.__lumiAnimationEvents` and dev warning expose missing clips and transitions. |
+
+### Verification
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run components/lumi/__tests__/lumi-animations.unit.test.ts --coverage --coverage.provider=v8 --coverage.include=components/lumi/useLumiAnimations.ts --coverage.include=components/lumi/Lumi.tsx --coverage.reporter=text
+Test Files  1 passed (1)
+Tests  7 passed (7)
+Coverage: All files 100% statements, 90.32% branches, 100% functions, 100% lines
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc --noEmit
+exit 0
+```
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+Compiled successfully
+/ First Load JS 112 kB
+/lite First Load JS 105 kB
+```
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run components/lumi/__tests__/lumi-animations.unit.test.ts tests/unit/no-three-in-ssr.test.ts tests/unit/scene-disposal.test.ts lib/stores/__tests__/stores.test.ts
+Test Files  4 passed (4)
+Tests  17 passed (17)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/scene-0-hero.spec.ts tests/web/dynamic-three.spec.ts
+5 passed
+```
 
 *End of FR-SCENE-010.*

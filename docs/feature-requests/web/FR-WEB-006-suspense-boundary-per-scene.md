@@ -3,7 +3,7 @@ id: FR-WEB-006
 title: "Suspense boundary per scene + Drei useGLTF.preload chaining — soft golden fallback"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,9 @@ phase: P3
 slice: 1
 owner: R3F Architect
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
+mocked_dependency: "/lumi.glb is currently seeded from assets-built/optimized/lumi-greybox.glb until the final Lumi production GLB replaces it."
 related_frs: [FR-WEB-001, FR-WEB-003, FR-WEB-005, FR-DS-008, FR-PERF-004]
 depends_on: [FR-WEB-003, FR-WEB-005]
 blocks: [FR-PERF-004, FR-SCENE-013]
@@ -39,7 +42,7 @@ risk_if_skipped: "Without per-scene Suspense, a single GLB fetch stall blocks th
 
 1. **MUST** wrap each scene's R3F content (inside its `<SceneTunnel>` per FR-WEB-003) in a `<Suspense fallback={<SceneSuspenseFallback />}>` boundary. Total: 8 boundaries (7 scenes + footer). This isolates per-scene GLB streaming — a stall in Scene 4's asset doesn't block Scene 3 or Scene 5's renders.
 
-2. **MUST** preload the Lumi GLB at module-evaluation time via `useGLTF.preload('/lumi.glb')` in `apps/web/components/lumi/Lumi.tsx`. Lumi is the LCP-after-canvas-mount priority asset — fetching it lazily delays first paint of the hero scene by 200-800ms depending on network.
+2. **MUST** preload the Lumi GLB at module-evaluation time. Current implementation calls `preloadGltfWithLocalDecoders('/lumi.glb')` from the dynamically loaded `CanvasMount.tsx`, and `/lumi.glb` is seeded from the optimized Lumi greybox until the final production GLB replaces it. Lumi is the LCP-after-canvas-mount priority asset — fetching it lazily delays first paint of the hero scene by 200-800ms depending on network.
 
 3. **MUST** implement **preload chaining** (master plan §5.3): while the user reads Scene N, prefetch Scene N+1's scene-specific GLB. Implementation:
    - Intersection-observer with `rootMargin: '200% 0px'` on each scene's tracked DOM element.
@@ -297,5 +300,65 @@ After shipping, scrolling through the page produces:
 **On the alternative `<link rel="preload">`:** Could be added in document `<head>` for instant browser-level preload. Trade-off: less control over timing (browser decides), but cheaper than runtime intersection-observer. Slice 1 ships intersection-based; future amendment could add `<link rel="preload">` for first-paint scenes only.
 
 **On Scene 7 (footer):** No scene-specific GLB; Lumi's footer "wave_goodbye" animation lives in the shared `/lumi.glb`. The preload chain returns null for index 7 by design.
+
+---
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Status: `shipped + mocked-dependency + strict-audited`.
+
+Mocked dependency: `/lumi.glb` exists and is currently copied from `assets-built/optimized/lumi-greybox.glb` (78,988 bytes). This keeps preload contracts and route behavior testable while final Lumi production GLB remains dependent on mocked character deliverables.
+
+Implementation delta:
+
+- Added guarded module-evaluation Lumi preload in `CanvasMount.tsx`.
+- Added active-scene/direction preload trigger in `ScenePreloader.tsx` while preserving the 200% `IntersectionObserver` path from `useScenePreloadObservers`.
+- Added unit guardrails that verify both Lumi preload and active-scene direction resolution are wired.
+
+Edge-case matrix coverage:
+
+| Vector | Evidence |
+|---|---|
+| Null inputs | Bounds tests return no target for Scene 6 down and Scene 0 up; public `/lumi.glb` exists before runtime preload. |
+| Malformed payload | Preload failures warn, mark state as failed, and allow retry without throwing. |
+| Extreme bounds | `MAX_PRELOAD_AHEAD` remains `1`; build keeps `/` First Load JS at 110 kB. |
+| Invalid content | SSR route contains no spinner-style loading UI; fallback userData remains `gold-pulse`. |
+| Concurrent race | Active-scene/direction effect and observer path both flow through idempotent `preloadScene`. |
+| Observability | `data-scene-suspense-aria`, `window.__scenePreloadStates`, and `?debug=suspense` expose preload state. |
+
+Validation log:
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/unit/scene-preload-chain.test.ts lib/canvas/__tests__/use-preload-next.unit.test.ts lib/canvas/decoder-config.test.ts --config vitest.config.ts
+Test Files  3 passed (3)
+Tests       13 passed (13)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+passed
+```
+
+```text
+$ cd apps/web && node -e "const fs=require('fs'); const size=fs.statSync('public/lumi.glb').size; console.log('public/lumi.glb bytes='+size);"
+public/lumi.glb bytes=78988
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/suspense.spec.ts --project=chromium
+Running 3 tests using 1 worker
+  ✓ scene preloader exposes aria cue and preloads one neighbor scene
+  ✓ suspense debug overlay renders in development
+  ✓ SSR route does not expose spinner-style loading UI
+3 passed (4.5s)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+✓ Compiled successfully in 1370ms
+✓ Generating static pages (18/18)
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                    7.54 kB         110 kB
+```
 
 *End of FR-WEB-006.*

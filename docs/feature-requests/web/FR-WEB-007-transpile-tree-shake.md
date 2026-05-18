@@ -3,7 +3,7 @@ id: FR-WEB-007
 title: "Next config — transpilePackages ['three'] + tree-shake + named-imports-only enforcement"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 1
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-WEB-001, FR-WEB-005, FR-PERF-001]
 depends_on: [FR-WEB-001]
 blocks: [FR-PERF-001, FR-PERF-002]
@@ -272,5 +274,55 @@ After shipping:
 **On future migration to Turbopack:** Next 15 supports Turbopack via `--turbopack` flag. Turbopack handles tree-shake differently. When the project migrates, revisit this FR's webpack-specific config.
 
 **On size-budget enforcement:** This FR ensures the *config* is right. The actual *budget enforcement* (CI fails build if main exceeds 200 KB) lives in FR-PERF-001. Both must align.
+
+---
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Status: `shipped + strict-audited`.
+
+Edge-case matrix coverage:
+
+| Vector | Evidence |
+|---|---|
+| Null inputs | Config/rationale files exist beside the app and tests read them directly. |
+| Malformed payload | Namespace and CommonJS `three`/R3F imports are AST-scanned and fail with offenders. |
+| Extreme bounds | Fresh production build keeps main client chunk at 36.5 KiB gzip, far below 200 KiB. |
+| Invalid content | `transpilePackages` remains exactly `['three']`; no `transpileModules`, `swcMinify: false`, or legacy `module.rules` edits. |
+| Concurrent race | Build, typecheck, and guardrail tests run against the same generated `.next` output. |
+| Observability | `bundle.config.notes.md`, gzip output, and config tests document the tree-shake contract. |
+
+Validation log:
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+✓ Compiled successfully in 1370ms
+✓ Generating static pages (18/18)
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                    7.54 kB         110 kB
+```
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/unit/no-namespace-three.test.ts tests/bootstrap.test.ts --config vitest.config.ts
+Test Files  2 passed (2)
+Tests       17 passed (17)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+passed
+```
+
+```text
+$ cd apps/web && node - <<'NODE'
+main-92f645139bfbf979.js gzip=37368 bytes (36.5 KiB)
+main-app-72bbfac3d2b420a8.js gzip=226 bytes (0.2 KiB)
+NODE
+```
+
+```text
+$ cd apps/web && rg -n "import \* as .* from ['\"](?:three|@react-three/)|require\(['\"](?:three|@react-three/)" app components lib
+no matches
+```
 
 *End of FR-WEB-007.*

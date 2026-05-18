@@ -3,7 +3,7 @@ id: FR-DS-001
 title: "Mood board — Lumi-Inception-Saigon-Dusk reference assembly"
 module: DS
 priority: MUST
-status: shipped
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I

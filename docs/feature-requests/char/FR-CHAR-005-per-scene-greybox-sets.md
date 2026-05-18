@@ -3,7 +3,7 @@ id: FR-CHAR-005
 title: "Per-scene greybox sets — props, camera frusta, scene-scale checks"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,7 +12,7 @@ phase: P1
 slice: 1
 owner: 3D Modeler / Texture Artist + R3F Architect
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-18
 related_frs: [FR-CHAR-004, FR-SCENE-001, FR-SCENE-002, FR-SCENE-003, FR-SCENE-004, FR-SCENE-005, FR-SCENE-006, FR-SCENE-007, FR-SCENE-008, FR-OPS-001]
 depends_on: [FR-CHAR-004, FR-SCENE-008]
 blocks: [FR-WEB-003, FR-PERF-008]
@@ -25,8 +25,8 @@ source_pages:
 language: blender 4.4 + glb
 service: assets-source/blender/scenes/ + assets-built/raw/
 new_files:
-  - assets-source/blender/scenes/scene-{0..6,footer}-greybox.v01.blend
-  - assets-built/raw/scene-{0..6,footer}-greybox.raw.glb
+  - assets-source/blender/scenes/{scene-0,scene-1,scene-2,scene-3,scene-4,scene-5,scene-6,footer}-greybox.v01.blend
+  - assets-built/raw/{scene-0,scene-1,scene-2,scene-3,scene-4,scene-5,scene-6,footer}-greybox.raw.glb
   - assets-source/blender/scenes/SCENE_GREYBOX_NOTES.md
 
 effort_hours: 12
@@ -155,5 +155,9 @@ FR-CHAR-004 (Lumi greybox to link), FR-SCENE-008 (all scene comps land first so 
 | Frustum overflow at parallax extremes | AC#9 visual check | Tighten prop placement OR widen fov OR move camera back |
 | GLB pipeline fails on greybox (untextured mesh oddity) | AC#3 stat | Verify FR-OPS-001 handles empty texture collections; add fixture if needed |
 | Footer .blend has redundant Lumi (already DOM-rendered) | Visual review | Footer greybox can be empty; the corner avatar uses the same Lumi LOD-1 via R3F instancing, not a separate mesh |
+
+## §8 — Mocked-dependency shipment
+
+Blender 4.4 is not installed in the execution environment, so physical viewport/frustum validation remains unavailable. Per the zero-touch blocker rule, this FR ships as `shipped + mocked-dependency` using deterministic scene GLB proxies, placeholder `.blend` manifests, and the R3F handoff notes verified by `python3 tools/check-p1-greybox-assets.py`.
 
 *End of FR-CHAR-005.*

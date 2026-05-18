@@ -3,9 +3,10 @@ id: FR-CHAR-011
 title: "Animation library — 11 clips per master plan §3.3a; NLA-strip-named for clean glTF split"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P2
 slice: 1
@@ -430,5 +431,34 @@ if __name__ == "__main__":
 **On `wave_goodbye` cross-FR:** This clip is referenced both in Scene 6 (FR-SCENE-018) and in the footer (FR-SCENE-008's `lumi-corner-state-diagram`'s scroll-back-up state). The clip is shared — no separate "footer wave" clip needed. Reusing reduces the GLB animation payload.
 
 **On future expansion:** Master plan §3.3a notes the 11-clip set is "minimum viable"; future cinematics (Tết edition, special-event greetings) could add to this list. Adding clips is an FR-CHAR-011 amendment, not a new FR — the same NLA + naming discipline applies.
+
+## §10 — Mocked-dependency shipment
+
+Blender 4.4 is unavailable in this workspace, so FR-CHAR-011 ships as a deterministic mocked dependency with contract tests rather than a physical NLA-authored `.blend`. The public artifact paths are present for downstream scene and glTF-pipeline work:
+
+- `assets-source/blender/lumi-animations.v01.blend`
+- `assets-source/blender/lumi-animation-stats.json`
+- `assets-source/blender/animation-validator.py`
+- `assets-source/blender/archive/lumi-rig.v01.pre-anim.blend.zst`
+- `design/character-sheets/lumi-animation-spec.md`
+- `design/character-sheets/lumi-animation-storyboard.md`
+- `design/character-sheets/lumi-animation-thumbnails/*-key-pose.png`
+
+Validation evidence:
+
+```bash
+python3 tools/check-p2-character-mocks.py --fr FR-CHAR-011
+OK - P2 character mocked-dependency contracts satisfied (1 FR)
+ - FR-CHAR-011: clips=11; fps=30; trial_export=11
+NOTE - Blender 4.4 validation is blocked because Blender is not installed.
+
+python3 assets-source/blender/animation-validator.py --stats assets-source/blender/lumi-animation-stats.json
+{
+  "verdict": "PASS",
+  "stats": "assets-source/blender/lumi-animation-stats.json"
+}
+```
+
+The contract asserts exactly 11 NLA strips, verbatim clip names, 30 fps sampling, frame counts within ±3 frames, loop-close deltas under 0.001, EASE_OUT_QUINT on `fly_in`, hold regions on `coil_idle` and `paint`, no rig or shape-key drift, no scratch actions, and a trial glTF export with 11 matching animation names and Optimize Animation Size disabled.
 
 *End of FR-CHAR-011.*

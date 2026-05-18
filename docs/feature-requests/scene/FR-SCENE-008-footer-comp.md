@@ -3,7 +3,7 @@ id: FR-SCENE-008
 title: "Footer + persistent Lumi corner — comp + state diagram + trust signals layout"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I
@@ -11,7 +11,7 @@ phase: P1
 slice: 1
 owner: Designer (Art Director)
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 related_frs: [FR-SCENE-001, FR-CHAR-001, FR-CHAR-003, FR-CMS-002, FR-SEO-001, FR-SCENE-019, FR-CMS-008]
 depends_on: [FR-SCENE-001, FR-CHAR-001, FR-CHAR-003, FR-CMS-002]
 blocks: [FR-SCENE-019, FR-CHAR-005]

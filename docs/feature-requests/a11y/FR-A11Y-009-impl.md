@@ -3,9 +3,10 @@ id: FR-A11Y-009
 title: "Target size 44×44 (WCAG 2.5.5 AAA) for all interactive controls — bounding-box gate + hit-area audit"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P5
 slice: 1
@@ -18,7 +19,8 @@ language: css + typescript
 service: apps/web/app/globals.css + apps/web/tests/a11y/
 new_files:
   - apps/web/tests/a11y/target-size.e2e.spec.ts
-  - apps/web/app/globals.css  (extend with min-target-size utility)
+modified_files:
+  - apps/web/app/globals.css
 
 source_pages:
   - docs/01-master-plan-v2.md §7.5 — "Target size 44×44 AAA"
@@ -28,6 +30,22 @@ source_pages:
 effort_hours: 2
 risk_if_skipped: "Mis-tap rate on mobile spikes from 3% to ~15% when targets < 44px. User frustration → bounce. WCAG 2.5.8 (AA) requires 24×24 minimum; we exceed at 44 (AAA) for premium UX. Master plan §7.5 mandate."
 ---
+
+## Implementation Status
+
+Shipped 2026-05-18.
+
+Delivered:
+- Global `.min-target` and `.small-icon-button` CSS utilities.
+- Public route link/control sizing updates for `scene-links`, route pages, footer nav, and preference-reset links.
+- Playwright target-size audit covering `/`, `/vi`, `/lite`, `/work/sample`, `/accessibility` at 320, 375, 1280, and 1920 px widths.
+- CTA modal target-size audit covering buy, partner, and join forms at mobile width while ignoring aria-hidden/offscreen honeypots and dev-server overlays outside the app surface.
+
+Verification completed:
+- `node_modules/.bin/playwright test tests/a11y/target-size.e2e.spec.ts --project=chromium`
+- `node_modules/.bin/playwright test tests/a11y/all-routes.spec.ts --project=chromium`
+- `node_modules/.bin/next build`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
 
 ## §1 — Description (BCP-14 normative)
 

@@ -17,7 +17,11 @@ export function filterDropShadow(token: GlowToken, blur = 8): string {
 export function glowAsThreeColor(token: GlowToken): { color: string; intensity: number } {
   const m = glow[token].match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
   if (!m) throw new Error(`[FR-DS-008] cannot parse ${token}: ${glow[token]}`);
-  const [, r, g, b, a] = m;
+  const r = m[1];
+  const g = m[2];
+  const b = m[3];
+  const a = m[4];
+  if (!r || !g || !b || !a) throw new Error(`[FR-DS-008] incomplete rgba match for ${token}`);
   const toHex = (n: string) => Number(n).toString(16).padStart(2, '0');
   return { color: `#${toHex(r)}${toHex(g)}${toHex(b)}`, intensity: Number(a) };
 }

@@ -3,7 +3,7 @@ export const duration = {
   swift: 240,
   cinematic: 720,
   epic: 1400,
-} as const;
+} as const satisfies Readonly<Record<string, number>>;
 
 export type DurationToken = keyof typeof duration;
 

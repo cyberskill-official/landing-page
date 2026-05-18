@@ -3,7 +3,8 @@ id: FR-CMS-011
 title: "Quarterly content refresh cadence — new case study + refreshed metrics + voice-rules guard"
 module: CMS
 priority: SHOULD
-status: accepted
+status: blocked
+blocked_reason: "Cadence docs and tracker-ready task payload are delivered, but actual Linear/Asana recurring task creation needs a connected tracker or manual owner action."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -231,3 +232,21 @@ Q3 2026 quarterly refresh (sample):
 **On future automation:** Could auto-generate "weeks since last update" badge on /work; if > 90 days, ping. Slice 2.
 
 *End of FR-CMS-011.*
+
+## §10 — Implementation status
+
+Status: **blocked on tracker creation**.
+
+Delivered:
+
+- `docs/launch/content-refresh-cadence.md` defines quarterly dates, tracker payload, owner model, workflow, content surfaces, quality gates, log naming, and current blocker.
+- `docs/launch/quarterly-refresh-checklist.md` defines the reusable quarter-end checklist, VI parity checks, Sanity/ISR checks, smoke tests, technical checks, and refresh log template.
+
+Verified:
+
+- `node tools/audit-fr-deliverables.mjs` reports declared FR-CMS-011 deliverables present.
+
+Blocked items:
+
+- The recurring Linear or Asana task cannot be created from this workspace without a connected project tracker.
+- Each quarter's actual `docs/launch/refresh-YYYY-qN.md` log should only be created when that quarter's real content refresh is performed.

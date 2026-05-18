@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Scene 3 - How we turn will into real.</title>
+  <desc id="desc">Four capability pillars orbit one central craft mark.</desc>
+  <rect width="1200" height="800" fill="#090a0f"/>
+  <circle cx="600" cy="420" r="90" fill="#e8b523"/>
+  <path d="M600 246v348M426 420h348" stroke="#4a2f1b" stroke-width="14" stroke-linecap="round"/>
+  <rect x="190" y="286" width="230" height="96" rx="12" fill="#4a2f1b"/>
+  <rect x="780" y="286" width="230" height="96" rx="12" fill="#4a2f1b"/>
+  <rect x="190" y="500" width="230" height="96" rx="12" fill="#9c6b1f"/>
+  <rect x="780" y="500" width="230" height="96" rx="12" fill="#9c6b1f"/>
+  <text x="250" y="346" fill="#f7efe1" font-family="Arial, Helvetica, sans-serif" font-size="30">React</text>
+  <text x="822" y="346" fill="#f7efe1" font-family="Arial, Helvetica, sans-serif" font-size="30">Three.js</text>
+  <text x="280" y="560" fill="#f7efe1" font-family="Arial, Helvetica, sans-serif" font-size="30">AI</text>
+  <text x="820" y="560" fill="#f7efe1" font-family="Arial, Helvetica, sans-serif" font-size="30">Design systems</text>
+  <text x="80" y="132" fill="#f7efe1" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">How we turn will into real.</text>
+  <text x="80" y="204" fill="#d8cab3" font-family="Arial, Helvetica, sans-serif" font-size="30">React, Three.js, AI, design systems — four hands of the same craft.</text>
+  <text x="80" y="700" fill="#e8b523" font-family="Arial, Helvetica, sans-serif" font-size="28">Scene 3 Capabilities</text>
+</svg>

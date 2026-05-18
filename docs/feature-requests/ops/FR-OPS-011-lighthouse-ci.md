@@ -3,7 +3,7 @@ id: FR-OPS-011
 title: "Lighthouse CI on every PR — CWV regression gate + median-of-3 reporting"
 module: OPS
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P3
 slice: 2
 owner: Backend / DevOps + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-OPS-010, FR-OPS-012, FR-PERF-001, FR-PERF-010, FR-WEB-001, FR-A11Y-001]
 depends_on: [FR-OPS-010]
 blocks: [FR-PERF-001, FR-PERF-010]

@@ -3,7 +3,7 @@ id: FR-CMS-006
 title: "/work/[slug] case-study route — Sanity-driven content + Article JSON-LD + draft preview mode"
 module: CMS
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,7 @@ phase: P4
 slice: 1
 owner: Frontend Lead + SEO
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-CMS-004, FR-CMS-005, FR-CMS-007, FR-WEB-008, FR-SEO-002, FR-A11Y-001]
 depends_on: [FR-CMS-005, FR-WEB-008]
 blocks: []

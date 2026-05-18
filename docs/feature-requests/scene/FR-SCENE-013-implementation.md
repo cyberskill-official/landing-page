@@ -3,7 +3,7 @@ id: FR-SCENE-013
 title: "Scene 1 Origin implementation — `coil_idle` wisp-wrap around idea-spark + typed caption + sepia interior"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 1
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-002, FR-SCENE-010, FR-SCENE-020, FR-CHAR-011, FR-CMS-002, FR-DS-006, FR-A11Y-001]
 depends_on: [FR-SCENE-010, FR-SCENE-002, FR-CHAR-011]
 blocks: [FR-SCENE-014, FR-SCENE-020]

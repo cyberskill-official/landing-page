@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Reduced-motion fallback — 7-panel SVG storyboard at /lite and @media swap inline"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -13,7 +13,7 @@ milestone: P3 · slice 3
 slice: 1
 owner: QA / Accessibility + Designer
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 brain_chain_hash: null
 related_frs: [FR-A11Y-002, FR-A11Y-003, FR-A11Y-004, FR-A11Y-005, FR-A11Y-006, FR-A11Y-011, FR-A11Y-012, FR-WEB-008, FR-CMS-002]
 depends_on: [FR-WEB-008]   # /lite route slot
@@ -34,10 +34,9 @@ source_decisions:
   - "v2 §10.2: skip-3D is the buyer-soothing path; A/B test hero CTA prominence post-launch"
 
 language: typescript 5.6 + svg
-service: apps/web/app/(lite)/ + apps/web/components/lite/
+service: apps/web/app/lite/ + apps/web/components/lite/
 new_files:
-  - apps/web/app/(lite)/page.tsx
-  - apps/web/app/(lite)/layout.tsx
+  - apps/web/app/lite/page.tsx
   - apps/web/components/lite/StoryboardPanel.tsx
   - apps/web/components/lite/LiteHero.tsx
   - apps/web/components/lite/storyboard-panels.ts
@@ -48,7 +47,7 @@ new_files:
   - apps/web/public/storyboard/scene-4-team.svg
   - apps/web/public/storyboard/scene-5-vietnam-global.svg
   - apps/web/public/storyboard/scene-6-cta-hub.svg
-  - apps/web/styles/lite.css
+  - apps/web/app/globals.css
   - apps/web/tests/a11y/lite.spec.ts
 modified_files:
   - apps/web/components/canvas/GlobalCanvasShell.tsx   # short-circuit on prefers-reduced-motion
@@ -56,7 +55,7 @@ modified_files:
 allowed_tools:
   - figma: design/scenes/scene-*/**           # for SVG export reference
   - file_read: docs/01-master-plan-v2.md
-  - file_write: apps/web/app/(lite)/**
+  - file_write: apps/web/app/lite/**
   - file_write: apps/web/components/lite/**
   - file_write: apps/web/public/storyboard/**
   - bash: pnpm -F web exec playwright test

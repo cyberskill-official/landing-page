@@ -3,7 +3,7 @@ id: FR-CHAR-003
 title: "Nón lá accessory design — exterior red, interior gold lining, single yellow star"
 module: CHAR
 priority: MUST
-status: shipped
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I

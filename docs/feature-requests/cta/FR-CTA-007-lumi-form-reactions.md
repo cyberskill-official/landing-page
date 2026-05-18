@@ -3,7 +3,7 @@ id: FR-CTA-007
 title: "Lumi form reactions — mouth_smile/summon/wave_goodbye animations on form step changes + outcomes"
 module: CTA
 priority: SHOULD
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,13 +11,15 @@ phase: P4
 slice: 2
 owner: Frontend Lead + Animator
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-CTA-002, FR-CTA-003, FR-CTA-004, FR-CTA-005, FR-CHAR-011, FR-WEB-004, FR-SCENE-018]
 depends_on: [FR-CTA-002, FR-CHAR-011]
 blocks: []
 language: typescript 5.6 + react 19
 service: apps/web/lib/stores/ + apps/web/components/cta/forms/
 new_files:
-  - apps/web/lib/stores/lumi-store.ts  (extend with form-anim priority queue)
+  - apps/web/lib/stores/lumiStore.ts
   - apps/web/lib/forms/use-lumi-form-reactions.ts
   - apps/web/lib/forms/__tests__/use-lumi-form-reactions.unit.test.ts
 

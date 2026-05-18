@@ -1,0 +1,105 @@
+{
+  "format": "figma-handoff-manifest",
+  "note": "Repo-native stand-in for the Figma source named in the FR. Import the paired PNG/PDF into Figma for editable vector cleanup.",
+  "title": "Saigon Dusk Mood Board v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-16",
+  "palette": {
+    "gold50": "#FEF6D9",
+    "gold100": "#FCEAA8",
+    "gold200": "#F9D966",
+    "gold400": "#E8B523",
+    "gold500": "#C99317",
+    "gold600": "#9F730E",
+    "brown50": "#F4E5D6",
+    "brown100": "#DDB995",
+    "brown200": "#A36A3F",
+    "brown400": "#6E3A18",
+    "brown500": "#4A2208",
+    "brown700": "#2C1304",
+    "flagRed": "#DA251D",
+    "starYellow": "#FFEB3B"
+  },
+  "frames": [
+    {
+      "id": "A1",
+      "cluster": "A-saigon-dusk-palette",
+      "title": "Bát Tràng pottery glaze close-up"
+    },
+    {
+      "id": "A2",
+      "cluster": "A-saigon-dusk-palette",
+      "title": "Sơn mài lacquerware with gold leaf"
+    },
+    {
+      "id": "A3",
+      "cluster": "A-saigon-dusk-palette",
+      "title": "Vietnamese cà phê đen via phin"
+    },
+    {
+      "id": "A4",
+      "cluster": "A-saigon-dusk-palette",
+      "title": "Saigon street at golden hour (not tourist landmark)"
+    },
+    {
+      "id": "A5",
+      "cluster": "A-saigon-dusk-palette",
+      "title": "Áo dài in saffron / temple-saffron silk against warm wood"
+    },
+    {
+      "id": "B1",
+      "cluster": "B-vietnamese-material-register",
+      "title": "Giấy dó (handmade Vietnamese paper) close-up"
+    },
+    {
+      "id": "B2",
+      "cluster": "B-vietnamese-material-register",
+      "title": "Woven bamboo / rattan chair seat"
+    },
+    {
+      "id": "B3",
+      "cluster": "B-vietnamese-material-register",
+      "title": "Raw silk in natural dye"
+    },
+    {
+      "id": "C1",
+      "cluster": "C-cinematic-web",
+      "title": "Igloo Inc. abeto (Awwwards SOTY 2024)"
+    },
+    {
+      "id": "C2",
+      "cluster": "C-cinematic-web",
+      "title": "Lusion v3 (Awwwards SOTY 2023)"
+    },
+    {
+      "id": "C3",
+      "cluster": "C-cinematic-web",
+      "title": "Immersive Garden V4 (or 14islands V4 / Active Theory The Field)"
+    },
+    {
+      "id": "D1",
+      "cluster": "D-mascots-b2b",
+      "title": "Messenger SOTY 2025 character"
+    },
+    {
+      "id": "D2",
+      "cluster": "D-mascots-b2b",
+      "title": "Linear circles / Notion icons / Mailchimp Freddie"
+    },
+    {
+      "id": "AVOID-1",
+      "cluster": "counter-example",
+      "title": "Tourist-Vietnamese composition (áo dài model + temple, golden hour)"
+    },
+    {
+      "id": "AVOID-2",
+      "cluster": "counter-example",
+      "title": "Cool-toned SaaS landing page (cyan-on-navy)"
+    },
+    {
+      "id": "AVOID-3",
+      "cluster": "counter-example",
+      "title": "Cost-led outsourcing imagery (price comparison, world map with rates)"
+    }
+  ]
+}

@@ -3,17 +3,18 @@ id: FR-CTA-002
 title: "Buy form (Calendly embed) — 3-step flow + Lumi reactions + lazy-loaded chunk"
 module: CTA
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P4
 slice: 2
 owner: Frontend Lead
 created: 2026-05-16
 related_frs: [FR-CTA-001, FR-CTA-005, FR-CTA-006, FR-CTA-007, FR-WEB-006, FR-A11Y-008]
-depends_on: [FR-CTA-001, FR-CTA-005]
-blocks: [FR-CTA-006]
+depends_on: [FR-CTA-001, FR-CTA-005, FR-CTA-006]
+blocks: []
 engineering_anchor: true
 
 source_pages:
@@ -28,6 +29,14 @@ new_files:
   - apps/web/components/cta/forms/BuyFormSchema.ts
   - apps/web/components/cta/forms/CalendlyEmbed.tsx
   - apps/web/components/cta/forms/__tests__/buy-form.spec.ts
+  - apps/web/tests/cta/buy-form.spec.ts
+modified_files:
+  - apps/web/components/canvas/GlobalCanvasShell.tsx
+  - apps/web/app/globals.css
+  - apps/web/lib/analytics/events.ts
+  - apps/web/vitest.config.ts
+  - apps/web/package.json
+  - pnpm-lock.yaml
 
 effort_hours: 6
 risk_if_skipped: "Buy track is the highest-revenue conversion path. Without a polished 3-step flow, buyer-track friction drops conversion. Without lazy-loading, the form bloats main bundle (Calendly embed widget is ~ 80 KB). Without form validation, users hit server-side errors that erode trust."

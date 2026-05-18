@@ -3,7 +3,7 @@ id: FR-PERF-004
 title: "Preload chain — IntersectionObserver-driven prefetch of next-scene GLBs (200% rootMargin, depth 1, save-data aware)"
 module: PERF
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,7 @@ phase: P5
 slice: 1
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-WEB-006, FR-SCENE-020, FR-PERF-010, FR-WEB-009]
 depends_on: [FR-WEB-006]
 blocks: []

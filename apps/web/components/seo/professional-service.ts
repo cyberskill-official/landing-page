@@ -1,6 +1,7 @@
 export interface ProfessionalServiceSchema {
   '@context': 'https://schema.org';
   '@type': 'ProfessionalService';
+  '@id': string;
   name: string;
   legalName: string;
   alternateName: string[];
@@ -22,6 +23,7 @@ export interface ProfessionalServiceSchema {
 export const PROFESSIONAL_SERVICE: ProfessionalServiceSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': 'https://cyberskill.world/#organization',
   name: 'CyberSkill',
   legalName: 'CYBERSKILL SOFTWARE SOLUTIONS CONSULTANCY AND DEVELOPMENT JOINT STOCK COMPANY',
   alternateName: ['CyberSkill', 'CyberSkill JSC'],

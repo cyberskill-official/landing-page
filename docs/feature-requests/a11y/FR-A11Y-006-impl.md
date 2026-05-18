@@ -3,7 +3,8 @@ id: FR-A11Y-006
 title: "Captions for every Lumi line — gold-on-charcoal, 18px min, aria-live polite, WCAG 1.4.3 + 1.2.2 compliance"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
+shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

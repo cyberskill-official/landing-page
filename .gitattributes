@@ -1,11 +1,23 @@
 # Source assets via Git LFS
-*.blend filter=lfs diff=lfs merge=lfs -text
-*.psd filter=lfs diff=lfs merge=lfs -text
-*.sbs filter=lfs diff=lfs merge=lfs -text
-*.sbsar filter=lfs diff=lfs merge=lfs -text
-*.fig filter=lfs diff=lfs merge=lfs -text
-*.exr filter=lfs diff=lfs merge=lfs -text
-*.hdr filter=lfs diff=lfs merge=lfs -text
+*.blend  filter=lfs diff=lfs merge=lfs -text
+*.psd    filter=lfs diff=lfs merge=lfs -text
+*.sbs    filter=lfs diff=lfs merge=lfs -text
+*.sbsar  filter=lfs diff=lfs merge=lfs -text
+*.fig    filter=lfs diff=lfs merge=lfs -text
+*.exr    filter=lfs diff=lfs merge=lfs -text
+*.hdr    filter=lfs diff=lfs merge=lfs -text
+*.spp    filter=lfs diff=lfs merge=lfs -text
+*.aep    filter=lfs diff=lfs merge=lfs -text
 
-# Decoders (small but binary)
-*.wasm filter=lfs diff=lfs merge=lfs -text
+# Text source files stay in normal git with LF endings.
+*.ts     text eol=lf
+*.tsx    text eol=lf
+*.js     text eol=lf
+*.jsx    text eol=lf
+*.mjs    text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.css    text eol=lf
+*.scss   text eol=lf

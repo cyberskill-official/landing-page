@@ -3,7 +3,7 @@ id: FR-SCENE-003
 title: "Scene 2 Transformation — Figma comp + paint-trail spec + sketch→system morph"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I
@@ -11,7 +11,7 @@ phase: P1
 slice: 1
 owner: Designer (Art Director)
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 related_frs: [FR-SCENE-001, FR-SCENE-002, FR-CHAR-001, FR-CHAR-011, FR-CMS-002, FR-SCENE-014]
 depends_on: [FR-SCENE-001, FR-CHAR-001, FR-CMS-002]
 blocks: [FR-SCENE-014]

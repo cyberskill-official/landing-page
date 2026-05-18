@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Performance budget CI gates — LCP / INP / CLS / FPS / total JS / total page weight / per-asset GLB"
 module: PERF
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -13,7 +13,7 @@ milestone: P5 · slice 1
 slice: 1
 owner: Backend / DevOps + Frontend Lead
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 brain_chain_hash: null
 related_frs: [FR-PERF-002, FR-PERF-003, FR-PERF-004, FR-PERF-005, FR-PERF-006, FR-PERF-007, FR-PERF-008, FR-OPS-002, FR-OPS-011, FR-OPS-013]
 depends_on: [FR-OPS-011, FR-WEB-001]

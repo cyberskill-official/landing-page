@@ -1,0 +1,24 @@
+{
+  "tools": [
+    {
+      "id": "bash",
+      "scope": "read-only",
+      "allowed_commands": ["gltf-transform inspect", "git diff", "git log", "ls", "cat"]
+    },
+    {
+      "id": "read_file",
+      "scope": "assets-built/, assets-source/, docs/feature-requests/ops/, docs/qa/"
+    },
+    {
+      "id": "github_comment",
+      "scope": "reply_to_existing_thread",
+      "sentinel": "<!-- pr-asset-delta -->"
+    },
+    {
+      "id": "slack_post",
+      "scope": "channel:#assets-prs"
+    }
+  ],
+  "context_window_kb": 32,
+  "max_tool_calls": 8
+}

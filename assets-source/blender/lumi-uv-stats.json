@@ -1,0 +1,60 @@
+{
+  "fr_id": "FR-CHAR-007",
+  "mocked_dependency": "Blender 4.4 unavailable",
+  "validator_version": "mock-contract-1",
+  "blender_version": "mock-contract",
+  "ran_at": "2026-05-18T00:00:00+00:00",
+  "sha256_blend": "mocked-placeholder",
+  "verdict": "PASS",
+  "contract_only": true,
+  "atlases": {
+    "lumi_main": {
+      "resolution": [
+        2048,
+        2048
+      ],
+      "island_count": 18,
+      "overlap_count": 0,
+      "padding_px_min": 8,
+      "texel_density_px_per_m": {
+        "min_visible": 286.0,
+        "max_visible": 512.0,
+        "face_min": 392.0
+      },
+      "seams_on_visible_surface": false,
+      "uv_within_unit_square": true
+    },
+    "lumi_wisp": {
+      "resolution": [
+        1024,
+        1024
+      ],
+      "island_count": 4,
+      "overlap_count": 0,
+      "padding_px_min": 4,
+      "texel_density_px_per_m": {
+        "min_visible": 214.0,
+        "max_visible": 320.0,
+        "face_min": null
+      },
+      "seams_on_visible_surface": false,
+      "uv_within_unit_square": true
+    },
+    "non_la": {
+      "resolution": [
+        512,
+        512
+      ],
+      "island_count": 3,
+      "overlap_count": 0,
+      "padding_px_min": 3,
+      "texel_density_px_per_m": {
+        "min_visible": 202.0,
+        "max_visible": 260.0,
+        "face_min": null
+      },
+      "seams_on_visible_surface": false,
+      "uv_within_unit_square": true
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "fr_id": "FR-CHAR-012",
+  "mocked_dependency": "Blender 4.4 unavailable",
+  "contract_only": true,
+  "mesh_name": "lumi_nonla",
+  "triangle_count": 520,
+  "vertex_count": 1560,
+  "brim_diameter_units": 0.078,
+  "cone_height_units": 0.05,
+  "parent_type": "BONE",
+  "parent_bone": "hat_socket",
+  "nonla_visible_default": false,
+  "scale_applied": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "rotation_applied": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "uv_atlas_size": [
+    512,
+    512
+  ],
+  "uv_island_count": 3,
+  "uv_within_unit_square": true,
+  "textures": {
+    "BaseColor": {
+      "path": "assets-built/raw/textures/lumi-nonla-BaseColor.png",
+      "resolution": [
+        512,
+        512
+      ],
+      "exterior_red_hex": "#DA251D",
+      "interior_gold_hex": "#F9D966",
+      "star_yellow_hex": "#FFEB3B",
+      "single_star_detected": true,
+      "star_diameter_fraction": 0.3,
+      "no_decorative_patterns_detected": true
+    },
+    "Normal": {
+      "path": "assets-built/raw/textures/lumi-nonla-Normal.png",
+      "resolution": [
+        512,
+        512
+      ],
+      "opengl_convention": true
+    }
+  },
+  "raw_glb_path": "assets-built/raw/lumi-nonla.raw.glb",
+  "raw_glb_bytes": 25836,
+  "raw_glb_within_400kb_cap": true,
+  "post_pipeline_glb_within_200kb_contract": true,
+  "validator_version": "mock-contract-1",
+  "blender_version": "mock-contract",
+  "ran_at": "2026-05-18T00:00:00+00:00",
+  "verdict": "PASS"
+}

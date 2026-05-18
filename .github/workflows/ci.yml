@@ -1,19 +1,98 @@
-name: ci
+name: CI
+
 on:
   pull_request: {}
-  push: { branches: [main] }
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+  CI_REQUIRED_CHECK: CI / ci
 
 jobs:
   ci:
+    name: ci
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with: { version: 9 }
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm -r typecheck
-      - run: pnpm -r test
-      - run: pnpm -F web build
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.2
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache pnpm store
+        id: pnpm-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Cache Next.js build cache
+        id: next-cache
+        uses: actions/cache@v4
+        with:
+          path: apps/web/.next/cache
+          key: ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml', 'apps/web/**/*', 'packages/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-next-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm -F web build
+
+      - name: Test
+        shell: bash
+        run: |
+          set -o pipefail
+          pnpm test | tee /tmp/vitest.log
+
+      - name: Job summary
+        if: always()
+        shell: bash
+        run: |
+          TEST_SUMMARY="$(grep -E 'Tests +[0-9]+ passed' /tmp/vitest.log 2>/dev/null | tr '\n' '; ' | sed 's/; $//' || true)"
+          STATIC_SIZE="not built"
+          if [ -d apps/web/.next/static ]; then
+            STATIC_SIZE="$(du -sh apps/web/.next/static | cut -f1)"
+          fi
+          {
+            echo "### CI Results"
+            echo "- Required check: ${CI_REQUIRED_CHECK}"
+            echo "- Runtime budget: 10 minutes"
+            echo "- Tests: ${TEST_SUMMARY:-see Vitest logs}"
+            echo "- Build static size: ${STATIC_SIZE}"
+            echo "- pnpm cache hit: ${{ steps.pnpm-cache.outputs.cache-hit || 'false' }}"
+            echo "- Next.js cache hit: ${{ steps.next-cache.outputs.cache-hit || 'false' }}"
+          } >> "$GITHUB_STEP_SUMMARY"

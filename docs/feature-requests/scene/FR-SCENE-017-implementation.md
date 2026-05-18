@@ -3,7 +3,7 @@ id: FR-SCENE-017
 title: "Scene 5 Vietnam→Global impl — globe + `nonla_appear`/`nonla_tip` + HCMC→NA/EU arc + cultural-arc closure"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 1
 owner: R3F Architect + Frontend Lead + Founder (cultural review)
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-006, FR-SCENE-016, FR-SCENE-020, FR-CHAR-011, FR-CHAR-012, FR-CMS-002, FR-DS-005, FR-CTA-008]
 depends_on: [FR-SCENE-016, FR-SCENE-006, FR-CHAR-011, FR-CHAR-012]
 blocks: [FR-SCENE-018, FR-SCENE-020]

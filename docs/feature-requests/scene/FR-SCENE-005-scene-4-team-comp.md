@@ -3,7 +3,7 @@ id: FR-SCENE-005
 title: "Scene 4 Team — bokeh ten-avatar comp + parallax notes + recruit hook"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,7 +12,7 @@ phase: P1
 slice: 1
 owner: Designer (Art Director)
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 related_frs: [FR-SCENE-001, FR-CHAR-001, FR-CMS-002, FR-SCENE-016, FR-CTA-004]
 depends_on: [FR-SCENE-001, FR-CHAR-001, FR-CMS-002]
 blocks: [FR-SCENE-016]

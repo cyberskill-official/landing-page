@@ -3,7 +3,7 @@ id: FR-SCENE-012
 title: "Particulate dust — 200 instanced points (responsive: 100 tablet / 50 mobile), additive-blend + alpha-fade, reduced-motion-aware"
 module: SCENE
 priority: SHOULD
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 2
 owner: R3F Architect
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-009, FR-SCENE-022, FR-A11Y-001, FR-PERF-006, FR-DS-008, FR-WEB-009]
 depends_on: [FR-SCENE-009]
 blocks: [FR-PERF-004]
@@ -26,7 +28,7 @@ service: apps/web/components/scenes/scene-0-hero/
 new_files:
   - apps/web/components/scenes/scene-0-hero/ParticulateDust.tsx
   - apps/web/components/scenes/scene-0-hero/dust-shader.ts
-  - apps/web/components/scenes/scene-0-hero/__tests__/particulate-dust.unit.test.ts
+  - apps/web/components/scenes/scene-0-hero/__tests__/particulate-dust.unit.test.tsx
 
 effort_hours: 4
 risk_if_skipped: "Scene 0 reads as static / sterile without the subtle dust motes drifting through the warm key-light. The cinematic register (master plan §3.4) softens. Perceptual quality drop is noticeable in A/B but not measurable in conversion — hence SHOULD not MUST. Skip → 'looks like a static render'."

@@ -1,0 +1,39 @@
+{
+  "format": "figma-handoff-manifest",
+  "title": "Scene 2 Transformation v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-17",
+  "frames": [
+    {
+      "name": "desktop-1920",
+      "path": "scene-2-desktop-1920.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "name": "tablet-1024",
+      "path": "scene-2-tablet-1024.png",
+      "size": [
+        1024,
+        1366
+      ]
+    },
+    {
+      "name": "mobile-390",
+      "path": "scene-2-mobile-390.png",
+      "size": [
+        390,
+        844
+      ]
+    }
+  ],
+  "annotations": [
+    "Background #4A2208 / brown-500",
+    "Sketchpad #FEF6D9 / gold-50",
+    "Paint trail #E8B523 / gold-400",
+    "Caption split into two DOM beats",
+    "Includes DOM blockquote proof slot"
+  ]
+}

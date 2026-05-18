@@ -3,7 +3,7 @@ id: FR-SCENE-015
 title: "Scene 3 Capabilities impl — `split_to_4` anim + 4 satellites at 12/3/6/9 + cool-tone discipline"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 1
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-004, FR-SCENE-014, FR-SCENE-020, FR-CHAR-011, FR-CMS-002, FR-DS-005]
 depends_on: [FR-SCENE-014, FR-SCENE-004, FR-CHAR-011]
 blocks: [FR-SCENE-016, FR-SCENE-020]

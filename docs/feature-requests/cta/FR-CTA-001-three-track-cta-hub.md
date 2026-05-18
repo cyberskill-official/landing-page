@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Three-track CTA hub component (Buy / Partner / Join) with audience-routed forms"
 module: CTA
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -13,7 +13,7 @@ milestone: P4 · slice 2
 slice: 1
 owner: Frontend Developer + Backend
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-18
 brain_chain_hash: null
 related_frs: [FR-CTA-002, FR-CTA-003, FR-CTA-004, FR-CTA-005, FR-CTA-006, FR-CTA-007, FR-SCENE-018, FR-A11Y-008, FR-A11Y-009]
 depends_on: [FR-DS-003]
@@ -41,7 +41,11 @@ new_files:
   - apps/web/components/cta/CtaHub.tsx
   - apps/web/components/cta/CtaPortal.tsx
   - apps/web/components/cta/tracks.ts
-  - apps/web/components/cta/__tests__/cta-hub.test.tsx
+  - apps/web/components/cta/forms/TrackFormShell.tsx
+  - apps/web/components/cta/forms/BuyForm.tsx
+  - apps/web/components/cta/forms/PartnerForm.tsx
+  - apps/web/components/cta/forms/JoinForm.tsx
+  - apps/web/components/cta/__tests__/cta-hub.test.ts
   - apps/web/tests/cta/cta-hub.spec.ts
 modified_files:
   - apps/web/app/page.tsx                 # mount <CtaHub /> at Scene 6 anchor

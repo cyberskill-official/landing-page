@@ -1,0 +1,22 @@
+{
+  "metrics": {
+    "performance": { "target": 0.8, "fail": 0.65, "kind": "score" },
+    "accessibility": { "target": 0.95, "fail": 0.9, "kind": "score" },
+    "bestPractices": { "target": 0.95, "fail": 0.85, "kind": "score" },
+    "seo": { "target": 0.9, "fail": 0.8, "kind": "score" },
+    "lcp": { "target": 2500, "fail": 4000, "kind": "millisecond", "audit": "metrics/largest-contentful-paint" },
+    "inp": { "target": 200, "fail": 500, "kind": "millisecond", "audit": "metrics/interaction-to-next-paint" },
+    "cls": { "target": 0.1, "fail": 0.25, "kind": "unitless", "audit": "metrics/cumulative-layout-shift" },
+    "fcp": { "target": 1800, "fail": 3000, "kind": "millisecond", "audit": "metrics/first-contentful-paint" },
+    "tbt": { "target": 200, "fail": 600, "kind": "millisecond", "audit": "metrics/total-blocking-time" },
+    "si": { "target": 3400, "fail": 5800, "kind": "millisecond", "audit": "metrics/speed-index" }
+  },
+  "resourceBudgets": [
+    { "resourceType": "script", "budget": 350 },
+    { "resourceType": "stylesheet", "budget": 50 },
+    { "resourceType": "image", "budget": 300 },
+    { "resourceType": "font", "budget": 100 },
+    { "resourceType": "total", "budget": 1200 },
+    { "resourceType": "third-party", "budget": 10 }
+  ]
+}

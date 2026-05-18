@@ -3,7 +3,8 @@ id: FR-SEO-003
 title: "Person JSON-LD for founder — Stephen Cheng / Trịnh Thái Anh with affiliation + UTF-8 diacritic guard"
 module: SEO
 priority: SHOULD
-status: accepted
+status: shipped
+shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -18,7 +19,7 @@ language: typescript 5.6 + react 19
 service: apps/web/components/seo/
 new_files:
   - apps/web/components/seo/PersonJsonLd.tsx
-  - apps/web/components/seo/__tests__/PersonJsonLd.unit.test.tsx
+  - apps/web/components/seo/__tests__/PersonJsonLd.unit.test.ts
   - apps/web/lib/seo/founder-schema.ts
 
 source_pages:

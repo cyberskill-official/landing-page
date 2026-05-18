@@ -1,0 +1,83 @@
+{
+  "format": "figma-handoff-manifest",
+  "note": "Repo-native stand-in for the Figma source named in the FR. Import the paired PNG/PDF into Figma for editable vector cleanup.",
+  "title": "Saigon Dusk Palette Swatch v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-16",
+  "palette": {
+    "gold50": "#FEF6D9",
+    "gold100": "#FCEAA8",
+    "gold200": "#F9D966",
+    "gold400": "#E8B523",
+    "gold500": "#C99317",
+    "gold600": "#9F730E",
+    "brown50": "#F4E5D6",
+    "brown100": "#DDB995",
+    "brown200": "#A36A3F",
+    "brown400": "#6E3A18",
+    "brown500": "#4A2208",
+    "brown700": "#2C1304",
+    "flagRed": "#DA251D",
+    "starYellow": "#FFEB3B"
+  },
+  "frames": [
+    {
+      "name": "gold-ramp",
+      "tokens": [
+        "50",
+        "100",
+        "200",
+        "400",
+        "500",
+        "600"
+      ]
+    },
+    {
+      "name": "brown-ramp",
+      "tokens": [
+        "50",
+        "100",
+        "200",
+        "400",
+        "500",
+        "700"
+      ]
+    },
+    {
+      "name": "flag-accents",
+      "tokens": [
+        "flag_red",
+        "star_yellow"
+      ]
+    },
+    {
+      "name": "scene-usage-map",
+      "rows": [
+        [
+          "gold.400",
+          "S0 S1 S2 S3 S4 S5 S6 Footer"
+        ],
+        [
+          "brown.700",
+          "S0 S1 S2"
+        ],
+        [
+          "brown.500",
+          "S2 S3 S4 S5 S6 Footer"
+        ],
+        [
+          "brown.400",
+          "S1 S5 Footer"
+        ],
+        [
+          "accent.flag_red",
+          "S5 only"
+        ],
+        [
+          "accent.star_yellow",
+          "S5 only"
+        ]
+      ]
+    }
+  ]
+}

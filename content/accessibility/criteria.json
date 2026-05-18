@@ -1,0 +1,629 @@
+[
+  {
+    "id": "1.1.1",
+    "name": "Non-text Content",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Images and controls expose text alternatives; decorative canvas content is outside the interaction tree.",
+      "vi": "Hinh anh va dieu khien co ten thay the; canvas trang tri khong nam trong cay tuong tac."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-A11Y-006"]
+  },
+  {
+    "id": "1.2.1",
+    "name": "Audio-only and Video-only (Prerecorded)",
+    "level": "A",
+    "status": "n/a",
+    "notes": {
+      "en": "The public site does not ship prerecorded audio-only or video-only media.",
+      "vi": "Trang cong khai khong phat hanh audio-only hoac video-only da ghi san."
+    },
+    "fr_refs": ["FR-A11Y-004"]
+  },
+  {
+    "id": "1.2.2",
+    "name": "Captions (Prerecorded)",
+    "level": "A",
+    "status": "n/a",
+    "notes": {
+      "en": "No prerecorded synchronized media is currently published.",
+      "vi": "Hien khong co media dong bo da ghi san."
+    },
+    "fr_refs": ["FR-A11Y-006"]
+  },
+  {
+    "id": "1.2.3",
+    "name": "Audio Description or Media Alternative (Prerecorded)",
+    "level": "A",
+    "status": "n/a",
+    "notes": {
+      "en": "No prerecorded video requiring audio description is currently published.",
+      "vi": "Hien khong co video da ghi san can audio description."
+    },
+    "fr_refs": ["FR-A11Y-006"]
+  },
+  {
+    "id": "1.2.4",
+    "name": "Captions (Live)",
+    "level": "AA",
+    "status": "n/a",
+    "notes": {
+      "en": "The public site does not provide live synchronized media.",
+      "vi": "Trang cong khai khong cung cap media truc tiep dong bo."
+    },
+    "fr_refs": ["FR-A11Y-006"]
+  },
+  {
+    "id": "1.2.5",
+    "name": "Audio Description (Prerecorded)",
+    "level": "AA",
+    "status": "n/a",
+    "notes": {
+      "en": "No prerecorded video is currently published; static storyboard text carries the same core information.",
+      "vi": "Hien khong co video da ghi san; storyboard tinh mang cung thong tin cot loi."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-A11Y-006"]
+  },
+  {
+    "id": "1.3.1",
+    "name": "Info and Relationships",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Pages use semantic headings, landmarks, forms, fieldsets, labels, and tables.",
+      "vi": "Trang dung heading, landmark, form, fieldset, label, va bang co ngu nghia."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-A11Y-011"]
+  },
+  {
+    "id": "1.3.2",
+    "name": "Meaningful Sequence",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "DOM reading order matches the visible story, CTA flow, and lite storyboard order.",
+      "vi": "Thu tu doc DOM khop voi cau chuyen, luong CTA, va storyboard tinh."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-A11Y-007"]
+  },
+  {
+    "id": "1.3.3",
+    "name": "Sensory Characteristics",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Instructions do not rely only on color, shape, position, or motion.",
+      "vi": "Huong dan khong chi dua vao mau sac, hinh dang, vi tri, hoac chuyen dong."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-CTA-005"]
+  },
+  {
+    "id": "1.3.4",
+    "name": "Orientation",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Responsive layouts work in portrait and landscape without locking orientation.",
+      "vi": "Layout responsive hoat dong o doc va ngang, khong khoa huong man hinh."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-WEB-008"]
+  },
+  {
+    "id": "1.3.5",
+    "name": "Identify Input Purpose",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "CTA fields use autocomplete tokens for name, email, organization, country, and URL fields.",
+      "vi": "Truong CTA dung autocomplete cho ten, email, to chuc, quoc gia, va URL."
+    },
+    "fr_refs": ["FR-A11Y-010", "FR-CTA-005"]
+  },
+  {
+    "id": "1.4.1",
+    "name": "Use of Color",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "States include text, borders, icons, and ARIA state, not color alone.",
+      "vi": "Trang thai co chu, vien, icon, va ARIA; khong chi dung mau."
+    },
+    "fr_refs": ["FR-A11Y-008", "FR-CTA-005"]
+  },
+  {
+    "id": "1.4.2",
+    "name": "Audio Control",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Audio starts muted and has a persistent accessible mute toggle.",
+      "vi": "Am thanh mac dinh tat va co nut bat/tat co the truy cap."
+    },
+    "fr_refs": ["FR-A11Y-004"]
+  },
+  {
+    "id": "1.4.3",
+    "name": "Contrast (Minimum)",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Token and route checks maintain AA text contrast for public content.",
+      "vi": "Token va kiem tra route giu tuong phan chu dat AA cho noi dung cong khai."
+    },
+    "fr_refs": ["FR-A11Y-008", "FR-DS-004"]
+  },
+  {
+    "id": "1.4.4",
+    "name": "Resize Text",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Layouts use responsive CSS and avoid fixed text containers that clip at zoom.",
+      "vi": "Layout dung CSS responsive va tranh khung chu co dinh gay cat khi zoom."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-A11Y-009"]
+  },
+  {
+    "id": "1.4.5",
+    "name": "Images of Text",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Primary copy is HTML text; storyboard images have equivalent adjacent text.",
+      "vi": "Noi dung chinh la HTML text; anh storyboard co chu tuong duong ben canh."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-CMS-002"]
+  },
+  {
+    "id": "1.4.10",
+    "name": "Reflow",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Routes are tested down to 320 px without requiring two-dimensional scrolling.",
+      "vi": "Cac route duoc kiem tra toi 320 px ma khong can cuon hai chieu."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-A11Y-009"]
+  },
+  {
+    "id": "1.4.11",
+    "name": "Non-text Contrast",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Focus indicators, controls, and form states use visible borders and contrast tokens.",
+      "vi": "Vong focus, dieu khien, va trang thai form dung vien ro va token tuong phan."
+    },
+    "fr_refs": ["FR-A11Y-008", "FR-CTA-005"]
+  },
+  {
+    "id": "1.4.12",
+    "name": "Text Spacing",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Components use flexible line-height and spacing without clipping when spacing changes.",
+      "vi": "Component dung line-height va spacing linh hoat, khong cat chu khi doi spacing."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-DS-007"]
+  },
+  {
+    "id": "1.4.13",
+    "name": "Content on Hover or Focus",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Hover/focus content is dismissible or non-blocking; core content remains available without hover.",
+      "vi": "Noi dung hover/focus co the bo qua hoac khong chan; noi dung chinh khong phu thuoc hover."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-CMS-010"]
+  },
+  {
+    "id": "2.1.1",
+    "name": "Keyboard",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "CTA, navigation, lite mode, mute, and skip controls are operable by keyboard.",
+      "vi": "CTA, dieu huong, lite mode, mute, va skip deu dung duoc bang ban phim."
+    },
+    "fr_refs": ["FR-A11Y-003", "FR-A11Y-004", "FR-A11Y-005", "FR-A11Y-007"]
+  },
+  {
+    "id": "2.1.2",
+    "name": "No Keyboard Trap",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Modal and route focus flows support Escape/cancel exits and predictable tab movement.",
+      "vi": "Modal va route ho tro Escape/cancel va thu tu Tab du doan duoc."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-CTA-005"]
+  },
+  {
+    "id": "2.1.4",
+    "name": "Character Key Shortcuts",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "No single-character shortcuts are active on the public site.",
+      "vi": "Trang cong khai khong kich hoat phim tat mot ky tu."
+    },
+    "fr_refs": ["FR-A11Y-007"]
+  },
+  {
+    "id": "2.2.1",
+    "name": "Timing Adjustable",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Core interactions have no user-facing time limits; transient announcements are non-blocking.",
+      "vi": "Tuong tac chinh khong co gioi han thoi gian; thong bao ngan khong chan nguoi dung."
+    },
+    "fr_refs": ["FR-A11Y-006", "FR-CTA-005"]
+  },
+  {
+    "id": "2.2.2",
+    "name": "Pause, Stop, Hide",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Users can switch to `/lite`; reduced-motion disables animation-heavy surfaces.",
+      "vi": "Nguoi dung co the chuyen sang `/lite`; reduced-motion tat cac be mat nhieu chuyen dong."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-A11Y-005"]
+  },
+  {
+    "id": "2.3.1",
+    "name": "Three Flashes or Below Threshold",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "The experience avoids flashing content and uses subdued cinematic motion.",
+      "vi": "Trai nghiem tranh noi dung nhap nhay va dung chuyen dong tiet che."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-SCENE-001"]
+  },
+  {
+    "id": "2.4.1",
+    "name": "Bypass Blocks",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Skip-story control is the first focusable element and moves focus to the CTA hub.",
+      "vi": "Nut skip-story la phan tu focus dau tien va dua focus toi CTA hub."
+    },
+    "fr_refs": ["FR-A11Y-003"]
+  },
+  {
+    "id": "2.4.2",
+    "name": "Page Titled",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Route metadata defines descriptive titles and canonical URLs.",
+      "vi": "Metadata route khai bao title mo ta va canonical URL."
+    },
+    "fr_refs": ["FR-SEO-003", "FR-WEB-008"]
+  },
+  {
+    "id": "2.4.3",
+    "name": "Focus Order",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Keyboard tests verify route focus starts at skip controls and reaches CTA/footer paths.",
+      "vi": "Kiem tra ban phim xac minh focus bat dau o skip controls va den CTA/footer."
+    },
+    "fr_refs": ["FR-A11Y-007"]
+  },
+  {
+    "id": "2.4.4",
+    "name": "Link Purpose (In Context)",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Links use descriptive text or accessible names tied to their destination.",
+      "vi": "Link dung chu mo ta hoac ten truy cap gan voi diem den."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-SEO-003"]
+  },
+  {
+    "id": "2.4.5",
+    "name": "Multiple Ways",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Footer, route links, sitemap, and direct URLs provide multiple navigation paths.",
+      "vi": "Footer, link route, sitemap, va URL truc tiep cung cap nhieu duong dieu huong."
+    },
+    "fr_refs": ["FR-WEB-008", "FR-SEO-006"]
+  },
+  {
+    "id": "2.4.6",
+    "name": "Headings and Labels",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Pages and forms use visible labels and descriptive section headings.",
+      "vi": "Trang va form dung label hien thi va heading section ro rang."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-CTA-005"]
+  },
+  {
+    "id": "2.4.7",
+    "name": "Focus Visible",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Global focus rings use a 2 px visible outline with offset.",
+      "vi": "Focus ring toan cuc dung outline 2 px co offset."
+    },
+    "fr_refs": ["FR-A11Y-008"]
+  },
+  {
+    "id": "2.4.11",
+    "name": "Focus Not Obscured (Minimum)",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Sticky modal actions and route controls preserve visible focused elements.",
+      "vi": "Action sticky trong modal va controls route giu phan tu focus hien ro."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-A11Y-009"]
+  },
+  {
+    "id": "2.5.1",
+    "name": "Pointer Gestures",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Interactions use simple taps/clicks and do not require multipoint gestures.",
+      "vi": "Tuong tac dung cham/click don gian, khong yeu cau cu chi nhieu diem."
+    },
+    "fr_refs": ["FR-CTA-001", "FR-A11Y-009"]
+  },
+  {
+    "id": "2.5.2",
+    "name": "Pointer Cancellation",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Buttons and links use standard activation behavior without down-event-only actions.",
+      "vi": "Button va link dung hanh vi kich hoat chuan, khong chi xu ly down-event."
+    },
+    "fr_refs": ["FR-A11Y-007"]
+  },
+  {
+    "id": "2.5.3",
+    "name": "Label in Name",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Visible button/link text is included in accessible names.",
+      "vi": "Chu hien thi cua button/link nam trong ten truy cap."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-OPS-012"]
+  },
+  {
+    "id": "2.5.4",
+    "name": "Motion Actuation",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "No core action requires device motion; all actions have pointer and keyboard alternatives.",
+      "vi": "Khong hanh dong chinh nao can chuyen dong thiet bi; deu co pointer va ban phim."
+    },
+    "fr_refs": ["FR-A11Y-005", "FR-WEB-009"]
+  },
+  {
+    "id": "2.5.7",
+    "name": "Dragging Movements",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "No core flow requires dragging; CTA and navigation use click/keyboard controls.",
+      "vi": "Khong luong chinh nao yeu cau keo tha; CTA va dieu huong dung click/ban phim."
+    },
+    "fr_refs": ["FR-CTA-001", "FR-A11Y-007"]
+  },
+  {
+    "id": "2.5.8",
+    "name": "Target Size (Minimum)",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Public interactives are tested at 44 x 44 px, exceeding the AA minimum.",
+      "vi": "Phan tu tuong tac cong khai duoc kiem tra 44 x 44 px, vuot muc AA toi thieu."
+    },
+    "fr_refs": ["FR-A11Y-009"]
+  },
+  {
+    "id": "3.1.1",
+    "name": "Language of Page",
+    "level": "A",
+    "status": "partial",
+    "notes": {
+      "en": "English and Vietnamese content are routed separately; html lang is being tracked for middleware parity.",
+      "vi": "Noi dung Anh/Viet duoc route rieng; html lang dang duoc theo doi de dong bo middleware."
+    },
+    "fr_refs": ["FR-CMS-007", "FR-A11Y-011"]
+  },
+  {
+    "id": "3.1.2",
+    "name": "Language of Parts",
+    "level": "AA",
+    "status": "partial",
+    "notes": {
+      "en": "Vietnamese route copy exists; mixed English brand and technical terms remain intentional and documented.",
+      "vi": "Route tieng Viet da co copy; thuat ngu brand/ky thuat tieng Anh la co chu dich va duoc ghi nhan."
+    },
+    "fr_refs": ["FR-CMS-007", "FR-CMS-009"]
+  },
+  {
+    "id": "3.2.1",
+    "name": "On Focus",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Receiving focus does not unexpectedly change context.",
+      "vi": "Nhan focus khong doi context bat ngo."
+    },
+    "fr_refs": ["FR-A11Y-007"]
+  },
+  {
+    "id": "3.2.2",
+    "name": "On Input",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Input changes validate or reveal inline feedback without unexpected navigation.",
+      "vi": "Thay doi input chi validate hoac hien feedback, khong dieu huong bat ngo."
+    },
+    "fr_refs": ["FR-CTA-005"]
+  },
+  {
+    "id": "3.2.3",
+    "name": "Consistent Navigation",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Footer and accessibility controls are consistent across public pages.",
+      "vi": "Footer va accessibility controls nhat quan tren cac trang cong khai."
+    },
+    "fr_refs": ["FR-WEB-008", "FR-SCENE-008"]
+  },
+  {
+    "id": "3.2.4",
+    "name": "Consistent Identification",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Repeated controls keep consistent labels and roles.",
+      "vi": "Controls lap lai giu label va role nhat quan."
+    },
+    "fr_refs": ["FR-A11Y-007", "FR-CTA-001"]
+  },
+  {
+    "id": "3.2.6",
+    "name": "Consistent Help",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Accessibility contact and footer help paths are consistently available.",
+      "vi": "Lien he accessibility va duong ho tro footer luon co san."
+    },
+    "fr_refs": ["FR-A11Y-011", "FR-SCENE-008"]
+  },
+  {
+    "id": "3.3.1",
+    "name": "Error Identification",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Form errors are identified inline and announced with role=alert/live regions.",
+      "vi": "Loi form duoc xac dinh inline va thong bao bang role=alert/live regions."
+    },
+    "fr_refs": ["FR-CTA-005"]
+  },
+  {
+    "id": "3.3.2",
+    "name": "Labels or Instructions",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "All CTA form fields have programmatic labels and visible instructions.",
+      "vi": "Tat ca truong CTA co label lap trinh duoc va huong dan hien thi."
+    },
+    "fr_refs": ["FR-CTA-005"]
+  },
+  {
+    "id": "3.3.3",
+    "name": "Error Suggestion",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Validation messages explain how to fix invalid values.",
+      "vi": "Thong bao validation giai thich cach sua gia tri khong hop le."
+    },
+    "fr_refs": ["FR-CTA-005"]
+  },
+  {
+    "id": "3.3.4",
+    "name": "Error Prevention (Legal, Financial, Data)",
+    "level": "AA",
+    "status": "n/a",
+    "notes": {
+      "en": "The site does not execute legal, financial, or irreversible user-data transactions.",
+      "vi": "Trang khong thuc hien giao dich phap ly, tai chinh, hoac du lieu khong the hoan tac."
+    },
+    "fr_refs": ["FR-CTA-006"]
+  },
+  {
+    "id": "3.3.7",
+    "name": "Redundant Entry",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "CTA forms can reuse saved contact details for 24 hours with explicit user consent.",
+      "vi": "CTA forms co the dung lai thong tin lien he trong 24 gio voi dong y ro rang."
+    },
+    "fr_refs": ["FR-A11Y-010"]
+  },
+  {
+    "id": "3.3.8",
+    "name": "Accessible Authentication (Minimum)",
+    "level": "AA",
+    "status": "n/a",
+    "notes": {
+      "en": "The public site has no authentication flow or cognitive-function login test.",
+      "vi": "Trang cong khai khong co dang nhap hoac bai test nhan thuc."
+    },
+    "fr_refs": ["FR-WEB-008"]
+  },
+  {
+    "id": "4.1.2",
+    "name": "Name, Role, Value",
+    "level": "A",
+    "status": "full",
+    "notes": {
+      "en": "Interactive components expose accessible names, roles, values, and states.",
+      "vi": "Component tuong tac co ten, role, gia tri, va trang thai truy cap duoc."
+    },
+    "fr_refs": ["FR-A11Y-004", "FR-A11Y-005", "FR-OPS-012"]
+  },
+  {
+    "id": "4.1.3",
+    "name": "Status Messages",
+    "level": "AA",
+    "status": "full",
+    "notes": {
+      "en": "Narration, skip controls, form errors, and save/clear actions use live status regions.",
+      "vi": "Narration, skip controls, loi form, va hanh dong luu/xoa dung live status regions."
+    },
+    "fr_refs": ["FR-A11Y-006", "FR-CTA-005", "FR-A11Y-010"]
+  },
+  {
+    "id": "2.3.3",
+    "name": "Animation from Interactions",
+    "level": "AAA",
+    "status": "full",
+    "notes": {
+      "en": "Adopted above AA: reduced-motion users can use the static lite route.",
+      "vi": "Ap dung tren AA: nguoi dung reduced-motion co route lite tinh."
+    },
+    "fr_refs": ["FR-A11Y-001", "FR-A11Y-005"]
+  },
+  {
+    "id": "2.5.5",
+    "name": "Target Size (Enhanced)",
+    "level": "AAA",
+    "status": "full",
+    "notes": {
+      "en": "Adopted above AA: visible controls target 44 x 44 px across covered breakpoints.",
+      "vi": "Ap dung tren AA: controls hien thi dat 44 x 44 px tren breakpoint duoc kiem tra."
+    },
+    "fr_refs": ["FR-A11Y-009"]
+  }
+]

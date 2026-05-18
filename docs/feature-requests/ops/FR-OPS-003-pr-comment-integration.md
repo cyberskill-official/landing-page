@@ -3,7 +3,7 @@ id: FR-OPS-003
 title: "PR comment integration — gltf-transform inspect markdown comment with delta vs main + budget verdict"
 module: OPS
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,8 @@ phase: P2
 slice: 1
 owner: Backend / DevOps
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-OPS-001, FR-OPS-002, FR-OPS-010, FR-PERF-001, FR-CHAR-008]
 depends_on: [FR-OPS-001, FR-OPS-002]
 blocks: [FR-PERF-001-budget-gate]
@@ -371,5 +373,22 @@ After merge to main:
 **On baseline caching:** Currently fetches main on every PR run. Could cache via `actions/cache@v4` keyed by main's commit SHA — saves ~10s per run. Out of scope until a measured pain point.
 
 **On Vietnamese-locale CMS implications:** None — workflow is asset-only, language-agnostic.
+
+## §10 — Strict audit 2026-05-18
+
+Validation evidence:
+
+```bash
+./node_modules/.bin/vitest run scripts/__tests__/pr-comment-asset-delta.unit.test.mjs .github/workflows/__tests__/asset-size-shape.test.ts
+✓ scripts/__tests__/pr-comment-asset-delta.unit.test.mjs (8 tests)
+✓ .github/workflows/__tests__/asset-size-shape.test.ts (4 tests)
+Test Files  2 passed (2)
+Tests  12 passed (12)
+
+node scripts/pr-comment-asset-delta.mjs --main-dir /tmp/nonexistent-main-reports --pr-dir assets-built/optimized --pr-number 123 --out /tmp/asset-delta-comment.md --json-out /tmp/asset-delta-summary.json
+asset delta: 9 row(s), 0 warn, 0 fail
+```
+
+Generated smoke output included the sentinel `<!-- pr-asset-delta -->`, nine NEW/no-baseline asset rows, `0 WARN, 0 FAIL`, and the FR-OPS-001 failure-mode link. GitHub API posting itself remains covered by the workflow runtime, not executable in this local audit environment.
 
 *End of FR-OPS-003.*

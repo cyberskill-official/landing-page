@@ -3,7 +3,8 @@ id: FR-PERF-011
 title: "Post-launch RUM dashboard — Plausible + web-vitals percentiles, segment-by-route/breakpoint/connection"
 module: PERF
 priority: SHOULD
-status: accepted
+status: blocked
+blocked_reason: "RUM dashboard config, event forwarding, segmentation, setup guide, unit tests, type check, and build are complete; live Plausible dashboard/API and Slack alert verification require production credentials."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -19,6 +20,13 @@ service: apps/web/lib/perf/ + Plausible dashboard
 new_files:
   - apps/web/lib/perf/rum-dashboard-config.ts
   - docs/launch/rum-dashboard-setup.md
+modified_files:
+  - apps/web/lib/perf/web-vitals.ts
+  - apps/web/lib/perf/__tests__/web-vitals.unit.test.ts
+  - apps/web/lib/perf/__tests__/rum-dashboard-config.unit.test.ts
+  - apps/web/lib/analytics/events.ts
+  - apps/web/lib/analytics/proxy.ts
+  - apps/web/lib/analytics/__tests__/proxy.unit.test.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §6.1 (CWV targets + post-launch monitoring)
@@ -232,3 +240,28 @@ Investigate INP regression — possibly new component on /work/sample.
 **On future: Sentry RUM:** Sentry has performance monitoring. Could complement Plausible for more detail. Slice 3.
 
 *End of FR-PERF-011.*
+
+## §10 — Implementation status
+
+Status: **blocked on production Plausible and Slack verification**.
+
+Delivered:
+
+- `apps/web/lib/perf/rum-dashboard-config.ts` defines RUM metrics, CWV targets, 7-day window, 10% regression threshold, route normalization, locale inference, percentile helpers, and regression alert helper.
+- `docs/launch/rum-dashboard-setup.md` defines the Plausible dashboard panels, API verification commands, Slack alert contract, public access process, and synthetic/RUM correlation workflow.
+- Web-vitals payloads now include locale and normalized route segments.
+- Plausible forwarding maps internal `web_vitals` events to metric-specific custom events such as `web-vitals/LCP`.
+
+Verified:
+
+- `node_modules/.bin/vitest run lib/perf/__tests__/rum-dashboard-config.unit.test.ts lib/perf/__tests__/web-vitals.unit.test.ts lib/analytics/__tests__/proxy.unit.test.ts components/perf/__tests__/WebVitalsReporter.unit.test.tsx --config vitest.config.ts`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
+- `node_modules/.bin/next build`
+
+Blocked items:
+
+- AC#1 live dashboard accessibility needs Plausible production access.
+- AC#2/3 live event and filter verification needs Plausible production data.
+- AC#4 real-device data needs production traffic after launch.
+- AC#5 Slack alert verification needs the `#perf-monitor` webhook and scheduled job environment.
+- AC#7 public-readable URL cannot be generated without the Plausible share token.

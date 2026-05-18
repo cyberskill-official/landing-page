@@ -1,0 +1,71 @@
+/* FR-DS-007 — typography contract.
+
+Critical-path preload hints owned by FR-WEB-001:
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-display/InterDisplay-Bold-subset.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono/JetBrainsMono-Regular-subset.woff2" crossorigin>
+*/
+
+@font-face {
+  font-family: 'Inter Display';
+  src: url('/fonts/inter-display/InterDisplay-Bold-subset.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-007F, U+0102-0103, U+0110-0111, U+0128-0129,
+    U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+2010-2027;
+}
+
+@font-face {
+  font-family: 'Inter Display';
+  src: url('/fonts/inter-display/InterDisplay-ExtraBold-subset.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-007F, U+0102-0103, U+0110-0111, U+0128-0129,
+    U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+2010-2027;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono/JetBrainsMono-Regular-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-007F, U+0102-0103, U+0110-0111, U+0128-0129,
+    U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+2010-2027;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono/JetBrainsMono-Bold-subset.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-007F, U+0102-0103, U+0110-0111, U+0128-0129,
+    U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+2010-2027;
+}
+
+:root {
+  --font-family-display: Inter Display, system-ui, sans-serif;
+  --font-family-caption: JetBrains Mono, ui-monospace, monospace;
+  --font-family-body: system-ui, -apple-system, sans-serif;
+
+  --font-size-display-hero: clamp(40px, 6vw, 96px);
+  --font-size-display-scene-title: clamp(32px, 4.5vw, 72px);
+  --font-size-display-scene-sub: clamp(20px, 2.2vw, 32px);
+  --font-size-body-base: 16px;
+  --font-size-body-sm: 14px;
+  --font-size-body-lg: 18px;
+  --font-size-caption-lumi: clamp(16px, 1.5vw, 22px);
+  --font-size-caption-meta: 13px;
+  --font-size-cta-label: clamp(16px, 1.2vw, 18px);
+
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --letter-spacing-display: -0.03em;
+  --letter-spacing-body: 0;
+  --letter-spacing-caption: 0.01em;
+}

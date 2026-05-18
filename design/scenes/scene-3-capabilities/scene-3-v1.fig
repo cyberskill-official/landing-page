@@ -1,0 +1,62 @@
+{
+  "format": "figma-handoff-manifest",
+  "title": "Scene 3 Capabilities v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-17",
+  "frames": [
+    {
+      "name": "desktop-1920",
+      "path": "scene-3-desktop-1920.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "name": "tablet-1024",
+      "path": "scene-3-tablet-1024.png",
+      "size": [
+        1024,
+        1366
+      ]
+    },
+    {
+      "name": "mobile-390",
+      "path": "scene-3-mobile-390.png",
+      "size": [
+        390,
+        844
+      ]
+    }
+  ],
+  "satellites": [
+    {
+      "clock": "12",
+      "capability": "React",
+      "color": "#7DD3FC"
+    },
+    {
+      "clock": "3",
+      "capability": "Three.js",
+      "color": "#F0ABFC"
+    },
+    {
+      "clock": "6",
+      "capability": "AI/RAG",
+      "color": "#BEF264"
+    },
+    {
+      "clock": "9",
+      "capability": "Design Systems",
+      "color": "#E8B523"
+    }
+  ],
+  "annotations": [
+    "Background #4A2208 / brown-500",
+    "Cool accents appear only on the React, Three.js, and AI/RAG satellite meshes",
+    "Design Systems satellite remains gold-400 home base",
+    "Lumi remains warm gold and partially faded during split_to_4",
+    "Caption is DOM overlay: React, Three.js, AI, design systems — four hands of the same craft.",
+    "Includes DOM logos strip slot, grayscale-on-dark, six logo placeholders"
+  ]
+}

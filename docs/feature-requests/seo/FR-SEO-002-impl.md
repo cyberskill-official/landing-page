@@ -3,7 +3,8 @@ id: FR-SEO-002
 title: "Service schema sub-blocks — JSON-LD per capability with @id provider linkage to ProfessionalService"
 module: SEO
 priority: SHOULD
-status: accepted
+status: shipped
+shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -19,7 +20,7 @@ service: apps/web/components/seo/ + apps/web/lib/seo/
 new_files:
   - apps/web/components/seo/ServiceJsonLd.tsx
   - apps/web/lib/seo/capabilities-schema.ts
-  - apps/web/components/seo/__tests__/ServiceJsonLd.unit.test.tsx
+  - apps/web/components/seo/__tests__/ServiceJsonLd.unit.test.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §8.2 — "Service JSON-LD per capability"

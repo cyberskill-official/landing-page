@@ -1,0 +1,47 @@
+{
+  "format": "figma-handoff-manifest",
+  "title": "Scene 0 Hero v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-17",
+  "frames": [
+    {
+      "name": "desktop-1920",
+      "path": "scene-0-hero-desktop-1920.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "name": "tablet-1024",
+      "path": "scene-0-hero-tablet-1024.png",
+      "size": [
+        1024,
+        1366
+      ]
+    },
+    {
+      "name": "mobile-390",
+      "path": "scene-0-hero-mobile-390.png",
+      "size": [
+        390,
+        844
+      ]
+    }
+  ],
+  "annotations": [
+    "LCP target - headline DOM",
+    "R3F canvas - post-FCP mount",
+    "Canvas/DOM boundary visible on all breakpoints",
+    "Skip story, Skip 3D, Mute controls in DOM",
+    "Scroll-linked, never scroll-hijacked"
+  ],
+  "motionFrames": [
+    "motion-frame-01-empty.png",
+    "motion-frame-02-flyin-start.png",
+    "motion-frame-03-flyin-mid.png",
+    "motion-frame-04-flyin-end.png",
+    "motion-frame-05-idle-with-cta.png",
+    "motion-frame-06-scroll-cue.png"
+  ]
+}

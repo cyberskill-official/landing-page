@@ -1,0 +1,11 @@
+From: R3F Rigger <rigger@cyberskill.world>
+To: cyberskill-build-team
+Date: Sun, 17 May 2026 02:29:00 +0700
+Subject: APPROVED - FR-CHAR-004 topology handoff constraints
+
+APPROVED - FR-CHAR-004 topology handoff constraints, pending Blender 4.4 rebuild.
+
+Reviewed: five-block separation, no armature in greybox, future 27-bone rig allowance, and production-mesh upgrade path.
+
+R3F Rigger
+CyberSkill

@@ -24,6 +24,8 @@ docs/feature-requests/BACKLOG.md        @zintaen
 # should be rejected at review.
 tools/perf-budgets/budgets.json         @zintaen
 design/tokens/palette-canonical.json    @zintaen
+packages/ds-cinematic/src/lifecycle.ts  @zintaen
+packages/ds-cinematic/MIGRATION_TABLE.md @zintaen
 content/narrative/scene-defs.json       @zintaen
 content/narrative/voice-rules.md        @zintaen
 content/narrative/lines/en.json         @zintaen

@@ -3,7 +3,8 @@ id: FR-A11Y-011
 title: "Public /accessibility compliance page — WCAG 2.2 AA statement, criteria coverage, contact for complaints"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
+shipped_at: 2026-05-18
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -17,11 +18,13 @@ blocks: [FR-A11Y-012]
 language: typescript 5.6 + react 19 + next 15
 service: apps/web/app/accessibility/
 new_files:
-  - apps/web/app/accessibility/page.tsx
-  - apps/web/app/accessibility/[locale]/page.tsx
   - apps/web/components/accessibility/CriteriaTable.tsx
   - apps/web/components/accessibility/__tests__/CriteriaTable.unit.test.tsx
   - content/accessibility/criteria.json
+  - apps/web/tests/a11y/accessibility-statement.e2e.spec.ts
+modified_files:
+  - apps/web/app/accessibility/page.tsx
+  - apps/web/app/globals.css
 
 source_pages:
   - docs/01-master-plan-v2.md §7.6 — "Public a11y compliance page"
@@ -257,6 +260,26 @@ describe("CriteriaTable", () => {
 **Operational:** Next.js 15 App Router, next-intl.
 
 **Downstream:** FR-A11Y-012 audit results land here; FR-SCENE-018 footer links to.
+
+## §7 — Implementation status
+
+Status: **shipped 2026-05-18**.
+
+Delivered:
+
+- `/accessibility` and `/vi/accessibility` render a public accessibility statement from the locale middleware.
+- The page declares WCAG 2.2 Level AA with selected AAA enhancements, current conformance status, known issues, contact path, tested-with coverage, last-reviewed date, and privacy/form-data controls.
+- `content/accessibility/criteria.json` lists 55 WCAG 2.2 A/AA criteria plus the adopted AAA criteria `2.3.3` and `2.5.5`; every row includes localized notes and FR evidence references.
+- `CriteriaTable` renders the criteria in a semantic table with a keyboard-focusable horizontal-scroll region.
+- Manual VoiceOver/NVDA audit is intentionally listed as pending and unblocks FR-A11Y-012 rather than being overclaimed here.
+
+Verified:
+
+- `node_modules/.bin/vitest run components/accessibility/__tests__/CriteriaTable.unit.test.tsx --config vitest.config.ts`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
+- `node_modules/.bin/playwright test tests/a11y/accessibility-statement.e2e.spec.ts tests/a11y/all-routes.spec.ts tests/a11y/target-size.e2e.spec.ts --project=chromium`
+- `node_modules/.bin/next build`
+- Dev-server live Chromium check: `node_modules/.bin/playwright test tests/a11y/accessibility-statement.e2e.spec.ts --project=chromium`
 
 ## §7 — Failure modes
 

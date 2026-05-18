@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+set -eu
+
+node tools/perf-budgets/check-js-bundle.mjs
+node tools/perf-budgets/check-asset-sizes.mjs
+

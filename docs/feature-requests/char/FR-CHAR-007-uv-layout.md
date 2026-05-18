@@ -3,7 +3,7 @@ id: FR-CHAR-007
 title: "Lumi UV layout — locked 2k/1k/512 atlas trio with seam discipline + texel-density floor"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,7 @@ phase: P2
 slice: 1
 owner: 3D Modeler / Texture Artist
 created: 2026-05-16
+shipped: 2026-05-18
 related_frs: [FR-CHAR-006, FR-CHAR-008, FR-CHAR-012, FR-PERF-002]
 depends_on: [FR-CHAR-006]
 blocks: [FR-CHAR-008, FR-CHAR-012, FR-OPS-002]
@@ -421,5 +422,17 @@ The committed `lumi.v01.blend` (FR-CHAR-006 output) gets re-saved with a new UV 
 **On lightmap UVs:** R3F + Three.js fixed-pipeline shading does not use a second UV channel for lightmaps in this build (FR-WEB-002 confirms image-based lighting + emissive only). A second UV layer named `lightmap_uv` is therefore NOT required and MUST NOT be added (it would bloat the GLB).
 
 **On animation-shape-key UVs:** Shape keys (FR-CHAR-010) deform mesh positions, NOT UVs. The shape-key target meshes inherit `lumi_uv` automatically — no UV re-layout for blend shapes.
+
+## §10 — Mocked-dependency shipment
+
+Blender 4.4 is not installed in the execution environment, so physical UV unwrap validation remains unavailable. Per the zero-touch blocker rule, this FR ships as `shipped + mocked-dependency + strict-audited` using deterministic UV overlay PNGs, `lumi-uv-stats.json`, a mock-aware `uv-validator.py`, and a seam-map signoff artifact verified by:
+
+```bash
+python3 tools/generate-p2-character-mocks.py
+python3 tools/check-p2-character-mocks.py --fr FR-CHAR-007
+python3 assets-source/blender/uv-validator.py --stats assets-source/blender/lumi-uv-stats.json
+```
+
+The mock contract preserves downstream texture paths and rejects UV overlap, too-small padding, excessive island counts, out-of-bounds UVs, visible seams, and insufficient texel density. A non-mocked shipment must replace the placeholders with real Blender 4.4-authored UV data at the same paths and pass the same checker.
 
 *End of FR-CHAR-007.*

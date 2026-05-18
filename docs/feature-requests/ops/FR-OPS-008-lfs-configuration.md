@@ -3,7 +3,7 @@ id: FR-OPS-008
 title: "Git LFS configuration for source assets — .blend / .psd / .sbs / .fig / .exr / .hdr"
 module: OPS
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P2
 slice: 1
 owner: Backend / DevOps
 created: 2026-05-16
+shipped: 2026-05-18
 related_frs: [FR-CHAR-004, FR-CHAR-006, FR-CHAR-008, FR-OPS-001, FR-OPS-009]
 depends_on: []
 blocks: [FR-CHAR-004, FR-CHAR-006, FR-OPS-009]
@@ -19,7 +20,7 @@ language: git config
 service: repo root
 new_files:
   - .gitattributes
-  - .github/lfs-bandwidth-monitor.yml
+  - .github/workflows/lfs-bandwidth-monitor.yml
   - docs/ops/git-lfs-setup.md
 
 source_pages:
@@ -352,5 +353,38 @@ mno90...0005 * assets-source/textures/nonla_basecolor.psd  (54 MB)
 **On Vietnamese-locale impact:** None directly; LFS is language-agnostic. Indirect: Recipe G (nón lá cultural variants) flows through .psd files which ARE LFS-tracked, ensuring founder's source artwork stays performant in git.
 
 **On 'why not git-fat or git-annex?':** Git LFS is the de facto standard, has GitHub-native integration, simpler model than git-annex. Migration cost dwarfs marginal benefit.
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Strict audit refreshed LFS configuration because the previous `shipped 2026-05-17` status did not include zero-touch strict-audit evidence.
+
+Deliverables confirmed:
+
+- `.gitattributes` tracks source assets with LFS for `.blend`, `.psd`, `.sbs`, `.sbsar`, `.fig`, `.exr`, `.hdr`, `.spp`, and `.aep`.
+- `.glb`, `.ktx2`, `.gltf`, `.bin`, and `assets-built/optimized/` remain derived outputs in `.gitignore`, not LFS-tracked patterns.
+- `docs/ops/git-lfs-setup.md` documents install, verify, pull recovery, source-vs-output policy, retention, pruning, and 2 GB founder approval.
+- `.github/workflows/lfs-bandwidth-monitor.yml`, `tools/check-lfs.sh`, and `Makefile` LFS targets exist.
+
+Verification:
+
+```bash
+make test-lfs-config
+bash tools/__tests__/lfs-patterns.test.sh
+LFS source patterns ok.
+bash tools/__tests__/lfs-output-not-tracked.test.sh
+Derived outputs are ignored, not LFS-tracked.
+```
+
+External dependency blocker:
+
+```bash
+git lfs version
+git: 'lfs' is not a git command. See 'git --help'.
+
+tools/check-lfs.sh
+Git LFS is not installed. Install it, then run: git lfs install
+```
+
+Because the physical Git LFS binary is absent in this workspace, live LFS initialization and smudge verification cannot be completed here. The FR is therefore `shipped + mocked-dependency + strict-audited`: repository configuration, docs, and CI contracts are verified; physical LFS installation remains a machine dependency.
 
 *End of FR-OPS-008.*

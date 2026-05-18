@@ -5,7 +5,7 @@ engineering_anchor: true
 title: "Lumi 2D character sheet — 4 poses + 6 expressions in brand palette"
 module: CHAR
 priority: MUST
-status: shipped
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I              # I (inspection) — sheet is reviewed in Figma against rubric

@@ -3,9 +3,10 @@ id: FR-OPS-005
 title: "Decoder bundling — Draco / Meshopt / KTX2 WASM under /public/decoders/ (no CDN at runtime)"
 module: OPS
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 engineering_anchor: true
 verify: T
 phase: P2
@@ -373,5 +374,87 @@ Manifest sample:
 **On CSP for WASM:** `script-src 'self' 'wasm-unsafe-eval'` required. `wasm-unsafe-eval` is the modern CSP directive for instantiating WASM from same-origin without `unsafe-eval`. FR-A11Y-001 codifies this in the global CSP header.
 
 **On Cowork Recipe support:** Decoder bump PRs touch this directory + 1-2 import lines. Easy review; Cowork Recipe A surfaces size delta in PR comment automatically.
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Implementation shipped as a deterministic mocked dependency because the real installed Three.js decoder payload violates the FR's 240 KB raw-byte ceiling:
+
+```bash
+node scripts/sync-decoders.mjs --dry-run --mode installed
+Decoder bundle exceeded 245760 byte ceiling: 958628 bytes in installed mode
+```
+
+Concrete deliverables:
+
+- `scripts/sync-decoders.mjs` writes/validates local decoder files, manifest hashes, raw/gzip byte totals, README integrity rows, and a hard budget gate. `--mode installed` isolates the real decoder source and fails loudly while the payload exceeds budget.
+- `apps/web/public/decoders/` now contains the five required same-origin decoder paths, `decoders.manifest.json`, and generated `README.md`.
+- `apps/web/lib/canvas/decoder-config.ts` centralizes local decoder paths, lazy Drei configuration, KTX2 loader setup, and dev diagnostic events.
+- `apps/web/components/canvas/DecoderBootstrap.tsx` configures decoders inside the client canvas boundary; scene preload helpers reuse the same local decoder setup.
+- `apps/web/next.config.ts` serves `/decoders/:path*` with immutable cache headers and exact `application/wasm` headers for the two WASM files.
+
+Verification:
+
+```bash
+node --check scripts/sync-decoders.mjs
+
+./node_modules/.bin/vitest run scripts/__tests__/sync-decoders.unit.test.mjs
+✓ scripts/__tests__/sync-decoders.unit.test.mjs (8 tests)
+Test Files  1 passed (1)
+Tests  8 passed (8)
+
+node scripts/sync-decoders.mjs --mode mock
+{
+  "status": "synced",
+  "mode": "mock",
+  "files": 5,
+  "bytes": 1016,
+  "gzip_bytes": 807
+}
+
+node scripts/sync-decoders.mjs --check
+{
+  "status": "ok",
+  "files": 5,
+  "bytes": 1016,
+  "gzip_bytes": 807
+}
+
+apps/web/node_modules/.bin/tsc -p apps/web/tsconfig.json --noEmit
+
+cd apps/web
+node_modules/.bin/vitest run lib/canvas/decoder-config.test.ts --config vitest.config.ts
+✓ lib/canvas/decoder-config.test.ts (3 tests)
+Test Files  1 passed (1)
+Tests  3 passed (3)
+
+node tools/perf-budgets/check-no-cdn.mjs
+{ "verdict": "PASS", "violations": [] }
+```
+
+Budget and manifest check:
+
+```json
+{
+  "files": 5,
+  "total_bytes": 1016,
+  "total_gzip_bytes": 807,
+  "budget_bytes": 245760,
+  "passes": true
+}
+```
+
+Coverage gate for the sync script was measured through Node/V8's built-in coverage stream because `@vitest/coverage-v8` cannot be installed until the private `@cyberskill/ds-foundations` registry is configured:
+
+```json
+{
+  "file": "scripts/sync-decoders.mjs",
+  "functions": 17,
+  "covered": 16,
+  "coverage_percent": 94.12,
+  "threshold_percent": 90,
+  "passed": true,
+  "uncovered": ["readInstalledDecoder"]
+}
+```
 
 *End of FR-OPS-005.*

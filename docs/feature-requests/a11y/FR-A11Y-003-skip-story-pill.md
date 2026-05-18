@@ -3,7 +3,7 @@ id: FR-A11Y-003
 title: "Skip-story pill (top-right) — first focusable element, jumps to Scene 6 #cta-hub"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P3
 slice: 2
 owner: Frontend Lead + A11Y reviewer
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-A11Y-001, FR-A11Y-004, FR-A11Y-005, FR-SCENE-018, FR-CTA-001, FR-WEB-001]
 depends_on: [FR-WEB-001]
 blocks: [FR-A11Y-005, FR-A11Y-007]
@@ -19,8 +20,8 @@ language: typescript 5.6 + react 19
 service: apps/web/components/a11y/
 new_files:
   - apps/web/components/a11y/SkipStoryPill.tsx
-  - apps/web/components/a11y/__tests__/SkipStoryPill.unit.test.tsx
-  - apps/web/tests/a11y/skip-story.e2e.spec.ts
+  - apps/web/tests/unit/skip-story-pill.test.ts
+  - apps/web/tests/a11y/skip-story.spec.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §2.3 — "Always-visible Skip-story pill in upper-right"

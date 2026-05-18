@@ -3,7 +3,7 @@ id: FR-OPS-006
 title: "Cowork Recipe A — PR triage automation (size delta + draw-call estimate + screenshot diff + semantic explanation)"
 module: OPS
 priority: SHOULD
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P2
 slice: 1
 owner: Backend / DevOps + AI Workflow Lead
 created: 2026-05-16
+shipped: 2026-05-18
 related_frs: [FR-OPS-001, FR-OPS-003, FR-OPS-007, FR-PERF-001]
 depends_on: [FR-OPS-001, FR-OPS-003]
 blocks: []
@@ -324,5 +325,39 @@ Verdict: 0 PASS / 1 WARN / 0 FAIL
 **On cost guardrails:** Each Cowork session caps at 8 tool calls + 90s wall-clock. ~$0.05-0.20 per session at current pricing. Budget ~$10/month for ~50 PRs/month.
 
 **On Vietnamese cultural-sensitive PR review:** When a PR touches `assets-source/textures/*nonla*` or Scene 5 assets, Recipe A's prompt SHOULD include a soft reminder to flag cultural concerns ("if the texture variant evokes a festival not part of Vietnamese tradition, mention it in the hypothesis"). Founder cultural-signoff (FR-CHAR-003) remains the human gate.
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Strict audit refreshed Recipe A because the previous `shipped 2026-05-17` status did not include strict-audit evidence under the zero-touch state engine.
+
+Implementation updates:
+
+- Tightened `tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs` from 3 to 4 tests, covering trigger labels/paths/manual mention, prompt redaction, screenshot-diff evidence, cost guardrails, threaded GitHub reply, Slack output, and soft-gate status.
+- Updated `tools/cowork/recipes/pr-asset-triage.md`, `.prompt.md`, and `.tools.json` so screenshot-diff summaries are explicit inputs and explainable evidence.
+
+Debug pass:
+
+```bash
+./node_modules/.bin/vitest run tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs
+FAIL tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs > declares soft GitHub and Slack outputs only
+AssertionError: expected recipe not to match /required-check|status_check|hard gate/i
+```
+
+Failure vector: test logic. The recipe correctly says it never changes "required-check status"; the assertion was too broad. Action: narrow the check to forbidden manifest keys (`status_check:`, `required_check:`, `hard_gate: true`).
+
+Verification:
+
+```bash
+./node_modules/.bin/vitest run tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs
+✓ tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs (4 tests)
+Test Files  1 passed (1)
+Tests  4 passed (4)
+
+./node_modules/.bin/vitest run tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs tools/cowork/recipes/__tests__/recipes-bg.smoke.test.mjs
+✓ tools/cowork/recipes/__tests__/recipes-bg.smoke.test.mjs (14 tests)
+✓ tools/cowork/recipes/__tests__/pr-asset-triage.smoke.test.mjs (4 tests)
+Test Files  2 passed (2)
+Tests  18 passed (18)
+```
 
 *End of FR-OPS-006.*

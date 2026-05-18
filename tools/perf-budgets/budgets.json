@@ -1,24 +1,30 @@
 {
-  "$comment": "Canonical CI thresholds per FR-PERF-001 §1 #1. Threshold changes require an FR-PERF-NNN-budget-amendment per AGENTS.md §16.2.",
+  "$schema": "./budgets.schema.json",
+  "version": "1.0.0",
+  "_comment_cwv": "Master plan §6.1 — p75 mobile targets plus R3F frame-rate floors. Threshold changes require an FR-PERF-NNN-budget-amendment per AGENTS.md §16.2.",
   "cwv": {
-    "lcp_ms_p75":  { "target": 2500, "fail": 3000 },
-    "inp_ms_p75":  { "target":  200, "fail":  300 },
-    "cls":         { "target":  0.1, "fail":  0.15 },
-    "fps_desktop": { "target":   60, "fail":   50 },
-    "fps_mobile":  { "target":   30, "fail":   25 }
+    "lcp_ms_p75":  { "target": 2500, "fail": 3000, "_unit": "ms" },
+    "inp_ms_p75":  { "target":  200, "fail":  300, "_unit": "ms" },
+    "cls":         { "target":  0.1, "fail":  0.15, "_unit": "unitless" },
+    "fps_desktop": { "target":   60, "fail":   50, "_unit": "fps_min" },
+    "fps_mobile":  { "target":   30, "fail":   25, "_unit": "fps_min" }
   },
+  "_comment_js_bundle": "Master plan §6.1 — gzipped critical-path JavaScript, excluding lazy R3F scene code.",
   "js_bundle": {
-    "main_chunk_kb_gz": { "target": 200, "fail": 220 }
+    "main_chunk_kb_gz": { "target": 200, "fail": 220, "_unit": "kb_gzip" }
   },
+  "_comment_page_weight": "Master plan §4.4 — first-scene and all-scene page-weight guardrails.",
   "page_weight": {
-    "first_scene_mb": { "target": 3.0, "fail": 3.5 },
-    "all_scenes_mb":  { "target": 14,  "fail": 16  }
+    "first_scene_mb": { "target": 3.0, "fail": 3.5, "_unit": "mb" },
+    "all_scenes_mb":  { "target": 14,  "fail": 16, "_unit": "mb" }
   },
+  "_comment_assets": "Master plan §4.4 — GLB asset budgets consumed by FR-OPS-001, FR-OPS-003, and FR-OPS-013.",
   "assets": {
-    "lumi_glb_mb":         { "target": 3.0, "fail": 3.5 },
-    "nonla_glb_kb":        { "target": 200, "fail": 250 },
-    "hero_scene_props_mb": { "target": 1.0, "fail": 1.2 },
-    "each_scene_props_mb": { "target": 1.5, "fail": 1.8 }
+    "lumi_glb_mb":         { "target": 3.0, "fail": 3.5, "_unit": "mb" },
+    "nonla_glb_kb":        { "target": 200, "fail": 250, "_unit": "kb" },
+    "hero_scene_props_mb": { "target": 1.0, "fail": 1.2, "_unit": "mb" },
+    "each_scene_props_mb": { "target": 1.5, "fail": 1.8, "_unit": "mb" }
   },
-  "draw_calls_per_scene_max": { "target": 100, "fail": 150 }
+  "_comment_draw_calls": "Master plan §4.4 — draw-call ceiling per scene after instancing and mesh joins.",
+  "draw_calls_per_scene_max": { "target": 100, "fail": 150, "_unit": "count" }
 }

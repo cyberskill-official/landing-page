@@ -3,7 +3,8 @@ id: FR-CMS-009
 title: "Vietnamese script + UI string native-speaker review — out-of-team paid reviewer, rubric-driven, register defense"
 module: CMS
 priority: MUST
-status: accepted
+status: blocked
+blocked_reason: "External paid Vietnamese native-speaker reviewer, receipt, and founder signoff are still required. Rubric, banned-phrase gate, and review packet are ready."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

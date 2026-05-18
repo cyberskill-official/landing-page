@@ -1,0 +1,9 @@
+/* FR-DS-005 — Vietnamese-flag accents are scoped to Scene 5 and post-reveal surfaces only. */
+
+[data-scene="scene-5"],
+[data-scene="scene-6"],
+[data-scene="footer"],
+[data-scene-after="scene-5"] {
+  --accent-flag-red: #DA251D;
+  --accent-star-yellow: #FFEB3B;
+}

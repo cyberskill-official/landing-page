@@ -3,7 +3,7 @@ id: FR-SCENE-006
 title: "Scene 5 Vietnam → Global — globe + nón lá moment + HCMC→NA/EU arc"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,7 +12,7 @@ phase: P1
 slice: 1
 owner: Designer (Art Director)
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 related_frs: [FR-SCENE-001, FR-CHAR-001, FR-CHAR-003, FR-CHAR-011, FR-CMS-002, FR-CTA-008, FR-SCENE-017]
 depends_on: [FR-SCENE-001, FR-CHAR-001, FR-CHAR-003, FR-CMS-002]
 blocks: [FR-SCENE-017]

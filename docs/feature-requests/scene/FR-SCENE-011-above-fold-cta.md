@@ -3,7 +3,7 @@ id: FR-SCENE-011
 title: "Above-fold CTA — primary 'Book Discovery Call' + scroll-pinned sticky variant"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 2
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-18
+strict_audited: 2026-05-18
 related_frs: [FR-SCENE-009, FR-CTA-001, FR-WEB-002, FR-A11Y-008, FR-A11Y-009, FR-DS-007]
 depends_on: [FR-SCENE-009, FR-CTA-001]
 blocks: [FR-SCENE-012]
@@ -27,7 +29,8 @@ service: apps/web/components/scenes/scene-0-hero/
 new_files:
   - apps/web/components/scenes/scene-0-hero/Scene0CTA.tsx
   - apps/web/components/scenes/scene-0-hero/Scene0CTA.client.tsx
-  - apps/web/components/scenes/scene-0-hero/__tests__/cta-sticky.spec.ts
+  - apps/web/components/scenes/scene-0-hero/__tests__/scene-0-cta.unit.test.tsx
+  - apps/web/tests/web/scene-0-cta.spec.ts
 
 effort_hours: 4
 risk_if_skipped: "Above-fold buyer-track CTA is the primary conversion path. Without it visible on first paint, the buyer audience needs to scroll all the way to Scene 6 before encountering the Buy portal — high drop-off. The scroll-pinned sticky variant keeps the CTA reachable through the entire cinematic, preserving conversion intent."
@@ -220,5 +223,61 @@ Loading `/`: hero h1 + caption + "Book Discovery Call" button visible above fold
 **On future enhancement:** Slice 3 may add CTA copy variants per `?ref=` query (e.g. linked-in campaign shows "Book a 30-min consultation"). Out of scope.
 
 **On analytics:** Click should fire an analytics event via FR-SEO-007 `/api/analytics`. Wiring is in FR-CTA-006; this FR doesn't need to know the analytics schema.
+
+## §10 — Zero-touch strict audit evidence (2026-05-18)
+
+### Implementation
+
+- Added `apps/web/components/scenes/scene-0-hero/Scene0CTA.tsx` and `Scene0CTA.client.tsx`.
+- Added `apps/web/components/cta/cta-events.ts` so Scene 0 can open the existing FR-CTA-001 Buy modal without duplicating modal state.
+- Updated `apps/web/components/cta/CtaHub.tsx` to consume pending/open CTA requests and preserve the lazy Buy form path.
+- Updated `apps/web/components/state/StoreHydrator.client.tsx` so pointer-out mirroring does not clear `focusedCta` while a CTA modal is open.
+- Added CSS for hero/sticky CTA variants, z-index ordering, focus-visible ring inheritance, reduced-motion behavior, and token-derived 200ms crossfade variables.
+- Wrote `docs/ADR-FR-SCENE-011.md` because the feature crosses Scene 0, CTA hub, and store hydration boundaries.
+
+### Edge-case matrix
+
+| Vector | Edge case | Coverage |
+|---|---|---|
+| Null inputs | CTA event fires before `CtaHub` hydrates | Pending request is stored on `window.__pendingCtaOpen` and consumed by `CtaHub`. |
+| Malformed payload | Event bridge receives an invalid track | `isTrackId()` guards event consumption. |
+| Extreme bounds | Fast scroll crosses Scene 0 before ScrollTrigger settles | Progress is clamped and written through CSS custom properties. |
+| Invalid content | CTA moves into canvas/Three tree | Source tests and SSR Playwright checks assert DOM ownership. |
+| Concurrent race | Pointer-out clears focused state after modal opens | StoreHydrator modal guard preserves `focusedCta`. |
+| Reduced motion | User requests reduced motion | Unit test asserts ScrollTrigger is skipped and CSS hides sticky variant. |
+| Mobile bounds | 390px viewport target becomes too small | Playwright asserts 44x44 minimum. |
+| Observability | Modal open source is opaque | `window.__ctaOpenEvents` records `scene-0-hero`, `scene-0-sticky`, and `scene-0-deeplink` sources. |
+
+### Verification
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run components/scenes/scene-0-hero/__tests__/scene-0-cta.unit.test.tsx components/cta/__tests__/cta-open-events.unit.test.tsx --coverage --coverage.provider=v8 --coverage.include=components/scenes/scene-0-hero/Scene0CTA.tsx --coverage.include=components/scenes/scene-0-hero/Scene0CTA.client.tsx --coverage.include=components/cta/CtaHub.tsx --coverage.include=components/cta/cta-events.ts --coverage.reporter=text
+Test Files  2 passed (2)
+Tests  11 passed (11)
+Coverage: All files 100% statements, 94.59% branches, 93.75% functions, 100% lines
+```
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run components/scenes/scene-0-hero/__tests__/scene-0-cta.unit.test.tsx components/cta/__tests__/cta-open-events.unit.test.tsx components/scenes/scene-0-hero/__tests__/scene-0.client.test.tsx components/cta/__tests__/cta-hub.test.ts tests/unit/no-three-in-ssr.test.ts lib/stores/__tests__/stores.test.ts
+Test Files  6 passed (6)
+Tests  25 passed (25)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc --noEmit
+exit 0
+```
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+Compiled successfully
+/ First Load JS 113 kB
+/lite First Load JS 105 kB
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/scene-0-cta.spec.ts tests/web/scene-0-hero.spec.ts tests/web/dynamic-three.spec.ts tests/cta/cta-hub.spec.ts
+12 passed
+```
 
 *End of FR-SCENE-011.*

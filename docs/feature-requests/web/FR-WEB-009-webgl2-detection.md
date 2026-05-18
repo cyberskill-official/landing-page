@@ -3,7 +3,7 @@ id: FR-WEB-009
 title: "Client capability gate — WebGL2 + save-data + deviceMemory → /lite redirect with persisted user preference"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 1
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-WEB-001, FR-WEB-004, FR-WEB-008, FR-A11Y-001, FR-A11Y-002, FR-PERF-009, FR-PERF-010]
 depends_on: [FR-WEB-001, FR-WEB-008]
 blocks: [FR-PERF-009, FR-PERF-010]
@@ -359,5 +361,53 @@ After shipping, behavior matrix:
 **On future enhancements:** A future amendment could add IP-based geolocation in middleware (e.g. detect Vietnam user → assume mobile-data-conscious → show banner more aggressively). Out of scope for slice 1.
 
 **On testing matrix:** Playwright supports `--emulate-media=prefers-reduced-data: reduce` for some saveData tests, plus manual `navigator.connection` mocking in JS context.
+
+## §10 — Zero-touch strict audit evidence (2026-05-18)
+
+### Architectural deviation
+
+- Wrote `docs/ADR-FR-WEB-009.md` to self-approve the pre-hydration no-WebGL/lite-preference gate in `apps/web/app/layout.tsx`.
+- The React `CapabilityGate` remains the canonical owner for save-data UX, low-memory store state, debug output, and analytics. The inline gate only handles deterministic redirect-before-flash cases.
+
+### Edge-case matrix
+
+| Vector | Edge case | Coverage |
+|---|---|---|
+| Null inputs | `document`, `navigator.connection`, `navigator.deviceMemory`, or `localStorage` is unavailable | Unit tests cover SSR defaults, unsupported APIs, and storage failures. |
+| Malformed payload | localStorage contains any value other than `"1"` or `"0"` | `getLitePref()` ignores invalid values and returns `null`. |
+| Extreme bounds | WebGL2 exists but lacks `EXT_color_buffer_float`, or canvas creation throws | Detection helper returns false and Playwright redirects to `/lite`. |
+| Invalid content | Banner behaves like a modal or lacks polite announcement/default focus | Unit and Playwright tests assert `aria-live="polite"`, focus on Switch, Escape close, and background scroll. |
+| Concurrent race | Early gate and React gate both observe lite preference or no-WebGL | Early gate redirects before hydration; React gate short-circuits on `/lite` and remains idempotent. |
+| Observability | Capability drift is invisible during debugging | `?debug=capability`, `sessionStorage.cyberskill_lite_redirect_ms`, and analytics event probes expose state. |
+
+### Verification
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/unit/capability-detection.test.ts components/perf/__tests__/SaveDataBanner.unit.test.tsx --config vitest.config.ts --coverage.enabled true --coverage.provider v8 --coverage.include 'lib/capability-detection.ts' --coverage.include 'lib/lite-pref-storage.ts' --coverage.include 'components/perf/SaveDataBanner.tsx'
+Test Files  2 passed (2)
+Tests  12 passed (12)
+Coverage: All files 100% statements, 91.48% branches, 100% functions, 100% lines
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/capability-gate.spec.ts --project=chromium
+9 passed
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+exit 0
+```
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+Compiled successfully
+/ First Load JS 110 kB
+/lite First Load JS 105 kB
+```
+
+### Tooling note
+
+Permanent installation of `@vitest/coverage-v8@2.1.9` is blocked until the private workspace package `@cyberskill/ds-foundations` is available to pnpm. For this strict audit, the provider was installed in an isolated temporary directory and symlinked into `apps/web/node_modules/@vitest/coverage-v8` so coverage could be measured without changing manifests.
 
 *End of FR-WEB-009.*

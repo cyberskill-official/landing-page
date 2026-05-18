@@ -57,9 +57,9 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-CHAR-001** | Lumi 2D character sheet — 4 poses + 6 expressions in brand palette | MUST | **shipped 2026-05-16** | — | 12h |
-| **FR-CHAR-002** | Lumi silhouette test at 32×32 px (readability gate) | MUST | **shipped 2026-05-16** | FR-CHAR-001 | 2h |
-| **FR-CHAR-003** | Nón lá accessory design — exterior, interior lining, single yellow star | MUST | **shipped 2026-05-16** | FR-CHAR-001 | 4h |
+| **FR-CHAR-001** | Lumi 2D character sheet — 4 poses + 6 expressions in brand palette | MUST | **shipped + strict-audited 2026-05-18** | — | 12h |
+| **FR-CHAR-002** | Lumi silhouette test at 32×32 px (readability gate) | MUST | **shipped + strict-audited 2026-05-18** | FR-CHAR-001 | 2h |
+| **FR-CHAR-003** | Nón lá accessory design — exterior, interior lining, single yellow star | MUST | **shipped + strict-audited 2026-05-18** | FR-CHAR-001 | 4h |
 
 ### P0.2 — CMS · narrative script
 
@@ -67,9 +67,9 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-CMS-001** | Master narrative arc — 7 scenes, EN-first, Lumi voice rules | MUST | **shipped 2026-05-16** | — | 8h |
-| **FR-CMS-002** | Per-scene Lumi narration lines (≤ 12 words each, no exclamation, no emoji) | MUST | **shipped 2026-05-16** | FR-CMS-001 | 4h |
-| **FR-CMS-003** | Vietnamese localised variants for all narration | SHOULD | **shipped 2026-05-16** | FR-CMS-002 | 4h |
+| **FR-CMS-001** | Master narrative arc — 7 scenes, EN-first, Lumi voice rules | MUST | **shipped + strict-audited 2026-05-18** | — | 8h |
+| **FR-CMS-002** | Per-scene Lumi narration lines (≤ 12 words each, no exclamation, no emoji) | MUST | **shipped + strict-audited 2026-05-18** | FR-CMS-001 | 4h |
+| **FR-CMS-003** | Vietnamese localised variants for all narration | SHOULD | **shipped + strict-audited 2026-05-18** | FR-CMS-002 | 4h |
 
 ### P0.3 — DS · mood boards
 
@@ -77,8 +77,8 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-DS-001** | Mood board — Lumi-Inception-Saigon-Dusk reference assembly | MUST | **shipped 2026-05-16** | FR-CHAR-001 | 6h |
-| **FR-DS-002** | Approved colour palette swatch sheet + WCAG contrast matrix | MUST | **shipped 2026-05-16** | FR-DS-001 | 4h |
+| **FR-DS-001** | Mood board — Lumi-Inception-Saigon-Dusk reference assembly | MUST | **shipped + strict-audited 2026-05-18** | FR-CHAR-001 | 6h |
+| **FR-DS-002** | Approved colour palette swatch sheet + WCAG contrast matrix | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-001 | 4h |
 
 ---
 
@@ -90,33 +90,33 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-DS-003** | `@cyberskill/ds-cinematic` package skeleton (workspace, exports, peer-dep on ds-foundations) | MUST | accepted (10/10) | FR-DS-002 | 6h |
-| **FR-DS-004** | Brand-gold + brand-brown CSS custom property + JS token export | MUST | spec-stub (6.5/10) | FR-DS-002, FR-DS-003 | 3h |
-| **FR-DS-005** | Vietnamese-flag accent tokens (`--accent-flag-red`, `--accent-star-yellow`) scoped to Scene 5 | MUST | spec-stub (6.5/10) | FR-DS-003 | 2h |
-| **FR-DS-006** | Motion tokens — duration scale + easing curves (`--ease-genie` et al.) | MUST | spec-stub (6.5/10) | FR-DS-003 | 3h |
-| **FR-DS-007** | Cinematic typography pairing — display face + caption mono (Inter Display + JetBrains Mono) | MUST | spec-stub (6.5/10) | FR-DS-003 | 4h |
-| **FR-DS-008** | Glow recipes — rim, soft, scene-edge token set | SHOULD | spec-stub (6.5/10) | FR-DS-003 | 3h |
-| **FR-DS-009** | Component lifecycle marker — Experimental → Stable migration table for Cinematic Pack | MUST | spec-stub (6.5/10) | FR-DS-003 | 2h |
+| **FR-DS-003** | `@cyberskill/ds-cinematic` package skeleton (workspace, exports, peer-dep on ds-foundations) | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-002 | 6h |
+| **FR-DS-004** | Brand-gold + brand-brown CSS custom property + JS token export | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-002, FR-DS-003 | 3h |
+| **FR-DS-005** | Vietnamese-flag accent tokens (`--accent-flag-red`, `--accent-star-yellow`) scoped to Scene 5 | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-003 | 2h |
+| **FR-DS-006** | Motion tokens — duration scale + easing curves (`--ease-genie` et al.) | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-003 | 3h |
+| **FR-DS-007** | Cinematic typography pairing — display face + caption mono (Inter Display + JetBrains Mono) | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-003 | 4h |
+| **FR-DS-008** | Glow recipes — rim, soft, scene-edge token set | SHOULD | **shipped + strict-audited 2026-05-18** | FR-DS-003 | 3h |
+| **FR-DS-009** | Component lifecycle marker — Experimental → Stable migration table for Cinematic Pack | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-003 | 2h |
 
 ### P1.2 — SCENE · storyboard authoring
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-SCENE-001** | Scene 0 Hero — Figma comp at 3 breakpoints + 6 motion frames | MUST | accepted (10/10) | FR-DS-001 | 8h |
-| **FR-SCENE-002** | Scene 1 Origin — Figma comp + camera path notes | MUST | spec-stub (6.5/10) | FR-SCENE-001, FR-CHAR-001, FR-CMS-002 | 6h |
-| **FR-SCENE-003** | Scene 2 Transformation — Figma comp + paint-trail spec | MUST | spec-stub (6.5/10) | FR-SCENE-001 | 6h |
-| **FR-SCENE-004** | Scene 3 Capabilities — quadrant comp + satellite art direction | MUST | spec-stub (6.5/10) | FR-SCENE-001 | 6h |
-| **FR-SCENE-005** | Scene 4 Team — bokeh ten-avatar comp + parallax notes | MUST | spec-stub (6.5/10) | FR-SCENE-001 | 6h |
-| **FR-SCENE-006** | Scene 5 Vietnam→Global — globe + nón lá moment + arc spec | MUST | spec-stub (6.5/10) | FR-CHAR-003, FR-SCENE-001 | 8h |
-| **FR-SCENE-007** | Scene 6 CTA Hub — three-portal comp + audience colour-coding | MUST | spec-stub (6.5/10) | FR-SCENE-001 | 6h |
-| **FR-SCENE-008** | Footer + persistent Lumi corner — comp + state diagram | MUST | spec-stub (6.5/10) | FR-SCENE-001 | 4h |
+| **FR-SCENE-001** | Scene 0 Hero — Figma comp at 3 breakpoints + 6 motion frames | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-001 | 8h |
+| **FR-SCENE-002** | Scene 1 Origin — Figma comp + camera path notes | MUST | **shipped + strict-audited 2026-05-18** | FR-SCENE-001, FR-CHAR-001, FR-CMS-002 | 6h |
+| **FR-SCENE-003** | Scene 2 Transformation — Figma comp + paint-trail spec | MUST | **shipped + strict-audited 2026-05-18** | FR-SCENE-001 | 6h |
+| **FR-SCENE-004** | Scene 3 Capabilities — quadrant comp + satellite art direction | MUST | **shipped + strict-audited 2026-05-18** | FR-SCENE-001 | 6h |
+| **FR-SCENE-005** | Scene 4 Team — bokeh ten-avatar comp + parallax notes | MUST | **shipped + strict-audited 2026-05-18** | FR-SCENE-001 | 6h |
+| **FR-SCENE-006** | Scene 5 Vietnam→Global — globe + nón lá moment + arc spec | MUST | **shipped + strict-audited 2026-05-18** | FR-CHAR-003, FR-SCENE-001 | 8h |
+| **FR-SCENE-007** | Scene 6 CTA Hub — three-portal comp + audience colour-coding | MUST | **shipped + strict-audited 2026-05-18** | FR-SCENE-001 | 6h |
+| **FR-SCENE-008** | Footer + persistent Lumi corner — comp + state diagram | MUST | **shipped + strict-audited 2026-05-18** | FR-SCENE-001 | 4h |
 
 ### P1.3 — CHAR · Blender greybox
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-CHAR-004** | Lumi greybox mesh — proxy proportions, silhouette pass, no textures | MUST | spec-stub (6.5/10) | FR-CHAR-001, FR-CHAR-002 | 8h |
-| **FR-CHAR-005** | Per-scene greybox sets — props, camera frusta, scene scale checks | MUST | spec-stub (6.5/10) | FR-CHAR-004, FR-SCENE-008 | 12h |
+| **FR-CHAR-004** | Lumi greybox mesh — proxy proportions, silhouette pass, no textures | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-001, FR-CHAR-002 | 8h |
+| **FR-CHAR-005** | Per-scene greybox sets — props, camera frusta, scene scale checks | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-004, FR-SCENE-008 | 12h |
 
 ---
 
@@ -128,27 +128,27 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-CHAR-006** | Lumi production mesh ≤ 40k tri, watertight, polygon distribution per spec | MUST | spec-stub (6.5/10) | FR-CHAR-004 | 24h |
-| **FR-CHAR-007** | UV layout — single 2k atlas (Lumi) + 1k (wisp) + 512 (nón lá) | MUST | spec-stub (6.5/10) | FR-CHAR-006 | 8h |
-| **FR-CHAR-008** | Substance Painter PBR texture authoring — BaseColor / ORM-packed / Normal / Emissive | MUST | spec-stub (6.5/10) | FR-CHAR-007 | 16h |
-| **FR-CHAR-009** | Custom armature ~ 27 bones (NOT Rigify) — spine, arms, wisp chain, hood, jaw, eyes | MUST | spec-stub (6.5/10) | FR-CHAR-006 | 16h |
-| **FR-CHAR-010** | Shape keys — 10 facial + glow_pulse + hood_tip with driver hookups | MUST | spec-stub (6.5/10) | FR-CHAR-009 | 8h |
-| **FR-CHAR-011** | Animation library — 11 clips per master plan §3.3a, NLA-strip-named for clean glTF split | MUST | spec-stub (6.5/10) | FR-CHAR-009, FR-CHAR-010 | 24h |
-| **FR-CHAR-012** | Nón lá accessory mesh ≤ 600 tri parented to `hat_socket` bone | MUST | spec-stub (6.5/10) | FR-CHAR-003, FR-CHAR-009 | 6h |
+| **FR-CHAR-006** | Lumi production mesh ≤ 40k tri, watertight, polygon distribution per spec | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-004 | 24h |
+| **FR-CHAR-007** | UV layout — single 2k atlas (Lumi) + 1k (wisp) + 512 (nón lá) | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-006 | 8h |
+| **FR-CHAR-008** | Substance Painter PBR texture authoring — BaseColor / ORM-packed / Normal / Emissive | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-007 | 16h |
+| **FR-CHAR-009** | Custom armature ~ 27 bones (NOT Rigify) — spine, arms, wisp chain, hood, jaw, eyes | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-006 | 16h |
+| **FR-CHAR-010** | Shape keys — 10 facial + glow_pulse + hood_tip with driver hookups | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-009 | 8h |
+| **FR-CHAR-011** | Animation library — 11 clips per master plan §3.3a, NLA-strip-named for clean glTF split | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-009, FR-CHAR-010 | 24h |
+| **FR-CHAR-012** | Nón lá accessory mesh ≤ 600 tri parented to `hat_socket` bone | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-CHAR-003, FR-CHAR-009 | 6h |
 
 ### P2.2 — OPS · glTF-Transform pipeline
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-OPS-001** | `scripts/gltf-pipeline.mjs` two-stage pipeline (Meshopt for Lumi, Draco for static, KTX2/Basis) | MUST | accepted (10/10) | — | 10h |
-| **FR-OPS-002** | Per-asset budget definition file `budgets.json` consumed by CI | MUST | spec-stub (6.5/10) | FR-OPS-001 | 3h |
-| **FR-OPS-003** | PR comment integration — `gltf-transform inspect` markdown comment with delta vs main | MUST | spec-stub (6.5/10) | FR-OPS-001 | 5h |
-| **FR-OPS-004** | KTX2 + Basis texture compression integration (UASTC for normals, ETC1S for color) | MUST | spec-stub (6.5/10) | FR-OPS-001 | 4h |
-| **FR-OPS-005** | Decoder bundling — Draco / Meshopt / KTX2 WASM under `/public/decoders/` (no CDN) | MUST | spec-stub (6.5/10) | FR-OPS-001 | 3h |
-| **FR-OPS-006** | Cowork Recipe A: PR triage automation (size delta + draw-call estimate + screenshot diff) | SHOULD | spec-stub (6.5/10) | FR-OPS-003 | 6h |
-| **FR-OPS-007** | Cowork Recipe B–G: texture variants / motion previs / Blender Python / Substance node graphs | COULD | spec-stub (6.5/10) | FR-OPS-001 | 12h |
-| **FR-OPS-008** | LFS configuration for `/assets-source/blender/**` + `.psd` / `.sbs` | MUST | spec-stub (6.5/10) | — | 2h |
-| **FR-OPS-009** | `assets-source/manifest.json` lockfile for source-asset dependency tracking | SHOULD | spec-stub (6.5/10) | FR-OPS-008 | 3h |
+| **FR-OPS-001** | `scripts/gltf-pipeline.mjs` two-stage pipeline (Meshopt for Lumi, Draco for static, KTX2/Basis) | MUST | **shipped + strict-audited 2026-05-18** | — | 10h |
+| **FR-OPS-002** | Per-asset budget definition file `budgets.json` consumed by CI | MUST | **shipped + strict-audited 2026-05-18** | FR-OPS-001 | 3h |
+| **FR-OPS-003** | PR comment integration — `gltf-transform inspect` markdown comment with delta vs main | MUST | **shipped + strict-audited 2026-05-18** | FR-OPS-001 | 5h |
+| **FR-OPS-004** | KTX2 + Basis texture compression integration (UASTC for normals, ETC1S for color) | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-OPS-001 | 4h |
+| **FR-OPS-005** | Decoder bundling — Draco / Meshopt / KTX2 WASM under `/public/decoders/` (no CDN) | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-OPS-001 | 3h |
+| **FR-OPS-006** | Cowork Recipe A: PR triage automation (size delta + draw-call estimate + screenshot diff) | SHOULD | **shipped + strict-audited 2026-05-18** | FR-OPS-003 | 6h |
+| **FR-OPS-007** | Cowork Recipe B–G: texture variants / motion previs / Blender Python / Substance node graphs | COULD | **shipped + strict-audited 2026-05-18** | FR-OPS-001 | 12h |
+| **FR-OPS-008** | LFS configuration for `/assets-source/blender/**` + `.psd` / `.sbs` | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | — | 2h |
+| **FR-OPS-009** | `assets-source/manifest.json` lockfile for source-asset dependency tracking | SHOULD | **shipped + strict-audited 2026-05-18** | FR-OPS-008 | 3h |
 
 ---
 
@@ -160,43 +160,43 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-WEB-001** | Next.js 15 + React 19 + R3F 9 monorepo bootstrap with `<GlobalCanvas>` outside the router | MUST | accepted (10/10) | FR-DS-003 | 8h |
-| **FR-WEB-002** | Lenis 1.3 smooth-scroll integration + ScrollTrigger reads progress (no scroll-hijack) | MUST | spec-stub (6.5/10) | FR-WEB-001 | 4h |
-| **FR-WEB-003** | `<UseCanvas>` tunneling pattern from 14islands/r3f-scroll-rig | MUST | spec-stub (6.5/10) | FR-WEB-001 | 4h |
-| **FR-WEB-004** | Zustand store pattern — `sceneStore`, `lumiStore`; no React state in `useFrame` | MUST | spec-stub (6.5/10) | FR-WEB-001 | 4h |
-| **FR-WEB-005** | `next/dynamic({ ssr: false })` boundary for three.js + R3F (critical JS ≤ 200 KB gz) | MUST | spec-stub (6.5/10) | FR-WEB-001 | 4h |
-| **FR-WEB-006** | Suspense boundary per scene; Drei `useGLTF.preload` chaining | MUST | spec-stub (6.5/10) | FR-WEB-003 | 4h |
-| **FR-WEB-007** | `transpilePackages: ['three']` + tree-shake config | MUST | spec-stub (6.5/10) | FR-WEB-001 | 2h |
-| **FR-WEB-008** | Routing — `/`, `/lite`, `/work/<slug>`, `/accessibility` | MUST | spec-stub (6.5/10) | FR-WEB-001 | 4h |
-| **FR-WEB-009** | WebGL2 detection → `/lite` auto-redirect; save-data banner | MUST | spec-stub (6.5/10) | FR-WEB-008 | 4h |
+| **FR-WEB-001** | Next.js 15 + React 19 + R3F 9 monorepo bootstrap with `<GlobalCanvas>` outside the router | MUST | **shipped + strict-audited 2026-05-18** | FR-DS-003 | 8h |
+| **FR-WEB-002** | Lenis 1.3 smooth-scroll integration + ScrollTrigger reads progress (no scroll-hijack) | MUST | **shipped + strict-audited 2026-05-18** | FR-WEB-001 | 4h |
+| **FR-WEB-003** | `<UseCanvas>` tunneling pattern from 14islands/r3f-scroll-rig | MUST | **shipped + strict-audited 2026-05-18** | FR-WEB-001, FR-WEB-002 | 4h |
+| **FR-WEB-004** | Zustand store pattern — `sceneStore`, `lumiStore`; no React state in `useFrame` | MUST | **shipped + strict-audited 2026-05-18** | FR-WEB-001, FR-WEB-002 | 4h |
+| **FR-WEB-005** | `next/dynamic({ ssr: false })` boundary for three.js + R3F (critical JS ≤ 200 KB gz) | MUST | **shipped + strict-audited 2026-05-18** | FR-WEB-001 | 4h |
+| **FR-WEB-006** | Suspense boundary per scene; Drei `useGLTF.preload` chaining | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-WEB-003, FR-WEB-005 | 4h |
+| **FR-WEB-007** | `transpilePackages: ['three']` + tree-shake config | MUST | **shipped + strict-audited 2026-05-18** | FR-WEB-001 | 2h |
+| **FR-WEB-008** | Routing — `/`, `/lite`, `/work/<slug>`, `/accessibility` | MUST | **shipped + strict-audited 2026-05-18** | FR-WEB-001 | 4h |
+| **FR-WEB-009** | WebGL2 detection → `/lite` auto-redirect; save-data banner | MUST | **shipped + strict-audited 2026-05-18** | FR-WEB-008 | 4h |
 
 ### P3.2 — SCENE · Scene 0 Hero polished
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-SCENE-009 | Scene 0 Hero implementation — DOM headline as LCP element, canvas mounts post-FCP | MUST | planned | FR-WEB-001, FR-SCENE-001, FR-CHAR-011 | 10h |
-| FR-SCENE-010 | Lumi `fly_in` + `idle` animations wired with Zustand-driven anim picker | MUST | planned | FR-SCENE-009 | 6h |
-| FR-SCENE-011 | Above-fold CTA #1 (Buy / Discovery Call) + sticky-on-scroll behaviour | MUST | planned | FR-SCENE-009 | 4h |
-| FR-SCENE-012 | Particulate dust (200 instanced points, alpha-fade) | SHOULD | planned | FR-SCENE-009 | 4h |
+| **FR-SCENE-009** | Scene 0 Hero implementation — DOM headline as LCP element, canvas mounts post-FCP | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-WEB-001, FR-SCENE-001, FR-CHAR-011 | 10h |
+| **FR-SCENE-010** | Lumi `fly_in` + `idle` animations wired with Zustand-driven anim picker | MUST | **shipped + mocked-dependency + strict-audited 2026-05-18** | FR-SCENE-009 | 6h |
+| **FR-SCENE-011** | Above-fold CTA #1 (Buy / Discovery Call) + sticky-on-scroll behaviour | MUST | **shipped + strict-audited 2026-05-18** | FR-SCENE-009 | 4h |
+| **FR-SCENE-012** | Particulate dust (200 instanced points, alpha-fade) | SHOULD | **shipped + strict-audited 2026-05-19** | FR-SCENE-009 | 4h |
 
 ### P3.3 — A11Y · scene-zero stubs
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-A11Y-001** | Reduced-motion fallback — 7-panel SVG storyboard at `/lite` and inline `@media (prefers-reduced-motion: reduce)` swap | MUST | accepted (10/10) | FR-WEB-008 | 8h |
-| FR-A11Y-002 | Shadow-DOM mirror for Scene 0 — `<section role="img" aria-labelledby="...">` pattern | MUST | planned | FR-SCENE-009 | 4h |
-| FR-A11Y-003 | Skip-story pill (top-right) → jumps to Scene 6 | MUST | planned | FR-WEB-001 | 3h |
-| FR-A11Y-004 | Mute toggle (default ON) + `localStorage` persistence | MUST | planned | FR-WEB-001 | 2h |
-| FR-A11Y-005 | "Skip 3D entirely" toggle in header → `/lite` redirect | MUST | planned | FR-A11Y-003 | 2h |
+| **FR-A11Y-001** | Reduced-motion fallback — 7-panel SVG storyboard at `/lite` and inline `@media (prefers-reduced-motion: reduce)` swap | MUST | **shipped 2026-05-17** | FR-WEB-008 | 8h |
+| **FR-A11Y-002** | Shadow-DOM mirror for Scene 0 — `<section role="img" aria-labelledby="...">` pattern | MUST | **shipped + strict-audited 2026-05-19** | FR-SCENE-009 | 4h |
+| **FR-A11Y-003** | Skip-story pill (top-right) → jumps to Scene 6 | MUST | **shipped 2026-05-17** | FR-WEB-001 | 3h |
+| **FR-A11Y-004** | Mute toggle (default ON) + `localStorage` persistence | MUST | **shipped 2026-05-17** | FR-WEB-001 | 2h |
+| FR-A11Y-005 | "Skip 3D entirely" toggle in header → `/lite` redirect | MUST | **shipped 2026-05-17** | FR-A11Y-003 | 2h |
 
 ### P3.4 — OPS · CI scaffolding
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-OPS-010 | GitHub Actions CI pipeline — install, lint, typecheck, test, build | MUST | planned | FR-WEB-001 | 4h |
-| FR-OPS-011 | Lighthouse CI on every PR — fail if CWV regresses | MUST | planned | FR-OPS-010 | 5h |
-| FR-OPS-012 | axe-core/playwright a11y CI gate | MUST | planned | FR-OPS-010, FR-A11Y-001 | 4h |
-| FR-OPS-013 | File-size CI gate — fail PR if any GLB exceeds `budgets.json` | MUST | planned | FR-OPS-002, FR-OPS-010 | 3h |
+| FR-OPS-010 | GitHub Actions CI pipeline — install, lint, typecheck, test, build | MUST | **shipped 2026-05-17** | FR-WEB-001 | 4h |
+| FR-OPS-011 | Lighthouse CI on every PR — fail if CWV regresses | MUST | **shipped 2026-05-17** | FR-OPS-010 | 5h |
+| FR-OPS-012 | axe-core/playwright a11y CI gate | MUST | **shipped 2026-05-17** | FR-OPS-010, FR-A11Y-001 | 4h |
+| FR-OPS-013 | File-size CI gate — fail PR if any GLB exceeds `budgets.json` | MUST | **shipped 2026-05-17** | FR-OPS-002, FR-OPS-010 | 3h |
 
 ---
 
@@ -208,41 +208,41 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-SCENE-013 | Scene 1 Origin — coil_idle anim around idea-spark + typed captions | MUST | planned | FR-SCENE-010, FR-SCENE-002 | 10h |
-| FR-SCENE-014 | Scene 2 Transformation — paint anim + wireframe morph + pull-quote | MUST | planned | FR-SCENE-003, FR-CHAR-011 | 12h |
-| FR-SCENE-015 | Scene 3 Capabilities — quadrant split_to_4 anim + 4 satellites | MUST | planned | FR-SCENE-004, FR-CHAR-011 | 12h |
-| FR-SCENE-016 | Scene 4 Team — 10 bokeh avatars + Lumi dim + recruit hook | MUST | planned | FR-SCENE-005 | 10h |
-| FR-SCENE-017 | Scene 5 Vietnam→Global — globe ~6k tri + nón lá appear + arc to NA/EU pins | MUST | planned | FR-SCENE-006, FR-CHAR-012 | 14h |
-| FR-SCENE-018 | Scene 6 CTA Hub — three portals + Lumi turns to focused card | MUST | planned | FR-SCENE-007, FR-CHAR-011 | 10h |
-| FR-SCENE-019 | Footer Lumi corner + nón lá persisted + trust signals strip | MUST | planned | FR-SCENE-008 | 6h |
-| FR-SCENE-020 | GSAP scroll-orchestrator timeline binding scenes 0–6 | MUST | planned | FR-SCENE-013, FR-SCENE-019 | 12h |
-| FR-SCENE-021 | Mobile compressed scene flow (1+2 merge, 3+4 merge → 5 scenes) | MUST | planned | FR-SCENE-020 | 10h |
-| FR-SCENE-022 | DPR + particle scaling per breakpoint per master plan §5.5 | MUST | planned | FR-SCENE-020 | 4h |
-| FR-SCENE-023 | `<Detailed>` LOD swap for Lumi at distance > 12 m (Scene 5) | SHOULD | planned | FR-SCENE-017 | 4h |
-| FR-SCENE-024 | Easter-egg nón lá hover-reveal (Recipe G variants) | COULD | planned | FR-SCENE-019 | 4h |
+| **FR-SCENE-013** | Scene 1 Origin — coil_idle anim around idea-spark + typed captions | MUST | **shipped + strict-audited 2026-05-19** | FR-SCENE-010, FR-SCENE-002 | 10h |
+| **FR-SCENE-014** | Scene 2 Transformation — paint anim + wireframe morph + pull-quote | MUST | **shipped + strict-audited 2026-05-19** | FR-SCENE-003, FR-CHAR-011 | 12h |
+| **FR-SCENE-015** | Scene 3 Capabilities — quadrant split_to_4 anim + 4 satellites | MUST | **shipped + strict-audited 2026-05-19** | FR-SCENE-004, FR-CHAR-011 | 12h |
+| **FR-SCENE-016** | Scene 4 Team — 10 bokeh avatars + Lumi dim + recruit hook | MUST | **shipped + strict-audited 2026-05-19** | FR-SCENE-005 | 10h |
+| **FR-SCENE-017** | Scene 5 Vietnam→Global — globe ~6k tri + nón lá appear + arc to NA/EU pins | MUST | **shipped + strict-audited 2026-05-19** | FR-SCENE-006, FR-CHAR-012 | 14h |
+| FR-SCENE-018 | Scene 6 CTA Hub — three portals + Lumi turns to focused card | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-007, FR-CHAR-011 | 10h |
+| FR-SCENE-019 | Footer Lumi corner + nón lá persisted + trust signals strip | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-008 | 6h |
+| FR-SCENE-020 | GSAP scroll-orchestrator timeline binding scenes 0–6 | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-013, FR-SCENE-019 | 12h |
+| FR-SCENE-021 | Mobile compressed scene flow (1+2 merge, 3+4 merge → 5 scenes) | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-020 | 10h |
+| **FR-SCENE-022** | DPR + particle scaling per breakpoint per master plan §5.5 | MUST | **shipped + strict-audited 2026-05-19** | FR-WEB-001, FR-SCENE-012 | 4h |
+| FR-SCENE-023 | `<Detailed>` LOD swap for Lumi at distance > 12 m (Scene 5) | SHOULD | shipped + strict-audited (2026-05-19) | FR-SCENE-017 | 4h |
+| FR-SCENE-024 | Easter-egg nón lá hover-reveal (Recipe G variants) | COULD | shipped + mocked-dependency + strict-audited (2026-05-19) | FR-SCENE-019 | 4h |
 
 ### P4.2 — CTA · three-track funnel
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-CTA-001** | Three-track CTA hub component (Buy / Partner / Join) with audience-routed forms | MUST | accepted (10/10) | FR-SCENE-018 | 12h |
-| FR-CTA-002 | Calendly embed (3-step "What kind of help?" → details → slot) | MUST | planned | FR-CTA-001 | 6h |
-| FR-CTA-003 | HubSpot multi-step partner form integration | MUST | planned | FR-CTA-001 | 8h |
-| FR-CTA-004 | ATS-fed "We're hiring 3" badge + jobs form | MUST | planned | FR-CTA-001 | 6h |
-| FR-CTA-005 | react-hook-form + zod schema-validated forms (a11y first) | MUST | planned | FR-CTA-001 | 6h |
-| FR-CTA-006 | `/api/lead/route.ts` server endpoint posting to HubSpot CRM | MUST | planned | FR-CTA-003 | 4h |
-| FR-CTA-007 | Lumi reactions to form step changes (mouth_smile / summon) | SHOULD | planned | FR-CTA-002 | 4h |
-| FR-CTA-008 | Time-zone-honesty live-clock widget (HCMC + visitor zone + overlap windows) | MUST | planned | FR-SCENE-017 | 6h |
+| **FR-CTA-001** | Three-track CTA hub component (Buy / Partner / Join) with audience-routed forms | MUST | **shipped 2026-05-18** | FR-DS-003 | 12h |
+| **FR-CTA-002** | Calendly embed (3-step "What kind of help?" → details → slot) | MUST | **shipped 2026-05-18** | FR-CTA-001, FR-CTA-005, FR-CTA-006 | 6h |
+| **FR-CTA-003** | HubSpot multi-step partner form integration | MUST | **shipped 2026-05-18** | FR-CTA-001, FR-CTA-005, FR-CTA-006 | 8h |
+| **FR-CTA-004** | ATS-fed "We're hiring 3" badge + jobs form | MUST | **shipped 2026-05-18** | FR-CTA-001, FR-CTA-005, FR-CTA-006 | 6h |
+| **FR-CTA-005** | react-hook-form + zod schema-validated forms (a11y first) | MUST | **shipped 2026-05-18** | FR-CTA-001 | 6h |
+| **FR-CTA-006** | `/api/lead/route.ts` server endpoint posting to HubSpot CRM | MUST | **shipped 2026-05-18** | FR-CTA-005 | 4h |
+| **FR-CTA-007** | Lumi reactions to form step changes (mouth_smile / summon) | SHOULD | **shipped + strict-audited 2026-05-19** | FR-CTA-002, FR-CHAR-011 | 4h |
+| FR-CTA-008 | Time-zone-honesty live-clock widget (HCMC + visitor zone + overlap windows) | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-017 | 6h |
 
 ### P4.3 — CMS · Sanity hookup
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-CMS-004 | Sanity.io schema — Case Study, Testimonial, Capability, TeamMember, Job | MUST | planned | — | 8h |
-| FR-CMS-005 | ISR (`revalidate: 3600`) for marketing page + case-study sub-routes | MUST | planned | FR-CMS-004 | 4h |
-| FR-CMS-006 | `/work/<slug>` case-study route + Sanity-driven content | MUST | planned | FR-CMS-005 | 6h |
-| FR-CMS-007 | `i18n/{en,vi}.json` content store + language switcher | MUST | planned | FR-CMS-003 | 6h |
-| FR-CMS-008 | hreflang link tags + `x-default` | MUST | planned | FR-CMS-007 | 2h |
+| FR-CMS-004 | Sanity.io schema — Case Study, Testimonial, Capability, TeamMember, Job | MUST | **shipped 2026-05-17** | — | 8h |
+| FR-CMS-005 | ISR (`revalidate: 3600`) for marketing page + case-study sub-routes | MUST | **shipped 2026-05-17** | FR-CMS-004 | 4h |
+| FR-CMS-006 | `/work/<slug>` case-study route + Sanity-driven content | MUST | **shipped 2026-05-17** | FR-CMS-005 | 6h |
+| FR-CMS-007 | `i18n/{en,vi}.json` content store + language switcher | MUST | **shipped 2026-05-17** | FR-CMS-003 | 6h |
+| FR-CMS-008 | hreflang link tags + `x-default` | MUST | **shipped 2026-05-17** | FR-CMS-007 | 2h |
 
 ---
 
@@ -254,46 +254,46 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-PERF-001** | Performance budget CI gates — LCP / INP / CLS / FPS / total JS / total page weight | MUST | accepted (10/10) | FR-OPS-011 | 8h |
-| FR-PERF-002 | Lumi LOD-1 variant (~ 8k tri) for distance + low-memory paths | MUST | planned | FR-CHAR-006 | 8h |
-| FR-PERF-003 | Per-scene `frameloop="demand"` for non-animating scenes | MUST | planned | FR-SCENE-020 | 4h |
-| FR-PERF-004 | Drei `<Preload>` + intersection-observer prefetch of next-scene GLBs (200% rootMargin) | MUST | planned | FR-WEB-006 | 4h |
-| FR-PERF-005 | `disposeAll` audit — geometries / materials / textures / render targets on unmount | MUST | planned | FR-WEB-003 | 6h |
-| FR-PERF-006 | Linting rule — no allocations in `useFrame`; Vector3/Quaternion `useMemo`'d | MUST | planned | FR-WEB-004 | 4h |
-| FR-PERF-007 | `scheduler.yield()` + `scheduler.postTask()` for INP < 200ms p75 | MUST | planned | FR-WEB-001 | 4h |
-| FR-PERF-008 | Draw-call ceiling — < 100 per scene at any moment; instancing audit | MUST | planned | FR-SCENE-020 | 4h |
-| FR-PERF-009 | `navigator.deviceMemory < 4` → LOD-1 + no post-processing + `dpr=[1,1]` | MUST | planned | FR-PERF-002 | 3h |
-| FR-PERF-010 | `navigator.connection.saveData` → auto-prompt switch to /lite | MUST | planned | FR-WEB-009 | 3h |
+| **FR-PERF-001** | Performance budget CI gates — LCP / INP / CLS / FPS / total JS / total page weight | MUST | **shipped 2026-05-17** | FR-OPS-011 | 8h |
+| FR-PERF-002 | Lumi LOD-1 variant (~ 8k tri) for distance + low-memory paths | MUST | blocked (FR-CHAR-006 not shipped) | FR-CHAR-006 | 8h |
+| FR-PERF-003 | Per-scene `frameloop="demand"` for non-animating scenes | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-020 | 4h |
+| FR-PERF-004 | Drei `<Preload>` + intersection-observer prefetch of next-scene GLBs (200% rootMargin) | MUST | **shipped 2026-05-17** | FR-WEB-006 | 4h |
+| FR-PERF-005 | `disposeAll` audit — geometries / materials / textures / render targets on unmount | MUST | **shipped 2026-05-17** | FR-WEB-003 | 6h |
+| FR-PERF-006 | Linting rule — no allocations in `useFrame`; Vector3/Quaternion `useMemo`'d | MUST | **shipped 2026-05-17** | FR-WEB-004 | 4h |
+| FR-PERF-007 | `scheduler.yield()` + `scheduler.postTask()` for INP < 200ms p75 | MUST | **shipped 2026-05-17** | FR-WEB-001 | 4h |
+| FR-PERF-008 | Draw-call ceiling — < 100 per scene at any moment; instancing audit | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-020 | 4h |
+| FR-PERF-009 | `navigator.deviceMemory < 4` → LOD-1 + no post-processing + `dpr=[1,1]` | MUST | blocked (FR-PERF-002 not shipped) | FR-PERF-002 | 3h |
+| FR-PERF-010 | `navigator.connection.saveData` → auto-prompt switch to /lite | MUST | **shipped 2026-05-17** | FR-WEB-009 | 3h |
 
 ### P5.2 — A11Y · final compliance
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-A11Y-006 | Captions for every Lumi line — gold-on-charcoal, 18px min, `aria-live="polite"` | MUST | planned | FR-CMS-002 | 6h |
-| FR-A11Y-007 | Keyboard nav cycle — Skip story → header → scene anchors → footer | MUST | planned | FR-A11Y-003 | 4h |
-| FR-A11Y-008 | Focus rings — 2 px gold outline + 2 px offset, visible on every interactive | MUST | planned | FR-DS-003 | 3h |
-| FR-A11Y-009 | Target size 44×44 (AAA) for all CTAs | MUST | planned | FR-CTA-001 | 2h |
-| FR-A11Y-010 | Form autofill (`autocomplete` attrs) + Redundant-Entry compliance | MUST | planned | FR-CTA-005 | 2h |
-| FR-A11Y-011 | Public `/accessibility` compliance documentation page | MUST | planned | FR-A11Y-001…010 | 6h |
-| FR-A11Y-012 | Full pre-launch axe + manual VO + NVDA audit + fixes | MUST | planned | FR-A11Y-011 | 12h |
+| FR-A11Y-006 | Captions for every Lumi line — gold-on-charcoal, 18px min, `aria-live="polite"` | MUST | **shipped 2026-05-17** | FR-CMS-002 | 6h |
+| FR-A11Y-007 | Keyboard nav cycle — Skip story → header → scene anchors → footer | MUST | **shipped 2026-05-17** | FR-A11Y-003 | 4h |
+| FR-A11Y-008 | Focus rings — 2 px gold outline + 2 px offset, visible on every interactive | MUST | **shipped 2026-05-17** | FR-DS-003 | 3h |
+| **FR-A11Y-009** | Target size 44×44 (AAA) for all CTAs | MUST | **shipped 2026-05-18** | FR-CTA-001 | 2h |
+| **FR-A11Y-010** | Form autofill (`autocomplete` attrs) + Redundant-Entry compliance | MUST | **shipped 2026-05-18** | FR-CTA-005 | 2h |
+| **FR-A11Y-011** | Public `/accessibility` compliance documentation page | MUST | **shipped 2026-05-18** | FR-A11Y-001…010 | 6h |
+| FR-A11Y-012 | Full pre-launch axe + manual VO + NVDA audit + fixes | MUST | blocked (audit packet delivered; external VO/NVDA/JAWS consultant sign-off required) | FR-A11Y-011 | 12h |
 
 ### P5.3 — SEO · structured data + meta
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| **FR-SEO-001** | Schema.org ProfessionalService JSON-LD with DUNS + founder + areaServed | MUST | accepted (10/10) | FR-WEB-001 | 4h |
-| FR-SEO-002 | Service schema sub-blocks per capability | SHOULD | planned | FR-SEO-001 | 3h |
-| FR-SEO-003 | Person schema for the founder bio anchor | SHOULD | planned | FR-SEO-001 | 2h |
-| FR-SEO-004 | OpenGraph + Twitter `summary_large_image` meta with 1200×630 hero render | MUST | planned | FR-SCENE-019 | 4h |
-| FR-SEO-005 | `<title>` ≤ 60 chars + meta-description ≤ 158 chars (EN + VI) | MUST | planned | FR-CMS-007 | 2h |
-| FR-SEO-006 | XML sitemap + robots.txt + canonical | MUST | planned | FR-WEB-008 | 3h |
+| **FR-SEO-001** | Schema.org ProfessionalService JSON-LD with DUNS + founder + areaServed | MUST | **shipped 2026-05-17** | FR-WEB-001 | 4h |
+| FR-SEO-002 | Service schema sub-blocks per capability | SHOULD | **shipped 2026-05-17** | FR-SEO-001 | 3h |
+| FR-SEO-003 | Person schema for the founder bio anchor | SHOULD | **shipped 2026-05-17** | FR-SEO-001 | 2h |
+| FR-SEO-004 | OpenGraph + Twitter `summary_large_image` meta with 1200×630 hero render | MUST | shipped + strict-audited (2026-05-19) | FR-SCENE-019 | 4h |
+| FR-SEO-005 | `<title>` ≤ 60 chars + meta-description ≤ 158 chars (EN + VI) | MUST | **shipped 2026-05-17** | FR-CMS-007 | 2h |
+| FR-SEO-006 | XML sitemap + robots.txt + canonical | MUST | **shipped 2026-05-17** | FR-WEB-008 | 3h |
 
 ### P5.4 — CMS · VI localization
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-CMS-009 | Vietnamese script + UI string review pass by native speaker | MUST | planned | FR-CMS-007 | 6h |
-| FR-CMS-010 | Lumi hover-reveal Vietnamese tagline (*"Lumi — vì ánh sáng biến nguyện ước thành sự thật"*) | SHOULD | planned | FR-CMS-007 | 2h |
+| FR-CMS-009 | Vietnamese script + UI string review pass by native speaker | MUST | blocked (external paid reviewer/signoff pending; review packet ready 2026-05-17) | FR-CMS-007 | 6h |
+| FR-CMS-010 | Lumi hover-reveal Vietnamese tagline (*"Lumi — vì ánh sáng biến nguyện ước thành sự thật"*) | SHOULD | blocked (implementation ready 2026-05-17; FR-CMS-009 signoff pending) | FR-CMS-007 | 2h |
 
 ---
 
@@ -305,25 +305,37 @@ This document is the **single source of truth** for what the CyberSkill marketin
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-SEO-007 | GA4 + Plausible dual-pipe via `/api/analytics` cookieless proxy | MUST | planned | FR-WEB-001 | 6h |
-| FR-SEO-008 | Analytics event taxonomy per master plan §8.4 (10 events) | MUST | planned | FR-SEO-007 | 6h |
-| FR-SEO-009 | web-vitals dashboard wired to Plausible custom events | SHOULD | planned | FR-SEO-007 | 3h |
+| FR-SEO-007 | GA4 + Plausible dual-pipe via `/api/analytics` cookieless proxy | MUST | **shipped 2026-05-17** | FR-WEB-001 | 6h |
+| FR-SEO-008 | Analytics event taxonomy per master plan §8.4 (10 events) | MUST | **shipped 2026-05-17** | FR-SEO-007 | 6h |
+| FR-SEO-009 | web-vitals dashboard wired to Plausible custom events | SHOULD | **shipped 2026-05-17** | FR-SEO-007 | 3h |
 
 ### P6.2 — CTA · funnel hardening
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-CTA-009 | HubSpot deal-stage routing — buy / partner / join into separate pipelines | MUST | planned | FR-CTA-006 | 4h |
-| FR-CTA-010 | Form error states + retry logic + abandonment-prevention | SHOULD | planned | FR-CTA-005 | 4h |
-| FR-CTA-011 | A/B testbed — one test per month (master plan §12.2) | SHOULD | planned | FR-SEO-008 | 6h |
+| FR-CTA-009 | HubSpot deal-stage routing — buy / partner / join into separate pipelines | MUST | blocked (router implemented and verified locally; HubSpot sandbox verification pending) | FR-CTA-006 | 4h |
+| **FR-CTA-010** | Form error states + retry logic + abandonment-prevention | SHOULD | **shipped 2026-05-18** | FR-CTA-005 | 4h |
+| FR-CTA-011 | A/B testbed — one test per month (master plan §12.2) | SHOULD | **shipped 2026-05-17** | FR-SEO-008 | 6h |
 
-### P6.3 — OPS · launch operations
+### P6.3 — CMS · content operations
 
 | FR-ID | Title | Pri | Status | Depends on | Effort |
 |---|---|:-:|:-:|---|---:|
-| FR-OPS-014 | Production deployment + DNS + CDN (Vercel or equivalent) | MUST | planned | FR-WEB-001 | 4h |
-| FR-OPS-015 | Awwwards / FWA / SOTY submission packet | SHOULD | planned | FR-OPS-014 | 4h |
-| FR-OPS-016 | Soft-launch partner-share URL (gated) for week-8 proof-of-concept | MUST | planned | FR-SCENE-009 | 2h |
+| FR-CMS-011 | Quarterly content refresh cadence | SHOULD | blocked (cadence docs delivered; Linear/Asana recurrence must be created manually) | FR-CMS-006 | 3h |
+
+### P6.4 — OPS · launch operations
+
+| FR-ID | Title | Pri | Status | Depends on | Effort |
+|---|---|:-:|:-:|---|---:|
+| FR-OPS-014 | Production deployment + DNS + CDN (Vercel or equivalent) | MUST | blocked (config/runbook ready 2026-05-17; live deploy/DNS pending) | FR-WEB-001 | 4h |
+| FR-OPS-015 | Awwwards / FWA / SOTY submission packet | SHOULD | blocked (packet/credits ready 2026-05-17; launch media/submissions pending) | FR-OPS-014 | 4h |
+| FR-OPS-016 | Soft-launch partner-share URL (gated) for week-8 proof-of-concept | MUST | blocked (templates ready 2026-05-17; FR-SCENE-009/staging URL pending) | FR-SCENE-009 | 2h |
+
+### P6.5 — PERF · post-launch monitoring
+
+| FR-ID | Title | Pri | Status | Depends on | Effort |
+|---|---|:-:|:-:|---|---:|
+| FR-PERF-011 | Post-launch RUM dashboard via Plausible + web-vitals | SHOULD | blocked (config/docs shipped; Plausible dashboard + Slack alert verification pending) | FR-SEO-007, FR-SEO-009 | 4h |
 
 ---
 

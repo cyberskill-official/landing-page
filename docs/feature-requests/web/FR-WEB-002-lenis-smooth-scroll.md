@@ -3,7 +3,7 @@ id: FR-WEB-002
 title: "Lenis 1.3 smooth-scroll provider — singleton, ScrollTrigger-integrated, no scroll-hijack, reduced-motion aware"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 1
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-WEB-001, FR-WEB-003, FR-WEB-004, FR-A11Y-001, FR-SCENE-020]
 depends_on: [FR-WEB-001]
 blocks: [FR-WEB-003, FR-WEB-004, FR-SCENE-020]
@@ -310,5 +312,53 @@ After shipping, opening `http://localhost:3000/` in dev mode:
 **On dev HMR:** Hot module reload in Next.js dev mode can re-fire the provider effect, leaving the old Lenis dangling. The cleanup function must call `lenis.destroy()` to avoid memory leaks. The bridge cleanup must deregister the GSAP ticker callback.
 
 **On Safari iOS specifics:** Safari iOS's momentum scroll is excellent native — `smoothTouch: false` is the right default. Forcing Lenis on iOS introduces a perceptible delay between finger lift and momentum end.
+
+---
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Status: `shipped + strict-audited`.
+
+Edge-case matrix coverage:
+
+| Vector | Evidence |
+|---|---|
+| Null inputs | Reduced-motion and `/lite` Playwright cases assert `window.__lenis` remains absent. |
+| Malformed payload | Hash-only and missing-target anchors fall through to native behavior; malformed selector hardening remains a watch item for future non-simple hash IDs. |
+| Extreme bounds | Keyboard PageDown and synthetic wheel flow keep native scroll input active with `wheelMultiplier: 1`, `touchMultiplier: 1`, and vertical-only orientation. |
+| Concurrent race | ScrollTrigger proxy registration count is asserted as exactly one; cleanup removes ticker/listener bindings on route or motion-mode changes. |
+| Observability | Dev-only `window.__lenis`, `window.__lenisOptions`, `window.__scrollTriggerProxyRegistrations`, and `?debug=scroll` overlay expose live scroll state without production UI. |
+
+Validation log:
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/scroll.test.ts --config vitest.config.ts
+Test Files  1 passed (1)
+Tests       2 passed (2)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+passed
+```
+
+```text
+$ cd apps/web && node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('node_modules/lenis/package.json','utf8')); console.log(pkg.name+' '+pkg.version);"
+lenis 1.3.23
+```
+
+Debug note: the first package-version probe failed because Lenis does not export `./package.json` through its package `exports`; the audit re-ran against the app-local `node_modules/lenis/package.json` path and verified the installed `1.3.x` contract.
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/scroll.spec.ts --project=chromium
+Running 6 tests using 1 worker
+  ✓ Lenis singleton instantiates on the cinematic route without velocity overrides
+  ✓ reduced-motion prevents Lenis instantiation
+  ✓ /lite bypasses Lenis and keeps native scroll
+  ✓ keyboard PageDown scrolls the document
+  ✓ anchor links route through smooth scrolling
+  ✓ debug scroll overlay renders only when requested
+6 passed (8.6s)
+```
 
 *End of FR-WEB-002.*

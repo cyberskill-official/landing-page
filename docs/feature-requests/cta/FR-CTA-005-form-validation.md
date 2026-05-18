@@ -3,7 +3,7 @@ id: FR-CTA-005
 title: "react-hook-form + zod validation foundation — a11y-first error messaging across all CTA forms"
 module: CTA
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,7 @@ phase: P4
 slice: 2
 owner: Frontend Lead + A11Y reviewer
 created: 2026-05-16
+shipped: 2026-05-18
 related_frs: [FR-CTA-002, FR-CTA-003, FR-CTA-004, FR-CTA-006, FR-A11Y-001, FR-OPS-012]
 depends_on: [FR-CTA-001]
 blocks: [FR-CTA-002, FR-CTA-003, FR-CTA-004, FR-CTA-006]
@@ -20,8 +21,19 @@ new_files:
   - apps/web/lib/forms/use-a11y-form.ts
   - apps/web/lib/forms/FieldError.tsx
   - apps/web/lib/forms/FormErrorAnnouncer.tsx
+  - apps/web/lib/forms/validation-messages.ts
+  - apps/web/lib/forms/schemas/cta-schemas.ts
   - apps/web/lib/forms/__tests__/use-a11y-form.unit.test.ts
   - apps/web/tests/a11y/form-validation.e2e.spec.ts
+modified_files:
+  - apps/web/components/cta/forms/TrackFormShell.tsx
+  - apps/web/components/cta/forms/BuyForm.tsx
+  - apps/web/components/cta/forms/PartnerForm.tsx
+  - apps/web/components/cta/forms/JoinForm.tsx
+  - apps/web/messages/en.json
+  - apps/web/messages/vi.json
+  - apps/web/package.json
+  - pnpm-lock.yaml
 
 source_pages:
   - docs/01-master-plan-v2.md §5.1 — "Forms: react-hook-form + zod"

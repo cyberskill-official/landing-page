@@ -3,7 +3,8 @@ id: FR-OPS-016
 title: "Soft-launch staging URL — Scene-0-only preview at week 8 P3 exit, gated invite list, structured feedback"
 module: OPS
 priority: MUST
-status: accepted
+status: blocked
+blocked_reason: "Feedback and invitee templates are ready; gated staging URL is blocked by FR-SCENE-009."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

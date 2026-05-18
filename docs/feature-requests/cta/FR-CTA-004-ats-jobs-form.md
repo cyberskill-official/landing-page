@@ -3,9 +3,10 @@ id: FR-CTA-004
 title: "ATS-fed 'We're hiring N' badge + Join form — Workable / Greenhouse role-source, multi-step intake"
 module: CTA
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P4
 slice: 2
@@ -21,7 +22,15 @@ new_files:
   - apps/web/components/cta/forms/__tests__/JoinForm.unit.test.tsx
   - apps/web/components/cta/forms/schemas/join-schema.ts
   - apps/web/app/api/jobs-count/route.ts
+  - apps/web/app/api/jobs-count/__tests__/route.unit.test.ts
+  - apps/web/lib/server/jobs-count.ts
   - apps/web/components/footer/HiringBadge.tsx
+  - apps/web/tests/cta/join-form.spec.ts
+modified_files:
+  - apps/web/app/page.tsx
+  - apps/web/app/globals.css
+  - apps/web/lib/analytics/events.ts
+  - apps/web/tests/a11y/form-validation.e2e.spec.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §9.1 Track 3 — "Join us: hiring page entry"
@@ -31,6 +40,23 @@ source_pages:
 effort_hours: 6
 risk_if_skipped: "Join-track CTA is one of the 3 CTA hub paths. Without it, talent inbound goes to email — high friction, no funnel visibility. ATS-fed badge ('We're hiring 3') is a credibility signal: visible on every page (footer), signals momentum to all visitors not just job-seekers."
 ---
+
+## Implementation Status
+
+Shipped 2026-05-18.
+
+Delivered:
+- Lazy `JoinForm` with zod/react-hook-form validation, no resume upload, privacy notice, rate/retry/validation/success states, `/api/lead` join payload, and Lumi `mouth_smile`/`wave_goodbye` reactions.
+- Server-only `/api/jobs-count` route with 5-minute successful ATS cache, 60-second soft-fallback cache, Workable/Greenhouse/Lever normalization, and local role fallback when ATS env is absent or unavailable.
+- Footer `HiringBadge` with all required count, zero, and failure states.
+- Unit and E2E coverage for ATS role loading, fallback roles, lead submission, privacy copy, mobile fit, a11y validation, and caching.
+
+Verification completed:
+- `node_modules/.bin/vitest run app/api/jobs-count/__tests__/route.unit.test.ts components/cta/forms/__tests__/JoinForm.unit.test.tsx --config vitest.config.ts`
+- `node_modules/.bin/playwright test tests/cta/join-form.spec.ts tests/cta/partner-form.spec.ts tests/cta/buy-form.spec.ts tests/cta/lead-api.e2e.spec.ts tests/cta/cta-hub.spec.ts tests/a11y/form-validation.e2e.spec.ts --project=chromium`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
+- `node_modules/.bin/next build`
+- Client bundle scans confirmed ATS server env names are absent from `.next/static` and Join form strings are absent from `page`/`layout` chunks.
 
 ## §1 — Description (BCP-14 normative)
 

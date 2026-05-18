@@ -3,7 +3,7 @@ id: FR-A11Y-004
 title: "Mute toggle — default ON (muted), localStorage persistence, aria-pressed reflective"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P3
 slice: 2
 owner: Frontend Lead + A11Y reviewer
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-A11Y-001, FR-A11Y-003, FR-A11Y-005, FR-WEB-001, FR-WEB-004, FR-AUDIO-001]
 depends_on: [FR-WEB-001]
 blocks: [FR-AUDIO-001]
@@ -19,9 +20,9 @@ language: typescript 5.6 + react 19
 service: apps/web/components/a11y/
 new_files:
   - apps/web/components/a11y/MuteToggle.tsx
-  - apps/web/components/a11y/__tests__/MuteToggle.unit.test.tsx
-  - apps/web/tests/a11y/mute-toggle.e2e.spec.ts
-  - apps/web/lib/stores/audio-store.ts
+  - apps/web/tests/unit/mute-toggle.test.ts
+  - apps/web/tests/a11y/mute-toggle.spec.ts
+  - apps/web/lib/stores/audioStore.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §2.3 — "Mute toggle always present; default muted"

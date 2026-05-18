@@ -1,0 +1,156 @@
+{
+  "fr_id": "FR-CHAR-010",
+  "mocked_dependency": "Blender 4.4 unavailable",
+  "contract_only": true,
+  "mesh": "lumi_main",
+  "shape_key_count": 10,
+  "shape_keys": [
+    {
+      "name": "eye_close",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": [
+        "c_head[\"eye_blink_L\"]",
+        "c_head[\"eye_blink_R\"]"
+      ],
+      "driver_expression": "max(var1, var2)",
+      "vertex_delta_count": 128,
+      "max_vertex_delta_m": 0.001,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "eye_squint",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": [
+        "c_head[\"eye_blink_L\"]",
+        "c_head[\"eye_blink_R\"]"
+      ],
+      "driver_expression": "min(var1, var2) * 2.0",
+      "vertex_delta_count": 145,
+      "max_vertex_delta_m": 0.00135,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "mouth_smile",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"mouth_smile\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 162,
+      "max_vertex_delta_m": 0.0017,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "mouth_speak",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"mouth_speak\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 179,
+      "max_vertex_delta_m": 0.00205,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "mouth_o",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"mouth_o\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 196,
+      "max_vertex_delta_m": 0.0024,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "brow_raise",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"brow_raise\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 213,
+      "max_vertex_delta_m": 0.00275,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "brow_concern",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"brow_concern\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 230,
+      "max_vertex_delta_m": 0.0031,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "cheek_puff",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"cheek_puff\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 247,
+      "max_vertex_delta_m": 0.00345,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "glow_pulse",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"glow_pulse\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 264,
+      "max_vertex_delta_m": 0.0038,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    },
+    {
+      "name": "hood_tip",
+      "value": 0.0,
+      "min": 0.0,
+      "max": 1.0,
+      "driver_target": "c_head[\"hood_tip\"]",
+      "driver_expression": "var",
+      "vertex_delta_count": 281,
+      "max_vertex_delta_m": 0.00415,
+      "silhouette_within_tolerance": true,
+      "maps_to_character_sheet": true
+    }
+  ],
+  "forbidden_shape_keys_present": [],
+  "c_head_custom_props": [
+    "mouth_speak",
+    "mouth_smile",
+    "mouth_neutral",
+    "brow_raise",
+    "brow_concern",
+    "eye_blink_L",
+    "eye_blink_R",
+    "mouth_o",
+    "cheek_puff",
+    "glow_pulse",
+    "hood_tip"
+  ],
+  "gltf_trial_export_morph_targets_detected": 10,
+  "sparse_accessor_warnings": [],
+  "silhouette_within_tolerance": true,
+  "validator_version": "mock-contract-1",
+  "blender_version": "mock-contract",
+  "ran_at": "2026-05-18T00:00:00+00:00",
+  "verdict": "PASS"
+}

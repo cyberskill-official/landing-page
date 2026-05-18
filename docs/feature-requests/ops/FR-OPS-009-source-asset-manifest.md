@@ -3,7 +3,7 @@ id: FR-OPS-009
 title: "assets-source/manifest.json lockfile — source-asset dependency tracking with sha256 + stale detection"
 module: OPS
 priority: SHOULD
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P2
 slice: 1
 owner: Backend / DevOps
 created: 2026-05-16
+shipped: 2026-05-18
 related_frs: [FR-OPS-001, FR-OPS-003, FR-OPS-008, FR-CHAR-006, FR-CHAR-008, FR-CHAR-012]
 depends_on: [FR-OPS-008]
 blocks: [FR-OPS-001-stale-detection, FR-OPS-003-stale-warning]
@@ -517,5 +518,70 @@ Run: `pnpm asset:optimize && git add assets-built/ assets-source/manifest.json`
 **On Vietnamese-locale impact:** Manifest is locale-agnostic. Nón lá variant sources (`.psd` for Recipe G) tracked same as any other texture source.
 
 **On audit trail:** Each manifest commit is a snapshot. `git log assets-source/manifest.json` shows the full source-asset history with timestamps + sha256 — useful for retrospectives like "when did this texture last change."
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Strict audit refreshed the source-asset manifest because the previous `shipped 2026-05-17` status did not include zero-touch strict-audit evidence.
+
+Initial audit found real divergence:
+
+```bash
+node scripts/asset-manifest-sync.mjs --check
+manifest divergence detected. Run pnpm asset-manifest-sync.
+```
+
+Action: regenerated `assets-source/manifest.json` after the newer P2 source placeholders landed.
+
+Verification:
+
+```bash
+node scripts/asset-manifest-sync.mjs
+asset manifest: 16 asset(s), 0 stale
+
+node scripts/asset-manifest-sync.mjs --check
+asset manifest: 16 asset(s), 0 stale
+
+./node_modules/.bin/vitest run scripts/__tests__/asset-manifest-sync.unit.test.mjs scripts/__tests__/pr-comment-asset-delta.unit.test.mjs
+✓ scripts/__tests__/pr-comment-asset-delta.unit.test.mjs (8 tests)
+✓ scripts/__tests__/asset-manifest-sync.unit.test.mjs (8 tests)
+Test Files  2 passed (2)
+Tests  16 passed (16)
+```
+
+Manifest audit:
+
+```json
+{
+  "assets": 16,
+  "stale": 0,
+  "privateLeaks": 0,
+  "generated_at": "2026-05-18T14:25:31.118Z",
+  "first": [
+    "blender/lumi-animations.v01.blend",
+    "blender/lumi-greybox.v01.blend",
+    "blender/lumi-nonla.v01.blend",
+    "blender/lumi-rig.v01.blend",
+    "blender/lumi-sculpt.v01.blend"
+  ]
+}
+```
+
+Schema validation debug pass:
+
+```bash
+node -e '... Ajv default ...'
+Error: no schema with key or ref "https://json-schema.org/draft/2020-12/schema"
+```
+
+Failure vector: validator selection. The schema is Draft 2020-12, so the correct runtime is `ajv/dist/2020`.
+
+```json
+{
+  "schema": "schemas/asset-manifest.schema.json",
+  "data": "assets-source/manifest.json",
+  "valid": true,
+  "errors": []
+}
+```
 
 *End of FR-OPS-009.*

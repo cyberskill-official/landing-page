@@ -3,7 +3,7 @@ id: FR-CMS-005
 title: "ISR (Incremental Static Regeneration) — 3600s revalidate + Sanity webhook → /api/revalidate with shared-secret guard"
 module: CMS
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,7 @@ phase: P4
 slice: 1
 owner: Backend Lead + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-CMS-004, FR-CMS-006, FR-CMS-007, FR-WEB-008, FR-PERF-001]
 depends_on: [FR-CMS-004]
 blocks: [FR-CMS-006]

@@ -3,7 +3,7 @@ id: FR-SCENE-018
 title: "Scene 6 CTA Hub impl — `<CtaHub>` mount + Lumi-head-turn-on-portal-focus + deep-link"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 1
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-007, FR-SCENE-017, FR-SCENE-020, FR-CTA-001, FR-CHAR-011, FR-CMS-002]
 depends_on: [FR-SCENE-017, FR-SCENE-007, FR-CTA-001, FR-CHAR-011]
 blocks: [FR-SCENE-019, FR-SCENE-020]

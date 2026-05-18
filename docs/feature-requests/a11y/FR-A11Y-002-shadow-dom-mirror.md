@@ -3,7 +3,7 @@ id: FR-A11Y-002
 title: "Shadow-DOM mirror for canvas scenes — semantic <section role='img'> + aria-labelledby + aria-live narration"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,8 @@ phase: P3
 slice: 2
 owner: Frontend Lead + A11Y reviewer
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-A11Y-001, FR-A11Y-003, FR-SCENE-009, FR-SCENE-010, FR-SCENE-011, FR-WEB-001, FR-WEB-009]
 depends_on: [FR-SCENE-009, FR-A11Y-001]
 blocks: [FR-OPS-012]

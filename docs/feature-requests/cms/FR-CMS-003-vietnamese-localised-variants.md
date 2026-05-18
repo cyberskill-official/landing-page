@@ -3,7 +3,7 @@ id: FR-CMS-003
 title: "Vietnamese localised variants for all narration — slightly poetic register, native review"
 module: CMS
 priority: SHOULD
-status: shipped
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I

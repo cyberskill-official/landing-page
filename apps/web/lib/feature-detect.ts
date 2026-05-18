@@ -1,20 +1,7 @@
-export function hasWebGL2(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    const c = document.createElement('canvas');
-    return !!c.getContext('webgl2');
-  } catch {
-    return false;
-  }
-}
+import { detectSaveData, detectWebGL2, getDeviceMemoryGB } from './capability-detection';
 
-export function saveDataEnabled(): boolean {
-  if (typeof navigator === 'undefined') return false;
-  const conn = (navigator as { connection?: { saveData?: boolean } }).connection;
-  return conn?.saveData === true;
-}
+export const hasWebGL2 = detectWebGL2;
 
-export function deviceMemoryGB(): number | undefined {
-  if (typeof navigator === 'undefined') return undefined;
-  return (navigator as { deviceMemory?: number }).deviceMemory;
-}
+export const saveDataEnabled = detectSaveData;
+
+export const deviceMemoryGB = getDeviceMemoryGB;

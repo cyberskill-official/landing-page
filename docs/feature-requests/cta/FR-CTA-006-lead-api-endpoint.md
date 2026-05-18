@@ -3,9 +3,10 @@ id: FR-CTA-006
 title: "/api/lead/route.ts — server endpoint posting to HubSpot CRM + ATS with rate-limit + bot defense"
 module: CTA
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P4
 slice: 2
@@ -23,6 +24,13 @@ new_files:
   - apps/web/lib/server/hubspot-client.ts
   - apps/web/lib/server/ats-client.ts
   - apps/web/lib/forms/schemas/lead-schema.ts  (shared client+server)
+  - apps/web/lib/server/lead-errors.ts
+  - apps/web/lib/server/lead-observability.ts
+  - apps/web/lib/server/slack-client.ts
+  - apps/web/tests/cta/lead-api.e2e.spec.ts
+modified_files:
+  - apps/web/components/cta/forms/TrackFormShell.tsx
+  - apps/web/app/globals.css
 
 source_pages:
   - docs/01-master-plan-v2.md §5.2 — "Server forms forwarding to HubSpot CRM"

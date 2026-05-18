@@ -3,7 +3,7 @@ id: FR-SCENE-023
 title: "Drei `<Detailed>` LOD swap — Lumi production-mesh ↔ greybox at 12m distance threshold"
 module: SCENE
 priority: SHOULD
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 2
 owner: R3F Architect
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-017, FR-CHAR-004, FR-CHAR-006, FR-SCENE-019, FR-PERF-002]
 depends_on: [FR-SCENE-017, FR-CHAR-004, FR-CHAR-006]
 blocks: [FR-PERF-002]

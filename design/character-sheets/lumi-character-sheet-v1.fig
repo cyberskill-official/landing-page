@@ -1,0 +1,78 @@
+{
+  "format": "figma-handoff-manifest",
+  "note": "Repo-native stand-in for the Figma source named in the FR. Import the paired PNG/PDF into Figma for editable vector cleanup.",
+  "title": "Lumi Character Sheet v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-16",
+  "palette": {
+    "gold50": "#FEF6D9",
+    "gold100": "#FCEAA8",
+    "gold200": "#F9D966",
+    "gold400": "#E8B523",
+    "gold500": "#C99317",
+    "gold600": "#9F730E",
+    "brown50": "#F4E5D6",
+    "brown100": "#DDB995",
+    "brown200": "#A36A3F",
+    "brown400": "#6E3A18",
+    "brown500": "#4A2208",
+    "brown700": "#2C1304",
+    "flagRed": "#DA251D",
+    "starYellow": "#FFEB3B"
+  },
+  "frames": [
+    {
+      "name": "poses",
+      "canvas": [
+        4096,
+        1024
+      ],
+      "labels": [
+        "FRONT",
+        "3/4",
+        "SIDE",
+        "BACK"
+      ]
+    },
+    {
+      "name": "expressions",
+      "grid": "2x3",
+      "labels": [
+        "idle",
+        "smiling",
+        "speaking",
+        "concerned",
+        "winking",
+        "surprised"
+      ]
+    },
+    {
+      "name": "actions",
+      "labels": [
+        "point",
+        "wave",
+        "summon",
+        "paint"
+      ]
+    },
+    {
+      "name": "wisp-states",
+      "labels": [
+        "idle drift",
+        "flying trail",
+        "settled neat"
+      ]
+    },
+    {
+      "name": "contrast-block",
+      "pairs": [
+        "gold.400/brown.500",
+        "gold.200/brown.500"
+      ]
+    },
+    {
+      "name": "bilingual-tag",
+      "vi": "Lumi - vì ánh sáng biến nguyện ước thành sự thật"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ id: FR-SCENE-019
 title: "Footer + persistent Lumi corner — `wave_goodbye` clip + corner avatar + trust signals + language switcher"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 1
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-008, FR-SCENE-018, FR-SCENE-020, FR-CHAR-011, FR-CMS-002, FR-SEO-001, FR-CMS-008]
 depends_on: [FR-SCENE-018, FR-SCENE-008, FR-CHAR-011, FR-SEO-001]
 blocks: [FR-SCENE-020]

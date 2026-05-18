@@ -3,7 +3,7 @@ id: FR-SCENE-022
 title: "DPR + particle scaling per breakpoint — high 1.5 / mid 1.0 / low 0.75 + particle count caps"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 2
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-012, FR-SCENE-016, FR-WEB-009, FR-PERF-006, FR-PERF-010]
 depends_on: [FR-WEB-001, FR-SCENE-012]
 blocks: [FR-PERF-010]

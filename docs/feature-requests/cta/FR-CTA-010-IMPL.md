@@ -3,7 +3,8 @@ id: FR-CTA-010
 title: "Form error states + retry logic + abandonment prevention — exponential backoff + beforeunload + sessionStorage drafts"
 module: CTA
 priority: SHOULD
-status: accepted
+status: shipped
+shipped_at: 2026-05-18
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -20,6 +21,12 @@ new_files:
   - apps/web/lib/forms/use-form-retry.ts
   - apps/web/lib/forms/use-beforeunload-guard.ts
   - apps/web/lib/forms/__tests__/use-form-retry.unit.test.ts
+modified_files:
+  - apps/web/components/cta/forms/BuyForm.tsx
+  - apps/web/components/cta/forms/PartnerForm.tsx
+  - apps/web/components/cta/forms/JoinForm.tsx
+  - apps/web/components/cta/forms/__tests__/PartnerForm.unit.test.tsx
+  - apps/web/tests/cta/partner-form.spec.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §9 — funnel design + abandonment prevention
@@ -296,3 +303,24 @@ App version mismatch:
 **On future enhancements:** Visual progress indicator during retry. Slice 2.
 
 *End of FR-CTA-010.*
+
+## §10 — Implementation status
+
+Status: **shipped 2026-05-18**.
+
+Delivered:
+
+- Shared `use-form-retry.ts` implements 3 total attempts, 1s/2s exponential retry delays, 5xx/network-only retry behavior, AbortError cancellation, retry state messages, and manual `retryNow`.
+- Shared `use-beforeunload-guard.ts` implements dirty-form beforeunload protection plus 30-minute session draft helpers under `cyberskill_form_draft_<track>` with app-version invalidation.
+- Buy, Partner, and Join forms now use shared retry state and beforeunload guards.
+- Buy, Partner, and Join forms clear drafts on successful submit.
+- Join now has session draft restore/save parity with Buy and Partner.
+- Partner E2E covers 5xx auto-retry exhaustion plus the manual `Retry now` recovery path.
+
+Verified:
+
+- `node_modules/.bin/vitest run lib/forms/__tests__/use-form-retry.unit.test.ts components/cta/forms/__tests__/PartnerForm.unit.test.tsx components/cta/forms/__tests__/JoinForm.unit.test.tsx components/cta/forms/__tests__/buy-form.spec.ts --config vitest.config.ts`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
+- `node_modules/.bin/playwright test tests/cta/partner-form.spec.ts tests/cta/buy-form.spec.ts tests/cta/join-form.spec.ts --project=chromium`
+- `node_modules/.bin/next build`
+- Post-restart live retry smoke: `node_modules/.bin/playwright test tests/cta/partner-form.spec.ts -g "auto-retries" --project=chromium`

@@ -3,9 +3,10 @@ id: FR-A11Y-010
 title: "Form autofill + Redundant-Entry compliance — autocomplete attrs + cross-form data carry"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P5
 slice: 1
@@ -19,6 +20,14 @@ service: apps/web/components/cta/forms/ + apps/web/lib/forms/
 new_files:
   - apps/web/lib/forms/use-form-prefill.ts
   - apps/web/lib/forms/__tests__/use-form-prefill.unit.test.ts
+  - apps/web/tests/a11y/form-prefill.e2e.spec.ts
+  - apps/web/components/system/FormPrefillClearButton.tsx
+modified_files:
+  - apps/web/components/cta/forms/BuyForm.tsx
+  - apps/web/components/cta/forms/PartnerForm.tsx
+  - apps/web/components/cta/forms/JoinForm.tsx
+  - apps/web/app/accessibility/page.tsx
+  - apps/web/app/globals.css
 
 source_pages:
   - docs/01-master-plan-v2.md §7.5 — "WCAG 3.3.7 Redundant Entry compliance"
@@ -28,6 +37,26 @@ source_pages:
 effort_hours: 2
 risk_if_skipped: "WCAG 3.3.7 violation. Users with cognitive disabilities, motor disabilities, or simply impatient users abandon when asked to retype email/name across 3 CTA flows. Form completion rate drops ~25%."
 ---
+
+## Implementation Status
+
+Shipped 2026-05-18.
+
+Delivered:
+- `useFormPrefill(formType)` with 24-hour localStorage TTL, safe expiry, save, apply, dismiss, and clear helpers.
+- Explicit consent banners in Buy, Partner, and Join forms with `Use them` and `Clear` actions.
+- Save-on-success for Buy, Partner, and Join so users do not re-enter name/email/company/country across CTA flows.
+- WHATWG `autocomplete` attributes for name, email, organization, country, URL, and non-personal `off` fields.
+- `/accessibility#privacy` local clear-data flow for saved form details.
+- Unit and E2E tests covering fresh/expired storage, clear, save, Buy-to-Partner prefill, validation compatibility, target size, and axe route checks.
+
+Verification completed:
+- `node_modules/.bin/vitest run lib/forms/__tests__/use-form-prefill.unit.test.ts components/cta/forms/__tests__/JoinForm.unit.test.tsx components/cta/forms/__tests__/PartnerForm.unit.test.tsx components/cta/forms/__tests__/buy-form.spec.ts --config vitest.config.ts`
+- `node_modules/.bin/playwright test tests/a11y/form-prefill.e2e.spec.ts tests/a11y/form-validation.e2e.spec.ts --project=chromium`
+- `node_modules/.bin/playwright test tests/a11y/target-size.e2e.spec.ts --project=chromium`
+- `node_modules/.bin/playwright test tests/a11y/all-routes.spec.ts --project=chromium`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
+- `node_modules/.bin/next build`
 
 ## §1 — Description (BCP-14 normative)
 

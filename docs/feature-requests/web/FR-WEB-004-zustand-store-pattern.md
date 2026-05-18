@@ -3,7 +3,7 @@ id: FR-WEB-004
 title: "Zustand state — sceneStore + lumiStore + scrollStore; typed selectors; banned-in-useFrame"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 1
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-WEB-001, FR-WEB-002, FR-WEB-003, FR-CTA-001, FR-PERF-006]
 depends_on: [FR-WEB-001, FR-WEB-002]
 blocks: [FR-CTA-001, FR-PERF-006, FR-SCENE-020]
@@ -433,5 +435,76 @@ function LumiMesh({ glb }) {
 **On testing edge:** `subscribeWithSelector` + `shallow` is the standard Zustand pattern for selector hooks returning arrays. The shallow comparison from `zustand/shallow` works element-wise; deeply nested objects need a custom compare function.
 
 **On future amendments:** If a future requirement needs cross-tab state sync (rare for a marketing site), `zustand-broadcast` or similar middleware adds that capability — but this is amendment territory, not slice 1 scope.
+
+---
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Status: `shipped + strict-audited`.
+
+Architectural decision: `docs/ADR-FR-WEB-004.md` makes the typed `@/lib/stores` barrel the runtime contract. Direct raw store imports are reserved for store implementation, tests, and the development-only `StoreHydrator` probe.
+
+Implementation delta:
+
+- Added `setEmissiveBoost()` to the stores barrel.
+- Routed `BuyForm`, `PartnerForm`, `SceneCaption`, and `CapabilityGate` through barrel selectors/actions.
+- Pinned `zustand` as `^5` in app package metadata and lockfile while preserving installed `5.0.13`.
+- Added an import-boundary guardrail test for runtime components.
+
+Edge-case matrix coverage:
+
+| Vector | Evidence |
+|---|---|
+| Null inputs | Store initial-state tests reset and verify safe defaults for scene, Lumi, and scroll state. |
+| Malformed payload | Progress and emissive boost are clamped; scroll direction handles idle/same-position snapshots. |
+| Extreme bounds | Playwright verifies scene navigation, CTA hover, low-memory capability, and scroll velocity snapshots under browser input. |
+| Invalid content | Guardrails fail on Valtio, persist middleware, useFrame store writes, and raw store imports outside the allowed dev bridge. |
+| Concurrent race | `subscribeWithSelector` shallow equality suppresses equal vector updates; StoreHydrator subscriptions unsubscribe on cleanup. |
+| Observability | Dev-only `window.__stores` and `?debug=stores` expose scene, Lumi, audio, and scroll state. |
+
+Validation log:
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run lib/stores/__tests__/stores.test.ts tests/stores-guardrails.test.ts --config vitest.config.ts
+Test Files  2 passed (2)
+Tests       9 passed (9)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+passed
+```
+
+```text
+$ cd apps/web && node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('node_modules/zustand/package.json','utf8')); console.log(pkg.name+' '+pkg.version);"
+zustand 5.0.13
+```
+
+```text
+$ cd apps/web && rg -n "from ['\"]@/lib/stores/(sceneStore|lumiStore|scrollStore)['\"]" components lib --glob '!components/state/StoreHydrator.client.tsx' --glob '!lib/stores/**'
+no matches
+```
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run components/cta/forms/__tests__/buy-form.spec.ts components/cta/forms/__tests__/PartnerForm.unit.test.tsx components/a11y/__tests__/SceneCaption.unit.test.tsx components/perf/__tests__/SaveDataBanner.unit.test.tsx tests/unit/skip-3d-toggle.test.ts --config vitest.config.ts
+Test Files  5 passed (5)
+Tests       16 passed (16)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/stores.spec.ts --project=chromium
+Running 4 tests using 1 worker
+  ✓ scene navigation updates activeScene
+  ✓ CTA hover updates focusedCta
+  ✓ scrollStore receives throttled Lenis snapshots
+  ✓ debug stores overlay renders in development
+4 passed (4.5s)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/cta/buy-form.spec.ts tests/cta/partner-form.spec.ts tests/web/capability-gate.spec.ts --project=chromium
+Running 13 tests using 3 workers
+13 passed (11.0s)
+```
 
 *End of FR-WEB-004.*

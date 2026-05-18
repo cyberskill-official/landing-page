@@ -3,7 +3,8 @@ id: FR-CTA-009
 title: "HubSpot deal-stage routing — buy/partner/join → separate pipelines with UTM + scene_id metadata"
 module: CTA
 priority: MUST
-status: accepted
+status: blocked
+blocked_reason: "Code, unit tests, local API smoke, and production build are complete; HubSpot test-environment verification and test pipeline cleanup require HubSpot sandbox credentials."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -19,6 +20,19 @@ service: apps/web/lib/server/
 new_files:
   - apps/web/lib/server/hubspot-stage-router.ts
   - apps/web/lib/server/__tests__/hubspot-stage-router.unit.test.ts
+modified_files:
+  - apps/web/app/api/lead/route.ts
+  - apps/web/lib/forms/schemas/lead-schema.ts
+  - apps/web/lib/server/hubspot-client.ts
+  - apps/web/lib/server/slack-client.ts
+  - apps/web/components/cta/forms/BuyForm.tsx
+  - apps/web/components/cta/forms/PartnerForm.tsx
+  - apps/web/components/cta/forms/JoinForm.tsx
+  - apps/web/components/cta/forms/__tests__/PartnerForm.unit.test.tsx
+  - apps/web/components/cta/forms/__tests__/JoinForm.unit.test.tsx
+  - apps/web/components/cta/forms/__tests__/buy-form.spec.ts
+  - apps/web/tests/cta/lead-api.e2e.spec.ts
+  - apps/web/tests/cta/partner-form.spec.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §9.1 — multi-track HubSpot pipeline
@@ -200,3 +214,29 @@ User submits Join form:
 **On Vietnamese leads:** locale="vi" tracked; founder may follow up in Vietnamese.
 
 *End of FR-CTA-009.*
+
+## §10 — Implementation status
+
+Status: **implemented locally, blocked on HubSpot sandbox verification**.
+
+Delivered:
+
+- `hubspot-stage-router.ts` routes `buy` and `partner` to env-driven HubSpot stages and pipelines, routes `join` to ATS, enriches metadata with UTM, scene, referrer, locale, timestamp, and redacted user agent, and emits an alert path for unexpected tracks.
+- `/api/lead` now dispatches through the router instead of hardcoded stages.
+- HubSpot deal creation receives the configured stage, pipeline, and CyberSkill metadata properties.
+- Buy, Partner, and Join forms include `scene_id: "scene-6"` and route-derived locale.
+- Partner form no longer posts a hardcoded `deal_stage`.
+- Slack plus optional email-webhook alert support exists for unexpected routing.
+
+Verified:
+
+- `node_modules/.bin/vitest run lib/server/__tests__/hubspot-stage-router.unit.test.ts components/cta/forms/__tests__/PartnerForm.unit.test.tsx components/cta/forms/__tests__/JoinForm.unit.test.tsx components/cta/forms/__tests__/buy-form.spec.ts --config vitest.config.ts`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
+- `node_modules/.bin/playwright test tests/cta/lead-api.e2e.spec.ts tests/cta/partner-form.spec.ts tests/cta/buy-form.spec.ts tests/cta/join-form.spec.ts --project=chromium`
+- `node_modules/.bin/next build`
+- Warm dev-server smoke: `node_modules/.bin/playwright test tests/cta/lead-api.e2e.spec.ts --project=chromium`
+
+Blocked items:
+
+- AC#3 HubSpot test-environment verification needs sandbox API credentials.
+- AC#9 test pipeline cleanup needs access to the HubSpot test account.

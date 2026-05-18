@@ -3,9 +3,10 @@ id: FR-CTA-003
 title: "HubSpot multi-step partner form — agency intake with 4-field flow, lazy-chunk loaded, retry-on-error"
 module: CTA
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P4
 slice: 2
@@ -20,6 +21,13 @@ new_files:
   - apps/web/components/cta/forms/PartnerForm.tsx
   - apps/web/components/cta/forms/__tests__/PartnerForm.unit.test.tsx
   - apps/web/components/cta/forms/schemas/partner-schema.ts
+  - apps/web/tests/cta/partner-form.spec.ts
+modified_files:
+  - apps/web/components/canvas/GlobalCanvasShell.tsx
+  - apps/web/lib/stores/lumiStore.ts
+  - apps/web/tests/cta/cta-hub.spec.ts
+  - apps/web/tests/a11y/form-validation.e2e.spec.ts
+  - apps/web/app/globals.css
 
 source_pages:
   - docs/01-master-plan-v2.md §9.1 Track 2 — "Partner with us: agency intake form"

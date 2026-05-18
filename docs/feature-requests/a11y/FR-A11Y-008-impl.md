@@ -3,7 +3,8 @@ id: FR-A11Y-008
 title: "Focus rings — 2px gold outline + 2px offset on every interactive, no outline:none without replacement"
 module: A11Y
 priority: MUST
-status: accepted
+status: shipped
+shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

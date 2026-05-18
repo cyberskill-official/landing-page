@@ -3,7 +3,8 @@ id: FR-SEO-009
 title: "web-vitals integration — LCP/INP/CLS/FCP custom events to Plausible, sample 100% P6 / 10% stable"
 module: SEO
 priority: SHOULD
-status: accepted
+status: shipped
+shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

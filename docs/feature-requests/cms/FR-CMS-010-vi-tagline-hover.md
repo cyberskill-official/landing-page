@@ -3,7 +3,8 @@ id: FR-CMS-010
 title: "Lumi hover-reveal Vietnamese tagline — soft fade-in, cultural Easter egg, /vi-always + /en-first-time"
 module: CMS
 priority: SHOULD
-status: accepted
+status: blocked
+blocked_reason: "Implementation is ready, but final FR-CMS-009 external native-review signoff for the tagline is pending."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

@@ -3,7 +3,8 @@ id: FR-CTA-011
 title: "A/B testbed — cookie-based variant assignment + alt-narration testing + force-variant QA + SSR-safe"
 module: CTA
 priority: SHOULD
-status: accepted
+status: shipped
+shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

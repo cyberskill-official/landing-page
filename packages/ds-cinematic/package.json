@@ -10,14 +10,24 @@
     ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
     "./tokens": { "types": "./dist/tokens/index.d.ts", "import": "./dist/tokens/index.js" },
     "./tokens/colors": { "types": "./dist/tokens/colors.d.ts", "import": "./dist/tokens/colors.js" },
+    "./tokens/colors.css": "./src/tokens/colors.css",
+    "./tokens/colors/accents": { "types": "./dist/tokens/accents.d.ts", "import": "./dist/tokens/accents.js" },
+    "./tokens/accents.css": "./src/tokens/accents.css",
     "./tokens/motion": { "types": "./dist/tokens/motion.d.ts", "import": "./dist/tokens/motion.js" },
+    "./tokens/motion.css": "./src/tokens/motion.css",
     "./tokens/typography": { "types": "./dist/tokens/typography.d.ts", "import": "./dist/tokens/typography.js" },
+    "./tokens/typography.css": "./src/tokens/typography.css",
     "./tokens/glow": { "types": "./dist/tokens/glow.d.ts", "import": "./dist/tokens/glow.js" },
+    "./tokens/glow.css": "./src/tokens/glow.css",
     "./tokens/accents": { "types": "./dist/tokens/accents.d.ts", "import": "./dist/tokens/accents.js" },
     "./lifecycle": { "types": "./dist/lifecycle.d.ts", "import": "./dist/lifecycle.js" }
   },
+  "peerDependencies": {
+    "@cyberskill/ds-foundations": "^1.0.0"
+  },
   "scripts": {
     "build": "tsc -b",
+    "regen:colors": "node scripts/gen-color-tokens.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

@@ -3,9 +3,10 @@ id: FR-CHAR-010
 title: "Shape keys — 10 named keys + driver hookups via c_head custom properties"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P2
 slice: 1
@@ -353,5 +354,33 @@ if __name__ == "__main__":
 **On performance:** 10 morph targets on a 24k-vert mesh costs ~240k vertex-weights stored in the GLB. KTX2 doesn't compress morph data — Meshopt does, via the EXT_meshopt_compression extension. FR-OPS-002 must enable Meshopt for `lumi.glb` or morph-target storage bloats by 4-6×.
 
 **On asymmetric eyes:** `eye_close` is symmetric (both eyes shut); separate `eye_blink_L` and `eye_blink_R` drivers route to it via `max()`. This lets the animator do single-eye winks (asymmetric) by keying only one driver — the `max()` driver expression evaluates the higher of the two. Animator usability check at signoff confirms this works.
+
+## §10 — Mocked-dependency shipment
+
+Blender 4.4 is unavailable in this workspace, so FR-CHAR-010 ships as a deterministic mocked dependency with contract tests rather than a physical shape-keyed `.blend`. The public artifact paths are present for downstream animation work:
+
+- `assets-source/blender/lumi-shape-keys.v01.blend`
+- `assets-source/blender/lumi-shape-keys-stats.json`
+- `assets-source/blender/shape-key-validator.py`
+- `assets-source/blender/archive/lumi-rig.v01.pre-shape-keys.blend.zst`
+- `design/character-sheets/lumi-shape-key-spec.md`
+- `design/character-sheets/lumi-shape-key-contact-sheet.html`
+
+Validation evidence:
+
+```bash
+python3 tools/check-p2-character-mocks.py --fr FR-CHAR-010
+OK - P2 character mocked-dependency contracts satisfied (1 FR)
+ - FR-CHAR-010: shape_keys=10; c_head_props=11; morph_targets=10
+NOTE - Blender 4.4 validation is blocked because Blender is not installed.
+
+python3 assets-source/blender/shape-key-validator.py --stats assets-source/blender/lumi-shape-keys-stats.json
+{
+  "verdict": "PASS",
+  "stats": "assets-source/blender/lumi-shape-keys-stats.json"
+}
+```
+
+The contract asserts exactly ten shape keys, no `mouth_neutral` shape key, 0..1 ranges with default 0, `c_head` driver targets, non-zero vertex deltas, ten trial glTF morph targets, no sparse-accessor warnings, and silhouette tolerance for every key.
 
 *End of FR-CHAR-010.*

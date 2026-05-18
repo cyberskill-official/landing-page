@@ -1,0 +1,18 @@
+/* GENERATED — re-run packages/ds-cinematic/scripts/gen-color-tokens.mjs after editing
+   design/tokens/palette-canonical.json. Do NOT hand-edit. */
+
+:root {
+  --brand-gold-50: #FEF6D9;
+  --brand-gold-100: #FCEAA8;
+  --brand-gold-200: #F9D966;
+  --brand-gold-400: #E8B523;
+  --brand-gold-500: #C99317;
+  --brand-gold-600: #9F730E;
+
+  --brand-brown-50: #F4E5D6;
+  --brand-brown-100: #DDB995;
+  --brand-brown-200: #A36A3F;
+  --brand-brown-400: #6E3A18;
+  --brand-brown-500: #4A2208;
+  --brand-brown-700: #2C1304;
+}

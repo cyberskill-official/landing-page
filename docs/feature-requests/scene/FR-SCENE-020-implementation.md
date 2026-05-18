@@ -3,7 +3,7 @@ id: FR-SCENE-020
 title: "Scroll orchestrator — GSAP master timeline binding scenes 0..footer + data-scene attribute drive"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 2
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-013, FR-SCENE-014, FR-SCENE-015, FR-SCENE-016, FR-SCENE-017, FR-SCENE-018, FR-SCENE-019, FR-WEB-002, FR-WEB-004, FR-DS-005, FR-DS-006]
 depends_on: [FR-SCENE-013, FR-SCENE-019, FR-WEB-002, FR-WEB-004]
 blocks: [FR-SCENE-021, FR-PERF-005, FR-PERF-006]

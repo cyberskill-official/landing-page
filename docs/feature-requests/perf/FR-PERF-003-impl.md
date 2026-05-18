@@ -3,7 +3,7 @@ id: FR-PERF-003
 title: "Per-scene frameloop='demand' — Canvas idle when no animation; flip to 'always' on scene activity"
 module: PERF
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P5
 slice: 1
 owner: R3F Architect
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-WEB-001, FR-SCENE-020, FR-CHAR-011, FR-PERF-005]
 depends_on: [FR-SCENE-020]
 blocks: []

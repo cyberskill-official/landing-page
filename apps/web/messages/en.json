@@ -1,0 +1,31 @@
+{
+  "a11y": {
+    "language_switcher_aria_label": "Change language",
+    "skip_3d_label": "Skip 3D",
+    "skip_label": "Skip story"
+  },
+  "lumi": {
+    "hover_lumi_for_tagline": "Hover or tap Lumi to reveal the Vietnamese tagline",
+    "lumi-tagline-hover": "Lumi — vì ánh sáng biến nguyện ước thành sự thật"
+  },
+  "forms": {
+    "validation": {
+      "agency_required": "Agency name must be at least 2 characters.",
+      "agency_too_long": "Agency name must be 100 characters or fewer.",
+      "brief_required": "Brief must be at least 10 characters.",
+      "brief_too_long": "Brief must be 600 characters or fewer.",
+      "capacity_required": "Monthly capacity must be at least 1.",
+      "capacity_too_high": "Monthly capacity must be 50 or fewer.",
+      "country_code": "Use a two-letter country code, such as VN or US.",
+      "email": "Enter a valid email address.",
+      "name_required": "Name must be at least 2 characters.",
+      "name_too_long": "Name must be 80 characters or fewer.",
+      "role_required": "Select a role focus.",
+      "url": "Enter a valid URL.",
+      "url_too_long": "URL must be 160 characters or fewer."
+    }
+  },
+  "nav": {
+    "language": "Language"
+  }
+}

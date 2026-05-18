@@ -3,7 +3,7 @@ id: FR-SCENE-014
 title: "Scene 2 Transformation impl — `paint` clip + paint-trail shader + sketch→app morph + pull-quote"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 1
 owner: R3F Architect + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-003, FR-SCENE-013, FR-SCENE-020, FR-CHAR-011, FR-CMS-002, FR-DS-008]
 depends_on: [FR-SCENE-013, FR-SCENE-003, FR-CHAR-011]
 blocks: [FR-SCENE-015, FR-SCENE-020]

@@ -3,7 +3,7 @@ id: FR-DS-009
 title: "Component lifecycle marker — Experimental → Stable migration table for Cinematic Pack"
 module: DS
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,7 +11,7 @@ phase: P1
 slice: 1
 owner: Designer + Frontend Lead
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 related_frs: [FR-DS-003, FR-DS-004, FR-DS-005, FR-DS-006, FR-DS-007, FR-DS-008]
 depends_on: [FR-DS-003]
 blocks: []

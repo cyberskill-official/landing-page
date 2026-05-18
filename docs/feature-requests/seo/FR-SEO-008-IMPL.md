@@ -3,7 +3,8 @@ id: FR-SEO-008
 title: "Analytics event taxonomy — 10 typed events with documented properties + Playwright coverage"
 module: SEO
 priority: MUST
-status: accepted
+status: shipped
+shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -20,7 +21,10 @@ new_files:
   - apps/web/lib/analytics.ts
   - apps/web/lib/analytics/events.ts
   - apps/web/lib/analytics/__tests__/events.unit.test.ts
-  - apps/web/tests/analytics/events.e2e.spec.ts
+  - apps/web/tests/e2e/product-critical-paths.spec.ts
+  - apps/web/tests/a11y/skip-story.spec.ts
+  - apps/web/tests/a11y/mute-toggle.spec.ts
+  - apps/web/tests/a11y/skip-3d.spec.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §8.4 events table

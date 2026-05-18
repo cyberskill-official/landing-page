@@ -3,7 +3,7 @@ id: FR-WEB-003
 title: "<UseCanvas> tunneling — scene-mesh portaling into persistent GlobalCanvas with DOM tracking + disposal"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 1
 owner: R3F Architect
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-WEB-001, FR-WEB-002, FR-WEB-004, FR-WEB-005, FR-WEB-006, FR-SCENE-009, FR-SCENE-013, FR-SCENE-014, FR-SCENE-015, FR-SCENE-016, FR-SCENE-017, FR-SCENE-018, FR-SCENE-019]
 depends_on: [FR-WEB-001, FR-WEB-002]
 blocks: [FR-SCENE-009, FR-SCENE-013, FR-SCENE-014, FR-SCENE-015, FR-SCENE-016, FR-SCENE-017, FR-SCENE-018, FR-SCENE-019]
@@ -99,7 +101,7 @@ risk_if_skipped: "Without UseCanvas tunneling, each scene's 3D content needs its
 
 15. **SHOULD** include a dev-mode debug overlay (toggleable via `?debug=tunnel`) showing each scene's tunneled status: `scene-N | tracked | progress: 0.42 | culled: false`.
 
-16. **MUST NOT** rely on `<Suspense>` boundaries inside `<SceneTunnel>` for async asset loading. Async loading happens at the GlobalCanvas level (FR-WEB-001 §3.x); SceneTunnel is sync-rendering inside the canvas tree.
+16. **MUST NOT** wrap the whole `<GlobalCanvas>` in `<Suspense>`. Per `docs/ADR-FR-WEB-003.md` and FR-WEB-006, `<SceneTunnel>` owns one canonical per-scene `<Suspense fallback={<SceneSuspenseFallback />}>` boundary inside the tunneled subtree so async scene loading never suspends the persistent canvas or Lumi.
 
 ## §2 — Why this design
 
@@ -348,7 +350,7 @@ test("no WebGL context lost during full scroll", async ({ page }) => {
 | Lumi GLB fetched per scene (double bandwidth + double VRAM) | AC#8 + AC#9 | Add `useGLTF.preload` at GlobalCanvasShell; share via context |
 | WebGL context lost mid-session (resource exhaustion) | AC#12 | Audit disposal; check `WEBGL_lose_context` extension is not being triggered by leak |
 | Offscreen scene continues running animations (perf bleed) | AC#6 + perf profile | Set `cullMargin = 1.0`; verify useFrame pauses |
-| Suspense boundary inside SceneTunnel (silent React tree corruption) | AC#14 ESLint | Move Suspense to GlobalCanvas level (FR-WEB-006) |
+| Whole-canvas Suspense or arbitrary scene-authored Suspense boundary | AC#14 + ADR-FR-WEB-003 review | Keep the canonical per-scene boundary inside `SceneTunnel`; never suspend `GlobalCanvas` itself |
 | Mount order dependency (Scene 4 first crashes) | AC#7 | Ensure shared assets are preloaded at canvas level, not lazy-loaded per scene |
 | `useSceneProgress` returns undefined for missing context | TypeScript + runtime | Default context value to `{ progress: 0 }` — never undefined |
 | Animation mixer leak (mixer kept after unmount) | Perf profile + Vitest | Call `disposeMixer(mixer, rootObject)` in cleanup |
@@ -390,5 +392,50 @@ The single `<canvas>` element in the DOM hosts Lumi (always visible) and the Sce
 **On r3f-scroll-rig vs alternatives:** Drei's `View` component achieves similar tunneling but lacks scroll-driven tracking. `react-three-portal` is a thinner primitive but doesn't handle DOM-aligned tracking. R3F-scroll-rig is the only library that ships the full tunneling + intersection-observer + DOM-tracker stack — master plan §5.2 names it.
 
 **On future scaling:** If a future scene needs OffscreenCanvas + WebWorker rendering (e.g. for a complex shader), it would still tunnel through SceneTunnel — but the canvas-internal rendering would be offloaded. This FR doesn't preclude that future move.
+
+---
+
+## §10 — Strict audit evidence (2026-05-18)
+
+Status: `shipped + strict-audited`.
+
+Architectural deviation: the original FR-WEB-003 Suspense ban is superseded by `docs/ADR-FR-WEB-003.md` and FR-WEB-006. The accepted rule is: never suspend `GlobalCanvas`; allow the canonical per-scene Suspense boundary inside `SceneTunnel` so scene loading is isolated.
+
+Edge-case matrix coverage:
+
+| Vector | Evidence |
+|---|---|
+| Null inputs | `disposeSubtree(null)` and `disposeSubtree(undefined)` are unit-tested as no-throw paths. |
+| Malformed payload | Progress context defaults to `{ progress: 0, culled: true, sceneId: null }` outside a tunnel. |
+| Extreme bounds | Full-scroll Playwright pass keeps exactly one canvas and no WebGL context-loss event. |
+| Invalid content | Source guard fails if any `<Canvas>` or `<GlobalCanvas>` appears outside `CanvasMount.tsx`. |
+| Concurrent race | Disposal is idempotent; material arrays and animation mixer cleanup are covered by unit tests. |
+| Observability | Dev-only `window.__sceneTunnelStates` and `?debug=tunnel` expose progress, culling, and tracking state. |
+
+Validation log:
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/unit/scene-disposal.test.ts tests/scene-progress.test.ts tests/no-second-canvas.test.ts --config vitest.config.ts
+Test Files  3 passed (3)
+Tests       7 passed (7)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+passed
+```
+
+```text
+$ cd apps/web && node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('node_modules/@14islands/r3f-scroll-rig/package.json','utf8')); console.log(pkg.name+' '+pkg.version);"
+@14islands/r3f-scroll-rig 8.15.0
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/scene-tunnel.spec.ts --project=chromium
+Running 2 tests using 1 worker
+  ✓ single canvas element survives a full scroll pass
+  ✓ no WebGL context lost event fires during scroll
+2 passed (6.1s)
+```
 
 *End of FR-WEB-003.*

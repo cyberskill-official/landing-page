@@ -3,7 +3,7 @@ id: FR-SCENE-024
 title: "Nón lá Easter-egg hover-reveal — 3 cultural-variant textures (Tết / Mid-Autumn / sunset-lit)"
 module: SCENE
 priority: COULD
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,9 @@ phase: P4
 slice: 2
 owner: Frontend Lead + Founder (cultural-variant signoff)
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
+mocked_dependency: "Variant KTX2 files currently reuse the base nonla KTX2 pending Founder-reviewed distinct artwork."
 related_frs: [FR-SCENE-019, FR-OPS-007, FR-CHAR-012, FR-CHAR-003]
 depends_on: [FR-SCENE-019, FR-OPS-007, FR-CHAR-012]
 blocks: []

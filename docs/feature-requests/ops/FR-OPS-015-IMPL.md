@@ -3,7 +3,8 @@ id: FR-OPS-015
 title: "Awards submission packet — Awwwards / FWA / CSSDA with cultural-narrative description, within 2 weeks of launch"
 module: OPS
 priority: SHOULD
-status: accepted
+status: blocked
+blocked_reason: "Submission packet and credits draft are ready; public launch URL, production captures, and actual award submission IDs are pending."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

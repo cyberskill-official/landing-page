@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Schema.org ProfessionalService JSON-LD with DUNS, founder, areaServed, knowsAbout"
 module: SEO
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -13,7 +13,7 @@ milestone: P5 · slice 3
 slice: 1
 owner: Content + Frontend Developer
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 brain_chain_hash: null
 related_frs: [FR-SEO-002, FR-SEO-003, FR-SEO-004, FR-SEO-005, FR-SEO-006, FR-WEB-001, FR-CMS-005]
 depends_on: [FR-WEB-001]

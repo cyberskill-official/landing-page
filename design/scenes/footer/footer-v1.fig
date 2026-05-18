@@ -1,0 +1,57 @@
+{
+  "format": "figma-handoff-manifest",
+  "title": "Footer Persistent Lumi Corner v1",
+  "version": "1.0.0",
+  "authored_at": "2026-05-17",
+  "frames": [
+    {
+      "name": "desktop-1920",
+      "path": "footer-desktop-1920.png",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "name": "tablet-1024",
+      "path": "footer-tablet-1024.png",
+      "size": [
+        1024,
+        1366
+      ]
+    },
+    {
+      "name": "mobile-390",
+      "path": "footer-mobile-390.png",
+      "size": [
+        390,
+        844
+      ]
+    }
+  ],
+  "cornerAvatar": {
+    "position": "top-right",
+    "size": [
+      48,
+      48
+    ],
+    "nonla": "on"
+  },
+  "dunsExternalLink": "https://www.dnb.com/business-directory/company-profiles/cyberskill.673219568",
+  "trustSignals": [
+    "CYBERSKILL SOFTWARE SOLUTIONS CONSULTANCY AND DEVELOPMENT JOINT STOCK COMPANY",
+    "D-U-N-S 673219568",
+    "Founded 2020",
+    "1st Floor, 207A Nguyen Van Thu Street, Tan Dinh Ward, Ho Chi Minh City, Vietnam",
+    "Phone: (+84) 906 878 091",
+    "info@cyberskill.world",
+    "Founder: Stephen Cheng · Trịnh Thái Anh"
+  ],
+  "annotations": [
+    "wave_goodbye start, mid, and curl-to-corner poses visible",
+    "Footer caption is DOM overlay: Until your next wish.",
+    "Language switcher is text-only: EN / VI",
+    "Secondary nav includes /work, /lite, /accessibility, /privacy, /terms",
+    "No aspirational certification claims in this comp"
+  ]
+}

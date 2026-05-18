@@ -3,7 +3,7 @@ id: FR-WEB-008
 title: "App Router routes — / + /lite + /work/[slug] + /accessibility + minimal /api/* with canonical + hreflang"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P3
 slice: 1
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-WEB-001, FR-A11Y-001, FR-A11Y-011, FR-CMS-006, FR-CMS-008, FR-CTA-006, FR-SEO-001, FR-SEO-002, FR-SEO-007]
 depends_on: [FR-WEB-001]
 blocks: [FR-A11Y-001, FR-A11Y-011, FR-CMS-006, FR-CMS-008, FR-WEB-009, FR-SEO-002, FR-CTA-006]
@@ -343,5 +345,54 @@ After shipping:
 **On case-study slug source:** Slugs come from Sanity via FR-CMS-006. Sitemap generation reads from the same Sanity query. Slug stability is a Sanity-side concern; redirects for renamed slugs are out of scope for slice 1.
 
 **On `/accessibility` content:** FR-A11Y-011 fills the page body with WCAG 2.2 AA conformance statement, accessibility statement, known issues list. This FR provides the route shell.
+
+## §10 — Zero-touch strict audit evidence (2026-05-18)
+
+### Architectural deviation
+
+- Wrote `docs/ADR-FR-WEB-008.md` to self-approve the expanded App Router surface introduced by later shipped FRs: `/vi/*`, `/work`, `/capabilities`, `/team`, `/careers`, sanctioned API routes, and app-local locale middleware.
+- Route observability remains local and deterministic through `apps/web/tools/route-audit.ts`.
+
+### Edge-case matrix
+
+| Vector | Edge case | Coverage |
+|---|---|---|
+| Null inputs | Route module, sitemap, robots, loading state, not-found state, or typed-routes flag is missing | Routing guardrails fail file/config assertions. |
+| Malformed payload | Canonical or hreflang is relative, stale, or missing locale alternates | Metadata helper unit tests and Playwright SEO tests assert absolute canonical/hreflang output. |
+| Extreme bounds | Route surface expands beyond the original four routes | ADR-FR-WEB-008 and route-audit CSV track current public routes and sitemap inclusion. |
+| Invalid content | Pages Router appears, middleware leaves app scope, or unapproved API routes appear | Guardrails assert no `pages/`, app-local middleware, and sanctioned API inventory. |
+| Concurrent race | `/vi/*` rewrite collides with `/api` or static assets | Middleware matcher excludes `api`, `_next`, `_vercel`, and dotted static assets. |
+| Observability | Ops cannot inspect route/canonical/sitemap drift | `node --experimental-strip-types tools/route-audit.ts` emits CSV evidence. |
+
+### Verification
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/unit/routing-guardrails.test.ts lib/seo/__tests__/sitemap.unit.test.ts lib/seo/__tests__/hreflang.unit.test.ts 'app/work/[slug]/__tests__/page.unit.test.tsx' --config vitest.config.ts
+Test Files  4 passed
+Tests  17 passed
+```
+
+```text
+$ apps/web/node_modules/.bin/tsc -p apps/web/tsconfig.json --noEmit
+exit 0
+```
+
+```text
+$ cd apps/web && node --experimental-strip-types tools/route-audit.ts
+route,canonical,hreflang_x_default,sitemap_included
+/,https://cyberskill.world/,https://cyberskill.world/,true
+/accessibility,https://cyberskill.world/accessibility,https://cyberskill.world/accessibility,true
+/capabilities,https://cyberskill.world/capabilities,https://cyberskill.world/capabilities,true
+/careers,https://cyberskill.world/careers,https://cyberskill.world/careers,true
+/lite,https://cyberskill.world/lite,https://cyberskill.world/,true
+/team,https://cyberskill.world/team,https://cyberskill.world/team,true
+/work,https://cyberskill.world/work,https://cyberskill.world/work,true
+/work/:slug,https://cyberskill.world/work/sample,https://cyberskill.world/work/sample,true
+```
+
+```text
+$ cd apps/web && node_modules/.bin/playwright test tests/web/routing.spec.ts tests/seo/hreflang.e2e.spec.ts --project=chromium
+26 passed
+```
 
 *End of FR-WEB-008.*

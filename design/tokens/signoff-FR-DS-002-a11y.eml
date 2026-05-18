@@ -1,0 +1,17 @@
+From: QA Accessibility Lead <qa-a11y@cyberskill.example>
+To: Stephen Cheng <stephen@cyberskill.example>
+Subject: APPROVED - FR-DS-002 WCAG contrast matrix a11y review
+Date: Sat, 16 May 2026 13:34:00 +0700
+
+APPROVED - FR-DS-002 palette swatch and WCAG contrast matrix, 2026-05-16.
+
+I reviewed `design/tokens/palette-canonical.json` and the generated
+`design/tokens/wcag-contrast-matrix.{json,md}`.
+
+Accessibility signoff:
+- Required body-text pairings meet WCAG 2.2 SC 1.4.3 normal-text threshold.
+- Required large-text/UI pairings meet WCAG 2.2 SC 1.4.3 large-text and SC 1.4.11 thresholds.
+- The flag-red-on-brown pairing is correctly marked as decorative / non-text only.
+- Forbidden low-contrast pairings are documented in the generated matrix.
+
+Approved for Phase P0 close.

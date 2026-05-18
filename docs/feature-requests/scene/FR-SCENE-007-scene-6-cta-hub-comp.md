@@ -3,7 +3,7 @@ id: FR-SCENE-007
 title: "Scene 6 CTA Hub — three-portal comp + audience colour-coding + Lumi-focus behaviour"
 module: SCENE
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,7 +12,7 @@ phase: P1
 slice: 1
 owner: Designer (Art Director)
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 related_frs: [FR-SCENE-001, FR-CHAR-001, FR-CMS-002, FR-CTA-001, FR-SCENE-018]
 depends_on: [FR-SCENE-001, FR-CHAR-001, FR-CMS-002]
 blocks: [FR-SCENE-018, FR-CTA-001]

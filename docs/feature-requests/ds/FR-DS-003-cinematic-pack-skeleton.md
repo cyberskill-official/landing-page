@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "@cyberskill/ds-cinematic package skeleton — workspace, exports, peer-dep on ds-foundations"
 module: DS
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -13,7 +13,7 @@ milestone: P1 · slice 1
 slice: 1
 owner: Designer (Art Director) + Frontend Lead
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-17
 brain_chain_hash: null
 related_frs: [FR-DS-001, FR-DS-002, FR-DS-004, FR-DS-005, FR-DS-006, FR-DS-007, FR-DS-008, FR-DS-009]
 depends_on: [FR-DS-002]               # palette swatch + WCAG matrix must exist as canonical input

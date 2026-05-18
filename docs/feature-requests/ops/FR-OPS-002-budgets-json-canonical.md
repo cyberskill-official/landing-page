@@ -3,7 +3,7 @@ id: FR-OPS-002
 title: "Per-asset budget definition file `tools/perf-budgets/budgets.json` — canonical CI source of truth"
 module: OPS
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P2
 slice: 1
 owner: Backend / DevOps
 created: 2026-05-16
+shipped: 2026-05-17
+strict_audited: 2026-05-18
 related_frs: [FR-OPS-001, FR-PERF-001, FR-OPS-003, FR-OPS-013]
 depends_on: [FR-OPS-001]
 blocks: [FR-OPS-003, FR-OPS-013, FR-PERF-001]
@@ -188,5 +190,26 @@ describe("budgets.json", () => {
 **On schema versioning:** When budgets.json shape changes (e.g. add a new metric category), bump `version` minor. Consumers MAY pin to a version range. Slice 1 doesn't enforce pinning; if drift becomes a problem, a future amendment adds version-pinning machinery.
 
 **On TOML migration:** If team strongly prefers TOML for editability, that's an FR-OPS-NNN amendment with a `budgets.toml` → `budgets.json` generator. Not slice 1 scope.
+
+## §9 — Strict audit 2026-05-18
+
+Validation evidence:
+
+```bash
+./node_modules/.bin/vitest run tools/perf-budgets/__tests__/budgets-schema.test.ts tools/perf-budgets/__tests__/check-asset-sizes.unit.test.mjs scripts/__tests__/pr-comment-asset-delta.unit.test.mjs
+✓ scripts/__tests__/pr-comment-asset-delta.unit.test.mjs (8 tests)
+✓ tools/perf-budgets/__tests__/check-asset-sizes.unit.test.mjs (7 tests)
+✓ tools/perf-budgets/__tests__/budgets-schema.test.ts (5 tests)
+Test Files  3 passed (3)
+Tests  20 passed (20)
+
+node -e 'const budgets=require("./tools/perf-budgets/budgets.json"); console.log(JSON.stringify({schema: budgets["$schema"], version: budgets.version, lumi: budgets.assets.lumi_glb_mb.target, nonla: budgets.assets.nonla_glb_kb.target}))'
+{"schema":"./budgets.schema.json","version":"1.0.0","lumi":3,"nonla":200}
+
+rg -n "tools/perf-budgets/budgets\\.json\\s+@zintaen" .github/CODEOWNERS
+25:tools/perf-budgets/budgets.json         @zintaen
+```
+
+Ownership note: the FR’s original example used `@stephencheng`, but the repository’s CODEOWNERS convention consistently uses `@zintaen` as the founder-review handle. Strict audit preserves that existing convention.
 
 *End of FR-OPS-002.*

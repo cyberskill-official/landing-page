@@ -1,0 +1,15 @@
+{
+  "format": "BLENDER_4_4_PLACEHOLDER",
+  "reason": "Blender is not installed in the current execution environment; replace with a real .blend via Blender 4.4.",
+  "fr": "FR-CHAR-004",
+  "collection": "lumi_main",
+  "meshBlocks": [
+    "lumi_hood",
+    "lumi_face",
+    "lumi_body",
+    "lumi_arms",
+    "lumi_wisp"
+  ],
+  "triCount": 7386,
+  "units": "metric, +Z up, 1m = 1 unit, Lumi height ~= 1.6m"
+}

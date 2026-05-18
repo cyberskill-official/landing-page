@@ -3,7 +3,7 @@ id: FR-OPS-012
 title: "axe-core/playwright a11y CI gate — fail on serious/critical WCAG 2.2 AA violations"
 module: OPS
 priority: MUST
-status: accepted
+status: shipped
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -12,6 +12,7 @@ phase: P3
 slice: 2
 owner: Backend / DevOps + A11Y reviewer + Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-17
 related_frs: [FR-OPS-010, FR-A11Y-001, FR-A11Y-002, FR-A11Y-003, FR-A11Y-004, FR-A11Y-005, FR-A11Y-008, FR-WEB-001]
 depends_on: [FR-OPS-010, FR-A11Y-001]
 blocks: [FR-A11Y-013]

@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Next.js 15 + React 19 + R3F 9 monorepo bootstrap with persistent GlobalCanvas outside router"
 module: WEB
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -13,7 +13,7 @@ milestone: P3 · slice 1
 slice: 1
 owner: Frontend Lead / R3F Architect
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-18
 brain_chain_hash: null
 related_frs: [FR-WEB-002, FR-WEB-003, FR-WEB-004, FR-WEB-005, FR-WEB-006, FR-WEB-007, FR-WEB-008, FR-WEB-009, FR-DS-003]
 depends_on: [FR-DS-003]               # Cinematic Pack must exist as a workspace member
@@ -43,15 +43,15 @@ new_files:
   - apps/web/postcss.config.mjs
   - apps/web/app/layout.tsx
   - apps/web/app/page.tsx
-  - apps/web/app/(lite)/page.tsx
+  - apps/web/app/lite/page.tsx
   - apps/web/app/api/health/route.ts
   - apps/web/components/canvas/GlobalCanvasShell.tsx
   - apps/web/components/canvas/CanvasMount.tsx
   - apps/web/components/scroll/SmoothScrollProvider.tsx
   - apps/web/lib/feature-detect.ts
   - apps/web/lib/dynamic-three.ts
-  - apps/web/tests/bootstrap.spec.ts
-  - apps/web/tests/bundle-budget.spec.ts
+  - apps/web/tests/bootstrap.test.ts
+  - apps/web/tests/bundle-budget.test.ts
   - apps/web/playwright.config.ts
 modified_files:
   - package.json                      # workspace root
@@ -448,9 +448,63 @@ CI gate: `pnpm -F web test && pnpm -F web build && pnpm -F web exec playwright t
 ## §8 — Notes
 
 - The version pins (`next ^15`, `react ^19`, `three ^0.184`, R3F `^9`) are correct as of May 2026 per master plan §13.2. Verify at sprint kickoff that no security/perf advisory has bumped a minor.
-- The `app/(lite)` route group convention (parentheses) creates the `/lite` URL without nesting in the layout — the lite path renders without `<GlobalCanvasShell>` in the layout chain. This is the cleanest way to get a three-free route in App Router.
+- Implementation note (2026-05-17): the pure-DOM route lives at `app/lite/page.tsx`; App Router route groups like `app/(lite)/page.tsx` are URL-invisible and collide with `/`. The shared root layout still mounts `GlobalCanvasShell`, so the shell explicitly short-circuits on `/lite` before loading the dynamic R3F boundary.
 - The "GlobalCanvas in layout" pattern is the same one used by Lusion v3 + Igloo Inc. + 14islands' Sanity case study (master plan §1.4 + §13.1). It's not novel; it's well-trodden.
 - The `frameloop="demand"` default + per-scene flip pattern is governed by FR-PERF-003. Don't change it here.
+
+---
+
+## §9 — Strict audit evidence (2026-05-18)
+
+Status: `shipped + strict-audited`.
+
+Edge-case matrix coverage:
+
+| Vector | Evidence |
+|---|---|
+| Null or missing WebGL capability | `/lite` and reduced-motion tests verify pure DOM path without canvas imports |
+| Extreme bounds | Bundle smoke verifies `/` First Load JS remains 110 kB, below the 200 kB gzip-critical budget intent |
+| Malformed route state | Routing smoke verifies `/lite` does not mount the canvas shell |
+| Concurrent route/runtime boundary | Browser smoke verifies initial SSR has no canvas and the persistent canvas appears only after hydration |
+
+Validation log:
+
+```text
+$ cd apps/web && node_modules/.bin/vitest run tests/bootstrap.test.ts tests/no-second-canvas.test.ts tests/unit/no-three-in-ssr.test.ts --config vitest.config.ts
+Test Files  3 passed (3)
+Tests       13 passed (13)
+```
+
+```text
+$ cd apps/web && node_modules/.bin/next build
+✓ Compiled successfully in 4.4s
+✓ Generating static pages (18/18)
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                      7.52 kB         110 kB
++ First Load JS shared by all             103 kB
+```
+
+```text
+$ cd apps/web && node_modules/.bin/tsc -p tsconfig.json --noEmit
+passed
+```
+
+Debug note: the first typecheck attempt saw stale `.next/types` references from a previous generated route snapshot. Running `next build` regenerated the route type surface; the follow-up `tsc --noEmit` passed without code changes.
+
+Browser smoke:
+
+```json
+{
+  "home_h1": "What if your will became real?",
+  "initial_canvas_count": 0,
+  "canvas_count_after_750ms": 1,
+  "lite_canvas_count": 0,
+  "lite_has_story": true,
+  "suspicious_initial_requests": []
+}
+```
+
+Screenshot artifact: `/tmp/fr-web-001-home.png`.
 
 ---
 

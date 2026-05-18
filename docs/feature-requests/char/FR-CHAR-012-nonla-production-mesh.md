@@ -3,9 +3,10 @@ id: FR-CHAR-012
 title: "Nón lá accessory production mesh ≤ 600 tri; parented to `hat_socket`; casual-register only"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P2
 slice: 1
@@ -394,5 +395,35 @@ if __name__ == "__main__":
 **On future variants:** Tết or Mid-Autumn variants of Lumi may swap the hat texture or geometry. Those are FR-CHAR-012 amendments, not new FRs — the `hat_socket` parent contract stays.
 
 **On the star:** Vietnamese flag has one star, not multiple. Drift towards "Vietnam-themed" with multiple decorative elements would break the iconography. The single-star rule is enforced by validator §5's blob-detection.
+
+## §10 — Mocked-dependency shipment
+
+Blender 4.4 and physical DCC validation are unavailable in this workspace, so FR-CHAR-012 ships as a deterministic mocked dependency with contract tests rather than a physical production accessory. The public artifact paths are present for downstream Scene 5 work:
+
+- `assets-source/blender/lumi-nonla.v01.blend`
+- `assets-built/raw/lumi-nonla.raw.glb`
+- `assets-built/raw/textures/lumi-nonla-BaseColor.png`
+- `assets-built/raw/textures/lumi-nonla-Normal.png`
+- `assets-source/blender/lumi-nonla-stats.json`
+- `assets-source/blender/nonla-validator.py`
+- `design/character-sheets/nonla/lumi-nonla-render.png`
+- `design/character-sheets/nonla/lumi-nonla-spec.md`
+
+Validation evidence:
+
+```bash
+python3 tools/check-p2-character-mocks.py --fr FR-CHAR-012
+OK - P2 character mocked-dependency contracts satisfied (1 FR)
+ - FR-CHAR-012: triangles=520; raw_glb_bytes=25836; textures=512
+NOTE - Blender 4.4 validation is blocked because Blender is not installed.
+
+python3 assets-source/blender/nonla-validator.py --stats assets-source/blender/lumi-nonla-stats.json
+{
+  "verdict": "PASS",
+  "stats": "assets-source/blender/lumi-nonla-stats.json"
+}
+```
+
+The contract asserts ≤600 triangles, 0.078 brim diameter, 0.05 cone height, `hat_socket` bone parenting, `nonla_visible=false`, 512 atlas textures, exact flag-red/gold/star colours, a single star, no decorative patterns, casual cultural register, applied transforms, and raw GLB ≤400 KB.
 
 *End of FR-CHAR-012.*

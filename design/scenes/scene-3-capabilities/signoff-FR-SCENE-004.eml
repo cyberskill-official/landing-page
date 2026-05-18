@@ -1,0 +1,19 @@
+From: Stephen Cheng <zintaen@gmail.com>
+To: cyberskill-build-team
+Date: Sun, 17 May 2026 00:52:00 +0700
+Subject: APPROVED - FR-SCENE-004 Scene 3 Capabilities comp
+
+APPROVED - FR-SCENE-004 Scene 3 Capabilities comp v1, 2026-05-17.
+
+Reviewed:
+- desktop, tablet, and mobile breakpoint comps;
+- quadrant satellite placement at 12/3/6/9;
+- cool tint limited to the React, Three.js, and AI/RAG satellite meshes;
+- warm-gold Lumi and brown-500 background;
+- verbatim FR-CMS-002 caption;
+- satellite orbit notes and grayscale logos strip slot.
+
+Approved for FR-SCENE-015 implementation planning.
+
+Stephen Cheng
+Founder, CyberSkill JSC

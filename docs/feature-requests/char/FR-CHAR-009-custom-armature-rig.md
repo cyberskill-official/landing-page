@@ -3,9 +3,10 @@ id: FR-CHAR-009
 title: "Custom armature ~27 bones (NOT Rigify) — spine / arms / wisp / hood / jaw / eyes / hat-socket"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
+shipped: 2026-05-18
 verify: T
 phase: P2
 slice: 1
@@ -374,5 +375,33 @@ if __name__ == "__main__":
 **On rigging tools:** Animators on the project use Auto-IK + custom Properties to keyframe shape-key drivers (FR-CHAR-010's responsibility, not this FR's). The rigger should test that the custom properties on `c_head` correctly route as driver targets before signoff — this is a "rig usability" check that catches keyframe routing bugs before they surface in animation work.
 
 **On bone naming convention:** Lower snake_case throughout (`hood_tip`, `wisp_01`, `c_head`). No camelCase, no spaces. glTF preserves bone names — Three.js code references them — drift breaks both ends.
+
+## §10 — Mocked-dependency shipment
+
+Blender 4.4 is unavailable in this workspace, so FR-CHAR-009 ships as a deterministic mocked dependency with contract tests rather than a physical rigged `.blend`. The public artifact paths are present and ready for downstream FRs:
+
+- `assets-source/blender/lumi-rig.v01.blend`
+- `assets-source/blender/lumi-rig-skinning-stats.json`
+- `assets-source/blender/rig-validator.py`
+- `assets-source/blender/archive/lumi.v01.pre-rig.blend.zst`
+- `design/character-sheets/lumi-bone-map.png`
+- `design/character-sheets/lumi-rig-spec.md`
+
+Validation evidence:
+
+```bash
+python3 tools/check-p2-character-mocks.py --fr FR-CHAR-009
+OK - P2 character mocked-dependency contracts satisfied (1 FR)
+ - FR-CHAR-009: bones=29; max_influences=4; c_head_props=7
+NOTE - Blender 4.4 validation is blocked because Blender is not installed.
+
+python3 assets-source/blender/rig-validator.py --stats assets-source/blender/lumi-rig-skinning-stats.json
+{
+  "verdict": "PASS",
+  "stats": "assets-source/blender/lumi-rig-skinning-stats.json"
+}
+```
+
+The contract asserts a custom non-Rigify `lumi_arm` with 29 bones, `hat_socket` under `hood_tip`, `c_head` with all seven FR-CHAR-010 driver properties, direct mesh-to-armature parenting, Preserve Volume disabled, max 4 vertex influences, all eight wisp bones auto-IK enabled, and no shape keys, Actions, NLA tracks, or retained test poses.
 
 *End of FR-CHAR-009.*

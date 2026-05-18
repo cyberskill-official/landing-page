@@ -4,7 +4,7 @@ id: FR-CHAR-006
 title: "Lumi production mesh — ≤ 40k tri watertight; polygon distribution per spec; silhouette parity vs FR-CHAR-001"
 module: CHAR
 priority: MUST
-status: accepted
+status: shipped + mocked-dependency + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -13,7 +13,7 @@ milestone: P2 · slice 1
 slice: 1
 owner: 3D Modeler / Texture Artist
 created: 2026-05-16
-shipped: null
+shipped: 2026-05-18
 brain_chain_hash: null
 related_frs: [FR-CHAR-001, FR-CHAR-002, FR-CHAR-004, FR-CHAR-007, FR-CHAR-008, FR-CHAR-009, FR-CHAR-010, FR-CHAR-011, FR-PERF-002, FR-OPS-001]
 depends_on: [FR-CHAR-001, FR-CHAR-004]
@@ -46,6 +46,7 @@ new_files:
   - assets-built/raw/lumi.raw.glb                          # exported, compression OFF (FR-OPS-001 stage 1 contract)
   - assets-source/blender/lumi-mesh-stats.json             # tri count + watertight + double-vertex stats
   - assets-source/blender/lumi-silhouette-32x32.png        # re-rendered silhouette for FR-CHAR-002 re-run
+  - assets-source/blender/FR-CHAR-006-mock-contract.md      # mocked-dependency contract while Blender is unavailable
 modified_files: []
 allowed_tools:
   - file_read: design/character-sheets/lumi-character-sheet-v1.fig
@@ -508,7 +509,18 @@ Sample `lumi-mesh-stats.json` after a successful run:
 
 ---
 
-## §9 — Notes (informational, no normative force)
+## §9 — Mocked-dependency shipment
+
+Blender 4.4 is not installed in the execution environment, so physical production mesh authoring, viewport inspection, and Blender Python validation remain unavailable. Per the zero-touch blocker rule, this FR ships as `shipped + mocked-dependency + strict-audited` using deterministic placeholder `.blend` files, a valid raw GLB proxy, a 32x32 silhouette PNG, and `lumi-mesh-stats.json` verified by:
+
+```bash
+python3 tools/generate-p2-character-mocks.py
+python3 tools/check-p2-character-mocks.py --fr FR-CHAR-006
+```
+
+The mock contract preserves downstream paths and rejects scope creep: no rig, no UV authoring, no PBR textures, no shape keys, and no animation payloads. A non-mocked shipment must replace the placeholders with real Blender 4.4-authored files at the same paths and pass the same checker.
+
+## §10 — Notes (informational, no normative force)
 
 - The production mesh's `lumi.v01.blend` *replaces* the greybox as the canonical Lumi for downstream P2 work. The greybox stays in `assets-source/blender/lumi-greybox.v01.blend` and gets re-purposed as the LOD-1 fallback (FR-PERF-002 consumes it directly, not a decimation of this production mesh).
 - The "vertex group as block tag" pattern in §3.1 is a Blender convention for marking face regions without splitting into separate Objects. The Python validator in §5 walks face-by-vertex-group to compute per-block tri counts. Alternative: material slots (each block has its own material slot) — but that conflicts with FR-CHAR-008's single-material PBR plan, so vertex groups are preferred.

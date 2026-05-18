@@ -3,7 +3,8 @@ id: FR-A11Y-012
 title: "Pre-launch a11y audit — full axe + VoiceOver + NVDA + JAWS + manual flows + archived report"
 module: A11Y
 priority: MUST
-status: accepted
+status: blocked
+blocked_reason: "External consultant sign-off plus real VoiceOver/NVDA/JAWS, switch-control, voice-control, cognitive, and color-blindness testing cannot be completed inside this workspace."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -17,9 +18,11 @@ blocks: []
 language: documentation + manual testing
 service: docs/audits/
 new_files:
-  - docs/audits/a11y-pre-launch-2026-MM-DD.md
+  - docs/audits/a11y-pre-launch-2026-05-18.md
   - docs/audits/a11y-test-checklist.md
   - docs/audits/screenreader-flows.md
+modified_files:
+  - apps/web/tests/a11y/all-routes.spec.ts
 
 source_pages:
   - docs/01-master-plan-v2.md §7.6 — "Pre-launch full axe + manual a11y audit"
@@ -277,6 +280,32 @@ Quarterly post-launch:
 ## §9 — Notes
 
 **On budget for external consultant:** Typical SMB a11y audit $3,000-$8,000 for 2-day engagement. Budget approved.
+
+## §10 — Implementation status
+
+Status: **blocked for launch sign-off**.
+
+Delivered:
+
+- `docs/audits/a11y-pre-launch-2026-05-18.md` records the automated local baseline, route scope, known blockers, and launch decision.
+- `docs/audits/a11y-test-checklist.md` defines the reusable launch and quarterly audit checklist.
+- `docs/audits/screenreader-flows.md` defines the manual screen-reader scripts for Skip Story, scene narration, Buy, Partner, Join, language switch, mute toggle, `/lite`, and `/accessibility`.
+- `apps/web/tests/a11y/all-routes.spec.ts` now includes Vietnamese localized routes in the automated axe matrix.
+
+Verified locally:
+
+- `node_modules/.bin/playwright test tests/a11y/accessibility-statement.e2e.spec.ts tests/a11y/all-routes.spec.ts tests/a11y/target-size.e2e.spec.ts --project=chromium`
+- `A11Y_REPORT_PATH=test-results/a11y-report-expanded-2026-05-18.json node_modules/.bin/playwright test tests/a11y/all-routes.spec.ts --project=chromium`
+- `node_modules/.bin/vitest run components/accessibility/__tests__/CriteriaTable.unit.test.tsx --config vitest.config.ts`
+- `node_modules/.bin/tsc -p tsconfig.json --noEmit`
+- `node_modules/.bin/next build`
+
+Blocked items:
+
+- External consultant sign-off is required by AC#6.
+- Manual VoiceOver, NVDA, and JAWS coverage is required by AC#2-4.
+- Motor, cognitive, and color-blindness simulation evidence is required by AC#9-11.
+- Quarterly cadence cannot be scheduled from this workspace without the user's calendar or project-management system.
 
 **On 'why not just trust automated?'** Automated catches the easy stuff. Real-world UX issues (cognitive load, awkward AT phrasing, focus order surprises) need human judgment.
 

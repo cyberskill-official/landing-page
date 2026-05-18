@@ -1,0 +1,182 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.gitignore'
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.gitignore'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+  LIGHTHOUSE_CI_VERSION: 0.15.1
+
+jobs:
+  lighthouse:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      max-parallel: 1
+      fail-fast: true
+      matrix:
+        formFactor: [mobile, desktop]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.2
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Cache Lighthouse
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/lighthouse
+            ~/.cache/chromium
+          key: lighthouse-${{ runner.os }}-${{ env.LIGHTHOUSE_CI_VERSION }}-${{ hashFiles('apps/web/lighthouserc.json') }}
+          restore-keys: |
+            lighthouse-${{ runner.os }}-${{ env.LIGHTHOUSE_CI_VERSION }}-
+
+      - name: Restore main Lighthouse baseline
+        id: lighthouse-baseline
+        uses: actions/cache/restore@v4
+        with:
+          path: .lighthouseci-main
+          key: lighthouse-main-${{ matrix.formFactor }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            lighthouse-main-${{ matrix.formFactor }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build web app
+        run: pnpm -F web build
+
+      - name: Start production server
+        shell: bash
+        run: |
+          pnpm -F web start -- --hostname 127.0.0.1 --port 3000 > /tmp/next-lighthouse.log 2>&1 &
+          echo "$!" > /tmp/next-lighthouse.pid
+
+      - name: Wait for health check
+        run: curl --retry 30 --retry-delay 2 --retry-connrefused --fail http://127.0.0.1:3000/api/health
+
+      - name: Check lighthouse skip label
+        id: skip
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          labels='${{ toJSON(github.event.pull_request.labels.*.name) }}'
+          if echo "$labels" | grep -q '"lighthouse:skip"'; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Lighthouse gate skipped by lighthouse:skip label."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run Lighthouse CI
+        if: steps.skip.outputs.skip != 'true'
+        shell: bash
+        run: |
+          EXTRA_ARGS=()
+          if [ "${{ matrix.formFactor }}" = "desktop" ]; then
+            EXTRA_ARGS=(
+              "--collect.settings.preset=desktop"
+              "--collect.settings.formFactor=desktop"
+              "--collect.settings.screenEmulation.mobile=false"
+              "--collect.settings.screenEmulation.width=1350"
+              "--collect.settings.screenEmulation.height=940"
+              "--collect.settings.screenEmulation.deviceScaleFactor=1"
+              "--collect.settings.throttling.cpuSlowdownMultiplier=1"
+              "--collect.settings.throttling.rttMs=40"
+              "--collect.settings.throttling.throughputKbps=10240"
+            )
+          fi
+          pnpm dlx "@lhci/cli@${LIGHTHOUSE_CI_VERSION}" autorun \
+            --config=apps/web/lighthouserc.json \
+            --upload.target=temporary-public-storage \
+            "${EXTRA_ARGS[@]}"
+
+      - name: Generate Lighthouse summary
+        id: lighthouse-summary
+        if: steps.skip.outputs.skip != 'true'
+        run: |
+          node apps/web/scripts/lighthouse-summary.mjs \
+            --form-factor=${{ matrix.formFactor }} \
+            --baseline=.lighthouseci-main/${{ matrix.formFactor }}.json \
+            --baseline-output=.lighthouseci-main/${{ matrix.formFactor }}.json \
+            --output=/tmp/lighthouse-summary-${{ matrix.formFactor }}.md
+          echo "path=/tmp/lighthouse-summary-${{ matrix.formFactor }}.md" >> "$GITHUB_OUTPUT"
+
+      - name: Post Lighthouse PR comment
+        if: steps.skip.outputs.skip != 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const body = fs.readFileSync('${{ steps.lighthouse-summary.outputs.path }}', 'utf8');
+            const marker = '<!-- lighthouse-summary:${{ matrix.formFactor }} -->';
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.rest.issues.listComments({ owner, repo, issue_number, per_page: 100 });
+            const previous = comments.data.find((comment) => comment.body?.includes(marker));
+            if (previous) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: previous.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+      - name: Upload Lighthouse artifacts
+        if: always() && steps.skip.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports-${{ matrix.formFactor }}
+          path: |
+            .lighthouseci/
+            /tmp/lighthouse-summary-${{ matrix.formFactor }}.md
+          retention-days: 30
+
+      - name: Save main Lighthouse baseline
+        if: steps.skip.outputs.skip != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v4
+        with:
+          path: .lighthouseci-main
+          key: lighthouse-main-${{ matrix.formFactor }}-${{ github.sha }}

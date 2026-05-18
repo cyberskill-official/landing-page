@@ -3,7 +3,7 @@ id: FR-CTA-008
 title: "Time-zone-honesty live-clock widget — HCMC + visitor zone + overlap-hours indicator (4h Vietnam working window)"
 module: CTA
 priority: MUST
-status: accepted
+status: shipped + strict-audited
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -11,6 +11,8 @@ phase: P4
 slice: 2
 owner: Frontend Lead
 created: 2026-05-16
+shipped: 2026-05-19
+strict_audited: 2026-05-19
 related_frs: [FR-SCENE-017, FR-SCENE-018, FR-CTA-001, FR-CTA-002, FR-CMS-vi, FR-A11Y-001]
 depends_on: [FR-SCENE-017]
 blocks: []
