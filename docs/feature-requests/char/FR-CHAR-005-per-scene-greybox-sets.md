@@ -3,7 +3,7 @@ id: FR-CHAR-005
 title: "Per-scene greybox sets — props, camera frusta, scene-scale checks"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -32,6 +32,7 @@ new_files:
 effort_hours: 12
 risk_if_skipped: "Without per-scene greybox, the R3F architect can't validate scene-camera framing, prop placement, or draw-call counts until P3/P4 — by which time wrong choices have cascaded into multiple scenes."
 engineering_anchor: true
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

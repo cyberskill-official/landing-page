@@ -3,7 +3,7 @@ id: FR-SCENE-004
 title: "Scene 3 Capabilities — quadrant comp + 4-satellite art direction + split-to-4 anim cue"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

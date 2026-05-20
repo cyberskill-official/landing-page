@@ -13,7 +13,7 @@ issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 prior_state: spec-stub @ 6.5/10
 ---
 
@@ -49,7 +49,7 @@ FR-A11Y-010 is ship-grade. Form autofill + Redundant-Entry compliance
 - BCP-14 normative MUSTs already precise.
 - Anchor-FR dependency edge already correctly named.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-80145 — Vietnamese-locale aria-live label translation
 - **severity:** warning

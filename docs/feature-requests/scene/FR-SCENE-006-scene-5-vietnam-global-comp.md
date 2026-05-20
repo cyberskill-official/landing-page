@@ -3,7 +3,7 @@ id: FR-SCENE-006
 title: "Scene 5 Vietnam → Global — globe + nón lá moment + HCMC→NA/EU arc"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

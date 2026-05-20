@@ -3,7 +3,7 @@ id: FR-WEB-008
 title: "App Router routes — / + /lite + /work/[slug] + /accessibility + minimal /api/* with canonical + hreflang"
 module: WEB
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

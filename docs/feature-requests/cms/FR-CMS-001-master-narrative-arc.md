@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Master narrative arc — 7 scenes, EN-first, Lumi voice rules locked"
 module: CMS
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I

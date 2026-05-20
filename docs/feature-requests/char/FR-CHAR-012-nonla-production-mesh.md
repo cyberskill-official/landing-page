@@ -3,7 +3,7 @@ id: FR-CHAR-012
 title: "Nón lá accessory production mesh ≤ 600 tri; parented to `hat_socket`; casual-register only"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18
@@ -37,6 +37,7 @@ new_files:
 
 effort_hours: 6
 risk_if_skipped: "Scene 5 cultural-arc reveal (FR-SCENE-017) cannot render — the single most-visible cultural-signal asset in the cinematic is missing. FR-CHAR-011's nonla_appear + nonla_tip animation clips have nothing to animate against. Brand cultural-identity beat fails."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

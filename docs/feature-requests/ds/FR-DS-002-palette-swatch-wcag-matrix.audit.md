@@ -10,7 +10,7 @@ issues_resolved: 8
 issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 ---
 
 ## §1 — Verdict summary
@@ -41,7 +41,7 @@ FR-DS-002 is ship-grade. Round-1 revisions made hex values byte-identical-assert
 - §3.4 scene-usage map turns palette discipline from a verbal rule into a check-list that any reviewer can scan.
 - §1 #5 PASS / PARTIAL / FAIL three-state vocabulary mirrors WCAG's actual structure (1.4.3 body / large; 1.4.11 UI) and prevents binary thinking that drops nuance.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-1306 — Token export determinism not asserted
 - **severity:** warning

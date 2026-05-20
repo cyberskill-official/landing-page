@@ -3,7 +3,7 @@ id: FR-PERF-009
 title: "Low-memory device path — deviceMemory < 4 → LOD-1 + no post-FX + DPR cap 1.0"
 module: PERF
 priority: MUST
-status: accepted
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

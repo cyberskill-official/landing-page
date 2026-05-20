@@ -3,7 +3,7 @@ id: FR-SEO-003
 title: "Person JSON-LD for founder — Stephen Cheng / Trịnh Thái Anh with affiliation + UTF-8 diacritic guard"
 module: SEO
 priority: SHOULD
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

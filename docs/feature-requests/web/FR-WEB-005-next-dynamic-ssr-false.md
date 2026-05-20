@@ -3,7 +3,7 @@ id: FR-WEB-005
 title: "next/dynamic({ ssr: false }) discipline — three.js + R3F off the SSR + critical-path"
 module: WEB
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

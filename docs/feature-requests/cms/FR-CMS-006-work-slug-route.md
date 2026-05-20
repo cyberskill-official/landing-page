@@ -3,7 +3,7 @@ id: FR-CMS-006
 title: "/work/[slug] case-study route — Sanity-driven content + Article JSON-LD + draft preview mode"
 module: CMS
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

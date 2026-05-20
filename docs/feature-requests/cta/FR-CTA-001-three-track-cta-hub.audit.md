@@ -12,7 +12,7 @@ issues_resolved: 8
 issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 ---
 
 ## §1 — Verdict summary
@@ -43,7 +43,7 @@ FR-CTA-001 is ship-grade. Round-2 revisions promoted "no R3F dependency" to a gr
 - §4 14 ACs each tied to a measurement tool (Vitest, Playwright, grep, webpack stats).
 - §2 rationale explains *why* DOM-overlay over `<Html>` with specific UX failures it prevents (pointer rabbit holes).
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-706 — Form session draft expiry edge case (deploy mid-session)
 - **severity:** warning

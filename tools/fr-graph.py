@@ -20,7 +20,7 @@ Run:    python3 tools/fr-graph.py
 References:
 - AGENTS.md §0.8 (module catalogue)
 - BACKLOG.md §10 (dependency-graph health)
-- FR_AUTHORING_WORKFLOW.md §6 (frontmatter contract)
+- feature-request-audit skill §6 (frontmatter contract)
 """
 from __future__ import annotations
 

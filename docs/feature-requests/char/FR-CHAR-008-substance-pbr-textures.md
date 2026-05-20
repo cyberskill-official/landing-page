@@ -3,7 +3,7 @@ id: FR-CHAR-008
 title: "Substance Painter PBR textures — BaseColor / ORM-packed / Normal / Emissive at locked 2k"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -38,6 +38,7 @@ new_files:
 
 effort_hours: 16
 risk_if_skipped: "Without authored textures Lumi has no signature gold gradient (hood-200 → body-400 → tail-500), no C-emboss emissive, no surface micro-detail. The PBR material spec from master plan §3.3 breaks; FR-CHAR-011 animation library renders flat-shaded grey blob. Re-authoring textures mid-production (after FR-CHAR-011) costs 3-5 days because every animation snapshot needs re-rendering."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

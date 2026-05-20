@@ -3,7 +3,7 @@ id: FR-PERF-003
 title: "Per-scene frameloop='demand' — Canvas idle when no animation; flip to 'always' on scene activity"
 module: PERF
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

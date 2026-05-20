@@ -3,7 +3,7 @@ id: FR-OPS-007
 title: "Cowork Recipes B–G — texture variants / motion previs / Blender Python / Substance / async review / nón lá variants"
 module: OPS
 priority: COULD
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

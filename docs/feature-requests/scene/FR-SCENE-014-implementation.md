@@ -3,7 +3,7 @@ id: FR-SCENE-014
 title: "Scene 2 Transformation impl — `paint` clip + paint-trail shader + sketch→app morph + pull-quote"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

@@ -28,4 +28,5 @@ assets-built/optimized/
 # QA validation and playwright cli outputs
 .playwright-cli/
 docs/qa/validation-logs/
+.cyberos-memory
 

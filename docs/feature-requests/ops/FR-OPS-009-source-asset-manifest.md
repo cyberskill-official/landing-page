@@ -3,7 +3,7 @@ id: FR-OPS-009
 title: "assets-source/manifest.json lockfile — source-asset dependency tracking with sha256 + stale detection"
 module: OPS
 priority: SHOULD
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

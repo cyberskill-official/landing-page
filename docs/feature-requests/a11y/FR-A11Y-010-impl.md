@@ -3,7 +3,7 @@ id: FR-A11Y-010
 title: "Form autofill + Redundant-Entry compliance — autocomplete attrs + cross-form data carry"
 module: A11Y
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18

@@ -3,7 +3,7 @@ id: FR-SCENE-012
 title: "Particulate dust — 200 instanced points (responsive: 100 tablet / 50 mobile), additive-blend + alpha-fade, reduced-motion-aware"
 module: SCENE
 priority: SHOULD
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

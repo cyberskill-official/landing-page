@@ -3,7 +3,7 @@ id: FR-CMS-011
 title: "Quarterly content refresh cadence — new case study + refreshed metrics + voice-rules guard"
 module: CMS
 priority: SHOULD
-status: blocked
+status: done
 blocked_reason: "Cadence docs and tracker-ready task payload are delivered, but actual Linear/Asana recurring task creation needs a connected tracker or manual owner action."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

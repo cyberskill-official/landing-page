@@ -3,7 +3,7 @@ id: FR-SEO-007
 title: "Analytics proxy — GA4 + Plausible dual-pipe via /api/analytics cookieless, PII-stripped, retry-queued"
 module: SEO
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

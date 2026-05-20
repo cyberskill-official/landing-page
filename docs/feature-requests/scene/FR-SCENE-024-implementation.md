@@ -3,7 +3,7 @@ id: FR-SCENE-024
 title: "Nón lá Easter-egg hover-reveal — 3 cultural-variant textures (Tết / Mid-Autumn / sunset-lit)"
 module: SCENE
 priority: COULD
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -33,6 +33,7 @@ new_files:
 
 effort_hours: 4
 risk_if_skipped: "Easter egg is a delight beat. COULD priority — not a blocker. Skipping = users miss a moment of brand-personality reveal on repeat visits."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

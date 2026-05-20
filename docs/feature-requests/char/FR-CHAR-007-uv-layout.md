@@ -3,7 +3,7 @@ id: FR-CHAR-007
 title: "Lumi UV layout — locked 2k/1k/512 atlas trio with seam discipline + texel-density floor"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -36,6 +36,7 @@ modified_files:
 
 effort_hours: 8
 risk_if_skipped: "Without a locked UV, FR-CHAR-008 textures author against shifting coords; every bake artefacts cascade into FR-OPS-002 KTX2 compression which then ghost into Scene rendering. Late UV changes also break shape-key normal targets (FR-CHAR-010)."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

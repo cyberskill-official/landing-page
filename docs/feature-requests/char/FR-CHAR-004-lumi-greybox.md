@@ -3,7 +3,7 @@ id: FR-CHAR-004
 title: "Lumi greybox mesh — proxy proportions, silhouette pass, no textures"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -43,6 +43,7 @@ disallowed_tools:
 effort_hours: 8
 risk_if_skipped: "Without a greybox, FR-CHAR-005 (per-scene greybox sets) blocks; the engineering team cannot size scene-camera framing or evaluate Lumi's silhouette in motion. Skipping → 1 week of scope guessing in P2."
 engineering_anchor: true
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

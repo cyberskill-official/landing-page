@@ -3,7 +3,7 @@ id: FR-OPS-013
 title: "File-size CI gate — fail PR if any GLB/KTX2/asset exceeds budgets.json + ban CDN decoder loads"
 module: OPS
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

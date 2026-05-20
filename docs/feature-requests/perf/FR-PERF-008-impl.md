@@ -3,7 +3,7 @@ id: FR-PERF-008
 title: "Draw-call ceiling — < 100 per scene + instancing audit (particles, avatars, repeated meshes)"
 module: PERF
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

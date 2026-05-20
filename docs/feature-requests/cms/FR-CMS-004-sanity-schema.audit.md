@@ -1,7 +1,7 @@
 ---
 fr_id: FR-CMS-004
 audited: 2026-05-16
-auditor: manual (engineering-spec@1 + AUTHORING.md §3.12 compliance pass round 3)
+auditor: manual (engineering-spec@1 + feature-request-audit skill §3.12 compliance pass round 3)
 verdict: PASS
 score_pre_revision: 6.5/10
 score_post_revision_1: 9.0/10
@@ -11,7 +11,7 @@ issues_resolved: 7
 issues_critical: 0
 template: engineering-spec@1
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md compliance re-audit against expanded 22KB spec)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill compliance re-audit against expanded 22KB spec)
 authoring_md_compliance: §3.12 #36 — 7 ISS findings (≥ 6 required) ✓
 ---
 
@@ -19,7 +19,7 @@ authoring_md_compliance: §3.12 #36 — 7 ISS findings (≥ 6 required) ✓
 
 FR-CMS-004 ships the Sanity schema for 5 document types: CaseStudy, Testimonial, Capability, TeamMember, Job. At 22.1 KB with normative PII-restriction rules (TeamMember has NO email/phone/address fields per FR-SCENE-005), per-image alt-text requirement, i18n_locale field on every type, and TypeGen integration.
 
-Round-3 re-audit adds 3 NEW ISS findings against the expanded content. Total: 7 ISS — compliant with AUTHORING.md §3.12 #36.
+Round-3 re-audit adds 3 NEW ISS findings against the expanded content. Total: 7 ISS — compliant with feature-request-audit skill §3.12 #36.
 
 ## §2 — Round-1/2 findings (resolved; preserved)
 

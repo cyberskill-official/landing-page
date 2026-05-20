@@ -3,7 +3,7 @@ id: FR-PERF-002
 title: "Lumi LOD-1 variant (~8k tri) — for distance > 12m + low-memory device fallback"
 module: PERF
 priority: MUST
-status: accepted
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

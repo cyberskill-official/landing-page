@@ -3,7 +3,7 @@ id: FR-CHAR-011
 title: "Animation library — 11 clips per master plan §3.3a; NLA-strip-named for clean glTF split"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18
@@ -36,6 +36,7 @@ modified_files:
 
 effort_hours: 24
 risk_if_skipped: "Without animations, Lumi is a static prop across all 7 scenes. Every scene-implementation FR (FR-SCENE-009..019) hard-blocks on specific clips. This is the single biggest scope item in P2 — 24 effort hours — and the unblock fan-out is 10 downstream FRs. Skipping or short-changing it cascades into 'placeholder Lumi' rendering across the entire site for the duration of the build."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

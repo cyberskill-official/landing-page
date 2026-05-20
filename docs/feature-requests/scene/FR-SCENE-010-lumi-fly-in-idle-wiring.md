@@ -3,7 +3,7 @@ id: FR-SCENE-010
 title: "Lumi animation wiring — Zustand-driven anim picker with 200ms crossfade + default-to-idle"
 module: SCENE
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -34,6 +34,7 @@ new_files:
 
 effort_hours: 6
 risk_if_skipped: "Without disciplined anim-picker wiring, scene-implementation FRs (013-018) each invent their own clip-selection logic. Crossfades become inconsistent (some 100ms, some 500ms), useFrame setState anti-pattern leaks, and the cinematic feel degrades unevenly across scenes."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

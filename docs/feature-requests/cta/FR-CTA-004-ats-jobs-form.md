@@ -3,7 +3,7 @@ id: FR-CTA-004
 title: "ATS-fed 'We're hiring N' badge + Join form — Workable / Greenhouse role-source, multi-step intake"
 module: CTA
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18

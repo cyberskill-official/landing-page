@@ -10,7 +10,7 @@ issues_resolved: 7
 issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 ---
 
 ## §1 — Verdict summary
@@ -31,7 +31,7 @@ FR-CHAR-002 is ship-grade in one round. Pre-audit revisions (during authoring) a
 ### ISS-1004 — Sample size N=3 could be challenged as too low
 - **severity:** info · **status:** RESOLVED — §2 rationale documents the trade-off (rigour vs P0 speed); §7 row 5 allows expansion if needed.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-1005 — Mesh hash invariance not pinned across Blender versions
 - **severity:** warning

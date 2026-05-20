@@ -3,7 +3,7 @@ id: FR-OPS-010
 title: "GitHub Actions CI — install / lint / typecheck / test / build with pnpm + Next cache"
 module: OPS
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

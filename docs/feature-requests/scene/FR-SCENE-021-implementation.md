@@ -3,7 +3,7 @@ id: FR-SCENE-021
 title: "Mobile compressed scene flow — Scenes 1+2 merge + Scenes 3+4 merge → 5-scene flow at < 768px"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

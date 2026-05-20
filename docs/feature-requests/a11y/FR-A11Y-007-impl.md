@@ -3,7 +3,7 @@ id: FR-A11Y-007
 title: "Keyboard nav cycle — Skip story → header → scene anchors → footer, with focus trap for modals + Escape return"
 module: A11Y
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

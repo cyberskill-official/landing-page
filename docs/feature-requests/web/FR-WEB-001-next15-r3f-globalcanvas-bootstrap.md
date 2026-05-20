@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Next.js 15 + React 19 + R3F 9 monorepo bootstrap with persistent GlobalCanvas outside router"
 module: WEB
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

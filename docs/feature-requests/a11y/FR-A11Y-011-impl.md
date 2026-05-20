@@ -3,7 +3,7 @@ id: FR-A11Y-011
 title: "Public /accessibility compliance page — WCAG 2.2 AA statement, criteria coverage, contact for complaints"
 module: A11Y
 priority: MUST
-status: shipped
+status: done
 shipped_at: 2026-05-18
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

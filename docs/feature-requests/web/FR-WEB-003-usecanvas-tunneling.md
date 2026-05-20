@@ -3,7 +3,7 @@ id: FR-WEB-003
 title: "<UseCanvas> tunneling — scene-mesh portaling into persistent GlobalCanvas with DOM tracking + disposal"
 module: WEB
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

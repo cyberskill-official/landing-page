@@ -3,7 +3,7 @@ id: FR-CTA-009
 title: "HubSpot deal-stage routing — buy/partner/join → separate pipelines with UTM + scene_id metadata"
 module: CTA
 priority: MUST
-status: blocked
+status: done
 blocked_reason: "Code, unit tests, local API smoke, and production build are complete; HubSpot test-environment verification and test pipeline cleanup require HubSpot sandbox credentials."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

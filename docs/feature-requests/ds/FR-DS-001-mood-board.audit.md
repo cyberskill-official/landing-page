@@ -10,7 +10,7 @@ issues_resolved: 7
 issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 ---
 
 ## §1 — Verdict summary
@@ -38,7 +38,7 @@ FR-DS-001 is ship-grade. Round-1 revisions added the counter-example rule (§1 #
 - Cluster D's mascot register choice prevents Lumi from drifting twee — citing Linear / Notion register signals professional warmth.
 - §10 implicit "future seasons via successor FRs" prevents this mood board from becoming a kitchen-sink iterating document.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-1205 — Token export determinism not asserted
 - **severity:** warning

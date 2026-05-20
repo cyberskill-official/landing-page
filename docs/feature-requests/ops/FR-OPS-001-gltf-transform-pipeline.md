@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "scripts/gltf-pipeline.mjs — two-stage Blender → glTF-Transform pipeline (Meshopt for Lumi, Draco for static, KTX2/Basis textures)"
 module: OPS
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

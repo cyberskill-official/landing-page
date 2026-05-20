@@ -3,7 +3,7 @@ id: FR-SCENE-018
 title: "Scene 6 CTA Hub impl — `<CtaHub>` mount + Lumi-head-turn-on-portal-focus + deep-link"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

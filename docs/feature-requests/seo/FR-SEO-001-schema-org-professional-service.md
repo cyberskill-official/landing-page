@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Schema.org ProfessionalService JSON-LD with DUNS, founder, areaServed, knowsAbout"
 module: SEO
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

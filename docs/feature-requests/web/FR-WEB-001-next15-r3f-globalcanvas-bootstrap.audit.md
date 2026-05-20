@@ -1,7 +1,7 @@
 ---
 fr_id: FR-WEB-001
 audited: 2026-05-16
-auditor: manual (engineering-spec@1 + AUTHORING.md §3.12 compliance pass round 3)
+auditor: manual (engineering-spec@1 + feature-request-audit skill §3.12 compliance pass round 3)
 verdict: PASS
 score_pre_revision: 8.5/10
 score_post_revision_1: 9.5/10
@@ -11,7 +11,7 @@ issues_resolved: 9
 issues_critical: 0
 template: engineering-spec@1
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md compliance re-audit against expanded 457-line spec)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill compliance re-audit against expanded 457-line spec)
 authoring_md_compliance: §3.12 #36 — 9 ISS findings (≥ 6 required) ✓
 ---
 
@@ -19,7 +19,7 @@ authoring_md_compliance: §3.12 #36 — 9 ISS findings (≥ 6 required) ✓
 
 FR-WEB-001 is the foundational WEB FR — the spec that locks the Next 15 + React 19 + R3F 9 + Three.js r184 stack and codifies the GlobalCanvas-outside-router pattern. At 457 lines with 16 normative MUSTs, 14 acceptance criteria, 3 test blocks (Vitest + bundle-budget + Playwright), and 10-row failure-modes table, it is the most surface-area-dense FR in the project.
 
-Round-3 re-audit (this pass) adds 3 NEW ISS findings against the expanded content that were not surfaced in R1/R2 (which audited a shorter earlier version). Total: 9 ISS findings — well above the AUTHORING.md §3.12 #36 ≥ 6 threshold.
+Round-3 re-audit (this pass) adds 3 NEW ISS findings against the expanded content that were not surfaced in R1/R2 (which audited a shorter earlier version). Total: 9 ISS findings — well above the feature-request-audit skill §3.12 #36 ≥ 6 threshold.
 
 **Verdict:** ship-grade. Implementation can start Monday 2026-05-19 from this spec without further questions.
 
@@ -89,7 +89,7 @@ Round-3 re-audit (this pass) adds 3 NEW ISS findings against the expanded conten
 - 16 normative §1 clauses cover every architectural decision named.
 - §7 failure modes inventory (10 rows; 12 after R3 additions) covers every architectural decision's failure path.
 
-## §6 — Rubric scoring (per FR_AUTHORING_WORKFLOW.md §7)
+## §6 — Rubric scoring (per feature-request-audit skill §7)
 
 | Dimension | Weight | Pre | Post-R1 | Post-R2 | **Post-R3** |
 |---|---:|:-:|:-:|:-:|:-:|
@@ -114,7 +114,7 @@ R3 re-audit unblocks confident implementation start. The 9 ISS findings demonstr
 - 2 R2 findings caught observability + version-drift gaps.
 - 3 R3 findings caught dev-mode (HMR), strict-typing, and cross-FR SSR consistency gaps.
 
-This is the AUTHORING.md §0 master rule expressed correctly: loop audit rounds until perfect. The original audit (R2 final) was already at 10/10 against the content of its time. R3 re-audited against the expanded content and surfaced 3 more legitimate findings.
+This is the feature-request-audit skill §0 master rule expressed correctly: loop audit rounds until perfect. The original audit (R2 final) was already at 10/10 against the content of its time. R3 re-audited against the expanded content and surfaced 3 more legitimate findings.
 
 ## §8 — Implementation-readiness signal
 
@@ -136,6 +136,6 @@ Engineers can scaffold `apps/web` Monday 2026-05-19 from this spec. The 9 audite
 
 ## §10 — Upgrade-queue note
 
-Batch 2 anchor-grade upgrade — round 3 re-audit applied per AUTHORING.md §3.12 compliance. Next chokepoint to re-audit: FR-WEB-004 (Zustand store pattern).
+Batch 2 anchor-grade upgrade — round 3 re-audit applied per feature-request-audit skill §3.12 compliance. Next chokepoint to re-audit: FR-WEB-004 (Zustand store pattern).
 
 *End of FR-WEB-001 audit (round 3 final).*

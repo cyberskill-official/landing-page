@@ -13,7 +13,7 @@ issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 prior_state: spec-stub @ 6.5/10
 ---
 
@@ -48,7 +48,7 @@ FR-CTA-010 is ship-grade. Post-launch CTA track B — alumni / advisor cohort: P
 - Master plan §10 P6 launch phase-gate correctly cited.
 - Awards-submission deadline + soft-launch partner-share gate already correct.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-90015 — Form session draft expiry edge case (deploy mid-session)
 - **severity:** warning

@@ -10,7 +10,7 @@ issues_resolved: 8
 issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 ---
 
 ## §1 — Verdict summary
@@ -41,7 +41,7 @@ FR-CHAR-003 is ship-grade. Round-1 revisions promoted "casual not ceremonial" to
 - §3.4 cultural-note.md is the cross-team contract — modeler, writer, founder all reference it.
 - The interior gold-lining Easter egg (§1 #4 + §8 note) is a tiny detail that rewards engagement without breaking the casual register.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-1106 — Mesh hash invariance not pinned across Blender versions
 - **severity:** warning

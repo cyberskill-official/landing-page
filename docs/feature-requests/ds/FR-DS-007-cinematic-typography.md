@@ -3,7 +3,7 @@ id: FR-DS-007
 title: "Cinematic typography pairing — display face (Inter Display) + caption mono (JetBrains Mono)"
 module: DS
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

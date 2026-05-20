@@ -3,7 +3,7 @@ id: FR-SCENE-016
 title: "Scene 4 Team impl — 10 bokeh avatars + Lumi dim + privacy-by-default hover anonymisation"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

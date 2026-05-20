@@ -3,7 +3,7 @@ id: FR-A11Y-003
 title: "Skip-story pill (top-right) — first focusable element, jumps to Scene 6 #cta-hub"
 module: A11Y
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

@@ -3,7 +3,7 @@ id: FR-PERF-005
 title: "disposeAll audit — geometries/materials/textures/render-targets on unmount + Vitest no-leak gate"
 module: PERF
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

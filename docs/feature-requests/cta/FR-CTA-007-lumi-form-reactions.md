@@ -3,7 +3,7 @@ id: FR-CTA-007
 title: "Lumi form reactions — mouth_smile/summon/wave_goodbye animations on form step changes + outcomes"
 module: CTA
 priority: SHOULD
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

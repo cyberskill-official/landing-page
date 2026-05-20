@@ -3,7 +3,7 @@ id: FR-DS-005
 title: "Vietnamese-flag accent tokens — Scene-5-scoped via CSS cascade + TS runtime guard"
 module: DS
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

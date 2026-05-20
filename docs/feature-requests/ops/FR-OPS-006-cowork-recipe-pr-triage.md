@@ -3,7 +3,7 @@ id: FR-OPS-006
 title: "Cowork Recipe A — PR triage automation (size delta + draw-call estimate + screenshot diff + semantic explanation)"
 module: OPS
 priority: SHOULD
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

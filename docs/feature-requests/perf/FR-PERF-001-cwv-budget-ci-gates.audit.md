@@ -1,7 +1,7 @@
 ---
 fr_id: FR-PERF-001
 audited: 2026-05-16
-auditor: manual (engineering-spec@1 + AUTHORING.md §3.12 compliance pass round 3)
+auditor: manual (engineering-spec@1 + feature-request-audit skill §3.12 compliance pass round 3)
 verdict: PASS
 score_pre_revision: 8.5/10
 score_post_revision_1: 9.5/10
@@ -11,7 +11,7 @@ issues_resolved: 8
 issues_critical: 0
 template: engineering-spec@1
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 compliance re-audit)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 compliance re-audit)
 authoring_md_compliance: §3.12 #36 — 8 ISS findings (≥ 6 required) ✓
 ---
 

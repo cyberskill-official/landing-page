@@ -3,7 +3,7 @@ id: FR-A11Y-005
 title: "'Skip 3D entirely' toggle — /lite redirect with localStorage persistence + back-to-cinematic link"
 module: A11Y
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

@@ -3,7 +3,7 @@ id: FR-CTA-002
 title: "Buy form (Calendly embed) — 3-step flow + Lumi reactions + lazy-loaded chunk"
 module: CTA
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18

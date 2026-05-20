@@ -3,7 +3,7 @@ id: FR-OPS-005
 title: "Decoder bundling — Draco / Meshopt / KTX2 WASM under /public/decoders/ (no CDN at runtime)"
 module: OPS
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18
@@ -35,6 +35,7 @@ source_pages:
 
 effort_hours: 3
 risk_if_skipped: "Loading decoders from a CDN (unpkg, jsDelivr) violates the strict CSP (FR-A11Y-001 §7.2). Offline dev fails. CDN outages break Lumi loading site-wide. Bundling locally is a one-time cost that pays for itself the first time the CDN flakes."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

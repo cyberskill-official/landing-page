@@ -3,7 +3,7 @@ id: FR-OPS-011
 title: "Lighthouse CI on every PR — CWV regression gate + median-of-3 reporting"
 module: OPS
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

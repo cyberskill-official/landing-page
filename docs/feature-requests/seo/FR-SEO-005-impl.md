@@ -3,7 +3,7 @@ id: FR-SEO-005
 title: "Title + meta description budgets — ≤ 60 chars title, ≤ 158 chars description, EN + VI localized"
 module: SEO
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

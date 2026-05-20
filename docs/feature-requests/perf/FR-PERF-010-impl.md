@@ -3,7 +3,7 @@ id: FR-PERF-010
 title: "saveData detection → non-modal /lite banner — opt-in with localStorage persistence"
 module: PERF
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

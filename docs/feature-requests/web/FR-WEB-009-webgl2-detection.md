@@ -3,7 +3,7 @@ id: FR-WEB-009
 title: "Client capability gate — WebGL2 + save-data + deviceMemory → /lite redirect with persisted user preference"
 module: WEB
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

@@ -3,7 +3,7 @@ id: FR-A11Y-013
 title: "Post-launch a11y monitoring — monthly axe scan + quarterly manual + auto-issue creation"
 module: A11Y
 priority: MUST
-status: accepted
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

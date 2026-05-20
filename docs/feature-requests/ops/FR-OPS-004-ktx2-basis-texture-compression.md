@@ -3,7 +3,7 @@ id: FR-OPS-004
 title: "KTX2 + Basis Universal texture compression — UASTC for normals, ETC1S for color/MR/emissive"
 module: OPS
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18
@@ -29,6 +29,7 @@ source_pages:
 
 effort_hours: 4
 risk_if_skipped: "Raw PNG textures consume ~24 MB VRAM on full Lumi load. Mobile budget is 8 MB total scene VRAM (FR-PERF-001). Without KTX2/Basis, Lumi alone busts the budget; corner avatar on Scene 5 / footer / hero stack causes crash on tier-low devices."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

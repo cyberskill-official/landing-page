@@ -3,7 +3,7 @@ id: FR-SCENE-013
 title: "Scene 1 Origin implementation — `coil_idle` wisp-wrap around idea-spark + typed caption + sepia interior"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

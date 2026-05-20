@@ -3,7 +3,7 @@ id: FR-CMS-007
 title: "i18n/{en,vi}.json content store + language switcher — Next 15 locale-aware routing with localStorage persistence"
 module: CMS
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

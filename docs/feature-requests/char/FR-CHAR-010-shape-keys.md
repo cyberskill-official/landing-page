@@ -3,7 +3,7 @@ id: FR-CHAR-010
 title: "Shape keys — 10 named keys + driver hookups via c_head custom properties"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18
@@ -35,6 +35,7 @@ modified_files:
 
 effort_hours: 8
 risk_if_skipped: "Without shape keys, FR-CHAR-001's 6 expression-head visual targets (eye_close, mouth_smile, mouth_speak/o, brow_raise, brow_concern, cheek_puff) cannot transfer to 3D — Lumi looks frozen in idle pose across all 7 scenes. The `glow_pulse` shape key carries the Scene 2 `c_head_pulse` brand-moment. The `hood_tip` shape key drives the Scene 6 final-gesture wave. Skipping = the cinematic conceit fails."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

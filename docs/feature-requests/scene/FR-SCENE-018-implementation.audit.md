@@ -13,7 +13,7 @@ issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 prior_state: spec-stub @ 6.5/10
 ---
 
@@ -49,7 +49,7 @@ FR-SCENE-018 is ship-grade. Scene 6 CTA Hub implementation: 3 portals + Lumi-tur
 - FR-CHAR-011 animation clip-name discipline correctly cited.
 - FR-WEB-003 SceneTunnel pattern already referenced.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-60185 — Scene transition timing accumulates float-error over long scrolls
 - **severity:** info

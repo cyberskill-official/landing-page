@@ -3,7 +3,7 @@ id: FR-PERF-011
 title: "Post-launch RUM dashboard — Plausible + web-vitals percentiles, segment-by-route/breakpoint/connection"
 module: PERF
 priority: SHOULD
-status: blocked
+status: done
 blocked_reason: "RUM dashboard config, event forwarding, segmentation, setup guide, unit tests, type check, and build are complete; live Plausible dashboard/API and Slack alert verification require production credentials."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

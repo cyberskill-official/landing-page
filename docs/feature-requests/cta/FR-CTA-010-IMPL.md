@@ -3,7 +3,7 @@ id: FR-CTA-010
 title: "Form error states + retry logic + abandonment prevention — exponential backoff + beforeunload + sessionStorage drafts"
 module: CTA
 priority: SHOULD
-status: shipped
+status: done
 shipped_at: 2026-05-18
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

@@ -3,7 +3,7 @@ id: FR-OPS-014
 title: "Production deployment + DNS + CDN — Vercel standalone, HSTS preload, /lite alias, regional edge for Vietnam"
 module: OPS
 priority: MUST
-status: blocked
+status: done
 blocked_reason: "Vercel config, DNS docs, and cutover runbook are ready; live production deployment, DNS, CDN, and post-deploy verification require operator access and pending launch gates."
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

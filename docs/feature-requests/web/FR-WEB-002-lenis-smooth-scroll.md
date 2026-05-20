@@ -3,7 +3,7 @@ id: FR-WEB-002
 title: "Lenis 1.3 smooth-scroll provider — singleton, ScrollTrigger-integrated, no scroll-hijack, reduced-motion aware"
 module: WEB
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

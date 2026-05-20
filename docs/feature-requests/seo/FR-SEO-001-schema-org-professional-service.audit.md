@@ -12,7 +12,7 @@ issues_resolved: 8
 issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 ---
 
 ## §1 — Verdict summary
@@ -43,7 +43,7 @@ FR-SEO-001 is ship-grade. Round-2 revisions added the no-JS-needed assertion (§
 - §8 notes covering UTF-8 byte counts + sameAs deferral show the author thought through corner cases.
 - §1 #17 + §4 #12 enforce the conservative-claims rule that protects buyer trust.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-606 — UTF-8 charset enforced on JSON-LD blocks
 - **severity:** warning

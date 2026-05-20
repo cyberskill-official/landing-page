@@ -3,7 +3,7 @@ id: FR-PERF-007
 title: "scheduler.yield() + requestIdleCallback for INP < 200ms p75 — long-task interrupting + deferred analytics"
 module: PERF
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

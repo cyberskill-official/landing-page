@@ -3,7 +3,7 @@ id: FR-WEB-006
 title: "Suspense boundary per scene + Drei useGLTF.preload chaining — soft golden fallback"
 module: WEB
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -36,6 +36,7 @@ new_files:
 
 effort_hours: 4
 risk_if_skipped: "Without per-scene Suspense, a single GLB fetch stall blocks the entire canvas tree — Lumi disappears mid-scroll. Without preload chaining, users hit a network wait at every scene boundary. Spinner-style fallback breaks the cinematic register (master plan §3.4: golden-pulse only). FR-PERF-004 LCP gate fails without preload chaining."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

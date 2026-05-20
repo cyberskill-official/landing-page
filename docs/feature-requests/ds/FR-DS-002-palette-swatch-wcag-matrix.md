@@ -3,7 +3,7 @@ id: FR-DS-002
 title: "Approved colour palette swatch sheet + WCAG contrast matrix"
 module: DS
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

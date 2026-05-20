@@ -3,7 +3,7 @@ id: FR-CTA-005
 title: "react-hook-form + zod validation foundation — a11y-first error messaging across all CTA forms"
 module: CTA
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

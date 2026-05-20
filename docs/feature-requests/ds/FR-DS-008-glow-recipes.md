@@ -3,7 +3,7 @@ id: FR-DS-008
 title: "Glow recipes — rim / soft / scene-edge token set"
 module: DS
 priority: SHOULD
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

@@ -13,7 +13,7 @@ issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 prior_state: spec-stub @ 6.5/10
 ---
 
@@ -49,7 +49,7 @@ FR-OPS-007 is ship-grade. Six recipes (B-G) cover Photoshop / After Effects / Bl
 - COULD priority correctly reflects soft-signal nature.
 - DCC tool integration (Photoshop / AE / Substance) named.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-4305 — CI Docker image security update cadence
 - **severity:** warning

@@ -3,7 +3,7 @@ id: FR-A11Y-009
 title: "Target size 44×44 (WCAG 2.5.5 AAA) for all interactive controls — bounding-box gate + hit-area audit"
 module: A11Y
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18

@@ -17,7 +17,7 @@ Run:    python3 tools/regen-backlog.py
         python3 tools/regen-backlog.py --verbose
 
 References:
-- FR_AUTHORING_WORKFLOW.md §5 (How FRs surface back to BACKLOG.md)
+- feature-request-audit skill §5 (How FRs surface back to BACKLOG.md)
 - AGENTS.md §18 (Landing-page-specific FR conventions)
 """
 from __future__ import annotations
@@ -149,7 +149,7 @@ def _audit_score(audit_path: Path) -> str | None:
     if not audit_path.exists():
         return None
     text = audit_path.read_text(encoding="utf-8")
-    for key in ("score_post_revision_2", "score_post_revision_1", "score_pre_revision"):
+    for key in ("score_post_revision_3", "score_post_revision_2", "score_post_revision_1", "score_pre_revision"):
         m = re.search(rf"^{key}:\s*([0-9.]+/[0-9.]+)", text, flags=re.MULTILINE)
         if m:
             return m.group(1)

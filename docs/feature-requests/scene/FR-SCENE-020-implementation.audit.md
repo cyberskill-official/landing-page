@@ -1,7 +1,7 @@
 ---
 fr_id: FR-SCENE-020
 audited: 2026-05-16
-auditor: manual (engineering-spec@1 + AUTHORING.md §3.12 compliance pass round 3)
+auditor: manual (engineering-spec@1 + feature-request-audit skill §3.12 compliance pass round 3)
 verdict: PASS
 score_pre_revision: 6.5/10
 score_post_revision_1: 9.0/10
@@ -11,7 +11,7 @@ issues_resolved: 7
 issues_critical: 0
 template: engineering-spec@1
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md compliance re-audit against expanded 21KB spec)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill compliance re-audit against expanded 21KB spec)
 authoring_md_compliance: §3.12 #36 — 7 ISS findings (≥ 6 required) ✓
 ---
 
@@ -19,7 +19,7 @@ authoring_md_compliance: §3.12 #36 — 7 ISS findings (≥ 6 required) ✓
 
 FR-SCENE-020 is the scroll orchestrator — the GSAP master timeline that binds all 8 scenes (Scene 0-6 + footer) to scroll progress via the scrollerProxy bridge to Lenis (FR-WEB-002). At 21.1 KB with normative scrollTrigger setup, bi-directional scroll support, transitioning flag in scene store, and integration with FR-CHAR-011 NLA clips.
 
-Round-3 re-audit adds 3 NEW ISS findings (#60205, #60206, #60207) against the expanded content, bringing total to 7 ISS — above the AUTHORING.md §3.12 #36 ≥ 6 threshold.
+Round-3 re-audit adds 3 NEW ISS findings (#60205, #60206, #60207) against the expanded content, bringing total to 7 ISS — above the feature-request-audit skill §3.12 #36 ≥ 6 threshold.
 
 ## §2 — Round-1/2 findings (resolved; preserved)
 
@@ -74,7 +74,7 @@ Round-3 re-audit adds 3 NEW ISS findings (#60205, #60206, #60207) against the ex
 - ScrollerProxy bridge to Lenis explicitly wired.
 - Transitioning flag in sceneStore prevents mid-anim scene-change races.
 
-## §5 — Rubric scoring (per FR_AUTHORING_WORKFLOW.md §7)
+## §5 — Rubric scoring (per feature-request-audit skill §7)
 
 | Dimension | Weight | Pre | Post-R1 | Post-R2 | **Post-R3** |
 |---|---:|:-:|:-:|:-:|:-:|
@@ -90,7 +90,7 @@ Round-3 re-audit adds 3 NEW ISS findings (#60205, #60206, #60207) against the ex
 
 ## §6 — Resolution
 
-**Score = 10/10. Status: accepted.** R3 adds 3 NEW ISS findings (resize refresh, back-scroll clamping, HMR disposal) bringing total to 7 — compliant with AUTHORING.md §3.12 #36.
+**Score = 10/10. Status: accepted.** R3 adds 3 NEW ISS findings (resize refresh, back-scroll clamping, HMR disposal) bringing total to 7 — compliant with feature-request-audit skill §3.12 #36.
 
 ## §7 — Cross-references
 

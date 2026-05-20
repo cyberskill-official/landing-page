@@ -3,7 +3,7 @@ id: FR-A11Y-004
 title: "Mute toggle — default ON (muted), localStorage persistence, aria-pressed reflective"
 module: A11Y
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

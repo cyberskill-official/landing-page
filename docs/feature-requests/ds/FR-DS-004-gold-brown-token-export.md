@@ -3,7 +3,7 @@ id: FR-DS-004
 title: "Brand-gold + brand-brown token export — TS const + CSS custom properties, generator-driven"
 module: DS
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

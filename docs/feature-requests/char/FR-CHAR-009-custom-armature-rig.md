@@ -3,7 +3,7 @@ id: FR-CHAR-009
 title: "Custom armature ~27 bones (NOT Rigify) — spine / arms / wisp / hood / jaw / eyes / hat-socket"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18
@@ -35,6 +35,7 @@ modified_files:
 
 effort_hours: 16
 risk_if_skipped: "Rigify exports poorly to glTF (master plan §4.2 documents multi-mesh morph-target bug + sparse-accessor incompatibility). Skipping the custom-rig discipline cascades into broken animation export at FR-CHAR-011 — animations look right in Blender but limbs detach in Three.js. Fix cost mid-FR-CHAR-011 is 2-3 days of rig surgery + re-skinning + re-animating every clip."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

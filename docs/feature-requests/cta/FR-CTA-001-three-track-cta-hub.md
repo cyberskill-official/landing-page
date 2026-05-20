@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Three-track CTA hub component (Buy / Partner / Join) with audience-routed forms"
 module: CTA
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

@@ -4,7 +4,7 @@ engineering_anchor: true
 title: "Performance budget CI gates — LCP / INP / CLS / FPS / total JS / total page weight / per-asset GLB"
 module: PERF
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

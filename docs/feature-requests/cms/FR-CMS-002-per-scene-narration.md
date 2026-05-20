@@ -3,7 +3,7 @@ id: FR-CMS-002
 title: "Per-scene Lumi narration lines — EN-first, ≤ 12 words, voice-rules-compliant"
 module: CMS
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

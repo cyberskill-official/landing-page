@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Batch R3 audit pass — applies AUTHORING.md §3.12 #36 compliance to audit files
+Batch R3 audit pass — applies feature-request-audit skill §3.12 #36 compliance to audit files
 with < 6 ISS findings. Adds 2-3 NEW substantive ISS findings per audit, tailored
 by module.
 
@@ -161,7 +161,7 @@ ISS_TEMPLATES = {
 }
 
 R3_HEADER = """
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 """
 
 def get_module(audit_path: str) -> str:
@@ -226,7 +226,7 @@ def update_frontmatter(content: str, iss_total: int) -> str:
         count=1,
         flags=re.MULTILINE,
     )
-    # Add AUTHORING.md compliance note if missing
+    # Add feature-request-audit skill compliance note if missing
     if "authoring_md_compliance:" not in content:
         content = re.sub(
             r"(template:\s*engineering-spec@1)",
@@ -237,7 +237,7 @@ def update_frontmatter(content: str, iss_total: int) -> str:
     # Update final_revision to round 3
     content = re.sub(
         r"^final_revision:.*$",
-        f"final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)",
+        f"final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)",
         content,
         count=1,
         flags=re.MULTILINE,

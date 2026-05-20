@@ -3,7 +3,7 @@ id: FR-SEO-008
 title: "Analytics event taxonomy — 10 typed events with documented properties + Playwright coverage"
 module: SEO
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

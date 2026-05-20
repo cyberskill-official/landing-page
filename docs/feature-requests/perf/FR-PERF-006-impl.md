@@ -3,7 +3,7 @@ id: FR-PERF-006
 title: "ESLint no-alloc-in-useFrame — forbid new Vector3/Quaternion inside useFrame; require useMemo"
 module: PERF
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

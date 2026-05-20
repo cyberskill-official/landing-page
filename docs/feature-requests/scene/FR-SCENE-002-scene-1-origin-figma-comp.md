@@ -3,7 +3,7 @@ id: FR-SCENE-002
 title: "Scene 1 Origin — Figma comp at 3 breakpoints + camera-path notes + storyboard"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: I

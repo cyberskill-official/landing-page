@@ -3,7 +3,7 @@ id: FR-SCENE-007
 title: "Scene 6 CTA Hub — three-portal comp + audience colour-coding + Lumi-focus behaviour"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true

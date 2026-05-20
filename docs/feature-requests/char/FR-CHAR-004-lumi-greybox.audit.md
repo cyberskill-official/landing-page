@@ -13,7 +13,7 @@ issues_critical: 0
 template: engineering-spec@1
 authoring_md_compliance: §3.12 #36 (≥ 6 ISS) ✓
 revised_at: 2026-05-16
-final_revision: 2026-05-16 (round 3; AUTHORING.md §3.12 batch compliance pass)
+final_revision: 2026-05-16 (round 3; feature-request-audit skill §3.12 batch compliance pass)
 prior_state: spec-stub @ 6.5/10
 ---
 
@@ -55,7 +55,7 @@ FR-CHAR-004 is ship-grade. **Opens Batch 6 (P1 CHAR greybox).** 34 downstream FR
 - Blender 4.4 LTS + metric units + +Z up baseline already locked.
 - FR-OPS-001 stage-1 export contract already correctly referenced.
 
-## §X — Round-3 findings (NEW — opened against expanded content per AUTHORING.md §3.12 compliance pass)
+## §X — Round-3 findings (NEW — opened against expanded content per feature-request-audit skill §3.12 compliance pass)
 
 ### ISS-2606 — Mesh hash invariance not pinned across Blender versions
 - **severity:** warning

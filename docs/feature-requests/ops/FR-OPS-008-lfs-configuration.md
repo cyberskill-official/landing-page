@@ -3,7 +3,7 @@ id: FR-OPS-008
 title: "Git LFS configuration for source assets — .blend / .psd / .sbs / .fig / .exr / .hdr"
 module: OPS
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 engineering_anchor: true
@@ -30,6 +30,7 @@ source_pages:
 
 effort_hours: 2
 risk_if_skipped: "Without LFS, a 100 MB Lumi .blend file bloats git history. Cloning the repo balloons from ~50 MB to multi-GB after a few months. CI clones become slow (>2 min checkout). Some hosts refuse > 100 MB files. Net effect: contributor experience degrades from week 2 onward, debug stories from year 1 become 'oh that's the LFS thing.'"
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

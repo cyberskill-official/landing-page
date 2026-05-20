@@ -3,7 +3,7 @@ id: FR-CMS-008
 title: "hreflang link tags + x-default — SEO locale signaling across all routes with Google Search Console validation"
 module: CMS
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T

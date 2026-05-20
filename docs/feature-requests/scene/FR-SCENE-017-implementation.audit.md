@@ -1,7 +1,7 @@
 ---
 fr_id: FR-SCENE-017
 audited: 2026-05-16
-auditor: manual (engineering-spec@1 + AUTHORING.md §3.12 compliance pass)
+auditor: manual (engineering-spec@1 + feature-request-audit skill §3.12 compliance pass)
 verdict: PASS (after re-audit against expanded spec)
 score_pre_revision: 6.5/10
 score_post_revision_1: 9.0/10
@@ -82,7 +82,7 @@ FR-SCENE-017 is the deepest cultural-anchor spec in the landing-page project at 
 - Master plan §3.3a explicitly cited as source.
 - Casual nón lá register (FR-CHAR-003) named in §2 rationale.
 
-## §4 — Rubric scoring (per FR_AUTHORING_WORKFLOW.md §7)
+## §4 — Rubric scoring (per feature-request-audit skill §7)
 
 | Dimension | Weight | Pre | Post-r1 | Post-r2 | **Post-r3 (this audit)** |
 |---|---:|:-:|:-:|:-:|:-:|
@@ -100,7 +100,7 @@ FR-SCENE-017 is the deepest cultural-anchor spec in the landing-page project at 
 
 **Score = 10/10. Status: accepted.**
 
-This audit re-graded FR-SCENE-017 against its current expanded 28.4 KB content (vs the prior audit which evaluated an earlier 16 KB version). 4 NEW ISS findings opened (#50175, #50176, #50177, #50178) plus 4 inherited from prior audit, totaling **8 ISS findings** — meeting AUTHORING.md §3.12 #36 threshold (≥ 6 required).
+This audit re-graded FR-SCENE-017 against its current expanded 28.4 KB content (vs the prior audit which evaluated an earlier 16 KB version). 4 NEW ISS findings opened (#50175, #50176, #50177, #50178) plus 4 inherited from prior audit, totaling **8 ISS findings** — meeting feature-request-audit skill §3.12 #36 threshold (≥ 6 required).
 
 ## §6 — Canonical-pattern statement
 
@@ -110,7 +110,7 @@ This audit serves as the **canonical template** for re-auditing the other 82 FRs
 2. Open 4+ NEW ISS findings against new content (catching gaps that the original audit couldn't have seen).
 3. Preserve original 4 ISS findings as historical context (`status: RESOLVED — preserved from prior round`).
 4. Total ≥ 6 ISS findings.
-5. Apply the 8-dimension rubric from FR_AUTHORING_WORKFLOW.md §7.
+5. Apply the 8-dimension rubric from feature-request-audit skill §7.
 6. Score honestly; iterate until 10/10.
 7. Document round in `final_revision:` frontmatter with the date + round number.
 
@@ -130,6 +130,6 @@ The Scene 5 cultural anchor is non-negotiable. This audit's elevated bar (8 ISS 
 
 ## §9 — Upgrade-queue note
 
-Batch 10 item 5 of 12 (round 1). Round 3 re-audit completed 2026-05-16 as part of AUTHORING.md §3.12 compliance pass. Cross-references the audit-debt report at `_AUDIT_DEBT_REPORT_2026-05-16.md` (the v3 canonical-pattern proposal).
+Batch 10 item 5 of 12 (round 1). Round 3 re-audit completed 2026-05-16 as part of feature-request-audit skill §3.12 compliance pass. Cross-references the audit-debt report at `_AUDIT_DEBT_REPORT_2026-05-16.md` (the v3 canonical-pattern proposal).
 
 *End of FR-SCENE-017 audit.*

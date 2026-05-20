@@ -3,7 +3,7 @@ id: FR-SEO-006
 title: "XML sitemap + robots.txt + canonical — Next 15 sitemap/robots routes, dynamic case-study inclusion, hreflang"
 module: SEO
 priority: MUST
-status: shipped
+status: done
 shipped: 2026-05-17
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng

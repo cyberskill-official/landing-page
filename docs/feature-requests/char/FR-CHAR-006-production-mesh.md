@@ -4,7 +4,7 @@ id: FR-CHAR-006
 title: "Lumi production mesh — ≤ 40k tri watertight; polygon distribution per spec; silhouette parity vs FR-CHAR-001"
 module: CHAR
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -87,6 +87,7 @@ risk_if_skipped: |
   by N days, which then cascades the P3 staging-URL gate (week 8) by the same N. Master plan §10.2
   risk #1: "Lumi GLB exceeds 3 MB" — this FR is where it's controlled.
 engineering_anchor: true
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

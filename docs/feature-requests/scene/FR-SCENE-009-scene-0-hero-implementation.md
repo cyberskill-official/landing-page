@@ -3,7 +3,7 @@ id: FR-SCENE-009
 title: "Scene 0 Hero implementation — DOM headline as LCP, canvas mounts post-FCP, fly_in→idle Lumi"
 module: SCENE
 priority: MUST
-status: shipped + mocked-dependency + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
@@ -36,6 +36,7 @@ new_files:
 
 effort_hours: 10
 risk_if_skipped: "Without Scene 0 polished implementation, the cinematic doesn't open — the hero LCP element is missing, the fly_in→idle sequence doesn't fire, and the entire P3 phase-gate (Scene 0 staging URL, Lighthouse ≥ 95) fails. This is the only FR that integrates FR-WEB-001 + FR-WEB-003 + FR-CHAR-011 + FR-CMS-002 into a user-visible experience."
+implementation_kind: mocked
 ---
 
 ## §1 — Description (BCP-14 normative)

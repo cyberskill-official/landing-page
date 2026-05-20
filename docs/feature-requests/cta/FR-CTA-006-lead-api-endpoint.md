@@ -3,7 +3,7 @@ id: FR-CTA-006
 title: "/api/lead/route.ts — server endpoint posting to HubSpot CRM + ATS with rate-limit + bot defense"
 module: CTA
 priority: MUST
-status: shipped
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 shipped: 2026-05-18

@@ -3,7 +3,7 @@ id: FR-SCENE-015
 title: "Scene 3 Capabilities impl — `split_to_4` anim + 4 satellites at 12/3/6/9 + cool-tone discipline"
 module: SCENE
 priority: MUST
-status: shipped + strict-audited
+status: done
 accepted_at: 2026-05-16
 accepted_by: Stephen Cheng
 verify: T
