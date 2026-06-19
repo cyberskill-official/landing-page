@@ -1,7 +1,0 @@
-/* FR-DS-008 — closed glow recipe set. */
-
-:root {
-  --glow-genie-rim: rgba(255, 196, 64, 0.85);
-  --glow-genie-soft: rgba(232, 181, 35, 0.45);
-  --glow-scene-edge: rgba(232, 181, 35, 0.15);
-}
