@@ -32,16 +32,16 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 39 |
+| shipped | 41 |
 | hold | 1 |
-| planned | 53 |
+| planned | 51 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
 | DS (design system) | 10 | 3 |
 | WEB (foundation) | 10 | 6 |
-| SCENE (3D + scroll) | 10 | 3 |
+| SCENE (3D + scroll) | 10 | 5 |
 | CHAR (Lumi) | 13 | 4 |
 | CTA (conversion) | 9 | 4 |
 | CMS (content + i18n) | 9 | 3 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 39 shipped + 1 hold are the slices delivered so far; the 53 `planned` rows
+The 41 shipped + 1 hold are the slices delivered so far; the 51 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -86,8 +86,8 @@ complete and build-ready.
 - [FR-SCENE-003](scene/FR-SCENE-003-always-motion-scrollytelling.md) - Always-on motion + scroll-tied Lumi choreography. P4. SHOULD. shipped.
 - [FR-SCENE-004](scene/FR-SCENE-004-pinned-sections.md) - Pinned/sticky section choreography (scrub against progress). P4. SHOULD. planned.
 - [FR-SCENE-005](scene/FR-SCENE-005-camera-sequence.md) - Authored camera keyframe sequence (Theatre.js or clip), one shot per scene. P4. COULD. planned.
-- [FR-SCENE-006](scene/FR-SCENE-006-glow-shader.md) - Custom GLSL golden-glow / dissolve shader for Lumi. P4. COULD. planned.
-- [FR-SCENE-007](scene/FR-SCENE-007-scene-progress-map.md) - Per-scene normalized progress mapped to camera/model/lighting. P4. SHOULD. planned.
+- [FR-SCENE-006](scene/FR-SCENE-006-glow-shader.md) - Custom GLSL golden-glow / dissolve shader for Lumi. P4. COULD. shipped.
+- [FR-SCENE-007](scene/FR-SCENE-007-scene-progress-map.md) - Per-scene normalized progress mapped to camera/model/lighting. P4. SHOULD. shipped.
 - [FR-SCENE-008](scene/FR-SCENE-008-webgpu-fallback.md) - WebGPURenderer with WebGL fallback. P5. COULD. planned.
 - [FR-SCENE-009](scene/FR-SCENE-009-lod-drawcall-budget.md) - LOD + <100 draw-call/frame budget + GPU disposal. P5. SHOULD. planned.
 - [FR-SCENE-010](scene/FR-SCENE-010-scene-preloader.md) - GLB preloader + Suspense boundary so the scene never blocks first paint. P3. SHOULD. planned.
