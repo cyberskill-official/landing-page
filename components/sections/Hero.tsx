@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { Icon } from "@/components/ui/Icon";
 
 // Story-driven hero. The H1 is real server-rendered text (the LCP element),
 // never the canvas, so the page paints, ranks, and converts even if WebGL
@@ -14,7 +15,10 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section className="cs-hero" aria-labelledby="hero-title">
       <div className="cs-container cs-hero-inner">
-        <p className="cs-eyebrow">{dict.hero.eyebrow}</p>
+        <p className="cs-eyebrow">
+          <Icon name="sparkle" size="sm" className="cs-sparkle" />{" "}
+          {dict.hero.eyebrow}
+        </p>
         <h1 id="hero-title" className="cs-hero-title">
           {company.slogan[locale]}
         </h1>

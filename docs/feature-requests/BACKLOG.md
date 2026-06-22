@@ -32,14 +32,14 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 41 |
+| shipped | 42 |
 | hold | 1 |
-| planned | 51 |
+| planned | 50 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
-| DS (design system) | 10 | 3 |
+| DS (design system) | 10 | 4 |
 | WEB (foundation) | 10 | 6 |
 | SCENE (3D + scroll) | 10 | 5 |
 | CHAR (Lumi) | 13 | 4 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 41 shipped + 1 hold are the slices delivered so far; the 51 `planned` rows
+The 42 shipped + 1 hold are the slices delivered so far; the 50 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -66,7 +66,7 @@ complete and build-ready.
 - [FR-DS-007](ds/FR-DS-007-style-packs.md) - Style-pack switching via `data-cs-style`. P5. COULD. planned.
 - [FR-DS-008](ds/FR-DS-008-typography-vietnamese.md) - Typography scale + a Vietnamese-complete typeface. P1. SHOULD. planned.
 - [FR-DS-009](ds/FR-DS-009-motion-tokens.md) - Motion/easing/duration tokens consumed by all animation. P1. COULD. shipped.
-- [FR-DS-010](ds/FR-DS-010-icon-set.md) - Consistent in-repo icon set (SVG). P4. COULD. planned.
+- [FR-DS-010](ds/FR-DS-010-icon-set.md) - Consistent in-repo icon set (SVG). P4. COULD. shipped.
 
 ### WEB - foundation
 - [FR-WEB-001](web/FR-WEB-001-app-shell-i18n.md) - App Router shell, EN/VN `[lang]` routing, per-locale `<html lang>`. P1. MUST. shipped.

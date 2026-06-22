@@ -3,18 +3,23 @@ id: FR-DS-010
 title: "Consistent in-repo SVG icon set with sizing tokens"
 module: DS
 priority: COULD
-status: planned
+status: shipped
 verify: T
 phase: P4
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-DS-001]
 source_pages:
   - "research doc §A (visual system), §C (design tokens)"
 new_files:
   - components/ui/Icon.tsx
   - lib/icons/index.ts
+modified_files:
+  - components/header/ThemeToggle.tsx
+  - components/genie/GenieChatPanel.tsx
+  - components/sections/Hero.tsx
+  - app/globals.css
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -37,4 +42,16 @@ consistent and no outside icon dependency is pulled in.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. `lib/icons/index.ts` holds the icon set as data (viewBox +
+primitive elements) with no external icon-library dependency; `components/ui/
+Icon.tsx` is the single renderer (clause 1). Size comes from `--cs-icon-sm/md/lg`
+tokens via inline `width`/`height`, and `stroke="currentColor"` makes icons
+follow the surrounding text token (clause 2). Icons are decorative by default
+(`aria-hidden`, `focusable=false`); passing `label` switches to
+`role="img"` + `aria-label` (clause 3). The ad hoc inline SVGs in `ThemeToggle`
+(sun/moon) and `GenieChatPanel` (close) now render through `Icon`. As the
+accent sidecar Stephen asked for, `globals.css` adds an animated gradient
+`.cs-accent-divider` and a `.cs-sparkle` pulse (both honour reduced motion), and
+the hero eyebrow now carries a subtle decorative sparkle. `tests/icons.test.ts`
+asserts every icon has a valid viewBox and elements. Verified by tsc + lint + 37
+vitest tests + `next build` (rc=0).

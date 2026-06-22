@@ -92,6 +92,10 @@
   --cs-dur-slow: 640ms;
   --cs-dur-scroll: 1100ms;
   --cs-dur-shimmer: 1400ms;
+  /* Icon sizing tokens (FR-DS-010): icons render at one of these via <Icon>. */
+  --cs-icon-sm: 16px;
+  --cs-icon-md: 20px;
+  --cs-icon-lg: 24px;
 
   --cs-container: 72rem;
 }
@@ -598,6 +602,31 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cs-skeleton { animation: none; }
+}
+
+/* Decorative accents (FR-DS-010 sidecar). A gradient shimmer divider and a
+   gently pulsing sparkle, both inert and aria-hidden where used. */
+.cs-accent-divider {
+  height: 2px;
+  border: 0;
+  width: clamp(3rem, 8vw, 6rem);
+  margin: var(--cs-space-6) 0;
+  border-radius: var(--cs-radius-pill);
+  background: linear-gradient(90deg, transparent, var(--cs-color-accent), var(--cs-color-brand), transparent);
+  background-size: 250% 100%;
+  animation: cs-accent-slide 4s ease-in-out infinite;
+}
+.cs-sparkle { color: var(--cs-color-accent); animation: cs-sparkle-pulse 3.2s ease-in-out infinite; transform-origin: center; }
+@keyframes cs-accent-slide {
+  0%, 100% { background-position: 0% 0; }
+  50% { background-position: 100% 0; }
+}
+@keyframes cs-sparkle-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.9) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.1) rotate(8deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-accent-divider, .cs-sparkle { animation: none; }
 }
 
 /* Stretched link: makes the whole work card clickable while keeping the title
