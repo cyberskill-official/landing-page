@@ -96,7 +96,19 @@ export async function POST(req: Request) {
   }
 
   if (!upstream.ok || !upstream.body) {
-    return NextResponse.json({ error: "upstream", status: upstream.status }, { status: 502 });
+    let detail: string | undefined;
+    try {
+      const errText = await upstream.text();
+      console.error("[genie] upstream error", upstream.status, errText);
+      try {
+        detail = ((JSON.parse(errText) as { error?: { message?: string } })?.error?.message) ?? errText.slice(0, 300);
+      } catch {
+        detail = errText.slice(0, 300);
+      }
+    } catch {
+      // ignore body read failure
+    }
+    return NextResponse.json({ error: "upstream", status: upstream.status, detail }, { status: 502 });
   }
 
   // Re-stream only the text deltas as plain UTF-8 so the client stays simple.
