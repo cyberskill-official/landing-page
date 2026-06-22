@@ -1,0 +1,25 @@
+import Link from "next/link";
+
+// Global 404 (rendered inside the root layout). Bilingual, since an unmatched
+// path has no locale segment.
+export default function NotFound() {
+  return (
+    <main id="main" className="cs-section">
+      <div className="cs-container" style={{ maxWidth: "40rem", textAlign: "center" }}>
+        <p className="cs-eyebrow">404</p>
+        <h1>Page not found</h1>
+        <p className="cs-section-lead" lang="vi">
+          Khong tim thay trang. / This page does not exist.
+        </p>
+        <div className="cs-hero-actions" style={{ justifyContent: "center" }}>
+          <Link className="cs-btn cs-btn-primary" href="/en">
+            English home
+          </Link>
+          <Link className="cs-btn cs-btn-secondary" href="/vi">
+            Trang tieng Viet
+          </Link>
+        </div>
+      </div>
+    </main>
+  );
+}

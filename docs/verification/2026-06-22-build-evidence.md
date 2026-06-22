@@ -48,6 +48,19 @@ install + build was run there (identical source, so it stands in for the repo):
 This converts the gate from static-only to build-verified. The items below
 still require a deployed build and a browser/device.
 
+## Hardening increment (2026-06-22)
+
+Added after the first build-verified pass, then re-verified end to end:
+
+- Unit tests (vitest): 4 files, 13 tests, all passing - lead schema, EN/VN
+  dictionary key parity, Lumi persona grounding, and the Anthropic SSE decoder
+  (extracted to `lib/genie/sse.ts` and used by the route).
+- `next lint` (eslint-config-next): no warnings or errors.
+- Build still green with the additions: custom `/_not-found`, root error
+  boundary, and a per-locale `/[lang]/opengraph-image` (renders without an
+  external font fetch). 15/15 static pages, 0 errors.
+- CI updated to run verify + lint + typecheck + test + build + budget.
+
 ## Deferred to the operator (must run before launch)
 
 1. Run the same `npm install && npm run typecheck && npm run build` on your

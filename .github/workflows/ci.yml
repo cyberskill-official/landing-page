@@ -17,8 +17,12 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Static import check
         run: npm run verify
+      - name: Lint
+        run: npm run lint
       - name: Typecheck
         run: npm run typecheck
+      - name: Unit tests
+        run: npm test
       - name: Build
         run: npm run build
       - name: Performance budget is well-formed (Phase-3 gate)

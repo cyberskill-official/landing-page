@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { buildSystemPrompt } from "@/lib/genie/persona";
+import { makeAnthropicTextDecoder } from "@/lib/genie/sse";
 import { isLocale } from "@/lib/i18n/config";
 
 // Serverless reverse proxy for Lumi. The ANTHROPIC_API_KEY lives only here, in
@@ -104,30 +105,13 @@ export async function POST(req: Request) {
       const reader = upstream.body!.getReader();
       const decoder = new TextDecoder();
       const encoder = new TextEncoder();
-      let buffer = "";
+      const parse = makeAnthropicTextDecoder();
       try {
         for (;;) {
           const { done, value } = await reader.read();
           if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop() ?? "";
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed.startsWith("data:")) continue;
-            const data = trimmed.slice(5).trim();
-            if (!data || data === "[DONE]") continue;
-            try {
-              const evt = JSON.parse(data) as {
-                type?: string;
-                delta?: { type?: string; text?: string };
-              };
-              if (evt.type === "content_block_delta" && evt.delta?.type === "text_delta" && evt.delta.text) {
-                controller.enqueue(encoder.encode(evt.delta.text));
-              }
-            } catch {
-              // keepalive ping or partial frame; ignore
-            }
+          for (const text of parse.push(decoder.decode(value, { stream: true }))) {
+            controller.enqueue(encoder.encode(text));
           }
         }
       } catch {
