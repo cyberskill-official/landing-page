@@ -32,9 +32,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 43 |
+| shipped | 44 |
 | hold | 1 |
-| planned | 49 |
+| planned | 48 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
@@ -43,14 +43,14 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | WEB (foundation) | 10 | 7 |
 | SCENE (3D + scroll) | 10 | 5 |
 | CHAR (Lumi) | 13 | 4 |
-| CTA (conversion) | 9 | 4 |
+| CTA (conversion) | 9 | 5 |
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 8 |
 | A11Y (accessibility) | 9 | 4 |
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 43 shipped + 1 hold are the slices delivered so far; the 49 `planned` rows
+The 44 shipped + 1 hold are the slices delivered so far; the 48 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -114,7 +114,7 @@ complete and build-ready.
 - [FR-CTA-004](cta/FR-CTA-004-progressive-profiling.md) - Progressive profiling beyond the minimum fields. P6. COULD. planned.
 - [FR-CTA-005](cta/FR-CTA-005-booking-embed.md) - Calendar booking embed for high-intent leads. P6. SHOULD. planned.
 - [FR-CTA-006](cta/FR-CTA-006-crm-webhook.md) - CRM webhook mapping (HubSpot/Pipedrive) for form leads. P6. SHOULD. planned.
-- [FR-CTA-007](cta/FR-CTA-007-lead-notification.md) - Real-time Slack/email new-lead notification. P6. SHOULD. planned.
+- [FR-CTA-007](cta/FR-CTA-007-lead-notification.md) - Real-time Slack/email new-lead notification. P6. SHOULD. shipped.
 - [FR-CTA-008](cta/FR-CTA-008-cta-ab-test.md) - First-person CTA copy A/B testbed. P6. COULD. planned.
 - [FR-CTA-009](cta/FR-CTA-009-form-abandonment.md) - Form-start/abandonment analytics. P6. COULD. shipped.
 
