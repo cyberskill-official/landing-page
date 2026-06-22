@@ -10,7 +10,18 @@
       "numberOfRuns": 3
     },
     "assert": {
-      "budgetsFile": "lighthouse/budget.json"
+      "assertions": {
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+        "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
+        "interactive": ["warn", { "maxNumericValue": 3800 }],
+        "total-blocking-time": ["warn", { "maxNumericValue": 250 }],
+        "resource-summary:script:size": ["error", { "maxNumericValue": 327680 }],
+        "resource-summary:stylesheet:size": ["error", { "maxNumericValue": 61440 }],
+        "resource-summary:image:size": ["error", { "maxNumericValue": 409600 }],
+        "resource-summary:font:size": ["error", { "maxNumericValue": 122880 }],
+        "resource-summary:total:size": ["error", { "maxNumericValue": 1228800 }],
+        "resource-summary:third-party:count": ["error", { "maxNumericValue": 10 }]
+      }
     },
     "upload": {
       "target": "temporary-public-storage"

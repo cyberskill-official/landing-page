@@ -32,9 +32,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 46 |
+| shipped | 47 |
 | hold | 1 |
-| planned | 46 |
+| planned | 45 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
@@ -47,10 +47,10 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 8 |
 | A11Y (accessibility) | 9 | 4 |
-| PERF (performance) | 6 | 1 |
+| PERF (performance) | 6 | 2 |
 | OPS (build/deploy/ops) | 8 | 4 |
 
-The 46 shipped + 1 hold are the slices delivered so far; the 46 `planned` rows
+The 47 shipped + 1 hold are the slices delivered so far; the 45 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -153,7 +153,7 @@ complete and build-ready.
 
 ### PERF - performance + Core Web Vitals
 - [FR-PERF-001](perf/FR-PERF-001-perf-budget.md) - Performance-budget JSON (LCP<=2500) enforced in CI. P3. MUST. shipped.
-- [FR-PERF-002](perf/FR-PERF-002-lighthouse-ci.md) - Lighthouse CI on mobile emulation per PR. P5. SHOULD. planned.
+- [FR-PERF-002](perf/FR-PERF-002-lighthouse-ci.md) - Lighthouse CI on mobile emulation per PR. P5. SHOULD. shipped.
 - [FR-PERF-003](perf/FR-PERF-003-asset-size-ci.md) - Asset-size guard (textures, GLB, bundle) failing the build on regression. P5. SHOULD. planned.
 - [FR-PERF-004](perf/FR-PERF-004-bundle-analysis.md) - Bundle analysis + code-split audit. P5. COULD. planned.
 - [FR-PERF-005](perf/FR-PERF-005-font-strategy.md) - Font loading strategy (subset, display, preload) incl. Vietnamese. P5. SHOULD. planned.
