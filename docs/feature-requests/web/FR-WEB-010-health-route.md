@@ -3,12 +3,12 @@ id: FR-WEB-010
 title: "/api/health route for uptime checks"
 module: WEB
 priority: COULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-WEB-001]
 source_pages:
   - "research doc §F (Next.js App Router, operations), §D (monitoring)"
@@ -35,4 +35,13 @@ whether the app is up.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. `app/api/health/route.ts` answers `GET /api/health` with 200
+and `{ status: "ok", service, version, ts }`, where `version` is the Vercel
+commit SHA (`VERCEL_GIT_COMMIT_SHA`, "dev" locally) as the build identifier
+(clause 1). It is `runtime = "nodejs"`, `dynamic = "force-dynamic"`, and sends
+`cache-control: no-store`, so it is cheap to poll and never stale (clause 3). No
+auth and no secret or private config in the body (clause 2). The middleware
+matcher already excludes `/api`, so the probe is not redirected.
+`tests/health.test.ts` asserts the 200, the no-store header, the `ok` status, a
+non-empty `version`, and a parseable timestamp. Verified by `next build` (the
+`/api/health` route is registered) plus tsc + lint + vitest green.

@@ -32,15 +32,15 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 35 |
+| shipped | 37 |
 | hold | 1 |
-| planned | 57 |
+| planned | 55 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
 | DS (design system) | 10 | 2 |
-| WEB (foundation) | 10 | 4 |
+| WEB (foundation) | 10 | 6 |
 | SCENE (3D + scroll) | 10 | 3 |
 | CHAR (Lumi) | 13 | 4 |
 | CTA (conversion) | 9 | 4 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 35 shipped + 1 hold are the slices delivered so far; the 57 `planned` rows
+The 37 shipped + 1 hold are the slices delivered so far; the 55 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -72,13 +72,13 @@ complete and build-ready.
 - [FR-WEB-001](web/FR-WEB-001-app-shell-i18n.md) - App Router shell, EN/VN `[lang]` routing, per-locale `<html lang>`. P1. MUST. shipped.
 - [FR-WEB-002](web/FR-WEB-002-ssr-sections.md) - SSR home sections (hero -> contact), story-driven, crawlable. P1. MUST. shipped.
 - [FR-WEB-003](web/FR-WEB-003-case-study-pages.md) - Indexable `/[lang]/work/[slug]` case studies + clickable cards. P4. SHOULD. shipped.
-- [FR-WEB-004](web/FR-WEB-004-locale-negotiation.md) - Accept-Language negotiation for the bare `/` entry. P1. SHOULD. planned.
+- [FR-WEB-004](web/FR-WEB-004-locale-negotiation.md) - Accept-Language negotiation for the bare `/` entry. P1. SHOULD. shipped.
 - [FR-WEB-005](web/FR-WEB-005-isr-revalidation.md) - ISR / on-demand revalidation for content pages. P3. COULD. planned.
 - [FR-WEB-006](web/FR-WEB-006-draft-preview.md) - Draft/preview mode for unpublished content. P5. COULD. planned.
 - [FR-WEB-007](web/FR-WEB-007-route-states.md) - Per-route loading and error states (Suspense + error boundaries). P3. SHOULD. shipped.
 - [FR-WEB-008](web/FR-WEB-008-services-detail-pages.md) - Per-service detail pages (`/[lang]/services/[slug]`). P4. SHOULD. planned.
 - [FR-WEB-009](web/FR-WEB-009-image-pipeline.md) - next/image pipeline with responsive sizes + priority hints. P5. SHOULD. planned.
-- [FR-WEB-010](web/FR-WEB-010-health-route.md) - Health/status route for uptime checks. P5. COULD. planned.
+- [FR-WEB-010](web/FR-WEB-010-health-route.md) - Health/status route for uptime checks. P5. COULD. shipped.
 
 ### SCENE - 3D + scroll storytelling
 - [FR-SCENE-001](scene/FR-SCENE-001-canvas-scaffold.md) - Fixed R3F canvas, lazy ssr:false, capability gate. P3. MUST. shipped.

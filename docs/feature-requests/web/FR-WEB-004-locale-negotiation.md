@@ -3,17 +3,20 @@ id: FR-WEB-004
 title: "Accept-Language negotiation for the bare / entry"
 module: WEB
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P1
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-WEB-001]
 source_pages:
   - "research doc §E (Vietnamese-first, locale), §F (Next.js App Router)"
+new_files:
+  - lib/i18n/negotiate.ts
 modified_files:
   - middleware.ts
+  - components/header/LanguageSwitcher.tsx
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -37,4 +40,13 @@ browser, while keeping the explicit switcher choice authoritative.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. `lib/i18n/negotiate.ts` `negotiateLocale()` parses the
+weighted `Accept-Language` list, sorts by q, and returns the first supported
+primary subtag (`en`/`vi`), falling back to the default for missing, wildcard, or
+unsupported-only headers; it can only ever return a supported locale (clause 3).
+The `/` handler in `middleware.ts` now prefers an explicit `cs-locale` cookie and
+falls back to negotiation, and `LanguageSwitcher` writes that cookie (one year,
+lax) on selection, so a returning reader's switcher choice overrides the header
+(clauses 1-2). `tests/i18n-negotiate.test.ts` covers vi-preferred, en-region,
+q-ordering, unsupported-skip, wildcard, and empty-header cases. Verified by
+`next build` (rc=0) plus tsc + lint + vitest green.
