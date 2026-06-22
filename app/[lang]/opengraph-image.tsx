@@ -12,7 +12,9 @@ export default async function OpengraphImage({ params }: { params: Promise<{ lan
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : "en";
   const tagline =
-    locale === "vi" ? "Web - Di dong - He thong noi bo - TP Ho Chi Minh" : "Web - Mobile - Internal systems - Ho Chi Minh City";
+    locale === "vi"
+      ? "Web - Di động - Hệ thống nội bộ - TP Hồ Chí Minh"
+      : "Web - Mobile - Internal systems - Ho Chi Minh City";
 
   return new ImageResponse(
     (

@@ -25,7 +25,7 @@ export default async function LitePage({ params }: { params: Promise<{ lang: str
   return (
     <section className="cs-section">
       <div className="cs-container cs-lite">
-        <p className="cs-eyebrow">CyberSkill · Lumi</p>
+        <p className="cs-eyebrow">CyberSkill - Lumi</p>
         <h1>{localize(scenes[0].heading, locale)}</h1>
         <ol className="cs-storyboard" role="list">
           {scenes.map((scene, i) => (

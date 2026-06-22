@@ -8,15 +8,15 @@ export default function NotFound() {
       <div className="cs-container" style={{ maxWidth: "40rem", textAlign: "center" }}>
         <p className="cs-eyebrow">404</p>
         <h1>Page not found</h1>
-        <p className="cs-section-lead" lang="vi">
-          Khong tim thay trang. / This page does not exist.
+        <p className="cs-section-lead">
+          <span lang="vi">Không tìm thấy trang.</span> / This page does not exist.
         </p>
         <div className="cs-hero-actions" style={{ justifyContent: "center" }}>
           <Link className="cs-btn cs-btn-primary" href="/en">
             English home
           </Link>
-          <Link className="cs-btn cs-btn-secondary" href="/vi">
-            Trang tieng Viet
+          <Link className="cs-btn cs-btn-secondary" href="/vi" hrefLang="vi" lang="vi">
+            Trang tiếng Việt
           </Link>
         </div>
       </div>

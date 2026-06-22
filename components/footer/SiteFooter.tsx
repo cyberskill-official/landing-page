@@ -14,7 +14,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
           </p>
           <p className="cs-footer-meta">
             <a href={`mailto:${company.email}`}>{company.email}</a>
-            {" · "}
+            {" - "}
             <a href={`tel:${company.phone.replace(/\s/g, "")}`}>
               {company.phone} ({company.phoneContact})
             </a>

@@ -79,7 +79,7 @@ export const valueProps: ValuePoint[] = [
     label: { en: "Building software for clients across Vietnam and beyond", vi: "Xây dựng phần mềm cho khách hàng tại Việt Nam và quốc tế" },
   },
   {
-    stat: { en: "Web · Mobile · Internal", vi: "Web · Di động · Nội bộ" },
+    stat: { en: "Web, mobile, internal", vi: "Web, di động, nội bộ" },
     label: { en: "Three focused practices, one accountable team", vi: "Ba mảng chuyên sâu, một đội ngũ chịu trách nhiệm" },
   },
   {
