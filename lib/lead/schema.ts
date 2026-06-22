@@ -32,14 +32,15 @@ export const leadSchema = z.object({
     .max(2000)
     .optional()
     .or(z.literal("")),
-  // Consent is required per PDPL/GDPR. The checkbox must be true.
-  consent: z.literal(true, {
-    errorMap: () => ({ message: "consent_required" }),
-  }),
+  // Consent is required per PDPL/GDPR. The checkbox must be ticked.
+  // Modelled as boolean + refine (not literal true) so the checkbox register
+  // and a `false` default type cleanly through react-hook-form.
+  consent: z.boolean().refine((v) => v === true, { message: "consent_required" }),
   // Honeypot: bots fill hidden fields. Must stay empty.
   website: z.string().max(0).optional().or(z.literal("")),
-  // Locale the lead came from (for follow-up language).
-  locale: z.enum(["en", "vi"]).default("en"),
+  // Locale the lead came from (for follow-up language). Always supplied by the
+  // form, so required (keeping zod input and output types identical).
+  locale: z.enum(["en", "vi"]),
   // Optional source tag (e.g. "hero", "footer", "genie").
   source: z.string().max(40).optional(),
 });

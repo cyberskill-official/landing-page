@@ -38,7 +38,7 @@ export function LeadForm({
     formState: { errors },
   } = useForm<LeadInput>({
     resolver: zodResolver(leadSchema),
-    defaultValues: { intent: "project", consent: false as unknown as true, locale, source, website: "" },
+    defaultValues: { intent: "project", consent: false, locale, source, website: "" },
   });
 
   async function onSubmit(values: LeadInput) {

@@ -1,0 +1,16 @@
+{"ts": 1782100100.0, "action": "PROMOTE", "module": "ds", "fr": "FR-DS-001-token-port.md", "reason": "tokens hand-ported to --cs-*; glass fallbacks present; static-verified, next build deferred to operator"}
+{"ts": 1782100200.0, "action": "PROMOTE", "module": "web", "fr": "FR-WEB-001-app-shell-i18n.md", "reason": "App Router shell + en/vi [lang] routing + per-locale html lang via middleware header; imports resolve"}
+{"ts": 1782100300.0, "action": "PROMOTE", "module": "web", "fr": "FR-WEB-002-ssr-sections.md", "reason": "7 SSR sections render server-side; hero H1 is the LCP element, not the canvas"}
+{"ts": 1782100400.0, "action": "PROMOTE", "module": "cta", "fr": "FR-CTA-001-lead-form.md", "reason": "<=5 fields + honeypot + consent; /api/lead validates server-side and fans out"}
+{"ts": 1782100500.0, "action": "PROMOTE", "module": "cta", "fr": "FR-CTA-002-persistent-cta.md", "reason": "persistent CTA + genie open path, scene-independent"}
+{"ts": 1782100600.0, "action": "PROMOTE", "module": "seo", "fr": "FR-SEO-001-discoverability.md", "reason": "sitemap/robots/hreflang/Org+FAQ JSON-LD authored; JSON validated"}
+{"ts": 1782100700.0, "action": "PROMOTE", "module": "a11y", "fr": "FR-A11Y-001-reduced-motion-lite.md", "reason": "reduced-motion CSS + manual toggle + /lite storyboard mirror + skip link"}
+{"ts": 1782100800.0, "action": "PROMOTE", "module": "cms", "fr": "FR-CMS-001-bilingual-content.md", "reason": "EN+VN content SoT; every UI string has a VN counterpart"}
+{"ts": 1782100900.0, "action": "PROMOTE", "module": "char", "fr": "FR-CHAR-010-genie-proxy.md", "reason": "keyless /api/genie streams SSE->text; rate limit + validation + 503 fallback"}
+{"ts": 1782101000.0, "action": "PROMOTE", "module": "char", "fr": "FR-CHAR-011-persona.md", "reason": "Lumi persona grounded in company facts; cache_control ephemeral system block"}
+{"ts": 1782101100.0, "action": "PROMOTE", "module": "char", "fr": "FR-CHAR-012-chat-widget.md", "reason": "streaming widget + zustand state machine + consent + ARIA dialog"}
+{"ts": 1782101200.0, "action": "PROMOTE", "module": "scene", "fr": "FR-SCENE-001-canvas-scaffold.md", "reason": "fixed R3F canvas, ssr:false dynamic, capability gate, poster fallback"}
+{"ts": 1782101300.0, "action": "PROMOTE", "module": "scene", "fr": "FR-SCENE-002-scroll-loop.md", "reason": "Lenis+GSAP ticker RAF loop + ScrollTrigger; reduced-motion safe"}
+{"ts": 1782101400.0, "action": "PROMOTE", "module": "char", "fr": "FR-CHAR-020-lumi-placeholder.md", "reason": "procedural placeholder: gaze + chat-state animation bound to store"}
+{"ts": 1782101500.0, "action": "HOLD", "module": "char", "fr": "FR-CHAR-021-commission-glb.md", "reason": "needs commissioned/bought GLB asset + budget; cannot be authored in-session"}
+{"ts": 1782101600.0, "action": "PROMOTE", "module": "ops", "fr": "FR-OPS-001-ci-perf-gate.md", "reason": "CI: verify + typecheck + build + LCP budget gate authored"}
