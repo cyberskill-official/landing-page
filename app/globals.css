@@ -1,0 +1,318 @@
+/*
+ * CyberSkill design tokens, hand-ported from the design-system doctrine
+ * (DESIGN.md v1.3.0). The implementation packages (@cyberskill/tokens,
+ * @cyberskill/react) were not confirmed published, so per Phase 0 of the
+ * research doc we inherit the *rules and tokens* and implement surfaces here.
+ *
+ * Anchor immutables (do not change without a v2.0.0 RFC):
+ *   Umber  #45210E  oklch(0.265 0.073 44.3)
+ *   Ochre  #F4BA17  oklch(0.811 0.162 83.7)
+ * Contrast intent: APCA Lc >= 75 body, Lc >= 90 interactive (measured at the
+ * rendered translucent state for glass surfaces). Colours below are chosen to
+ * meet WCAG 2.2 AA as the explicit floor.
+ */
+
+:root {
+  /* Brand anchors (P3 with hex fallback) */
+  --cs-color-brand-umber: #45210e;
+  --cs-color-brand-ochre: #f4ba17;
+
+  /* Neutrals (warm, tuned to the umber base) */
+  --cs-color-ink: #1c130d;
+  --cs-color-ink-soft: #4a3b30;
+  --cs-color-paper: #fbf7f1;
+  --cs-color-paper-raised: #ffffff;
+  --cs-color-line: #e7ddcf;
+
+  /* Semantic */
+  --cs-color-fg: var(--cs-color-ink);
+  --cs-color-fg-muted: var(--cs-color-ink-soft);
+  --cs-color-bg: var(--cs-color-paper);
+  --cs-color-surface: var(--cs-color-paper-raised);
+  --cs-color-accent: var(--cs-color-brand-ochre);
+  --cs-color-accent-ink: #3a2a05; /* readable text on ochre, AA */
+  --cs-color-brand: var(--cs-color-brand-umber);
+  --cs-color-on-brand: #fdf4e1;
+  --cs-color-focus: #1d4ed8;
+
+  /* Liquid Glass materials (Part 21). Opt-in via .cs-surface-* classes.
+     Five materials: whisper / light / standard / heavy / solid. */
+  --cs-glass-blur-whisper: 4px;
+  --cs-glass-blur-light: 8px;
+  --cs-glass-blur-standard: 14px;
+  --cs-glass-blur-heavy: 22px;
+  --cs-glass-tint-whisper: rgba(255, 255, 255, 0.32);
+  --cs-glass-tint-light: rgba(255, 255, 255, 0.46);
+  --cs-glass-tint-standard: rgba(255, 255, 255, 0.62);
+  --cs-glass-tint-heavy: rgba(255, 255, 255, 0.78);
+  --cs-glass-border: rgba(69, 33, 14, 0.12);
+
+  /* Depth (shadow ramp) */
+  --cs-depth-1: 0 1px 2px rgba(28, 19, 13, 0.06);
+  --cs-depth-2: 0 4px 14px rgba(28, 19, 13, 0.08);
+  --cs-depth-3: 0 12px 40px rgba(28, 19, 13, 0.12);
+
+  /* Type scale (1.250 major-third), fluid via clamp */
+  --cs-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --cs-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --cs-text-xs: 0.8rem;
+  --cs-text-sm: 0.9rem;
+  --cs-text-base: 1rem;
+  --cs-text-lg: 1.2rem;
+  --cs-text-xl: clamp(1.35rem, 1.1rem + 1vw, 1.6rem);
+  --cs-text-2xl: clamp(1.7rem, 1.3rem + 2vw, 2.3rem);
+  --cs-text-3xl: clamp(2.2rem, 1.6rem + 3.4vw, 3.6rem);
+  --cs-text-4xl: clamp(2.8rem, 1.9rem + 5vw, 5rem);
+
+  /* Spacing scale */
+  --cs-space-1: 0.25rem;
+  --cs-space-2: 0.5rem;
+  --cs-space-3: 0.75rem;
+  --cs-space-4: 1rem;
+  --cs-space-6: 1.5rem;
+  --cs-space-8: 2rem;
+  --cs-space-12: 3rem;
+  --cs-space-16: 4rem;
+  --cs-space-24: 6rem;
+  --cs-space-32: 8rem;
+
+  /* Radius + motion */
+  --cs-radius-sm: 8px;
+  --cs-radius-md: 14px;
+  --cs-radius-lg: 24px;
+  --cs-radius-pill: 999px;
+  --cs-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --cs-dur-fast: 160ms;
+  --cs-dur: 320ms;
+  --cs-dur-slow: 640ms;
+
+  --cs-container: 72rem;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  :root {
+    --cs-color-brand-umber: color(display-p3 0.265 0.13 0.06);
+    --cs-color-brand-ochre: color(display-p3 0.95 0.74 0.13);
+  }
+}
+
+[data-theme="dark"] {
+  --cs-color-fg: #f4ece0;
+  --cs-color-fg-muted: #c3b6a5;
+  --cs-color-bg: #1a120c;
+  --cs-color-surface: #241811;
+  --cs-color-line: #3a2a1d;
+  --cs-color-on-brand: #fdf4e1;
+  --cs-glass-tint-whisper: rgba(36, 24, 17, 0.34);
+  --cs-glass-tint-light: rgba(36, 24, 17, 0.5);
+  --cs-glass-tint-standard: rgba(36, 24, 17, 0.66);
+  --cs-glass-tint-heavy: rgba(36, 24, 17, 0.8);
+  --cs-glass-border: rgba(244, 186, 23, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--cs-color-bg);
+  color: var(--cs-color-fg);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-text-base);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--cs-font-display);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--cs-space-4);
+}
+
+h1 { font-size: var(--cs-text-4xl); }
+h2 { font-size: var(--cs-text-3xl); }
+h3 { font-size: var(--cs-text-xl); }
+p { margin: 0 0 var(--cs-space-4); }
+
+a {
+  color: inherit;
+  text-underline-offset: 0.18em;
+}
+
+/* Visible focus for keyboard users (WCAG 2.4.7) */
+:focus-visible {
+  outline: 3px solid var(--cs-color-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Layout helpers */
+.cs-container {
+  width: 100%;
+  max-width: var(--cs-container);
+  margin-inline: auto;
+  padding-inline: var(--cs-space-6);
+}
+
+.cs-section {
+  padding-block: var(--cs-space-24);
+  position: relative;
+}
+
+.cs-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: var(--cs-text-sm);
+  font-weight: 600;
+  color: var(--cs-color-fg-muted);
+}
+
+/* Skip link */
+.cs-skip-link {
+  position: absolute;
+  left: var(--cs-space-4);
+  top: -3rem;
+  z-index: 1000;
+  background: var(--cs-color-brand);
+  color: var(--cs-color-on-brand);
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-radius: var(--cs-radius-sm);
+  transition: top var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-skip-link:focus {
+  top: var(--cs-space-4);
+}
+
+/* Buttons */
+.cs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cs-space-2);
+  font: inherit;
+  font-weight: 600;
+  padding: var(--cs-space-3) var(--cs-space-6);
+  border-radius: var(--cs-radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--cs-dur-fast) var(--cs-ease), box-shadow var(--cs-dur-fast) var(--cs-ease), background var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-btn:hover { transform: translateY(-1px); }
+.cs-btn-primary {
+  background: var(--cs-color-accent);
+  color: var(--cs-color-accent-ink);
+  box-shadow: var(--cs-depth-2);
+}
+.cs-btn-secondary {
+  background: transparent;
+  color: var(--cs-color-fg);
+  border-color: var(--cs-color-line);
+}
+.cs-btn-brand {
+  background: var(--cs-color-brand);
+  color: var(--cs-color-on-brand);
+}
+
+/* Liquid Glass surfaces */
+.cs-glass-card,
+.cs-surface-whisper,
+.cs-surface-light,
+.cs-surface-standard,
+.cs-surface-heavy {
+  border: 1px solid var(--cs-glass-border);
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--cs-depth-2);
+  background: var(--cs-glass-tint-standard);
+  backdrop-filter: blur(var(--cs-glass-blur-standard)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--cs-glass-blur-standard)) saturate(140%);
+}
+.cs-surface-whisper { background: var(--cs-glass-tint-whisper); backdrop-filter: blur(var(--cs-glass-blur-whisper)); -webkit-backdrop-filter: blur(var(--cs-glass-blur-whisper)); }
+.cs-surface-light { background: var(--cs-glass-tint-light); backdrop-filter: blur(var(--cs-glass-blur-light)); -webkit-backdrop-filter: blur(var(--cs-glass-blur-light)); }
+.cs-surface-heavy { background: var(--cs-glass-tint-heavy); backdrop-filter: blur(var(--cs-glass-blur-heavy)); -webkit-backdrop-filter: blur(var(--cs-glass-blur-heavy)); }
+.cs-surface-solid { background: var(--cs-color-surface); border: 1px solid var(--cs-color-line); border-radius: var(--cs-radius-lg); box-shadow: var(--cs-depth-1); }
+
+/* Glass collapses to solid where translucency is unwanted or unsupported */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
+    background: var(--cs-color-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
+    background: var(--cs-color-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+@media (forced-colors: active) {
+  .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
+    background: Canvas;
+    border: 1px solid CanvasText;
+    backdrop-filter: none;
+  }
+}
+@media print {
+  .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
+    background: #fff;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  .cs-no-print { display: none !important; }
+}
+
+/* Reduced motion: freeze non-essential animation, keep opacity reveals only.
+   Also toggled manually via [data-cs-motion="reduce"] on <html>. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+[data-cs-motion="reduce"] * ,
+[data-cs-motion="reduce"] *::before,
+[data-cs-motion="reduce"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+.cs-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reveal-on-scroll primitive (opacity only, motion-safe) */
+.cs-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--cs-dur-slow) var(--cs-ease), transform var(--cs-dur-slow) var(--cs-ease);
+  will-change: opacity, transform;
+}
+.cs-reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-reveal { opacity: 1; transform: none; }
+}
