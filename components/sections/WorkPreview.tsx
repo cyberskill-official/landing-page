@@ -15,7 +15,11 @@ export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary
           {work.map((item, i) => (
             <Reveal as="article" key={item.slug} className="cs-work-card cs-surface-light" delayMs={i * 80}>
               <p className="cs-eyebrow">{item.client}</p>
-              <h3>{localize(item.title, locale)}</h3>
+              <h3>
+                <Link className="cs-stretch" href={`/${locale}/work/${item.slug}`}>
+                  {localize(item.title, locale)}
+                </Link>
+              </h3>
               <p>{localize(item.result, locale)}</p>
             </Reveal>
           ))}

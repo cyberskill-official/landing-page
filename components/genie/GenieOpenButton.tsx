@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { track } from "@/lib/analytics";
 
 export const GENIE_OPEN_EVENT = "cs:genie:open";
 
@@ -17,7 +18,10 @@ export function GenieOpenButton({
     <button
       type="button"
       className={className}
-      onClick={() => window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT))}
+      onClick={() => {
+        track("genie_open");
+        window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT));
+      }}
     >
       {children}
     </button>

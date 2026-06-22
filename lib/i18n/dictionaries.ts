@@ -64,8 +64,8 @@ export type Dictionary = {
     close: string;
   };
   a11y: {
-    motionToggleOn: string;
-    motionToggleOff: string;
+    themeToDark: string;
+    themeToLight: string;
     skip3d: string;
     liteLink: string;
     cinematicLink: string;
@@ -138,8 +138,8 @@ const en: Dictionary = {
     close: "Close chat",
   },
   a11y: {
-    motionToggleOn: "Reduce motion",
-    motionToggleOff: "Enable motion",
+    themeToDark: "Switch to dark mode",
+    themeToLight: "Switch to light mode",
     skip3d: "Skip the 3D scene",
     liteLink: "View the simple version",
     cinematicLink: "Back to the full experience",
@@ -212,8 +212,8 @@ const vi: Dictionary = {
     close: "Đóng cửa sổ trò chuyện",
   },
   a11y: {
-    motionToggleOn: "Giảm chuyển động",
-    motionToggleOff: "Bật chuyển động",
+    themeToDark: "Chuyển sang chế độ tối",
+    themeToLight: "Chuyển sang chế độ sáng",
     skip3d: "Bỏ qua cảnh 3D",
     liteLink: "Xem phiên bản đơn giản",
     cinematicLink: "Trở lại trải nghiệm đầy đủ",

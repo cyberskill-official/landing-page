@@ -19,10 +19,9 @@ const GenieScene = dynamic(
 
 function capable(): boolean {
   if (typeof window === "undefined") return false;
-  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-  const motionPref = document.documentElement.getAttribute("data-cs-motion");
-  if (reduce || motionPref === "reduce") return false;
-  // Desktop, fine pointer, enough cores: protects Core Web Vitals on mobile/low-end.
+  // Motion is always on by product decision (the toggle was removed). We still
+  // gate on device capability so mobile / low-end get the static poster - that
+  // is a Core Web Vitals choice, not a motion preference.
   const wide = window.matchMedia("(min-width: 1024px)").matches;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
   const cores = navigator.hardwareConcurrency ?? 4;

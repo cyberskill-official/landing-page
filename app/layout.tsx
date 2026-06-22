@@ -38,7 +38,16 @@ export default async function RootLayout({
 
   return (
     <html lang={bcp47[locale]} data-theme="light" suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <script
+          // No-flash: apply the saved theme before paint.
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();",
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

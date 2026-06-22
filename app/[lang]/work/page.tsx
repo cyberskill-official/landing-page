@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { work } from "@/lib/content/site";
@@ -28,7 +29,11 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
           {work.map((item) => (
             <article key={item.slug} className="cs-work-card cs-surface-light">
               <p className="cs-eyebrow">{item.client}</p>
-              <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{localize(item.title, locale)}</h2>
+              <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
+                <Link className="cs-stretch" href={`/${locale}/work/${item.slug}`}>
+                  {localize(item.title, locale)}
+                </Link>
+              </h2>
               <p>{localize(item.result, locale)}</p>
               <ul className="cs-tag-row" role="list">
                 {item.tags.map((t) => (

@@ -4,7 +4,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { LanguageSwitcher } from "@/components/header/LanguageSwitcher";
-import { MotionToggle } from "@/components/a11y/MotionToggle";
+import { ThemeToggle } from "@/components/header/ThemeToggle";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 
 export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -26,7 +26,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
         </nav>
 
         <div className="cs-header-actions">
-          <MotionToggle labelOn={dict.a11y.motionToggleOn} labelOff={dict.a11y.motionToggleOff} />
+          <ThemeToggle toDark={dict.a11y.themeToDark} toLight={dict.a11y.themeToLight} />
           <LanguageSwitcher current={locale} />
           <GenieOpenButton className="cs-btn cs-btn-primary cs-header-cta">
             {dict.hero.ctaSecondary}

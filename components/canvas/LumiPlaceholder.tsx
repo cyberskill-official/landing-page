@@ -21,10 +21,8 @@ export function LumiPlaceholder() {
     const t = state.clock.elapsedTime;
     const speed = status === "speaking" ? 3 : status === "thinking" ? 1.7 : 0.8;
 
-    // Idle sway / bob.
-    m.position.y = Math.sin(t * speed) * 0.12;
-
     // Gaze: lerp rotation toward the normalised pointer each frame.
+    // (Vertical drift is handled by the parent <Float> in GenieScene.)
     const targetY = state.pointer.x * 0.6;
     const targetX = -state.pointer.y * 0.4;
     const k = Math.min(1, delta * 3);

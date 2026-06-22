@@ -8,10 +8,8 @@ import { initScrollStory, type ScrollStoryHandle } from "@/lib/scroll/lenis-gsap
 // the native scrollbar, which matters for accessibility - research doc §E).
 export function ScrollStoryProvider() {
   useEffect(() => {
-    const osReduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-    const prefReduce = document.documentElement.getAttribute("data-cs-motion") === "reduce";
-    if (osReduce || prefReduce) return;
-
+    // Motion is always on: smooth scroll initialises regardless of the OS
+    // reduced-motion setting (product decision).
     let handle: ScrollStoryHandle | null = null;
     let cancelled = false;
     initScrollStory().then((h) => {

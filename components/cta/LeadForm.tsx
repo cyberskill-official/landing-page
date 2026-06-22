@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { leadSchema, type LeadInput } from "@/lib/lead/schema";
+import { track } from "@/lib/analytics";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -49,6 +50,7 @@ export function LeadForm({
         headers: { "content-type": "application/json" },
         body: JSON.stringify(values),
       });
+      if (res.ok) track("lead_submitted", { source });
       setStatus(res.ok ? "ok" : "error");
     } catch {
       setStatus("error");
