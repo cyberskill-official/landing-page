@@ -35,6 +35,26 @@ export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
     gsap.ticker.add(onTick);
     gsap.ticker.lagSmoothing(0);
 
+    // Pinned hero beat (FR-SCENE-004): hold the hero in place while the first
+    // stretch of scroll scrubs the scene intro, then release. scrub ties it to
+    // scroll position so it reverses cleanly; pinSpacing keeps the layout gap-free.
+    // Desktop + motion-allowed only - reduced motion or narrow viewports keep the
+    // ordinary flow (clause 3). ScrollTrigger refreshes on resize; destroy() (which
+    // kills all triggers below) tears it down.
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const wide = window.matchMedia("(min-width: 1024px)").matches;
+    const heroEl = document.querySelector<HTMLElement>(".cs-hero");
+    if (heroEl && wide && !reduce) {
+      (ScrollTrigger as { create: (cfg: Record<string, unknown>) => unknown }).create({
+        trigger: heroEl,
+        start: "top top",
+        end: "+=55%",
+        pin: true,
+        pinSpacing: true,
+        scrub: true,
+      });
+    }
+
     return {
       destroy() {
         gsap.ticker.remove(onTick);

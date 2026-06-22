@@ -32,16 +32,16 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 45 |
+| shipped | 46 |
 | hold | 1 |
-| planned | 47 |
+| planned | 46 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
 | DS (design system) | 10 | 4 |
 | WEB (foundation) | 10 | 7 |
-| SCENE (3D + scroll) | 10 | 5 |
+| SCENE (3D + scroll) | 10 | 6 |
 | CHAR (Lumi) | 13 | 4 |
 | CTA (conversion) | 9 | 5 |
 | CMS (content + i18n) | 9 | 3 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 4 |
 
-The 45 shipped + 1 hold are the slices delivered so far; the 47 `planned` rows
+The 46 shipped + 1 hold are the slices delivered so far; the 46 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -84,7 +84,7 @@ complete and build-ready.
 - [FR-SCENE-001](scene/FR-SCENE-001-canvas-scaffold.md) - Fixed R3F canvas, lazy ssr:false, capability gate. P3. MUST. shipped.
 - [FR-SCENE-002](scene/FR-SCENE-002-scroll-loop.md) - Lenis + GSAP ticker RAF loop + ScrollTrigger. P3. SHOULD. shipped.
 - [FR-SCENE-003](scene/FR-SCENE-003-always-motion-scrollytelling.md) - Always-on motion + scroll-tied Lumi choreography. P4. SHOULD. shipped.
-- [FR-SCENE-004](scene/FR-SCENE-004-pinned-sections.md) - Pinned/sticky section choreography (scrub against progress). P4. SHOULD. planned.
+- [FR-SCENE-004](scene/FR-SCENE-004-pinned-sections.md) - Pinned/sticky section choreography (scrub against progress). P4. SHOULD. shipped.
 - [FR-SCENE-005](scene/FR-SCENE-005-camera-sequence.md) - Authored camera keyframe sequence (Theatre.js or clip), one shot per scene. P4. COULD. planned.
 - [FR-SCENE-006](scene/FR-SCENE-006-glow-shader.md) - Custom GLSL golden-glow / dissolve shader for Lumi. P4. COULD. shipped.
 - [FR-SCENE-007](scene/FR-SCENE-007-scene-progress-map.md) - Per-scene normalized progress mapped to camera/model/lighting. P4. SHOULD. shipped.
