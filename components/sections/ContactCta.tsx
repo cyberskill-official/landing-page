@@ -1,11 +1,23 @@
+import Image from "next/image";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { LeadForm } from "@/components/cta/LeadForm";
+import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section id="contact" className="cs-section cs-section-contact" aria-labelledby="contact-title">
+      <div className="cs-contact-bg" aria-hidden="true">
+        <Image
+          src={auroraGold}
+          alt=""
+          fill
+          sizes="100vw"
+          placeholder="blur"
+          className="cs-contact-bg-img"
+        />
+      </div>
       <div className="cs-container cs-contact-grid">
         <div className="cs-contact-intro">
           <h2 id="contact-title">{dict.sections.contactTitle}</h2>

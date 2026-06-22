@@ -443,7 +443,15 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 .cs-careers { display: flex; flex-wrap: wrap; gap: var(--cs-space-6); align-items: center; justify-content: space-between; }
 
 /* Contact */
-.cs-section-contact { background: var(--cs-color-surface); }
+.cs-section-contact { background: var(--cs-color-surface); position: relative; overflow: hidden; }
+/* Licensed Adobe Stock aurora backdrop behind the contact CTA (FR-WEB-009).
+   Shown only in dark theme, where the warm gold reads against the dark surface;
+   hidden in light theme to avoid muddying it. Decorative, behind content. */
+.cs-contact-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity var(--cs-dur-slow) var(--cs-ease); }
+.cs-contact-bg-img { object-fit: cover; object-position: center 70%; }
+[data-theme="dark"] .cs-contact-bg { opacity: 0.28; }
+.cs-section-contact > .cs-container { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .cs-contact-bg { transition: none; } }
 .cs-contact-grid { display: grid; gap: var(--cs-space-12); grid-template-columns: 1fr; }
 @media (min-width: 860px) { .cs-contact-grid { grid-template-columns: 1fr 1fr; } }
 .cs-contact-list { list-style: none; padding: 0; margin-top: var(--cs-space-6); display: grid; gap: var(--cs-space-2); }

@@ -3,18 +3,20 @@ id: FR-WEB-009
 title: "Responsive next/image pipeline that protects LCP"
 module: WEB
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-WEB-002]
 source_pages:
   - "research doc §F (Next.js App Router, performance), §D (Core Web Vitals)"
+new_files:
+  - public/brand/aurora-gold.jpg
 modified_files:
-  - components/sections/Hero.tsx
-  - components/sections/WorkPreview.tsx
+  - components/sections/ContactCta.tsx
+  - app/globals.css
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -37,4 +39,16 @@ contentful paint and the layout stability of the page.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. The first real content image - a licensed Adobe Stock aurora
+(golden particle wave, on-brand Umber/Ochre), resized to 2000px and committed at
+`public/brand/aurora-gold.jpg` - is rendered through `next/image` as the contact
+section backdrop. It uses a static import (so Next emits intrinsic dimensions and
+a blur placeholder), explicit `sizes="100vw"`, and `fill` inside an absolutely
+positioned `inset:0` container, so it reserves its space and causes no layout
+shift (clauses 1, 3). It is below the fold and deliberately not `priority`, so it
+never preempts the LCP - which on this site is the server-rendered hero H1, not
+an image, so there is no above-the-fold LCP image to prioritize (clause 2). It
+shows only in dark theme (0.28 opacity) and is hidden in light theme to avoid
+muddying it. Verified by `next build` (rc=0, image optimizer active) plus tsc +
+lint + 37 vitest tests. Work-card and per-service images can adopt the same
+pattern when those assets exist.
