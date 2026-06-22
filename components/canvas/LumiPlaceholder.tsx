@@ -52,20 +52,23 @@ const AURA_FRAG = `
   uniform float uProgress;
   uniform float uPulse;
   uniform float uReveal;
+  uniform float uAlpha;
   uniform vec3 uCore;
   uniform vec3 uRim;
   varying vec3 vNormal;
   varying vec3 vView;
   varying vec3 vPos;
   void main() {
-    float fres = pow(1.0 - max(dot(vNormal, vView), 0.0), 2.2);
+    float fres = pow(1.0 - max(dot(vNormal, vView), 0.0), 2.4);
     float shimmer = 0.5 + 0.5 * sin(vPos.y * 5.0 + uTime * 2.0) * sin(vPos.x * 5.0 - uTime * 1.5);
     float reveal = smoothstep(vPos.y - 0.6, vPos.y + 0.6, uReveal * 2.6 - 1.3 + shimmer * 0.4);
     float glow = fres * (0.7 + 0.3 * shimmer);
     glow *= (0.75 + uProgress * 0.6 + uPulse * 0.6);
     glow *= mix(reveal, 1.0, uReveal);
+    // uAlpha keeps the halo a soft rim-glow (low on light theme) rather than a
+    // solid shell that would hide the gold figure inside it.
     vec3 col = mix(uCore, uRim, fres);
-    gl_FragColor = vec4(col, clamp(glow, 0.0, 1.0));
+    gl_FragColor = vec4(col, clamp(glow, 0.0, 1.0) * uAlpha);
   }
 `;
 
@@ -148,8 +151,9 @@ export function LumiPlaceholder() {
           uProgress: { value: 0 },
           uPulse: { value: 0 },
           uReveal: { value: 0 },
-          uCore: { value: new THREE.Color(isLight ? "#B5780A" : "#F4BA17") },
-          uRim: { value: new THREE.Color(isLight ? "#7A5206" : "#FFE7A6") },
+          uAlpha: { value: isLight ? 0.42 : 0.95 },
+          uCore: { value: new THREE.Color(isLight ? "#C8890A" : "#F4BA17") },
+          uRim: { value: new THREE.Color(isLight ? "#8A5C08" : "#FFE7A6") },
         },
       }),
     [isLight],
@@ -232,8 +236,8 @@ export function LumiPlaceholder() {
             />
           </mesh>
           {/* Dark face void nested in the lower front of the hood. */}
-          <mesh position={[0, 0.62, 0.42]}>
-            <sphereGeometry args={[0.34, 32, 32]} />
+          <mesh position={[0, 0.58, 0.46]}>
+            <sphereGeometry args={[0.37, 32, 32]} />
             <meshStandardMaterial color="#3A1D0E" roughness={0.6} metalness={0.1} emissive="#1c0e06" emissiveIntensity={0.2} />
           </mesh>
         </group>
@@ -256,10 +260,15 @@ export function LumiPlaceholder() {
           <meshStandardMaterial color="#F4BA17" emissive="#C8890A" emissiveIntensity={0.45} roughness={0.32} metalness={0.55} />
         </mesh>
 
-        {/* Fresnel glow aura - a tall ellipsoid shell enveloping the figure. */}
-        <mesh position={[0, 0.1, 0]} scale={[1.25, 2.35, 1.25]} material={aura}>
-          <sphereGeometry args={[1, 48, 48]} />
-        </mesh>
+        {/* Fresnel glow aura - a tall ellipsoid halo, dark theme only. Additive
+            glow reads as luminous energy on the dark background; on the cream
+            light theme a shell would look like a glassy egg, so the crisp gold
+            figure (exactly the logo aesthetic) stands on its own there. */}
+        {!isLight && (
+          <mesh position={[0, 0.1, 0]} scale={[1.16, 2.18, 1.16]} material={aura}>
+            <sphereGeometry args={[1, 48, 48]} />
+          </mesh>
+        )}
 
         {/* A couple of orbiting energy motes around the head. */}
         <group ref={wisps} position={[0, 0.6, 0]}>
