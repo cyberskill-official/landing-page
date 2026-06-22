@@ -26,7 +26,7 @@ only; never add `NEXT_PUBLIC_` to a secret.
 | `GENIE_MODEL` | Production, Preview | no | Pinned model id. Default `claude-haiku-4-5-20251001`. Confirm the current id in the Anthropic console at deploy time. |
 | `GENIE_MAX_TOKENS` | Production, Preview | no | Default 600. |
 | `RESEND_API_KEY` | Production, Preview | for lead email | Enables the email notification in `/api/lead` (sends to `info@cyberskill.world`). Runtime value: a fresh deploy is needed after adding/changing it. |
-| `LEAD_EMAIL_FROM` | Production | no | From address for lead emails, e.g. `CyberSkill <leads@cyberskill.world>`. Must be on a Resend-verified domain. If unset, falls back to `onboarding@resend.dev`, which Resend only delivers to the account's own email - verify cyberskill.world for reliable delivery to the inbox. |
+| `LEAD_EMAIL_FROM` | Production | no | Override the lead-email From address. Defaults to `CyberSkill Leads <leads@<your-domain>>` (derived from `company.email`), which works once that domain is verified in Resend (cyberskill.world is). Set this only to use a different sender. |
 | `LEAD_SLACK_WEBHOOK_URL` | Production | no | Slack Incoming Webhook for new-lead pings. |
 | `LEAD_CRM_WEBHOOK_URL` | Production | no | CRM/Zapier/n8n webhook for lead records. |
 | `NEXT_PUBLIC_SENTRY_DSN` | Production, Preview | for error tracking | Sentry project DSN. Inlined into the client bundle at build, so a redeploy is required after adding it. Without it Sentry is a no-op. |

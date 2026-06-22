@@ -62,13 +62,14 @@ export async function POST(req: Request) {
 
 // Email the lead to the company inbox via Resend (raw fetch, no SDK). Gated on
 // RESEND_API_KEY so it no-ops until configured. Reply-To is the lead's address,
-// so a reply from the inbox goes straight back to them. The From address must be
-// on a Resend-verified domain (set LEAD_EMAIL_FROM, e.g. "CyberSkill
-// <leads@cyberskill.world>"); falls back to Resend's onboarding sender.
+// so a reply from the inbox goes straight back to them. The From defaults to a
+// sender on the company's (Resend-verified) domain so it works with just the
+// key; LEAD_EMAIL_FROM overrides it.
 async function notifyEmail(record: Record<string, unknown>, replyTo: string): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   if (!key) return;
-  const from = process.env.LEAD_EMAIL_FROM || "CyberSkill Leads <onboarding@resend.dev>";
+  const domain = company.email.split("@")[1];
+  const from = process.env.LEAD_EMAIL_FROM || `CyberSkill Leads <leads@${domain}>`;
   const lines = [
     `Name: ${record.name}`,
     `Email: ${record.email}`,
