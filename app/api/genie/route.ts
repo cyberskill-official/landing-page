@@ -9,6 +9,8 @@ import { isLocale } from "@/lib/i18n/config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+// Streaming headroom on Vercel (Fluid/Node allows longer; 60s is safe for chat).
+export const maxDuration = 60;
 
 const WINDOW_MS = 5 * 60 * 1000;
 const MAX_REQ = 20;

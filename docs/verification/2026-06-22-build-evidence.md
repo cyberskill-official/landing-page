@@ -30,10 +30,28 @@ tools; git commits ran against the real repo.
 - CyberOS artifacts: 16 FRs + 5 NFRs authored; every BACKLOG link resolves;
   decision records and awh logs written.
 
+## Build-verified (2026-06-22, sandbox copy)
+
+After the static pass, the repo was copied to a sandbox-local path and a full
+install + build was run there (identical source, so it stands in for the repo):
+
+- `npm install` - 367 packages, clean.
+- `npm run verify` - 48 files, 0 problems.
+- `npx tsc --noEmit` - passed with zero errors (real R3F/three/Next types present).
+- `npm run build` - `Compiled successfully in 3.9s`; `Generating static pages
+  (15/15)`; 0 errors. `/[lang]` (en, vi) and `/[lang]/{work,careers,lite}`
+  prerender as SSG; `/api/genie` and `/api/lead` are dynamic functions;
+  `robots.txt` and `sitemap.xml` static; middleware 34 kB.
+- Bundle: First Load JS shared 103 kB; home route 131 kB - well under the 320 kB
+  script budget. The 3D chunk is code-split out of the first load.
+
+This converts the gate from static-only to build-verified. The items below
+still require a deployed build and a browser/device.
+
 ## Deferred to the operator (must run before launch)
 
-1. `npm install && npm run typecheck && npm run build` - confirm a clean type
-   pass and production build. This is the real "green" gate.
+1. Run the same `npm install && npm run typecheck && npm run build` on your
+   machine to confirm parity (done in a sandbox copy; reproduce locally).
 2. Route smoke test: `/`, `/en`, `/vi`, `/en/work`, `/en/careers`, `/en/lite`,
    404 on an invalid locale.
 3. Lumi chat with a real `ANTHROPIC_API_KEY`: streaming reply, rate-limit and
