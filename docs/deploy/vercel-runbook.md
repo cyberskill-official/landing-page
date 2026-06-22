@@ -25,12 +25,21 @@ only; never add `NEXT_PUBLIC_` to a secret.
 | `ANTHROPIC_API_KEY` | Production, Preview | for chat | Enables Lumi. Without it `/api/genie` returns 503 and the widget shows the contact-form fallback. |
 | `GENIE_MODEL` | Production, Preview | no | Pinned model id. Default `claude-haiku-4-5-20251001`. Confirm the current id in the Anthropic console at deploy time. |
 | `GENIE_MAX_TOKENS` | Production, Preview | no | Default 600. |
+| `RESEND_API_KEY` | Production, Preview | for lead email | Enables the email notification in `/api/lead` (sends to `info@cyberskill.world`). Runtime value: a fresh deploy is needed after adding/changing it. |
+| `LEAD_EMAIL_FROM` | Production | no | From address for lead emails, e.g. `CyberSkill <leads@cyberskill.world>`. Must be on a Resend-verified domain. If unset, falls back to `onboarding@resend.dev`, which Resend only delivers to the account's own email - verify cyberskill.world for reliable delivery to the inbox. |
 | `LEAD_SLACK_WEBHOOK_URL` | Production | no | Slack Incoming Webhook for new-lead pings. |
 | `LEAD_CRM_WEBHOOK_URL` | Production | no | CRM/Zapier/n8n webhook for lead records. |
+| `NEXT_PUBLIC_SENTRY_DSN` | Production, Preview | for error tracking | Sentry project DSN. Inlined into the client bundle at build, so a redeploy is required after adding it. Without it Sentry is a no-op. |
+| `NEXT_PUBLIC_SENTRY_RELEASE` | Production, Preview | no | Optional release tag for client events; server events already use `VERCEL_GIT_COMMIT_SHA`. |
 | `NEXT_PUBLIC_SITE_URL` | Production, Preview | yes | Public canonical origin (e.g. https://cyberskill.world). Safe to expose. |
 
 Use a separate, lower-limit `ANTHROPIC_API_KEY` for Preview so preview
 deployments cannot burn the production quota.
+
+Note on `NEXT_PUBLIC_*`: these are inlined at build time, so adding or changing
+one only takes effect on the next deployment - redeploy after editing them.
+Runtime secrets (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`) are read per request but
+still need a redeploy to propagate a newly-added value to existing functions.
 
 ## Streaming note
 
@@ -43,8 +52,13 @@ setup needs no change.
 
 - `/` redirects to `/en`; `/vi` renders in Vietnamese; `<html lang>` matches.
 - `/robots.txt` and `/sitemap.xml` resolve; sitemap lists en + vi with alternates.
-- Lead form submits (check server logs / Slack).
-- Lumi replies and streams (with the key set); falls back gracefully without it.
+- Lead form submits (check server logs / Slack) and an email arrives at
+  `info@cyberskill.world` (with `RESEND_API_KEY` set + a verified from domain).
+- Lumi replies and streams (with the key set and account credit); falls back
+  gracefully without it.
+- Sentry receives events (with `NEXT_PUBLIC_SENTRY_DSN` set after a redeploy):
+  trigger a test client error and confirm it lands in the Sentry dashboard with
+  release + environment tags.
 - Run Vercel Speed Insights / Lighthouse on mobile against `lighthouse/budget.json`.
 
 ## Rollback
