@@ -1,0 +1,49 @@
+import type { Metadata } from "next";
+import { isLocale, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { work } from "@/lib/content/site";
+import { localize } from "@/lib/i18n/types";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const locale: Locale = isLocale(lang) ? lang : "en";
+  return {
+    title: locale === "vi" ? "Dự án" : "Work",
+    alternates: { canonical: `/${locale}/work`, languages: { en: "/en/work", vi: "/vi/work" } },
+  };
+}
+
+export default async function WorkPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const locale = isLocale(lang) ? lang : "en";
+  const dict = getDictionary(locale);
+
+  return (
+    <section className="cs-section">
+      <div className="cs-container">
+        <p className="cs-eyebrow">{dict.nav.work}</p>
+        <h1>{dict.sections.workTitle}</h1>
+        <p className="cs-section-lead">{dict.sections.workLead}</p>
+        <div className="cs-work-grid">
+          {work.map((item) => (
+            <article key={item.slug} className="cs-work-card cs-surface-light">
+              <p className="cs-eyebrow">{item.client}</p>
+              <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{localize(item.title, locale)}</h2>
+              <p>{localize(item.result, locale)}</p>
+              <ul className="cs-tag-row" role="list">
+                {item.tags.map((t) => (
+                  <li key={t} className="cs-tag">{t}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <p className="cs-section-more">
+          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
+            {dict.hero.ctaPrimary}
+          </a>
+        </p>
+      </div>
+    </section>
+  );
+}

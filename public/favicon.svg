@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CyberSkill">
+  <rect width="64" height="64" rx="14" fill="#45210E"/>
+  <radialGradient id="lumi" cx="50%" cy="42%" r="55%">
+    <stop offset="0%" stop-color="#FCE9A8"/>
+    <stop offset="55%" stop-color="#F4BA17"/>
+    <stop offset="100%" stop-color="#C8890A"/>
+  </radialGradient>
+  <circle cx="32" cy="30" r="15" fill="url(#lumi)"/>
+  <circle cx="32" cy="30" r="15" fill="none" stroke="#FCE9A8" stroke-opacity="0.5" stroke-width="1.5"/>
+  <path d="M20 48 Q32 42 44 48" fill="none" stroke="#F4BA17" stroke-width="3" stroke-linecap="round"/>
+</svg>
