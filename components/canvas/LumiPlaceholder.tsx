@@ -1,11 +1,28 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGenieStore } from "@/lib/genie/store";
 import { getScrollProgress } from "@/lib/scroll/progress";
 import { resolveSceneState } from "@/lib/scene/progressMap";
+
+// Track the active light/dark theme (data-theme on <html>, set by ThemeToggle)
+// so Lumi can stay legible in both. Additive glow reads beautifully on a dark
+// background but washes out on a light one, so light theme uses normal blending
+// with deeper gold; see the material + colours below.
+function useThemeMode(): "light" | "dark" {
+  const [mode, setMode] = useState<"light" | "dark">("dark");
+  useEffect(() => {
+    const read = () =>
+      setMode(document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark");
+    read();
+    const obs = new MutationObserver(read);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => obs.disconnect();
+  }, []);
+  return mode;
+}
 
 // PLACEHOLDER for the commissioned golden-genie GLB (FR-CHAR-021), now a far
 // richer procedural Lumi: a lit gold core, a custom-shader fresnel glow/shimmer
@@ -66,8 +83,11 @@ export function LumiPlaceholder() {
   const prevOpen = useRef(false);
   const status = useGenieStore((s) => s.status);
   const open = useGenieStore((s) => s.open);
+  const isLight = useThemeMode() === "light";
 
-  // One shared aura material; uniforms are mutated per frame.
+  // One shared aura material; uniforms are mutated per frame. Rebuilt when the
+  // theme flips: additive + bright gold on dark, normal-blended + deeper gold on
+  // light so the halo reads against a pale background instead of vanishing.
   const aura = useMemo(
     () =>
       new THREE.ShaderMaterial({
@@ -75,17 +95,17 @@ export function LumiPlaceholder() {
         fragmentShader: AURA_FRAG,
         transparent: true,
         depthWrite: false,
-        blending: THREE.AdditiveBlending,
+        blending: isLight ? THREE.NormalBlending : THREE.AdditiveBlending,
         uniforms: {
           uTime: { value: 0 },
           uProgress: { value: 0 },
           uPulse: { value: 0 },
           uReveal: { value: 0 },
-          uCore: { value: new THREE.Color("#F4BA17") },
-          uRim: { value: new THREE.Color("#FFE7A6") },
+          uCore: { value: new THREE.Color(isLight ? "#B5780A" : "#F4BA17") },
+          uRim: { value: new THREE.Color(isLight ? "#7A5206" : "#FFE7A6") },
         },
       }),
-    [],
+    [isLight],
   );
 
   useFrame((state, delta) => {
@@ -145,6 +165,11 @@ export function LumiPlaceholder() {
     }
   });
 
+  // Inner bodies go near-white on dark (luminous) but deep gold on light so they
+  // are not invisible against a pale background.
+  const nucleusColor = isLight ? "#C8890A" : "#FFF3CF";
+  const wispColor = isLight ? "#9A6606" : "#FFE7A6";
+
   return (
     <group ref={group} position={[1.35, 0, 0]} scale={0.78}>
       <pointLight ref={light} position={[0, 0, 2.4]} color="#F4BA17" intensity={1.8} distance={9} />
@@ -162,10 +187,10 @@ export function LumiPlaceholder() {
         />
       </mesh>
 
-      {/* Bright inner nucleus. */}
+      {/* Inner nucleus (theme-aware so it reads on light too). */}
       <mesh scale={0.55}>
         <sphereGeometry args={[1, 32, 32]} />
-        <meshBasicMaterial color="#FFF3CF" transparent opacity={0.85} />
+        <meshBasicMaterial color={nucleusColor} transparent opacity={isLight ? 0.95 : 0.85} />
       </mesh>
 
       {/* Custom-shader fresnel glow aura (slightly larger shell). */}
@@ -180,7 +205,7 @@ export function LumiPlaceholder() {
           return (
             <mesh key={i} position={[Math.cos(a) * 1.7, Math.sin(a) * 0.5, Math.sin(a) * 1.7]} scale={0.12}>
               <sphereGeometry args={[1, 16, 16]} />
-              <meshBasicMaterial color="#FFE7A6" transparent opacity={0.9} />
+              <meshBasicMaterial color={wispColor} transparent opacity={0.9} />
             </mesh>
           );
         })}
