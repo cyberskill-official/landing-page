@@ -5,7 +5,14 @@ export const runtime = "nodejs";
 // First-party, privacy-light event sink. No third-party scripts, no cookies.
 // Logs server-side and optionally forwards to a webhook (ANALYTICS_WEBHOOK_URL)
 // so funnel events (genie opens, lead submits, CTA clicks) are attributable.
-const ALLOWED = new Set(["genie_open", "lead_submitted", "cta_click", "page_view"]);
+const ALLOWED = new Set([
+  "genie_open",
+  "lead_submitted",
+  "cta_click",
+  "page_view",
+  "form_start",
+  "lead_abandoned",
+]);
 
 export async function POST(req: Request) {
   let body: unknown;

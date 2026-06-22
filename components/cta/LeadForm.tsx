@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { leadSchema, type LeadInput } from "@/lib/lead/schema";
@@ -33,6 +33,34 @@ export function LeadForm({
 }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "ok" | "error">("idle");
 
+  // Funnel tracking (FR-CTA-009): form_start on first interaction, lead_abandoned
+  // if the form was started but never submitted when the user leaves. Refs keep
+  // these one-shot and out of render.
+  const startedRef = useRef(false);
+  const submittedRef = useRef(false);
+  const abandonedRef = useRef(false);
+
+  function markStarted() {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      track("form_start", { source });
+    }
+  }
+
+  useEffect(() => {
+    function reportAbandon() {
+      if (startedRef.current && !submittedRef.current && !abandonedRef.current) {
+        abandonedRef.current = true;
+        track("lead_abandoned", { source });
+      }
+    }
+    window.addEventListener("pagehide", reportAbandon);
+    return () => {
+      window.removeEventListener("pagehide", reportAbandon);
+      reportAbandon();
+    };
+  }, [source]);
+
   const {
     register,
     handleSubmit,
@@ -50,7 +78,10 @@ export function LeadForm({
         headers: { "content-type": "application/json" },
         body: JSON.stringify(values),
       });
-      if (res.ok) track("lead_submitted", { source });
+      if (res.ok) {
+        submittedRef.current = true;
+        track("lead_submitted", { source });
+      }
       setStatus(res.ok ? "ok" : "error");
     } catch {
       setStatus("error");
@@ -67,7 +98,7 @@ export function LeadForm({
   }
 
   return (
-    <form className="cs-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form className="cs-form" onSubmit={handleSubmit(onSubmit)} onFocus={markStarted} noValidate>
       {/* Honeypot: hidden from people, tempting to bots. */}
       <div className="cs-visually-hidden" aria-hidden="true">
         <label htmlFor="website">Leave this empty</label>

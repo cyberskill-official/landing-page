@@ -2,7 +2,13 @@
 // navigation), falls back to keepalive fetch. Safe to call anywhere client-side;
 // no-ops on the server. The set of names mirrors the /api/analytics allowlist.
 
-export type AnalyticsEvent = "genie_open" | "lead_submitted" | "cta_click" | "page_view";
+export type AnalyticsEvent =
+  | "genie_open"
+  | "lead_submitted"
+  | "cta_click"
+  | "page_view"
+  | "form_start"
+  | "lead_abandoned";
 
 export function track(event: AnalyticsEvent, props?: Record<string, unknown>): void {
   if (typeof window === "undefined") return;

@@ -3,14 +3,20 @@ import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/privacy",
     title: locale === "vi" ? "Quyền riêng tư" : "Privacy",
-    alternates: { canonical: `/${locale}/privacy`, languages: { en: "/en/privacy", vi: "/vi/privacy" } },
-  };
+    description:
+      locale === "vi"
+        ? "Cách CyberSkill thu thập và xử lý dữ liệu từ biểu mẫu liên hệ và trò chuyện, theo PDPL và GDPR."
+        : "How CyberSkill collects and handles data from the contact form and chat, aligned with PDPL and GDPR.",
+  });
 }
 
 type Block = { h: string; body: string[] };

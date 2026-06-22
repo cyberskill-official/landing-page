@@ -3,17 +3,17 @@ id: FR-SEO-009
 title: "Structured per-page metadata templates from content"
 module: SEO
 priority: COULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: []
 blocks: []
 source_pages:
   - "research doc §E (metadata), §F (content model)"
-planned_files:
+new_files:
   - lib/seo/metadata.ts
 ---
 
@@ -40,4 +40,13 @@ and descriptions stay consistent and never go missing.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. `lib/seo/metadata.ts` `pageMetadata()` builds title,
+optional description, alternates, OpenGraph, and Twitter for a route from
+caller-supplied content, and is applied to work, work/[slug], careers, privacy,
+and accessibility. The root layout's `title.template` (`"%s - CyberSkill"`)
+gives every page-type title one consistent shape (clause 2), and the layout's
+non-empty default `description` is the fallback when a page passes none, so a
+rendered description is never empty (clause 3). Descriptions are authored per
+locale, so `vi` pages read in Vietnamese (clause 4). `tests/seo-metadata.test.ts`
+asserts the title mirrors into OG/Twitter and the OG locale maps correctly.
+Verified by `next build` + tsc + lint green.

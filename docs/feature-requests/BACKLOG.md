@@ -32,9 +32,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 30 |
+| shipped | 34 |
 | hold | 1 |
-| planned | 62 |
+| planned | 58 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
@@ -43,14 +43,14 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | WEB (foundation) | 10 | 4 |
 | SCENE (3D + scroll) | 10 | 3 |
 | CHAR (Lumi) | 13 | 4 |
-| CTA (conversion) | 9 | 3 |
+| CTA (conversion) | 9 | 4 |
 | CMS (content + i18n) | 9 | 3 |
-| SEO (discoverability) | 9 | 4 |
+| SEO (discoverability) | 9 | 7 |
 | A11Y (accessibility) | 9 | 3 |
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 30 shipped + 1 hold are the slices delivered so far; the 62 `planned` rows
+The 34 shipped + 1 hold are the slices delivered so far; the 58 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -116,7 +116,7 @@ complete and build-ready.
 - [FR-CTA-006](cta/FR-CTA-006-crm-webhook.md) - CRM webhook mapping (HubSpot/Pipedrive) for form leads. P6. SHOULD. planned.
 - [FR-CTA-007](cta/FR-CTA-007-lead-notification.md) - Real-time Slack/email new-lead notification. P6. SHOULD. planned.
 - [FR-CTA-008](cta/FR-CTA-008-cta-ab-test.md) - First-person CTA copy A/B testbed. P6. COULD. planned.
-- [FR-CTA-009](cta/FR-CTA-009-form-abandonment.md) - Form-start/abandonment analytics. P6. COULD. planned.
+- [FR-CTA-009](cta/FR-CTA-009-form-abandonment.md) - Form-start/abandonment analytics. P6. COULD. shipped.
 
 ### CMS - content + i18n
 - [FR-CMS-001](cms/FR-CMS-001-bilingual-content.md) - Bilingual content source of truth. P1. MUST. shipped.
@@ -134,11 +134,11 @@ complete and build-ready.
 - [FR-SEO-002](seo/FR-SEO-002-sitemap-case-studies.md) - Sitemap includes case-study URLs. P4. SHOULD. shipped.
 - [FR-SEO-003](seo/FR-SEO-003-breadcrumb-schema.md) - BreadcrumbList JSON-LD on sub-pages. P5. SHOULD. shipped.
 - [FR-SEO-004](seo/FR-SEO-004-article-schema.md) - CreativeWork/Article schema on case studies + insights. P5. SHOULD. shipped.
-- [FR-SEO-005](seo/FR-SEO-005-hreflang-completeness.md) - hreflang + canonical completeness across every route. P5. SHOULD. planned.
+- [FR-SEO-005](seo/FR-SEO-005-hreflang-completeness.md) - hreflang + canonical completeness across every route. P5. SHOULD. shipped.
 - [FR-SEO-006](seo/FR-SEO-006-rss-feed.md) - RSS/Atom feed for insights. P6. COULD. planned.
 - [FR-SEO-007](seo/FR-SEO-007-geo-ai-answers.md) - GEO: structure content for AI answer engines. P5. COULD. planned.
-- [FR-SEO-008](seo/FR-SEO-008-og-images.md) - Per-page dynamic OG images (incl. case studies). P5. SHOULD. planned.
-- [FR-SEO-009](seo/FR-SEO-009-meta-templates.md) - Structured per-page metadata templates. P5. COULD. planned.
+- [FR-SEO-008](seo/FR-SEO-008-og-images.md) - Per-page dynamic OG images (incl. case studies). P5. SHOULD. shipped.
+- [FR-SEO-009](seo/FR-SEO-009-meta-templates.md) - Structured per-page metadata templates. P5. COULD. shipped.
 
 ### A11Y - accessibility (WCAG 2.2 AA floor)
 - [FR-A11Y-001](a11y/FR-A11Y-001-reduced-motion-lite.md) - Reduced-motion path + `/lite` storyboard + skip link. P3. MUST. shipped (motion behaviour later overridden; see FR-SCENE-003 + FR-A11Y-009).
