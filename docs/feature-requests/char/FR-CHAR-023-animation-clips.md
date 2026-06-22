@@ -37,4 +37,16 @@ Lumi's motion MUST be a small, named state machine.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Partial (status stays planned). The placeholder Lumi now reacts to the genie
+store as a procedural pose machine: it leans toward the viewer and brightens when
+the chat opens, plays a dissolve-and-reform shimmer on open/close transitions,
+and varies energy by `status` (idle / thinking / speaking) - all eased so states
+cross-fade rather than cut, with idle the resting state, and the StaticPoster
+holding a single static frame on the reduced/non-WebGL path. This satisfies the
+intent of clauses 2-4 procedurally.
+
+What still blocks a full ship: clause 1 requires *named animation clips played
+through a Three.js `AnimationMixer`*, which depends on the rigged GLB
+(FR-CHAR-022, in turn the on-hold FR-CHAR-021). Until the GLB lands there are no
+named clips to mix, so this stays planned; the procedural reactivity is the
+down-payment and the store wiring is already in place to drive real clips later.

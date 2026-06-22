@@ -6,6 +6,7 @@ export default function NotFound() {
   return (
     <main id="main" className="cs-section">
       <div className="cs-container" style={{ maxWidth: "40rem", textAlign: "center" }}>
+        <div className="cs-lumi-orb" aria-hidden="true" />
         <p className="cs-eyebrow">404</p>
         <h1>Page not found</h1>
         <p className="cs-section-lead">

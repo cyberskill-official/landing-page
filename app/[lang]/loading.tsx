@@ -5,6 +5,7 @@ export default function Loading() {
     <section className="cs-section" aria-busy="true" aria-live="polite">
       <div className="cs-container">
         <span className="cs-visually-hidden">Loading</span>
+        <div className="cs-lumi-orb" aria-hidden="true" />
         <div className="cs-skeleton-grid" aria-hidden="true">
           <div className="cs-skeleton cs-skeleton-title" />
           <div className="cs-skeleton cs-skeleton-line" />

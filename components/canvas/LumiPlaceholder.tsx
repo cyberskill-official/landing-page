@@ -62,7 +62,10 @@ export function LumiPlaceholder() {
   const light = useRef<THREE.PointLight>(null);
   const prog = useRef(0);
   const reveal = useRef(0);
+  const chat = useRef(0);
+  const prevOpen = useRef(false);
   const status = useGenieStore((s) => s.status);
+  const open = useGenieStore((s) => s.open);
 
   // One shared aura material; uniforms are mutated per frame.
   const aura = useMemo(
@@ -100,21 +103,31 @@ export function LumiPlaceholder() {
     c.rotation.y += (targetY - c.rotation.y) * k;
     c.rotation.x += (targetX - c.rotation.x) * k;
 
+    // Chat reactivity (FR-CHAR-023): ease toward 1 while the chat is open. When
+    // the panel opens or closes, dip the reveal so the dissolve shimmer replays -
+    // Lumi disperses and reforms in greeting.
+    if (open !== prevOpen.current) {
+      reveal.current = Math.min(reveal.current, 0.5);
+      prevOpen.current = open;
+    }
+    chat.current += ((open ? 1 : 0) - chat.current) * Math.min(1, delta * 3);
+    const ch = chat.current;
+
     // Scroll choreography from the one declarative scene-progress map (FR-SCENE-007),
-    // smoothly eased - no bespoke math here.
+    // smoothly eased - no bespoke math here. Chat leans Lumi toward the viewer.
     prog.current += (getScrollProgress() - prog.current) * Math.min(1, delta * 2.5);
     const scene = resolveSceneState(prog.current);
     g.rotation.y = scene.model.spin;
-    g.position.x = 1.35 + scene.model.driftX;
-    g.position.z = scene.model.driftZ;
+    g.position.x = 1.35 + scene.model.driftX - ch * 0.35;
+    g.position.z = scene.model.driftZ + ch * 0.6;
 
     // Appearance dissolve: ease reveal 0 -> 1 once, so Lumi materializes in.
     reveal.current += (1 - reveal.current) * Math.min(1, delta * 1.1);
     const rev = reveal.current;
 
-    // Breath + status energy, scaled in by the reveal.
+    // Breath + status energy, scaled in by the reveal and a touch by chat lean-in.
     const breath = 1 + Math.sin(t * speed) * 0.03;
-    c.scale.setScalar(breath * (0.4 + 0.6 * rev));
+    c.scale.setScalar(breath * (0.4 + 0.6 * rev) * (1 + ch * 0.08));
 
     // Wisps orbit faster when Lumi is active.
     if (wisps.current) wisps.current.rotation.y = t * (0.4 + speed * 0.25);
@@ -123,12 +136,12 @@ export function LumiPlaceholder() {
     aura.uniforms.uTime.value = t;
     aura.uniforms.uProgress.value = scene.model.glow;
     aura.uniforms.uReveal.value = rev;
-    aura.uniforms.uPulse.value += (pulseTarget - aura.uniforms.uPulse.value) * k;
-    if (coreMat.current) coreMat.current.emissiveIntensity = 0.5 + scene.model.glow * 0.5 + pulseTarget * 0.3;
+    aura.uniforms.uPulse.value += (Math.min(1, pulseTarget + ch * 0.5) - aura.uniforms.uPulse.value) * k;
+    if (coreMat.current) coreMat.current.emissiveIntensity = 0.5 + scene.model.glow * 0.5 + pulseTarget * 0.3 + ch * 0.25;
     if (light.current) {
       // Scene lighting comes from the map; chat state adds reactive energy on top.
       const statusBoost = status === "speaking" ? 1.2 : status === "thinking" ? 0.6 : 0;
-      light.current.intensity = scene.light.intensity + statusBoost + Math.sin(t * speed * 2) * 0.4;
+      light.current.intensity = scene.light.intensity + statusBoost + ch * 0.9 + Math.sin(t * speed * 2) * 0.4;
     }
   });
 

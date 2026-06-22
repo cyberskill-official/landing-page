@@ -66,6 +66,7 @@ export default async function LocaleLayout({
       <SiteFooter locale={lang} dict={dict} />
       <PersistentCta locale={lang} dict={dict} />
       <GenieChat locale={lang} dict={dict} />
+      <div className="cs-grain" aria-hidden="true" />
       <OrganizationJsonLd locale={lang} />
     </>
   );
