@@ -10,6 +10,9 @@ Build session: `auto/landing-page-cyberos`, opened 2026-06-22. This is a fresh
 implementation (the prior tree was reset on 2026-06-19; see
 `.cyberos-memory/decisions/2026-06-22-fresh-rebuild.md`).
 
+Status: LIVE in production at https://cyberskill.world (deployed 2026-06-22; see
+`.cyberos-memory/decisions/2026-06-22-production-launch.md`).
+
 ## §0 How to read this backlog
 
 One row is one FR; one FR is one atomic, testable requirement, organised by
@@ -29,7 +32,8 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | P2 | Claude chat Genie (text-first) | 3 | Keyless proxy streams; persona grounded; consent + rate limit |
 | P3 | 3D Genie + scroll storytelling | 4 | Scene gated behind perf budget; static fallback in same change |
 | - | OPS / cross-cutting | 1 | CI: verify + typecheck + build + budget gate |
-| Total | | 16 authored | Evidence gate in `.awh/` |
+| P4 | Enhancement + launch (post-build) | 7 | Theme, always-motion + scrollytelling, trust band, Process/FAQ, case studies, analytics, sitemap |
+| Total | | 23 authored | Evidence gate in `.awh/`; build 22/22, 18 tests, LIVE |
 
 The research doc plans ~22 person-weeks of depth beyond this. The FRs below are
 the anchor slices implemented in this session; deeper slices (commissioned GLB,
@@ -63,6 +67,15 @@ as `deferred` and expanded when picked up.
 
 ### OPS
 - [FR-OPS-001](ops/FR-OPS-001-ci-perf-gate.md) - CI: static import check + typecheck + build + perf-budget gate. MUST. shipped.
+
+### P4 - Enhancement + launch (post-build, per operator request)
+- [FR-DS-002](ds/FR-DS-002-theme-toggle.md) - Light/dark theme toggle, no-flash, persisted. SHOULD. shipped.
+- [FR-SCENE-003](scene/FR-SCENE-003-always-motion-scrollytelling.md) - Always-on motion + scroll-tied Lumi choreography (overrides the reduced-motion gate; see decision). SHOULD. shipped.
+- [FR-CTA-003](cta/FR-CTA-003-trust-band.md) - Trust band credibility strip. COULD. shipped.
+- [FR-CMS-002](cms/FR-CMS-002-process-faq-sections.md) - On-page Process + FAQ sections (FAQ mirrors JSON-LD). SHOULD. shipped.
+- [FR-WEB-003](web/FR-WEB-003-case-study-pages.md) - Indexable `/[lang]/work/[slug]` case studies + clickable cards. SHOULD. shipped.
+- [FR-OPS-002](ops/FR-OPS-002-first-party-analytics.md) - First-party cookieless analytics (`/api/analytics` + beacon). COULD. shipped.
+- [FR-SEO-002](seo/FR-SEO-002-sitemap-case-studies.md) - Sitemap includes case-study URLs. SHOULD. shipped.
 
 ## §3 Open questions (carried from the research doc)
 

@@ -14,3 +14,10 @@
 {"ts": 1782101400.0, "action": "PROMOTE", "module": "char", "fr": "FR-CHAR-020-lumi-placeholder.md", "reason": "procedural placeholder: gaze + chat-state animation bound to store"}
 {"ts": 1782101500.0, "action": "HOLD", "module": "char", "fr": "FR-CHAR-021-commission-glb.md", "reason": "needs commissioned/bought GLB asset + budget; cannot be authored in-session"}
 {"ts": 1782101600.0, "action": "PROMOTE", "module": "ops", "fr": "FR-OPS-001-ci-perf-gate.md", "reason": "CI: verify + typecheck + build + LCP budget gate authored"}
+{"ts": 1782120000.0, "action": "PROMOTE", "module": "ds", "fr": "FR-DS-002-theme-toggle.md", "reason": "light/dark toggle, no-flash, persisted; verified live (dark mode)"}
+{"ts": 1782120100.0, "action": "PROMOTE", "module": "scene", "fr": "FR-SCENE-003-always-motion-scrollytelling.md", "reason": "always-on motion + scroll-tied orb choreography; overrides reduced-motion gate per decision; verified live"}
+{"ts": 1782120200.0, "action": "PROMOTE", "module": "cta", "fr": "FR-CTA-003-trust-band.md", "reason": "honest credibility strip; verified live"}
+{"ts": 1782120300.0, "action": "PROMOTE", "module": "cms", "fr": "FR-CMS-002-process-faq-sections.md", "reason": "Process + FAQ sections; FAQ mirrors JSON-LD; verified live"}
+{"ts": 1782120400.0, "action": "PROMOTE", "module": "web", "fr": "FR-WEB-003-case-study-pages.md", "reason": "6 prerendered work/[slug] pages + clickable cards; verified live"}
+{"ts": 1782120500.0, "action": "PROMOTE", "module": "ops", "fr": "FR-OPS-002-first-party-analytics.md", "reason": "/api/analytics + sendBeacon helper wired to genie_open + lead_submitted; cookieless"}
+{"ts": 1782120600.0, "action": "PROMOTE", "module": "seo", "fr": "FR-SEO-002-sitemap-case-studies.md", "reason": "sitemap includes 6 case-study URLs with en/vi alternates"}
