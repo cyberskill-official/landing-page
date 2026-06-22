@@ -15,7 +15,7 @@ source_pages:
   - "research doc §L (Lighthouse CI), §B (Core Web Vitals)"
 new_files:
   - lighthouserc.json
-  - .github/workflows/lighthouse.yml
+  - .github/workflows/ci.yml (lighthouse job added)
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -37,4 +37,18 @@ Lighthouse MUST run on every pull request so a regression is caught before merge
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Partially implemented (advisory). `lighthouserc.json` runs `@lhci/cli autorun`
+against the built site (`npm run start`) on `/en` and `/vi`, asserting
+`lighthouse/budget.json` (LCP, CLS, total-blocking-time, interactive, and the
+resource-size and third-party budgets). The `lighthouse` job in
+`.github/workflows/ci.yml` runs on every push and pull request under
+Lighthouse's default mobile emulation and uploads the report to temporary
+public storage (URL printed in the job log).
+
+The one acceptance item still open is the hard fail: the job is currently
+`continue-on-error: true`, so a breach reports but does not yet fail the PR.
+This is deliberate - CI-measured timing metrics can flake on a shared runner,
+and the threshold was authored offline and not yet baselined against a real CI
+run. The plan: confirm the first CI runs are green, then drop
+`continue-on-error` so a budget breach blocks merge, at which point §2 is fully
+met. Until then this FR stays `planned`, not shipped.

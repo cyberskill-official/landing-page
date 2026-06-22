@@ -1,0 +1,19 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npm run start",
+      "startServerReadyPattern": "Ready in|started server on|Local:",
+      "url": [
+        "http://localhost:3000/en",
+        "http://localhost:3000/vi"
+      ],
+      "numberOfRuns": 1
+    },
+    "assert": {
+      "budgetsFile": "lighthouse/budget.json"
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

@@ -81,7 +81,7 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string): Pr
     `Message:`,
     `${record.message ?? "(none)"}`,
   ];
-  await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
     body: JSON.stringify({
@@ -92,6 +92,13 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string): Pr
       text: lines.join("\n"),
     }),
   });
+  // fetch only rejects on network failure, not on a 4xx/5xx. Check the status
+  // so a rejected send (bad domain, bad key, rate limit) surfaces in the logs
+  // via the Promise.allSettled handler instead of silently dropping the email.
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`resend ${res.status} ${detail.slice(0, 300)}`);
+  }
 }
 
 async function notifySlack(record: Record<string, unknown>): Promise<void> {
