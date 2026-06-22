@@ -52,3 +52,20 @@ and the threshold was authored offline and not yet baselined against a real CI
 run. The plan: confirm the first CI runs are green, then drop
 `continue-on-error` so a budget breach blocks merge, at which point §2 is fully
 met. Until then this FR stays `planned`, not shipped.
+
+### First CI baseline (commit 41e57ad, run 27977627702, mobile emulation)
+
+The advisory gate ran and the budget did NOT pass - which is the point of
+shipping it advisory first. Recorded breaches:
+
+- `/en`: CLS 0.335 (budget 0.1), LCP 3454 ms (budget 2500), TBT 1215 ms (budget 250).
+- `/vi`: LCP 2774 ms (budget 2500).
+
+Reading: CLS 0.335 is the priority - layout shift is largely independent of the
+runner and harms both UX and SEO, so it points at a real on-page shift (prime
+suspects: the deferred 3D canvas mounting into the hero, or an unsized media
+element), not CI noise. The high mobile LCP/TBT are partly the 4x CPU throttle
+but also worth a hydration/JS-weight look. Next step is a focused performance
+pass: pull the layout-shift-elements diagnostic from the LHR, fix the shift,
+re-measure, then tighten or confirm the budget before flipping the gate to
+required.
