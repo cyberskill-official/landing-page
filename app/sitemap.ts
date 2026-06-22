@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import { company } from "@/lib/content/site";
+import { company, work } from "@/lib/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
-  const paths = ["", "/work", "/careers"];
+  const paths = ["", "/work", "/careers", ...work.map((w) => `/work/${w.slug}`)];
   const now = new Date();
 
   return paths.flatMap((p) => {
