@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { Analytics } from "@vercel/analytics/next";
 import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 
@@ -47,6 +48,7 @@ export default async function RootLayout({
           }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );
