@@ -81,10 +81,17 @@
   --cs-radius-md: 14px;
   --cs-radius-lg: 24px;
   --cs-radius-pill: 999px;
+  /* Motion tokens (FR-DS-009): one easing + duration scale shared by every CSS
+     transition and read by the 3D scene, so nothing hardcodes its own timing.
+     --cs-dur-scroll feeds the Lenis smooth-scroll duration; --cs-dur-shimmer the
+     skeleton loop. Under prefers-reduced-motion the UI durations collapse (see
+     the reduced-motion override below), while the always-on scene keeps its feel. */
   --cs-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --cs-dur-fast: 160ms;
   --cs-dur: 320ms;
   --cs-dur-slow: 640ms;
+  --cs-dur-scroll: 1100ms;
+  --cs-dur-shimmer: 1400ms;
 
   --cs-container: 72rem;
 }
@@ -329,6 +336,16 @@ a {
 }
 @media (prefers-reduced-motion: reduce) {
   .cs-reveal { opacity: 1; transform: none; }
+  /* Collapse the token-driven UI transition durations to instant (FR-DS-009
+     clause 3) so hovers, reveals, and the header settle with no movement. The
+     scene's --cs-dur-scroll is intentionally left alone: the storytelling motion
+     is an explicit always-on product decision, separate from these UI affordances. */
+  :root {
+    --cs-dur-fast: 0.01ms;
+    --cs-dur: 0.01ms;
+    --cs-dur-slow: 0.01ms;
+    --cs-dur-shimmer: 0.01ms;
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -571,7 +588,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   border-radius: var(--cs-radius-md);
   background: linear-gradient(90deg, var(--cs-color-surface) 25%, var(--cs-color-line) 37%, var(--cs-color-surface) 63%);
   background-size: 400% 100%;
-  animation: cs-skeleton-shimmer 1.4s ease infinite;
+  animation: cs-skeleton-shimmer var(--cs-dur-shimmer) linear infinite;
 }
 .cs-skeleton-title { height: 2.4rem; width: 60%; }
 .cs-skeleton-line { height: 1rem; width: 100%; }

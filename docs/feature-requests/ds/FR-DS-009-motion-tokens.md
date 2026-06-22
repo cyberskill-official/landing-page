@@ -3,17 +3,20 @@ id: FR-DS-009
 title: "Motion tokens (easing and duration) consumed by all transitions"
 module: DS
 priority: COULD
-status: planned
+status: shipped
 verify: T
 phase: P1
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-DS-001]
 source_pages:
   - "research doc §C (motion scale, design tokens), §D (reduced motion)"
 new_files:
+  - lib/motion/tokens.ts
+modified_files:
   - app/globals.css
+  - lib/scroll/lenis-gsap.ts
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -37,4 +40,22 @@ easing and duration values rather than each picking its own.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. The motion scale lives once in `:root` in `globals.css`:
+`--cs-ease` plus `--cs-dur-fast`/`--cs-dur`/`--cs-dur-slow`, with `--cs-dur-scroll`
+for the scene and `--cs-dur-shimmer` for the skeleton (clause 1). Every CSS
+transition references these tokens (header, cards, links, reveal, skeleton); the
+last hardcoded value (the skeleton's `1.4s ease`) now uses
+`var(--cs-dur-shimmer) linear`, so no component hardcodes an ad hoc duration or
+cubic-bezier (clause 2, CSS side). The 3D scene reads the same scale: `lib/motion/
+tokens.ts` `readDurationSeconds()` parses `--cs-dur-scroll` from `:root` and
+`lib/scroll/lenis-gsap.ts` passes it to Lenis as the smooth-scroll `duration`
+(clause 2, scene side); `parseDurationToSeconds` is unit-tested in
+`tests/motion-tokens.test.ts`. Under `prefers-reduced-motion: reduce` the UI
+duration tokens collapse to `0.01ms` so token-driven transitions settle with no
+movement (clause 3), while `--cs-dur-scroll` is intentionally left intact because
+the storytelling motion is an explicit always-on product decision (see
+[[2026-06-22-always-motion-override]]). Verified by `next build` (rc=0) plus tsc +
+lint + vitest (32 tests) green.
+
+Note: per-frame lerp damping in `LumiPlaceholder` is frame-rate smoothing, not a
+design "duration", so it is deliberately not tokenized.

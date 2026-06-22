@@ -3,6 +3,8 @@
 // scroll event. Everything is dynamically imported and fails closed, so a
 // missing motion dependency or a reduced-motion preference never breaks the page.
 
+import { readDurationSeconds } from "@/lib/motion/tokens";
+
 export type ScrollStoryHandle = { destroy: () => void };
 
 export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
@@ -19,7 +21,13 @@ export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
 
     gsap.registerPlugin(ScrollTrigger as never);
 
-    const lenis = new Lenis({ autoRaf: false, smoothWheel: true });
+    // Smooth-scroll duration comes from the shared motion token (FR-DS-009), so
+    // the scene's timing tracks the design scale rather than a magic number.
+    const lenis = new Lenis({
+      autoRaf: false,
+      smoothWheel: true,
+      duration: readDurationSeconds("--cs-dur-scroll", 1.1),
+    });
     const update = () => (ScrollTrigger as { update: () => void }).update();
     lenis.on("scroll", update);
 

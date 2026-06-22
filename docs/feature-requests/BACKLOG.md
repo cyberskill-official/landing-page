@@ -32,25 +32,25 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 37 |
+| shipped | 39 |
 | hold | 1 |
-| planned | 55 |
+| planned | 53 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
-| DS (design system) | 10 | 2 |
+| DS (design system) | 10 | 3 |
 | WEB (foundation) | 10 | 6 |
 | SCENE (3D + scroll) | 10 | 3 |
 | CHAR (Lumi) | 13 | 4 |
 | CTA (conversion) | 9 | 4 |
 | CMS (content + i18n) | 9 | 3 |
-| SEO (discoverability) | 9 | 7 |
+| SEO (discoverability) | 9 | 8 |
 | A11Y (accessibility) | 9 | 4 |
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 37 shipped + 1 hold are the slices delivered so far; the 55 `planned` rows
+The 39 shipped + 1 hold are the slices delivered so far; the 53 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -65,7 +65,7 @@ complete and build-ready.
 - [FR-DS-006](ds/FR-DS-006-apca-contrast-tooling.md) - APCA Lc verification tooling (>=75 body, >=90 interactive) on rendered glass. P5. SHOULD. planned.
 - [FR-DS-007](ds/FR-DS-007-style-packs.md) - Style-pack switching via `data-cs-style`. P5. COULD. planned.
 - [FR-DS-008](ds/FR-DS-008-typography-vietnamese.md) - Typography scale + a Vietnamese-complete typeface. P1. SHOULD. planned.
-- [FR-DS-009](ds/FR-DS-009-motion-tokens.md) - Motion/easing/duration tokens consumed by all animation. P1. COULD. planned.
+- [FR-DS-009](ds/FR-DS-009-motion-tokens.md) - Motion/easing/duration tokens consumed by all animation. P1. COULD. shipped.
 - [FR-DS-010](ds/FR-DS-010-icon-set.md) - Consistent in-repo icon set (SVG). P4. COULD. planned.
 
 ### WEB - foundation
@@ -136,7 +136,7 @@ complete and build-ready.
 - [FR-SEO-004](seo/FR-SEO-004-article-schema.md) - CreativeWork/Article schema on case studies + insights. P5. SHOULD. shipped.
 - [FR-SEO-005](seo/FR-SEO-005-hreflang-completeness.md) - hreflang + canonical completeness across every route. P5. SHOULD. shipped.
 - [FR-SEO-006](seo/FR-SEO-006-rss-feed.md) - RSS/Atom feed for insights. P6. COULD. planned.
-- [FR-SEO-007](seo/FR-SEO-007-geo-ai-answers.md) - GEO: structure content for AI answer engines. P5. COULD. planned.
+- [FR-SEO-007](seo/FR-SEO-007-geo-ai-answers.md) - GEO: structure content for AI answer engines. P5. COULD. shipped.
 - [FR-SEO-008](seo/FR-SEO-008-og-images.md) - Per-page dynamic OG images (incl. case studies). P5. SHOULD. shipped.
 - [FR-SEO-009](seo/FR-SEO-009-meta-templates.md) - Structured per-page metadata templates. P5. COULD. shipped.
 

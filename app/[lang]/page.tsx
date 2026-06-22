@@ -11,6 +11,7 @@ import { Faq } from "@/components/sections/Faq";
 import { Careers } from "@/components/sections/Careers";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
+import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -30,6 +31,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <Careers locale={locale} dict={dict} />
       <ContactCta locale={locale} dict={dict} />
       <HomeFaqJsonLd locale={locale} />
+      <ServicesJsonLd locale={locale} />
     </>
   );
 }
