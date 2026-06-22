@@ -32,9 +32,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 44 |
+| shipped | 45 |
 | hold | 1 |
-| planned | 48 |
+| planned | 47 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
@@ -48,9 +48,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | SEO (discoverability) | 9 | 8 |
 | A11Y (accessibility) | 9 | 4 |
 | PERF (performance) | 6 | 1 |
-| OPS (build/deploy/ops) | 8 | 3 |
+| OPS (build/deploy/ops) | 8 | 4 |
 
-The 44 shipped + 1 hold are the slices delivered so far; the 48 `planned` rows
+The 45 shipped + 1 hold are the slices delivered so far; the 47 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -165,7 +165,7 @@ complete and build-ready.
 - [FR-OPS-003](ops/FR-OPS-003-vercel-deploy.md) - Vercel deploy config + runbook + live production at cyberskill.world. P6. MUST. shipped.
 - [FR-OPS-004](ops/FR-OPS-004-env-secrets.md) - Env/secret management across prod + preview environments. P6. SHOULD. planned.
 - [FR-OPS-005](ops/FR-OPS-005-lead-db.md) - Lead + transcript datastore (Vercel Postgres/Supabase). P6. SHOULD. planned.
-- [FR-OPS-006](ops/FR-OPS-006-error-tracking.md) - Error/exception tracking (Sentry or equivalent). P6. COULD. planned.
+- [FR-OPS-006](ops/FR-OPS-006-error-tracking.md) - Error/exception tracking (Sentry or equivalent). P6. COULD. shipped.
 - [FR-OPS-007](ops/FR-OPS-007-speed-insights.md) - Vercel Speed Insights wiring (needs legacy-peer-deps; deferred). P6. COULD. planned.
 - [FR-OPS-008](ops/FR-OPS-008-uptime-monitoring.md) - Uptime + deploy-health monitoring + alerts. P6. COULD. planned.
 
