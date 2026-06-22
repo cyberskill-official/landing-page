@@ -256,10 +256,39 @@ a {
   }
 }
 @media (forced-colors: active) {
+  /* High-contrast / Windows forced-colors (FR-A11Y-007). The OS replaces author
+     colors with a system palette, so we rely on system color keywords and make
+     sure every interactive element keeps a visible border and focus ring. */
   .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
     background: Canvas;
     border: 1px solid CanvasText;
     backdrop-filter: none;
+  }
+  /* Keep the keyboard focus ring visible against the forced palette. */
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+  /* Buttons lose their author background; a border keeps them legible as controls. */
+  .cs-btn, .cs-btn-primary, .cs-btn-secondary, .cs-genie-close, .cs-theme-toggle {
+    border: 1px solid ButtonText;
+    forced-color-adjust: none;
+  }
+  .cs-btn-primary {
+    background: ButtonFace;
+    color: ButtonText;
+  }
+  /* Form fields and the chat input need an explicit boundary. */
+  .cs-form input, .cs-form textarea, .cs-form select, .cs-genie-form input {
+    border: 1px solid CanvasText;
+  }
+  /* Chat bubbles and the persistent CTA read as distinct surfaces. */
+  .cs-genie, .cs-genie-msg, .cs-persistent-cta {
+    border: 1px solid CanvasText;
+  }
+  /* The active/selected state must not rely on color alone. */
+  .cs-tag, .cs-process-step {
+    border: 1px solid CanvasText;
   }
 }
 @media print {

@@ -3,12 +3,12 @@ id: FR-A11Y-007
 title: "forced-colors and Windows high-contrast support"
 module: A11Y
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: []
 blocks: []
 source_pages:
@@ -38,4 +38,13 @@ colour scheme.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. The `@media (forced-colors: active)` block in `globals.css`
+now: maps the keyboard focus ring to `Highlight`; keeps every glass/translucent
+surface opaque with a `CanvasText` border and no backdrop-filter (clause 2);
+gives buttons, the theme toggle, and the chat close a `ButtonText` border (with
+`forced-color-adjust: none` on the primary button so it stays a filled control);
+borders form fields, the chat input, chat bubbles, the persistent CTA, tags, and
+process steps so nothing relies on colour alone (clauses 1, 3, 4). All values use
+CSS system-colour keywords, so the OS palette drives the result. Verified by
+`next build` (rc=0); the rules are scoped to the forced-colors media query and do
+not affect the default themes.

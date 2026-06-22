@@ -40,7 +40,9 @@
     "@types/three": "^0.184.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.3.0",
-    "vitest": "^2.1.0"
+    "vitest": "^2.1.0",
+    "axe-core": "^4.10.0",
+    "jsdom": "^25.0.0"
   },
   "comments": {
     "progressiveEnhancement": "three / @react-three/* / gsap / lenis power the Phase-3 enhancement only. They are real dependencies (the build compiles the scene chunk), but the chunk is dynamically imported with ssr:false and only mounted on capable desktops with motion allowed, so it never blocks first paint, never ships to mobile/reduced-motion clients, and the crawlable Phase-1 base + Phase-2 chat work without it.",

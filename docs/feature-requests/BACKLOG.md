@@ -32,9 +32,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 34 |
+| shipped | 35 |
 | hold | 1 |
-| planned | 58 |
+| planned | 57 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
@@ -46,11 +46,11 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | CTA (conversion) | 9 | 4 |
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 7 |
-| A11Y (accessibility) | 9 | 3 |
+| A11Y (accessibility) | 9 | 4 |
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 34 shipped + 1 hold are the slices delivered so far; the 58 `planned` rows
+The 35 shipped + 1 hold are the slices delivered so far; the 57 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -143,11 +143,11 @@ complete and build-ready.
 ### A11Y - accessibility (WCAG 2.2 AA floor)
 - [FR-A11Y-001](a11y/FR-A11Y-001-reduced-motion-lite.md) - Reduced-motion path + `/lite` storyboard + skip link. P3. MUST. shipped (motion behaviour later overridden; see FR-SCENE-003 + FR-A11Y-009).
 - [FR-A11Y-002](a11y/FR-A11Y-002-accessibility-statement.md) - `/accessibility` statement + conformance page. P5. SHOULD. shipped.
-- [FR-A11Y-003](a11y/FR-A11Y-003-axe-ci.md) - Automated axe checks in CI. P5. SHOULD. planned.
+- [FR-A11Y-003](a11y/FR-A11Y-003-axe-ci.md) - Automated axe checks in CI. P5. SHOULD. planned (component-level axe test landed in CI; full-route served-build axe still to do).
 - [FR-A11Y-004](a11y/FR-A11Y-004-keyboard-focus.md) - Full keyboard operability + visible focus + focus order. P5. MUST. planned.
 - [FR-A11Y-005](a11y/FR-A11Y-005-canvas-dom-mirror.md) - DOM-text mirror of anything the canvas communicates. P5. SHOULD. planned.
 - [FR-A11Y-006](a11y/FR-A11Y-006-chat-live-regions.md) - Screen-reader live regions for streaming chat. P5. SHOULD. shipped.
-- [FR-A11Y-007](a11y/FR-A11Y-007-forced-colors.md) - forced-colors + high-contrast support. P5. SHOULD. planned.
+- [FR-A11Y-007](a11y/FR-A11Y-007-forced-colors.md) - forced-colors + high-contrast support. P5. SHOULD. shipped.
 - [FR-A11Y-008](a11y/FR-A11Y-008-manual-sr-pass.md) - Manual VoiceOver/NVDA pass + checklist. P5. SHOULD. planned.
 - [FR-A11Y-009](a11y/FR-A11Y-009-motion-controls-review.md) - Reconcile always-on motion with a user motion control. P5. SHOULD. planned.
 
