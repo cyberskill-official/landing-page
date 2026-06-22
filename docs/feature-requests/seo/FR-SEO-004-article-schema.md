@@ -3,18 +3,18 @@ id: FR-SEO-004
 title: "CreativeWork/Article JSON-LD on case studies and insights"
 module: SEO
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-WEB-003]
 blocks: []
 source_pages:
   - "research doc §E (SEO/GEO, structured data), §F (content model)"
-planned_files:
-  - components/seo/ArticleJsonLd.tsx
+new_files:
+  - "app/[lang]/work/[slug]/page.tsx (inline CreativeWork JSON-LD)"
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -40,4 +40,16 @@ rich results and feed answer engines.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22 for the case-study scope. Each `work/[slug]` page emits inline
+`CreativeWork` JSON-LD whose `headline`/`name` equal the on-page h1
+(`item.title`) and whose `description` equals the on-page lead (`item.result`),
+so markup and visible copy agree (clause 3). It carries `datePublished` and
+`dateModified` as ISO 8601 dates (clause 2), an `author` Organization, and a
+`publisher` that references the same `#organization` node emitted by
+`OrganizationJsonLd` in the `[lang]` layout (clause 4), so author and publisher
+resolve to one entity. Verified by `next build` (6 case-study pages prerendered)
+and tsc + lint green.
+
+Insight `Article` JSON-LD (clause 1, second half) is deferred: there is no
+insights route yet (FR-WEB-003 and the insights content FRs are still planned).
+When the insights route ships, the same pattern applies with `@type: Article`.

@@ -24,6 +24,10 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
           </p>
         </div>
         <div className="cs-footer-end">
+          <nav className="cs-footer-links" aria-label={locale === "vi" ? "Liên kết chân trang" : "Footer links"}>
+            <a href={`/${locale}/privacy`}>{dict.footer.privacy}</a>
+            <a href={`/${locale}/accessibility`}>{dict.footer.accessibility}</a>
+          </nav>
           <p>
             © {year} {company.shortName}. {dict.footer.rights}
           </p>

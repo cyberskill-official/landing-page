@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { LeadForm } from "@/components/cta/LeadForm";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -33,6 +34,12 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
   return (
     <section className="cs-section">
       <div className="cs-container">
+        <BreadcrumbJsonLd
+          items={[
+            { name: locale === "vi" ? "Trang chủ" : "Home", path: `/${locale}` },
+            { name: locale === "vi" ? "Tuyển dụng" : "Careers", path: `/${locale}/careers` },
+          ]}
+        />
         <p className="cs-eyebrow">{dict.nav.careers}</p>
         <h1>{dict.sections.careersTitle}</h1>
         <p className="cs-section-lead">{dict.sections.careersLead}</p>
@@ -51,7 +58,12 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
             {locale === "vi" ? "Gửi hồ sơ hoặc lời giới thiệu" : "Introduce yourself"}
           </h2>
           <LeadForm locale={locale} dict={dict} source="careers" />
-          <p className="cs-consent-note">{dict.genie.consent}</p>
+          <p className="cs-consent-note">
+            {dict.genie.consent}{" "}
+            <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
+              {dict.footer.privacy}
+            </a>
+          </p>
         </div>
       </div>
     </section>

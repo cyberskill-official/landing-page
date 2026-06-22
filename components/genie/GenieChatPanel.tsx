@@ -21,9 +21,17 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
 
+  // Move focus into the panel on open and return it to the launcher on close
+  // so keyboard and screen-reader users are never stranded (FR-A11Y-006).
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (!open) return;
+    openerRef.current = (document.activeElement as HTMLElement) ?? null;
+    inputRef.current?.focus();
+    return () => {
+      openerRef.current?.focus?.();
+    };
   }, [open]);
 
   useEffect(() => {
@@ -99,7 +107,14 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         </button>
       </div>
 
-      <div className="cs-genie-log" ref={logRef} aria-live="polite">
+      <div
+        className="cs-genie-log"
+        ref={logRef}
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions text"
+        aria-busy={busy}
+      >
         <div className="cs-genie-msg cs-genie-msg-genie">{dict.genie.greeting}</div>
         {messages.map((m) => (
           <div
@@ -111,7 +126,12 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         ))}
       </div>
 
-      <p className="cs-genie-consent">{dict.genie.consent}</p>
+      <p className="cs-genie-consent">
+        {dict.genie.consent}{" "}
+        <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
+          {dict.footer.privacy}
+        </a>
+      </p>
 
       <form className="cs-genie-form" onSubmit={send}>
         <input

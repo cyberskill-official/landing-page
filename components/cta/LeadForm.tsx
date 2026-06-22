@@ -112,7 +112,12 @@ export function LeadForm({
 
       <div className="cs-field cs-field-check">
         <input id="consent" type="checkbox" aria-invalid={!!errors.consent} {...register("consent")} />
-        <label htmlFor="consent">{dict.form.consent}</label>
+        <label htmlFor="consent">
+          {dict.form.consent}{" "}
+          <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
+            {dict.footer.privacy}
+          </a>
+        </label>
       </div>
       {errors.consent && <span className="cs-field-error">{messageFor(errors.consent.message, dict)}</span>}
 

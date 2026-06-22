@@ -3,17 +3,17 @@ id: FR-SEO-003
 title: "BreadcrumbList JSON-LD on sub-pages"
 module: SEO
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-SEO-001]
 blocks: []
 source_pages:
   - "research doc §E (SEO/GEO, structured data), §K (site hierarchy)"
-planned_files:
+new_files:
   - components/seo/BreadcrumbJsonLd.tsx
 ---
 
@@ -41,4 +41,12 @@ can render breadcrumb trails and understand structure.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. `components/seo/BreadcrumbJsonLd.tsx` is a server component
+that emits a `BreadcrumbList` with `ListItem` positions, absolute `item` URLs
+built from `NEXT_PUBLIC_SITE_URL` (falling back to `company.url`,
+https://cyberskill.world), and locale-aware names. It is rendered on
+`work/[slug]` (Home > Work > title), `work` (Home > Work), `careers`
+(Home > Careers), `privacy`, and `accessibility`. Home is always the first item
+and the current page is the last. `vi` trails use Vietnamese labels
+("Trang chủ", "Dự án", "Tuyển dụng"). Verified by `next build` (sub-pages
+prerendered) and tsc + lint green.

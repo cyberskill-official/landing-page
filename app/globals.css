@@ -425,6 +425,10 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 @media (min-width: 760px) { .cs-footer-end { text-align: right; } }
 .cs-footer-slogan { font-family: var(--cs-font-display); color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-footer-slogan { color: var(--cs-color-accent); }
+.cs-footer-links { display: flex; flex-wrap: wrap; gap: var(--cs-space-4); margin: 0 0 var(--cs-space-3); font-size: var(--cs-text-sm); }
+@media (min-width: 760px) { .cs-footer-links { justify-content: flex-end; } }
+.cs-footer-links a { color: var(--cs-color-fg-muted); text-decoration: none; }
+.cs-footer-links a:hover { color: var(--cs-color-fg); text-decoration: underline; }
 
 /* Persistent CTA */
 .cs-persistent-cta {
@@ -526,6 +530,29 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 /* Case-study detail prose */
 .cs-case-section { margin-top: var(--cs-space-8); max-width: 46rem; }
 .cs-case-section h2 { font-size: var(--cs-text-xl); }
+
+/* Long-form prose for policy pages (privacy, accessibility). Inert class kept
+   simple: comfortable measure and rhythm without overriding section defaults. */
+.cs-prose { max-width: 46rem; }
+.cs-prose p { color: var(--cs-color-fg-muted); }
+
+/* Route loading skeleton (FR-WEB-007). Calm shimmer, honours reduced motion. */
+.cs-skeleton-grid { display: grid; gap: var(--cs-space-4); margin-top: var(--cs-space-8); max-width: 46rem; }
+.cs-skeleton {
+  border-radius: var(--cs-radius-md);
+  background: linear-gradient(90deg, var(--cs-color-surface) 25%, var(--cs-color-line) 37%, var(--cs-color-surface) 63%);
+  background-size: 400% 100%;
+  animation: cs-skeleton-shimmer 1.4s ease infinite;
+}
+.cs-skeleton-title { height: 2.4rem; width: 60%; }
+.cs-skeleton-line { height: 1rem; width: 100%; }
+@keyframes cs-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-skeleton { animation: none; }
+}
 
 /* Stretched link: makes the whole work card clickable while keeping the title
    as the accessible link text. */

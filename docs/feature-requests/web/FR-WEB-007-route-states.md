@@ -3,18 +3,18 @@ id: FR-WEB-007
 title: "Per-route loading and error boundaries for graceful states"
 module: WEB
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P3
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: [FR-WEB-002]
 source_pages:
   - "research doc §F (Next.js App Router, route states), §D (resilience)"
 new_files:
   - app/[lang]/loading.tsx
-  - app/[lang]/error.tsx
+  - app/error.tsx
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -38,4 +38,11 @@ state rather than a blank screen or an unhandled crash.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. `app/[lang]/loading.tsx` renders a locale-neutral skeleton
+(`aria-busy`, visually-hidden "Loading", shimmer that honors
+`prefers-reduced-motion`) while a segment streams. `app/error.tsx` is the
+root error boundary: it catches render failures anywhere below the root layout
+(including the `[lang]` subtree), shows a recoverable message with a retry, and
+does not surface internal error detail. Skeleton styles live in `globals.css`
+(`.cs-skeleton*`). Verified by `next build` (26/26 static pages generated, the
+`[lang]` segment compiles with the loading boundary) and a clean tsc + lint run.

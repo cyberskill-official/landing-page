@@ -4,6 +4,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { work } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -22,6 +23,12 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
   return (
     <section className="cs-section">
       <div className="cs-container">
+        <BreadcrumbJsonLd
+          items={[
+            { name: locale === "vi" ? "Trang chủ" : "Home", path: `/${locale}` },
+            { name: locale === "vi" ? "Dự án" : "Work", path: `/${locale}/work` },
+          ]}
+        />
         <p className="cs-eyebrow">{dict.nav.work}</p>
         <h1>{dict.sections.workTitle}</h1>
         <p className="cs-section-lead">{dict.sections.workLead}</p>

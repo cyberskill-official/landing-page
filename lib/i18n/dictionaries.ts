@@ -74,6 +74,7 @@ export type Dictionary = {
     rights: string;
     duns: string;
     privacy: string;
+    accessibility: string;
   };
 };
 
@@ -148,6 +149,7 @@ const en: Dictionary = {
     rights: "All rights reserved.",
     duns: "DUNS",
     privacy: "Privacy",
+    accessibility: "Accessibility",
   },
 };
 
@@ -222,6 +224,7 @@ const vi: Dictionary = {
     rights: "Bảo lưu mọi quyền.",
     duns: "DUNS",
     privacy: "Quyền riêng tư",
+    accessibility: "Khả năng tiếp cận",
   },
 };
 

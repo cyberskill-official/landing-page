@@ -21,3 +21,9 @@
 {"ts": 1782120400.0, "action": "PROMOTE", "module": "web", "fr": "FR-WEB-003-case-study-pages.md", "reason": "6 prerendered work/[slug] pages + clickable cards; verified live"}
 {"ts": 1782120500.0, "action": "PROMOTE", "module": "ops", "fr": "FR-OPS-002-first-party-analytics.md", "reason": "/api/analytics + sendBeacon helper wired to genie_open + lead_submitted; cookieless"}
 {"ts": 1782120600.0, "action": "PROMOTE", "module": "seo", "fr": "FR-SEO-002-sitemap-case-studies.md", "reason": "sitemap includes 6 case-study URLs with en/vi alternates"}
+{"ts": 1782200100.0, "action": "PROMOTE", "module": "web", "fr": "FR-WEB-007-route-states.md", "reason": "app/[lang]/loading.tsx skeleton + app/error.tsx boundary; reduced-motion aware; build green"}
+{"ts": 1782200200.0, "action": "PROMOTE", "module": "cms", "fr": "FR-CMS-008-privacy-legal.md", "reason": "bilingual PDPL/GDPR privacy page; consent checkbox + chat + careers link to it; both locales prerendered"}
+{"ts": 1782200300.0, "action": "PROMOTE", "module": "seo", "fr": "FR-SEO-003-breadcrumb-schema.md", "reason": "BreadcrumbJsonLd on work, work/[slug], careers, privacy, accessibility; absolute URLs; vi labels"}
+{"ts": 1782200400.0, "action": "PROMOTE", "module": "seo", "fr": "FR-SEO-004-article-schema.md", "reason": "CreativeWork JSON-LD on case studies: headline/description match copy, datePublished, author+publisher by #organization @id; insights Article deferred (no route yet)"}
+{"ts": 1782200500.0, "action": "PROMOTE", "module": "a11y", "fr": "FR-A11Y-002-accessibility-statement.md", "reason": "bilingual /accessibility statement: WCAG 2.2 AA target, motion stance, links /lite, footer-reachable"}
+{"ts": 1782200600.0, "action": "PROMOTE", "module": "a11y", "fr": "FR-A11Y-006-chat-live-regions.md", "reason": "chat log role=log aria-live=polite aria-relevant aria-busy; return-focus on close; build green"}

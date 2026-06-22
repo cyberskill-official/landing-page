@@ -3,17 +3,17 @@ id: FR-A11Y-002
 title: "Accessibility statement page documenting conformance and motion stance"
 module: A11Y
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-22
 depends_on: []
 blocks: []
 source_pages:
   - "research doc §H (accessibility, WCAG 2.2 AA), §J (motion stance)"
-planned_files:
+new_files:
   - app/[lang]/accessibility/page.tsx
 ---
 
@@ -40,4 +40,12 @@ and explains the motion decision.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-22. `app/[lang]/accessibility/page.tsx` publishes the statement
+in both locales (`Record<Locale, ...>`): it names the WCAG 2.2 AA target, lists
+what has been done and the known limitations, and gives an email feedback route
+with a one-business-day aim. A dedicated "Motion and the 3D scene" block explains
+the always-on motion stance, and the page links the reduced-motion path with a
+real link to `/[lang]/lite`. The footer carries a standing link to the page, so
+it is reachable through navigation (clause 4). `generateMetadata` sets the
+canonical and en/vi hreflang alternates. Verified by `next build`
+(`/en/accessibility` and `/vi/accessibility` prerendered) and tsc + lint green.

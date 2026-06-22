@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { work } from "@/lib/content/site";
+import { work, company } from "@/lib/content/site";
 import { localize, type LocalizedString } from "@/lib/i18n/types";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 // One detail page per work item per locale. The narrative below is deliberately
 // generic and honest: no invented client names, exact percentages, or logos.
@@ -88,6 +89,27 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
   }
   const study = details[item.slug];
 
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
+  // Portfolio entries were published with the site launch; modified date tracks
+  // the same until per-item editing is added.
+  const published = "2026-06-22";
+  const creativeWork = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: localize(item.title, locale),
+    headline: localize(item.title, locale),
+    description: localize(item.result, locale),
+    inLanguage: locale === "vi" ? "vi-VN" : "en",
+    url: `${base}/${locale}/work/${item.slug}`,
+    keywords: item.tags.join(", "),
+    datePublished: published,
+    dateModified: published,
+    // Reference the same Organization node emitted by OrganizationJsonLd so the
+    // author and publisher resolve to one entity (FR-SEO-004 clause 4).
+    author: { "@type": "Organization", "@id": `${base}/#organization`, name: company.shortName },
+    publisher: { "@id": `${base}/#organization` },
+  };
+
   const labels =
     locale === "vi"
       ? { challenge: "Thách thức", approach: "Việc chúng tôi đã làm", outcome: "Kết quả", cta: "Bắt đầu dự án", back: "Quay lại danh sách dự án" }
@@ -96,6 +118,18 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
   return (
     <section className="cs-section">
       <div className="cs-container">
+        <BreadcrumbJsonLd
+          items={[
+            { name: locale === "vi" ? "Trang chủ" : "Home", path: `/${locale}` },
+            { name: locale === "vi" ? "Dự án" : "Work", path: `/${locale}/work` },
+            { name: localize(item.title, locale), path: `/${locale}/work/${item.slug}` },
+          ]}
+        />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWork) }}
+        />
         <p className="cs-eyebrow">{item.client}</p>
         <h1>{localize(item.title, locale)}</h1>
         <p className="cs-section-lead">{localize(item.result, locale)}</p>

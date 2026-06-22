@@ -32,27 +32,27 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 24 |
+| shipped | 30 |
 | hold | 1 |
-| planned | 68 |
+| planned | 62 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
 | DS (design system) | 10 | 2 |
-| WEB (foundation) | 10 | 3 |
+| WEB (foundation) | 10 | 4 |
 | SCENE (3D + scroll) | 10 | 3 |
 | CHAR (Lumi) | 13 | 4 |
 | CTA (conversion) | 9 | 3 |
-| CMS (content + i18n) | 9 | 2 |
-| SEO (discoverability) | 9 | 2 |
-| A11Y (accessibility) | 9 | 1 |
+| CMS (content + i18n) | 9 | 3 |
+| SEO (discoverability) | 9 | 4 |
+| A11Y (accessibility) | 9 | 3 |
 | PERF (performance) | 6 | 1 |
 | OPS (build/deploy/ops) | 8 | 3 |
 
-The 24 shipped + 1 hold are the anchor slices delivered this session; the 68
-`planned` rows are the deeper scope from the research doc, now specified so the
-backlog is complete and build-ready.
+The 30 shipped + 1 hold are the slices delivered so far; the 62 `planned` rows
+are the deeper scope from the research doc, now specified so the backlog is
+complete and build-ready.
 
 ## §2 Feature requests
 
@@ -75,7 +75,7 @@ backlog is complete and build-ready.
 - [FR-WEB-004](web/FR-WEB-004-locale-negotiation.md) - Accept-Language negotiation for the bare `/` entry. P1. SHOULD. planned.
 - [FR-WEB-005](web/FR-WEB-005-isr-revalidation.md) - ISR / on-demand revalidation for content pages. P3. COULD. planned.
 - [FR-WEB-006](web/FR-WEB-006-draft-preview.md) - Draft/preview mode for unpublished content. P5. COULD. planned.
-- [FR-WEB-007](web/FR-WEB-007-route-states.md) - Per-route loading and error states (Suspense + error boundaries). P3. SHOULD. planned.
+- [FR-WEB-007](web/FR-WEB-007-route-states.md) - Per-route loading and error states (Suspense + error boundaries). P3. SHOULD. shipped.
 - [FR-WEB-008](web/FR-WEB-008-services-detail-pages.md) - Per-service detail pages (`/[lang]/services/[slug]`). P4. SHOULD. planned.
 - [FR-WEB-009](web/FR-WEB-009-image-pipeline.md) - next/image pipeline with responsive sizes + priority hints. P5. SHOULD. planned.
 - [FR-WEB-010](web/FR-WEB-010-health-route.md) - Health/status route for uptime checks. P5. COULD. planned.
@@ -126,14 +126,14 @@ backlog is complete and build-ready.
 - [FR-CMS-005](cms/FR-CMS-005-services-content.md) - Long-form services content for the detail pages. P4. SHOULD. planned.
 - [FR-CMS-006](cms/FR-CMS-006-about-team.md) - About / team / culture content (recruiting + trust). P4. SHOULD. planned.
 - [FR-CMS-007](cms/FR-CMS-007-insights-collection.md) - Insights/blog content collection (MDX). P6. COULD. planned.
-- [FR-CMS-008](cms/FR-CMS-008-privacy-legal.md) - Privacy/legal page (PDPL/GDPR). P5. MUST. planned.
+- [FR-CMS-008](cms/FR-CMS-008-privacy-legal.md) - Privacy/legal page (PDPL/GDPR). P5. MUST. shipped.
 - [FR-CMS-009](cms/FR-CMS-009-real-case-studies.md) - Replace placeholder case studies with cleared, real outcomes. P6. SHOULD. planned.
 
 ### SEO - discoverability
 - [FR-SEO-001](seo/FR-SEO-001-discoverability.md) - sitemap, robots, hreflang, Organization + FAQ JSON-LD, OG. P1. MUST. shipped.
 - [FR-SEO-002](seo/FR-SEO-002-sitemap-case-studies.md) - Sitemap includes case-study URLs. P4. SHOULD. shipped.
-- [FR-SEO-003](seo/FR-SEO-003-breadcrumb-schema.md) - BreadcrumbList JSON-LD on sub-pages. P5. SHOULD. planned.
-- [FR-SEO-004](seo/FR-SEO-004-article-schema.md) - CreativeWork/Article schema on case studies + insights. P5. SHOULD. planned.
+- [FR-SEO-003](seo/FR-SEO-003-breadcrumb-schema.md) - BreadcrumbList JSON-LD on sub-pages. P5. SHOULD. shipped.
+- [FR-SEO-004](seo/FR-SEO-004-article-schema.md) - CreativeWork/Article schema on case studies + insights. P5. SHOULD. shipped.
 - [FR-SEO-005](seo/FR-SEO-005-hreflang-completeness.md) - hreflang + canonical completeness across every route. P5. SHOULD. planned.
 - [FR-SEO-006](seo/FR-SEO-006-rss-feed.md) - RSS/Atom feed for insights. P6. COULD. planned.
 - [FR-SEO-007](seo/FR-SEO-007-geo-ai-answers.md) - GEO: structure content for AI answer engines. P5. COULD. planned.
@@ -142,11 +142,11 @@ backlog is complete and build-ready.
 
 ### A11Y - accessibility (WCAG 2.2 AA floor)
 - [FR-A11Y-001](a11y/FR-A11Y-001-reduced-motion-lite.md) - Reduced-motion path + `/lite` storyboard + skip link. P3. MUST. shipped (motion behaviour later overridden; see FR-SCENE-003 + FR-A11Y-009).
-- [FR-A11Y-002](a11y/FR-A11Y-002-accessibility-statement.md) - `/accessibility` statement + conformance page. P5. SHOULD. planned.
+- [FR-A11Y-002](a11y/FR-A11Y-002-accessibility-statement.md) - `/accessibility` statement + conformance page. P5. SHOULD. shipped.
 - [FR-A11Y-003](a11y/FR-A11Y-003-axe-ci.md) - Automated axe checks in CI. P5. SHOULD. planned.
 - [FR-A11Y-004](a11y/FR-A11Y-004-keyboard-focus.md) - Full keyboard operability + visible focus + focus order. P5. MUST. planned.
 - [FR-A11Y-005](a11y/FR-A11Y-005-canvas-dom-mirror.md) - DOM-text mirror of anything the canvas communicates. P5. SHOULD. planned.
-- [FR-A11Y-006](a11y/FR-A11Y-006-chat-live-regions.md) - Screen-reader live regions for streaming chat. P5. SHOULD. planned.
+- [FR-A11Y-006](a11y/FR-A11Y-006-chat-live-regions.md) - Screen-reader live regions for streaming chat. P5. SHOULD. shipped.
 - [FR-A11Y-007](a11y/FR-A11Y-007-forced-colors.md) - forced-colors + high-contrast support. P5. SHOULD. planned.
 - [FR-A11Y-008](a11y/FR-A11Y-008-manual-sr-pass.md) - Manual VoiceOver/NVDA pass + checklist. P5. SHOULD. planned.
 - [FR-A11Y-009](a11y/FR-A11Y-009-motion-controls-review.md) - Reconcile always-on motion with a user motion control. P5. SHOULD. planned.
