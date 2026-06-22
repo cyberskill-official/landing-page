@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/footer/SiteFooter";
 import { PersistentCta } from "@/components/cta/PersistentCta";
 import { GenieChat } from "@/components/genie/GenieChat";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
+import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 
 export function generateStaticParams() {
@@ -56,6 +57,7 @@ export default async function LocaleLayout({
   return (
     <>
       <SkipLink label={dict.nav.skipToContent} />
+      <ScrollStoryProvider />
       <CanvasMount />
       <SiteHeader locale={lang} dict={dict} />
       <main id="main">{children}</main>

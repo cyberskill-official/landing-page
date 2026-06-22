@@ -1,13 +1,13 @@
 "use client";
 
-// Gate + lazy-mount for the Phase-3 3D enhancement. It is deliberately defensive:
-// the scene only mounts on capable desktops with motion allowed, and the heavy
-// R3F module is dynamically imported with ssr:false so it never blocks first
-// paint or the build of the crawlable base. If the 3D dependencies are absent,
-// the dynamic import simply fails closed and the site is unaffected.
+// Gate + lazy-mount for the Phase-3 3D enhancement. The static poster is the
+// SSR/initial and incapable-device visual; capable desktops with motion allowed
+// upgrade to the live scene. The heavy R3F module is dynamically imported with
+// ssr:false (never blocks first paint) and fails closed to the poster.
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { StaticPoster } from "@/components/canvas/StaticPoster";
 
 const GenieScene = dynamic(
   () =>
@@ -22,7 +22,7 @@ function capable(): boolean {
   const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
   const motionPref = document.documentElement.getAttribute("data-cs-motion");
   if (reduce || motionPref === "reduce") return false;
-  // Mobile / low-end: ship the static poster instead (protects Core Web Vitals).
+  // Desktop, fine pointer, enough cores: protects Core Web Vitals on mobile/low-end.
   const wide = window.matchMedia("(min-width: 1024px)").matches;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
   const cores = navigator.hardwareConcurrency ?? 4;
@@ -36,10 +36,9 @@ export function CanvasMount() {
     setMount(capable());
   }, []);
 
-  if (!mount) return null;
   return (
     <div className="cs-canvas-layer" aria-hidden="true">
-      <GenieScene />
+      {mount ? <GenieScene /> : <StaticPoster />}
     </div>
   );
 }

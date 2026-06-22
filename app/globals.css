@@ -467,3 +467,18 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 .cs-genie-form input { flex: 1; font: inherit; padding: var(--cs-space-3); border-radius: var(--cs-radius-sm); border: 1px solid var(--cs-color-line); background: var(--cs-color-paper-raised); color: var(--cs-color-fg); }
 .cs-genie-consent { font-size: var(--cs-text-xs); color: var(--cs-color-fg-muted); padding: 0 var(--cs-space-4) var(--cs-space-3); }
 .cs-genie-close { background: transparent; border: 0; cursor: pointer; font-size: 1.3rem; line-height: 1; color: var(--cs-color-fg-muted); }
+
+/* 3D layer + static poster fallback */
+.cs-canvas { width: 100%; height: 100%; display: block; }
+.cs-poster {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(38% 46% at 68% 34%, rgba(252, 233, 168, 0.55), rgba(244, 186, 23, 0) 70%),
+    radial-gradient(60% 70% at 72% 40%, rgba(244, 186, 23, 0.28), rgba(244, 186, 23, 0) 72%);
+  filter: blur(4px);
+}
+@media (max-width: 1023px) {
+  /* On smaller screens the orb sits behind the hero only. */
+  .cs-poster { background: radial-gradient(60% 40% at 80% 18%, rgba(244, 186, 23, 0.3), rgba(244, 186, 23, 0) 70%); }
+}

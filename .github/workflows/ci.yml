@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "auto/**", "codex/**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Static import check
+        run: npm run verify
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        run: npm run build
+      - name: Performance budget is well-formed (Phase-3 gate)
+        run: |
+          node -e "const b=require('./lighthouse/budget.json'); if(!Array.isArray(b)||!b[0]?.timings?.length){throw new Error('budget.json malformed')} const lcp=b[0].timings.find(t=>t.metric==='largest-contentful-paint'); if(!lcp||lcp.budget>2500){throw new Error('LCP budget must stay <=2500ms')}; console.log('perf budget ok: LCP<='+lcp.budget+'ms')"
