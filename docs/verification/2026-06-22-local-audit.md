@@ -54,16 +54,33 @@ browser on a real machine - see "Not covered" below.
 
 No functional defects were found; every feature works.
 
-## Caveat to eyeball on a deployed preview
+## Live browser pass (driven in Chrome on the dev server)
 
-The Vietnamese OG image relies on the default `next/og` font for diacritic
-glyphs. If they render as boxes on a preview, embed a Noto Sans Vietnamese font
-in `app/[lang]/opengraph-image.tsx` (pass `fonts` to `ImageResponse`). The page
-itself is unaffected (browser fonts render Vietnamese fine).
+Ran `npm run dev` on the machine and drove Chrome through the real UI:
 
-## Not covered here (needs a real browser / deployment)
+- Hero (EN and VN), value props, services, selected work, careers, contact,
+  and footer all render correctly and on-brand.
+- Lead form submitted end to end: filled name + email, ticked consent, clicked
+  Send, got the "Thank you. Your note reached us." success state.
+- Genie chat opened, accepted a message, and returned the no-key fallback
+  ("Lumi is resting right now. Please use the contact form...") as designed.
+- Vietnamese page renders full diacritics throughout (nav, H1, CTAs).
+- RESOLVED: the Vietnamese OG image renders diacritics correctly with the
+  default `next/og` font ("Hiện thực hoá ý chí", "Di động - Hệ thống nội bộ -
+  TP Hồ Chí Minh"). No font embedding needed.
+- The middot and 404-diacritic fixes confirmed live.
 
-- Visual and responsive review across breakpoints; Liquid Glass surfaces.
-- The live R3F scene (mounts only on capable desktop) and animation feel.
-- Live Genie streaming and lead routing with real keys.
+## Not covered (needs real keys / deployment / specific OS state)
+
+- Live Genie streaming with a real ANTHROPIC_API_KEY (only the fallback path
+  was exercisable locally).
+- The live R3F 3D scene: this machine has macOS Reduce Motion on, so the
+  capability gate correctly serves the static poster and the WebGL scene never
+  mounts. To see it, test on a machine with motion enabled.
 - Lighthouse field Core Web Vitals on a deployed build.
+
+Note (design choice, not a bug): the in-page motion toggle controls CSS
+animation, but the 3D scene also hard-respects the OS reduced-motion setting, so
+the toggle alone will not force the WebGL scene on when the OS prefers reduced
+motion. If you want the explicit toggle to override that for 3D too, it is a
+small change to `CanvasMount`.
