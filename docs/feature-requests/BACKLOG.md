@@ -32,14 +32,14 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 53 |
+| shipped | 54 |
 | hold | 1 |
-| planned | 39 |
+| planned | 38 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
-| DS (design system) | 10 | 6 |
+| DS (design system) | 10 | 7 |
 | WEB (foundation) | 10 | 7 |
 | SCENE (3D + scroll) | 10 | 6 |
 | CHAR (Lumi) | 13 | 4 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 4 |
 | OPS (build/deploy/ops) | 8 | 5 |
 
-The 53 shipped + 1 hold are the slices delivered so far; the 39 `planned` rows
+The 54 shipped + 1 hold are the slices delivered so far; the 38 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -59,7 +59,7 @@ complete and build-ready.
 ### DS - design system
 - [FR-DS-001](ds/FR-DS-001-token-port.md) - Hand-port doctrine tokens (Umber/Ochre, Liquid Glass, scales) to `--cs-*`. P0. MUST. shipped.
 - [FR-DS-002](ds/FR-DS-002-theme-toggle.md) - Light/dark theme toggle, no-flash, persisted. P4. SHOULD. shipped.
-- [FR-DS-003](ds/FR-DS-003-component-primitives.md) - In-repo component primitives (Button, Field, Select, Dialog, Card) themed to the doctrine. P1. MUST. planned.
+- [FR-DS-003](ds/FR-DS-003-component-primitives.md) - In-repo component primitives (Button, Field, Select, Dialog, Card) themed to the doctrine. P1. MUST. shipped.
 - [FR-DS-004](ds/FR-DS-004-liquid-glass-materials.md) - Full Liquid Glass material set (whisper/light/standard/heavy/solid) with all fallbacks. P1. SHOULD. shipped.
 - [FR-DS-005](ds/FR-DS-005-confirm-token-package.md) - Resolve whether `@cyberskill/tokens|react` is privately consumable; consume or keep hand-port. P0. SHOULD. planned.
 - [FR-DS-006](ds/FR-DS-006-apca-contrast-tooling.md) - APCA Lc verification tooling (>=75 body, >=90 interactive) on rendered glass. P5. SHOULD. shipped.

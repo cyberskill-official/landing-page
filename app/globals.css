@@ -496,6 +496,24 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 @media (min-width: 760px) { .cs-footer-end { text-align: right; } }
 .cs-footer-slogan { font-family: var(--cs-font-display); color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-footer-slogan { color: var(--cs-color-accent); }
+
+/* Modal Dialog primitive (FR-DS-003). Backdrop + centred tokenized panel. */
+.cs-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--cs-space-4);
+  background: rgba(28, 19, 13, 0.55);
+}
+.cs-dialog {
+  width: min(32rem, 100%);
+  max-height: 85vh;
+  overflow: auto;
+  padding: var(--cs-space-6);
+  border-radius: var(--cs-radius-lg);
+}
 .cs-footer-links { display: flex; flex-wrap: wrap; gap: var(--cs-space-4); margin: 0 0 var(--cs-space-3); font-size: var(--cs-text-sm); }
 @media (min-width: 760px) { .cs-footer-links { justify-content: flex-end; } }
 .cs-footer-links a { color: var(--cs-color-fg-muted); text-decoration: none; }

@@ -68,3 +68,38 @@ BACKLOG 53/1/39. tsc/vitest 47/lint/build all green.
 Operator note: the ochre primary button is APCA Lc 66 against the strict
 interactive-90 target. It is WCAG 2.2 AA compliant; raising it to Lc 90 would
 need a darker label or a different button colour - a brand decision.
+
+### 6. DS-003 - in-repo component primitives (shipped)
+
+`components/ui/` gains Button, Card, Field, Select, Dialog - all emitting the
+existing token markup (`.cs-btn*`, glass/surface, `.cs-field`), no external dep.
+Dialog is a true modal with focus trap + Escape + focus restore.
+`tests/ui-primitives.test.ts` renders each + runs axe. Adoption at existing call
+sites is left incremental (drop-in, identical markup) so the run touches no
+conversion-critical code unattended. BACKLOG 54/1/38.
+
+## Run summary
+
+Shipped this run (all on `auto/overnight-frs`, verified tsc + vitest + lint +
+next build each increment; not deployed to production):
+- OPS-007, PERF-006 - Speed Insights / field CWV (already wired; flipped).
+- PERF-003 - asset + bundle size CI guard.
+- A11Y-005 - canvas DOM-text mirror + noscript.
+- DS-004 - Liquid Glass print fallback (set now complete).
+- DS-006 - APCA contrast tooling (fixed dark muted text Lc 63->79).
+- DS-003 - the five UI primitives.
+
+Partial / down-payment (FR stays planned):
+- CHAR-029 - validation + injection defence + fail-safe shipped; durable
+  cross-instance rate store still needs a KV + secret (operator).
+- A11Y-004 - launcher dialog semantics added; needs a manual keyboard pass (A11Y-008).
+
+Deliberately NOT done unattended (need your input or visual review):
+- WEB-008 services detail pages - need real services content (CMS-005).
+- SCENE-009/010 - GPU disposal / preloader: touch the 3D scene, which I cannot
+  visually verify headlessly without risk; left for a reviewed pass.
+- PERF-004 bundle analysis - marginal; can add a report on request.
+- The ochre button APCA-90 question - brand-colour decision.
+
+Final tally: BACKLOG 54 shipped / 1 hold / 38 planned. Review the branch and
+merge what you want; nothing here has touched cyberskill.world.
