@@ -1,0 +1,7 @@
+{
+  "maxImageKB": 200,
+  "maxGlbKB": 4096,
+  "maxPublicTotalKB": 600,
+  "maxClientJsTotalKB": 2800,
+  "note": "Deterministic asset/bundle guard (FR-PERF-003). Sizes are uncompressed bytes from the built output - a relative regression guard, not a transfer-size target (Lighthouse budget.json covers per-page transfer). Bump maxGlbKB when the commissioned Lumi GLB lands (FR-CHAR-022), after optimizing/draco-compressing it."
+}

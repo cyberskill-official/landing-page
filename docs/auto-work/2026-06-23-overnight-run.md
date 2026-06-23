@@ -30,3 +30,12 @@ user turns. `tests/genie-validate.test.ts` (7 cases) is in the existing vitest
 job (44 tests total). Remaining for full acceptance: a durable cross-instance
 rate-limit store (Vercel KV / Upstash) - needs a datastore + secret, so the FR
 stays planned. tsc/vitest/lint/build all green.
+
+### 3. PERF-003 - asset + bundle size guard (shipped)
+
+`scripts/check-asset-size.mjs` + `scripts/asset-budget.json` measure public
+assets (per-image / per-GLB caps + total) and the built client JS total against
+declared ceilings, exiting non-zero on a breach. Wired as `npm run check:assets`
+and added to the CI build job after `next build`. Deterministic (file sizes), so
+no flake. Current: public 95KB, client JS 2286KB across 43 chunks - within
+budget. Flipped FR-PERF-003 to shipped; BACKLOG 50/1/42.

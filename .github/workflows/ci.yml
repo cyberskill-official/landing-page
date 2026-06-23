@@ -25,6 +25,8 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: Asset + bundle size guard (FR-PERF-003)
+        run: npm run check:assets
       - name: Performance budget is well-formed (Phase-3 gate)
         run: |
           node -e "const b=require('./lighthouse/budget.json'); if(!Array.isArray(b)||!b[0]?.timings?.length){throw new Error('budget.json malformed')} const lcp=b[0].timings.find(t=>t.metric==='largest-contentful-paint'); if(!lcp||lcp.budget>2500){throw new Error('LCP budget must stay <=2500ms')}; console.log('perf budget ok: LCP<='+lcp.budget+'ms')"
