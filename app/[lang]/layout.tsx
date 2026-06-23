@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/header/SiteHeader";
 import { SiteFooter } from "@/components/footer/SiteFooter";
 import { PersistentCta } from "@/components/cta/PersistentCta";
 import { GenieChat } from "@/components/genie/GenieChat";
+import { GenieStatusAnnouncer } from "@/components/genie/GenieStatusAnnouncer";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
 import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
 import { ScrollState } from "@/components/scroll/ScrollState";
@@ -61,11 +62,15 @@ export default async function LocaleLayout({
       <ScrollStoryProvider />
       <ScrollState />
       <CanvasMount />
+      <noscript>
+        <p className="cs-scene-noscript">{dict.a11y.sceneNoscript}</p>
+      </noscript>
       <SiteHeader locale={lang} dict={dict} />
       <main id="main">{children}</main>
       <SiteFooter locale={lang} dict={dict} />
       <PersistentCta locale={lang} dict={dict} />
       <GenieChat locale={lang} dict={dict} />
+      <GenieStatusAnnouncer dict={dict} />
       <div className="cs-grain" aria-hidden="true" />
       <OrganizationJsonLd locale={lang} />
     </>

@@ -69,6 +69,9 @@ export type Dictionary = {
     skip3d: string;
     liteLink: string;
     cinematicLink: string;
+    lumiThinking: string;
+    lumiResponding: string;
+    sceneNoscript: string;
   };
   footer: {
     rights: string;
@@ -144,6 +147,9 @@ const en: Dictionary = {
     skip3d: "Skip the 3D scene",
     liteLink: "View the simple version",
     cinematicLink: "Back to the full experience",
+    lumiThinking: "Lumi is thinking.",
+    lumiResponding: "Lumi is responding.",
+    sceneNoscript: "Lumi, an animated golden genie, decorates this page. It is purely visual - all information and actions are available as text and controls on the page.",
   },
   footer: {
     rights: "All rights reserved.",
@@ -219,6 +225,9 @@ const vi: Dictionary = {
     skip3d: "Bỏ qua cảnh 3D",
     liteLink: "Xem phiên bản đơn giản",
     cinematicLink: "Trở lại trải nghiệm đầy đủ",
+    lumiThinking: "Lumi đang suy nghĩ.",
+    lumiResponding: "Lumi đang trả lời.",
+    sceneNoscript: "Lumi, một thần đèn vàng hoạt họa, chỉ để trang trí cho trang này. Mọi thông tin và thao tác đều có sẵn dưới dạng văn bản và nút điều khiển trên trang.",
   },
   footer: {
     rights: "Bảo lưu mọi quyền.",

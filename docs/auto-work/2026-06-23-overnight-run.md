@@ -39,3 +39,14 @@ declared ceilings, exiting non-zero on a breach. Wired as `npm run check:assets`
 and added to the CI build job after `next build`. Deterministic (file sizes), so
 no flake. Current: public 95KB, client JS 2286KB across 43 chunks - within
 budget. Flipped FR-PERF-003 to shipped; BACKLOG 50/1/42.
+
+### 4. A11Y-005 (shipped) + A11Y-004 down-payment (stays planned)
+
+A11Y-005: `components/genie/GenieStatusAnnouncer.tsx` adds a `.cs-visually-hidden`
+`role="status" aria-live="polite"` region mirroring Lumi's state ("Lumi is
+thinking / responding"), localised; a localised `<noscript>` note describes the
+decorative scene; the canvas stays aria-hidden. Shipped.
+A11Y-004: launcher buttons now carry `aria-haspopup="dialog"` + `aria-expanded`
+(bound to open state); the dialog already does focus-in / focus-return / Escape
+and is a correct non-modal (no trap). Stays planned - full acceptance needs a
+manual Tab/Shift+Tab + focus-contrast pass (A11Y-008). BACKLOG 51/1/41.

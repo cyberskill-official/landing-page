@@ -32,9 +32,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 50 |
+| shipped | 51 |
 | hold | 1 |
-| planned | 42 |
+| planned | 41 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
@@ -46,11 +46,11 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | CTA (conversion) | 9 | 5 |
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 8 |
-| A11Y (accessibility) | 9 | 4 |
+| A11Y (accessibility) | 9 | 5 |
 | PERF (performance) | 6 | 4 |
 | OPS (build/deploy/ops) | 8 | 5 |
 
-The 50 shipped + 1 hold are the slices delivered so far; the 42 `planned` rows
+The 51 shipped + 1 hold are the slices delivered so far; the 41 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -145,7 +145,7 @@ complete and build-ready.
 - [FR-A11Y-002](a11y/FR-A11Y-002-accessibility-statement.md) - `/accessibility` statement + conformance page. P5. SHOULD. shipped.
 - [FR-A11Y-003](a11y/FR-A11Y-003-axe-ci.md) - Automated axe checks in CI. P5. SHOULD. planned (component-level axe test landed in CI; full-route served-build axe still to do).
 - [FR-A11Y-004](a11y/FR-A11Y-004-keyboard-focus.md) - Full keyboard operability + visible focus + focus order. P5. MUST. planned.
-- [FR-A11Y-005](a11y/FR-A11Y-005-canvas-dom-mirror.md) - DOM-text mirror of anything the canvas communicates. P5. SHOULD. planned.
+- [FR-A11Y-005](a11y/FR-A11Y-005-canvas-dom-mirror.md) - DOM-text mirror of anything the canvas communicates. P5. SHOULD. shipped.
 - [FR-A11Y-006](a11y/FR-A11Y-006-chat-live-regions.md) - Screen-reader live regions for streaming chat. P5. SHOULD. shipped.
 - [FR-A11Y-007](a11y/FR-A11Y-007-forced-colors.md) - forced-colors + high-contrast support. P5. SHOULD. shipped.
 - [FR-A11Y-008](a11y/FR-A11Y-008-manual-sr-pass.md) - Manual VoiceOver/NVDA pass + checklist. P5. SHOULD. planned.

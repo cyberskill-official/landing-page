@@ -3,12 +3,12 @@ id: FR-A11Y-005
 title: "DOM-text mirror and noscript for canvas content"
 module: A11Y
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-23
 depends_on: [FR-SCENE-001]
 blocks: []
 source_pages:
@@ -37,4 +37,13 @@ available without WebGL.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped. The canvas layer (`.cs-canvas-layer`) is `aria-hidden` and
+pointer-events:none, so it is correctly marked decorative (§1.3). All meaningful
+content (hero, sections, contact) is server-rendered HTML, so nothing is
+canvas-only (§1.1). Lumi's communicative states are now mirrored as DOM text by
+`components/genie/GenieStatusAnnouncer.tsx`: a `.cs-visually-hidden`
+`role="status" aria-live="polite"` region that announces "Lumi is thinking" /
+"Lumi is responding" from the genie store, localised per route (§1.1, §1.4). A
+`<noscript>` note in the locale layout describes the decorative scene and points
+to the on-page text/controls when scripts or WebGL do not run (§1.2), localised
+en/vi. Verified: tsc clean, vitest 44/44, next build rc=0.

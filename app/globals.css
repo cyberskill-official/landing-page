@@ -517,6 +517,15 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 
 /* 3D layer + static poster fallback */
 .cs-canvas { width: 100%; height: 100%; display: block; }
+/* No-JS note describing the decorative scene (FR-A11Y-005). Only renders inside
+   <noscript>, i.e. when scripts are off, so it is unobtrusive otherwise. */
+.cs-scene-noscript {
+  max-width: var(--cs-container);
+  margin: var(--cs-space-4) auto 0;
+  padding: var(--cs-space-3) var(--cs-space-6);
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-fg-muted);
+}
 .cs-poster {
   position: absolute;
   inset: 0;
