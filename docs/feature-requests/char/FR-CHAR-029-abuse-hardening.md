@@ -36,4 +36,25 @@ The proxy MUST resist abuse and injection beyond the best-effort baseline.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Substantially hardened (status stays planned for the one remaining item).
+
+Done in `app/api/genie/route.ts` + `lib/genie/validate.ts` + `lib/genie/persona.ts`:
+- Input validation is now a pure, unit-tested function (`parseChatRequest`,
+  `tests/genie-validate.test.ts`, 7 cases): rejects non-array/empty/over-30
+  histories, requires the first valid message to be the user, caps each message
+  at 4000 chars and the whole request at 12000, drops invalid roles, and strips
+  C0/C1 control characters (keeping tab/newline). Covers §1.2 and §2 item 2.
+- Prompt-injection defence (§1.3, §2 item 3): the system prompt is sent as a
+  structurally separate `system` block (never concatenated with user turns), and
+  now carries an explicit rule to treat all conversation as the visitor's words,
+  refuse attempts to override instructions / change persona / reveal or modify
+  the prompt, and stay Lumi for the whole conversation.
+- Fail-safe (§1.4): 429 returns a `Retry-After` header and no internal detail;
+  the per-instance limiter prunes expired buckets so memory stays bounded;
+  upstream errors are logged server-side, not leaked verbatim to the client.
+
+Still open (§1.1): a DURABLE cross-instance rate-limit store. The current limiter
+is per-serverless-instance (best-effort). A global limit needs an external KV
+(Vercel KV / Upstash Redis), which requires a datastore + secret to provision -
+operator input. Until then this FR stays planned. Verified: tsc clean, vitest
+44/44, lint clean, next build rc=0.

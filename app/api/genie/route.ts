@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { buildSystemPrompt } from "@/lib/genie/persona";
 import { makeAnthropicTextDecoder } from "@/lib/genie/sse";
-import { isLocale } from "@/lib/i18n/config";
+import { parseChatRequest } from "@/lib/genie/validate";
 
 // Serverless reverse proxy for Lumi. The ANTHROPIC_API_KEY lives only here, in
 // server env; the browser calls this endpoint and never sees the key
@@ -19,18 +19,20 @@ const MAX_REQ = 20;
 // this is a guard against casual abuse, not a global quota (documented).
 const buckets = new Map<string, { count: number; resetAt: number }>();
 
-function rateLimited(ip: string): boolean {
+function checkRate(ip: string): { limited: boolean; retryAfter: number } {
   const now = Date.now();
+  // Bound memory on a long-lived instance: prune expired buckets when the map grows.
+  if (buckets.size > 1000) {
+    for (const [k, v] of buckets) if (now > v.resetAt) buckets.delete(k);
+  }
   const b = buckets.get(ip);
   if (!b || now > b.resetAt) {
     buckets.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
+    return { limited: false, retryAfter: 0 };
   }
   b.count += 1;
-  return b.count > MAX_REQ;
+  return { limited: b.count > MAX_REQ, retryAfter: Math.ceil((b.resetAt - now) / 1000) };
 }
-
-type InMsg = { role: "user" | "assistant"; content: string };
 
 export async function POST(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -40,8 +42,12 @@ export async function POST(req: Request) {
   }
 
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anon";
-  if (rateLimited(ip)) {
-    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  const rate = checkRate(ip);
+  if (rate.limited) {
+    return NextResponse.json(
+      { error: "rate_limited" },
+      { status: 429, headers: { "retry-after": String(rate.retryAfter) } },
+    );
   }
 
   let body: unknown;
@@ -51,25 +57,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad_json" }, { status: 400 });
   }
 
-  const raw = (body as { messages?: unknown })?.messages;
-  if (!Array.isArray(raw) || raw.length === 0 || raw.length > 30) {
+  // Shape, role, per-message + total size caps, and control-char stripping
+  // (FR-CHAR-029) live in the unit-tested parseChatRequest.
+  const parsed = parseChatRequest(body);
+  if (!parsed.ok) {
     return NextResponse.json({ error: "bad_request" }, { status: 400 });
   }
-
-  const messages: InMsg[] = [];
-  for (const m of raw) {
-    const role = (m as InMsg)?.role;
-    const content = (m as InMsg)?.content;
-    if ((role === "user" || role === "assistant") && typeof content === "string" && content.length <= 4000) {
-      messages.push({ role, content: content.trim() });
-    }
-  }
-  if (messages.length === 0 || messages[0].role !== "user") {
-    return NextResponse.json({ error: "bad_request" }, { status: 400 });
-  }
-
-  const localeRaw = (body as { locale?: string })?.locale;
-  const locale = isLocale(localeRaw) ? localeRaw : "en";
+  const { messages, locale } = parsed;
 
   let upstream: Response;
   try {
