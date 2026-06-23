@@ -50,3 +50,21 @@ A11Y-004: launcher buttons now carry `aria-haspopup="dialog"` + `aria-expanded`
 (bound to open state); the dialog already does focus-in / focus-return / Escape
 and is a correct non-modal (no trap). Stays planned - full acceptance needs a
 manual Tab/Shift+Tab + focus-contrast pass (A11Y-008). BACKLOG 51/1/41.
+
+### 5. DS-004 + DS-006 - Liquid Glass set + APCA tooling (both shipped)
+
+DS-004: the five materials already existed with `@supports`/reduced-transparency/
+forced-colors fallbacks; added the missing `@media print` collapse-to-solid, so
+all four fallback paths are covered. Shipped.
+DS-006: `scripts/apca.mjs` (APCA-W3 0.1.9 core + glass compositing) +
+`tests/apca.test.ts` (validated vs reference values) + `scripts/check-apca.mjs`
+(`npm run check:apca`) measuring text-on-surface pairs incl. composited glass.
+It caught two real misses: dark-theme muted text (Lc 63 -> fixed by lightening
+`--cs-color-fg-muted` to `#dcd2c3`, now 79.3) and the ochre primary button
+(Lc 66 vs strict 90 - meets WCAG AA + APCA large-bold, flagged for a brand-colour
+decision, so the guard runs locally, not as a blocking CI gate). Shipped.
+BACKLOG 53/1/39. tsc/vitest 47/lint/build all green.
+
+Operator note: the ochre primary button is APCA Lc 66 against the strict
+interactive-90 target. It is WCAG 2.2 AA compliant; raising it to Lc 90 would
+need a darker label or a different button colour - a brand decision.

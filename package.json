@@ -15,6 +15,7 @@
     "typecheck": "tsc --noEmit",
     "verify": "node scripts/verify-static.mjs",
     "check:assets": "node scripts/check-asset-size.mjs",
+    "check:apca": "node scripts/check-apca.mjs",
     "test": "vitest run",
     "clean": "rm -rf .next"
   },

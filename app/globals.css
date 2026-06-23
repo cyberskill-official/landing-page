@@ -109,7 +109,9 @@
 
 [data-theme="dark"] {
   --cs-color-fg: #f4ece0;
-  --cs-color-fg-muted: #c3b6a5;
+  /* Lightened from #c3b6a5 to clear APCA Lc 75 for body text on the dark bg
+     (FR-DS-006 found the old value at Lc 63). */
+  --cs-color-fg-muted: #dcd2c3;
   --cs-color-bg: #1a120c;
   --cs-color-surface: #241811;
   --cs-color-line: #3a2a1d;
@@ -264,6 +266,17 @@ a {
     background: var(--cs-color-surface);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+}
+@media print {
+  /* Print has no compositing layer; collapse glass to a plain solid surface so
+     content stays legible on paper (FR-DS-004). */
+  .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
+    background: var(--cs-color-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    border: 1px solid var(--cs-color-line);
   }
 }
 @media (forced-colors: active) {
