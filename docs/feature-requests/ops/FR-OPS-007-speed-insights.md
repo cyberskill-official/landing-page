@@ -3,12 +3,12 @@ id: FR-OPS-007
 title: "Wire Vercel Speed Insights with the legacy-peer-deps install note"
 module: OPS
 priority: COULD
-status: planned
+status: shipped
 verify: T
 phase: P6
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-23
 depends_on: [FR-OPS-003]
 related_frs: [FR-PERF-006]
 blocks: []
@@ -41,4 +41,11 @@ Speed Insights MUST be installable without breaking the test toolchain.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped. `@vercel/speed-insights@^2` (and `@vercel/analytics@^2`) are in
+`package.json`, and `<SpeedInsights />` (+ `<Analytics />`) are mounted in
+`app/layout.tsx`, so field metrics report from every route. The peer conflict
+this FR anticipated no longer reproduces: a clean `npm install` succeeds with no
+`.npmrc` (the dependency tree resolved cleanly once the packages landed via the
+Vercel install PRs), and Vitest still installs and runs alongside them (37
+tests pass). So no `.npmrc` was needed; the note for the next operator is simply
+that the conflict is gone. Verified: clean install + vitest + next build green.

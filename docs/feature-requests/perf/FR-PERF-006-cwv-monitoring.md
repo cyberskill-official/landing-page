@@ -3,12 +3,12 @@ id: FR-PERF-006
 title: "Field Core Web Vitals monitoring via Vercel Speed Insights"
 module: PERF
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P6
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-23
 depends_on: [FR-OPS-003]
 related_frs: [FR-OPS-007]
 blocks: []
@@ -38,4 +38,11 @@ Real-user metrics MUST be observed, not just lab scores.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped (integration). `<SpeedInsights />` from `@vercel/speed-insights` is
+mounted in `app/layout.tsx`, so real-user LCP, CLS, and INP are collected from
+every route, distinct from the synthetic Lighthouse-CI runs (FR-PERF-002). This
+is live in production. The dashboard trend (§2 item 1-2) accrues with real
+traffic and is viewed in the Vercel project's Speed Insights tab - that part is
+data accumulation on Vercel's side, not a code deliverable. Install handling per
+FR-OPS-007 (no `.npmrc` needed; the peer conflict no longer reproduces).
+Verified: build green with the component mounted.

@@ -32,9 +32,9 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 47 |
+| shipped | 49 |
 | hold | 1 |
-| planned | 45 |
+| planned | 43 |
 | **total** | **93** |
 
 | Module | FRs | shipped |
@@ -47,10 +47,10 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 8 |
 | A11Y (accessibility) | 9 | 4 |
-| PERF (performance) | 6 | 2 |
-| OPS (build/deploy/ops) | 8 | 4 |
+| PERF (performance) | 6 | 3 |
+| OPS (build/deploy/ops) | 8 | 5 |
 
-The 47 shipped + 1 hold are the slices delivered so far; the 45 `planned` rows
+The 49 shipped + 1 hold are the slices delivered so far; the 43 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -157,7 +157,7 @@ complete and build-ready.
 - [FR-PERF-003](perf/FR-PERF-003-asset-size-ci.md) - Asset-size guard (textures, GLB, bundle) failing the build on regression. P5. SHOULD. planned.
 - [FR-PERF-004](perf/FR-PERF-004-bundle-analysis.md) - Bundle analysis + code-split audit. P5. COULD. planned.
 - [FR-PERF-005](perf/FR-PERF-005-font-strategy.md) - Font loading strategy (subset, display, preload) incl. Vietnamese. P5. SHOULD. planned.
-- [FR-PERF-006](perf/FR-PERF-006-cwv-monitoring.md) - Field Core Web Vitals monitoring (Speed Insights). P6. SHOULD. planned.
+- [FR-PERF-006](perf/FR-PERF-006-cwv-monitoring.md) - Field Core Web Vitals monitoring (Speed Insights). P6. SHOULD. shipped.
 
 ### OPS - build / deploy / operations
 - [FR-OPS-001](ops/FR-OPS-001-ci-perf-gate.md) - CI: static import check + typecheck + lint + test + build + budget. P3. MUST. shipped.
@@ -166,7 +166,7 @@ complete and build-ready.
 - [FR-OPS-004](ops/FR-OPS-004-env-secrets.md) - Env/secret management across prod + preview environments. P6. SHOULD. planned.
 - [FR-OPS-005](ops/FR-OPS-005-lead-db.md) - Lead + transcript datastore (Vercel Postgres/Supabase). P6. SHOULD. planned.
 - [FR-OPS-006](ops/FR-OPS-006-error-tracking.md) - Error/exception tracking (Sentry or equivalent). P6. COULD. shipped.
-- [FR-OPS-007](ops/FR-OPS-007-speed-insights.md) - Vercel Speed Insights wiring (needs legacy-peer-deps; deferred). P6. COULD. planned.
+- [FR-OPS-007](ops/FR-OPS-007-speed-insights.md) - Vercel Speed Insights wiring (peer conflict no longer reproduces; no .npmrc needed). P6. COULD. shipped.
 - [FR-OPS-008](ops/FR-OPS-008-uptime-monitoring.md) - Uptime + deploy-health monitoring + alerts. P6. COULD. planned.
 
 ## §3 Open questions (carried from the research doc)
