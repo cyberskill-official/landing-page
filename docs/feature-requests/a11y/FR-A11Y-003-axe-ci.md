@@ -38,13 +38,17 @@ Accessibility regressions SHOULD be caught automatically before merge.
 
 ## §3 Evidence
 
-Partial (status stays planned). A first automated axe gate landed in CI:
-`tests/axe.test.ts` renders representative presentational components (TrustBand,
-Faq, SiteFooter) to server markup in jsdom and runs `axe-core` over them for both
-`en` and `vi`, failing on any violation. It runs inside the existing vitest job
-the CI workflow already executes (`axe-core` + `jsdom` added as devDeps; vitest
-configured with the automatic JSX runtime). Both locales currently pass with zero
-violations.
+Partial (status stays planned). An automated axe gate runs in CI:
+`tests/axe.test.ts` composes the page's SSR-safe sections (Hero, TrustBand,
+ValueProp, Services, Process, WorkPreview, SocialProof, Careers, Faq, SiteFooter)
+into one `<main>`, renders them to server markup in jsdom, and runs `axe-core`
+over the combined DOM for both `en` and `vi`, failing on serious or critical
+violations (reported as rule + impact + node count). Composing the sections also
+exercises cross-section rules (duplicate ids, heading order, list/label
+structure), not just one component. It runs inside the existing vitest job the CI
+workflow already executes (`axe-core` + `jsdom` devDeps). Both locales currently
+pass with zero serious/critical violations. ContactCta is excluded because
+next/image does not render outside the Next runtime.
 
 Still to do for full acceptance: run axe against the actual rendered routes
 (home, `/work`, `/careers`, a case study) on a served production build so
