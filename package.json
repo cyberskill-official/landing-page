@@ -16,6 +16,7 @@
     "verify": "node scripts/verify-static.mjs",
     "check:assets": "node scripts/check-asset-size.mjs",
     "check:apca": "node scripts/check-apca.mjs",
+    "check:a11y:routes": "node scripts/axe-routes.mjs",
     "test": "vitest run",
     "clean": "rm -rf .next"
   },
@@ -46,6 +47,7 @@
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.3.0",
     "jsdom": "^25.0.0",
+    "puppeteer": "^24.0.0",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"
   },

@@ -50,10 +50,27 @@ workflow already executes (`axe-core` + `jsdom` devDeps). Both locales currently
 pass with zero serious/critical violations. ContactCta is excluded because
 next/image does not render outside the Next runtime.
 
-Still to do for full acceptance: run axe against the actual rendered routes
-(home, `/work`, `/careers`, a case study) on a served production build so
-page-level rules (landmarks, single-main, bypass) and real `color-contrast` are
-exercised, scoped to serious/critical, with rule + selector + route in the
-output. That needs a served-build step (pa11y-ci or @axe-core/cli against
-`next start`, or Playwright + @axe-core/playwright) which is a heavier CI job;
-this component-level check is the down-payment.
+Served-route gate added (2026-06-24, branch `auto/glb-perf-a11y`).
+`scripts/axe-routes.mjs` serves the production build (`next start`) and drives
+puppeteer (its own bundled Chrome) to run axe-core against the real rendered
+routes - `/en`, `/vi`, `/en/work`, `/en/careers`, and the
+`/en/work/operations-platform` case study - over the WCAG 2.x A/AA rule set,
+failing on serious/critical and printing rule + help URL + selector + route
+(criteria 1-4). It runs as a new `a11y` CI job (`npm run check:a11y:routes`).
+
+Verification done locally without a browser: the dev sandbox is arm64 and
+puppeteer ships an x86_64 Chrome that will not exec there, so the five routes
+were proven by fetching their real served-build SSR HTML and running axe-core in
+jsdom over each full page (one fresh process per route). All five pass the
+structural WCAG A/AA rules (landmark-one-main, region, bypass, document-title,
+html-has-lang, heading-order, link/button names, list structure, duplicate id) -
+20-25 rules passed per route, zero serious/critical. `color-contrast` needs
+layout/paint that jsdom cannot do; it is covered by the CI Chrome job plus the
+APCA tooling (`npm run check:apca`).
+
+The CI job is `continue-on-error: true` (advisory) for its first runs, mirroring
+how FR-PERF-002 was introduced, because puppeteer's served run could not be
+executed on the arm64 dev sandbox. Status stays `planned` until it is observed
+green on x86_64 CI and flipped to a required, build-failing gate (criterion 2).
+The component-level jsdom check in `tests/axe.test.ts` remains the always-on
+in-process guard.

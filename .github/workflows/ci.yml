@@ -55,3 +55,28 @@ jobs:
         run: npx -y @lhci/cli@0.14.x autorun
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+
+  # FR-A11Y-003 (served-route gate): run axe-core against the real rendered
+  # routes (home en+vi, /work, /careers, a case study) on a served production
+  # build, so page-level rules and real color-contrast - which the jsdom
+  # component check in the build job cannot see - are exercised, failing on
+  # serious/critical. Advisory first (continue-on-error), matching how the
+  # Lighthouse gate was introduced: the structural rules are already proven green
+  # in jsdom against the real SSR HTML; this flips to a required gate after one
+  # green run on x86_64 CI (puppeteer's Chrome does not run on the dev arm64
+  # sandbox, so the served run is validated here, not locally).
+  a11y:
+    runs-on: ubuntu-latest
+    needs: build
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Build
+        run: npm run build
+      - name: Served-route axe gate (serious/critical)
+        run: npm run check:a11y:routes
