@@ -37,4 +37,22 @@ The real Lumi GLB MUST replace the placeholder without changing the gate.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Drop-in path ready (2026-06-24, branch `auto/glb-perf-a11y`). Status stays
+`planned` until the commissioned model exists and renders, since the first
+acceptance bullet ("the real Lumi model renders") cannot be verified without it.
+Stephen is producing the model via Meshy.
+
+- Done - same mount point, gate unchanged (criterion 2): `GenieScene` renders
+  `GltfLumi` in place of `LumiPlaceholder` behind the existing CanvasMount gate,
+  with no caller API change. Activated by setting `NEXT_PUBLIC_LUMI_GLB`.
+- Done - served from app static assets (criterion 3): the model is read from
+  `/models/lumi.glb` under `public/`; the export checklist requires Draco or
+  meshopt compression. See `docs/3d/lumi-glb-integration.md`.
+- Done - safe fallback (criterion 4): `GlbBoundary` + Suspense fall back to the
+  procedural Lumi on a failed/again load without throwing (shared with
+  FR-SCENE-010).
+- Remaining - the actual model (criterion 1 + first acceptance bullet). The
+  loader uses drei `useGLTF` with a typed `{ url }` prop and `scene.clone`; once
+  the GLB is dropped in, swap to a gltfjsx-generated typed component if per-node
+  control is wanted. Build-verified with `NEXT_PUBLIC_LUMI_GLB` set (compiles,
+  26/26 pages prerender) so the wiring is sound ahead of the model.

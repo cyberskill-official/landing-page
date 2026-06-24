@@ -36,4 +36,18 @@ The scene MUST stay within a fixed GPU budget.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Partial (2026-06-24, branch `auto/glb-perf-a11y`). Status stays `planned` until
+LOD lands and draw calls are measured on the operator machine.
+
+- Done - GPU disposal on unmount (criterion 3): `components/canvas/GltfLumi.tsx`
+  traverses the cloned model and disposes geometries + materials on unmount;
+  `components/canvas/LumiPlaceholder.tsx` disposes the hand-built aura
+  `ShaderMaterial` (the one R3F does not own) when the theme flips or the scene
+  unmounts. R3F disposes the built-in geometries/materials it created.
+- Holds - asset/budget guard (criterion 4): `npm run check:assets` keeps the
+  gated-desktop client JS and public assets under budget; the poster path
+  carries no GLB cost.
+- Remaining - distance LOD (criterion 1) and a measured steady-state draw-call
+  count under 100 (criterion 2). The procedural scene is well under budget by
+  inspection (< ~20 draw calls), but LOD is only meaningful once the real
+  multi-resolution GLB exists, so it is deferred with the model.

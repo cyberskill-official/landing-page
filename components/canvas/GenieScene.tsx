@@ -1,12 +1,23 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Sparkles } from "@react-three/drei";
+import { Float, Sparkles, useGLTF } from "@react-three/drei";
 import type { PerspectiveCamera } from "three";
 import { LumiPlaceholder } from "@/components/canvas/LumiPlaceholder";
+import { GltfLumi } from "@/components/canvas/GltfLumi";
+import { GlbBoundary } from "@/components/canvas/GlbBoundary";
 import { getScrollProgress } from "@/lib/scroll/progress";
 import { resolveSceneState } from "@/lib/scene/progressMap";
+
+// Optional commissioned GLB (FR-CHAR-022). When NEXT_PUBLIC_LUMI_GLB is set to a
+// model path (e.g. /models/lumi.glb), the scene renders it instead of the
+// procedural placeholder; preloading it here (SCENE-010) starts the fetch as
+// soon as the scene chunk loads, and the Suspense boundary keeps it from
+// blocking first paint. Unset (the default) keeps the procedural Lumi.
+const LUMI_GLB = process.env.NEXT_PUBLIC_LUMI_GLB;
+if (LUMI_GLB) useGLTF.preload(LUMI_GLB);
 
 // Cinematic camera rig (FR-SCENE-007): the camera reads its target from the one
 // declarative scene-progress map (not its own math) and eases toward it, so the
@@ -49,7 +60,15 @@ export function GenieScene() {
       <pointLight position={[-4, -2, 1]} intensity={0.5} color="#F4BA17" distance={14} />
       <CameraRig />
       <Float speed={1.4} rotationIntensity={0.25} floatIntensity={0.7}>
-        <LumiPlaceholder />
+        <Suspense fallback={null}>
+          {LUMI_GLB ? (
+            <GlbBoundary fallback={<LumiPlaceholder />}>
+              <GltfLumi url={LUMI_GLB} />
+            </GlbBoundary>
+          ) : (
+            <LumiPlaceholder />
+          )}
+        </Suspense>
       </Float>
       <Sparkles count={60} scale={[8, 5, 3]} size={4} speed={0.35} color="#F4BA17" opacity={0.7} />
     </Canvas>

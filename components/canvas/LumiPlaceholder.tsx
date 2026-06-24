@@ -108,6 +108,12 @@ export function LumiPlaceholder() {
     [isLight],
   );
 
+  // Dispose the custom aura ShaderMaterial when it is replaced (theme flip) or
+  // on unmount, so the WebGL program/uniforms are freed (FR-SCENE-009). R3F
+  // disposes the built-in geometries/materials it owns automatically; this one
+  // is created by hand, so we release it explicitly.
+  useEffect(() => () => aura.dispose(), [aura]);
+
   useFrame((state, delta) => {
     const g = group.current;
     const c = core.current;

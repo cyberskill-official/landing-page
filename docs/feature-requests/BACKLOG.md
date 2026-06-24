@@ -41,7 +41,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 |---|---:|---:|
 | DS (design system) | 10 | 7 |
 | WEB (foundation) | 10 | 7 |
-| SCENE (3D + scroll) | 10 | 6 |
+| SCENE (3D + scroll) | 10 | 7 |
 | CHAR (Lumi) | 13 | 4 |
 | CTA (conversion) | 9 | 5 |
 | CMS (content + i18n) | 9 | 3 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 4 |
 | OPS (build/deploy/ops) | 8 | 5 |
 
-The 54 shipped + 1 hold are the slices delivered so far; the 38 `planned` rows
+The 55 shipped + 1 hold are the slices delivered so far; the 37 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready.
 
@@ -90,7 +90,7 @@ complete and build-ready.
 - [FR-SCENE-007](scene/FR-SCENE-007-scene-progress-map.md) - Per-scene normalized progress mapped to camera/model/lighting. P4. SHOULD. shipped.
 - [FR-SCENE-008](scene/FR-SCENE-008-webgpu-fallback.md) - WebGPURenderer with WebGL fallback. P5. COULD. planned.
 - [FR-SCENE-009](scene/FR-SCENE-009-lod-drawcall-budget.md) - LOD + <100 draw-call/frame budget + GPU disposal. P5. SHOULD. planned.
-- [FR-SCENE-010](scene/FR-SCENE-010-scene-preloader.md) - GLB preloader + Suspense boundary so the scene never blocks first paint. P3. SHOULD. planned.
+- [FR-SCENE-010](scene/FR-SCENE-010-scene-preloader.md) - GLB preloader + Suspense boundary so the scene never blocks first paint. P3. SHOULD. shipped 2026-06-24.
 
 ### CHAR - Lumi (3D character + chat)
 - [FR-CHAR-010](char/FR-CHAR-010-genie-proxy.md) - Keyless serverless proxy `/api/genie`, streaming SSE, rate limit. P2. MUST. shipped.
