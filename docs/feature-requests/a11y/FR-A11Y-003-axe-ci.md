@@ -3,12 +3,12 @@ id: FR-A11Y-003
 title: "Automated axe-core accessibility checks in CI"
 module: A11Y
 priority: SHOULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-24
 depends_on: []
 blocks: []
 source_pages:
@@ -68,9 +68,11 @@ html-has-lang, heading-order, link/button names, list structure, duplicate id) -
 layout/paint that jsdom cannot do; it is covered by the CI Chrome job plus the
 APCA tooling (`npm run check:apca`).
 
-The CI job is `continue-on-error: true` (advisory) for its first runs, mirroring
-how FR-PERF-002 was introduced, because puppeteer's served run could not be
-executed on the arm64 dev sandbox. Status stays `planned` until it is observed
-green on x86_64 CI and flipped to a required, build-failing gate (criterion 2).
-The component-level jsdom check in `tests/axe.test.ts` remains the always-on
-in-process guard.
+The CI job was introduced advisory (`continue-on-error: true`), mirroring how
+FR-PERF-002 rolled out, because puppeteer's served run could not be executed on
+the arm64 dev sandbox. It was then observed green on x86_64 CI - run
+28089290130, the `Served-route axe gate` step passed (exit 0, all five routes
+clean with real Chrome including color-contrast) - so `continue-on-error` was
+removed and it is now a required, build-failing gate (criterion 2 met). All four
+acceptance criteria are satisfied. The component-level jsdom check in
+`tests/axe.test.ts` remains the always-on in-process guard alongside it.
