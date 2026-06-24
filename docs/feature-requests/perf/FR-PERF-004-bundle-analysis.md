@@ -3,12 +3,12 @@ id: FR-PERF-004
 title: "Bundle analysis and code-split audit to keep the 3D chunk off the critical path"
 module: PERF
 priority: COULD
-status: planned
+status: shipped
 verify: T
 phase: P5
 owner: Stephen Cheng
 created: 2026-06-22
-shipped: null
+shipped: 2026-06-24
 depends_on: [FR-PERF-003]
 blocks: []
 source_pages:
@@ -38,4 +38,20 @@ The 3D scene MUST load after the page is usable, never before.
 
 ## §3 Evidence
 
-Not yet implemented; acceptance pending build.
+Shipped 2026-06-24 on branch `auto/glb-perf-a11y`.
+
+- On-demand analyzer (criterion 1): `next.config.ts` wraps the config in
+  `@next/bundle-analyzer`, gated by `ANALYZE=true`; `npm run analyze` emits
+  `.next/analyze/{client,nodejs,edge}.html` per-chunk treemaps. Off by default,
+  so normal builds are unchanged. Verified: the three reports were generated.
+- 3D in its own chunk, absent from first load (criterion 2): the analyzer's
+  chunk data shows the two first-load shared chunks (`352-*` 116 KB gzip,
+  `4bd1b696-*` 53 KB gzip) contain no `three`, `@react-three/*`, or
+  `gsap`/`lenis`. The 3D stack is split into async chunks (about 304 KB gzip
+  total) fetched only when `CanvasMount` dynamically imports `GenieScene`
+  (`ssr:false`) on capable desktops. First Load JS shared by all routes stays
+  176 KB.
+- Audit doc with current chunk sizes (criterion 3): `docs/perf/bundle-audit.md`
+  records how to run the analyzer, the first-load and 3D async chunk tables with
+  parsed + gzip sizes, totals (about 2249 KB parsed / 666 KB gzip / 43 chunks),
+  and how to compare future regressions against the `check:assets` guard.

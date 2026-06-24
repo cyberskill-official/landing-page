@@ -1,4 +1,14 @@
 import type { NextConfig } from "next";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+// FR-PERF-004: on-demand bundle analysis. `ANALYZE=true npm run build` emits a
+// static per-chunk treemap under .next/analyze so chunk composition (and the
+// separately-chunked 3D scene) is inspectable. Off by default - normal builds
+// are unaffected.
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+  openAnalyzer: false,
+});
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -23,4 +33,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
