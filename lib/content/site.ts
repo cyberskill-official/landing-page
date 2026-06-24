@@ -96,27 +96,30 @@ export type WorkItem = {
   tags: string[];
 };
 
-// Representative portfolio entries. Replace with real, cleared case studies.
+// Representative engagement types, written without invented client names,
+// logos, or specific metrics. Replace with real, cleared case studies (named
+// client + a measured result they have approved) - see
+// docs/content/case-study-testimonial-intake.md.
 export const work: WorkItem[] = [
   {
     slug: "operations-platform",
-    client: "Logistics operator",
-    title: { en: "Operations platform that retired the spreadsheets", vi: "Nền tảng vận hành thay thế hoàn toàn bảng tính" },
-    result: { en: "Cut order-processing time by a measured margin and gave the ops team one live view.", vi: "Giảm rõ rệt thời gian xử lý đơn và cho đội vận hành một màn hình theo thời gian thực." },
+    client: "Logistics operations",
+    title: { en: "An operations platform that retires the spreadsheets", vi: "Nền tảng vận hành thay cho bảng tính" },
+    result: { en: "One shared operations view the whole team works from, instead of reconciling files by hand.", vi: "Một màn hình vận hành dùng chung cho cả đội, thay vì đối chiếu tệp bằng tay." },
     tags: ["internal-systems", "web-apps"],
   },
   {
     slug: "member-mobile-app",
-    client: "Education provider",
-    title: { en: "Member mobile app with offline-first lessons", vi: "Ứng dụng di động cho học viên, hỗ trợ học ngoại tuyến" },
-    result: { en: "Shipped to both stores with crash-free sessions tracked from launch.", vi: "Phát hành trên cả hai store, theo dõi phiên không lỗi ngay từ ngày ra mắt." },
+    client: "Education",
+    title: { en: "A member mobile app with offline-first lessons", vi: "Ứng dụng di động cho học viên, ưu tiên ngoại tuyến" },
+    result: { en: "Lessons that work on the move, on the App Store and Google Play, with crash-free sessions tracked from launch.", vi: "Bài học dùng được khi di chuyển, trên App Store và Google Play, theo dõi phiên không lỗi ngay từ ngày ra mắt." },
     tags: ["mobile-apps"],
   },
   {
     slug: "commerce-portal",
-    client: "Retail brand",
-    title: { en: "Commerce portal rebuilt for speed", vi: "Cổng thương mại được dựng lại để tối ưu tốc độ" },
-    result: { en: "Brought Core Web Vitals into the green and simplified the checkout path.", vi: "Đưa Core Web Vitals về ngưỡng đạt và rút gọn luồng thanh toán." },
+    client: "Retail",
+    title: { en: "A commerce portal rebuilt for speed", vi: "Cổng thương mại dựng lại để tối ưu tốc độ" },
+    result: { en: "A shorter path to checkout, with Core Web Vitals kept as a target measured on every change.", vi: "Luồng thanh toán ngắn hơn, lấy Core Web Vitals làm mục tiêu đo trên mỗi thay đổi." },
     tags: ["web-apps"],
   },
 ];
@@ -127,22 +130,42 @@ export type Testimonial = {
   role: LocalizedString;
 };
 
-export const testimonials: Testimonial[] = [
+// Real, named, consented client quotes only. Until those are collected (see
+// docs/content/case-study-testimonial-intake.md), this stays empty and the
+// proof section renders the first-person commitments below instead of invented
+// quotes. Do NOT add placeholder or unattributed quotes here - on a live site
+// they read as real endorsements.
+export const testimonials: Testimonial[] = [];
+
+export type Commitment = {
+  title: LocalizedString;
+  body: LocalizedString;
+};
+
+// First-person standards CyberSkill holds itself to. These are honest claims
+// about how the team works (not third-party endorsements), so they can run on
+// the live site before client quotes are cleared.
+export const commitments: Commitment[] = [
   {
-    quote: {
-      en: "They treated our deadline as theirs. The build was honest about trade-offs and shipped on time.",
-      vi: "Họ coi hạn chót của chúng tôi như của chính mình. Quá trình làm việc minh bạch về đánh đổi và bàn giao đúng hẹn.",
+    title: { en: "We answer for the work", vi: "Chúng tôi chịu trách nhiệm với công việc" },
+    body: {
+      en: "A small, senior team owns your project end to end. You always know who is building what, and why.",
+      vi: "Một đội ngũ nhỏ, giàu kinh nghiệm chịu trách nhiệm trọn vẹn dự án của bạn. Bạn luôn biết ai đang làm gì và vì sao.",
     },
-    author: "Client reference",
-    role: { en: "Operations lead", vi: "Trưởng bộ phận vận hành" },
   },
   {
-    quote: {
-      en: "Clear communication, no jargon, and software our team actually uses every day.",
-      vi: "Trao đổi rõ ràng, không thuật ngữ rối rắm, và phần mềm mà đội ngũ chúng tôi dùng mỗi ngày.",
+    title: { en: "Honest about trade-offs", vi: "Minh bạch về đánh đổi" },
+    body: {
+      en: "We say what a choice costs in plain language, before we build it, so there are no surprises at delivery.",
+      vi: "Chúng tôi nói rõ một lựa chọn đánh đổi điều gì bằng ngôn ngữ dễ hiểu, trước khi bắt tay làm, để không có bất ngờ lúc bàn giao.",
     },
-    author: "Client reference",
-    role: { en: "Founder", vi: "Nhà sáng lập" },
+  },
+  {
+    title: { en: "Built to last, measured to prove it", vi: "Xây để bền, đo để chứng minh" },
+    body: {
+      en: "Maintainable code, CI that fails on regressions, and metrics wired in from day one: stability and speed are numbers you can watch.",
+      vi: "Mã nguồn dễ bảo trì, CI tự chặn lỗi hồi quy, và chỉ số gắn vào ngay từ đầu: độ ổn định và tốc độ là những con số bạn quan sát được.",
+    },
   },
 ];
 

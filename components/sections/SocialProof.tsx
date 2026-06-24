@@ -1,28 +1,46 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { testimonials, company } from "@/lib/content/site";
+import { testimonials, commitments, company } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 
 export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const hasQuotes = testimonials.length > 0;
   const trust =
     locale === "vi"
       ? `Doanh nghiệp đã đăng ký, hoạt động từ ${company.founded}. DUNS ${company.duns}.`
       : `Registered company, operating since ${company.founded}. DUNS ${company.duns}.`;
+  // The proof heading must match what sits below it. With real client quotes it
+  // is "What clients say"; until those are cleared we show first-person
+  // commitments, so the heading becomes "How we work" rather than implying
+  // endorsements that do not exist yet.
+  const heading = hasQuotes
+    ? dict.sections.proofTitle
+    : locale === "vi"
+      ? "Cách chúng tôi làm việc"
+      : "How we work";
+
   return (
     <section id="proof" className="cs-section cs-section-alt" aria-labelledby="proof-title">
       <div className="cs-container">
-        <h2 id="proof-title">{dict.sections.proofTitle}</h2>
+        <h2 id="proof-title">{heading}</h2>
         <div className="cs-proof-grid">
-          {testimonials.map((t, i) => (
-            <Reveal as="article" key={i} className="cs-proof-card cs-surface-standard" delayMs={i * 80}>
-              <blockquote>{localize(t.quote, locale)}</blockquote>
-              <footer>
-                <span className="cs-proof-author">{t.author}</span>
-                <span className="cs-proof-role">{localize(t.role, locale)}</span>
-              </footer>
-            </Reveal>
-          ))}
+          {hasQuotes
+            ? testimonials.map((t, i) => (
+                <Reveal as="article" key={i} className="cs-proof-card cs-surface-standard" delayMs={i * 80}>
+                  <blockquote>{localize(t.quote, locale)}</blockquote>
+                  <footer>
+                    <span className="cs-proof-author">{t.author}</span>
+                    <span className="cs-proof-role">{localize(t.role, locale)}</span>
+                  </footer>
+                </Reveal>
+              ))
+            : commitments.map((c, i) => (
+                <Reveal as="article" key={i} className="cs-proof-card cs-surface-standard" delayMs={i * 80}>
+                  <h3 className="cs-proof-author" style={{ marginTop: 0 }}>{localize(c.title, locale)}</h3>
+                  <p style={{ margin: 0 }}>{localize(c.body, locale)}</p>
+                </Reveal>
+              ))}
         </div>
         <p className="cs-trust-marker">{trust}</p>
       </div>

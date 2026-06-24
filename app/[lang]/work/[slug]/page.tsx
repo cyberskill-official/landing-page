@@ -27,8 +27,8 @@ const details: Record<string, CaseStudy> = {
       vi: "Chúng tôi vẽ lại quy trình thực tế cùng những người trực tiếp sử dụng, rồi xây một nền tảng web dựa trên một lớp dữ liệu dùng chung. Chúng tôi bàn giao theo từng phần nhỏ để đội ngũ tiếp nhận dần mà không phải chuyển đổi rủi ro một lần.",
     },
     outcome: {
-      en: "Order-processing time came down by a measured margin, and the operations team finally worked from one live view instead of reconciling files by hand.",
-      vi: "Thời gian xử lý đơn giảm rõ rệt, và đội vận hành cuối cùng làm việc trên một màn hình theo thời gian thực thay vì đối chiếu tệp bằng tay.",
+      en: "The operations team works from one live view instead of reconciling files by hand, so a handover is a glance at the screen rather than a chase through inboxes.",
+      vi: "Đội vận hành làm việc trên một màn hình theo thời gian thực thay vì đối chiếu tệp bằng tay, nên một lần bàn giao chỉ là nhìn vào màn hình thay vì lục tìm trong hộp thư.",
     },
   },
   "member-mobile-app": {
