@@ -449,6 +449,33 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 .cs-proof-author { font-weight: 600; color: var(--cs-color-fg); }
 .cs-trust-marker { margin-top: var(--cs-space-8); font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); }
 
+/* Home narrative band (StoryArc): a vertical timeline of the wish-to-software
+   beats. The accent line plus a golden node per beat read as a story sequence,
+   distinct from the Process card grid. */
+.cs-story-arc {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 var(--cs-space-8);
+  max-width: 46rem;
+  display: grid;
+  gap: var(--cs-space-12);
+  border-left: 2px solid var(--cs-color-line);
+}
+.cs-story-beat { position: relative; }
+.cs-story-beat::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--cs-space-8) - 6px);
+  top: 0.35rem;
+  width: 11px;
+  height: 11px;
+  border-radius: var(--cs-radius-pill);
+  background: var(--cs-color-accent);
+  box-shadow: 0 0 0 5px var(--cs-color-bg);
+}
+.cs-story-beat-title { font-size: var(--cs-text-2xl); margin: var(--cs-space-2) 0; }
+.cs-story-beat-body { color: var(--cs-color-fg-muted); max-width: 42rem; margin: 0; }
+
 .cs-tag-row { display: flex; flex-wrap: wrap; gap: var(--cs-space-2); list-style: none; padding: 0; margin: var(--cs-space-4) 0 0; }
 .cs-tag { font-size: var(--cs-text-xs); border: 1px solid var(--cs-color-line); border-radius: var(--cs-radius-pill); padding: 2px var(--cs-space-3); color: var(--cs-color-fg-muted); }
 

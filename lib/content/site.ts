@@ -185,44 +185,44 @@ export const scenes: Scene[] = [
     kicker: { en: "Meet Lumi", vi: "Gặp Lumi" },
     heading: { en: "Turn your will into real", vi: "Hiện thực hoá ý chí" },
     body: {
-      en: "Lumi, the golden genie of CyberSkill, turns a clear intention into working software.",
-      vi: "Lumi, vị thần đèn vàng của CyberSkill, biến một ý chí rõ ràng thành phần mềm vận hành được.",
+      en: "Lumi is the golden genie of CyberSkill. Tell it the thing you wish your software could do, then watch it take shape.",
+      vi: "Lumi là vị thần đèn vàng của CyberSkill. Hãy kể điều bạn ước phần mềm của mình làm được, rồi nhìn nó dần thành hình.",
     },
   },
   {
     id: "origin",
     kicker: { en: "The wish", vi: "Điều ước" },
-    heading: { en: "It starts with what you want to be true", vi: "Bắt đầu từ điều bạn muốn thành hiện thực" },
+    heading: { en: "It starts with a quiet frustration", vi: "Bắt đầu từ một nỗi bực dọc âm thầm" },
     body: {
-      en: "Every project begins as a wish: a faster process, a product, a system that finally fits.",
-      vi: "Mỗi dự án bắt đầu như một điều ước: một quy trình nhanh hơn, một sản phẩm, một hệ thống thật sự vừa vặn.",
+      en: "A report that eats every morning. An app that dies the moment the train goes underground. Every project here begins as a wish for that to stop.",
+      vi: "Một báo cáo ngốn trọn buổi sáng. Một ứng dụng chết ngay khi tàu chui xuống hầm. Mỗi dự án ở đây bắt đầu như một điều ước cho những điều đó dừng lại.",
     },
   },
   {
     id: "craft",
     kicker: { en: "The craft", vi: "Sự tận tâm" },
-    heading: { en: "We build it honestly", vi: "Chúng tôi xây dựng một cách chính trực" },
+    heading: { en: "Lumi gets to work", vi: "Lumi bắt tay vào việc" },
     body: {
-      en: "Web, mobile, and internal systems, made to ship and stay maintainable.",
-      vi: "Web, di động và hệ thống nội bộ, được làm để bàn giao và dễ bảo trì lâu dài.",
+      en: "We build the software behind the wish the honest way. Small releases, so you adopt it without a risky switch, and trade-offs we name out loud before they cost you.",
+      vi: "Chúng tôi xây phần mềm phía sau điều ước một cách chính trực. Bàn giao theo từng phần nhỏ để bạn tiếp nhận mà không phải chuyển đổi rủi ro, và những đánh đổi được nói rõ trước khi chúng khiến bạn trả giá.",
     },
   },
   {
     id: "proof",
     kicker: { en: "The proof", vi: "Bằng chứng" },
-    heading: { en: "Outcomes you can measure", vi: "Kết quả có thể đo lường" },
+    heading: { en: "The wish, now running in production", vi: "Điều ước, giờ đang chạy thật" },
     body: {
-      en: "Time saved, sessions that do not crash, vitals in the green.",
-      vi: "Thời gian tiết kiệm, phiên không lỗi, chỉ số đạt ngưỡng.",
+      en: "The morning report becomes one glance at a live screen. The app stays up where the signal does not. We wire the numbers in so you can watch it hold.",
+      vi: "Báo cáo buổi sáng trở thành một cái liếc nhìn màn hình theo thời gian thực. Ứng dụng vẫn chạy ở nơi sóng thì không. Chúng tôi gắn các chỉ số vào để bạn theo dõi nó trụ vững.",
     },
   },
   {
     id: "team",
     kicker: { en: "The team", vi: "Đội ngũ" },
-    heading: { en: "A team that answers for the work", vi: "Một đội ngũ chịu trách nhiệm với công việc" },
+    heading: { en: "The genie is really a small team", vi: "Thần đèn thật ra là một đội ngũ nhỏ" },
     body: {
-      en: "Small, senior, and accountable, based in Ho Chi Minh City.",
-      vi: "Nhỏ gọn, giàu kinh nghiệm và có trách nhiệm, đặt tại Thành phố Hồ Chí Minh.",
+      en: "Behind Lumi is a senior team in Ho Chi Minh City that answers for the work. You always know who is building what, and why.",
+      vi: "Phía sau Lumi là một đội ngũ giàu kinh nghiệm tại Thành phố Hồ Chí Minh, chịu trách nhiệm với công việc. Bạn luôn biết ai đang làm gì và vì sao.",
     },
   },
   {
@@ -230,8 +230,8 @@ export const scenes: Scene[] = [
     kicker: { en: "The invitation", vi: "Lời mời" },
     heading: { en: "Tell Lumi your wish", vi: "Kể cho Lumi điều ước của bạn" },
     body: {
-      en: "Start a conversation. We reply within one business day.",
-      vi: "Bắt đầu một cuộc trò chuyện. Chúng tôi phản hồi trong vòng một ngày làm việc.",
+      en: "Say it in a sentence. We reply within one business day, and we tell you honestly whether we are the team to grant it.",
+      vi: "Chỉ cần một câu. Chúng tôi phản hồi trong vòng một ngày làm việc, và nói thật liệu chúng tôi có phải đội ngũ phù hợp để thực hiện điều đó.",
     },
   },
 ];

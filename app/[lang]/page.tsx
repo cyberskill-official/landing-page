@@ -1,6 +1,7 @@
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { Hero } from "@/components/sections/Hero";
+import { StoryArc } from "@/components/sections/StoryArc";
 import { TrustBand } from "@/components/sections/TrustBand";
 import { ValueProp } from "@/components/sections/ValueProp";
 import { Services } from "@/components/sections/Services";
@@ -22,6 +23,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
     <>
       <Hero locale={locale} dict={dict} />
       <TrustBand locale={locale} />
+      <StoryArc locale={locale} />
       <ValueProp locale={locale} dict={dict} />
       <Services locale={locale} dict={dict} />
       <Process locale={locale} dict={dict} />

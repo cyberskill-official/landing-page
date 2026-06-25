@@ -10,8 +10,8 @@ import { Icon } from "@/components/ui/Icon";
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const lead =
     locale === "vi"
-      ? "Chúng tôi biến ý chí rõ ràng thành phần mềm vận hành được: web, di động và hệ thống nội bộ."
-      : "We turn a clear intention into working software: web, mobile, and the internal systems a company runs on.";
+      ? "Lumi, vị thần đèn vàng của chúng tôi, biến một điều ước rõ ràng thành phần mềm vận hành được: thứ mà đội ngũ của bạn thật sự dùng để làm việc, được xây để bàn giao và để bền lâu."
+      : "Lumi, our golden genie, turns a clear wish into working software: the kind your team actually runs on, built to ship and to last.";
   return (
     <section className="cs-hero" aria-labelledby="hero-title">
       <div className="cs-container cs-hero-inner">
