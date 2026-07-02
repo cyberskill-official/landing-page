@@ -128,16 +128,17 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     }
 
     const world = viewportToWorld(anchor.vx, anchor.vy, CAM_Z, CAM_FOV, aspect);
-    const idleBob = chatOpen ? 0 : Math.sin(state.clock.elapsedTime * 0.9) * 0.06;
+    const idleBob = chatOpen ? 0 : Math.sin(state.clock.elapsedTime * 0.9) * 0.03;
     const prevX = pos.current.x;
     pos.current.x += (world.x + bow * 0.4 - pos.current.x) * k;
     pos.current.y += (world.y + idleBob - pos.current.y) * k;
     g.position.set(pos.current.x, pos.current.y, 0);
     setLumiWorld({ x: pos.current.x, y: pos.current.y, z: 0 });
 
-    // Bank into horizontal motion like a tiny aircraft.
+    // Bank gently into horizontal motion like a tiny aircraft (kept subtle so
+    // the skeletal idle reads clearly and Lumi never tips far off vertical).
     const velX = (pos.current.x - prevX) / Math.max(delta, 1e-4);
-    g.rotation.z += (THREE.MathUtils.clamp(-velX * 0.16, -0.5, 0.5) - g.rotation.z) * Math.min(1, delta * 3);
+    g.rotation.z += (THREE.MathUtils.clamp(-velX * 0.08, -0.26, 0.26) - g.rotation.z) * Math.min(1, delta * 3);
 
     // Hover excitement puffs Lumi and pops a burst on the rising edge; the
     // black-hole digest swells the whole mascot as it feeds (FR-CHAR-032).
@@ -368,7 +369,7 @@ export function GenieScene() {
       />
       <LumiRig>
         <object3D ref={trailAnchor} />
-        <Float speed={1.4} rotationIntensity={0.25} floatIntensity={0.7}>
+        <Float speed={1.1} rotationIntensity={0.1} floatIntensity={0.35}>
           <Suspense fallback={null}>
             {LUMI_GLB ? (
               <GlbBoundary fallback={<LumiPlaceholder />}>
