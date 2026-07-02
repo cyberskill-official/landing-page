@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, Sparkles, Trail, useGLTF } from "@react-three/drei";
+import { Environment, Float, Lightformer, Sparkles, Trail, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { LumiPlaceholder, useThemeMode } from "@/components/canvas/LumiPlaceholder";
 import { GltfLumi } from "@/components/canvas/GltfLumi";
@@ -343,6 +343,16 @@ export function GenieScene() {
       <ambientLight intensity={0.45} />
       <directionalLight position={[3, 4, 5]} intensity={0.6} color="#fff4d6" />
       <pointLight position={[-4, -2, 1]} intensity={0.5} color="#F4BA17" distance={14} />
+      {/* Self-contained IBL so the commissioned Lumi's metallic-gold PBR has
+          something to reflect - a metalness=1 material renders black without an
+          environment. Baked once (frames={1}), inline Lightformers so there is no
+          external HDR fetch. The procedural placeholder does not need this. */}
+      <Environment resolution={256} frames={1}>
+        <Lightformer form="rect" intensity={3.4} color="#fff4d6" position={[0, 2.5, 5]} scale={[10, 10, 1]} />
+        <Lightformer form="rect" intensity={2.2} color="#F4BA17" position={[-5, 0.5, 3]} scale={[5, 8, 1]} />
+        <Lightformer form="rect" intensity={1.6} color="#ffffff" position={[5, 1.5, 3]} scale={[4, 7, 1]} />
+        <Lightformer form="ring" intensity={1.3} color="#B5780A" position={[0, -3, 4]} scale={[7, 7, 1]} />
+      </Environment>
       <CameraRig />
       <WishGrid />
       <BurstField />
