@@ -983,6 +983,33 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   background: radial-gradient(closest-side, rgba(244, 186, 23, 0.13), rgba(244, 186, 23, 0) 70%);
   mix-blend-mode: screen;
 }
+/* Gold-dust trail: sparse sparks the cursor drops as it moves. Under the
+   dot/ring (z 300 vs 320), above content; only visible while the custom cursor
+   is active. Each spark is injected by MotionExtras with per-particle --x/--y
+   (drop point) and --dx/--dy/--s (drift + shrink). */
+.cs-cursor-dust { position: fixed; inset: 0; z-index: 300; pointer-events: none; opacity: 0; }
+[data-cs-cursor="on"] .cs-cursor-dust { opacity: 1; }
+.cs-cursor-dust i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #fff2c8, #f4ba17 55%, rgba(244, 186, 23, 0) 72%);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: cs-cursor-spark 720ms ease-out forwards;
+}
+@keyframes cs-cursor-spark {
+  0% { opacity: 0; transform: translate3d(var(--x), var(--y), 0) scale(0.3); }
+  22% { opacity: 0.85; }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--x) + var(--dx)), calc(var(--y) + var(--dy)), 0) scale(var(--s));
+  }
+}
 /* Hide the native cursor where the custom one is active; text fields keep
    the native I-beam (the dot/ring fade out over them instead). */
 [data-cs-cursor="on"] body,
@@ -1053,12 +1080,12 @@ p[data-mask-reveal] { transition-delay: 140ms; }
   [data-mask-reveal] { clip-path: none; transform: none; transition: none; }
 }
 @media (forced-colors: active) {
-  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-cursor-dust, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
   .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
   [data-mask-reveal] { clip-path: none; transform: none; }
 }
 @media print {
-  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-cursor-dust, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
   .cs-hero-hint::after { display: none; }
   .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
   [data-mask-reveal] { clip-path: none; transform: none; }
