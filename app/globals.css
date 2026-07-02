@@ -598,14 +598,20 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 .cs-poster {
   position: absolute;
   inset: 0;
+  /* Premium fallback for mobile / low-GPU: the real gold Lumi (a 78KB transparent
+     Cycles render) over a warm glow. Still zero-JS, so Core Web Vitals hold. */
   background:
-    radial-gradient(38% 46% at 68% 34%, rgba(252, 233, 168, 0.55), rgba(244, 186, 23, 0) 70%),
-    radial-gradient(60% 70% at 72% 40%, rgba(244, 186, 23, 0.28), rgba(244, 186, 23, 0) 72%);
-  filter: blur(4px);
+    url(/lumi-poster.webp) 82% 42% / auto 72% no-repeat,
+    radial-gradient(34% 42% at 82% 38%, rgba(252, 233, 168, 0.30), rgba(244, 186, 23, 0) 70%),
+    radial-gradient(56% 64% at 82% 46%, rgba(244, 186, 23, 0.16), rgba(244, 186, 23, 0) 72%);
 }
 @media (max-width: 1023px) {
-  /* On smaller screens the orb sits behind the hero only. */
-  .cs-poster { background: radial-gradient(60% 40% at 80% 18%, rgba(244, 186, 23, 0.3), rgba(244, 186, 23, 0) 70%); }
+  /* On smaller screens Lumi sits smaller, upper-right, behind the hero. */
+  .cs-poster {
+    background:
+      url(/lumi-poster.webp) 86% 15% / auto 44% no-repeat,
+      radial-gradient(54% 32% at 84% 15%, rgba(244, 186, 23, 0.26), rgba(244, 186, 23, 0) 70%);
+  }
 }
 
 /* ------------------------------------------------------------------ */
