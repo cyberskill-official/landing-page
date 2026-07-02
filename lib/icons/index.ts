@@ -17,7 +17,9 @@ export type IconName =
   | "arrow-right"
   | "check"
   | "sparkle"
-  | "chat";
+  | "chat"
+  | "sound-on"
+  | "sound-off";
 
 export const icons: Record<IconName, IconDef> = {
   close: {
@@ -61,6 +63,20 @@ export const icons: Record<IconName, IconDef> = {
     viewBox: "0 0 24 24",
     els: [
       { tag: "path", attrs: { d: "M4 5h16v11H8l-4 4z" } },
+    ],
+  },
+  "sound-on": {
+    viewBox: "0 0 24 24",
+    els: [
+      { tag: "path", attrs: { d: "M5 9v6h3l4 4V5L8 9z" } },
+      { tag: "path", attrs: { d: "M15 9.5a4 4 0 0 1 0 5M17.6 7a8 8 0 0 1 0 10" } },
+    ],
+  },
+  "sound-off": {
+    viewBox: "0 0 24 24",
+    els: [
+      { tag: "path", attrs: { d: "M5 9v6h3l4 4V5L8 9z" } },
+      { tag: "path", attrs: { d: "M16 9.5l4.5 5M20.5 9.5l-4.5 5" } },
     ],
   },
 };

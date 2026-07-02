@@ -93,6 +93,8 @@ export type Dictionary = {
   a11y: {
     themeToDark: string;
     themeToLight: string;
+    soundOn: string;
+    soundOff: string;
     skip3d: string;
     liteLink: string;
     cinematicLink: string;
@@ -199,6 +201,8 @@ const en: Dictionary = {
   a11y: {
     themeToDark: "Switch to dark mode",
     themeToLight: "Switch to light mode",
+    soundOn: "Turn sound on",
+    soundOff: "Turn sound off",
     skip3d: "Skip the 3D scene",
     liteLink: "View the simple version",
     cinematicLink: "Back to the full experience",
@@ -305,6 +309,8 @@ const vi: Dictionary = {
   a11y: {
     themeToDark: "Chuyển sang chế độ tối",
     themeToLight: "Chuyển sang chế độ sáng",
+    soundOn: "Bật âm thanh",
+    soundOff: "Tắt âm thanh",
     skip3d: "Bỏ qua cảnh 3D",
     liteLink: "Xem phiên bản đơn giản",
     cinematicLink: "Trở lại trải nghiệm đầy đủ",

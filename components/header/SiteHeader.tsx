@@ -5,6 +5,7 @@ import { company } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { LanguageSwitcher } from "@/components/header/LanguageSwitcher";
 import { ThemeToggle } from "@/components/header/ThemeToggle";
+import { SoundToggle } from "@/components/header/SoundToggle";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 
 export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -26,6 +27,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
         </nav>
 
         <div className="cs-header-actions">
+          <SoundToggle on={dict.a11y.soundOn} off={dict.a11y.soundOff} />
           <ThemeToggle toDark={dict.a11y.themeToDark} toLight={dict.a11y.themeToLight} />
           <LanguageSwitcher current={locale} label={dict.a11y.languageLabel} />
           <GenieOpenButton className="cs-btn cs-btn-primary cs-header-cta cs-lumi-alt">

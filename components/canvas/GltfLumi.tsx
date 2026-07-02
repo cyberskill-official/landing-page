@@ -6,7 +6,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
 import * as THREE from "three";
 import { getScrollProgress } from "@/lib/scroll/progress";
-import { getPointerNorm, requestBurst } from "@/lib/scene/mascot";
+import { getPointerNorm, requestBurst, LUMI_GREET_EVENT } from "@/lib/scene/mascot";
 import { resolveSceneState } from "@/lib/scene/progressMap";
 
 // Commissioned GLB Lumi (FR-CHAR-022). Mounted only when NEXT_PUBLIC_LUMI_GLB is
@@ -94,6 +94,7 @@ export function GltfLumi({ url }: { url: string }) {
       greet.clampWhenFinished = true;
       greet.fadeIn(0.3).play();
       requestBurst(1.2);
+      window.dispatchEvent(new CustomEvent(LUMI_GREET_EVENT));
     };
     const onFinished = (e: { action: THREE.AnimationAction }) => {
       if (e.action !== greet) return;
