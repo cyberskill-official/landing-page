@@ -4,6 +4,7 @@ import { services } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
+import { BrandIcon, type BrandIconName } from "@/components/ui/BrandIcon";
 
 export function Services({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
@@ -16,6 +17,7 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dictionary })
         <div className="cs-services-grid">
           {services.map((s, i) => (
             <Reveal as="article" key={s.id} className="cs-service-card cs-surface-standard" delayMs={i * 80}>
+              <span className="cs-card-icon" aria-hidden="true"><BrandIcon name={s.id as BrandIconName} /></span>
               <h3>{localize(s.title, locale)}</h3>
               <p>{localize(s.summary, locale)}</p>
               <ul className="cs-service-outcomes" role="list">

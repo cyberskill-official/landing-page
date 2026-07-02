@@ -1684,3 +1684,55 @@ main > .cs-section::before {
 @media print {
   .cs-hero::before, main > .cs-section::before, .cs-hero-meta { display: none; }
 }
+
+/* ------------------------------------------------------------------ */
+/* Card icon system (FR-WEB-ART): a bespoke gold glyph tile atop every  */
+/* card, so Services / Process / Value / Commitments read as one art-   */
+/* directed visual system instead of five identical text grids.         */
+.cs-card-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: var(--cs-space-4, 1rem);
+  border-radius: var(--cs-radius-md, 14px);
+  color: var(--cs-color-brand-ochre, #f4ba17);
+  background: linear-gradient(150deg, rgba(244, 186, 23, 0.16), rgba(244, 186, 23, 0.03));
+  border: 1px solid rgba(244, 186, 23, 0.28);
+  box-shadow: 0 6px 18px -10px rgba(244, 186, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--cs-dur-med, 220ms) var(--cs-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow var(--cs-dur-med, 220ms) ease,
+    border-color var(--cs-dur-med, 220ms) ease;
+}
+.cs-card-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 60% at 30% 20%, rgba(255, 240, 200, 0.22), transparent 70%);
+  pointer-events: none;
+}
+.cs-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(244, 186, 23, 0.35));
+}
+.cs-service-card:hover .cs-card-icon,
+.cs-value-item:hover .cs-card-icon,
+.cs-proof-card:hover .cs-card-icon {
+  transform: translateY(-2px) rotate(-2deg);
+  border-color: rgba(244, 186, 23, 0.5);
+  box-shadow: 0 10px 26px -10px rgba(244, 186, 23, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+[data-theme="light"] .cs-card-icon {
+  color: var(--cs-color-brand-umber, #45210e);
+  background: linear-gradient(150deg, rgba(181, 120, 10, 0.14), rgba(181, 120, 10, 0.03));
+  border-color: rgba(181, 120, 10, 0.3);
+}
+[data-theme="light"] .cs-icon { filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .cs-card-icon { transition: none; }
+}

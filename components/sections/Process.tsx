@@ -2,6 +2,9 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
+import { BrandIcon, type BrandIconName } from "@/components/ui/BrandIcon";
+
+const stepIcons: BrandIconName[] = ["discover", "shape", "build", "support"];
 
 // How-we-work surface. Bilingual copy lives inline (Record<Locale, ...>) the
 // same way Careers does it; this section does not read the shared dictionary.
@@ -75,6 +78,7 @@ export function Process({ locale }: { locale: Locale; dict: Dictionary }) {
         <div className="cs-services-grid">
           {c.steps.map((step, i) => (
             <Reveal as="article" key={step.n} className="cs-service-card cs-surface-standard" delayMs={i * 80}>
+              <span className="cs-card-icon" aria-hidden="true"><BrandIcon name={stepIcons[i]} /></span>
               <p className="cs-eyebrow">{step.n}</p>
               <h3>{step.title}</h3>
               <p>{step.body}</p>
