@@ -32,11 +32,22 @@ export function CanvasMount() {
   const [mount, setMount] = useState(false);
 
   useEffect(() => {
-    setMount(capable());
+    const live = capable();
+    setMount(live);
+    // Signal the DOM that the living mascot is on stage (FR-CHAR-030): the
+    // duplicate "Talk to Lumi" CTAs (.cs-lumi-alt) hide themselves, since
+    // clicking Lumi itself opens the chat on these devices.
+    if (live) document.documentElement.setAttribute("data-lumi-live", "true");
+    return () => document.documentElement.removeAttribute("data-lumi-live");
   }, []);
 
   return (
-    <div className="cs-canvas-layer" aria-hidden="true">
+    // The live scene rides ABOVE the content (cs-canvas-live raises z-index)
+    // so Lumi can fly the whole page as a mascot (FR-CHAR-030); the canvas
+    // stays pointer-events:none, so it can never block interaction (the DOM
+    // LumiHotspot provides the clickable mascot). The static poster keeps the
+    // original behind-the-hero layering on incapable devices.
+    <div className={mount ? "cs-canvas-layer cs-canvas-live" : "cs-canvas-layer"} aria-hidden="true">
       {mount ? <GenieScene /> : <StaticPoster />}
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { setScrollProgress } from "@/lib/scroll/progress";
+import { setPageScroll, setScrollProgress } from "@/lib/scroll/progress";
 
 // Adds [data-scrolled="true"] to <html> once the page is scrolled past the top
 // (so the sticky header can solidify) and publishes normalised scroll progress
@@ -12,9 +12,16 @@ export function ScrollState() {
     const update = () => {
       ticking = false;
       document.documentElement.toggleAttribute("data-scrolled", window.scrollY > 24);
-      // Hero-scoped progress (0 at top, 1 after one viewport): the scene is only
-      // visible behind the transparent hero, so the choreography plays out there.
+      // Hero-scoped progress (0 at top, 1 after one viewport) drives the intro
+      // choreography; the raw page scroll feeds the full-page mascot journey.
       setScrollProgress(window.innerHeight > 0 ? window.scrollY / window.innerHeight : 0);
+      const doc = document.documentElement;
+      setPageScroll({
+        y: window.scrollY,
+        max: Math.max(1, doc.scrollHeight - window.innerHeight),
+        w: window.innerWidth,
+        h: window.innerHeight,
+      });
     };
     const onScroll = () => {
       if (!ticking) {

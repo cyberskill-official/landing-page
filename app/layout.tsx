@@ -1,10 +1,23 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Space_Grotesk } from "next/font/google";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
+
+// Display face (FR-DS-008): Space Grotesk with the REAL Vietnamese subset.
+// The old system-serif stack (Iowan Old Style/Palatino) lacks Vietnamese
+// diacritics, so VN headings fell back per-glyph and rendered as a mix of
+// typefaces. next/font self-hosts the files at build time (keyless, no
+// runtime request to Google) and generates a size-adjusted fallback so the
+// swap does not shift layout.
+const displayFont = Space_Grotesk({
+  subsets: ["latin", "vietnamese"],
+  display: "swap",
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? company.url),
@@ -39,13 +52,20 @@ export default async function RootLayout({
   const locale = isLocale(headerLocale) ? headerLocale : defaultLocale;
 
   return (
-    <html lang={bcp47[locale]} data-theme="light" suppressHydrationWarning>
+    // Dark is the default theme (operator decision 2026-07-02): the gold-on-
+    // umber art direction is the brand-defining look. A stored "light"
+    // preference still wins via the no-flash script below.
+    <html lang={bcp47[locale]} data-theme="dark" className={displayFont.variable} suppressHydrationWarning>
       <body>
         <script
-          // No-flash: apply the saved theme before paint.
+          // No-flash: apply the saved theme before paint, and arm the
+          // once-per-session intro veil (FR-DS-012) - skipped entirely under
+          // prefers-reduced-motion, and without JS the attribute is never set,
+          // so the veil stays display:none for crawlers and no-JS visitors.
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();" +
+              "(function(){try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=window.sessionStorage;if(s&&!s.getItem('cs-intro')){s.setItem('cs-intro','1');document.documentElement.setAttribute('data-intro','play');}}catch(e){}})();",
           }}
         />
         {children}

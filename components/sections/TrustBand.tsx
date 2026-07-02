@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 import { CountUp } from "@/components/ui/CountUp";
@@ -28,8 +29,13 @@ export function TrustBand({ locale }: { locale: Locale }) {
     <section className="cs-trust cs-no-print" aria-label={locale === "vi" ? "Tín nhiệm" : "Credibility"}>
       <div className="cs-container">
         <ul className="cs-trust-grid" role="list">
-          {items[locale].map((it) => (
-            <li key={it.figure} className="cs-trust-item">
+          {items[locale].map((it, i) => (
+            <li
+              key={it.figure}
+              className="cs-trust-item"
+              data-pop=""
+              style={{ "--pi": i } as CSSProperties}
+            >
               <p className="cs-trust-figure">
                 {it.count !== undefined ? (
                   <>

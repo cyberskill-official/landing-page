@@ -54,7 +54,12 @@
 
   /* Type scale (1.250 major-third), fluid via clamp */
   --cs-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --cs-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  /* Display face = Space Grotesk via next/font (--font-display, FR-DS-008):
+     Vietnamese-complete, so VN diacritics no longer fall back per-glyph to a
+     second typeface. The fallback chain below only applies where the layout's
+     font variable is absent (tests, isolated renders). */
+  --cs-font-display: var(--font-display, ui-sans-serif, system-ui, "Segoe UI", sans-serif);
+  --cs-font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --cs-text-xs: 0.8rem;
   --cs-text-sm: 0.9rem;
   --cs-text-base: 1rem;
@@ -62,7 +67,7 @@
   --cs-text-xl: clamp(1.35rem, 1.1rem + 1vw, 1.6rem);
   --cs-text-2xl: clamp(1.7rem, 1.3rem + 2vw, 2.3rem);
   --cs-text-3xl: clamp(2.2rem, 1.6rem + 3.4vw, 3.6rem);
-  --cs-text-4xl: clamp(2.8rem, 1.9rem + 5vw, 5rem);
+  --cs-text-4xl: clamp(2.9rem, 1.9rem + 5.4vw, 5.6rem);
 
   /* Spacing scale */
   --cs-space-1: 0.25rem;
@@ -145,12 +150,14 @@ body {
 
 h1, h2, h3 {
   font-family: var(--cs-font-display);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  line-height: 1.08;
+  /* Space Grotesk sets tighter than the old serif at display sizes. */
+  letter-spacing: -0.02em;
+  font-weight: 600;
   margin: 0 0 var(--cs-space-4);
 }
 
-h1 { font-size: var(--cs-text-4xl); }
+h1 { font-size: var(--cs-text-4xl); font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; }
 h2 { font-size: var(--cs-text-3xl); }
 h3 { font-size: var(--cs-text-xl); }
 p { margin: 0 0 var(--cs-space-4); }
@@ -192,7 +199,11 @@ a {
 .cs-skip-link {
   position: absolute;
   left: var(--cs-space-4);
-  top: -3rem;
+  /* -4rem: the link is ~3.1rem tall (padding + line box), so -3rem left a
+     2px sliver peeking over the header in every viewport (it sits at
+     z-index 1000, above even the intro veil). Fully tucked while hidden;
+     :focus still brings it fully into view. */
+  top: -4rem;
   z-index: 1000;
   background: var(--cs-color-brand);
   color: var(--cs-color-on-brand);
@@ -416,8 +427,8 @@ body { background: transparent; }
 .cs-motion-toggle { background: transparent; border: 1px solid var(--cs-color-line); border-radius: var(--cs-radius-pill); padding: var(--cs-space-2) var(--cs-space-3); font: inherit; font-size: var(--cs-text-sm); cursor: pointer; color: var(--cs-color-fg-muted); }
 
 /* Hero */
-.cs-hero { background: transparent; min-height: min(86vh, 760px); display: flex; align-items: center; padding-block: var(--cs-space-24); }
-.cs-hero-inner { max-width: 46rem; }
+.cs-hero { background: transparent; min-height: min(86vh, 760px); display: flex; align-items: center; padding-block: var(--cs-space-24); position: relative; overflow: hidden; }
+.cs-hero-inner { max-width: 46rem; position: relative; z-index: 1; }
 .cs-hero-title { font-size: var(--cs-text-4xl); margin-top: var(--cs-space-3); }
 .cs-hero-lead { font-size: var(--cs-text-xl); color: var(--cs-color-fg-muted); max-width: 38rem; }
 .cs-hero-actions { display: flex; flex-wrap: wrap; gap: var(--cs-space-3); margin-top: var(--cs-space-6); }
@@ -745,3 +756,925 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 .cs-stretch::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 .cs-stretch:hover { color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-stretch:hover { color: var(--cs-color-accent); }
+
+/* ------------------------------------------------------------------ */
+/* Premium motion polish (FR-DS-012)                                    */
+/* Aurora backdrop, kinetic masked headline + gold shimmer, custom      */
+/* cursor + spotlight, magnetic CTAs, card tilt, first-visit intro      */
+/* veil, keyword marquee, scroll progress, link underlines, button      */
+/* shine, masked heading reveals.                                       */
+/* Rules of the layer: every movement is transform/opacity only (zero   */
+/* CLS), every looping animation stops under prefers-reduced-motion,    */
+/* every JS-driven affordance is additionally gated in MotionExtras     */
+/* (fine pointer + hover + motion allowed), and everything is           */
+/* decorative (aria-hidden) with the real content unchanged beneath.    */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Sheen colours tuned per theme: deep gold on paper (>=3:1 at display
+     sizes), bright gold on the dark bg. */
+  --cs-shimmer: #8a6a06;
+  --cs-marquee-alt: #8a6a06;
+}
+[data-theme="dark"] {
+  --cs-shimmer: #ffd257;
+  --cs-marquee-alt: var(--cs-color-brand-ochre);
+}
+
+/* Gold text selection */
+::selection { background: rgba(244, 186, 23, 0.85); color: #2a1704; }
+
+/* Aurora backdrop: three pre-blurred radial blobs drifting on transform
+   only (no filter at paint time - cheap on every GPU). Clipped by the host
+   section; sits under the section's content (hero/contact are z-1 wrapped). */
+.cs-aurora { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.cs-aurora-blob { position: absolute; border-radius: 50%; will-change: transform; }
+.cs-aurora-b1 { width: 56vmax; height: 56vmax; left: -18vmax; top: -22vmax; background: radial-gradient(closest-side, rgba(244, 186, 23, 0.15), rgba(244, 186, 23, 0) 68%); animation: cs-aurora-a 26s ease-in-out infinite alternate; }
+.cs-aurora-b2 { width: 44vmax; height: 44vmax; right: -14vmax; top: 6vmax; background: radial-gradient(closest-side, rgba(255, 214, 110, 0.13), rgba(255, 214, 110, 0) 70%); animation: cs-aurora-b 32s ease-in-out infinite alternate; }
+.cs-aurora-b3 { width: 52vmax; height: 52vmax; left: 24vmax; bottom: -32vmax; background: radial-gradient(closest-side, rgba(69, 33, 14, 0.14), rgba(69, 33, 14, 0) 70%); animation: cs-aurora-c 38s ease-in-out infinite alternate; }
+[data-theme="dark"] .cs-aurora-b1 { background: radial-gradient(closest-side, rgba(244, 186, 23, 0.2), rgba(244, 186, 23, 0) 68%); }
+[data-theme="dark"] .cs-aurora-b2 { background: radial-gradient(closest-side, rgba(255, 214, 110, 0.15), rgba(255, 214, 110, 0) 70%); }
+[data-theme="dark"] .cs-aurora-b3 { background: radial-gradient(closest-side, rgba(122, 63, 24, 0.3), rgba(122, 63, 24, 0) 70%); }
+@keyframes cs-aurora-a {
+  from { transform: translate3d(-4%, -3%, 0) scale(1); }
+  to { transform: translate3d(7%, 6%, 0) scale(1.18); }
+}
+@keyframes cs-aurora-b {
+  from { transform: translate3d(3%, 6%, 0) scale(1.08); }
+  to { transform: translate3d(-6%, -4%, 0) scale(0.94); }
+}
+@keyframes cs-aurora-c {
+  from { transform: translate3d(0, 4%, 0) rotate(0deg); }
+  to { transform: translate3d(5%, -6%, 0) rotate(10deg); }
+}
+
+/* Kinetic hero headline: per-word masked rise + a slow travelling gold
+   sheen. The h1 keeps its accessible name via aria-label; these spans are
+   aria-hidden visuals. Real whitespace sits between the flex items (kept
+   out of layout by flex, kept in the DOM for copy/paste), while column-gap
+   draws the visual spacing. Wrappers pad + negative-margin so Vietnamese
+   diacritics and descenders never clip against the overflow mask. */
+.cs-kinetic { display: flex; flex-wrap: wrap; column-gap: 0.28em; row-gap: 0; }
+.cs-kinetic-word { display: inline-block; overflow: hidden; padding: 0.24em 0.06em 0.18em; margin: -0.24em -0.06em -0.18em; }
+.cs-kinetic-inner {
+  display: inline-block;
+  transform: translateY(115%);
+  animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both;
+}
+[data-intro="play"] .cs-kinetic-inner { animation-delay: calc(var(--wi, 0) * 75ms + 1350ms); }
+@keyframes cs-word-rise { to { transform: translateY(0); } }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .cs-kinetic-inner {
+    color: var(--cs-color-fg);
+    /* The gradient is 2.5x the text box with the gold band at its centre, and
+       background-position only ever travels 0% -> 100%: within that range the
+       no-repeat image always covers the whole text (coverage breaks outside
+       it and clips glyphs), while the band starts/ends just off the glyphs. */
+    background-image: linear-gradient(105deg, currentColor 0%, currentColor 44%, var(--cs-shimmer) 50%, currentColor 56%, currentColor 100%);
+    background-size: 250% 100%;
+    background-position: 0% 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation:
+      cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both,
+      cs-hero-shimmer 7s ease-in-out calc(var(--wi, 0) * 160ms + 2.4s) infinite;
+  }
+  [data-intro="play"] .cs-kinetic-inner {
+    animation:
+      cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 1350ms) both,
+      cs-hero-shimmer 7s ease-in-out calc(var(--wi, 0) * 160ms + 3.6s) infinite;
+  }
+}
+@keyframes cs-hero-shimmer {
+  0% { background-position: 0% 0; }
+  38% { background-position: 100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+/* Scroll-hint line under the hero hint: a gold thread that draws down and
+   dissolves, inviting the scroll. */
+.cs-hero-hint::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 36px;
+  margin-top: var(--cs-space-3);
+  background: linear-gradient(to bottom, var(--cs-color-accent), rgba(244, 186, 23, 0));
+  transform-origin: 50% 0;
+  animation: cs-hint-flow 2.4s var(--cs-ease) infinite;
+}
+@keyframes cs-hint-flow {
+  0% { transform: scaleY(0); opacity: 0; }
+  30% { opacity: 1; }
+  62% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* First-visit intro veil: gated by <html data-intro="play"> (inline script,
+   once per session, never under reduced motion). Without the attribute it is
+   display:none, so crawlers/no-JS never see it. pointer-events:none means it
+   can never block interaction, and the `both` fill parks it at
+   visibility:hidden when the CSS timeline ends - guaranteed dismissal. */
+.cs-intro { display: none; }
+[data-intro="play"] .cs-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  background: var(--cs-color-bg);
+  pointer-events: none;
+  animation: cs-intro-veil 2s var(--cs-ease) both;
+}
+.cs-intro-inner { text-align: center; animation: cs-intro-rise 2s var(--cs-ease) both; }
+.cs-intro-orb { display: block; }
+.cs-intro-name {
+  font-family: var(--cs-font-display);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-fg-muted);
+  margin: 0 0 var(--cs-space-2);
+}
+.cs-intro-slogan { overflow: hidden; margin: 0; font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-fg); }
+.cs-intro-slogan span { display: inline-block; transform: translateY(120%); animation: cs-word-rise 700ms var(--cs-ease) 300ms both; }
+@keyframes cs-intro-veil {
+  0%, 76% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@keyframes cs-intro-rise {
+  0%, 66% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.97); }
+}
+
+/* Keyword marquee: seamless -50% loop over two identical halves. Decorative
+   (aria-hidden); pauses on hover; freezes under reduced motion. */
+.cs-marquee { overflow: hidden; border-block: 1px solid var(--cs-color-line); background: var(--cs-color-bg); padding-block: var(--cs-space-6); position: relative; z-index: 1; }
+.cs-marquee-track { display: flex; width: max-content; animation: cs-marquee-slide 36s linear infinite; will-change: transform; }
+.cs-marquee:hover .cs-marquee-track { animation-play-state: paused; }
+.cs-marquee-half { display: flex; align-items: center; gap: var(--cs-space-8); padding-inline-end: var(--cs-space-8); }
+.cs-marquee-item { display: inline-flex; align-items: center; gap: var(--cs-space-8); font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); white-space: nowrap; color: var(--cs-color-fg-muted); }
+.cs-marquee-item:nth-child(odd) { color: var(--cs-marquee-alt); }
+.cs-marquee-star { color: var(--cs-color-accent); }
+@keyframes cs-marquee-slide {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Thin gold scroll-progress bar (scaleX driven by MotionExtras; mirrors
+   scroll 1:1, so it stays under reduced motion - feedback, not animation). */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 260; pointer-events: none; }
+.cs-progress-bar {
+  height: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--cs-color-brand-ochre), #ffd97a 70%, #fff3cf);
+  box-shadow: 0 0 10px rgba(244, 186, 23, 0.55);
+  will-change: transform;
+}
+
+/* Custom cursor: 1:1 dot, lerped ring, and a soft spotlight glow. Mounted
+   always, VISIBLE only while MotionExtras sets [data-cs-cursor="on"] (fine
+   pointer + hover + motion allowed). The glow sits under the chrome (z 24);
+   dot/ring ride above everything so they stay visible in dialogs. */
+.cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-cursor-dot {
+  z-index: 320;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--cs-color-brand-ochre);
+  box-shadow: 0 0 10px rgba(244, 186, 23, 0.75);
+}
+.cs-cursor-ring {
+  z-index: 320;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(244, 186, 23, 0.55);
+}
+.cs-cursor-glow {
+  z-index: 24;
+  width: 520px;
+  height: 520px;
+  margin: -260px 0 0 -260px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.09), rgba(244, 186, 23, 0) 70%);
+}
+[data-theme="dark"] .cs-cursor-glow {
+  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.13), rgba(244, 186, 23, 0) 70%);
+  mix-blend-mode: screen;
+}
+/* Hide the native cursor where the custom one is active; text fields keep
+   the native I-beam (the dot/ring fade out over them instead). */
+[data-cs-cursor="on"] body,
+[data-cs-cursor="on"] a,
+[data-cs-cursor="on"] button,
+[data-cs-cursor="on"] summary,
+[data-cs-cursor="on"] label,
+[data-cs-cursor="on"] select,
+[data-cs-cursor="on"] [role="button"] { cursor: none; }
+
+/* The theme toggle joins the magnetic set: give it a transform transition so
+   the per-frame magnet target eases like the buttons do. */
+.cs-theme-toggle { transition: color var(--cs-dur-fast) var(--cs-ease), border-color var(--cs-dur-fast) var(--cs-ease), transform var(--cs-dur-fast) var(--cs-ease); }
+
+/* Animated link underlines (nav + footer): paint-only background-size sweep. */
+.cs-nav a, .cs-footer-links a {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size var(--cs-dur) var(--cs-ease), color var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-nav a:hover, .cs-nav a:focus-visible,
+.cs-footer-links a:hover, .cs-footer-links a:focus-visible { background-size: 100% 1.5px; }
+.cs-footer-links a:hover { text-decoration: none; }
+
+/* Button hover shine: a skewed light band sweeps across once per hover.
+   Transform/opacity only; removed entirely under reduced motion. */
+.cs-btn { position: relative; overflow: hidden; }
+.cs-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 55%;
+  transform: translateX(-140%) skewX(-18deg);
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.38) 50%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.cs-btn:hover::after, .cs-btn:focus-visible::after { animation: cs-btn-shine 780ms var(--cs-ease); }
+@keyframes cs-btn-shine {
+  0% { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateX(320%) skewX(-18deg); opacity: 0; }
+}
+
+/* Masked heading reveals: same contract as .cs-reveal (JS only ever SHOWS).
+   clip-path + transform are paint/composite-only, so reserved space never
+   moves (zero CLS). The shown inset stays slightly negative so ascenders,
+   descenders, and Vietnamese diacritics are never clipped at rest. */
+[data-mask-reveal] {
+  clip-path: inset(0 -2% 102% -2%);
+  transform: translateY(14px);
+  transition: clip-path 700ms var(--cs-ease), transform 700ms var(--cs-ease);
+}
+p[data-mask-reveal] { transition-delay: 140ms; }
+[data-mask-reveal="shown"] { clip-path: inset(-8% -2% -12% -2%); transform: none; }
+@media (scripting: none) {
+  [data-mask-reveal] { clip-path: none; transform: none; }
+}
+
+/* --- Polish-layer guards (kept last so they win the cascade) --- */
+@media (prefers-reduced-motion: reduce) {
+  .cs-aurora-blob, .cs-marquee-track, .cs-hero-hint::after { animation: none; }
+  .cs-btn::after { display: none; }
+  .cs-kinetic-inner { animation: none; transform: none; background-position: 0% 0; }
+  [data-intro="play"] .cs-intro { display: none; }
+  [data-mask-reveal] { clip-path: none; transform: none; transition: none; }
+}
+@media (forced-colors: active) {
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
+  [data-mask-reveal] { clip-path: none; transform: none; }
+}
+@media print {
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-hero-hint::after { display: none; }
+  .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
+  [data-mask-reveal] { clip-path: none; transform: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Futuristic art direction v2 (FR-DS-012)                             */
+/* Dark-first gold HUD language: blueprint grid, mono micro-meta,      */
+/* ghost section indices, orbiting card borders, a gold-lit final      */
+/* slogan word, tilted marquee, scrolled-header hairline, breathing    */
+/* hero CTA. Same rules as the motion layer: transform/opacity/paint   */
+/* only, decorative pieces aria-hidden or pseudo, guards at the end.   */
+/* ------------------------------------------------------------------ */
+
+/* Blueprint grid behind the hero, faded out radially so it reads as an
+   engineering surface, not wallpaper. */
+.cs-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(69, 33, 14, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(69, 33, 14, 0.05) 1px, transparent 1px);
+  background-size: 54px 54px;
+  -webkit-mask-image: radial-gradient(72% 64% at 58% 38%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(72% 64% at 58% 38%, #000 0%, transparent 78%);
+}
+[data-theme="dark"] .cs-hero::before {
+  background-image:
+    linear-gradient(rgba(244, 186, 23, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 186, 23, 0.05) 1px, transparent 1px);
+}
+
+/* HUD micro-meta above the hero eyebrow: coordinates, city, locales. */
+.cs-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cs-space-4);
+  margin: 0 0 var(--cs-space-6);
+  font-family: var(--cs-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cs-color-fg-muted);
+}
+.cs-hero-meta::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--cs-color-accent);
+}
+.cs-hero-meta span + span::before {
+  content: "//";
+  margin-right: var(--cs-space-4);
+  color: rgba(244, 186, 23, 0.55);
+}
+
+/* Ghost section indices: an engineering plate number per home section. */
+main { counter-reset: cs-section; }
+main > .cs-section { counter-increment: cs-section; }
+main > .cs-section > .cs-container { position: relative; z-index: 1; }
+main > .cs-section::before {
+  content: counter(cs-section, decimal-leading-zero) / "";
+  position: absolute;
+  top: var(--cs-space-6);
+  right: var(--cs-space-4);
+  z-index: 0;
+  pointer-events: none;
+  font-family: var(--cs-font-display);
+  font-weight: 700;
+  font-size: clamp(4rem, 9vw, 8.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(69, 33, 14, 0.07);
+}
+[data-theme="dark"] main > .cs-section::before { color: rgba(244, 186, 23, 0.08); }
+
+/* Orbiting gold border on card hover: a conic light runs the card's rim.
+   Without @property support the ring is simply static on hover. */
+@property --cs-orbit {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.cs-service-card::after, .cs-work-card::after, .cs-proof-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--cs-radius-lg);
+  padding: 1px;
+  background: conic-gradient(
+    from var(--cs-orbit),
+    transparent 0deg,
+    transparent 245deg,
+    rgba(244, 186, 23, 0.9) 310deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--cs-dur) var(--cs-ease);
+  pointer-events: none;
+}
+.cs-service-card, .cs-work-card, .cs-proof-card { position: relative; }
+.cs-service-card:hover::after, .cs-work-card:hover::after, .cs-proof-card:hover::after {
+  opacity: 1;
+  animation: cs-orbit-spin 2.6s linear infinite;
+}
+@keyframes cs-orbit-spin { to { --cs-orbit: 360deg; } }
+[data-theme="dark"] .cs-service-card:hover, [data-theme="dark"] .cs-work-card:hover {
+  box-shadow: var(--cs-depth-3), 0 0 30px rgba(244, 186, 23, 0.1);
+}
+
+/* The final slogan word carries the gold: a static gilded gradient instead
+   of the travelling shimmer (which the other words keep). */
+:root { --cs-gold-word-a: #8a6a06; --cs-gold-word-b: #b8860b; --cs-gold-word-c: #d9a012; }
+[data-theme="dark"] { --cs-gold-word-a: #f4ba17; --cs-gold-word-b: #ffd257; --cs-gold-word-c: #ffe9a8; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .cs-kinetic-word:last-child .cs-kinetic-inner {
+    background-image: linear-gradient(100deg, var(--cs-gold-word-a) 0%, var(--cs-gold-word-b) 55%, var(--cs-gold-word-c) 100%);
+    background-size: 100% 100%;
+    background-position: 0 0;
+    animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both;
+  }
+  [data-intro="play"] .cs-kinetic-word:last-child .cs-kinetic-inner {
+    animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 1350ms) both;
+  }
+}
+
+/* The marquee band rides at a slight tilt. Transform only: the reserved
+   space never changes, and its background matches the page so the rotated
+   corners stay invisible. */
+.cs-marquee { transform: rotate(-1.2deg); }
+
+/* Scrolled header gets a gold hairline under its glass. */
+[data-scrolled] .cs-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 4%, rgba(244, 186, 23, 0.55), transparent 96%);
+}
+
+/* The hero's primary CTA breathes a soft gold halo. */
+.cs-hero-actions .cs-btn-primary { animation: cs-cta-breathe 3.8s var(--cs-ease) infinite; }
+@keyframes cs-cta-breathe {
+  0%, 100% { box-shadow: var(--cs-depth-2); }
+  50% { box-shadow: var(--cs-depth-2), 0 0 24px 2px rgba(244, 186, 23, 0.38); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Living mascot + deep-motion layer (FR-CHAR-030)                     */
+/* ------------------------------------------------------------------ */
+
+/* When the LIVE 3D scene mounts, its layer rides above the content so Lumi
+   can fly the whole page. The static poster path keeps the original
+   behind-the-hero z-0 layering. */
+.cs-canvas-live { z-index: 30; }
+/* HARD guarantee that the decorative layer can never swallow input: r3f's
+   event system gives its <canvas> element pointer-events of its own, which
+   overrides the wrapper's pointer-events:none by inheritance - above the
+   content that blocked every link, card, and field on the page. Every
+   descendant is forced inert; the scene's pointer needs are fed by a window
+   listener instead (lib/scene/mascot.ts pointerNorm). */
+.cs-canvas-layer, .cs-canvas-layer * { pointer-events: none !important; }
+
+/* The clickable mascot: a transparent circular button that LumiHotspot
+   positions over the genie's projected screen position every frame. Real
+   button semantics - focus ring, aria-label, dialog popup state - so the
+   flying genie is a first-class chat entry, not a gimmick. Hidden whenever
+   the scene says so (touch devices, scene unmounted, chat open).
+   Pointer-transparent by DEFAULT: it only accepts the pointer while the
+   component's per-frame hit test says the pointer is on Lumi AND nothing
+   interactive sits underneath - so the mascot can never block the page's
+   links, buttons, cards, or form fields (keyboard focus is unaffected). */
+.cs-lumi-hotspot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 45;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+}
+.cs-lumi-hotspot[data-active="true"] { pointer-events: auto; cursor: pointer; }
+.cs-lumi-hotspot[data-visible="false"] { display: none; }
+@media (pointer: coarse) {
+  .cs-lumi-hotspot { display: none; }
+}
+
+/* StoryArc timeline draws itself in as it enters the viewport: the static
+   border becomes a scaleY-revealed gold thread (paint/transform only). */
+.cs-story-arc {
+  border-left: 0;
+  position: relative;
+}
+.cs-story-arc::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--cs-color-accent), var(--cs-color-line) 85%);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 1400ms var(--cs-ease);
+}
+.cs-story-arc[data-line-reveal="shown"]::before { transform: scaleY(1); }
+@media (scripting: none) {
+  .cs-story-arc::before { transform: none; }
+}
+
+/* Scroll parallax for the hero aurora: MotionExtras publishes --cs-scroll as
+   a CSS length; the blobs drift at different rates ('translate' composes with
+   their keyframe 'transform'). Hero-scoped so the contact aurora, far down
+   the page, never inherits a huge offset. */
+@media (prefers-reduced-motion: no-preference) {
+  .cs-hero .cs-aurora-b1 { translate: 0 calc(var(--cs-scroll, 0px) * -0.06); }
+  .cs-hero .cs-aurora-b2 { translate: 0 calc(var(--cs-scroll, 0px) * -0.11); }
+  .cs-hero .cs-aurora-b3 { translate: 0 calc(var(--cs-scroll, 0px) * 0.05); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Section signature moves + Lumi-first conversion (round 4)           */
+/* Each home section gets its own "wow" beat on top of the shared      */
+/* reveals; the duplicate chat CTAs retire while the mascot is live;   */
+/* the chat gains wish-flow chips; the contact form becomes the        */
+/* fallback behind the conversation. Same laws as every layer:         */
+/* transform/opacity/paint only, guards at the end of the sheet.       */
+/* ------------------------------------------------------------------ */
+
+/* While the living mascot is on stage, its duplicate launchers rest. */
+[data-lumi-live] .cs-lumi-alt { display: none; }
+
+/* One-time "click me" hint riding under Lumi. */
+.cs-lumi-hint {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 46;
+  pointer-events: none;
+  font-family: var(--cs-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cs-color-accent);
+  background: rgba(26, 18, 12, 0.72);
+  border: 1px solid rgba(244, 186, 23, 0.35);
+  border-radius: var(--cs-radius-pill);
+  padding: 6px 12px;
+  white-space: nowrap;
+  animation: cs-hint-pop 6.5s var(--cs-ease) both;
+}
+[data-theme="light"] .cs-lumi-hint { background: rgba(251, 247, 241, 0.85); color: #8a6a06; }
+@keyframes cs-hint-pop {
+  0% { opacity: 0; translate: 0 6px; }
+  8%, 82% { opacity: 1; translate: 0 0; }
+  100% { opacity: 0; translate: 0 -6px; }
+}
+
+/* TrustBand: stats pop in sequence and their figures ignite. */
+[data-pop] {
+  opacity: 0;
+  transform: translateY(16px) scale(0.94);
+  transition: opacity 600ms var(--cs-ease), transform 600ms var(--cs-ease);
+  transition-delay: calc(var(--pi, 0) * 110ms);
+}
+[data-pop="shown"] { opacity: 1; transform: none; }
+[data-pop="shown"] .cs-trust-figure {
+  animation: cs-stat-ignite 900ms var(--cs-ease) calc(var(--pi, 0) * 110ms + 250ms) both;
+}
+@keyframes cs-stat-ignite {
+  0% { text-shadow: 0 0 0 rgba(244, 186, 23, 0); }
+  45% { text-shadow: 0 0 22px rgba(244, 186, 23, 0.85); }
+  100% { text-shadow: 0 0 0 rgba(244, 186, 23, 0); }
+}
+
+/* StoryArc: the gold nodes ignite one after another as the line draws. */
+[data-line-reveal="shown"] .cs-story-beat::before {
+  animation: cs-node-ignite 700ms var(--cs-ease) both;
+}
+[data-line-reveal="shown"] .cs-story-beat:nth-child(1)::before { animation-delay: 250ms; }
+[data-line-reveal="shown"] .cs-story-beat:nth-child(2)::before { animation-delay: 650ms; }
+[data-line-reveal="shown"] .cs-story-beat:nth-child(3)::before { animation-delay: 1050ms; }
+[data-line-reveal="shown"] .cs-story-beat:nth-child(4)::before { animation-delay: 1450ms; }
+@keyframes cs-node-ignite {
+  0% { box-shadow: 0 0 0 5px var(--cs-color-bg), 0 0 0 0 rgba(244, 186, 23, 0); }
+  50% { box-shadow: 0 0 0 5px var(--cs-color-bg), 0 0 0 10px rgba(244, 186, 23, 0.35); }
+  100% { box-shadow: 0 0 0 5px var(--cs-color-bg), 0 0 0 0 rgba(244, 186, 23, 0); }
+}
+
+/* ValueProp: the stat cards levitate gently, out of phase. */
+.cs-value-item { animation: cs-card-float 6.5s ease-in-out infinite; }
+.cs-value-item:nth-child(2) { animation-delay: -2.2s; }
+.cs-value-item:nth-child(3) { animation-delay: -4.4s; }
+@keyframes cs-card-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+/* Services: a light band scans each card once as it reveals. */
+#services .cs-service-card { position: relative; }
+#services .cs-service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.09) 50%, transparent 58%);
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  background-repeat: no-repeat;
+}
+#services .cs-service-card[data-shown="true"]::before {
+  animation: cs-card-scan 1.1s var(--cs-ease) 250ms both;
+}
+@keyframes cs-card-scan {
+  from { background-position: 130% 0; }
+  to { background-position: -30% 0; }
+}
+
+/* Process: a gold circuit draws across behind the four steps, and the step
+   indices charge to gold in order. */
+#process .cs-services-grid { position: relative; }
+#process .cs-services-grid::before {
+  content: "";
+  position: absolute;
+  top: 2.1rem;
+  left: 2%;
+  right: 2%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cs-color-accent), rgba(244, 186, 23, 0.15));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1600ms var(--cs-ease) 300ms;
+}
+#process h2[data-mask-reveal="shown"] ~ .cs-services-grid::before { transform: scaleX(1); }
+#process .cs-service-card .cs-eyebrow { transition: color 500ms var(--cs-ease), text-shadow 500ms var(--cs-ease); }
+#process h2[data-mask-reveal="shown"] ~ .cs-services-grid .cs-reveal:nth-child(1) .cs-eyebrow { color: var(--cs-color-accent); transition-delay: 500ms; }
+#process h2[data-mask-reveal="shown"] ~ .cs-services-grid .cs-reveal:nth-child(2) .cs-eyebrow { color: var(--cs-color-accent); transition-delay: 850ms; }
+#process h2[data-mask-reveal="shown"] ~ .cs-services-grid .cs-reveal:nth-child(3) .cs-eyebrow { color: var(--cs-color-accent); transition-delay: 1200ms; }
+#process h2[data-mask-reveal="shown"] ~ .cs-services-grid .cs-reveal:nth-child(4) .cs-eyebrow { color: var(--cs-color-accent); transition-delay: 1550ms; }
+
+/* Work: HUD viewfinder brackets snap in on hover. */
+.cs-corners {
+  position: absolute;
+  inset: 10px;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.94;
+  transition: opacity var(--cs-dur) var(--cs-ease), scale var(--cs-dur) var(--cs-ease);
+}
+.cs-corners::before,
+.cs-corners::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+.cs-corners::before { top: 0; left: 0; border-top: 2px solid var(--cs-color-accent); border-left: 2px solid var(--cs-color-accent); }
+.cs-corners::after { bottom: 0; right: 0; border-bottom: 2px solid var(--cs-color-accent); border-right: 2px solid var(--cs-color-accent); }
+.cs-work-card:hover .cs-corners { opacity: 1; scale: 1; }
+
+/* Proof: the commitment cards rest at a slight paper tilt and square up on
+   hover ('rotate' composes with the JS tilt's 'transform'). */
+.cs-proof-card { transition: rotate var(--cs-dur) var(--cs-ease), transform var(--cs-dur-fast) var(--cs-ease), box-shadow var(--cs-dur-fast) var(--cs-ease); }
+.cs-proof-card:nth-child(odd) { rotate: -0.8deg; }
+.cs-proof-card:nth-child(even) { rotate: 0.8deg; }
+.cs-proof-card:hover { rotate: 0deg; }
+
+/* FAQ: answers breathe in; the marker turns + into x. */
+.cs-faq-item summary::after { transition: transform var(--cs-dur) var(--cs-ease), color var(--cs-dur-fast) var(--cs-ease); }
+/* content stays "+" (overriding the old "-" swap): rotated 45deg it reads as
+   a close "x", animated instead of jumping. */
+.cs-faq-item details[open] summary::after { content: "+"; transform: rotate(45deg); color: var(--cs-color-accent); }
+.cs-faq-item details[open] > p { animation: cs-faq-open 450ms var(--cs-ease); }
+@keyframes cs-faq-open {
+  from { opacity: 0; translate: 0 -6px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+/* Chat: wish-flow quick chips (FR-CHAR-026). */
+.cs-genie-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-2);
+  padding: 0 var(--cs-space-4) var(--cs-space-2);
+}
+.cs-genie-chips:empty { display: none; }
+.cs-genie-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+  font: inherit;
+  font-size: var(--cs-text-sm);
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--cs-radius-pill);
+  border: 1px solid var(--cs-color-line);
+  background: transparent;
+  color: var(--cs-color-fg);
+  cursor: pointer;
+  transition: border-color var(--cs-dur-fast) var(--cs-ease), background var(--cs-dur-fast) var(--cs-ease), transform var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-genie-chip:hover:not(:disabled) { border-color: var(--cs-color-accent); transform: translateY(-1px); }
+.cs-genie-chip:disabled { opacity: 0.55; cursor: default; }
+.cs-genie-chip-gold {
+  border-color: rgba(244, 186, 23, 0.55);
+  background: rgba(244, 186, 23, 0.12);
+  color: var(--cs-color-fg);
+}
+.cs-genie-chip-gold:hover:not(:disabled) { background: rgba(244, 186, 23, 0.22); }
+.cs-genie-chip .cs-sparkle, .cs-genie-chip svg { color: var(--cs-color-accent); }
+
+/* Contact: the conversation leads; the classic form folds away as fallback. */
+.cs-contact-lumi { margin: 0 0 var(--cs-space-6); }
+/* Folded, the card hugs its summary instead of stretching to the row. */
+.cs-contact-form { align-self: start; }
+.cs-btn-lumi { animation: cs-cta-breathe 3.8s var(--cs-ease) infinite; }
+.cs-contact-details > summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  color: var(--cs-color-fg-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+  transition: color var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-contact-details > summary:hover { color: var(--cs-color-fg); }
+.cs-contact-details > summary::-webkit-details-marker { display: none; }
+.cs-contact-details > summary::before {
+  content: "+";
+  font-family: var(--cs-font-display);
+  font-size: var(--cs-text-lg);
+  color: var(--cs-color-accent);
+  line-height: 1;
+  transition: transform var(--cs-dur) var(--cs-ease);
+}
+.cs-contact-details[open] > summary::before { transform: rotate(45deg); }
+.cs-contact-details[open] > summary { margin-bottom: var(--cs-space-6); }
+.cs-contact-details[open] > .cs-form { animation: cs-faq-open 450ms var(--cs-ease); }
+
+/* ------------------------------------------------------------------ */
+/* Round 5: the text itself moves, the chat becomes Lumi's cloud, and  */
+/* the black hole devours (FR-CHAR-032).                               */
+/* ------------------------------------------------------------------ */
+
+/* Kinetic section headings: per-word masked rise, staggered, triggered by
+   the heading's existing reveal attribute (which becomes trigger-only - no
+   double clip on top of the word masks). */
+.cs-kt-h { display: flex; flex-wrap: wrap; column-gap: 0.3em; row-gap: 0; }
+.cs-kt-h[data-mask-reveal] { clip-path: none; transform: none; }
+.cs-kt-word {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.22em 0.06em 0.16em;
+  margin: -0.22em -0.06em -0.16em;
+}
+.cs-kt-inner {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 640ms var(--cs-ease) calc(var(--kti, 0) * 55ms + 120ms);
+}
+[data-mask-reveal="shown"] .cs-kt-inner { transform: none; }
+
+/* Section leads ink themselves in, left to right, as they reveal. The
+   background-position stays within 0-100% (the coverage law). */
+:root { --cs-lead-faint: rgba(74, 59, 48, 0.16); }
+[data-theme="dark"] { --cs-lead-faint: rgba(220, 210, 195, 0.14); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  p.cs-section-lead[data-mask-reveal] {
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(100deg, var(--cs-color-fg-muted) 0% 48%, var(--cs-lead-faint) 52% 100%);
+    background-size: 230% 100%;
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+    transition: background-position 1100ms var(--cs-ease) 250ms, clip-path 700ms var(--cs-ease), transform 700ms var(--cs-ease);
+  }
+  p.cs-section-lead[data-mask-reveal="shown"] { background-position: 0% 0; }
+}
+
+/* The chat cloud (FR-CHAR-031 v2): with the living mascot on stage, the
+   panel becomes a floating thought-bubble centre-right - Lumi flies to its
+   dots and "speaks" it. Devices without the mascot keep the classic
+   bottom-right panel. */
+[data-lumi-live] .cs-genie {
+  right: 4vw;
+  bottom: auto;
+  top: 52%;
+  width: min(400px, 88vw);
+  max-height: min(62vh, 600px);
+  border-radius: 30px 34px 28px 34px;
+  border: 1px solid rgba(244, 186, 23, 0.4);
+  box-shadow: 0 0 46px rgba(244, 186, 23, 0.16), var(--cs-depth-3);
+  transform: translateY(-50%);
+  transform-origin: 72% -12%;
+  overflow: visible;
+  animation: cs-cloud-in 480ms var(--cs-ease), cs-cloud-float 7s ease-in-out 480ms infinite;
+}
+/* Thought dots gesturing up toward the genie at its chat anchor. */
+[data-lumi-live] .cs-genie::before,
+[data-lumi-live] .cs-genie::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: var(--cs-glass-tint-heavy);
+  border: 1px solid rgba(244, 186, 23, 0.4);
+  pointer-events: none;
+}
+[data-lumi-live] .cs-genie::after { top: -24px; left: 16%; width: 16px; height: 16px; }
+[data-lumi-live] .cs-genie::before { top: -46px; left: 11%; width: 9px; height: 9px; }
+@keyframes cs-cloud-in {
+  from { opacity: 0; transform: translateY(-50%) scale(0.8); }
+  to { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+@keyframes cs-cloud-float {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(calc(-50% - 9px)); }
+}
+/* The log must clip its bubbles even though the cloud shows its dots. */
+[data-lumi-live] .cs-genie .cs-genie-log { overflow-y: auto; }
+
+/* Every message pops into the conversation (all devices). */
+.cs-genie-msg { animation: cs-msg-pop 300ms var(--cs-ease) both; transform-origin: 0 100%; }
+.cs-genie-msg-user { transform-origin: 100% 100%; }
+@keyframes cs-msg-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Black-hole digest (FR-CHAR-032): while feeding, the page content is
+   pointer-inert and unselectable until everything is restored. */
+[data-digesting] main,
+[data-digesting] .cs-footer {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* --- round-5 guards --- */
+@media (prefers-reduced-motion: reduce) {
+  .cs-kt-inner { transform: none; transition: none; }
+  p.cs-section-lead[data-mask-reveal] {
+    color: var(--cs-color-fg-muted);
+    -webkit-text-fill-color: currentColor;
+    background: none;
+    transition: none;
+  }
+  [data-lumi-live] .cs-genie { animation: none; }
+  .cs-genie-msg { animation: none; }
+}
+@media (scripting: none) {
+  .cs-kt-inner { transform: none; }
+  p.cs-section-lead[data-mask-reveal] {
+    color: var(--cs-color-fg-muted);
+    -webkit-text-fill-color: currentColor;
+    background: none;
+  }
+}
+@media (forced-colors: active) {
+  .cs-kt-inner { transform: none; }
+  p.cs-section-lead[data-mask-reveal] { -webkit-text-fill-color: currentColor; background: none; color: CanvasText; }
+}
+@media print {
+  .cs-kt-inner { transform: none; }
+  p.cs-section-lead[data-mask-reveal] { color: var(--cs-color-fg-muted); -webkit-text-fill-color: currentColor; background: none; }
+}
+
+/* --- round-4 guards --- */
+@media (prefers-reduced-motion: reduce) {
+  [data-pop] { opacity: 1; transform: none; transition: none; }
+  [data-pop="shown"] .cs-trust-figure { animation: none; }
+  [data-line-reveal="shown"] .cs-story-beat::before { animation: none; }
+  .cs-value-item { animation: none; }
+  #services .cs-service-card[data-shown="true"]::before { animation: none; }
+  #process .cs-services-grid::before { transform: scaleX(1); transition: none; }
+  .cs-faq-item details[open] > p { animation: none; }
+  .cs-contact-details[open] > .cs-form { animation: none; }
+  .cs-btn-lumi { animation: none; }
+  .cs-lumi-hint { animation: none; opacity: 1; }
+}
+@media (scripting: none) {
+  [data-pop] { opacity: 1; transform: none; }
+  #process .cs-services-grid::before { transform: scaleX(1); }
+}
+@media (forced-colors: active) {
+  .cs-corners, .cs-lumi-hint { display: none; }
+}
+@media print {
+  .cs-lumi-hint, .cs-corners { display: none; }
+  [data-pop] { opacity: 1; transform: none; }
+}
+
+/* --- v2 guards (cascade-last) --- */
+@media (prefers-reduced-motion: reduce) {
+  .cs-hero-actions .cs-btn-primary { animation: none; }
+  .cs-service-card:hover::after, .cs-work-card:hover::after, .cs-proof-card:hover::after { animation: none; }
+  .cs-kinetic-word:last-child .cs-kinetic-inner { animation: none; transform: none; }
+  .cs-story-arc::before { transform: none; transition: none; }
+}
+@media (forced-colors: active) {
+  .cs-hero::before, main > .cs-section::before, .cs-hero-meta,
+  .cs-service-card::after, .cs-work-card::after, .cs-proof-card::after { display: none; }
+  .cs-marquee { transform: none; }
+}
+@media print {
+  .cs-hero::before, main > .cs-section::before, .cs-hero-meta { display: none; }
+}

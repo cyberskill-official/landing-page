@@ -31,6 +31,11 @@ export type Dictionary = {
     contactTitle: string;
     contactLead: string;
   };
+  // Decorative keyword marquee (FR-DS-012). The band itself is aria-hidden;
+  // these strings only need to read well visually in both locales.
+  marquee: {
+    items: string[];
+  };
   form: {
     name: string;
     email: string;
@@ -62,6 +67,25 @@ export type Dictionary = {
     thinking: string;
     unavailable: string;
     close: string;
+    // One-time mascot hint (FR-CHAR-030) + the in-chat wish flow (FR-CHAR-026).
+    hint: string;
+    wishCta: string;
+    wishAskName: string;
+    wishAskEmail: string;
+    wishAskCompany: string;
+    wishAskMessage: string;
+    wishAskConsent: string;
+    wishAgree: string;
+    wishSkip: string;
+    wishCancel: string;
+    wishCancelled: string;
+    wishSending: string;
+    wishDone: string;
+    wishFailed: string;
+    wishErrorName: string;
+    wishErrorEmail: string;
+    contactLumiCta: string;
+    contactFormFallback: string;
   };
   a11y: {
     themeToDark: string;
@@ -109,6 +133,9 @@ const en: Dictionary = {
     contactTitle: "Tell us your wish",
     contactLead: "Send a short note. We reply within one business day.",
   },
+  marquee: {
+    items: ["Web apps", "Mobile apps", "Internal systems", "Automation", "Design systems", "Built to last"],
+  },
   form: {
     name: "Your name",
     email: "Work email",
@@ -140,6 +167,24 @@ const en: Dictionary = {
     thinking: "Lumi is thinking...",
     unavailable: "Lumi is resting right now. Please use the contact form and we will reply within one business day.",
     close: "Close chat",
+    hint: "Click me",
+    wishCta: "Leave your wish for the team",
+    wishAskName: "Wonderful. What may I call you?",
+    wishAskEmail: "Nice to meet you, {name}. Where can the team reply to you? (work email)",
+    wishAskCompany: "Which company or team is this for? You can skip this.",
+    wishAskMessage: "Now the important part: tell me the wish in a sentence or two.",
+    wishAskConsent: "May the CyberSkill team contact you about this wish?",
+    wishAgree: "Yes, contact me",
+    wishSkip: "Skip",
+    wishCancel: "Not now",
+    wishCancelled: "No worries. The lamp stays warm - come back whenever the wish is ready.",
+    wishSending: "Sealing the wish...",
+    wishDone: "The wish is on its way to the team. A real person replies within one business day.",
+    wishFailed: "The lamp flickered - the wish did not go through. Try once more, or email info@cyberskill.world.",
+    wishErrorName: "Just a name so the team knows who to reply to.",
+    wishErrorEmail: "That email does not look right - one more try?",
+    contactLumiCta: "Grant it with Lumi",
+    contactFormFallback: "Prefer a classic form?",
   },
   a11y: {
     themeToDark: "Switch to dark mode",
@@ -169,23 +214,26 @@ const vi: Dictionary = {
     skipToContent: "Tới nội dung chính",
   },
   hero: {
-    eyebrow: "Công ty tư vấn giải pháp phần mềm, từ 2020",
+    eyebrow: "Tư vấn và phát triển phần mềm, từ 2020",
     ctaPrimary: "Bắt đầu dự án",
     ctaSecondary: "Trò chuyện với Lumi",
-    scrollHint: "Cuộn để theo điều ước",
+    scrollHint: "Cuộn xuống để theo điều ước",
   },
   sections: {
-    valueTitle: "Vì sao các đội ngũ chọn chúng tôi",
+    valueTitle: "Vì sao các đội ngũ chọn CyberSkill",
     servicesTitle: "Chúng tôi xây dựng gì",
-    servicesLead: "Ba mảng chuyên sâu. Một đội ngũ chịu trách nhiệm với kết quả.",
+    servicesLead: "Ba mảng chuyên sâu. Một đội ngũ chịu trách nhiệm đến kết quả cuối cùng.",
     workTitle: "Dự án tiêu biểu",
-    workLead: "Những loại điều ước chúng tôi được tạo ra để thực hiện.",
+    workLead: "Những điều ước chúng tôi sinh ra để thực hiện.",
     proofTitle: "Khách hàng nói gì",
-    careersTitle: "Cùng xây dựng với chúng tôi",
-    careersLead: "Chúng tôi tuyển vì tay nghề và sự tận tâm. Giàu kinh nghiệm, nhỏ gọn, thẳng thắn về đánh đổi.",
+    careersTitle: "Cùng chúng tôi kiến tạo",
+    careersLead: "Chúng tôi tuyển người vì tay nghề và sự tận tâm: đội ngũ tinh gọn, giàu kinh nghiệm, và thẳng thắn với mọi đánh đổi.",
     careersCta: "Xem vị trí đang tuyển",
-    contactTitle: "Kể cho chúng tôi điều bạn mong muốn",
-    contactLead: "Gửi một lời nhắn ngắn. Chúng tôi phản hồi trong vòng một ngày làm việc.",
+    contactTitle: "Kể chúng tôi nghe điều bạn ước",
+    contactLead: "Chỉ cần một lời nhắn ngắn. Chúng tôi phản hồi trong một ngày làm việc.",
+  },
+  marquee: {
+    items: ["Ứng dụng web", "Ứng dụng di động", "Hệ thống nội bộ", "Tự động hoá", "Hệ thống thiết kế", "Bền bỉ dài lâu"],
   },
   form: {
     name: "Tên của bạn",
@@ -193,15 +241,15 @@ const vi: Dictionary = {
     company: "Công ty",
     intent: "Điều gì đưa bạn đến đây?",
     intentProject: "Một dự án",
-    intentPartnership: "Một quan hệ hợp tác",
-    intentCareers: "Một vị trí công việc",
-    intentOther: "Việc khác",
-    message: "Có điều gì chúng tôi nên biết không?",
+    intentPartnership: "Cơ hội hợp tác",
+    intentCareers: "Cơ hội nghề nghiệp",
+    intentOther: "Chuyện khác",
+    message: "Bạn muốn chia sẻ thêm điều gì?",
     consent: "Tôi đồng ý được liên hệ về yêu cầu của mình.",
     submit: "Gửi",
     submitting: "Đang gửi...",
     successTitle: "Cảm ơn bạn.",
-    successBody: "Lời nhắn đã đến với chúng tôi. Chúng tôi sẽ phản hồi trong vòng một ngày làm việc.",
+    successBody: "Chúng tôi đã nhận được lời nhắn của bạn và sẽ phản hồi trong một ngày làm việc.",
     errorGeneric: "Đã có lỗi xảy ra. Vui lòng thử lại, hoặc gửi email tới info@cyberskill.world.",
     required: "Trường này là bắt buộc.",
     invalidEmail: "Vui lòng nhập email hợp lệ.",
@@ -211,13 +259,31 @@ const vi: Dictionary = {
   genie: {
     open: "Trò chuyện với Lumi",
     title: "Lumi, vị thần đèn của CyberSkill",
-    greeting: "Chào bạn, mình là Lumi. Hãy kể điều bạn muốn xây dựng, mình sẽ chỉ cho bạn hướng đi phù hợp.",
-    placeholder: "Nhập điều bạn mong muốn...",
+    greeting: "Chào bạn, mình là Lumi. Kể mình nghe điều bạn muốn xây dựng, mình sẽ chỉ bạn hướng đi phù hợp.",
+    placeholder: "Gõ điều ước của bạn...",
     send: "Gửi",
-    consent: "Cuộc trò chuyện có thể được lưu lại để đội ngũ theo dõi. Đừng chia sẻ thông tin bí mật.",
+    consent: "Cuộc trò chuyện có thể được lưu lại để đội ngũ tiện theo dõi. Xin đừng chia sẻ thông tin mật.",
     thinking: "Lumi đang suy nghĩ...",
-    unavailable: "Lumi đang nghỉ. Vui lòng dùng biểu mẫu liên hệ, chúng tôi sẽ phản hồi trong vòng một ngày làm việc.",
+    unavailable: "Lumi đang tạm nghỉ. Bạn hãy dùng biểu mẫu liên hệ, chúng tôi sẽ phản hồi trong một ngày làm việc.",
     close: "Đóng cửa sổ trò chuyện",
+    hint: "Chạm vào mình nhé",
+    wishCta: "Gửi điều ước cho đội ngũ",
+    wishAskName: "Tuyệt. Mình nên gọi bạn là gì?",
+    wishAskEmail: "Rất vui được gặp bạn, {name}. Đội ngũ có thể phản hồi bạn qua email nào? (email công việc)",
+    wishAskCompany: "Điều ước này dành cho công ty hay đội nhóm nào? Bạn có thể bỏ qua.",
+    wishAskMessage: "Giờ đến phần quan trọng: kể mình nghe điều ước, một hai câu thôi.",
+    wishAskConsent: "Đội ngũ CyberSkill có thể liên hệ bạn về điều ước này chứ?",
+    wishAgree: "Đồng ý, liên hệ mình",
+    wishSkip: "Bỏ qua",
+    wishCancel: "Để sau",
+    wishCancelled: "Không sao. Cây đèn vẫn ấm - khi nào điều ước sẵn sàng, bạn quay lại nhé.",
+    wishSending: "Đang niêm phong điều ước...",
+    wishDone: "Điều ước đã lên đường đến đội ngũ. Một người thật sẽ phản hồi bạn trong một ngày làm việc.",
+    wishFailed: "Cây đèn chớp tắt - điều ước chưa gửi được. Bạn thử lại lần nữa, hoặc email info@cyberskill.world nhé.",
+    wishErrorName: "Cho mình xin một cái tên để đội ngũ biết phản hồi ai nhé.",
+    wishErrorEmail: "Email này có vẻ chưa đúng - bạn thử lại nhé?",
+    contactLumiCta: "Nhờ Lumi thực hiện",
+    contactFormFallback: "Bạn thích dùng biểu mẫu quen thuộc?",
   },
   a11y: {
     themeToDark: "Chuyển sang chế độ tối",

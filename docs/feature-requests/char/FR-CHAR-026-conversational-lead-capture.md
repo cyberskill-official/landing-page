@@ -37,3 +37,11 @@ Lumi SHOULD capture a qualified lead through conversation, value first.
 ## §3 Evidence
 
 Not yet implemented; acceptance pending build.
+
+Down-payment (2026-07-02): FR-CHAR-031 shipped the deterministic in-chat
+wish flow - name/email/company/message/consent collected conversationally
+with skips and explicit consent, submitting to /api/lead and celebrating
+via the mascot. What keeps THIS FR planned: value-first help before the
+ask, tolerance for out-of-order free-form answers, ICP-adaptive follow-ups
+(needs the AI path plus agreed qualification criteria), and the formal
+LEAD_CAPTURED store state for downstream handoff (FR-CHAR-027).

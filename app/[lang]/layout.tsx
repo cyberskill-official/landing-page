@@ -9,8 +9,12 @@ import { PersistentCta } from "@/components/cta/PersistentCta";
 import { GenieChat } from "@/components/genie/GenieChat";
 import { GenieStatusAnnouncer } from "@/components/genie/GenieStatusAnnouncer";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
+import { LumiHotspot } from "@/components/canvas/LumiHotspot";
 import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
 import { ScrollState } from "@/components/scroll/ScrollState";
+import { MotionExtras } from "@/components/motion/MotionExtras";
+import { BlackHole } from "@/components/motion/BlackHole";
+import { IntroVeil } from "@/components/motion/IntroVeil";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 
 export function generateStaticParams() {
@@ -19,7 +23,7 @@ export function generateStaticParams() {
 
 const descriptions: Record<Locale, string> = {
   en: "CyberSkill is a software solutions consultancy in Ho Chi Minh City, building web apps, mobile apps, and internal systems that ship and stay maintainable.",
-  vi: "CyberSkill là công ty tư vấn giải pháp phần mềm tại Thành phố Hồ Chí Minh, xây dựng ứng dụng web, ứng dụng di động và hệ thống nội bộ sẵn sàng vận hành và dễ bảo trì.",
+  vi: "CyberSkill là công ty tư vấn giải pháp phần mềm tại TP. Hồ Chí Minh: chúng tôi xây ứng dụng web, ứng dụng di động và hệ thống nội bộ chạy ổn định, dễ bảo trì.",
 };
 
 export async function generateMetadata({
@@ -70,7 +74,11 @@ export default async function LocaleLayout({
       <SiteFooter locale={lang} dict={dict} />
       <PersistentCta locale={lang} dict={dict} />
       <GenieChat locale={lang} dict={dict} />
+      <LumiHotspot label={dict.genie.open} hint={dict.genie.hint} />
       <GenieStatusAnnouncer dict={dict} />
+      <MotionExtras />
+      <BlackHole />
+      <IntroVeil locale={lang} />
       <div className="cs-grain" aria-hidden="true" />
       <OrganizationJsonLd locale={lang} />
     </>

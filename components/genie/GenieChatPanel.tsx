@@ -4,6 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { useGenieStore, type GenieMessage } from "@/lib/genie/store";
+import {
+  advanceWishFlow,
+  isOptionalStep,
+  resolveConsent,
+  startWishFlow,
+  wishFlowPayload,
+  type WishState,
+} from "@/lib/genie/wishFlow";
+import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
+import { track } from "@/lib/analytics";
 import { Icon } from "@/components/ui/Icon";
 
 function uid(): string {
@@ -20,6 +30,11 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   const appendToMessage = useGenieStore((s) => s.appendToMessage);
 
   const [input, setInput] = useState("");
+  // Conversational lead capture (FR-CHAR-026): when active, the input feeds
+  // the deterministic wish flow instead of the AI proxy - keyless, so it
+  // works even while Lumi's AI is resting.
+  const [wish, setWish] = useState<WishState | null>(null);
+  const [sending, setSending] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
@@ -49,13 +64,99 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
 
   if (!open) return null;
 
-  const busy = status === "thinking" || status === "speaking";
+  const busy = status === "thinking" || status === "speaking" || sending;
+
+  function say(content: string) {
+    addMessage({ id: uid(), role: "assistant", content });
+  }
+
+  function promptFor(state: WishState): string {
+    switch (state.step) {
+      case "name":
+        return dict.genie.wishAskName;
+      case "email":
+        return dict.genie.wishAskEmail.replace("{name}", state.draft.name ?? "");
+      case "company":
+        return dict.genie.wishAskCompany;
+      case "message":
+        return dict.genie.wishAskMessage;
+      case "consent":
+        return dict.genie.wishAskConsent;
+      default:
+        return "";
+    }
+  }
+
+  function startWish() {
+    if (busy || wish) return;
+    const state = startWishFlow();
+    setWish(state);
+    track("wish_flow_started");
+    say(promptFor(state));
+    inputRef.current?.focus();
+  }
+
+  function cancelWish() {
+    setWish(null);
+    say(dict.genie.wishCancelled);
+  }
+
+  function feedWish(raw: string) {
+    if (!wish) return;
+    const value = raw.trim();
+    if (value) addMessage({ id: uid(), role: "user", content: value });
+    const { state, error } = advanceWishFlow(wish, value);
+    if (error) {
+      say(error === "invalid_email" ? dict.genie.wishErrorEmail : dict.genie.wishErrorName);
+      return;
+    }
+    setWish(state);
+    say(promptFor(state));
+  }
+
+  async function submitWish() {
+    if (!wish || wish.step !== "consent") return;
+    const done = resolveConsent(wish, true);
+    const payload = wishFlowPayload(done, locale);
+    if (!payload) {
+      say(dict.genie.wishFailed);
+      return;
+    }
+    setSending(true);
+    say(dict.genie.wishSending);
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        track("lead_submitted", { source: "lumi-chat" });
+        setWish(null);
+        say(dict.genie.wishDone);
+        // Lumi celebrates: the scene listens and bursts (FR-CHAR-030).
+        window.dispatchEvent(new CustomEvent(WISH_GRANTED_EVENT));
+      } else {
+        say(dict.genie.wishFailed);
+      }
+    } catch {
+      say(dict.genie.wishFailed);
+    } finally {
+      setSending(false);
+    }
+  }
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
     const text = input.trim();
     if (!text || busy) return;
     setInput("");
+
+    // Wish flow captures the input while active (no AI round-trip).
+    if (wish && wish.step !== "consent" && wish.step !== "done") {
+      feedWish(text);
+      return;
+    }
 
     const userMsg: GenieMessage = { id: uid(), role: "user", content: text };
     addMessage(userMsg);
@@ -92,6 +193,8 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     }
   }
 
+  const consentStep = wish?.step === "consent";
+
   return (
     <section
       className="cs-genie cs-surface-heavy cs-no-print"
@@ -125,6 +228,30 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         ))}
       </div>
 
+      {/* Quick actions: start the wish flow, or drive its skip/consent steps. */}
+      <div className="cs-genie-chips">
+        {!wish && (
+          <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={startWish} disabled={busy}>
+            <Icon name="sparkle" size="sm" /> {dict.genie.wishCta}
+          </button>
+        )}
+        {wish && consentStep && (
+          <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={submitWish} disabled={busy}>
+            {dict.genie.wishAgree}
+          </button>
+        )}
+        {wish && !consentStep && isOptionalStep(wish.step) && (
+          <button type="button" className="cs-genie-chip" onClick={() => feedWish("")} disabled={busy}>
+            {dict.genie.wishSkip}
+          </button>
+        )}
+        {wish && (
+          <button type="button" className="cs-genie-chip" onClick={cancelWish} disabled={busy}>
+            {dict.genie.wishCancel}
+          </button>
+        )}
+      </div>
+
       <p className="cs-genie-consent">
         {dict.genie.consent}{" "}
         <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
@@ -139,10 +266,10 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
           onChange={(e) => setInput(e.target.value)}
           placeholder={dict.genie.placeholder}
           aria-label={dict.genie.placeholder}
-          disabled={busy}
+          disabled={busy || consentStep}
           maxLength={4000}
         />
-        <button className="cs-btn cs-btn-primary" type="submit" disabled={busy || !input.trim()}>
+        <button className="cs-btn cs-btn-primary" type="submit" disabled={busy || consentStep || !input.trim()}>
           {dict.genie.send}
         </button>
       </form>

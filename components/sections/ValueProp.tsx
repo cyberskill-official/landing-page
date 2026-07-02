@@ -3,12 +3,15 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { valueProps } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
+import { KineticText } from "@/components/motion/KineticText";
 
 export function ValueProp({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section className="cs-section" aria-labelledby="value-title">
       <div className="cs-container">
-        <h2 id="value-title">{dict.sections.valueTitle}</h2>
+        <h2 id="value-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.valueTitle}>
+          <KineticText text={dict.sections.valueTitle} />
+        </h2>
         <ul className="cs-value-grid" role="list">
           {valueProps.map((vp, i) => (
             <Reveal as="li" key={i} className="cs-value-item cs-surface-light" delayMs={i * 80}>

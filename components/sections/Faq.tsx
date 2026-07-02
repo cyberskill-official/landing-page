@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
+import { KineticText } from "@/components/motion/KineticText";
 
 // Visible FAQ. The first three pairs MUST stay in sync with
 // components/seo/HomeFaqJsonLd.tsx so the page and the structured data agree.
@@ -15,10 +16,10 @@ const faq: Record<Locale, { q: string; a: string }[]> = {
   ],
   vi: [
     { q: "CyberSkill làm gì?", a: "Chúng tôi là công ty tư vấn giải pháp phần mềm. Chúng tôi xây dựng ứng dụng web, ứng dụng di động và hệ thống phần mềm nội bộ." },
-    { q: "CyberSkill đặt trụ sở ở đâu?", a: `Chúng tôi đặt tại ${company.city}, ${company.country}, làm việc với khách hàng trong nước và quốc tế.` },
-    { q: "Làm sao để bắt đầu một dự án?", a: `Gửi một lời nhắn ngắn qua biểu mẫu liên hệ hoặc trò chuyện với Lumi. Chúng tôi phản hồi trong vòng một ngày làm việc. Bạn cũng có thể gửi email tới ${company.email}.` },
-    { q: "Bạn phản hồi nhanh thế nào?", a: "Trong vòng một ngày làm việc. Nếu yêu cầu đã rõ ràng, thường sẽ có người trả lời bạn, không phải thư tự động." },
-    { q: "Bạn có làm việc với khách hàng quốc tế không?", a: "Có. Chúng tôi làm việc bằng tiếng Anh và tiếng Việt, và đã quen làm việc qua nhiều múi giờ." },
+    { q: "CyberSkill đặt trụ sở ở đâu?", a: `Trụ sở của chúng tôi ở ${company.city}, ${company.country}; chúng tôi làm việc với khách hàng trong nước lẫn quốc tế.` },
+    { q: "Làm sao để bắt đầu một dự án?", a: `Gửi một lời nhắn ngắn qua biểu mẫu liên hệ, hoặc trò chuyện với Lumi. Chúng tôi phản hồi trong một ngày làm việc. Bạn cũng có thể email tới ${company.email}.` },
+    { q: "Bạn phản hồi nhanh thế nào?", a: "Trong một ngày làm việc. Nếu yêu cầu đã rõ ràng, người trả lời bạn thường là một người thật, không phải thư tự động." },
+    { q: "Bạn có làm việc với khách hàng quốc tế không?", a: "Có. Chúng tôi làm việc bằng cả tiếng Anh và tiếng Việt, và đã quen phối hợp qua nhiều múi giờ." },
   ],
 };
 
@@ -27,7 +28,9 @@ export function Faq({ locale }: { locale: Locale }) {
   return (
     <section id="faq" className="cs-section cs-section-alt" aria-labelledby="faq-title">
       <div className="cs-container">
-        <h2 id="faq-title">{title}</h2>
+        <h2 id="faq-title" className="cs-kt-h" data-mask-reveal="" aria-label={title}>
+          <KineticText text={title} />
+        </h2>
         <ul className="cs-faq-list" role="list">
           {faq[locale].map((item) => (
             <li key={item.q} className="cs-faq-item cs-surface-standard">

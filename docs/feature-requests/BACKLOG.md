@@ -32,17 +32,17 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 54 |
+| shipped | 66 |
 | hold | 1 |
-| planned | 38 |
-| **total** | **93** |
+| planned | 34 |
+| **total** | **101** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
-| DS (design system) | 10 | 7 |
+| DS (design system) | 14 | 12 |
 | WEB (foundation) | 10 | 7 |
 | SCENE (3D + scroll) | 10 | 7 |
-| CHAR (Lumi) | 13 | 4 |
+| CHAR (Lumi) | 17 | 8 |
 | CTA (conversion) | 9 | 5 |
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 8 |
@@ -50,9 +50,10 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 5 |
 | OPS (build/deploy/ops) | 8 | 5 |
 
-The 57 shipped + 1 hold are the slices delivered so far; the 35 `planned` rows
+The 63 shipped + 1 hold are the slices delivered so far; the 34 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
-complete and build-ready.
+complete and build-ready. (Totals table re-baselined 2026-07-02 against the FR
+files' status fields; earlier runs had updated this prose but not the table.)
 
 ## §2 Feature requests
 
@@ -64,9 +65,13 @@ complete and build-ready.
 - [FR-DS-005](ds/FR-DS-005-confirm-token-package.md) - Resolve whether `@cyberskill/tokens|react` is privately consumable; consume or keep hand-port. P0. SHOULD. planned.
 - [FR-DS-006](ds/FR-DS-006-apca-contrast-tooling.md) - APCA Lc verification tooling (>=75 body, >=90 interactive) on rendered glass. P5. SHOULD. shipped.
 - [FR-DS-007](ds/FR-DS-007-style-packs.md) - Style-pack switching via `data-cs-style`. P5. COULD. planned.
-- [FR-DS-008](ds/FR-DS-008-typography-vietnamese.md) - Typography scale + a Vietnamese-complete typeface. P1. SHOULD. planned.
+- [FR-DS-008](ds/FR-DS-008-typography-vietnamese.md) - Typography scale + a Vietnamese-complete typeface (Space Grotesk via next/font, build-verified vietnamese subset). P1. SHOULD. shipped.
 - [FR-DS-009](ds/FR-DS-009-motion-tokens.md) - Motion/easing/duration tokens consumed by all animation. P1. COULD. shipped.
 - [FR-DS-010](ds/FR-DS-010-icon-set.md) - Consistent in-repo icon set (SVG). P4. COULD. shipped.
+- [FR-DS-011](ds/FR-DS-011-motion-polish.md) - Premium motion-polish layer: aurora, kinetic masked hero + shimmer, custom cursor/magnetic/tilt, once-per-session intro veil, keyword marquee, scroll progress, masked reveals, link/button micro-interactions. P4. COULD. shipped.
+- [FR-DS-012](ds/FR-DS-012-futuristic-art-direction.md) - Futuristic art direction: dark default, gold HUD language (blueprint grid, mono meta, ghost indices, orbit borders, gilded final slogan word), native-quality VN copy pass. P4. COULD. shipped.
+- [FR-DS-013](ds/FR-DS-013-section-signature-motion.md) - Section signature motion: stat ignition, node ignition, levitating value cards, card scan, process circuit + index charge, HUD brackets, paper tilt, FAQ breathe, careers aurora. P4. COULD. shipped.
+- [FR-DS-014](ds/FR-DS-014-kinetic-section-type.md) - Kinetic section type sitewide: per-word masked h2 reveals with stagger, ink-wipe leads, full CTA migration to Lumi (header included), centred click-me hint. P4. COULD. shipped.
 
 ### WEB - foundation
 - [FR-WEB-001](web/FR-WEB-001-app-shell-i18n.md) - App Router shell, EN/VN `[lang]` routing, per-locale `<html lang>`. P1. MUST. shipped.
@@ -106,6 +111,10 @@ complete and build-ready.
 - [FR-CHAR-027](char/FR-CHAR-027-crm-slack-handoff.md) - On LEAD_CAPTURED, write CRM + fire Slack/email handoff. P6. SHOULD. planned.
 - [FR-CHAR-028](char/FR-CHAR-028-transcript-logging.md) - Persist transcripts + lead records (server-side DB). P6. SHOULD. planned.
 - [FR-CHAR-029](char/FR-CHAR-029-abuse-hardening.md) - Harden rate limiting, input validation, and prompt-injection defence. P6. SHOULD. planned.
+- [FR-CHAR-030](char/FR-CHAR-030-living-mascot.md) - Lumi as a living mascot: scroll-driven full-page flight (trail, banking, pixie dust), magic bursts (sections, hover, chat, wish granted), chat-attend behaviour, and a focusable hotspot that makes the flying genie itself the chat entry. P4. COULD. shipped.
+- [FR-CHAR-031](char/FR-CHAR-031-wish-flow-lead-capture.md) - Wish flow: deterministic keyless in-chat lead capture (name/email/company/wish/consent -> /api/lead), Lumi-first contact section with the classic form folded as fallback, duplicate Talk-to-Lumi CTAs hidden while the mascot is live, one-time click-me hint. P2. SHOULD. shipped.
+- [FR-CHAR-032](char/FR-CHAR-032-black-hole-digest.md) - Black-hole digest easter egg: press-and-hold turns Lumi into a black hole that devours the page (near blocks first), release inverts it losslessly; scrubbed, reversible, desktop + motion-allowed only. P4. COULD. shipped.
+- [FR-CHAR-033](char/FR-CHAR-033-chat-cloud.md) - Chat cloud: the genie panel becomes Lumi's thought bubble (blob radius, gold rim, thought dots, materialise + float, message pop) while the mascot is live; classic panel elsewhere. P4. COULD. shipped.
 
 ### CTA - conversion
 - [FR-CTA-001](cta/FR-CTA-001-lead-form.md) - <=5-field lead form + honeypot + consent + `/api/lead` fanout. P1. MUST. shipped.

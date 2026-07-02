@@ -5,13 +5,14 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGenieStore } from "@/lib/genie/store";
 import { getScrollProgress } from "@/lib/scroll/progress";
+import { getDigest, getPointerNorm } from "@/lib/scene/mascot";
 import { resolveSceneState } from "@/lib/scene/progressMap";
 
 // Track the active light/dark theme (data-theme on <html>, set by ThemeToggle)
 // so Lumi can stay legible in both. Additive glow reads beautifully on a dark
 // background but washes out on a light one, so light theme uses normal blending
 // with deeper gold; see the material + colours below.
-function useThemeMode(): "light" | "dark" {
+export function useThemeMode(): "light" | "dark" {
   const [mode, setMode] = useState<"light" | "dark">("dark");
   useEffect(() => {
     const read = () =>
@@ -75,11 +76,13 @@ export function LumiPlaceholder() {
   const group = useRef<THREE.Group>(null);
   const core = useRef<THREE.Mesh>(null);
   const coreMat = useRef<THREE.MeshStandardMaterial>(null);
+  const nucleusMat = useRef<THREE.MeshBasicMaterial>(null);
   const wisps = useRef<THREE.Group>(null);
   const light = useRef<THREE.PointLight>(null);
   const prog = useRef(0);
   const reveal = useRef(0);
   const chat = useRef(0);
+  const holeSpin = useRef(0);
   const prevOpen = useRef(false);
   const status = useGenieStore((s) => s.status);
   const open = useGenieStore((s) => s.open);
@@ -114,6 +117,20 @@ export function LumiPlaceholder() {
   // is created by hand, so we release it explicitly.
   useEffect(() => () => aura.dispose(), [aura]);
 
+  // Black-hole palette (FR-CHAR-032): while the visitor holds the mouse, the
+  // digest progress darkens the core into a void while the rim stays gold -
+  // an event horizon in brand colors. Colors preallocated per theme.
+  const holePalette = useMemo(
+    () => ({
+      coreGold: new THREE.Color("#F4BA17"),
+      emberGold: new THREE.Color("#C8890A"),
+      auraCore: new THREE.Color(isLight ? "#B5780A" : "#F4BA17"),
+      void: new THREE.Color("#070405"),
+      black: new THREE.Color("#000000"),
+    }),
+    [isLight],
+  );
+
   useFrame((state, delta) => {
     const g = group.current;
     const c = core.current;
@@ -123,9 +140,11 @@ export function LumiPlaceholder() {
     const speed = status === "speaking" ? 3 : status === "thinking" ? 1.7 : 0.8;
     const pulseTarget = status === "speaking" ? 1 : status === "thinking" ? 0.6 : 0.25;
 
-    // Gaze: the core watches the pointer.
-    const targetY = state.pointer.x * 0.6;
-    const targetX = -state.pointer.y * 0.4;
+    // Gaze: the core watches the pointer (window-fed store; the canvas itself
+    // is pointer-inert so r3f's state.pointer never updates).
+    const pointer = getPointerNorm();
+    const targetY = pointer.x * 0.6;
+    const targetX = -pointer.y * 0.4;
     c.rotation.y += (targetY - c.rotation.y) * k;
     c.rotation.x += (targetX - c.rotation.x) * k;
 
@@ -141,11 +160,16 @@ export function LumiPlaceholder() {
 
     // Scroll choreography from the one declarative scene-progress map (FR-SCENE-007),
     // smoothly eased - no bespoke math here. Chat leans Lumi toward the viewer.
+    // Placement across the page belongs to the mascot rig (FR-CHAR-030); this
+    // group only applies LOCAL drift on top of wherever the rig carries it.
     prog.current += (getScrollProgress() - prog.current) * Math.min(1, delta * 2.5);
     const scene = resolveSceneState(prog.current);
-    g.rotation.y = scene.model.spin;
-    g.position.x = 1.35 + scene.model.driftX - ch * 0.35;
-    g.position.z = scene.model.driftZ + ch * 0.6;
+    // Black hole: the deeper the digest, the faster Lumi spins on itself.
+    const dig = getDigest();
+    holeSpin.current += delta * dig * 7;
+    g.rotation.y = scene.model.spin + holeSpin.current;
+    g.position.x = scene.model.driftX * 0.35 - ch * 0.3;
+    g.position.z = scene.model.driftZ * 0.5 + ch * 0.5;
 
     // Appearance dissolve: ease reveal 0 -> 1 once, so Lumi materializes in.
     reveal.current += (1 - reveal.current) * Math.min(1, delta * 1.1);
@@ -158,16 +182,27 @@ export function LumiPlaceholder() {
     // Wisps orbit faster when Lumi is active.
     if (wisps.current) wisps.current.rotation.y = t * (0.4 + speed * 0.25);
 
-    // Drive shader + lighting.
+    // Drive shader + lighting. The digest darkens the core into the void
+    // while the aura rim stays gold (the event horizon); the rim also blazes
+    // brighter the deeper the hole gets.
     aura.uniforms.uTime.value = t;
     aura.uniforms.uProgress.value = scene.model.glow;
     aura.uniforms.uReveal.value = rev;
-    aura.uniforms.uPulse.value += (Math.min(1, pulseTarget + ch * 0.5) - aura.uniforms.uPulse.value) * k;
-    if (coreMat.current) coreMat.current.emissiveIntensity = 0.5 + scene.model.glow * 0.5 + pulseTarget * 0.3 + ch * 0.25;
+    aura.uniforms.uPulse.value += (Math.min(1.4, pulseTarget + ch * 0.5 + dig * 0.9) - aura.uniforms.uPulse.value) * k;
+    (aura.uniforms.uCore.value as THREE.Color).copy(holePalette.auraCore).lerp(holePalette.void, dig);
+    if (coreMat.current) {
+      coreMat.current.color.copy(holePalette.coreGold).lerp(holePalette.void, dig);
+      coreMat.current.emissive.copy(holePalette.emberGold).lerp(holePalette.black, dig);
+      coreMat.current.emissiveIntensity = (0.5 + scene.model.glow * 0.5 + pulseTarget * 0.3 + ch * 0.25) * (1 - dig * 0.92);
+      coreMat.current.roughness = 0.22 + dig * 0.6;
+      coreMat.current.metalness = 0.5 * (1 - dig);
+    }
+    if (nucleusMat.current) nucleusMat.current.opacity = (isLight ? 0.95 : 0.85) * (1 - dig);
     if (light.current) {
       // Scene lighting comes from the map; chat state adds reactive energy on top.
       const statusBoost = status === "speaking" ? 1.2 : status === "thinking" ? 0.6 : 0;
-      light.current.intensity = scene.light.intensity + statusBoost + ch * 0.9 + Math.sin(t * speed * 2) * 0.4;
+      light.current.intensity =
+        (scene.light.intensity + statusBoost + ch * 0.9 + Math.sin(t * speed * 2) * 0.4) * (1 - dig * 0.55);
     }
   });
 
@@ -177,7 +212,7 @@ export function LumiPlaceholder() {
   const wispColor = isLight ? "#9A6606" : "#FFE7A6";
 
   return (
-    <group ref={group} position={[1.35, 0, 0]} scale={0.78}>
+    <group ref={group} position={[0, 0, 0]} scale={0.78}>
       <pointLight ref={light} position={[0, 0, 2.4]} color="#F4BA17" intensity={1.8} distance={9} />
 
       {/* Lit gold core (guaranteed to render even if the shader fails). */}
@@ -193,10 +228,11 @@ export function LumiPlaceholder() {
         />
       </mesh>
 
-      {/* Inner nucleus (theme-aware so it reads on light too). */}
+      {/* Inner nucleus (theme-aware so it reads on light too; fades out as
+          the black hole deepens). */}
       <mesh scale={0.55}>
         <sphereGeometry args={[1, 32, 32]} />
-        <meshBasicMaterial color={nucleusColor} transparent opacity={isLight ? 0.95 : 0.85} />
+        <meshBasicMaterial ref={nucleusMat} color={nucleusColor} transparent opacity={isLight ? 0.95 : 0.85} />
       </mesh>
 
       {/* Custom-shader fresnel glow aura (slightly larger shell). */}

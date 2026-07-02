@@ -8,7 +8,8 @@ export type AnalyticsEvent =
   | "cta_click"
   | "page_view"
   | "form_start"
-  | "lead_abandoned";
+  | "lead_abandoned"
+  | "wish_flow_started";
 
 export function track(event: AnalyticsEvent, props?: Record<string, unknown>): void {
   if (typeof window === "undefined") return;
