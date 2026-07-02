@@ -96,6 +96,10 @@ export type Dictionary = {
     lumiThinking: string;
     lumiResponding: string;
     sceneNoscript: string;
+    homeLabel: string;
+    primaryNav: string;
+    languageLabel: string;
+    quickActions: string;
   };
   footer: {
     rights: string;
@@ -115,7 +119,7 @@ const en: Dictionary = {
     skipToContent: "Skip to content",
   },
   hero: {
-    eyebrow: "Software solutions consultancy, since 2020",
+    eyebrow: "A small senior team in Saigon, building software since 2020",
     ctaPrimary: "Start my project",
     ctaSecondary: "Talk to Lumi",
     scrollHint: "Scroll to follow the wish",
@@ -195,6 +199,10 @@ const en: Dictionary = {
     lumiThinking: "Lumi is thinking.",
     lumiResponding: "Lumi is responding.",
     sceneNoscript: "Lumi, an animated golden genie, decorates this page. It is purely visual - all information and actions are available as text and controls on the page.",
+    homeLabel: "CyberSkill home",
+    primaryNav: "Primary navigation",
+    languageLabel: "Language",
+    quickActions: "Quick actions",
   },
   footer: {
     rights: "All rights reserved.",
@@ -214,7 +222,7 @@ const vi: Dictionary = {
     skipToContent: "Tới nội dung chính",
   },
   hero: {
-    eyebrow: "Tư vấn và phát triển phần mềm, từ 2020",
+    eyebrow: "Một nhóm nhỏ giàu kinh nghiệm ở Sài Gòn, làm phần mềm từ 2020",
     ctaPrimary: "Bắt đầu dự án",
     ctaSecondary: "Trò chuyện với Lumi",
     scrollHint: "Cuộn xuống để theo điều ước",
@@ -294,6 +302,10 @@ const vi: Dictionary = {
     lumiThinking: "Lumi đang suy nghĩ.",
     lumiResponding: "Lumi đang trả lời.",
     sceneNoscript: "Lumi, một thần đèn vàng hoạt họa, chỉ để trang trí cho trang này. Mọi thông tin và thao tác đều có sẵn dưới dạng văn bản và nút điều khiển trên trang.",
+    homeLabel: "Trang chủ CyberSkill",
+    primaryNav: "Điều hướng chính",
+    languageLabel: "Ngôn ngữ",
+    quickActions: "Thao tác nhanh",
   },
   footer: {
     rights: "Bảo lưu mọi quyền.",

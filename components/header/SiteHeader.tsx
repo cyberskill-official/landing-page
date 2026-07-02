@@ -12,12 +12,12 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
   return (
     <header className="cs-header cs-surface-light cs-no-print">
       <div className="cs-container cs-header-inner">
-        <Link href={base} className="cs-wordmark" aria-label="CyberSkill home">
+        <Link href={base} className="cs-wordmark" aria-label={dict.a11y.homeLabel}>
           <span className="cs-wordmark-name">CyberSkill</span>
           <span className="cs-wordmark-slogan">{localize(company.slogan, locale)}</span>
         </Link>
 
-        <nav className="cs-nav" aria-label="Primary">
+        <nav className="cs-nav" aria-label={dict.a11y.primaryNav}>
           <a href={`${base}#services`}>{dict.nav.services}</a>
           <Link href={`${base}/work`}>{dict.nav.work}</Link>
           <a href={`${base}#proof`}>{dict.nav.team}</a>
@@ -27,7 +27,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
 
         <div className="cs-header-actions">
           <ThemeToggle toDark={dict.a11y.themeToDark} toLight={dict.a11y.themeToLight} />
-          <LanguageSwitcher current={locale} />
+          <LanguageSwitcher current={locale} label={dict.a11y.languageLabel} />
           <GenieOpenButton className="cs-btn cs-btn-primary cs-header-cta cs-lumi-alt">
             {dict.hero.ctaSecondary}
           </GenieOpenButton>
