@@ -3,6 +3,8 @@
 import { Suspense, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, Lightformer, Sparkles, Trail, useGLTF } from "@react-three/drei";
+import { EffectComposer, Bloom, Vignette, SMAA, ToneMapping } from "@react-three/postprocessing";
+import { ToneMappingMode } from "postprocessing";
 import * as THREE from "three";
 import { LumiPlaceholder, useThemeMode } from "@/components/canvas/LumiPlaceholder";
 import { GltfLumi } from "@/components/canvas/GltfLumi";
@@ -337,9 +339,10 @@ export function GenieScene() {
   return (
     <Canvas
       className="cs-canvas"
-      dpr={[1, 1.75]}
+      dpr={[1, 2]}
+      flat
       camera={{ position: [0, 0, CAM_Z], fov: CAM_FOV }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
     >
       <ambientLight intensity={0.45} />
       <directionalLight position={[3, 4, 5]} intensity={0.6} color="#fff4d6" />
@@ -348,11 +351,17 @@ export function GenieScene() {
           something to reflect - a metalness=1 material renders black without an
           environment. Baked once (frames={1}), inline Lightformers so there is no
           external HDR fetch. The procedural placeholder does not need this. */}
-      <Environment resolution={256} frames={1}>
-        <Lightformer form="rect" intensity={3.4} color="#fff4d6" position={[0, 2.5, 5]} scale={[10, 10, 1]} />
-        <Lightformer form="rect" intensity={2.2} color="#F4BA17" position={[-5, 0.5, 3]} scale={[5, 8, 1]} />
-        <Lightformer form="rect" intensity={1.6} color="#ffffff" position={[5, 1.5, 3]} scale={[4, 7, 1]} />
-        <Lightformer form="ring" intensity={1.3} color="#B5780A" position={[0, -3, 4]} scale={[7, 7, 1]} />
+      <Environment resolution={512} frames={1}>
+        {/* Warm soft key */}
+        <Lightformer form="rect" intensity={4.0} color="#fff2d0" position={[0, 3, 6]} scale={[12, 12, 1]} />
+        {/* Ochre side rim (brand) */}
+        <Lightformer form="rect" intensity={2.8} color="#F4BA17" position={[-6, 1, 3]} scale={[6, 10, 1]} />
+        {/* Cool fill for a premium warm/cool contrast (kept low so the gold stays rich) */}
+        <Lightformer form="rect" intensity={0.85} color="#bcd0ff" position={[6, 2, 2]} scale={[5, 9, 1]} />
+        {/* Warm underglow */}
+        <Lightformer form="ring" intensity={2.0} color="#ffce6b" position={[0, -3, 5]} scale={[8, 8, 1]} />
+        {/* Small bright glint for a sharp specular sparkle */}
+        <Lightformer form="rect" intensity={7.0} color="#ffffff" position={[2.5, 4, 4]} scale={[1.4, 1.4, 1]} />
       </Environment>
       <CameraRig />
       <WishGrid />
@@ -384,6 +393,15 @@ export function GenieScene() {
             page, so text stays clean outside Lumi's flight path. */}
         <Sparkles count={34} scale={[2.2, 1.9, 1.5]} size={3.2} speed={0.4} color="#F4BA17" opacity={0.75} />
       </LumiRig>
+      {/* Premium post: bloom on the gold highlights + AgX filmic tone map (matches
+          the Blender look) + a subtle vignette; SMAA replaces MSAA (antialias off,
+          flat renderer so the ToneMapping effect owns the transform). */}
+      <EffectComposer multisampling={0} enableNormalPass={false}>
+        <Bloom mipmapBlur luminanceThreshold={0.72} luminanceSmoothing={0.14} intensity={0.62} radius={0.62} />
+        <ToneMapping mode={ToneMappingMode.AGX} />
+        <Vignette eskil={false} offset={0.28} darkness={0.55} />
+        <SMAA />
+      </EffectComposer>
     </Canvas>
   );
 }

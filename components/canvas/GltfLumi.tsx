@@ -36,7 +36,25 @@ export function GltfLumi({ url }: { url: string }) {
   // deform this instance. SkeletonUtils shares geometry/materials with drei's
   // cached original, so we do NOT dispose them here (that would corrupt the cache
   // on remount); drei owns the cached source's lifecycle (FR-SCENE-009).
-  const model = useMemo(() => SkeletonUtils.clone(scene), [scene]);
+  const model = useMemo(() => {
+    const clone = SkeletonUtils.clone(scene);
+    // Premium material polish: clone the shared materials (so drei's cache stays
+    // clean) and drink in more of the IBL so the gold reads rich and reflective
+    // rather than flat. envMapIntensity pairs with the studio Environment/bloom.
+    clone.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const polish = (m: THREE.Material) => {
+        const std = m.clone() as THREE.MeshStandardMaterial;
+        if ("envMapIntensity" in std) std.envMapIntensity = 1.5;
+        return std;
+      };
+      mesh.material = Array.isArray(mesh.material)
+        ? mesh.material.map(polish)
+        : polish(mesh.material);
+    });
+    return clone;
+  }, [scene]);
   const { actions } = useAnimations(animations, model);
 
   // Play the baked idle loop (float + tail sway + hair). useAnimations advances
