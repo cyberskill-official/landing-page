@@ -38,6 +38,20 @@ export const metadata: Metadata = {
       "Software solutions consultancy. Web, mobile, and internal systems, built honestly.",
   },
   twitter: { card: "summary_large_image" },
+  // Let search and AI engines show the full social card and snippet, so the
+  // brand's first impression in results is the large gold Lumi image, not a
+  // clipped thumbnail.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 // Brand the mobile browser chrome (address bar / status bar) to the gold-on-
