@@ -38,6 +38,10 @@ export function MotionExtras() {
       ticking = false;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.transform = `scaleX(${max > 0 ? clamp(window.scrollY / max, 0, 1) : 0})`;
+      // Scroll depth as a CSS length for paint-only parallax (the hero aurora
+      // reads it); consumers apply it under prefers-reduced-motion:
+      // no-preference only.
+      document.documentElement.style.setProperty("--cs-scroll", `${Math.round(window.scrollY)}px`);
     };
     const request = () => {
       if (!ticking) {
@@ -54,24 +58,32 @@ export function MotionExtras() {
     };
   }, []);
 
-  // Masked heading reveals: flip [data-mask-reveal] to "shown" once in view.
-  // Same contract as Reveal.tsx - the observer only ever SHOWS content, and the
-  // reduced-motion / scripting:none CSS rules force-show as safety nets.
-  // Re-scans on route change so client navigations get their reveals too.
+  // Masked heading reveals + line draws: flip [data-mask-reveal] /
+  // [data-line-reveal] to "shown" once in view. Same contract as Reveal.tsx -
+  // the observer only ever SHOWS content, and the reduced-motion /
+  // scripting:none CSS rules force-show as safety nets. Re-scans on route
+  // change so client navigations get their reveals too.
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-mask-reveal]")).filter(
-      (el) => el.getAttribute("data-mask-reveal") !== "shown",
-    );
+    const ATTRS = ["data-mask-reveal", "data-line-reveal"] as const;
+    const show = (el: Element) => {
+      for (const name of ATTRS) {
+        if (el.hasAttribute(name)) el.setAttribute(name, "shown");
+      }
+    };
+    const pending = (el: Element) => ATTRS.some((name) => el.getAttribute(name) === "");
+    const els = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-mask-reveal], [data-line-reveal]"),
+    ).filter(pending);
     if (els.length === 0) return;
     if (typeof IntersectionObserver === "undefined") {
-      for (const el of els) el.setAttribute("data-mask-reveal", "shown");
+      for (const el of els) show(el);
       return;
     }
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            entry.target.setAttribute("data-mask-reveal", "shown");
+            show(entry.target);
             io.unobserve(entry.target);
           }
         }

@@ -25,7 +25,7 @@ export function StoryArc({ locale }: { locale: Locale }) {
       <div className="cs-container">
         <h2 id="story-title" data-mask-reveal="">{title}</h2>
         <p className="cs-section-lead" data-mask-reveal="">{intro}</p>
-        <ol className="cs-story-arc" role="list">
+        <ol className="cs-story-arc" role="list" data-line-reveal="">
           {beats.map((beat, i) => (
             <Reveal as="li" key={beat.id} className="cs-story-beat" delayMs={i * 90}>
               <p className="cs-eyebrow">{localize(beat.kicker, locale)}</p>

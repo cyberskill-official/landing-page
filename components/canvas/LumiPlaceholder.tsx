@@ -11,7 +11,7 @@ import { resolveSceneState } from "@/lib/scene/progressMap";
 // so Lumi can stay legible in both. Additive glow reads beautifully on a dark
 // background but washes out on a light one, so light theme uses normal blending
 // with deeper gold; see the material + colours below.
-function useThemeMode(): "light" | "dark" {
+export function useThemeMode(): "light" | "dark" {
   const [mode, setMode] = useState<"light" | "dark">("dark");
   useEffect(() => {
     const read = () =>
@@ -141,11 +141,13 @@ export function LumiPlaceholder() {
 
     // Scroll choreography from the one declarative scene-progress map (FR-SCENE-007),
     // smoothly eased - no bespoke math here. Chat leans Lumi toward the viewer.
+    // Placement across the page belongs to the mascot rig (FR-CHAR-030); this
+    // group only applies LOCAL drift on top of wherever the rig carries it.
     prog.current += (getScrollProgress() - prog.current) * Math.min(1, delta * 2.5);
     const scene = resolveSceneState(prog.current);
     g.rotation.y = scene.model.spin;
-    g.position.x = 1.35 + scene.model.driftX - ch * 0.35;
-    g.position.z = scene.model.driftZ + ch * 0.6;
+    g.position.x = scene.model.driftX * 0.35 - ch * 0.3;
+    g.position.z = scene.model.driftZ * 0.5 + ch * 0.5;
 
     // Appearance dissolve: ease reveal 0 -> 1 once, so Lumi materializes in.
     reveal.current += (1 - reveal.current) * Math.min(1, delta * 1.1);
@@ -177,7 +179,7 @@ export function LumiPlaceholder() {
   const wispColor = isLight ? "#9A6606" : "#FFE7A6";
 
   return (
-    <group ref={group} position={[1.35, 0, 0]} scale={0.78}>
+    <group ref={group} position={[0, 0, 0]} scale={0.78}>
       <pointLight ref={light} position={[0, 0, 2.4]} color="#F4BA17" intensity={1.8} distance={9} />
 
       {/* Lit gold core (guaranteed to render even if the shader fails). */}

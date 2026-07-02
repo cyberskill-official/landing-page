@@ -36,7 +36,12 @@ export function CanvasMount() {
   }, []);
 
   return (
-    <div className="cs-canvas-layer" aria-hidden="true">
+    // The live scene rides ABOVE the content (cs-canvas-live raises z-index)
+    // so Lumi can fly the whole page as a mascot (FR-CHAR-030); the canvas
+    // stays pointer-events:none, so it can never block interaction (the DOM
+    // LumiHotspot provides the clickable mascot). The static poster keeps the
+    // original behind-the-hero layering on incapable devices.
+    <div className={mount ? "cs-canvas-layer cs-canvas-live" : "cs-canvas-layer"} aria-hidden="true">
       {mount ? <GenieScene /> : <StaticPoster />}
     </div>
   );

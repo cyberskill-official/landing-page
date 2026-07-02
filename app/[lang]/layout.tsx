@@ -9,6 +9,7 @@ import { PersistentCta } from "@/components/cta/PersistentCta";
 import { GenieChat } from "@/components/genie/GenieChat";
 import { GenieStatusAnnouncer } from "@/components/genie/GenieStatusAnnouncer";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
+import { LumiHotspot } from "@/components/canvas/LumiHotspot";
 import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
 import { ScrollState } from "@/components/scroll/ScrollState";
 import { MotionExtras } from "@/components/motion/MotionExtras";
@@ -72,6 +73,7 @@ export default async function LocaleLayout({
       <SiteFooter locale={lang} dict={dict} />
       <PersistentCta locale={lang} dict={dict} />
       <GenieChat locale={lang} dict={dict} />
+      <LumiHotspot label={dict.genie.open} />
       <GenieStatusAnnouncer dict={dict} />
       <MotionExtras />
       <IntroVeil locale={lang} />

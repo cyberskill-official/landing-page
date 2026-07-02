@@ -145,3 +145,78 @@ DEFERRED
   "Hiện Thực Hoá Ý Chí" fully uniform diacritics, orbit border + cursor +
   spotlight on card hover with ghost "03" index, tilted marquee, light
   theme coherent, VN story section reading native.
+
+---
+
+# Round 3 - 2026-07-02 - Lumi becomes a living mascot (FR-CHAR-030)
+
+Operator review of round 2: still not enough motion/3D, and "Lumi not a
+static chat popup button - a living mascot that can move/fly and
+interact/make magic within the website."
+
+## Ledger
+
+DONE
+- Architectural unlock: the sections are opaque, so the old behind-content
+  canvas made Lumi invisible past the hero - that is WHY it felt static.
+  The live scene now rides ABOVE the content (cs-canvas-live, z-30,
+  pointer-events:none, aria-hidden); the static poster path keeps the old
+  layering on mobile/incapable devices.
+- Full-page flight (lib/scene/journey.ts, pure + 10 unit tests): a ROUTE of
+  per-section viewport anchors weaving page sides, measured against the
+  real DOM (re-measured on resize/layout), smoothstepped between stops,
+  swoop bows per leg, velocity banking, idle bobbing. Fixed camera with
+  pointer parallax makes the anchor->world mapping deterministic
+  (viewportToWorld) - the old scroll-driven camera stops in progressMap
+  are no longer consumed (spin/glow/light stops still are).
+- Living behaviours: comet Trail (drei, tracks a rig anchor so rig scale
+  cannot distort it), mascot-scoped pixie-dust Sparkles, BurstField (3
+  pooled additive point bursts) firing at section arrivals, on hover
+  excitement, on chat open/close, and on lead-form success (LeadForm
+  dispatches cs:wish-granted); while the chat is open Lumi leaves the
+  route and attends the panel (CHAT_ANCHOR).
+- Lumi IS the chat entry (components/canvas/LumiHotspot.tsx): a real
+  focusable button with aria-label + dialog popup semantics rides the
+  mascot's projected screen rect every frame (module store, no React
+  re-render per frame), opens the chat via the existing GENIE_OPEN_EVENT,
+  excites Lumi on hover/focus, hides while the chat is open / on touch /
+  when the scene is unmounted. Core-sized and capped (r <= 190px) so it
+  never blankets text.
+- More 3D + motion: WishGrid - a CPU-waved gold wireframe floor under the
+  hero that fades out with hero progress (never overlays sections); hero
+  aurora scroll parallax via a --cs-scroll CSS length (MotionExtras) under
+  prefers-reduced-motion: no-preference; the StoryArc timeline line now
+  draws itself in ([data-line-reveal], shares the shows-only observer).
+- Composition pass after first WebGL captures: hero anchor moved clear of
+  the headline (vx .82, scale .72), side anchors into the gutters, chat
+  anchor above the panel, hotspot radius core-sized, trail shortened
+  (width .45 / length 3.5 / decay 3), grid subtler and lower, dust cloud
+  tightened.
+
+FOUND + FIXED IN-SESSION
+- The old puppeteer harness (headless shell + --use-gl=swiftshader) never
+  created a WebGL context: the 3D layer was silently absent from EVERY
+  earlier screenshot round. New headless + --use-angle=swiftshader renders
+  it; probes now assert the scene mounted, the hotspot tracked (rect
+  258px), and clicking the mascot opened the chat (chatOpen:true).
+- three 0.184 JSX generics: <points> ref needed a cast
+  (NormalOrGLBufferAttributes vs THREE.Points default).
+
+DEFERRED
+- The commissioned GLB (FR-CHAR-021/022) still replaces the procedural
+  body when it lands - the rig carries whichever model renders.
+- GltfLumi's own idle offsets were left untouched (env-gated path, unused
+  by default); re-check its local position when the real model arrives.
+- Touch devices keep the static poster + button CTAs (no mascot).
+
+## Evidence (Mac gate, 2026-07-02, all EXIT=0)
+
+- tsc; vitest 17 files / 70 tests (10 new in tests/journey.test.ts); lint;
+  build 26/26 pages, First Load JS shared 175 kB (mascot code rides the
+  async 3D chunk); check:assets; served-route jsdom axe 0 violations /en +
+  /vi.
+- WebGL visual QA (new headless + ANGLE): hero scene (Lumi + wire floor
+  clear of type), mascot at services' left gutter, hover excitement, click
+  -> chat open with Lumi attending the panel, contact-form seam hover, VN
+  story with the drawn timeline. Probes: SCENE live:true, hotspot
+  visible:true rect 258px, CHAT chatOpen:true.

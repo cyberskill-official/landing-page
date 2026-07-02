@@ -32,17 +32,17 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 60 |
+| shipped | 61 |
 | hold | 1 |
 | planned | 34 |
-| **total** | **95** |
+| **total** | **96** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
 | DS (design system) | 12 | 10 |
 | WEB (foundation) | 10 | 7 |
 | SCENE (3D + scroll) | 10 | 7 |
-| CHAR (Lumi) | 13 | 4 |
+| CHAR (Lumi) | 14 | 5 |
 | CTA (conversion) | 9 | 5 |
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 8 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 5 |
 | OPS (build/deploy/ops) | 8 | 5 |
 
-The 60 shipped + 1 hold are the slices delivered so far; the 34 `planned` rows
+The 61 shipped + 1 hold are the slices delivered so far; the 34 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready. (Totals table re-baselined 2026-07-02 against the FR
 files' status fields; earlier runs had updated this prose but not the table.)
@@ -109,6 +109,7 @@ files' status fields; earlier runs had updated this prose but not the table.)
 - [FR-CHAR-027](char/FR-CHAR-027-crm-slack-handoff.md) - On LEAD_CAPTURED, write CRM + fire Slack/email handoff. P6. SHOULD. planned.
 - [FR-CHAR-028](char/FR-CHAR-028-transcript-logging.md) - Persist transcripts + lead records (server-side DB). P6. SHOULD. planned.
 - [FR-CHAR-029](char/FR-CHAR-029-abuse-hardening.md) - Harden rate limiting, input validation, and prompt-injection defence. P6. SHOULD. planned.
+- [FR-CHAR-030](char/FR-CHAR-030-living-mascot.md) - Lumi as a living mascot: scroll-driven full-page flight (trail, banking, pixie dust), magic bursts (sections, hover, chat, wish granted), chat-attend behaviour, and a focusable hotspot that makes the flying genie itself the chat entry. P4. COULD. shipped.
 
 ### CTA - conversion
 - [FR-CTA-001](cta/FR-CTA-001-lead-form.md) - <=5-field lead form + honeypot + consent + `/api/lead` fanout. P1. MUST. shipped.

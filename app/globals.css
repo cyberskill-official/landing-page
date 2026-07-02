@@ -1211,11 +1211,77 @@ main > .cs-section::before {
   50% { box-shadow: var(--cs-depth-2), 0 0 24px 2px rgba(244, 186, 23, 0.38); }
 }
 
+/* ------------------------------------------------------------------ */
+/* Living mascot + deep-motion layer (FR-CHAR-030)                     */
+/* ------------------------------------------------------------------ */
+
+/* When the LIVE 3D scene mounts, its layer rides above the content so Lumi
+   can fly the whole page (the canvas itself stays pointer-events:none). The
+   static poster path keeps the original behind-the-hero z-0 layering. */
+.cs-canvas-live { z-index: 30; }
+
+/* The clickable mascot: a transparent circular button that LumiHotspot
+   positions over the genie's projected screen position every frame. Real
+   button semantics - focus ring, aria-label, dialog popup state - so the
+   flying genie is a first-class chat entry, not a gimmick. Hidden whenever
+   the scene says so (touch devices, scene unmounted, chat open). */
+.cs-lumi-hotspot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 45;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.cs-lumi-hotspot[data-visible="false"] { display: none; }
+@media (pointer: coarse) {
+  .cs-lumi-hotspot { display: none; }
+}
+
+/* StoryArc timeline draws itself in as it enters the viewport: the static
+   border becomes a scaleY-revealed gold thread (paint/transform only). */
+.cs-story-arc {
+  border-left: 0;
+  position: relative;
+}
+.cs-story-arc::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--cs-color-accent), var(--cs-color-line) 85%);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 1400ms var(--cs-ease);
+}
+.cs-story-arc[data-line-reveal="shown"]::before { transform: scaleY(1); }
+@media (scripting: none) {
+  .cs-story-arc::before { transform: none; }
+}
+
+/* Scroll parallax for the hero aurora: MotionExtras publishes --cs-scroll as
+   a CSS length; the blobs drift at different rates ('translate' composes with
+   their keyframe 'transform'). Hero-scoped so the contact aurora, far down
+   the page, never inherits a huge offset. */
+@media (prefers-reduced-motion: no-preference) {
+  .cs-hero .cs-aurora-b1 { translate: 0 calc(var(--cs-scroll, 0px) * -0.06); }
+  .cs-hero .cs-aurora-b2 { translate: 0 calc(var(--cs-scroll, 0px) * -0.11); }
+  .cs-hero .cs-aurora-b3 { translate: 0 calc(var(--cs-scroll, 0px) * 0.05); }
+}
+
 /* --- v2 guards (cascade-last) --- */
 @media (prefers-reduced-motion: reduce) {
   .cs-hero-actions .cs-btn-primary { animation: none; }
   .cs-service-card:hover::after, .cs-work-card:hover::after, .cs-proof-card:hover::after { animation: none; }
   .cs-kinetic-word:last-child .cs-kinetic-inner { animation: none; transform: none; }
+  .cs-story-arc::before { transform: none; transition: none; }
 }
 @media (forced-colors: active) {
   .cs-hero::before, main > .cs-section::before, .cs-hero-meta,

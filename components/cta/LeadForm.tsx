@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { leadSchema, type LeadInput } from "@/lib/lead/schema";
 import { track } from "@/lib/analytics";
+import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -81,6 +82,8 @@ export function LeadForm({
       if (res.ok) {
         submittedRef.current = true;
         track("lead_submitted", { source });
+        // The wish is granted: Lumi (when mounted) celebrates with a burst.
+        window.dispatchEvent(new CustomEvent(WISH_GRANTED_EVENT));
       }
       setStatus(res.ok ? "ok" : "error");
     } catch {
