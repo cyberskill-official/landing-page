@@ -36,7 +36,10 @@ import { useGenieStore } from "@/lib/genie/store";
 // procedural placeholder; preloading it here (SCENE-010) starts the fetch as
 // soon as the scene chunk loads, and the Suspense boundary keeps it from
 // blocking first paint. Unset (the default) keeps the procedural Lumi.
-const LUMI_GLB = process.env.NEXT_PUBLIC_LUMI_GLB;
+// Default to the committed model so the hero works with zero env config; an env
+// var (a CDN URL, say) still overrides it. NEXT_PUBLIC_* is inlined at build time,
+// which is awkward in the Docker/CI build, so the model no longer depends on it.
+const LUMI_GLB = process.env.NEXT_PUBLIC_LUMI_GLB || "/models/lumi_anim.glb";
 if (LUMI_GLB) useGLTF.preload(LUMI_GLB);
 
 // Fixed camera contract (FR-CHAR-030): the mascot journey maps viewport
