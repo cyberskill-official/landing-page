@@ -473,6 +473,9 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
   border-left: 2px solid var(--cs-color-line);
 }
 .cs-story-beat { position: relative; }
+/* The team beat carries id="team" (the "Team" nav target); clear the sticky
+   header on jump. */
+#team { scroll-margin-top: 6rem; }
 .cs-story-beat::before {
   content: "";
   position: absolute;

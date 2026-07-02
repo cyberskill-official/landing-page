@@ -30,7 +30,16 @@ export function StoryArc({ locale }: { locale: Locale }) {
         <p className="cs-section-lead" data-mask-reveal="">{intro}</p>
         <ol className="cs-story-arc" role="list" data-line-reveal="">
           {beats.map((beat, i) => (
-            <Reveal as="li" key={beat.id} className="cs-story-beat" delayMs={i * 90}>
+            <Reveal
+              as="li"
+              key={beat.id}
+              className="cs-story-beat"
+              delayMs={i * 90}
+              // Only the team beat gets a DOM id: it is the honest destination
+              // for the "Team" nav link. ("proof" would collide with the
+              // SocialProof section that already owns id="proof".)
+              id={beat.id === "team" ? "team" : undefined}
+            >
               <p className="cs-eyebrow">{localize(beat.kicker, locale)}</p>
               <h3 className="cs-story-beat-title">{localize(beat.heading, locale)}</h3>
               <p className="cs-story-beat-body">{localize(beat.body, locale)}</p>
