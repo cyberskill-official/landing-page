@@ -209,6 +209,57 @@ DEFERRED
   by default); re-check its local position when the real model arrives.
 - Touch devices keep the static poster + button CTAs (no mascot).
 
+---
+
+# Round 4 - 2026-07-02 - section signatures, Lumi-first conversion
+# (FR-DS-013 + FR-CHAR-031)
+
+Operator review of round 3: sections still static ("each section needs a
+WOW"), the Talk-to-Lumi CTAs are redundant next to the clickable mascot,
+and the contact form is "the old way - integrate it into Lumi".
+
+## Ledger
+
+DONE
+- FR-DS-013 section signature motion: TrustBand stat pop + gold ignition,
+  StoryArc node ignition riding the line draw, levitating ValueProp cards,
+  Services reveal scan-band, Process gold circuit + sequential index
+  charge, Work HUD viewfinder brackets on hover, SocialProof paper tilt,
+  FAQ breathing answers + rotating marker, Careers aurora. One observer
+  now serves data-mask-reveal / data-line-reveal / data-pop.
+- FR-CHAR-031 wish flow: pure keyless state machine (lib/genie/wishFlow.ts,
+  4 unit tests) collecting name -> email -> company? -> wish? -> explicit
+  consent in the chat with quick-reply chips, validating via the shared
+  leadSchema, POSTing the exact /api/lead payload (source lumi-chat),
+  celebrating via the wish-granted burst. AI conversation unchanged; the
+  flow works while the AI proxy is down.
+- Lumi-first contact: the section leads with a breathing "Grant it with
+  Lumi" launcher; the classic form folds behind native details/summary
+  (still works without JS); form card hugs its summary when folded.
+- CTA dedup: CanvasMount publishes html[data-lumi-live]; the hero and
+  persistent Talk-to-Lumi buttons (.cs-lumi-alt) hide while the mascot is
+  on stage and remain on devices without it; the header launcher stays
+  everywhere as the constant accessible entry. A one-time mono hint chip
+  ("Click me") rides under Lumi per session.
+- New analytics event wish_flow_started (client union + /api/analytics
+  allowlist).
+
+HONESTY
+- FR-CHAR-026 (value-first, ICP-adaptive capture) stays planned: FR-CHAR-031
+  is its deterministic foundation; the adaptive layer needs the AI path and
+  Stephen's qualification criteria (down-payment noted in its §3).
+
+## Evidence (Mac gate, 2026-07-02, all EXIT=0)
+
+- tsc; vitest 18 files / 74 tests (+4 wish-flow); lint; build 26/26;
+  check:assets; served-route jsdom axe 0 violations /en + /vi.
+- Automated end-to-end probes on the served build, all green in one run:
+  WISH_PROBE done:true (mascot click -> start chip -> name -> email ->
+  skip -> skip -> consent -> real /api/lead 200 -> "the wish is on its
+  way" bubble); CONTACT_PROBE lumiCta:true, form folded, hero duplicate
+  CTA display:none under data-lumi-live; ARM/CHAT/PASSTHROUGH/CLICKTHROUGH
+  from round 3b all still green.
+
 ## Evidence (Mac gate, 2026-07-02, all EXIT=0)
 
 - tsc; vitest 17 files / 70 tests (10 new in tests/journey.test.ts); lint;

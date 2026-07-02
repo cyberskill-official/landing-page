@@ -4,6 +4,8 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { LeadForm } from "@/components/cta/LeadForm";
 import { Aurora } from "@/components/motion/Aurora";
+import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { Icon } from "@/components/ui/Icon";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -24,6 +26,13 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
         <div className="cs-contact-intro">
           <h2 id="contact-title" data-mask-reveal="">{dict.sections.contactTitle}</h2>
           <p className="cs-section-lead" data-mask-reveal="">{dict.sections.contactLead}</p>
+          {/* Lumi-first contact (FR-CHAR-026): the conversation is the primary
+              path; the classic form stays available below as the fallback. */}
+          <p className="cs-contact-lumi">
+            <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi">
+              <Icon name="sparkle" size="sm" /> {dict.genie.contactLumiCta}
+            </GenieOpenButton>
+          </p>
           <ul className="cs-contact-list" role="list">
             <li>
               <a href={`mailto:${company.email}`}>{company.email}</a>
@@ -37,8 +46,13 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
           </ul>
         </div>
         <div className="cs-contact-form cs-surface-light">
-          <LeadForm locale={locale} dict={dict} source="contact" />
-          <p className="cs-consent-note">{dict.genie.consent}</p>
+          {/* Native details/summary: works without JS, so the form stays
+              reachable for every visitor while the conversation leads. */}
+          <details className="cs-contact-details">
+            <summary>{dict.genie.contactFormFallback}</summary>
+            <LeadForm locale={locale} dict={dict} source="contact" />
+            <p className="cs-consent-note">{dict.genie.consent}</p>
+          </details>
         </div>
       </div>
     </section>

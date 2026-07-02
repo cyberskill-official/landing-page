@@ -25,12 +25,31 @@ const INTERACTIVE_SELECTOR =
 // approach. Keyboard users keep the button in the tab order regardless
 // (pointer-events does not affect focus/Enter). The scene writes
 // visible:false when unmounted (touch/low-end) or while the chat is open.
-export function LumiHotspot({ label }: { label: string }) {
+export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
   const ref = useRef<HTMLButtonElement | null>(null);
+  const hintRef = useRef<HTMLSpanElement | null>(null);
   const pointer = useRef({ x: -1, y: -1 });
   const focused = useRef(false);
   const [visible, setVisible] = useState(false);
+  // One-time discoverability hint ("click me"): shows the first time the
+  // mascot appears in a session, then retires to sessionStorage.
+  const [showHint, setShowHint] = useState(false);
+  const hintArmed = useRef(false);
   const open = useGenieStore((s) => s.open);
+
+  useEffect(() => {
+    if (!visible || hintArmed.current) return;
+    hintArmed.current = true;
+    try {
+      if (window.sessionStorage.getItem("cs-lumi-hint")) return;
+      window.sessionStorage.setItem("cs-lumi-hint", "1");
+    } catch {
+      // storage unavailable: still show once for this page view
+    }
+    setShowHint(true);
+    const t = window.setTimeout(() => setShowHint(false), 6500);
+    return () => window.clearTimeout(t);
+  }, [visible]);
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -48,6 +67,10 @@ export function LumiHotspot({ label }: { label: string }) {
         el.style.transform = `translate3d(${(s.x - s.r).toFixed(1)}px, ${(s.y - s.r).toFixed(1)}px, 0)`;
         el.style.width = `${d.toFixed(0)}px`;
         el.style.height = `${d.toFixed(0)}px`;
+        const hintEl = hintRef.current;
+        if (hintEl) {
+          hintEl.style.transform = `translate3d(${s.x.toFixed(1)}px, ${(s.y + s.r + 10).toFixed(1)}px, 0) translateX(-50%)`;
+        }
 
         // Proximity + pass-through check. elementsFromPoint (plural) so the
         // armed hotspot can skip ITSELF in the stack - a single
@@ -82,7 +105,13 @@ export function LumiHotspot({ label }: { label: string }) {
   }, []);
 
   return (
-    <button
+    <>
+      {showHint && visible && !open && (
+        <span ref={hintRef} className="cs-lumi-hint" aria-hidden="true">
+          {hint} ✦
+        </span>
+      )}
+      <button
       ref={ref}
       type="button"
       className="cs-lumi-hotspot"
@@ -103,6 +132,7 @@ export function LumiHotspot({ label }: { label: string }) {
         focused.current = false;
         setLumiExcite(false);
       }}
-    />
+      />
+    </>
   );
 }

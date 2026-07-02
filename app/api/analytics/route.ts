@@ -12,6 +12,7 @@ const ALLOWED = new Set([
   "page_view",
   "form_start",
   "lead_abandoned",
+  "wish_flow_started",
 ]);
 
 export async function POST(req: Request) {

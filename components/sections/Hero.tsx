@@ -51,7 +51,10 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
             {dict.hero.ctaPrimary}
           </a>
-          <GenieOpenButton className="cs-btn cs-btn-secondary">
+          {/* Hidden while the living mascot is on stage (html[data-lumi-live]):
+              clicking Lumi itself opens the chat, so this duplicate CTA only
+              serves devices without the mascot. */}
+          <GenieOpenButton className="cs-btn cs-btn-secondary cs-lumi-alt">
             {dict.hero.ctaSecondary}
           </GenieOpenButton>
         </div>

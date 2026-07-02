@@ -14,6 +14,8 @@ export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary
         <div className="cs-work-grid">
           {work.map((item, i) => (
             <Reveal as="article" key={item.slug} className="cs-work-card cs-surface-light" delayMs={i * 80}>
+              {/* HUD viewfinder brackets: appear on hover (decorative). */}
+              <span className="cs-corners" aria-hidden="true" />
               <p className="cs-eyebrow">{item.client}</p>
               <h3>
                 <Link className="cs-stretch" href={`/${locale}/work/${item.slug}`}>

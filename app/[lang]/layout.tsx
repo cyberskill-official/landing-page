@@ -73,7 +73,7 @@ export default async function LocaleLayout({
       <SiteFooter locale={lang} dict={dict} />
       <PersistentCta locale={lang} dict={dict} />
       <GenieChat locale={lang} dict={dict} />
-      <LumiHotspot label={dict.genie.open} />
+      <LumiHotspot label={dict.genie.open} hint={dict.genie.hint} />
       <GenieStatusAnnouncer dict={dict} />
       <MotionExtras />
       <IntroVeil locale={lang} />

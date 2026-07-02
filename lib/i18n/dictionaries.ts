@@ -67,6 +67,25 @@ export type Dictionary = {
     thinking: string;
     unavailable: string;
     close: string;
+    // One-time mascot hint (FR-CHAR-030) + the in-chat wish flow (FR-CHAR-026).
+    hint: string;
+    wishCta: string;
+    wishAskName: string;
+    wishAskEmail: string;
+    wishAskCompany: string;
+    wishAskMessage: string;
+    wishAskConsent: string;
+    wishAgree: string;
+    wishSkip: string;
+    wishCancel: string;
+    wishCancelled: string;
+    wishSending: string;
+    wishDone: string;
+    wishFailed: string;
+    wishErrorName: string;
+    wishErrorEmail: string;
+    contactLumiCta: string;
+    contactFormFallback: string;
   };
   a11y: {
     themeToDark: string;
@@ -148,6 +167,24 @@ const en: Dictionary = {
     thinking: "Lumi is thinking...",
     unavailable: "Lumi is resting right now. Please use the contact form and we will reply within one business day.",
     close: "Close chat",
+    hint: "Click me",
+    wishCta: "Leave your wish for the team",
+    wishAskName: "Wonderful. What may I call you?",
+    wishAskEmail: "Nice to meet you, {name}. Where can the team reply to you? (work email)",
+    wishAskCompany: "Which company or team is this for? You can skip this.",
+    wishAskMessage: "Now the important part: tell me the wish in a sentence or two.",
+    wishAskConsent: "May the CyberSkill team contact you about this wish?",
+    wishAgree: "Yes, contact me",
+    wishSkip: "Skip",
+    wishCancel: "Not now",
+    wishCancelled: "No worries. The lamp stays warm - come back whenever the wish is ready.",
+    wishSending: "Sealing the wish...",
+    wishDone: "The wish is on its way to the team. A real person replies within one business day.",
+    wishFailed: "The lamp flickered - the wish did not go through. Try once more, or email info@cyberskill.world.",
+    wishErrorName: "Just a name so the team knows who to reply to.",
+    wishErrorEmail: "That email does not look right - one more try?",
+    contactLumiCta: "Grant it with Lumi",
+    contactFormFallback: "Prefer a classic form?",
   },
   a11y: {
     themeToDark: "Switch to dark mode",
@@ -229,6 +266,24 @@ const vi: Dictionary = {
     thinking: "Lumi đang suy nghĩ...",
     unavailable: "Lumi đang tạm nghỉ. Bạn hãy dùng biểu mẫu liên hệ, chúng tôi sẽ phản hồi trong một ngày làm việc.",
     close: "Đóng cửa sổ trò chuyện",
+    hint: "Chạm vào mình nhé",
+    wishCta: "Gửi điều ước cho đội ngũ",
+    wishAskName: "Tuyệt. Mình nên gọi bạn là gì?",
+    wishAskEmail: "Rất vui được gặp bạn, {name}. Đội ngũ có thể phản hồi bạn qua email nào? (email công việc)",
+    wishAskCompany: "Điều ước này dành cho công ty hay đội nhóm nào? Bạn có thể bỏ qua.",
+    wishAskMessage: "Giờ đến phần quan trọng: kể mình nghe điều ước, một hai câu thôi.",
+    wishAskConsent: "Đội ngũ CyberSkill có thể liên hệ bạn về điều ước này chứ?",
+    wishAgree: "Đồng ý, liên hệ mình",
+    wishSkip: "Bỏ qua",
+    wishCancel: "Để sau",
+    wishCancelled: "Không sao. Cây đèn vẫn ấm - khi nào điều ước sẵn sàng, bạn quay lại nhé.",
+    wishSending: "Đang niêm phong điều ước...",
+    wishDone: "Điều ước đã lên đường đến đội ngũ. Một người thật sẽ phản hồi bạn trong một ngày làm việc.",
+    wishFailed: "Cây đèn chớp tắt - điều ước chưa gửi được. Bạn thử lại lần nữa, hoặc email info@cyberskill.world nhé.",
+    wishErrorName: "Cho mình xin một cái tên để đội ngũ biết phản hồi ai nhé.",
+    wishErrorEmail: "Email này có vẻ chưa đúng - bạn thử lại nhé?",
+    contactLumiCta: "Nhờ Lumi thực hiện",
+    contactFormFallback: "Bạn thích dùng biểu mẫu quen thuộc?",
   },
   a11y: {
     themeToDark: "Chuyển sang chế độ tối",

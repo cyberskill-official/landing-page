@@ -10,7 +10,9 @@ export function PersistentCta({ locale, dict }: { locale: Locale; dict: Dictiona
       <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
         {dict.hero.ctaPrimary}
       </a>
-      <GenieOpenButton className="cs-btn cs-btn-brand">
+      {/* Hidden while the living mascot is on stage: Lumi itself opens the
+          chat there; this stays for devices without the mascot. */}
+      <GenieOpenButton className="cs-btn cs-btn-brand cs-lumi-alt">
         {dict.hero.ctaSecondary}
       </GenieOpenButton>
     </div>

@@ -64,7 +64,7 @@ export function MotionExtras() {
   // scripting:none CSS rules force-show as safety nets. Re-scans on route
   // change so client navigations get their reveals too.
   useEffect(() => {
-    const ATTRS = ["data-mask-reveal", "data-line-reveal"] as const;
+    const ATTRS = ["data-mask-reveal", "data-line-reveal", "data-pop"] as const;
     const show = (el: Element) => {
       for (const name of ATTRS) {
         if (el.hasAttribute(name)) el.setAttribute(name, "shown");
@@ -72,7 +72,7 @@ export function MotionExtras() {
     };
     const pending = (el: Element) => ATTRS.some((name) => el.getAttribute(name) === "");
     const els = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-mask-reveal], [data-line-reveal]"),
+      document.querySelectorAll<HTMLElement>("[data-mask-reveal], [data-line-reveal], [data-pop]"),
     ).filter(pending);
     if (els.length === 0) return;
     if (typeof IntersectionObserver === "undefined") {

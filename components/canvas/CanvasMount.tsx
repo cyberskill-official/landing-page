@@ -32,7 +32,13 @@ export function CanvasMount() {
   const [mount, setMount] = useState(false);
 
   useEffect(() => {
-    setMount(capable());
+    const live = capable();
+    setMount(live);
+    // Signal the DOM that the living mascot is on stage (FR-CHAR-030): the
+    // duplicate "Talk to Lumi" CTAs (.cs-lumi-alt) hide themselves, since
+    // clicking Lumi itself opens the chat on these devices.
+    if (live) document.documentElement.setAttribute("data-lumi-live", "true");
+    return () => document.documentElement.removeAttribute("data-lumi-live");
   }, []);
 
   return (
