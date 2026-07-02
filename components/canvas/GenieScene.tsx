@@ -2,7 +2,9 @@
 
 import { Suspense, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, Sparkles, Trail, useGLTF } from "@react-three/drei";
+import { Environment, Float, Lightformer, Sparkles, Trail, useGLTF } from "@react-three/drei";
+import { EffectComposer, Bloom, Vignette, SMAA, ToneMapping } from "@react-three/postprocessing";
+import { ToneMappingMode } from "postprocessing";
 import * as THREE from "three";
 import { LumiPlaceholder, useThemeMode } from "@/components/canvas/LumiPlaceholder";
 import { GltfLumi } from "@/components/canvas/GltfLumi";
@@ -128,16 +130,17 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     }
 
     const world = viewportToWorld(anchor.vx, anchor.vy, CAM_Z, CAM_FOV, aspect);
-    const idleBob = chatOpen ? 0 : Math.sin(state.clock.elapsedTime * 0.9) * 0.06;
+    const idleBob = chatOpen ? 0 : Math.sin(state.clock.elapsedTime * 0.9) * 0.03;
     const prevX = pos.current.x;
     pos.current.x += (world.x + bow * 0.4 - pos.current.x) * k;
     pos.current.y += (world.y + idleBob - pos.current.y) * k;
     g.position.set(pos.current.x, pos.current.y, 0);
     setLumiWorld({ x: pos.current.x, y: pos.current.y, z: 0 });
 
-    // Bank into horizontal motion like a tiny aircraft.
+    // Bank gently into horizontal motion like a tiny aircraft (kept subtle so
+    // the skeletal idle reads clearly and Lumi never tips far off vertical).
     const velX = (pos.current.x - prevX) / Math.max(delta, 1e-4);
-    g.rotation.z += (THREE.MathUtils.clamp(-velX * 0.16, -0.5, 0.5) - g.rotation.z) * Math.min(1, delta * 3);
+    g.rotation.z += (THREE.MathUtils.clamp(-velX * 0.08, -0.26, 0.26) - g.rotation.z) * Math.min(1, delta * 3);
 
     // Hover excitement puffs Lumi and pops a burst on the rising edge; the
     // black-hole digest swells the whole mascot as it feeds (FR-CHAR-032).
@@ -336,13 +339,30 @@ export function GenieScene() {
   return (
     <Canvas
       className="cs-canvas"
-      dpr={[1, 1.75]}
+      dpr={[1, 2]}
+      flat
       camera={{ position: [0, 0, CAM_Z], fov: CAM_FOV }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
     >
       <ambientLight intensity={0.45} />
       <directionalLight position={[3, 4, 5]} intensity={0.6} color="#fff4d6" />
       <pointLight position={[-4, -2, 1]} intensity={0.5} color="#F4BA17" distance={14} />
+      {/* Self-contained IBL so the commissioned Lumi's metallic-gold PBR has
+          something to reflect - a metalness=1 material renders black without an
+          environment. Baked once (frames={1}), inline Lightformers so there is no
+          external HDR fetch. The procedural placeholder does not need this. */}
+      <Environment resolution={512} frames={1}>
+        {/* Warm soft key */}
+        <Lightformer form="rect" intensity={4.0} color="#fff2d0" position={[0, 3, 6]} scale={[12, 12, 1]} />
+        {/* Ochre side rim (brand) */}
+        <Lightformer form="rect" intensity={2.8} color="#F4BA17" position={[-6, 1, 3]} scale={[6, 10, 1]} />
+        {/* Cool fill for a premium warm/cool contrast (kept low so the gold stays rich) */}
+        <Lightformer form="rect" intensity={0.85} color="#bcd0ff" position={[6, 2, 2]} scale={[5, 9, 1]} />
+        {/* Warm underglow */}
+        <Lightformer form="ring" intensity={2.0} color="#ffce6b" position={[0, -3, 5]} scale={[8, 8, 1]} />
+        {/* Small bright glint for a sharp specular sparkle */}
+        <Lightformer form="rect" intensity={7.0} color="#ffffff" position={[2.5, 4, 4]} scale={[1.4, 1.4, 1]} />
+      </Environment>
       <CameraRig />
       <WishGrid />
       <BurstField />
@@ -358,7 +378,7 @@ export function GenieScene() {
       />
       <LumiRig>
         <object3D ref={trailAnchor} />
-        <Float speed={1.4} rotationIntensity={0.25} floatIntensity={0.7}>
+        <Float speed={1.1} rotationIntensity={0.1} floatIntensity={0.35}>
           <Suspense fallback={null}>
             {LUMI_GLB ? (
               <GlbBoundary fallback={<LumiPlaceholder />}>
@@ -373,6 +393,15 @@ export function GenieScene() {
             page, so text stays clean outside Lumi's flight path. */}
         <Sparkles count={34} scale={[2.2, 1.9, 1.5]} size={3.2} speed={0.4} color="#F4BA17" opacity={0.75} />
       </LumiRig>
+      {/* Premium post: bloom on the gold highlights + AgX filmic tone map (matches
+          the Blender look) + a subtle vignette; SMAA replaces MSAA (antialias off,
+          flat renderer so the ToneMapping effect owns the transform). */}
+      <EffectComposer multisampling={0} enableNormalPass={false}>
+        <Bloom mipmapBlur luminanceThreshold={0.72} luminanceSmoothing={0.14} intensity={0.62} radius={0.62} />
+        <ToneMapping mode={ToneMappingMode.AGX} />
+        <Vignette eskil={false} offset={0.28} darkness={0.55} />
+        <SMAA />
+      </EffectComposer>
     </Canvas>
   );
 }

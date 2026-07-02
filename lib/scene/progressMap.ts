@@ -27,7 +27,7 @@ const STOPS: ReadonlyArray<{ at: number; state: SceneState }> = [
     at: 0.5,
     state: {
       camera: { x: -0.25, y: 0.18, z: 3.55, fov: 42.5 },
-      model: { spin: Math.PI * 0.6, driftX: 0.25, driftZ: 0.3, glow: 0.5 },
+      model: { spin: 0.25, driftX: 0.25, driftZ: 0.3, glow: 0.5 },
       light: { intensity: 2.4 },
     },
   },
@@ -35,7 +35,7 @@ const STOPS: ReadonlyArray<{ at: number; state: SceneState }> = [
     at: 1,
     state: {
       camera: { x: -0.5, y: 0.35, z: 3.1, fov: 40 },
-      model: { spin: Math.PI * 1.2, driftX: 0.5, driftZ: 0.6, glow: 1 },
+      model: { spin: -0.1, driftX: 0.5, driftZ: 0.6, glow: 1 },
       light: { intensity: 3 },
     },
   },
@@ -77,7 +77,10 @@ export function resolveSceneState(progress: number): SceneState {
     const hi = STOPS[i + 1];
     if (p >= lo.at && p <= hi.at) {
       const span = hi.at - lo.at || 1;
-      return blend(lo.state, hi.state, (p - lo.at) / span);
+      const rt = (p - lo.at) / span;
+      // Ease each transition (smoothstep) so spin / drift / camera glide between
+      // stops instead of tracking raw scroll linearly - a smoother flight feel.
+      return blend(lo.state, hi.state, rt * rt * (3 - 2 * rt));
     }
   }
   return STOPS[STOPS.length - 1].state;

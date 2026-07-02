@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useAnimations } from "@react-three/drei";
+import { SkeletonUtils } from "three-stdlib";
 import * as THREE from "three";
 import { getScrollProgress } from "@/lib/scroll/progress";
 import { getPointerNorm } from "@/lib/scene/mascot";
@@ -10,10 +11,10 @@ import { resolveSceneState } from "@/lib/scene/progressMap";
 
 // Commissioned GLB Lumi (FR-CHAR-022). Mounted only when NEXT_PUBLIC_LUMI_GLB is
 // set (see GenieScene), so the procedural placeholder stays the default until a
-// real model is dropped in. The model is cloned so per-frame transforms and
-// unmount disposal never mutate drei's shared cache (FR-SCENE-009). It reuses
-// the same scroll choreography as the placeholder: turn + drift from the scene
-// map, with a light pointer-gaze.
+// real model is dropped in. The model is skeleton-cloned (see below) so per-frame
+// transforms never mutate drei's shared cache (FR-SCENE-009), and it plays the
+// baked Idle clip. It reuses the same scroll choreography as the placeholder:
+// turn + drift from the scene map, with a light pointer-gaze.
 //
 // Tuning: a Meshy/Blender export rarely lands at the right size or origin for
 // this hero framing. Adjust BASE_SCALE / BASE_POSITION below (or re-export the
@@ -22,26 +23,51 @@ import { resolveSceneState } from "@/lib/scene/progressMap";
 // offsets are LOCAL (model centring), not page position.
 const BASE_SCALE = 1;
 const BASE_POSITION: [number, number, number] = [0, -0.4, 0];
+// Name of the baked idle clip in the GLB (see lumi-3d export). Falls back to the
+// first available clip if the name ever changes.
+const IDLE_CLIP = "Idle";
 
 export function GltfLumi({ url }: { url: string }) {
   const group = useRef<THREE.Group>(null);
   const prog = useRef(0);
-  const { scene } = useGLTF(url);
-  const model = useMemo(() => scene.clone(true), [scene]);
+  const { scene, animations } = useGLTF(url);
+  // A skinned mesh must be cloned with SkeletonUtils.clone: THREE.Object3D.clone()
+  // leaves the copy bound to the source skeleton, so the baked animation would not
+  // deform this instance. SkeletonUtils shares geometry/materials with drei's
+  // cached original, so we do NOT dispose them here (that would corrupt the cache
+  // on remount); drei owns the cached source's lifecycle (FR-SCENE-009).
+  const model = useMemo(() => {
+    const clone = SkeletonUtils.clone(scene);
+    // Premium material polish: clone the shared materials (so drei's cache stays
+    // clean) and drink in more of the IBL so the gold reads rich and reflective
+    // rather than flat. envMapIntensity pairs with the studio Environment/bloom.
+    clone.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const polish = (m: THREE.Material) => {
+        const std = m.clone() as THREE.MeshStandardMaterial;
+        if ("envMapIntensity" in std) std.envMapIntensity = 1.5;
+        return std;
+      };
+      mesh.material = Array.isArray(mesh.material)
+        ? mesh.material.map(polish)
+        : polish(mesh.material);
+    });
+    return clone;
+  }, [scene]);
+  const { actions } = useAnimations(animations, model);
 
-  // Dispose the cloned model's GPU resources on unmount (FR-SCENE-009).
+  // Play the baked idle loop (float + tail sway + hair). useAnimations advances
+  // its mixer on the r3f frame loop, so no manual tick is needed; the procedural
+  // spin/drift below still layers on top for the scroll choreography.
   useEffect(() => {
+    const clip = actions[IDLE_CLIP] ?? Object.values(actions)[0];
+    if (!clip) return;
+    clip.reset().setLoop(THREE.LoopRepeat, Infinity).fadeIn(0.4).play();
     return () => {
-      model.traverse((obj) => {
-        const mesh = obj as THREE.Mesh;
-        if (!mesh.isMesh) return;
-        mesh.geometry?.dispose?.();
-        const mat = mesh.material as THREE.Material | THREE.Material[] | undefined;
-        if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
-        else mat?.dispose?.();
-      });
+      clip.fadeOut(0.25);
     };
-  }, [model]);
+  }, [actions]);
 
   useFrame((_, delta) => {
     const g = group.current;
