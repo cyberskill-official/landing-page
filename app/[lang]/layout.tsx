@@ -13,6 +13,7 @@ import { LumiHotspot } from "@/components/canvas/LumiHotspot";
 import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
 import { ScrollState } from "@/components/scroll/ScrollState";
 import { MotionExtras } from "@/components/motion/MotionExtras";
+import { SoundCues } from "@/components/sound/SoundCues";
 import { BlackHole } from "@/components/motion/BlackHole";
 import { IntroVeil } from "@/components/motion/IntroVeil";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
@@ -77,6 +78,7 @@ export default async function LocaleLayout({
       <LumiHotspot label={dict.genie.open} hint={dict.genie.hint} />
       <GenieStatusAnnouncer dict={dict} />
       <MotionExtras />
+      <SoundCues />
       <BlackHole />
       <IntroVeil locale={lang} />
       <div className="cs-grain" aria-hidden="true" />

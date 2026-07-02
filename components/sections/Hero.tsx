@@ -5,6 +5,7 @@ import { company } from "@/lib/content/site";
 import { splitSloganWords } from "@/lib/motion/kinetic";
 import { Aurora } from "@/components/motion/Aurora";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { HeroWish } from "@/components/genie/HeroWish";
 import { Icon } from "@/components/ui/Icon";
 
 // Story-driven hero. The H1 is real server-rendered text (the LCP element),
@@ -47,6 +48,10 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           ))}
         </h1>
         <p className="cs-hero-lead">{lead}</p>
+        {/* The signature interaction: type a wish, gold dust bursts, Lumi's chat
+            opens with it in hand. Stays visible even with the live mascot - it is
+            the on-brand entry to the wish flow. */}
+        <HeroWish placeholder={dict.hero.wishPlaceholder} cta={dict.hero.wishCta} />
         {/* While the living mascot is on stage (html[data-lumi-live]) BOTH
             launchers hide: Lumi is the interface - its chat carries the
             project intent (wish flow) and the conversation. These remain the

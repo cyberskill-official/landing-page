@@ -17,6 +17,8 @@ export type Dictionary = {
     ctaPrimary: string;
     ctaSecondary: string;
     scrollHint: string;
+    wishPlaceholder: string;
+    wishCta: string;
   };
   sections: {
     valueTitle: string;
@@ -86,16 +88,23 @@ export type Dictionary = {
     wishErrorEmail: string;
     contactLumiCta: string;
     contactFormFallback: string;
+    wishSeedAck: string;
   };
   a11y: {
     themeToDark: string;
     themeToLight: string;
+    soundOn: string;
+    soundOff: string;
     skip3d: string;
     liteLink: string;
     cinematicLink: string;
     lumiThinking: string;
     lumiResponding: string;
     sceneNoscript: string;
+    homeLabel: string;
+    primaryNav: string;
+    languageLabel: string;
+    quickActions: string;
   };
   footer: {
     rights: string;
@@ -115,10 +124,12 @@ const en: Dictionary = {
     skipToContent: "Skip to content",
   },
   hero: {
-    eyebrow: "Software solutions consultancy, since 2020",
+    eyebrow: "A small senior team in Saigon, building software since 2020",
     ctaPrimary: "Start my project",
     ctaSecondary: "Talk to Lumi",
     scrollHint: "Scroll to follow the wish",
+    wishPlaceholder: "Make a wish... a faster checkout, an app, a tool",
+    wishCta: "Make a wish",
   },
   sections: {
     valueTitle: "Why teams work with us",
@@ -185,16 +196,23 @@ const en: Dictionary = {
     wishErrorEmail: "That email does not look right - one more try?",
     contactLumiCta: "Grant it with Lumi",
     contactFormFallback: "Prefer a classic form?",
+    wishSeedAck: "A wish worth granting. Let me hand it to the team - first, what may I call you?",
   },
   a11y: {
     themeToDark: "Switch to dark mode",
     themeToLight: "Switch to light mode",
+    soundOn: "Turn sound on",
+    soundOff: "Turn sound off",
     skip3d: "Skip the 3D scene",
     liteLink: "View the simple version",
     cinematicLink: "Back to the full experience",
     lumiThinking: "Lumi is thinking.",
     lumiResponding: "Lumi is responding.",
     sceneNoscript: "Lumi, an animated golden genie, decorates this page. It is purely visual - all information and actions are available as text and controls on the page.",
+    homeLabel: "CyberSkill home",
+    primaryNav: "Primary navigation",
+    languageLabel: "Language",
+    quickActions: "Quick actions",
   },
   footer: {
     rights: "All rights reserved.",
@@ -214,10 +232,12 @@ const vi: Dictionary = {
     skipToContent: "Tới nội dung chính",
   },
   hero: {
-    eyebrow: "Tư vấn và phát triển phần mềm, từ 2020",
+    eyebrow: "Một nhóm nhỏ giàu kinh nghiệm ở Sài Gòn, làm phần mềm từ 2020",
     ctaPrimary: "Bắt đầu dự án",
     ctaSecondary: "Trò chuyện với Lumi",
     scrollHint: "Cuộn xuống để theo điều ước",
+    wishPlaceholder: "Ước một điều... thanh toán nhanh hơn, một ứng dụng, một công cụ",
+    wishCta: "Ước điều này",
   },
   sections: {
     valueTitle: "Vì sao các đội ngũ chọn CyberSkill",
@@ -284,16 +304,23 @@ const vi: Dictionary = {
     wishErrorEmail: "Email này có vẻ chưa đúng - bạn thử lại nhé?",
     contactLumiCta: "Nhờ Lumi thực hiện",
     contactFormFallback: "Bạn thích dùng biểu mẫu quen thuộc?",
+    wishSeedAck: "Một điều ước đáng để thực hiện. Để mình chuyển đến đội ngũ nhé - trước tiên, mình nên gọi bạn là gì?",
   },
   a11y: {
     themeToDark: "Chuyển sang chế độ tối",
     themeToLight: "Chuyển sang chế độ sáng",
+    soundOn: "Bật âm thanh",
+    soundOff: "Tắt âm thanh",
     skip3d: "Bỏ qua cảnh 3D",
     liteLink: "Xem phiên bản đơn giản",
     cinematicLink: "Trở lại trải nghiệm đầy đủ",
     lumiThinking: "Lumi đang suy nghĩ.",
     lumiResponding: "Lumi đang trả lời.",
     sceneNoscript: "Lumi, một thần đèn vàng hoạt họa, chỉ để trang trí cho trang này. Mọi thông tin và thao tác đều có sẵn dưới dạng văn bản và nút điều khiển trên trang.",
+    homeLabel: "Trang chủ CyberSkill",
+    primaryNav: "Điều hướng chính",
+    languageLabel: "Ngôn ngữ",
+    quickActions: "Thao tác nhanh",
   },
   footer: {
     rights: "Bảo lưu mọi quyền.",

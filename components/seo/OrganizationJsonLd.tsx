@@ -28,6 +28,18 @@ export function OrganizationJsonLd({ locale }: { locale: Locale }) {
         identifier: { "@type": "PropertyValue", propertyID: "DUNS", value: company.duns },
         areaServed: "Worldwide",
         knowsAbout: ["Web applications", "Mobile applications", "Internal software systems"],
+        knowsLanguage: ["en", "vi"],
+        // A raster brand mark (the gold Lumi orb) - Google shows this as the
+        // organization logo in search results and the Knowledge Panel.
+        logo: `${url}/apple-icon`,
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          telephone: company.phone,
+          email: company.email,
+          areaServed: "Worldwide",
+          availableLanguage: ["en", "vi"],
+        },
       },
       {
         "@type": "WebSite",

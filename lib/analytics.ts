@@ -9,6 +9,7 @@ export type AnalyticsEvent =
   | "page_view"
   | "form_start"
   | "lead_abandoned"
+  | "hero_wish"
   | "wish_flow_started";
 
 export function track(event: AnalyticsEvent, props?: Record<string, unknown>): void {

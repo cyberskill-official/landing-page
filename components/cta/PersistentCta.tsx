@@ -9,7 +9,7 @@ export function PersistentCta({ locale, dict }: { locale: Locale; dict: Dictiona
     // The whole bar retires while the living mascot is on stage (operator
     // decision: Lumi carries both intents there); it remains the conversion
     // path on devices without the mascot.
-    <div className="cs-persistent-cta cs-no-print cs-lumi-alt" aria-label="Quick actions">
+    <div className="cs-persistent-cta cs-no-print cs-lumi-alt" aria-label={dict.a11y.quickActions}>
       <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
         {dict.hero.ctaPrimary}
       </a>

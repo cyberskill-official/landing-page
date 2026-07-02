@@ -5,6 +5,7 @@ import { work } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
+import { WorkThumb } from "@/components/ui/WorkThumb";
 
 export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
@@ -19,6 +20,7 @@ export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary
             <Reveal as="article" key={item.slug} className="cs-work-card cs-surface-light" delayMs={i * 80}>
               {/* HUD viewfinder brackets: appear on hover (decorative). */}
               <span className="cs-corners" aria-hidden="true" />
+              <WorkThumb slug={item.slug} />
               <p className="cs-eyebrow">{item.client}</p>
               <h3>
                 <Link className="cs-stretch" href={`/${locale}/work/${item.slug}`}>

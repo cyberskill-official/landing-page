@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { locales, localeLabel, type Locale } from "@/lib/i18n/config";
 
 // Swaps the first path segment between locales, preserving the rest of the URL.
-export function LanguageSwitcher({ current }: { current: Locale }) {
+export function LanguageSwitcher({ current, label }: { current: Locale; label: string }) {
   const pathname = usePathname() || `/${current}`;
 
   function hrefFor(target: Locale): string {
@@ -23,7 +23,7 @@ export function LanguageSwitcher({ current }: { current: Locale }) {
   }
 
   return (
-    <div className="cs-lang" role="group" aria-label="Language">
+    <div className="cs-lang" role="group" aria-label={label}>
       {locales.map((loc) => (
         <Link
           key={loc}

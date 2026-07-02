@@ -4,6 +4,9 @@ import { valueProps } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
+import { BrandIcon, type BrandIconName } from "@/components/ui/BrandIcon";
+
+const valueIcons: BrandIconName[] = ["since", "practices", "outcome"];
 
 export function ValueProp({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
@@ -15,6 +18,7 @@ export function ValueProp({ locale, dict }: { locale: Locale; dict: Dictionary }
         <ul className="cs-value-grid" role="list">
           {valueProps.map((vp, i) => (
             <Reveal as="li" key={i} className="cs-value-item cs-surface-light" delayMs={i * 80}>
+              <span className="cs-card-icon" aria-hidden="true"><BrandIcon name={valueIcons[i]} /></span>
               <p className="cs-value-stat">{localize(vp.stat, locale)}</p>
               <p className="cs-value-label">{localize(vp.label, locale)}</p>
             </Reveal>

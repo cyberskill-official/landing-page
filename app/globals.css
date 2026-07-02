@@ -473,6 +473,9 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
   border-left: 2px solid var(--cs-color-line);
 }
 .cs-story-beat { position: relative; }
+/* The team beat carries id="team" (the "Team" nav target); clear the sticky
+   header on jump. */
+#team { scroll-margin-top: 6rem; }
 .cs-story-beat::before {
   content: "";
   position: absolute;
@@ -983,6 +986,33 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   background: radial-gradient(closest-side, rgba(244, 186, 23, 0.13), rgba(244, 186, 23, 0) 70%);
   mix-blend-mode: screen;
 }
+/* Gold-dust trail: sparse sparks the cursor drops as it moves. Under the
+   dot/ring (z 300 vs 320), above content; only visible while the custom cursor
+   is active. Each spark is injected by MotionExtras with per-particle --x/--y
+   (drop point) and --dx/--dy/--s (drift + shrink). */
+.cs-cursor-dust { position: fixed; inset: 0; z-index: 300; pointer-events: none; opacity: 0; }
+[data-cs-cursor="on"] .cs-cursor-dust { opacity: 1; }
+.cs-cursor-dust i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #fff2c8, #f4ba17 55%, rgba(244, 186, 23, 0) 72%);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: cs-cursor-spark 720ms ease-out forwards;
+}
+@keyframes cs-cursor-spark {
+  0% { opacity: 0; transform: translate3d(var(--x), var(--y), 0) scale(0.3); }
+  22% { opacity: 0.85; }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--x) + var(--dx)), calc(var(--y) + var(--dy)), 0) scale(var(--s));
+  }
+}
 /* Hide the native cursor where the custom one is active; text fields keep
    the native I-beam (the dot/ring fade out over them instead). */
 [data-cs-cursor="on"] body,
@@ -1053,12 +1083,12 @@ p[data-mask-reveal] { transition-delay: 140ms; }
   [data-mask-reveal] { clip-path: none; transform: none; transition: none; }
 }
 @media (forced-colors: active) {
-  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-cursor-dust, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
   .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
   [data-mask-reveal] { clip-path: none; transform: none; }
 }
 @media print {
-  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-cursor-dust, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
   .cs-hero-hint::after { display: none; }
   .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
   [data-mask-reveal] { clip-path: none; transform: none; }
@@ -1683,4 +1713,145 @@ main > .cs-section::before {
 }
 @media print {
   .cs-hero::before, main > .cs-section::before, .cs-hero-meta { display: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Card icon system (FR-WEB-ART): a bespoke gold glyph tile atop every  */
+/* card, so Services / Process / Value / Commitments read as one art-   */
+/* directed visual system instead of five identical text grids.         */
+.cs-card-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: var(--cs-space-4, 1rem);
+  border-radius: var(--cs-radius-md, 14px);
+  color: var(--cs-color-brand-ochre, #f4ba17);
+  background: linear-gradient(150deg, rgba(244, 186, 23, 0.16), rgba(244, 186, 23, 0.03));
+  border: 1px solid rgba(244, 186, 23, 0.28);
+  box-shadow: 0 6px 18px -10px rgba(244, 186, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--cs-dur-med, 220ms) var(--cs-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow var(--cs-dur-med, 220ms) ease,
+    border-color var(--cs-dur-med, 220ms) ease;
+}
+.cs-card-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 60% at 30% 20%, rgba(255, 240, 200, 0.22), transparent 70%);
+  pointer-events: none;
+}
+.cs-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(244, 186, 23, 0.35));
+}
+.cs-service-card:hover .cs-card-icon,
+.cs-value-item:hover .cs-card-icon,
+.cs-proof-card:hover .cs-card-icon {
+  transform: translateY(-2px) rotate(-2deg);
+  border-color: rgba(244, 186, 23, 0.5);
+  box-shadow: 0 10px 26px -10px rgba(244, 186, 23, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+[data-theme="light"] .cs-card-icon {
+  color: var(--cs-color-brand-umber, #45210e);
+  background: linear-gradient(150deg, rgba(181, 120, 10, 0.14), rgba(181, 120, 10, 0.03));
+  border-color: rgba(181, 120, 10, 0.3);
+}
+[data-theme="light"] .cs-icon { filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .cs-card-icon { transition: none; }
+}
+
+/* Selected Work mockups (FR-WEB-ART): stylised product screens so the portfolio */
+/* reads as a portfolio. Swap for real screenshots when case studies are cleared. */
+.cs-work-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 320 / 190;
+  margin-bottom: var(--cs-space-4, 1rem);
+  border-radius: var(--cs-radius-md, 14px);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(244, 186, 23, 0.07), rgba(0, 0, 0, 0) 68%),
+    rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 30px -20px rgba(0, 0, 0, 0.85);
+}
+.cs-work-thumb svg { display: block; width: 100%; height: 100%; }
+.cs-thumb-bars rect {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: transform var(--cs-dur-med, 240ms) var(--cs-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.cs-work-card:hover .cs-thumb-bars rect { transform: scaleY(1.14); }
+.cs-thumb-cta { transition: filter var(--cs-dur-med, 240ms) ease; }
+.cs-work-card:hover .cs-thumb-cta { filter: drop-shadow(0 0 8px rgba(244, 186, 23, 0.65)); }
+[data-theme="light"] .cs-work-thumb { background: rgba(28, 19, 13, 0.9); }
+@media (prefers-reduced-motion: reduce) {
+  .cs-thumb-bars rect,
+  .cs-thumb-cta { transition: none; }
+}
+
+/* Make-a-wish hero widget + gold-dust burst (FR-CHAR-026). */
+.cs-wish {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: min(30rem, 100%);
+  margin: var(--cs-space-6, 1.5rem) 0 var(--cs-space-4, 1rem);
+  padding: 0.4rem 0.4rem 0.4rem 0.9rem;
+  border-radius: var(--cs-radius-pill, 999px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(244, 186, 23, 0.3);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  transition: border-color var(--cs-dur-med, 220ms) ease, box-shadow var(--cs-dur-med, 220ms) ease;
+}
+.cs-wish:focus-within {
+  border-color: rgba(244, 186, 23, 0.6);
+  box-shadow: 0 12px 34px -16px rgba(244, 186, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.cs-wish-spark {
+  color: var(--cs-color-brand-ochre, #f4ba17);
+  display: inline-flex;
+  filter: drop-shadow(0 0 6px rgba(244, 186, 23, 0.4));
+}
+.cs-wish-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--cs-color-fg, #fbf7f1);
+  font: inherit;
+  font-size: var(--cs-text-sm, 0.95rem);
+  caret-color: var(--cs-color-brand-ochre, #f4ba17);
+}
+.cs-wish-input::placeholder { color: rgba(255, 255, 255, 0.45); }
+.cs-wish-go { flex: 0 0 auto; white-space: nowrap; }
+[data-theme="light"] .cs-wish { background: rgba(28, 19, 13, 0.05); border-color: rgba(181, 120, 10, 0.35); }
+[data-theme="light"] .cs-wish-input { color: var(--cs-color-ink, #1c130d); }
+[data-theme="light"] .cs-wish-input::placeholder { color: rgba(28, 19, 13, 0.5); }
+.cs-wish-dust { position: fixed; z-index: 60; pointer-events: none; width: 0; height: 0; }
+.cs-wish-dust i {
+  position: absolute;
+  left: 0; top: 0;
+  width: 6px; height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 40%, #fff2c8, #f4ba17 55%, rgba(244, 186, 23, 0) 75%);
+  animation: cs-dust 1s var(--cs-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+}
+@keyframes cs-dust {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.2); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--s, 1)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-wish-dust { display: none; }
+  .cs-wish { transition: none; }
 }

@@ -4,6 +4,9 @@ import { testimonials, commitments, company } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
+import { BrandIcon, type BrandIconName } from "@/components/ui/BrandIcon";
+
+const commitmentIcons: BrandIconName[] = ["answer", "honesty", "durability"];
 
 export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const hasQuotes = testimonials.length > 0;
@@ -40,6 +43,7 @@ export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary
               ))
             : commitments.map((c, i) => (
                 <Reveal as="article" key={i} className="cs-proof-card cs-surface-standard" delayMs={i * 80}>
+                  <span className="cs-card-icon" aria-hidden="true"><BrandIcon name={commitmentIcons[i]} /></span>
                   <h3 className="cs-proof-author" style={{ marginTop: 0 }}>{localize(c.title, locale)}</h3>
                   <p style={{ margin: 0 }}>{localize(c.body, locale)}</p>
                 </Reveal>

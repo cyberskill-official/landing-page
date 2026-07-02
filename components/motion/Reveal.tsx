@@ -10,11 +10,13 @@ export function Reveal({
   as: Tag = "div",
   className,
   delayMs = 0,
+  id,
 }: {
   children: ReactNode;
   as?: "div" | "section" | "li" | "article";
   className?: string;
   delayMs?: number;
+  id?: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);
 
@@ -42,7 +44,7 @@ export function Reveal({
 
   const Component = Tag as "div";
   return (
-    <Component ref={ref as never} className={["cs-reveal", className].filter(Boolean).join(" ")}>
+    <Component id={id} ref={ref as never} className={["cs-reveal", className].filter(Boolean).join(" ")}>
       {children}
     </Component>
   );

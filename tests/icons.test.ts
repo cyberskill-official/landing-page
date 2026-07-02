@@ -2,7 +2,17 @@ import { describe, it, expect } from "vitest";
 import { icons, type IconName } from "@/lib/icons";
 
 describe("icon set (FR-DS-010)", () => {
-  const names: IconName[] = ["close", "sun", "moon", "arrow-right", "check", "sparkle", "chat"];
+  const names: IconName[] = [
+    "close",
+    "sun",
+    "moon",
+    "arrow-right",
+    "check",
+    "sparkle",
+    "chat",
+    "sound-on",
+    "sound-off",
+  ];
 
   it("defines every expected icon with a viewBox and at least one element", () => {
     for (const name of names) {

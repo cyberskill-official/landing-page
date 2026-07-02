@@ -6,7 +6,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
 import * as THREE from "three";
 import { getScrollProgress } from "@/lib/scroll/progress";
-import { getPointerNorm } from "@/lib/scene/mascot";
+import { getPointerNorm, requestBurst, LUMI_GREET_EVENT } from "@/lib/scene/mascot";
 import { resolveSceneState } from "@/lib/scene/progressMap";
 
 // Commissioned GLB Lumi (FR-CHAR-022). Mounted only when NEXT_PUBLIC_LUMI_GLB is
@@ -26,10 +26,15 @@ const BASE_POSITION: [number, number, number] = [0, -0.4, 0];
 // Name of the baked idle clip in the GLB (see lumi-3d export). Falls back to the
 // first available clip if the name ever changes.
 const IDLE_CLIP = "Idle";
+// Baked one-shot welcome clip (arms-open wave). Played once when the contact
+// section scrolls into view, then Lumi settles back into Idle. Optional: if the
+// export has no such clip the greet wiring simply no-ops.
+const GREET_CLIP = "Greet";
 
 export function GltfLumi({ url }: { url: string }) {
   const group = useRef<THREE.Group>(null);
   const prog = useRef(0);
+  const greeting = useRef(false);
   const { scene, animations } = useGLTF(url);
   // A skinned mesh must be cloned with SkeletonUtils.clone: THREE.Object3D.clone()
   // leaves the copy bound to the source skeleton, so the baked animation would not
@@ -55,7 +60,7 @@ export function GltfLumi({ url }: { url: string }) {
     });
     return clone;
   }, [scene]);
-  const { actions } = useAnimations(animations, model);
+  const { actions, mixer } = useAnimations(animations, model);
 
   // Play the baked idle loop (float + tail sway + hair). useAnimations advances
   // its mixer on the r3f frame loop, so no manual tick is needed; the procedural
@@ -68,6 +73,49 @@ export function GltfLumi({ url }: { url: string }) {
       clip.fadeOut(0.25);
     };
   }, [actions]);
+
+  // Greet when the contact section arrives (FR-CHAR-030 welcome beat): crossfade
+  // Idle -> Greet, play it once, then crossfade back to Idle on finish. Guarded
+  // so overlapping intersections never stack, and a burst of pixie dust punctuates
+  // the wave. No-ops safely if the export lacks a distinct greet clip.
+  useEffect(() => {
+    const idle = actions[IDLE_CLIP] ?? Object.values(actions)[0];
+    const greet =
+      actions[GREET_CLIP] ?? Object.values(actions).find((a) => a && a !== idle) ?? null;
+    if (!idle || !greet || greet === idle) return;
+    const target = document.getElementById("contact");
+    if (!target || typeof IntersectionObserver === "undefined") return;
+
+    const playGreet = () => {
+      if (greeting.current) return;
+      greeting.current = true;
+      idle.fadeOut(0.3);
+      greet.reset().setLoop(THREE.LoopOnce, 1);
+      greet.clampWhenFinished = true;
+      greet.fadeIn(0.3).play();
+      requestBurst(1.2);
+      window.dispatchEvent(new CustomEvent(LUMI_GREET_EVENT));
+    };
+    const onFinished = (e: { action: THREE.AnimationAction }) => {
+      if (e.action !== greet) return;
+      greeting.current = false;
+      greet.fadeOut(0.4);
+      idle.reset().fadeIn(0.4).play();
+    };
+    mixer.addEventListener("finished", onFinished);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) if (en.isIntersecting) playGreet();
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(target);
+    return () => {
+      io.disconnect();
+      mixer.removeEventListener("finished", onFinished);
+    };
+  }, [actions, mixer]);
 
   useFrame((_, delta) => {
     const g = group.current;

@@ -28,6 +28,7 @@ export function MotionExtras() {
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
+  const dustRef = useRef<HTMLDivElement | null>(null);
 
   // Thin gold scroll-progress bar (rAF-throttled, passive; scaleX only).
   useEffect(() => {
@@ -113,6 +114,7 @@ export function MotionExtras() {
     const dot = dotRef.current;
     const ring = ringRef.current;
     const glow = glowRef.current;
+    const dust = dustRef.current;
     if (!dot || !ring || !glow || typeof window.matchMedia !== "function") return;
 
     const queries = [
@@ -134,6 +136,26 @@ export function MotionExtras() {
     let hoverEl: Element | null = null;
     let magnetEl: HTMLElement | null = null;
     let tiltEl: HTMLElement | null = null;
+    // Gold-dust trail: a spark drops each time the pointer travels ~30px, capped
+    // so fast flicks never flood the DOM. Genie-magic flourish; same fine-pointer
+    // + motion gating as the cursor, and never over text fields.
+    let liveSparks = 0;
+    const sparkFrom = { x: pos.x, y: pos.y };
+    const emitSpark = () => {
+      if (!dust || liveSparks >= 18 || overText) return;
+      const s = document.createElement("i");
+      s.style.setProperty("--x", `${pos.x.toFixed(1)}px`);
+      s.style.setProperty("--y", `${pos.y.toFixed(1)}px`);
+      s.style.setProperty("--dx", `${((Math.random() * 2 - 1) * 8).toFixed(1)}px`);
+      s.style.setProperty("--dy", `${(-6 - Math.random() * 18).toFixed(1)}px`);
+      s.style.setProperty("--s", `${(0.2 + Math.random() * 0.3).toFixed(2)}`);
+      liveSparks += 1;
+      s.addEventListener("animationend", () => {
+        s.remove();
+        liveSparks -= 1;
+      });
+      dust.appendChild(s);
+    };
 
     const setVisible = (visible: boolean) => {
       const value = visible ? "1" : "0";
@@ -188,7 +210,16 @@ export function MotionExtras() {
         hidden = false;
         ringPos.x = glowPos.x = pos.x;
         ringPos.y = glowPos.y = pos.y;
+        sparkFrom.x = pos.x;
+        sparkFrom.y = pos.y;
         setVisible(true);
+      }
+      const sdx = pos.x - sparkFrom.x;
+      const sdy = pos.y - sparkFrom.y;
+      if (sdx * sdx + sdy * sdy >= 900) {
+        sparkFrom.x = pos.x;
+        sparkFrom.y = pos.y;
+        emitSpark();
       }
     };
 
@@ -256,6 +287,8 @@ export function MotionExtras() {
       setVisible(false);
       releaseMagnet();
       releaseTilt();
+      if (dust) dust.textContent = "";
+      liveSparks = 0;
     };
 
     const onQueryChange = () => (enabled() ? start() : stop());
@@ -278,6 +311,7 @@ export function MotionExtras() {
         <div ref={barRef} className="cs-progress-bar" />
       </div>
       <div ref={glowRef} className="cs-cursor-glow" aria-hidden="true" />
+      <div ref={dustRef} className="cs-cursor-dust" aria-hidden="true" />
       <div ref={ringRef} className="cs-cursor-ring" aria-hidden="true" />
       <div ref={dotRef} className="cs-cursor-dot" aria-hidden="true" />
     </>
