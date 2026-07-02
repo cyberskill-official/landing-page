@@ -19,9 +19,11 @@ import {
   drainBursts,
   getLumiExcite,
   getLumiWorld,
+  getPointerNorm,
   requestBurst,
   setLumiScreen,
   setLumiWorld,
+  setPointerNorm,
   WISH_GRANTED_EVENT,
 } from "@/lib/scene/mascot";
 import { useGenieStore } from "@/lib/genie/store";
@@ -45,8 +47,9 @@ function CameraRig() {
   useFrame((state, delta) => {
     const k = Math.min(1, delta * 2);
     const cam = state.camera as THREE.PerspectiveCamera;
-    cam.position.x += (state.pointer.x * 0.16 - cam.position.x) * k;
-    cam.position.y += (state.pointer.y * 0.1 - cam.position.y) * k;
+    const p = getPointerNorm();
+    cam.position.x += (p.x * 0.16 - cam.position.x) * k;
+    cam.position.y += (p.y * 0.1 - cam.position.y) * k;
     cam.lookAt(0, 0, 0);
   });
   return null;
@@ -308,6 +311,22 @@ function WishGrid() {
 export function GenieScene() {
   const isLight = useThemeMode() === "light";
   const trailAnchor = useRef<THREE.Object3D>(null!);
+
+  // Feed the normalized pointer from a WINDOW listener. r3f's own pointer
+  // tracking needs its canvas to receive pointer events, but this canvas is
+  // hard-inert (see .cs-canvas-layer * in globals.css) so it can never block
+  // the page's interactive elements underneath.
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      setPointerNorm({
+        x: (e.clientX / Math.max(1, window.innerWidth)) * 2 - 1,
+        y: -(e.clientY / Math.max(1, window.innerHeight)) * 2 + 1,
+      });
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+
   return (
     <Canvas
       className="cs-canvas"

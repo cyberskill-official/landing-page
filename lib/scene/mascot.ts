@@ -36,6 +36,23 @@ export function getLumiExcite(): boolean {
   return excite;
 }
 
+// Normalized pointer position (-1..1, r3f convention: +y up), fed by a window
+// listener in GenieScene. The scene reads THIS instead of r3f's own
+// state.pointer because the canvas element must stay pointer-inert: r3f's
+// event system gives its canvas pointer-events, and with the live layer
+// riding above the content that silently swallowed every click on the page.
+export type PointerNorm = { x: number; y: number };
+
+let pointerNorm: PointerNorm = { x: 0, y: 0 };
+
+export function setPointerNorm(next: PointerNorm): void {
+  pointerNorm = next;
+}
+
+export function getPointerNorm(): PointerNorm {
+  return pointerNorm;
+}
+
 // Lumi's current world position (z=0 plane), written by the rig each frame so
 // the burst field can spawn magic exactly where the mascot is.
 export type LumiWorld = { x: number; y: number; z: number };

@@ -1216,15 +1216,26 @@ main > .cs-section::before {
 /* ------------------------------------------------------------------ */
 
 /* When the LIVE 3D scene mounts, its layer rides above the content so Lumi
-   can fly the whole page (the canvas itself stays pointer-events:none). The
-   static poster path keeps the original behind-the-hero z-0 layering. */
+   can fly the whole page. The static poster path keeps the original
+   behind-the-hero z-0 layering. */
 .cs-canvas-live { z-index: 30; }
+/* HARD guarantee that the decorative layer can never swallow input: r3f's
+   event system gives its <canvas> element pointer-events of its own, which
+   overrides the wrapper's pointer-events:none by inheritance - above the
+   content that blocked every link, card, and field on the page. Every
+   descendant is forced inert; the scene's pointer needs are fed by a window
+   listener instead (lib/scene/mascot.ts pointerNorm). */
+.cs-canvas-layer, .cs-canvas-layer * { pointer-events: none !important; }
 
 /* The clickable mascot: a transparent circular button that LumiHotspot
    positions over the genie's projected screen position every frame. Real
    button semantics - focus ring, aria-label, dialog popup state - so the
    flying genie is a first-class chat entry, not a gimmick. Hidden whenever
-   the scene says so (touch devices, scene unmounted, chat open). */
+   the scene says so (touch devices, scene unmounted, chat open).
+   Pointer-transparent by DEFAULT: it only accepts the pointer while the
+   component's per-frame hit test says the pointer is on Lumi AND nothing
+   interactive sits underneath - so the mascot can never block the page's
+   links, buttons, cards, or form fields (keyboard focus is unaffected). */
 .cs-lumi-hotspot {
   position: fixed;
   top: 0;
@@ -1236,8 +1247,9 @@ main > .cs-section::before {
   border: 0;
   border-radius: 50%;
   background: transparent;
-  cursor: pointer;
+  pointer-events: none;
 }
+.cs-lumi-hotspot[data-active="true"] { pointer-events: auto; cursor: pointer; }
 .cs-lumi-hotspot[data-visible="false"] { display: none; }
 @media (pointer: coarse) {
   .cs-lumi-hotspot { display: none; }

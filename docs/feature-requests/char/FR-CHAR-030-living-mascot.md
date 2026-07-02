@@ -92,3 +92,30 @@ cs-canvas-live (z-30) only when the live scene mounts.
   desktops); reduced-motion keeps the always-on-scene product decision
   unchanged; the trail leaves a brief streak after fast legs (comet look,
   decays in ~1/3s).
+
+## §4 Input-blocking defect + fix (2026-07-02, operator-reported)
+
+Operator: "Lumi blocks all other background interactives." Two causes, both
+fixed and probe-proven:
+
+1. The r3f <canvas> element takes pointer events of its own (its event
+   system overrides the wrapper's pointer-events:none), and once the layer
+   rode above the content at z-30 it swallowed every click on the page.
+   Fix: `.cs-canvas-layer, .cs-canvas-layer *` are forced inert
+   (!important); the scene's pointer needs (gaze, camera parallax) are fed
+   by a window listener into lib/scene/mascot.ts pointerNorm instead of
+   r3f's state.pointer (GenieScene, LumiPlaceholder, GltfLumi all switched).
+2. The hotspot button itself blanketed whatever Lumi hovered. Fix:
+   pointer-transparent by default; it arms (data-active) only while the
+   pointer is inside Lumi's radius AND nothing interactive lies beneath -
+   sampled per frame with elementsFromPoint, skipping the hotspot itself in
+   the stack (a single elementFromPoint saw the armed button as
+   "interactive underneath" and oscillated). Keyboard focus/Enter are
+   unaffected by pointer-events and keep working.
+
+Probes (same automated run, all passing together): ARM active:true over
+empty space; mascot click -> chatOpen:true; pointer over the careers CTA ->
+hotspot active:false, elementFromPoint resolves the real link
+(A.cs-btn.cs-btn-brand); clicking that point NAVIGATES to /en/careers
+through the mascot layer. Full gate re-run green (tsc, 70 vitest, lint,
+build, assets, axe 0 en+vi).

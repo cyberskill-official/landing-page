@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { getScrollProgress } from "@/lib/scroll/progress";
+import { getPointerNorm } from "@/lib/scene/mascot";
 import { resolveSceneState } from "@/lib/scene/progressMap";
 
 // Commissioned GLB Lumi (FR-CHAR-022). Mounted only when NEXT_PUBLIC_LUMI_GLB is
@@ -17,8 +18,10 @@ import { resolveSceneState } from "@/lib/scene/progressMap";
 // Tuning: a Meshy/Blender export rarely lands at the right size or origin for
 // this hero framing. Adjust BASE_SCALE / BASE_POSITION below (or re-export the
 // model centred at the origin, ~2 units tall) once you can see it on the page.
+// Placement across the page belongs to the mascot rig (FR-CHAR-030); these
+// offsets are LOCAL (model centring), not page position.
 const BASE_SCALE = 1;
-const BASE_POSITION: [number, number, number] = [1.3, -0.4, 0];
+const BASE_POSITION: [number, number, number] = [0, -0.4, 0];
 
 export function GltfLumi({ url }: { url: string }) {
   const group = useRef<THREE.Group>(null);
@@ -40,14 +43,16 @@ export function GltfLumi({ url }: { url: string }) {
     };
   }, [model]);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     const g = group.current;
     if (!g) return;
     prog.current += (getScrollProgress() - prog.current) * Math.min(1, delta * 2.5);
     const s = resolveSceneState(prog.current);
-    g.rotation.y = s.model.spin + state.pointer.x * 0.2;
-    g.position.x = BASE_POSITION[0] + s.model.driftX;
-    g.position.z = BASE_POSITION[2] + s.model.driftZ;
+    // Window-fed pointer store: the canvas is pointer-inert, so r3f's own
+    // state.pointer never updates (see lib/scene/mascot.ts).
+    g.rotation.y = s.model.spin + getPointerNorm().x * 0.2;
+    g.position.x = BASE_POSITION[0] + s.model.driftX * 0.35;
+    g.position.z = BASE_POSITION[2] + s.model.driftZ * 0.5;
   });
 
   return (

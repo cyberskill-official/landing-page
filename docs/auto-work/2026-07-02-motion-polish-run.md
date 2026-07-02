@@ -220,3 +220,24 @@ DEFERRED
   -> chat open with Lumi attending the panel, contact-form seam hover, VN
   story with the drawn timeline. Probes: SCENE live:true, hotspot
   visible:true rect 258px, CHAT chatOpen:true.
+
+## Round 3b - input-blocking fix (operator: "Lumi blocks all other
+## background interactives")
+
+- ROOT CAUSE 1 (the big one): r3f's <canvas> takes pointer events itself,
+  overriding the wrapper's pointer-events:none - above the content at z-30
+  it swallowed every click on the page (probe: elementFromPoint over the
+  careers CTA returned CANVAS). Fixed: `.cs-canvas-layer, .cs-canvas-layer
+  *` forced inert with !important; gaze/camera-parallax pointer input now
+  comes from a window listener (mascot.ts pointerNorm) consumed by
+  GenieScene/LumiPlaceholder/GltfLumi instead of r3f state.pointer.
+- ROOT CAUSE 2: the hotspot button blanketed whatever Lumi hovered. Fixed:
+  pointer-transparent by default, arming per frame only when the pointer is
+  on Lumi AND nothing interactive lies beneath (elementsFromPoint, skipping
+  itself - a naive elementFromPoint saw the armed button and oscillated).
+- Probes, all green in ONE run: ARM active:true on empty space; mascot
+  click -> chatOpen:true; over the careers CTA the hotspot stays inactive,
+  the hit test resolves A.cs-btn.cs-btn-brand, and CLICKING NAVIGATES to
+  /en/careers through the layer. Full gate green again (70 tests).
+- GltfLumi also localised (BASE_POSITION x 1.3 -> 0) so the commissioned
+  model rides the rig correctly when it lands.

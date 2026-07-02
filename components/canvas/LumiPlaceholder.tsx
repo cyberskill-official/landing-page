@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useGenieStore } from "@/lib/genie/store";
 import { getScrollProgress } from "@/lib/scroll/progress";
+import { getPointerNorm } from "@/lib/scene/mascot";
 import { resolveSceneState } from "@/lib/scene/progressMap";
 
 // Track the active light/dark theme (data-theme on <html>, set by ThemeToggle)
@@ -123,9 +124,11 @@ export function LumiPlaceholder() {
     const speed = status === "speaking" ? 3 : status === "thinking" ? 1.7 : 0.8;
     const pulseTarget = status === "speaking" ? 1 : status === "thinking" ? 0.6 : 0.25;
 
-    // Gaze: the core watches the pointer.
-    const targetY = state.pointer.x * 0.6;
-    const targetX = -state.pointer.y * 0.4;
+    // Gaze: the core watches the pointer (window-fed store; the canvas itself
+    // is pointer-inert so r3f's state.pointer never updates).
+    const pointer = getPointerNorm();
+    const targetY = pointer.x * 0.6;
+    const targetX = -pointer.y * 0.4;
     c.rotation.y += (targetY - c.rotation.y) * k;
     c.rotation.x += (targetX - c.rotation.x) * k;
 

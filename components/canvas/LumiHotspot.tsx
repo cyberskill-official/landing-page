@@ -6,19 +6,39 @@ import { GENIE_OPEN_EVENT } from "@/components/genie/GenieOpenButton";
 import { useGenieStore } from "@/lib/genie/store";
 import { track } from "@/lib/analytics";
 
+// Anything the mascot must NEVER steal a click from. If one of these sits
+// under the pointer, the hotspot stays pointer-transparent and the click goes
+// to the real UI straight through Lumi.
+const INTERACTIVE_SELECTOR =
+  "a, button, input, select, textarea, label, summary, [role='button'], .cs-genie";
+
 // Lumi IS the chat entry (FR-CHAR-030): a real, focusable button that rides
-// on the mascot's projected screen position every frame, so clicking (or
-// keyboard-activating) the flying genie opens the chat. Hovering it excites
-// Lumi (the scene reads the flag and pops a sparkle burst). The scene writes
-// visible:false when it is not mounted (touch/low-end devices) or while the
-// chat panel is open, and the button then renders display:none - the regular
-// GenieOpenButton CTAs remain the entry everywhere else.
+// on the mascot's projected screen position every frame, so activating the
+// flying genie opens the chat.
+//
+// Pass-through hit-testing: the button is pointer-events:none by DEFAULT and
+// arms itself (data-active) only while the pointer is inside Lumi's radius
+// AND nothing interactive lies underneath - elementFromPoint skips
+// pointer-events:none elements, so the check sees exactly what the click
+// would hit. Result: Lumi never blocks links, cards, buttons, or form fields
+// it happens to fly over; on open space it is clickable and excited on
+// approach. Keyboard users keep the button in the tab order regardless
+// (pointer-events does not affect focus/Enter). The scene writes
+// visible:false when unmounted (touch/low-end) or while the chat is open.
 export function LumiHotspot({ label }: { label: string }) {
   const ref = useRef<HTMLButtonElement | null>(null);
+  const pointer = useRef({ x: -1, y: -1 });
+  const focused = useRef(false);
   const [visible, setVisible] = useState(false);
   const open = useGenieStore((s) => s.open);
 
   useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      pointer.current.x = e.clientX;
+      pointer.current.y = e.clientY;
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+
     let raf = 0;
     const loop = () => {
       const s = getLumiScreen();
@@ -28,6 +48,25 @@ export function LumiHotspot({ label }: { label: string }) {
         el.style.transform = `translate3d(${(s.x - s.r).toFixed(1)}px, ${(s.y - s.r).toFixed(1)}px, 0)`;
         el.style.width = `${d.toFixed(0)}px`;
         el.style.height = `${d.toFixed(0)}px`;
+
+        // Proximity + pass-through check. elementsFromPoint (plural) so the
+        // armed hotspot can skip ITSELF in the stack - a single
+        // elementFromPoint would see the armed button, count it as
+        // "interactive underneath", disarm, and oscillate every frame.
+        const dx = pointer.current.x - s.x;
+        const dy = pointer.current.y - s.y;
+        const near = dx * dx + dy * dy <= s.r * s.r;
+        let active = false;
+        if (near) {
+          const stack = document.elementsFromPoint(pointer.current.x, pointer.current.y);
+          const under = stack.find((n) => !n.closest(".cs-lumi-hotspot"));
+          active = !(under && under.closest(INTERACTIVE_SELECTOR));
+        }
+        if (el.dataset.active !== String(active)) el.dataset.active = String(active);
+        setLumiExcite(near || focused.current);
+      } else if (el) {
+        if (el.dataset.active !== "false") el.dataset.active = "false";
+        setLumiExcite(focused.current);
       }
       // Equality-guarded: React bails out when the value has not changed, so
       // this per-frame call re-renders only on actual visibility flips.
@@ -36,6 +75,7 @@ export function LumiHotspot({ label }: { label: string }) {
     };
     raf = window.requestAnimationFrame(loop);
     return () => {
+      window.removeEventListener("pointermove", onMove);
       window.cancelAnimationFrame(raf);
       setLumiExcite(false);
     };
@@ -47,6 +87,7 @@ export function LumiHotspot({ label }: { label: string }) {
       type="button"
       className="cs-lumi-hotspot"
       data-visible={visible ? "true" : "false"}
+      data-active="false"
       aria-label={label}
       aria-haspopup="dialog"
       aria-expanded={open}
@@ -54,10 +95,14 @@ export function LumiHotspot({ label }: { label: string }) {
         track("genie_open", { source: "mascot" });
         window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT));
       }}
-      onPointerEnter={() => setLumiExcite(true)}
-      onPointerLeave={() => setLumiExcite(false)}
-      onFocus={() => setLumiExcite(true)}
-      onBlur={() => setLumiExcite(false)}
+      onFocus={() => {
+        focused.current = true;
+        setLumiExcite(true);
+      }}
+      onBlur={() => {
+        focused.current = false;
+        setLumiExcite(false);
+      }}
     />
   );
 }
