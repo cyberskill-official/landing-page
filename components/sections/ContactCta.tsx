@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { LeadForm } from "@/components/cta/LeadForm";
+import { Aurora } from "@/components/motion/Aurora";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -18,10 +19,11 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
           className="cs-contact-bg-img"
         />
       </div>
+      <Aurora className="cs-aurora-contact" />
       <div className="cs-container cs-contact-grid">
         <div className="cs-contact-intro">
-          <h2 id="contact-title">{dict.sections.contactTitle}</h2>
-          <p className="cs-section-lead">{dict.sections.contactLead}</p>
+          <h2 id="contact-title" data-mask-reveal="">{dict.sections.contactTitle}</h2>
+          <p className="cs-section-lead" data-mask-reveal="">{dict.sections.contactLead}</p>
           <ul className="cs-contact-list" role="list">
             <li>
               <a href={`mailto:${company.email}`}>{company.email}</a>

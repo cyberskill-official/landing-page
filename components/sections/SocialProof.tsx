@@ -23,7 +23,7 @@ export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary
   return (
     <section id="proof" className="cs-section cs-section-alt" aria-labelledby="proof-title">
       <div className="cs-container">
-        <h2 id="proof-title">{heading}</h2>
+        <h2 id="proof-title" data-mask-reveal="">{heading}</h2>
         <div className="cs-proof-grid">
           {hasQuotes
             ? testimonials.map((t, i) => (

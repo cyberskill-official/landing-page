@@ -1,0 +1,93 @@
+# Auto-work run - 2026-07-02 - branch auto/motion-polish
+
+Branch off `origin/main` (f7e2ebb). One FR (FR-DS-011), built as a premium
+motion-polish pass over the existing structure and content - no redesign, no
+new dependencies. Not merged, not deployed; awaiting review (the only fork).
+
+## Ledger
+
+DONE
+- FR-DS-011 premium motion-polish layer, all requested effects plus tasteful
+  extras:
+  - Aurora backdrop (brand gold/umber) behind the hero and contact sections:
+    `components/motion/Aurora.tsx` + pre-blurred radial blobs on transform
+    drift (no runtime filter), both themes, clipped per section.
+  - Kinetic masked hero headline: per-word overflow-mask rise with stagger +
+    continuous travelling gold shimmer (background-clip: text). Full slogan
+    stays the H1 accessible name via aria-label; words are real SSR text;
+    reduced motion renders the static headline; forced-colors/print restore
+    plain fills. EN/VN verified (diacritics clear the masks via padding
+    compensation).
+  - Custom cursor (1:1 gold dot + lerped ring + soft spotlight glow),
+    magnetic CTAs (`.cs-btn`, theme toggle), and 3D card tilt
+    (service/work/proof cards) in one manager
+    (`components/motion/MotionExtras.tsx`): fine-pointer + hover + motion
+    allowed only, live attach/detach on media-query change, hidden over text
+    fields, transform-only, aria-hidden.
+  - First-visit intro veil (`components/motion/IntroVeil.tsx`): Lumi orb +
+    localized slogan resolving into the hero; armed once per session by an
+    inline pre-paint script; skipped under reduced motion and without JS;
+    pure-CSS timeline whose forwards fill guarantees dismissal;
+    pointer-events none (cannot trap anything); hero word delays hand off
+    from the veil.
+  - Kinetic keyword marquee (`components/sections/Marquee.tsx`): bilingual
+    keyword band between ValueProp and Services, seamless -50% CSS loop,
+    hover pause, aria-hidden (Services below carries the real content),
+    static under reduced motion.
+  - Thin gold scroll-progress bar (mirrors scroll 1:1, stays for
+    reduced-motion/touch), masked + staggered section-heading reveals
+    ([data-mask-reveal], shows-only observer, scripting:none and
+    reduced-motion force-show), animated nav/footer link underlines, button
+    hover shine, gold ::selection, animated scroll-hint thread under the
+    hero hint.
+  - Skip-link tuck: top -3rem left a ~2px black sliver visible over the
+    header (z-index 1000, pre-existing on prod in every screenshot); now
+    -4rem, focus behaviour unchanged.
+- Docs: FR-DS-011 file, BACKLOG row + totals re-baselined against FR status
+  fields (58 shipped / 1 hold / 35 planned = 94; the table had drifted from
+  the prose), decision record 2026-07-02-motion-polish-layer, this ledger,
+  awh promotion + evolution rows.
+- Tests: +8 (tests/motion-polish.test.ts - slogan word-split EN/VN incl.
+  diacritics, clamp, magnetic cap + degenerate sizes, tilt centre/edges, Hero
+  aria-label + mask-count contract, marquee doubling + aria-hidden, veil
+  aria-hidden + localized slogan). tests/axe.test.ts now composes Marquee +
+  IntroVeil into the jsdom axe run.
+
+FOUND + FIXED IN-SESSION (screenshot round, before any push)
+- Shimmer coverage bug: background-position outside 0-100% (125%/-25%) with
+  background-size 250% + no-repeat left parts of each glyph unpainted -
+  the slogan visibly clipped ("Tur", "Wi", "Hiệ") in every theme and in the
+  reduced-motion fallback. Fixed by clamping the sweep to 0-100% (band parks
+  just off-glyph at both ends); constraint documented in globals.css.
+
+DEFERRED
+- Lumi GLB untouched (FR-CHAR-021/022 hold - human-owned, per scope).
+- Cursor/tilt on sub-pages work but mask-reveal attributes were scoped to the
+  home sections; sub-page headings keep the existing Reveal behaviour.
+- Live Lighthouse run against a deployed preview (CI's lighthouse job covers
+  the built site per push; CLS budget is the hard gate).
+
+## Evidence (Mac gate, 2026-07-02, all EXIT=0)
+
+- `npm run typecheck` clean; `npm test` 16 files / 60 tests (52 -> 60);
+  `npm run lint` clean; `npm run build` Compiled successfully, 26/26 static
+  pages, First Load JS shared 175 kB; `npm run check:assets` OK - client JS
+  2363KB < 2800KB budget, public/ 95KB < 600KB.
+- Served-route axe (jsdom over `next start` SSR HTML, wcag2a/aa,
+  color-contrast deferred to the CI Chrome job): /en 0 violations,
+  /vi 0 violations.
+- Visual QA (puppeteer + OS Chrome, viewport 1440x900): round 1 captured the
+  reduced-motion fallbacks (host has OS Reduce Motion on - static headline,
+  no veil, no cursor: gating proven) and exposed the shimmer coverage bug;
+  round 2 (emulated no-preference) verified veil -> hero handoff, word rise,
+  shimmer sweep, cursor dot + magnetic CTA offset, spotlight glow, marquee
+  glide, ~30% progress bar at the marquee, dark-theme aurora, VN diacritics
+  intact.
+
+## Suitable next steps
+
+- Review + merge auto/motion-polish to main (auto-deploys cyberskill.world);
+  watch Vercel Speed Insights CLS/LCP for a day after.
+- Consider extending [data-mask-reveal] to /work and /careers headings.
+- The still-parked forks from earlier runs (Lumi GLB, real testimonials,
+  Vietnamese native review) are unchanged.

@@ -192,7 +192,11 @@ a {
 .cs-skip-link {
   position: absolute;
   left: var(--cs-space-4);
-  top: -3rem;
+  /* -4rem: the link is ~3.1rem tall (padding + line box), so -3rem left a
+     2px sliver peeking over the header in every viewport (it sits at
+     z-index 1000, above even the intro veil). Fully tucked while hidden;
+     :focus still brings it fully into view. */
+  top: -4rem;
   z-index: 1000;
   background: var(--cs-color-brand);
   color: var(--cs-color-on-brand);
@@ -416,8 +420,8 @@ body { background: transparent; }
 .cs-motion-toggle { background: transparent; border: 1px solid var(--cs-color-line); border-radius: var(--cs-radius-pill); padding: var(--cs-space-2) var(--cs-space-3); font: inherit; font-size: var(--cs-text-sm); cursor: pointer; color: var(--cs-color-fg-muted); }
 
 /* Hero */
-.cs-hero { background: transparent; min-height: min(86vh, 760px); display: flex; align-items: center; padding-block: var(--cs-space-24); }
-.cs-hero-inner { max-width: 46rem; }
+.cs-hero { background: transparent; min-height: min(86vh, 760px); display: flex; align-items: center; padding-block: var(--cs-space-24); position: relative; overflow: hidden; }
+.cs-hero-inner { max-width: 46rem; position: relative; z-index: 1; }
 .cs-hero-title { font-size: var(--cs-text-4xl); margin-top: var(--cs-space-3); }
 .cs-hero-lead { font-size: var(--cs-text-xl); color: var(--cs-color-fg-muted); max-width: 38rem; }
 .cs-hero-actions { display: flex; flex-wrap: wrap; gap: var(--cs-space-3); margin-top: var(--cs-space-6); }
@@ -745,3 +749,304 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 .cs-stretch::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 .cs-stretch:hover { color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-stretch:hover { color: var(--cs-color-accent); }
+
+/* ------------------------------------------------------------------ */
+/* Premium motion polish (FR-DS-012)                                    */
+/* Aurora backdrop, kinetic masked headline + gold shimmer, custom      */
+/* cursor + spotlight, magnetic CTAs, card tilt, first-visit intro      */
+/* veil, keyword marquee, scroll progress, link underlines, button      */
+/* shine, masked heading reveals.                                       */
+/* Rules of the layer: every movement is transform/opacity only (zero   */
+/* CLS), every looping animation stops under prefers-reduced-motion,    */
+/* every JS-driven affordance is additionally gated in MotionExtras     */
+/* (fine pointer + hover + motion allowed), and everything is           */
+/* decorative (aria-hidden) with the real content unchanged beneath.    */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Sheen colours tuned per theme: deep gold on paper (>=3:1 at display
+     sizes), bright gold on the dark bg. */
+  --cs-shimmer: #8a6a06;
+  --cs-marquee-alt: #8a6a06;
+}
+[data-theme="dark"] {
+  --cs-shimmer: #ffd257;
+  --cs-marquee-alt: var(--cs-color-brand-ochre);
+}
+
+/* Gold text selection */
+::selection { background: rgba(244, 186, 23, 0.85); color: #2a1704; }
+
+/* Aurora backdrop: three pre-blurred radial blobs drifting on transform
+   only (no filter at paint time - cheap on every GPU). Clipped by the host
+   section; sits under the section's content (hero/contact are z-1 wrapped). */
+.cs-aurora { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.cs-aurora-blob { position: absolute; border-radius: 50%; will-change: transform; }
+.cs-aurora-b1 { width: 56vmax; height: 56vmax; left: -18vmax; top: -22vmax; background: radial-gradient(closest-side, rgba(244, 186, 23, 0.15), rgba(244, 186, 23, 0) 68%); animation: cs-aurora-a 26s ease-in-out infinite alternate; }
+.cs-aurora-b2 { width: 44vmax; height: 44vmax; right: -14vmax; top: 6vmax; background: radial-gradient(closest-side, rgba(255, 214, 110, 0.13), rgba(255, 214, 110, 0) 70%); animation: cs-aurora-b 32s ease-in-out infinite alternate; }
+.cs-aurora-b3 { width: 52vmax; height: 52vmax; left: 24vmax; bottom: -32vmax; background: radial-gradient(closest-side, rgba(69, 33, 14, 0.14), rgba(69, 33, 14, 0) 70%); animation: cs-aurora-c 38s ease-in-out infinite alternate; }
+[data-theme="dark"] .cs-aurora-b1 { background: radial-gradient(closest-side, rgba(244, 186, 23, 0.2), rgba(244, 186, 23, 0) 68%); }
+[data-theme="dark"] .cs-aurora-b2 { background: radial-gradient(closest-side, rgba(255, 214, 110, 0.15), rgba(255, 214, 110, 0) 70%); }
+[data-theme="dark"] .cs-aurora-b3 { background: radial-gradient(closest-side, rgba(122, 63, 24, 0.3), rgba(122, 63, 24, 0) 70%); }
+@keyframes cs-aurora-a {
+  from { transform: translate3d(-4%, -3%, 0) scale(1); }
+  to { transform: translate3d(7%, 6%, 0) scale(1.18); }
+}
+@keyframes cs-aurora-b {
+  from { transform: translate3d(3%, 6%, 0) scale(1.08); }
+  to { transform: translate3d(-6%, -4%, 0) scale(0.94); }
+}
+@keyframes cs-aurora-c {
+  from { transform: translate3d(0, 4%, 0) rotate(0deg); }
+  to { transform: translate3d(5%, -6%, 0) rotate(10deg); }
+}
+
+/* Kinetic hero headline: per-word masked rise + a slow travelling gold
+   sheen. The h1 keeps its accessible name via aria-label; these spans are
+   aria-hidden visuals. Real whitespace sits between the flex items (kept
+   out of layout by flex, kept in the DOM for copy/paste), while column-gap
+   draws the visual spacing. Wrappers pad + negative-margin so Vietnamese
+   diacritics and descenders never clip against the overflow mask. */
+.cs-kinetic { display: flex; flex-wrap: wrap; column-gap: 0.28em; row-gap: 0; }
+.cs-kinetic-word { display: inline-block; overflow: hidden; padding: 0.24em 0.06em 0.18em; margin: -0.24em -0.06em -0.18em; }
+.cs-kinetic-inner {
+  display: inline-block;
+  transform: translateY(115%);
+  animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both;
+}
+[data-intro="play"] .cs-kinetic-inner { animation-delay: calc(var(--wi, 0) * 75ms + 1350ms); }
+@keyframes cs-word-rise { to { transform: translateY(0); } }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .cs-kinetic-inner {
+    color: var(--cs-color-fg);
+    /* The gradient is 2.5x the text box with the gold band at its centre, and
+       background-position only ever travels 0% -> 100%: within that range the
+       no-repeat image always covers the whole text (coverage breaks outside
+       it and clips glyphs), while the band starts/ends just off the glyphs. */
+    background-image: linear-gradient(105deg, currentColor 0%, currentColor 44%, var(--cs-shimmer) 50%, currentColor 56%, currentColor 100%);
+    background-size: 250% 100%;
+    background-position: 0% 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation:
+      cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both,
+      cs-hero-shimmer 7s ease-in-out calc(var(--wi, 0) * 160ms + 2.4s) infinite;
+  }
+  [data-intro="play"] .cs-kinetic-inner {
+    animation:
+      cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 1350ms) both,
+      cs-hero-shimmer 7s ease-in-out calc(var(--wi, 0) * 160ms + 3.6s) infinite;
+  }
+}
+@keyframes cs-hero-shimmer {
+  0% { background-position: 0% 0; }
+  38% { background-position: 100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+/* Scroll-hint line under the hero hint: a gold thread that draws down and
+   dissolves, inviting the scroll. */
+.cs-hero-hint::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 36px;
+  margin-top: var(--cs-space-3);
+  background: linear-gradient(to bottom, var(--cs-color-accent), rgba(244, 186, 23, 0));
+  transform-origin: 50% 0;
+  animation: cs-hint-flow 2.4s var(--cs-ease) infinite;
+}
+@keyframes cs-hint-flow {
+  0% { transform: scaleY(0); opacity: 0; }
+  30% { opacity: 1; }
+  62% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* First-visit intro veil: gated by <html data-intro="play"> (inline script,
+   once per session, never under reduced motion). Without the attribute it is
+   display:none, so crawlers/no-JS never see it. pointer-events:none means it
+   can never block interaction, and the `both` fill parks it at
+   visibility:hidden when the CSS timeline ends - guaranteed dismissal. */
+.cs-intro { display: none; }
+[data-intro="play"] .cs-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  background: var(--cs-color-bg);
+  pointer-events: none;
+  animation: cs-intro-veil 2s var(--cs-ease) both;
+}
+.cs-intro-inner { text-align: center; animation: cs-intro-rise 2s var(--cs-ease) both; }
+.cs-intro-orb { display: block; }
+.cs-intro-name {
+  font-family: var(--cs-font-display);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-fg-muted);
+  margin: 0 0 var(--cs-space-2);
+}
+.cs-intro-slogan { overflow: hidden; margin: 0; font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-fg); }
+.cs-intro-slogan span { display: inline-block; transform: translateY(120%); animation: cs-word-rise 700ms var(--cs-ease) 300ms both; }
+@keyframes cs-intro-veil {
+  0%, 76% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@keyframes cs-intro-rise {
+  0%, 66% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.97); }
+}
+
+/* Keyword marquee: seamless -50% loop over two identical halves. Decorative
+   (aria-hidden); pauses on hover; freezes under reduced motion. */
+.cs-marquee { overflow: hidden; border-block: 1px solid var(--cs-color-line); background: var(--cs-color-bg); padding-block: var(--cs-space-6); position: relative; z-index: 1; }
+.cs-marquee-track { display: flex; width: max-content; animation: cs-marquee-slide 36s linear infinite; will-change: transform; }
+.cs-marquee:hover .cs-marquee-track { animation-play-state: paused; }
+.cs-marquee-half { display: flex; align-items: center; gap: var(--cs-space-8); padding-inline-end: var(--cs-space-8); }
+.cs-marquee-item { display: inline-flex; align-items: center; gap: var(--cs-space-8); font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); white-space: nowrap; color: var(--cs-color-fg-muted); }
+.cs-marquee-item:nth-child(odd) { color: var(--cs-marquee-alt); }
+.cs-marquee-star { color: var(--cs-color-accent); }
+@keyframes cs-marquee-slide {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Thin gold scroll-progress bar (scaleX driven by MotionExtras; mirrors
+   scroll 1:1, so it stays under reduced motion - feedback, not animation). */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 260; pointer-events: none; }
+.cs-progress-bar {
+  height: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--cs-color-brand-ochre), #ffd97a 70%, #fff3cf);
+  box-shadow: 0 0 10px rgba(244, 186, 23, 0.55);
+  will-change: transform;
+}
+
+/* Custom cursor: 1:1 dot, lerped ring, and a soft spotlight glow. Mounted
+   always, VISIBLE only while MotionExtras sets [data-cs-cursor="on"] (fine
+   pointer + hover + motion allowed). The glow sits under the chrome (z 24);
+   dot/ring ride above everything so they stay visible in dialogs. */
+.cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-cursor-dot {
+  z-index: 320;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--cs-color-brand-ochre);
+  box-shadow: 0 0 10px rgba(244, 186, 23, 0.75);
+}
+.cs-cursor-ring {
+  z-index: 320;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(244, 186, 23, 0.55);
+}
+.cs-cursor-glow {
+  z-index: 24;
+  width: 520px;
+  height: 520px;
+  margin: -260px 0 0 -260px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.09), rgba(244, 186, 23, 0) 70%);
+}
+[data-theme="dark"] .cs-cursor-glow {
+  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.13), rgba(244, 186, 23, 0) 70%);
+  mix-blend-mode: screen;
+}
+/* Hide the native cursor where the custom one is active; text fields keep
+   the native I-beam (the dot/ring fade out over them instead). */
+[data-cs-cursor="on"] body,
+[data-cs-cursor="on"] a,
+[data-cs-cursor="on"] button,
+[data-cs-cursor="on"] summary,
+[data-cs-cursor="on"] label,
+[data-cs-cursor="on"] select,
+[data-cs-cursor="on"] [role="button"] { cursor: none; }
+
+/* The theme toggle joins the magnetic set: give it a transform transition so
+   the per-frame magnet target eases like the buttons do. */
+.cs-theme-toggle { transition: color var(--cs-dur-fast) var(--cs-ease), border-color var(--cs-dur-fast) var(--cs-ease), transform var(--cs-dur-fast) var(--cs-ease); }
+
+/* Animated link underlines (nav + footer): paint-only background-size sweep. */
+.cs-nav a, .cs-footer-links a {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size var(--cs-dur) var(--cs-ease), color var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-nav a:hover, .cs-nav a:focus-visible,
+.cs-footer-links a:hover, .cs-footer-links a:focus-visible { background-size: 100% 1.5px; }
+.cs-footer-links a:hover { text-decoration: none; }
+
+/* Button hover shine: a skewed light band sweeps across once per hover.
+   Transform/opacity only; removed entirely under reduced motion. */
+.cs-btn { position: relative; overflow: hidden; }
+.cs-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 55%;
+  transform: translateX(-140%) skewX(-18deg);
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.38) 50%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.cs-btn:hover::after, .cs-btn:focus-visible::after { animation: cs-btn-shine 780ms var(--cs-ease); }
+@keyframes cs-btn-shine {
+  0% { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateX(320%) skewX(-18deg); opacity: 0; }
+}
+
+/* Masked heading reveals: same contract as .cs-reveal (JS only ever SHOWS).
+   clip-path + transform are paint/composite-only, so reserved space never
+   moves (zero CLS). The shown inset stays slightly negative so ascenders,
+   descenders, and Vietnamese diacritics are never clipped at rest. */
+[data-mask-reveal] {
+  clip-path: inset(0 -2% 102% -2%);
+  transform: translateY(14px);
+  transition: clip-path 700ms var(--cs-ease), transform 700ms var(--cs-ease);
+}
+p[data-mask-reveal] { transition-delay: 140ms; }
+[data-mask-reveal="shown"] { clip-path: inset(-8% -2% -12% -2%); transform: none; }
+@media (scripting: none) {
+  [data-mask-reveal] { clip-path: none; transform: none; }
+}
+
+/* --- Polish-layer guards (kept last so they win the cascade) --- */
+@media (prefers-reduced-motion: reduce) {
+  .cs-aurora-blob, .cs-marquee-track, .cs-hero-hint::after { animation: none; }
+  .cs-btn::after { display: none; }
+  .cs-kinetic-inner { animation: none; transform: none; background-position: 0% 0; }
+  [data-intro="play"] .cs-intro { display: none; }
+  [data-mask-reveal] { clip-path: none; transform: none; transition: none; }
+}
+@media (forced-colors: active) {
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
+  [data-mask-reveal] { clip-path: none; transform: none; }
+}
+@media print {
+  .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
+  .cs-hero-hint::after { display: none; }
+  .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
+  [data-mask-reveal] { clip-path: none; transform: none; }
+}

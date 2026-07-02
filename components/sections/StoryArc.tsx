@@ -23,8 +23,8 @@ export function StoryArc({ locale }: { locale: Locale }) {
   return (
     <section id="story" className="cs-section cs-story" aria-labelledby="story-title">
       <div className="cs-container">
-        <h2 id="story-title">{title}</h2>
-        <p className="cs-section-lead">{intro}</p>
+        <h2 id="story-title" data-mask-reveal="">{title}</h2>
+        <p className="cs-section-lead" data-mask-reveal="">{intro}</p>
         <ol className="cs-story-arc" role="list">
           {beats.map((beat, i) => (
             <Reveal as="li" key={beat.id} className="cs-story-beat" delayMs={i * 90}>

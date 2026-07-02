@@ -8,8 +8,8 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dictionary })
   return (
     <section id="services" className="cs-section cs-section-alt" aria-labelledby="services-title">
       <div className="cs-container">
-        <h2 id="services-title">{dict.sections.servicesTitle}</h2>
-        <p className="cs-section-lead">{dict.sections.servicesLead}</p>
+        <h2 id="services-title" data-mask-reveal="">{dict.sections.servicesTitle}</h2>
+        <p className="cs-section-lead" data-mask-reveal="">{dict.sections.servicesLead}</p>
         <div className="cs-services-grid">
           {services.map((s, i) => (
             <Reveal as="article" key={s.id} className="cs-service-card cs-surface-standard" delayMs={i * 80}>

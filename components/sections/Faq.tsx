@@ -27,7 +27,7 @@ export function Faq({ locale }: { locale: Locale }) {
   return (
     <section id="faq" className="cs-section cs-section-alt" aria-labelledby="faq-title">
       <div className="cs-container">
-        <h2 id="faq-title">{title}</h2>
+        <h2 id="faq-title" data-mask-reveal="">{title}</h2>
         <ul className="cs-faq-list" role="list">
           {faq[locale].map((item) => (
             <li key={item.q} className="cs-faq-item cs-surface-standard">

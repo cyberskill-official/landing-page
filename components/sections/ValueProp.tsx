@@ -8,7 +8,7 @@ export function ValueProp({ locale, dict }: { locale: Locale; dict: Dictionary }
   return (
     <section className="cs-section" aria-labelledby="value-title">
       <div className="cs-container">
-        <h2 id="value-title">{dict.sections.valueTitle}</h2>
+        <h2 id="value-title" data-mask-reveal="">{dict.sections.valueTitle}</h2>
         <ul className="cs-value-grid" role="list">
           {valueProps.map((vp, i) => (
             <Reveal as="li" key={i} className="cs-value-item cs-surface-light" delayMs={i * 80}>

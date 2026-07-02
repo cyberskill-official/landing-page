@@ -7,6 +7,8 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { Locale } from "@/lib/i18n/config";
 import { Hero } from "@/components/sections/Hero";
 import { ValueProp } from "@/components/sections/ValueProp";
+import { Marquee } from "@/components/sections/Marquee";
+import { IntroVeil } from "@/components/motion/IntroVeil";
 import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { WorkPreview } from "@/components/sections/WorkPreview";
@@ -41,9 +43,11 @@ const RULES_OFF = {
 async function seriousViolations(locale: Locale): Promise<string[]> {
   const dict = getDictionary(locale);
   const sections: ReactNode[] = [
+    createElement(IntroVeil, { locale }),
     createElement(Hero, { locale, dict }),
     createElement(TrustBand, { locale }),
     createElement(ValueProp, { locale, dict }),
+    createElement(Marquee, { dict }),
     createElement(Services, { locale, dict }),
     createElement(Process, { locale, dict }),
     createElement(WorkPreview, { locale, dict }),

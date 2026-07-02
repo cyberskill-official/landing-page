@@ -31,6 +31,11 @@ export type Dictionary = {
     contactTitle: string;
     contactLead: string;
   };
+  // Decorative keyword marquee (FR-DS-012). The band itself is aria-hidden;
+  // these strings only need to read well visually in both locales.
+  marquee: {
+    items: string[];
+  };
   form: {
     name: string;
     email: string;
@@ -109,6 +114,9 @@ const en: Dictionary = {
     contactTitle: "Tell us your wish",
     contactLead: "Send a short note. We reply within one business day.",
   },
+  marquee: {
+    items: ["Web apps", "Mobile apps", "Internal systems", "Automation", "Design systems", "Built to last"],
+  },
   form: {
     name: "Your name",
     email: "Work email",
@@ -186,6 +194,9 @@ const vi: Dictionary = {
     careersCta: "Xem vị trí đang tuyển",
     contactTitle: "Kể cho chúng tôi điều bạn mong muốn",
     contactLead: "Gửi một lời nhắn ngắn. Chúng tôi phản hồi trong vòng một ngày làm việc.",
+  },
+  marquee: {
+    items: ["Ứng dụng web", "Ứng dụng di động", "Hệ thống nội bộ", "Tự động hoá", "Hệ thống thiết kế", "Bền vững dài lâu"],
   },
   form: {
     name: "Tên của bạn",

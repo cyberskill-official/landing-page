@@ -9,8 +9,8 @@ export function Careers({ locale, dict }: { locale: Locale; dict: Dictionary }) 
     <section id="careers" className="cs-section" aria-labelledby="careers-title">
       <div className="cs-container cs-careers">
         <div>
-          <h2 id="careers-title">{dict.sections.careersTitle}</h2>
-          <p className="cs-section-lead">{dict.sections.careersLead}</p>
+          <h2 id="careers-title" data-mask-reveal="">{dict.sections.careersTitle}</h2>
+          <p className="cs-section-lead" data-mask-reveal="">{dict.sections.careersLead}</p>
         </div>
         <Link className="cs-btn cs-btn-brand" href={`/${locale}/careers`}>
           {dict.sections.careersCta}

@@ -67,8 +67,8 @@ export function Process({ locale }: { locale: Locale; dict: Dictionary }) {
   return (
     <section id="process" className="cs-section" aria-labelledby="process-title">
       <div className="cs-container">
-        <h2 id="process-title">{c.title}</h2>
-        <p className="cs-section-lead">{c.lead}</p>
+        <h2 id="process-title" data-mask-reveal="">{c.title}</h2>
+        <p className="cs-section-lead" data-mask-reveal="">{c.lead}</p>
         <div className="cs-services-grid">
           {c.steps.map((step, i) => (
             <Reveal as="article" key={step.n} className="cs-service-card cs-surface-standard" delayMs={i * 80}>

@@ -11,6 +11,8 @@ import { GenieStatusAnnouncer } from "@/components/genie/GenieStatusAnnouncer";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
 import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
 import { ScrollState } from "@/components/scroll/ScrollState";
+import { MotionExtras } from "@/components/motion/MotionExtras";
+import { IntroVeil } from "@/components/motion/IntroVeil";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 
 export function generateStaticParams() {
@@ -71,6 +73,8 @@ export default async function LocaleLayout({
       <PersistentCta locale={lang} dict={dict} />
       <GenieChat locale={lang} dict={dict} />
       <GenieStatusAnnouncer dict={dict} />
+      <MotionExtras />
+      <IntroVeil locale={lang} />
       <div className="cs-grain" aria-hidden="true" />
       <OrganizationJsonLd locale={lang} />
     </>

@@ -42,10 +42,14 @@ export default async function RootLayout({
     <html lang={bcp47[locale]} data-theme="light" suppressHydrationWarning>
       <body>
         <script
-          // No-flash: apply the saved theme before paint.
+          // No-flash: apply the saved theme before paint, and arm the
+          // once-per-session intro veil (FR-DS-012) - skipped entirely under
+          // prefers-reduced-motion, and without JS the attribute is never set,
+          // so the veil stays display:none for crawlers and no-JS visitors.
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();" +
+              "(function(){try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=window.sessionStorage;if(s&&!s.getItem('cs-intro')){s.setItem('cs-intro','1');document.documentElement.setAttribute('data-intro','play');}}catch(e){}})();",
           }}
         />
         {children}

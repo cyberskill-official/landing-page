@@ -9,8 +9,8 @@ export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary
   return (
     <section id="work" className="cs-section" aria-labelledby="work-title">
       <div className="cs-container">
-        <h2 id="work-title">{dict.sections.workTitle}</h2>
-        <p className="cs-section-lead">{dict.sections.workLead}</p>
+        <h2 id="work-title" data-mask-reveal="">{dict.sections.workTitle}</h2>
+        <p className="cs-section-lead" data-mask-reveal="">{dict.sections.workLead}</p>
         <div className="cs-work-grid">
           {work.map((item, i) => (
             <Reveal as="article" key={item.slug} className="cs-work-card cs-surface-light" delayMs={i * 80}>
