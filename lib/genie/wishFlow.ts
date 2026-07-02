@@ -27,6 +27,13 @@ export function startWishFlow(): WishState {
   return { step: "name", draft: {} };
 }
 
+// Seed the flow with a wish already captured (typed in the hero). The panel then
+// collects name/email and skips re-asking the message it already holds.
+export function startWishFlowWith(message: string): WishState {
+  const trimmed = message.trim().slice(0, 2000);
+  return { step: "name", draft: trimmed ? { message: trimmed } : {} };
+}
+
 // Which steps accept an empty answer ("skip").
 export function isOptionalStep(step: WishStep): boolean {
   return step === "company" || step === "message";

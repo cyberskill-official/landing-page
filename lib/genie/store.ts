@@ -16,10 +16,14 @@ type GenieState = {
   open: boolean;
   status: GenieStatus;
   messages: GenieMessage[];
+  // A wish typed in the hero, waiting for the chat panel to seed its flow on
+  // open (FR-CHAR-026). Cleared once the panel consumes it.
+  pendingWish: string | null;
   setOpen: (open: boolean) => void;
   setStatus: (status: GenieStatus) => void;
   addMessage: (message: GenieMessage) => void;
   appendToMessage: (id: string, chunk: string) => void;
+  setPendingWish: (wish: string | null) => void;
   reset: () => void;
 };
 
@@ -27,6 +31,7 @@ export const useGenieStore = create<GenieState>((set) => ({
   open: false,
   status: "idle",
   messages: [],
+  pendingWish: null,
   setOpen: (open) => set({ open }),
   setStatus: (status) => set({ status }),
   addMessage: (message) => set((s) => ({ messages: [...s.messages, message] })),
@@ -34,5 +39,6 @@ export const useGenieStore = create<GenieState>((set) => ({
     set((s) => ({
       messages: s.messages.map((m) => (m.id === id ? { ...m, content: m.content + chunk } : m)),
     })),
-  reset: () => set({ status: "idle", messages: [] }),
+  setPendingWish: (pendingWish) => set({ pendingWish }),
+  reset: () => set({ status: "idle", messages: [], pendingWish: null }),
 }));

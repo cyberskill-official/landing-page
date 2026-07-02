@@ -17,6 +17,8 @@ export type Dictionary = {
     ctaPrimary: string;
     ctaSecondary: string;
     scrollHint: string;
+    wishPlaceholder: string;
+    wishCta: string;
   };
   sections: {
     valueTitle: string;
@@ -86,6 +88,7 @@ export type Dictionary = {
     wishErrorEmail: string;
     contactLumiCta: string;
     contactFormFallback: string;
+    wishSeedAck: string;
   };
   a11y: {
     themeToDark: string;
@@ -123,6 +126,8 @@ const en: Dictionary = {
     ctaPrimary: "Start my project",
     ctaSecondary: "Talk to Lumi",
     scrollHint: "Scroll to follow the wish",
+    wishPlaceholder: "Make a wish... a faster checkout, an app, a tool",
+    wishCta: "Make a wish",
   },
   sections: {
     valueTitle: "Why teams work with us",
@@ -189,6 +194,7 @@ const en: Dictionary = {
     wishErrorEmail: "That email does not look right - one more try?",
     contactLumiCta: "Grant it with Lumi",
     contactFormFallback: "Prefer a classic form?",
+    wishSeedAck: "A wish worth granting. Let me hand it to the team - first, what may I call you?",
   },
   a11y: {
     themeToDark: "Switch to dark mode",
@@ -226,6 +232,8 @@ const vi: Dictionary = {
     ctaPrimary: "Bắt đầu dự án",
     ctaSecondary: "Trò chuyện với Lumi",
     scrollHint: "Cuộn xuống để theo điều ước",
+    wishPlaceholder: "Ước một điều... thanh toán nhanh hơn, một ứng dụng, một công cụ",
+    wishCta: "Ước điều này",
   },
   sections: {
     valueTitle: "Vì sao các đội ngũ chọn CyberSkill",
@@ -292,6 +300,7 @@ const vi: Dictionary = {
     wishErrorEmail: "Email này có vẻ chưa đúng - bạn thử lại nhé?",
     contactLumiCta: "Nhờ Lumi thực hiện",
     contactFormFallback: "Bạn thích dùng biểu mẫu quen thuộc?",
+    wishSeedAck: "Một điều ước đáng để thực hiện. Để mình chuyển đến đội ngũ nhé - trước tiên, mình nên gọi bạn là gì?",
   },
   a11y: {
     themeToDark: "Chuyển sang chế độ tối",

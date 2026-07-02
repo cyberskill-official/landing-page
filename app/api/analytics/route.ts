@@ -12,6 +12,7 @@ const ALLOWED = new Set([
   "page_view",
   "form_start",
   "lead_abandoned",
+  "hero_wish",
   "wish_flow_started",
 ]);
 

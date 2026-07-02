@@ -1765,3 +1765,63 @@ main > .cs-section::before {
   .cs-thumb-bars rect,
   .cs-thumb-cta { transition: none; }
 }
+
+/* Make-a-wish hero widget + gold-dust burst (FR-CHAR-026). */
+.cs-wish {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: min(30rem, 100%);
+  margin: var(--cs-space-6, 1.5rem) 0 var(--cs-space-4, 1rem);
+  padding: 0.4rem 0.4rem 0.4rem 0.9rem;
+  border-radius: var(--cs-radius-pill, 999px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(244, 186, 23, 0.3);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  transition: border-color var(--cs-dur-med, 220ms) ease, box-shadow var(--cs-dur-med, 220ms) ease;
+}
+.cs-wish:focus-within {
+  border-color: rgba(244, 186, 23, 0.6);
+  box-shadow: 0 12px 34px -16px rgba(244, 186, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.cs-wish-spark {
+  color: var(--cs-color-brand-ochre, #f4ba17);
+  display: inline-flex;
+  filter: drop-shadow(0 0 6px rgba(244, 186, 23, 0.4));
+}
+.cs-wish-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--cs-color-fg, #fbf7f1);
+  font: inherit;
+  font-size: var(--cs-text-sm, 0.95rem);
+  caret-color: var(--cs-color-brand-ochre, #f4ba17);
+}
+.cs-wish-input::placeholder { color: rgba(255, 255, 255, 0.45); }
+.cs-wish-go { flex: 0 0 auto; white-space: nowrap; }
+[data-theme="light"] .cs-wish { background: rgba(28, 19, 13, 0.05); border-color: rgba(181, 120, 10, 0.35); }
+[data-theme="light"] .cs-wish-input { color: var(--cs-color-ink, #1c130d); }
+[data-theme="light"] .cs-wish-input::placeholder { color: rgba(28, 19, 13, 0.5); }
+.cs-wish-dust { position: fixed; z-index: 60; pointer-events: none; width: 0; height: 0; }
+.cs-wish-dust i {
+  position: absolute;
+  left: 0; top: 0;
+  width: 6px; height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 40%, #fff2c8, #f4ba17 55%, rgba(244, 186, 23, 0) 75%);
+  animation: cs-dust 1s var(--cs-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) forwards;
+}
+@keyframes cs-dust {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.2); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--s, 1)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-wish-dust { display: none; }
+  .cs-wish { transition: none; }
+}

@@ -9,6 +9,7 @@ import {
   isOptionalStep,
   resolveConsent,
   startWishFlow,
+  startWishFlowWith,
   wishFlowPayload,
   type WishState,
 } from "@/lib/genie/wishFlow";
@@ -28,6 +29,8 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   const setStatus = useGenieStore((s) => s.setStatus);
   const addMessage = useGenieStore((s) => s.addMessage);
   const appendToMessage = useGenieStore((s) => s.appendToMessage);
+  const pendingWish = useGenieStore((s) => s.pendingWish);
+  const setPendingWish = useGenieStore((s) => s.setPendingWish);
 
   const [input, setInput] = useState("");
   // Conversational lead capture (FR-CHAR-026): when active, the input feeds
@@ -38,6 +41,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
+  const seededRef = useRef<string | null>(null);
 
   // Move focus into the panel on open and return it to the launcher on close
   // so keyboard and screen-reader users are never stranded (FR-A11Y-006).
@@ -61,6 +65,16 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [setOpen]);
+
+  // A wish typed in the hero seeds the flow on open: echo it, then collect who
+  // to reply to (the message question is skipped since we already hold it).
+  useEffect(() => {
+    if (!open || !pendingWish || seededRef.current === pendingWish) return;
+    seededRef.current = pendingWish;
+    seedWish(pendingWish);
+    setPendingWish(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, pendingWish]);
 
   if (!open) return null;
 
@@ -96,6 +110,16 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     inputRef.current?.focus();
   }
 
+  function seedWish(message: string) {
+    if (wish) return;
+    const state = startWishFlowWith(message);
+    setWish(state);
+    track("wish_flow_started", { source: "hero" });
+    addMessage({ id: uid(), role: "user", content: message });
+    say(dict.genie.wishSeedAck);
+    inputRef.current?.focus();
+  }
+
   function cancelWish() {
     setWish(null);
     say(dict.genie.wishCancelled);
@@ -108,6 +132,13 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     const { state, error } = advanceWishFlow(wish, value);
     if (error) {
       say(error === "invalid_email" ? dict.genie.wishErrorEmail : dict.genie.wishErrorName);
+      return;
+    }
+    // Hero-seeded wish already holds the message: skip re-asking it.
+    if (state.step === "message" && state.draft.message) {
+      const skip: WishState = { step: "consent", draft: state.draft };
+      setWish(skip);
+      say(promptFor(skip));
       return;
     }
     setWish(state);
