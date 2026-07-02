@@ -1736,3 +1736,32 @@ main > .cs-section::before {
 @media (prefers-reduced-motion: reduce) {
   .cs-card-icon { transition: none; }
 }
+
+/* Selected Work mockups (FR-WEB-ART): stylised product screens so the portfolio */
+/* reads as a portfolio. Swap for real screenshots when case studies are cleared. */
+.cs-work-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 320 / 190;
+  margin-bottom: var(--cs-space-4, 1rem);
+  border-radius: var(--cs-radius-md, 14px);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(244, 186, 23, 0.07), rgba(0, 0, 0, 0) 68%),
+    rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 30px -20px rgba(0, 0, 0, 0.85);
+}
+.cs-work-thumb svg { display: block; width: 100%; height: 100%; }
+.cs-thumb-bars rect {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: transform var(--cs-dur-med, 240ms) var(--cs-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.cs-work-card:hover .cs-thumb-bars rect { transform: scaleY(1.14); }
+.cs-thumb-cta { transition: filter var(--cs-dur-med, 240ms) ease; }
+.cs-work-card:hover .cs-thumb-cta { filter: drop-shadow(0 0 8px rgba(244, 186, 23, 0.65)); }
+[data-theme="light"] .cs-work-thumb { background: rgba(28, 19, 13, 0.9); }
+@media (prefers-reduced-motion: reduce) {
+  .cs-thumb-bars rect,
+  .cs-thumb-cta { transition: none; }
+}
