@@ -15,10 +15,10 @@ const faq: Record<Locale, { q: string; a: string }[]> = {
   ],
   vi: [
     { q: "CyberSkill làm gì?", a: "Chúng tôi là công ty tư vấn giải pháp phần mềm. Chúng tôi xây dựng ứng dụng web, ứng dụng di động và hệ thống phần mềm nội bộ." },
-    { q: "CyberSkill đặt trụ sở ở đâu?", a: `Chúng tôi đặt tại ${company.city}, ${company.country}, làm việc với khách hàng trong nước và quốc tế.` },
-    { q: "Làm sao để bắt đầu một dự án?", a: `Gửi một lời nhắn ngắn qua biểu mẫu liên hệ hoặc trò chuyện với Lumi. Chúng tôi phản hồi trong vòng một ngày làm việc. Bạn cũng có thể gửi email tới ${company.email}.` },
-    { q: "Bạn phản hồi nhanh thế nào?", a: "Trong vòng một ngày làm việc. Nếu yêu cầu đã rõ ràng, thường sẽ có người trả lời bạn, không phải thư tự động." },
-    { q: "Bạn có làm việc với khách hàng quốc tế không?", a: "Có. Chúng tôi làm việc bằng tiếng Anh và tiếng Việt, và đã quen làm việc qua nhiều múi giờ." },
+    { q: "CyberSkill đặt trụ sở ở đâu?", a: `Trụ sở của chúng tôi ở ${company.city}, ${company.country}; chúng tôi làm việc với khách hàng trong nước lẫn quốc tế.` },
+    { q: "Làm sao để bắt đầu một dự án?", a: `Gửi một lời nhắn ngắn qua biểu mẫu liên hệ, hoặc trò chuyện với Lumi. Chúng tôi phản hồi trong một ngày làm việc. Bạn cũng có thể email tới ${company.email}.` },
+    { q: "Bạn phản hồi nhanh thế nào?", a: "Trong một ngày làm việc. Nếu yêu cầu đã rõ ràng, người trả lời bạn thường là một người thật, không phải thư tự động." },
+    { q: "Bạn có làm việc với khách hàng quốc tế không?", a: "Có. Chúng tôi làm việc bằng cả tiếng Anh và tiếng Việt, và đã quen phối hợp qua nhiều múi giờ." },
   ],
 };
 

@@ -36,27 +36,27 @@ const content: Record<Locale, { title: string; lead: string; steps: Step[] }> = 
   },
   vi: {
     title: "Cách chúng tôi làm việc",
-    lead: "Một trình tự đơn giản và minh bạch, giữ bạn nắm rõ mọi thứ từ buổi gọi đầu tiên đến lần phát hành cuối cùng.",
+    lead: "Một trình tự đơn giản và minh bạch: bạn nắm rõ mọi thứ, từ cuộc gọi đầu tiên đến lần phát hành cuối cùng.",
     steps: [
       {
         n: "01",
         title: "Khám phá",
-        body: "Chúng tôi bắt đầu bằng việc hiểu mục tiêu và các ràng buộc. Chúng tôi hỏi thành công trông như thế nào và điều gì không thể thay đổi, để công việc hướng tới kết quả của bạn chứ không phải giả định của chúng tôi.",
+        body: "Chúng tôi bắt đầu bằng việc hiểu mục tiêu và các ràng buộc: thành công trông như thế nào, điều gì không thể xê dịch - để công việc nhắm thẳng vào kết quả của bạn, không phải giả định của chúng tôi.",
       },
       {
         n: "02",
         title: "Định hình",
-        body: "Chúng tôi xác định phạm vi, vạch lộ trình và thiết kế trước những phần chứa nhiều rủi ro nhất. Bạn thấy rõ các đánh đổi bằng ngôn ngữ dễ hiểu trước khi viết bất kỳ dòng mã nào.",
+        body: "Chúng tôi khoanh phạm vi, vạch lộ trình, và thiết kế trước những phần nhiều rủi ro nhất. Bạn thấy rõ các đánh đổi bằng lời lẽ dễ hiểu, trước khi dòng mã đầu tiên được viết.",
       },
       {
         n: "03",
         title: "Xây dựng",
-        body: "Chúng tôi bàn giao theo từng phần nhỏ có thể review, với CI tự chặn lỗi hồi quy. Mỗi thay đổi đủ nhỏ để đọc được, và bạn thấy sản phẩm thành hình theo từng tuần.",
+        body: "Chúng tôi bàn giao theo từng phần nhỏ đủ để đọc và review kỹ, với CI tự chặn lỗi hồi quy. Bạn nhìn sản phẩm thành hình theo từng tuần.",
       },
       {
         n: "04",
         title: "Đồng hành",
-        body: "Sau khi ra mắt, chúng tôi đo lường, bảo trì và cải thiện. Chúng tôi theo dõi điều quan trọng, sửa những gì hỏng và giữ cho phần mềm khoẻ mạnh để tiếp tục phát huy giá trị.",
+        body: "Sau khi ra mắt, chúng tôi đo lường, bảo trì và cải tiến: theo dõi điều quan trọng, sửa ngay thứ hỏng, giữ phần mềm luôn khoẻ để nó tiếp tục xứng đáng với chỗ đứng của mình.",
       },
     ],
   },

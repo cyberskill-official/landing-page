@@ -54,7 +54,12 @@
 
   /* Type scale (1.250 major-third), fluid via clamp */
   --cs-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --cs-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  /* Display face = Space Grotesk via next/font (--font-display, FR-DS-008):
+     Vietnamese-complete, so VN diacritics no longer fall back per-glyph to a
+     second typeface. The fallback chain below only applies where the layout's
+     font variable is absent (tests, isolated renders). */
+  --cs-font-display: var(--font-display, ui-sans-serif, system-ui, "Segoe UI", sans-serif);
+  --cs-font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --cs-text-xs: 0.8rem;
   --cs-text-sm: 0.9rem;
   --cs-text-base: 1rem;
@@ -62,7 +67,7 @@
   --cs-text-xl: clamp(1.35rem, 1.1rem + 1vw, 1.6rem);
   --cs-text-2xl: clamp(1.7rem, 1.3rem + 2vw, 2.3rem);
   --cs-text-3xl: clamp(2.2rem, 1.6rem + 3.4vw, 3.6rem);
-  --cs-text-4xl: clamp(2.8rem, 1.9rem + 5vw, 5rem);
+  --cs-text-4xl: clamp(2.9rem, 1.9rem + 5.4vw, 5.6rem);
 
   /* Spacing scale */
   --cs-space-1: 0.25rem;
@@ -145,12 +150,14 @@ body {
 
 h1, h2, h3 {
   font-family: var(--cs-font-display);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  line-height: 1.08;
+  /* Space Grotesk sets tighter than the old serif at display sizes. */
+  letter-spacing: -0.02em;
+  font-weight: 600;
   margin: 0 0 var(--cs-space-4);
 }
 
-h1 { font-size: var(--cs-text-4xl); }
+h1 { font-size: var(--cs-text-4xl); font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; }
 h2 { font-size: var(--cs-text-3xl); }
 h3 { font-size: var(--cs-text-xl); }
 p { margin: 0 0 var(--cs-space-4); }
@@ -1049,4 +1056,172 @@ p[data-mask-reveal] { transition-delay: 140ms; }
   .cs-hero-hint::after { display: none; }
   .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
   [data-mask-reveal] { clip-path: none; transform: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Futuristic art direction v2 (FR-DS-012)                             */
+/* Dark-first gold HUD language: blueprint grid, mono micro-meta,      */
+/* ghost section indices, orbiting card borders, a gold-lit final      */
+/* slogan word, tilted marquee, scrolled-header hairline, breathing    */
+/* hero CTA. Same rules as the motion layer: transform/opacity/paint   */
+/* only, decorative pieces aria-hidden or pseudo, guards at the end.   */
+/* ------------------------------------------------------------------ */
+
+/* Blueprint grid behind the hero, faded out radially so it reads as an
+   engineering surface, not wallpaper. */
+.cs-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(69, 33, 14, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(69, 33, 14, 0.05) 1px, transparent 1px);
+  background-size: 54px 54px;
+  -webkit-mask-image: radial-gradient(72% 64% at 58% 38%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(72% 64% at 58% 38%, #000 0%, transparent 78%);
+}
+[data-theme="dark"] .cs-hero::before {
+  background-image:
+    linear-gradient(rgba(244, 186, 23, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 186, 23, 0.05) 1px, transparent 1px);
+}
+
+/* HUD micro-meta above the hero eyebrow: coordinates, city, locales. */
+.cs-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cs-space-4);
+  margin: 0 0 var(--cs-space-6);
+  font-family: var(--cs-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cs-color-fg-muted);
+}
+.cs-hero-meta::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--cs-color-accent);
+}
+.cs-hero-meta span + span::before {
+  content: "//";
+  margin-right: var(--cs-space-4);
+  color: rgba(244, 186, 23, 0.55);
+}
+
+/* Ghost section indices: an engineering plate number per home section. */
+main { counter-reset: cs-section; }
+main > .cs-section { counter-increment: cs-section; }
+main > .cs-section > .cs-container { position: relative; z-index: 1; }
+main > .cs-section::before {
+  content: counter(cs-section, decimal-leading-zero) / "";
+  position: absolute;
+  top: var(--cs-space-6);
+  right: var(--cs-space-4);
+  z-index: 0;
+  pointer-events: none;
+  font-family: var(--cs-font-display);
+  font-weight: 700;
+  font-size: clamp(4rem, 9vw, 8.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(69, 33, 14, 0.07);
+}
+[data-theme="dark"] main > .cs-section::before { color: rgba(244, 186, 23, 0.08); }
+
+/* Orbiting gold border on card hover: a conic light runs the card's rim.
+   Without @property support the ring is simply static on hover. */
+@property --cs-orbit {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.cs-service-card::after, .cs-work-card::after, .cs-proof-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--cs-radius-lg);
+  padding: 1px;
+  background: conic-gradient(
+    from var(--cs-orbit),
+    transparent 0deg,
+    transparent 245deg,
+    rgba(244, 186, 23, 0.9) 310deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--cs-dur) var(--cs-ease);
+  pointer-events: none;
+}
+.cs-service-card, .cs-work-card, .cs-proof-card { position: relative; }
+.cs-service-card:hover::after, .cs-work-card:hover::after, .cs-proof-card:hover::after {
+  opacity: 1;
+  animation: cs-orbit-spin 2.6s linear infinite;
+}
+@keyframes cs-orbit-spin { to { --cs-orbit: 360deg; } }
+[data-theme="dark"] .cs-service-card:hover, [data-theme="dark"] .cs-work-card:hover {
+  box-shadow: var(--cs-depth-3), 0 0 30px rgba(244, 186, 23, 0.1);
+}
+
+/* The final slogan word carries the gold: a static gilded gradient instead
+   of the travelling shimmer (which the other words keep). */
+:root { --cs-gold-word-a: #8a6a06; --cs-gold-word-b: #b8860b; --cs-gold-word-c: #d9a012; }
+[data-theme="dark"] { --cs-gold-word-a: #f4ba17; --cs-gold-word-b: #ffd257; --cs-gold-word-c: #ffe9a8; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .cs-kinetic-word:last-child .cs-kinetic-inner {
+    background-image: linear-gradient(100deg, var(--cs-gold-word-a) 0%, var(--cs-gold-word-b) 55%, var(--cs-gold-word-c) 100%);
+    background-size: 100% 100%;
+    background-position: 0 0;
+    animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both;
+  }
+  [data-intro="play"] .cs-kinetic-word:last-child .cs-kinetic-inner {
+    animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 1350ms) both;
+  }
+}
+
+/* The marquee band rides at a slight tilt. Transform only: the reserved
+   space never changes, and its background matches the page so the rotated
+   corners stay invisible. */
+.cs-marquee { transform: rotate(-1.2deg); }
+
+/* Scrolled header gets a gold hairline under its glass. */
+[data-scrolled] .cs-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 4%, rgba(244, 186, 23, 0.55), transparent 96%);
+}
+
+/* The hero's primary CTA breathes a soft gold halo. */
+.cs-hero-actions .cs-btn-primary { animation: cs-cta-breathe 3.8s var(--cs-ease) infinite; }
+@keyframes cs-cta-breathe {
+  0%, 100% { box-shadow: var(--cs-depth-2); }
+  50% { box-shadow: var(--cs-depth-2), 0 0 24px 2px rgba(244, 186, 23, 0.38); }
+}
+
+/* --- v2 guards (cascade-last) --- */
+@media (prefers-reduced-motion: reduce) {
+  .cs-hero-actions .cs-btn-primary { animation: none; }
+  .cs-service-card:hover::after, .cs-work-card:hover::after, .cs-proof-card:hover::after { animation: none; }
+  .cs-kinetic-word:last-child .cs-kinetic-inner { animation: none; transform: none; }
+}
+@media (forced-colors: active) {
+  .cs-hero::before, main > .cs-section::before, .cs-hero-meta,
+  .cs-service-card::after, .cs-work-card::after, .cs-proof-card::after { display: none; }
+  .cs-marquee { transform: none; }
+}
+@media print {
+  .cs-hero::before, main > .cs-section::before, .cs-hero-meta { display: none; }
 }

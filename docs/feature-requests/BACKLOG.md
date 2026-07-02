@@ -32,14 +32,14 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 58 |
+| shipped | 60 |
 | hold | 1 |
-| planned | 35 |
-| **total** | **94** |
+| planned | 34 |
+| **total** | **95** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
-| DS (design system) | 11 | 8 |
+| DS (design system) | 12 | 10 |
 | WEB (foundation) | 10 | 7 |
 | SCENE (3D + scroll) | 10 | 7 |
 | CHAR (Lumi) | 13 | 4 |
@@ -50,7 +50,7 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 | PERF (performance) | 6 | 5 |
 | OPS (build/deploy/ops) | 8 | 5 |
 
-The 58 shipped + 1 hold are the slices delivered so far; the 35 `planned` rows
+The 60 shipped + 1 hold are the slices delivered so far; the 34 `planned` rows
 are the deeper scope from the research doc, now specified so the backlog is
 complete and build-ready. (Totals table re-baselined 2026-07-02 against the FR
 files' status fields; earlier runs had updated this prose but not the table.)
@@ -65,10 +65,11 @@ files' status fields; earlier runs had updated this prose but not the table.)
 - [FR-DS-005](ds/FR-DS-005-confirm-token-package.md) - Resolve whether `@cyberskill/tokens|react` is privately consumable; consume or keep hand-port. P0. SHOULD. planned.
 - [FR-DS-006](ds/FR-DS-006-apca-contrast-tooling.md) - APCA Lc verification tooling (>=75 body, >=90 interactive) on rendered glass. P5. SHOULD. shipped.
 - [FR-DS-007](ds/FR-DS-007-style-packs.md) - Style-pack switching via `data-cs-style`. P5. COULD. planned.
-- [FR-DS-008](ds/FR-DS-008-typography-vietnamese.md) - Typography scale + a Vietnamese-complete typeface. P1. SHOULD. planned.
+- [FR-DS-008](ds/FR-DS-008-typography-vietnamese.md) - Typography scale + a Vietnamese-complete typeface (Space Grotesk via next/font, build-verified vietnamese subset). P1. SHOULD. shipped.
 - [FR-DS-009](ds/FR-DS-009-motion-tokens.md) - Motion/easing/duration tokens consumed by all animation. P1. COULD. shipped.
 - [FR-DS-010](ds/FR-DS-010-icon-set.md) - Consistent in-repo icon set (SVG). P4. COULD. shipped.
 - [FR-DS-011](ds/FR-DS-011-motion-polish.md) - Premium motion-polish layer: aurora, kinetic masked hero + shimmer, custom cursor/magnetic/tilt, once-per-session intro veil, keyword marquee, scroll progress, masked reveals, link/button micro-interactions. P4. COULD. shipped.
+- [FR-DS-012](ds/FR-DS-012-futuristic-art-direction.md) - Futuristic art direction: dark default, gold HUD language (blueprint grid, mono meta, ghost indices, orbit borders, gilded final slogan word), native-quality VN copy pass. P4. COULD. shipped.
 
 ### WEB - foundation
 - [FR-WEB-001](web/FR-WEB-001-app-shell-i18n.md) - App Router shell, EN/VN `[lang]` routing, per-locale `<html lang>`. P1. MUST. shipped.

@@ -12,13 +12,13 @@ export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary
       : `Registered company, operating since ${company.founded}. DUNS ${company.duns}.`;
   // The proof heading must match what sits below it. With real client quotes it
   // is "What clients say"; until those are cleared we show first-person
-  // commitments, so the heading becomes "How we work" rather than implying
-  // endorsements that do not exist yet.
+  // commitments, so the heading names them as commitments (the old fallback
+  // "How we work" duplicated the Process section's heading on the home page).
   const heading = hasQuotes
     ? dict.sections.proofTitle
     : locale === "vi"
-      ? "Cách chúng tôi làm việc"
-      : "How we work";
+      ? "Điều chúng tôi cam kết"
+      : "What we stand behind";
 
   return (
     <section id="proof" className="cs-section cs-section-alt" aria-labelledby="proof-title">

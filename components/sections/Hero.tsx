@@ -22,12 +22,17 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const words = splitSloganWords(slogan);
   const lead =
     locale === "vi"
-      ? "Lumi, vị thần đèn vàng của chúng tôi, biến một điều ước rõ ràng thành phần mềm vận hành được: thứ mà đội ngũ của bạn thật sự dùng để làm việc, được xây để bàn giao và để bền lâu."
+      ? "Lumi, vị thần đèn vàng của CyberSkill, biến một điều ước rõ ràng thành phần mềm chạy thật: thứ đội ngũ của bạn dùng mỗi ngày, được xây để bàn giao đúng hẹn và bền bỉ theo thời gian."
       : "Lumi, our golden genie, turns a clear wish into working software: the kind your team actually runs on, built to ship and to last.";
   return (
     <section className="cs-hero" aria-labelledby="hero-title">
       <Aurora />
       <div className="cs-container cs-hero-inner">
+        <p className="cs-hero-meta" aria-hidden="true">
+          <span>10.7769°N 106.7009°E</span>
+          <span>{locale === "vi" ? "TP. Hồ Chí Minh" : "Ho Chi Minh City"}</span>
+          <span>EN / VI</span>
+        </p>
         <p className="cs-eyebrow">
           <Icon name="sparkle" size="sm" className="cs-sparkle" />{" "}
           {dict.hero.eyebrow}

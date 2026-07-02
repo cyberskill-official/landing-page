@@ -16,7 +16,7 @@ export function StoryArc({ locale }: { locale: Locale }) {
   );
   const intro =
     locale === "vi"
-      ? "Mỗi dự án đi cùng một hành trình: từ một điều ước rõ ràng đến phần mềm đang chạy thật."
+      ? "Mỗi dự án đều đi qua một hành trình: từ một điều ước rõ ràng đến phần mềm chạy thật giữa đời thực."
       : "Every project follows one arc: from a clear wish to software running in the real world.";
   const title = locale === "vi" ? "Hành trình của một điều ước" : "The arc of a wish";
 

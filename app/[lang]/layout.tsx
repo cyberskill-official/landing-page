@@ -21,7 +21,7 @@ export function generateStaticParams() {
 
 const descriptions: Record<Locale, string> = {
   en: "CyberSkill is a software solutions consultancy in Ho Chi Minh City, building web apps, mobile apps, and internal systems that ship and stay maintainable.",
-  vi: "CyberSkill là công ty tư vấn giải pháp phần mềm tại Thành phố Hồ Chí Minh, xây dựng ứng dụng web, ứng dụng di động và hệ thống nội bộ sẵn sàng vận hành và dễ bảo trì.",
+  vi: "CyberSkill là công ty tư vấn giải pháp phần mềm tại TP. Hồ Chí Minh: chúng tôi xây ứng dụng web, ứng dụng di động và hệ thống nội bộ chạy ổn định, dễ bảo trì.",
 };
 
 export async function generateMetadata({

@@ -17,7 +17,8 @@ import { IntroVeil } from "@/components/motion/IntroVeil";
 describe("motion math helpers (FR-DS-012)", () => {
   it("splits slogans into words across locales, diacritics intact", () => {
     expect(splitSloganWords(company.slogan.en)).toEqual(["Turn", "Your", "Will", "Into", "Real"]);
-    expect(splitSloganWords(company.slogan.vi)).toEqual(["Hiện", "thực", "hoá", "ý", "chí"]);
+    // Brand-exact VN casing per DESIGN.md (title case).
+    expect(splitSloganWords(company.slogan.vi)).toEqual(["Hiện", "Thực", "Hoá", "Ý", "Chí"]);
     expect(splitSloganWords("  a   b\n c ")).toEqual(["a", "b", "c"]);
     expect(splitSloganWords("")).toEqual([]);
   });

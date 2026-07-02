@@ -91,3 +91,57 @@ DEFERRED
 - Consider extending [data-mask-reveal] to /work and /careers headings.
 - The still-parked forks from earlier runs (Lumi GLB, real testimonials,
   Vietnamese native review) are unchanged.
+
+---
+
+# Round 2 - 2026-07-02 - futuristic v2 on the same branch
+
+Operator review of round 1: VN font bugged, VN copy reads translated,
+default should be dark, and the design should push past a "$50k" bar -
+more creative, more futuristic. Round 2 ships FR-DS-008 + FR-DS-012 on
+top of FR-DS-011.
+
+## Ledger
+
+DONE
+- FR-DS-008 Vietnamese-complete typography: Space Grotesk via
+  next/font/google, `subsets: ["latin", "vietnamese"]` (build fails if the
+  subset were absent - coverage is build-verified), self-hosted woff2,
+  swap + size-adjusted fallback. Root cause of the reported bug: the old
+  display stack (Iowan Old Style/Palatino) has no VN diacritics, so VN
+  headings mixed typefaces per-glyph. Display scale retuned for the
+  grotesk (h1 700/-0.03em/1.02, 4xl up to 5.6rem); new --cs-font-mono
+  token.
+- Dark default (SSR data-theme="dark"); stored light preference still wins
+  pre-paint. Decision record 2026-07-02-dark-default-futuristic-v2.
+- FR-DS-012 gold HUD language: blueprint grid behind the hero (radial
+  fade mask), monospace micro-meta row (coordinates, city, EN/VI), ghost
+  section indices via CSS counters (`content: ... / ""` stays silent for
+  AT), orbiting conic gold border on card hover (@property angle, static
+  ring without support), gilded final slogan word ("Real" / "Chí") in
+  per-theme gold ramps, marquee tilted -1.2deg, gold hairline under the
+  scrolled header, breathing halo on the hero primary CTA.
+- Vietnamese copy rewritten across dictionaries.ts, site.ts (services,
+  values, work cards, commitments, all six scenes), Process, Faq,
+  StoryArc, hero lead, locale metadata description. Slogan now brand-exact
+  "Hiện Thực Hoá Ý Chí" (DESIGN.md casing). Duplicate home heading fixed:
+  SocialProof no-quotes fallback is now "What we stand behind" / "Điều
+  chúng tôi cam kết" (was a second "How we work").
+
+DEFERRED
+- FR-CMS-003 Vietnamese native review stays planned: this pass is
+  agent-quality; a native speaker owns the final word.
+- Case-study detail body copy (work/[slug]) got only the shared card
+  strings; deep body text untouched.
+
+## Evidence (Mac gate, 2026-07-02, all EXIT=0)
+
+- tsc; vitest 16 files / 60 tests (VN slogan-casing expectation updated);
+  lint; build 26/26 pages, First Load JS shared 175 kB (fonts land in
+  .next/static/media, ~35KB woff2, inside the 120KB hard font budget);
+  check:assets client JS 2364KB < 2800KB; served-route jsdom axe 0
+  violations on /en + /vi (now exercising the dark default).
+- Visual QA (puppeteer, motion-on): dark hero with gold "Real", VN hero
+  "Hiện Thực Hoá Ý Chí" fully uniform diacritics, orbit border + cursor +
+  spotlight on card hover with ghost "03" index, tilted marquee, light
+  theme coherent, VN story section reading native.
