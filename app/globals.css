@@ -1509,6 +1509,135 @@ main > .cs-section::before {
 .cs-contact-details[open] > summary { margin-bottom: var(--cs-space-6); }
 .cs-contact-details[open] > .cs-form { animation: cs-faq-open 450ms var(--cs-ease); }
 
+/* ------------------------------------------------------------------ */
+/* Round 5: the text itself moves, the chat becomes Lumi's cloud, and  */
+/* the black hole devours (FR-CHAR-032).                               */
+/* ------------------------------------------------------------------ */
+
+/* Kinetic section headings: per-word masked rise, staggered, triggered by
+   the heading's existing reveal attribute (which becomes trigger-only - no
+   double clip on top of the word masks). */
+.cs-kt-h { display: flex; flex-wrap: wrap; column-gap: 0.3em; row-gap: 0; }
+.cs-kt-h[data-mask-reveal] { clip-path: none; transform: none; }
+.cs-kt-word {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.22em 0.06em 0.16em;
+  margin: -0.22em -0.06em -0.16em;
+}
+.cs-kt-inner {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 640ms var(--cs-ease) calc(var(--kti, 0) * 55ms + 120ms);
+}
+[data-mask-reveal="shown"] .cs-kt-inner { transform: none; }
+
+/* Section leads ink themselves in, left to right, as they reveal. The
+   background-position stays within 0-100% (the coverage law). */
+:root { --cs-lead-faint: rgba(74, 59, 48, 0.16); }
+[data-theme="dark"] { --cs-lead-faint: rgba(220, 210, 195, 0.14); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  p.cs-section-lead[data-mask-reveal] {
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(100deg, var(--cs-color-fg-muted) 0% 48%, var(--cs-lead-faint) 52% 100%);
+    background-size: 230% 100%;
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+    transition: background-position 1100ms var(--cs-ease) 250ms, clip-path 700ms var(--cs-ease), transform 700ms var(--cs-ease);
+  }
+  p.cs-section-lead[data-mask-reveal="shown"] { background-position: 0% 0; }
+}
+
+/* The chat cloud (FR-CHAR-031 v2): with the living mascot on stage, the
+   panel becomes a floating thought-bubble centre-right - Lumi flies to its
+   dots and "speaks" it. Devices without the mascot keep the classic
+   bottom-right panel. */
+[data-lumi-live] .cs-genie {
+  right: 4vw;
+  bottom: auto;
+  top: 52%;
+  width: min(400px, 88vw);
+  max-height: min(62vh, 600px);
+  border-radius: 30px 34px 28px 34px;
+  border: 1px solid rgba(244, 186, 23, 0.4);
+  box-shadow: 0 0 46px rgba(244, 186, 23, 0.16), var(--cs-depth-3);
+  transform: translateY(-50%);
+  transform-origin: 72% -12%;
+  overflow: visible;
+  animation: cs-cloud-in 480ms var(--cs-ease), cs-cloud-float 7s ease-in-out 480ms infinite;
+}
+/* Thought dots gesturing up toward the genie at its chat anchor. */
+[data-lumi-live] .cs-genie::before,
+[data-lumi-live] .cs-genie::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: var(--cs-glass-tint-heavy);
+  border: 1px solid rgba(244, 186, 23, 0.4);
+  pointer-events: none;
+}
+[data-lumi-live] .cs-genie::after { top: -24px; left: 16%; width: 16px; height: 16px; }
+[data-lumi-live] .cs-genie::before { top: -46px; left: 11%; width: 9px; height: 9px; }
+@keyframes cs-cloud-in {
+  from { opacity: 0; transform: translateY(-50%) scale(0.8); }
+  to { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+@keyframes cs-cloud-float {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(calc(-50% - 9px)); }
+}
+/* The log must clip its bubbles even though the cloud shows its dots. */
+[data-lumi-live] .cs-genie .cs-genie-log { overflow-y: auto; }
+
+/* Every message pops into the conversation (all devices). */
+.cs-genie-msg { animation: cs-msg-pop 300ms var(--cs-ease) both; transform-origin: 0 100%; }
+.cs-genie-msg-user { transform-origin: 100% 100%; }
+@keyframes cs-msg-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Black-hole digest (FR-CHAR-032): while feeding, the page content is
+   pointer-inert and unselectable until everything is restored. */
+[data-digesting] main,
+[data-digesting] .cs-footer {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* --- round-5 guards --- */
+@media (prefers-reduced-motion: reduce) {
+  .cs-kt-inner { transform: none; transition: none; }
+  p.cs-section-lead[data-mask-reveal] {
+    color: var(--cs-color-fg-muted);
+    -webkit-text-fill-color: currentColor;
+    background: none;
+    transition: none;
+  }
+  [data-lumi-live] .cs-genie { animation: none; }
+  .cs-genie-msg { animation: none; }
+}
+@media (scripting: none) {
+  .cs-kt-inner { transform: none; }
+  p.cs-section-lead[data-mask-reveal] {
+    color: var(--cs-color-fg-muted);
+    -webkit-text-fill-color: currentColor;
+    background: none;
+  }
+}
+@media (forced-colors: active) {
+  .cs-kt-inner { transform: none; }
+  p.cs-section-lead[data-mask-reveal] { -webkit-text-fill-color: currentColor; background: none; color: CanvasText; }
+}
+@media print {
+  .cs-kt-inner { transform: none; }
+  p.cs-section-lead[data-mask-reveal] { color: var(--cs-color-fg-muted); -webkit-text-fill-color: currentColor; background: none; }
+}
+
 /* --- round-4 guards --- */
 @media (prefers-reduced-motion: reduce) {
   [data-pop] { opacity: 1; transform: none; transition: none; }

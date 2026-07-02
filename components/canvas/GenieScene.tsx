@@ -17,6 +17,7 @@ import {
 } from "@/lib/scene/journey";
 import {
   drainBursts,
+  getDigest,
   getLumiExcite,
   getLumiWorld,
   getPointerNorm,
@@ -65,6 +66,7 @@ function LumiRig({ children }: { children: React.ReactNode }) {
   const stops = useRef<JourneyStop[]>([]);
   const seg = useRef(0);
   const excitePrev = useRef(false);
+  const digPrev = useRef(0);
   const chatPrev = useRef(false);
   const pos = useRef(new THREE.Vector3(1.4, 0.2, 0));
   const scaleRef = useRef(1);
@@ -137,13 +139,17 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     const velX = (pos.current.x - prevX) / Math.max(delta, 1e-4);
     g.rotation.z += (THREE.MathUtils.clamp(-velX * 0.16, -0.5, 0.5) - g.rotation.z) * Math.min(1, delta * 3);
 
-    // Hover excitement puffs Lumi and pops a burst on the rising edge.
+    // Hover excitement puffs Lumi and pops a burst on the rising edge; the
+    // black-hole digest swells the whole mascot as it feeds (FR-CHAR-032).
     const excite = getLumiExcite();
     if (excite !== excitePrev.current) {
       excitePrev.current = excite;
       if (excite) requestBurst(0.8);
     }
-    scaleRef.current += (anchor.scale * (excite ? 1.12 : 1) - scaleRef.current) * k;
+    const dig = getDigest();
+    if (dig > 0.5 && digPrev.current <= 0.5) requestBurst(1.6);
+    digPrev.current = dig;
+    scaleRef.current += (anchor.scale * (excite ? 1.12 : 1) * (1 + dig * 0.55) - scaleRef.current) * k;
     g.scale.setScalar(scaleRef.current);
 
     // Project to CSS pixels for the DOM hotspot (hidden while the chat is

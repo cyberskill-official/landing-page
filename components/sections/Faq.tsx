@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
+import { KineticText } from "@/components/motion/KineticText";
 
 // Visible FAQ. The first three pairs MUST stay in sync with
 // components/seo/HomeFaqJsonLd.tsx so the page and the structured data agree.
@@ -27,7 +28,9 @@ export function Faq({ locale }: { locale: Locale }) {
   return (
     <section id="faq" className="cs-section cs-section-alt" aria-labelledby="faq-title">
       <div className="cs-container">
-        <h2 id="faq-title" data-mask-reveal="">{title}</h2>
+        <h2 id="faq-title" className="cs-kt-h" data-mask-reveal="" aria-label={title}>
+          <KineticText text={title} />
+        </h2>
         <ul className="cs-faq-list" role="list">
           {faq[locale].map((item) => (
             <li key={item.q} className="cs-faq-item cs-surface-standard">

@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { Reveal } from "@/components/motion/Reveal";
+import { KineticText } from "@/components/motion/KineticText";
 
 // How-we-work surface. Bilingual copy lives inline (Record<Locale, ...>) the
 // same way Careers does it; this section does not read the shared dictionary.
@@ -67,7 +68,9 @@ export function Process({ locale }: { locale: Locale; dict: Dictionary }) {
   return (
     <section id="process" className="cs-section" aria-labelledby="process-title">
       <div className="cs-container">
-        <h2 id="process-title" data-mask-reveal="">{c.title}</h2>
+        <h2 id="process-title" className="cs-kt-h" data-mask-reveal="" aria-label={c.title}>
+          <KineticText text={c.title} />
+        </h2>
         <p className="cs-section-lead" data-mask-reveal="">{c.lead}</p>
         <div className="cs-services-grid">
           {c.steps.map((step, i) => (

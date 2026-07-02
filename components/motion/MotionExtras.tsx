@@ -71,12 +71,12 @@ export function MotionExtras() {
       }
     };
     const pending = (el: Element) => ATTRS.some((name) => el.getAttribute(name) === "");
-    const els = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-mask-reveal], [data-line-reveal], [data-pop]"),
-    ).filter(pending);
-    if (els.length === 0) return;
+    const query = () =>
+      Array.from(
+        document.querySelectorAll<HTMLElement>("[data-mask-reveal], [data-line-reveal], [data-pop]"),
+      ).filter(pending);
     if (typeof IntersectionObserver === "undefined") {
-      for (const el of els) show(el);
+      for (const el of query()) show(el);
       return;
     }
     const io = new IntersectionObserver(
@@ -90,8 +90,22 @@ export function MotionExtras() {
       },
       { rootMargin: "0px 0px -12% 0px", threshold: 0.15 },
     );
-    for (const el of els) io.observe(el);
-    return () => io.disconnect();
+    // Self-healing scans: if React ever regenerates the tree after this effect
+    // ran (hydration recovery replaces every node, stranding observers on
+    // orphans - the round-5 pin-spacer race did exactly that), the re-scans
+    // pick up the LIVE still-pending nodes. observe() is a no-op for nodes
+    // already watched, and show() is idempotent, so extra scans are free.
+    const scan = () => {
+      for (const el of query()) io.observe(el);
+    };
+    scan();
+    const timers = [window.setTimeout(scan, 1500), window.setTimeout(scan, 4000)];
+    window.addEventListener("load", scan);
+    return () => {
+      for (const t of timers) window.clearTimeout(t);
+      window.removeEventListener("load", scan);
+      io.disconnect();
+    };
   }, [pathname]);
 
   // Custom cursor + spotlight glow + magnetic CTAs + card tilt.

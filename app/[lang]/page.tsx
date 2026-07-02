@@ -14,6 +14,7 @@ import { Careers } from "@/components/sections/Careers";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
+import { HeroPin } from "@/components/scroll/HeroPin";
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -36,6 +37,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <ContactCta locale={locale} dict={dict} />
       <HomeFaqJsonLd locale={locale} />
       <ServicesJsonLd locale={locale} />
+      {/* Last in the page segment: its effect proves the segment hydrated
+          before GSAP is allowed to wrap .cs-hero in a pin-spacer. */}
+      <HeroPin />
     </>
   );
 }

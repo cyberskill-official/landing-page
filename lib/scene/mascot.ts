@@ -85,3 +85,17 @@ export function drainBursts(): BurstRequest[] {
 // Fired by LeadForm on a successful submission ("the wish is granted"); the
 // scene listens and celebrates.
 export const WISH_GRANTED_EVENT = "cs:wish-granted";
+
+// Black-hole digest progress (FR-CHAR-032): 0 = page intact, 1 = fully
+// devoured. Written by the DOM digest manager (press-and-hold), read by the
+// scene (Lumi darkens into a gold-rimmed hole) and by anything else that
+// wants to react.
+let digest = 0;
+
+export function setDigest(value: number): void {
+  digest = value < 0 ? 0 : value > 1 ? 1 : value;
+}
+
+export function getDigest(): number {
+  return digest;
+}

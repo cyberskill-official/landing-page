@@ -3,6 +3,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { testimonials, commitments, company } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
+import { KineticText } from "@/components/motion/KineticText";
 
 export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const hasQuotes = testimonials.length > 0;
@@ -23,7 +24,9 @@ export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary
   return (
     <section id="proof" className="cs-section cs-section-alt" aria-labelledby="proof-title">
       <div className="cs-container">
-        <h2 id="proof-title" data-mask-reveal="">{heading}</h2>
+        <h2 id="proof-title" className="cs-kt-h" data-mask-reveal="" aria-label={heading}>
+          <KineticText text={heading} />
+        </h2>
         <div className="cs-proof-grid">
           {hasQuotes
             ? testimonials.map((t, i) => (

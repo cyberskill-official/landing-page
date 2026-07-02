@@ -32,17 +32,17 @@ Modules: `DS · WEB · SCENE · CHAR · CTA · CMS · SEO · A11Y · PERF · OPS
 
 | Status | Count |
 |---|---:|
-| shipped | 63 |
+| shipped | 66 |
 | hold | 1 |
 | planned | 34 |
-| **total** | **98** |
+| **total** | **101** |
 
 | Module | FRs | shipped |
 |---|---:|---:|
-| DS (design system) | 13 | 11 |
+| DS (design system) | 14 | 12 |
 | WEB (foundation) | 10 | 7 |
 | SCENE (3D + scroll) | 10 | 7 |
-| CHAR (Lumi) | 15 | 6 |
+| CHAR (Lumi) | 17 | 8 |
 | CTA (conversion) | 9 | 5 |
 | CMS (content + i18n) | 9 | 3 |
 | SEO (discoverability) | 9 | 8 |
@@ -71,6 +71,7 @@ files' status fields; earlier runs had updated this prose but not the table.)
 - [FR-DS-011](ds/FR-DS-011-motion-polish.md) - Premium motion-polish layer: aurora, kinetic masked hero + shimmer, custom cursor/magnetic/tilt, once-per-session intro veil, keyword marquee, scroll progress, masked reveals, link/button micro-interactions. P4. COULD. shipped.
 - [FR-DS-012](ds/FR-DS-012-futuristic-art-direction.md) - Futuristic art direction: dark default, gold HUD language (blueprint grid, mono meta, ghost indices, orbit borders, gilded final slogan word), native-quality VN copy pass. P4. COULD. shipped.
 - [FR-DS-013](ds/FR-DS-013-section-signature-motion.md) - Section signature motion: stat ignition, node ignition, levitating value cards, card scan, process circuit + index charge, HUD brackets, paper tilt, FAQ breathe, careers aurora. P4. COULD. shipped.
+- [FR-DS-014](ds/FR-DS-014-kinetic-section-type.md) - Kinetic section type sitewide: per-word masked h2 reveals with stagger, ink-wipe leads, full CTA migration to Lumi (header included), centred click-me hint. P4. COULD. shipped.
 
 ### WEB - foundation
 - [FR-WEB-001](web/FR-WEB-001-app-shell-i18n.md) - App Router shell, EN/VN `[lang]` routing, per-locale `<html lang>`. P1. MUST. shipped.
@@ -112,6 +113,8 @@ files' status fields; earlier runs had updated this prose but not the table.)
 - [FR-CHAR-029](char/FR-CHAR-029-abuse-hardening.md) - Harden rate limiting, input validation, and prompt-injection defence. P6. SHOULD. planned.
 - [FR-CHAR-030](char/FR-CHAR-030-living-mascot.md) - Lumi as a living mascot: scroll-driven full-page flight (trail, banking, pixie dust), magic bursts (sections, hover, chat, wish granted), chat-attend behaviour, and a focusable hotspot that makes the flying genie itself the chat entry. P4. COULD. shipped.
 - [FR-CHAR-031](char/FR-CHAR-031-wish-flow-lead-capture.md) - Wish flow: deterministic keyless in-chat lead capture (name/email/company/wish/consent -> /api/lead), Lumi-first contact section with the classic form folded as fallback, duplicate Talk-to-Lumi CTAs hidden while the mascot is live, one-time click-me hint. P2. SHOULD. shipped.
+- [FR-CHAR-032](char/FR-CHAR-032-black-hole-digest.md) - Black-hole digest easter egg: press-and-hold turns Lumi into a black hole that devours the page (near blocks first), release inverts it losslessly; scrubbed, reversible, desktop + motion-allowed only. P4. COULD. shipped.
+- [FR-CHAR-033](char/FR-CHAR-033-chat-cloud.md) - Chat cloud: the genie panel becomes Lumi's thought bubble (blob radius, gold rim, thought dots, materialise + float, message pop) while the mascot is live; classic panel elsewhere. P4. COULD. shipped.
 
 ### CTA - conversion
 - [FR-CTA-001](cta/FR-CTA-001-lead-form.md) - <=5-field lead form + honeypot + consent + `/api/lead` fanout. P1. MUST. shipped.

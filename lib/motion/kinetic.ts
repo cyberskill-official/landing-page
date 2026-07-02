@@ -32,6 +32,15 @@ export function magneticOffset(
   };
 }
 
+// Black-hole digest easing (FR-CHAR-032): how far a block has been devoured
+// at global progress p, staggered by its normalized distance from Lumi
+// (0 = at the hole, 1 = farthest corner). Near blocks fall first; the whole
+// page is fully devoured at p = 1. Smoothstepped for the swallow feel.
+export function digestEase(p: number, normDist: number): number {
+  const t = clamp(p * 1.45 - clamp(normDist, 0, 1) * 0.45, 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
 // Perspective tilt for a card: pointer position inside the rect maps to
 // rotateX/rotateY, zero at the centre, capped at +-maxDeg at the edges.
 export function tiltFromPointer(

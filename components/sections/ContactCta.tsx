@@ -6,6 +6,7 @@ import { LeadForm } from "@/components/cta/LeadForm";
 import { Aurora } from "@/components/motion/Aurora";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 import { Icon } from "@/components/ui/Icon";
+import { KineticText } from "@/components/motion/KineticText";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -24,7 +25,9 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
       <Aurora className="cs-aurora-contact" />
       <div className="cs-container cs-contact-grid">
         <div className="cs-contact-intro">
-          <h2 id="contact-title" data-mask-reveal="">{dict.sections.contactTitle}</h2>
+          <h2 id="contact-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.contactTitle}>
+            <KineticText text={dict.sections.contactTitle} />
+          </h2>
           <p className="cs-section-lead" data-mask-reveal="">{dict.sections.contactLead}</p>
           {/* Lumi-first contact (FR-CHAR-026): the conversation is the primary
               path; the classic form stays available below as the fallback. */}

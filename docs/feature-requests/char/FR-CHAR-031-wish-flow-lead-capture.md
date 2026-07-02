@@ -79,3 +79,16 @@ data-lumi-live; CSS hides .cs-lumi-alt under it.
 - FR-CHAR-026 (value-first, ICP-adaptive qualification) intentionally stays
   planned: this flow is its deterministic foundation; the adaptive layer
   needs the AI path and Stephen's qualification criteria.
+
+## §4 Amendment 2026-07-02 (round 5, FR-DS-014)
+
+Operator direction: migrate EVERY remaining chat CTA to Lumi. Clause 1.3's
+carve-out for the header launcher is withdrawn - under html[data-lumi-live]
+the header CTA now hides too (.cs-lumi-alt). While the mascot is live,
+chat entry points are: Lumi itself (click), the one-time hint chip (now
+centred on the mascot via translate(-50%,-50%)), and the contact section's
+"Grant it with Lumi" launcher. Devices without the mascot keep every CTA,
+including the header's. Evidence: CONTACT_PROBE heroAltHidden:true plus
+served axe /en+/vi 0 serious/critical with the header button
+display:none'd (it remains in the accessibility tree only when visible,
+so no name/role regressions).

@@ -69,7 +69,8 @@ export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
         el.style.height = `${d.toFixed(0)}px`;
         const hintEl = hintRef.current;
         if (hintEl) {
-          hintEl.style.transform = `translate3d(${s.x.toFixed(1)}px, ${(s.y + s.r + 10).toFixed(1)}px, 0) translateX(-50%)`;
+          // Centred ON Lumi (operator direction), riding its position.
+          hintEl.style.transform = `translate3d(${s.x.toFixed(1)}px, ${s.y.toFixed(1)}px, 0) translate(-50%, -50%)`;
         }
 
         // Proximity + pass-through check. elementsFromPoint (plural) so the

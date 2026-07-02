@@ -28,7 +28,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
         <div className="cs-header-actions">
           <ThemeToggle toDark={dict.a11y.themeToDark} toLight={dict.a11y.themeToLight} />
           <LanguageSwitcher current={locale} />
-          <GenieOpenButton className="cs-btn cs-btn-primary cs-header-cta">
+          <GenieOpenButton className="cs-btn cs-btn-primary cs-header-cta cs-lumi-alt">
             {dict.hero.ctaSecondary}
           </GenieOpenButton>
         </div>

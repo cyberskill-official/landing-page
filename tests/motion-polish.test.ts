@@ -2,7 +2,8 @@
 import { describe, it, expect } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { clamp, magneticOffset, splitSloganWords, tiltFromPointer } from "@/lib/motion/kinetic";
+import { clamp, digestEase, magneticOffset, splitSloganWords, tiltFromPointer } from "@/lib/motion/kinetic";
+import { KineticText } from "@/components/motion/KineticText";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { Hero } from "@/components/sections/Hero";
@@ -27,6 +28,29 @@ describe("motion math helpers (FR-DS-012)", () => {
     expect(clamp(5, 0, 1)).toBe(1);
     expect(clamp(-2, 0, 1)).toBe(0);
     expect(clamp(0.4, 0, 1)).toBe(0.4);
+  });
+
+  it("digestEase devours near blocks first and everything by p=1 (FR-CHAR-032)", () => {
+    expect(digestEase(0, 0)).toBe(0);
+    expect(digestEase(0, 1)).toBe(0);
+    expect(digestEase(1, 0)).toBe(1);
+    expect(digestEase(1, 1)).toBe(1);
+    // At mid-progress the nearest block is further along than the farthest.
+    expect(digestEase(0.5, 0)).toBeGreaterThan(digestEase(0.5, 1));
+    // Monotonic in p for a fixed distance.
+    let prev = 0;
+    for (let p = 0; p <= 1.001; p += 0.1) {
+      const e = digestEase(p, 0.6);
+      expect(e).toBeGreaterThanOrEqual(prev);
+      prev = e;
+    }
+  });
+
+  it("KineticText renders per-word masks with the accessible text intact", () => {
+    const html = renderToStaticMarkup(createElement("h2", { "aria-label": "How we work" }, createElement(KineticText, { text: "How we work" })));
+    expect(html.match(/cs-kt-word/g)?.length).toBe(3);
+    expect(html).toContain(">work</span>");
+    expect(html).toContain('aria-label="How we work"');
   });
 
   it("caps the magnetic pull and survives degenerate sizes", () => {

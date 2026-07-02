@@ -32,9 +32,10 @@ export const ROUTE: ReadonlyArray<{ selector: string; anchor: ViewportAnchor }> 
   { selector: "#contact", anchor: { vx: 0.47, vy: 0.42, scale: 0.36 } },
 ];
 
-// While the chat panel is open Lumi leaves the route and attends the panel
-// from just above it (the panel is fixed bottom-right).
-export const CHAT_ANCHOR: ViewportAnchor = { vx: 0.82, vy: 0.52, scale: 0.42 };
+// While the chat panel is open Lumi leaves the route and holds the chat
+// cloud: the cloud floats centre-right with its thought-dots pointing up
+// toward this anchor, so the genie reads as speaking the bubble.
+export const CHAT_ANCHOR: ViewportAnchor = { vx: 0.7, vy: 0.2, scale: 0.4 };
 
 export function clamp(value: number, min: number, max: number): number {
   return value < min ? min : value > max ? max : value;

@@ -292,3 +292,58 @@ HONESTY
   /en/careers through the layer. Full gate green again (70 tests).
 - GltfLumi also localised (BASE_POSITION x 1.3 -> 0) so the commissioned
   model rides the rig correctly when it lands.
+
+# Round 5 - 2026-07-02 - kinetic type sitewide, chat cloud, black hole
+# (FR-DS-014 + FR-CHAR-032 + FR-CHAR-033)
+
+Operator direction: sections still read static (the TEXT itself must move);
+migrate the remaining Start-my-project / Talk-to-Lumi CTAs to Lumi; centre
+the Click-Me hint on the mascot; the chat should be a thought cloud stuck
+to Lumi with magic effects; and add the signature easter egg - hold the
+mouse and Lumi becomes a black hole that digests the site, release and it
+all comes back (scrubbed, resumable).
+
+## Ledger
+
+- FR-DS-014 kinetic section type: KineticText splits every section h2 into
+  per-word overflow masks (55ms stagger via --kti, aria-label keeps the
+  name); leads ink in left-to-right (background-clip within the 0-100%
+  coverage law). CTA migration completed: header + hero + persistent bar
+  all carry .cs-lumi-alt and hide under html[data-lumi-live]
+  (FR-CHAR-031 §4 amendment); the hint chip centres on Lumi.
+- FR-CHAR-033 chat cloud: CHAT_ANCHOR {vx:.7, vy:.2, scale:.4} so Lumi
+  holds the bubble; [data-lumi-live] .cs-genie becomes a blob-radius cloud
+  (gold rim + glow, thought dots, materialise-in, idle float, message pop).
+  Same DOM, so every chat/a11y/wish contract is untouched.
+- FR-CHAR-032 black hole: BlackHole.tsx arms on a 350ms hold over
+  non-interactive space; progress scrubs +dt/2.6s devour, -dt/1.1s restore;
+  per-block translate-toward-Lumi + scale + spin + fade ordered by
+  digestEase(p, normDist) (unit-tested); zero residue at p=0; page inert
+  while digesting; mouse-only, motion-allowed, mascot-live. The 3D mascot
+  transforms in sync (core to void, gold event-horizon rim, spin, +55%
+  swell, burst at half-progress).
+- DEFECT FOUND AND FIXED (the reveal-killer): GSAP's pin-spacer wrapped
+  .cs-hero MID-HYDRATION once the round-5 bundle slowed hydration - React
+  #418 regenerated the client tree and stranded every one-shot reveal
+  observer on orphaned nodes; section headings never revealed (caught by
+  eye in shot 3, pinned by a next-dev hydration diff naming div.pin-spacer
+  vs section.cs-hero). Fix: pin creation moved to <HeroPin/> INSIDE the
+  page segment (its effect is provably post-hydration; createHeroPin in
+  lenis-gsap.ts), FR-SCENE-004 §4 addendum. Hardening: MotionExtras reveal
+  observer self-heals (re-scans at +1.5s/+4s/load); harness gained
+  REVEAL_PROBE + HYDRATION_PROBE so this class of bug can't pass silently.
+
+## Evidence (Mac gate, 2026-07-02, all EXIT=0)
+
+- tsc; vitest 18 files / 76 tests (digestEase bounds/ordering/monotonic,
+  KineticText masks + accessible name); lint; build; check:assets; served
+  jsdom axe /en + /vi 0 serious/critical.
+- Probes, one served run, all green: SCENE live:true; DIGEST sucked:true ->
+  restoredCleared:true (attribute removed); REVEAL h2 "shown" +
+  wordUnmasked:true (shown 9/20 - the rest below the fold, correct for
+  show-on-scroll); ARM; CHAT open; WISH done:true (real POST /api/lead);
+  PASSTHROUGH underIsCta + CLICKTHROUGH navigated /en/careers; CONTACT
+  lumiCta + heroAltHidden; HYDRATION clean:true (zero #418).
+- Shots: 1b-blackhole (void core, gold rim, page as shrinking fragments),
+  1c-restored (pixel-identical hero), 3-mascot-services ("What we build"
+  revealed via word masks), 5-mascot-chat (thought-bubble cloud).

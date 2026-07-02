@@ -3,12 +3,15 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { services } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
+import { KineticText } from "@/components/motion/KineticText";
 
 export function Services({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section id="services" className="cs-section cs-section-alt" aria-labelledby="services-title">
       <div className="cs-container">
-        <h2 id="services-title" data-mask-reveal="">{dict.sections.servicesTitle}</h2>
+        <h2 id="services-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.servicesTitle}>
+          <KineticText text={dict.sections.servicesTitle} />
+        </h2>
         <p className="cs-section-lead" data-mask-reveal="">{dict.sections.servicesLead}</p>
         <div className="cs-services-grid">
           {services.map((s, i) => (

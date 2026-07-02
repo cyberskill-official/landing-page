@@ -47,13 +47,14 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           ))}
         </h1>
         <p className="cs-hero-lead">{lead}</p>
+        {/* While the living mascot is on stage (html[data-lumi-live]) BOTH
+            launchers hide: Lumi is the interface - its chat carries the
+            project intent (wish flow) and the conversation. These remain the
+            conversion path on devices without the mascot. */}
         <div className="cs-hero-actions">
-          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
+          <a className="cs-btn cs-btn-primary cs-lumi-alt" href={`/${locale}#contact`}>
             {dict.hero.ctaPrimary}
           </a>
-          {/* Hidden while the living mascot is on stage (html[data-lumi-live]):
-              clicking Lumi itself opens the chat, so this duplicate CTA only
-              serves devices without the mascot. */}
           <GenieOpenButton className="cs-btn cs-btn-secondary cs-lumi-alt">
             {dict.hero.ctaSecondary}
           </GenieOpenButton>

@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { scenes } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
+import { KineticText } from "@/components/motion/KineticText";
 
 // Home-page narrative band. The scroll canvas tells the wish-to-software story
 // visually; this surfaces the same beats as readable text on the page itself,
@@ -23,7 +24,9 @@ export function StoryArc({ locale }: { locale: Locale }) {
   return (
     <section id="story" className="cs-section cs-story" aria-labelledby="story-title">
       <div className="cs-container">
-        <h2 id="story-title" data-mask-reveal="">{title}</h2>
+        <h2 id="story-title" className="cs-kt-h" data-mask-reveal="" aria-label={title}>
+          <KineticText text={title} />
+        </h2>
         <p className="cs-section-lead" data-mask-reveal="">{intro}</p>
         <ol className="cs-story-arc" role="list" data-line-reveal="">
           {beats.map((beat, i) => (
