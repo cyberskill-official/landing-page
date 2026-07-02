@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk } from "next/font/google";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
@@ -38,6 +38,17 @@ export const metadata: Metadata = {
       "Software solutions consultancy. Web, mobile, and internal systems, built honestly.",
   },
   twitter: { card: "summary_large_image" },
+};
+
+// Brand the mobile browser chrome (address bar / status bar) to the gold-on-
+// umber art direction, matched to the user's color scheme. The site defaults to
+// the dark (umber) look; light-scheme users get the cream shell.
+export const viewport: Viewport = {
+  colorScheme: "dark light",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#45210E" },
+    { media: "(prefers-color-scheme: light)", color: "#FDF4E1" },
+  ],
 };
 
 // The root layout owns <html>/<body>. The locale is provided by middleware via
