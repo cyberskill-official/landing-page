@@ -7,6 +7,22 @@ import { readDurationSeconds } from "@/lib/motion/tokens";
 
 export type ScrollStoryHandle = { destroy: () => void };
 
+// Lenis owns scroll, so a plain #anchor click only sets the hash without moving.
+// We keep a handle to the live instance and expose a smooth jump that drives it
+// (falling back to native scrolling when Lenis is not running - reduced motion,
+// no JS on the link, or a load failure). Consumers keep a real href for no-JS.
+type LenisLike = { scrollTo: (target: string | HTMLElement | number, opts?: Record<string, unknown>) => void };
+let activeLenis: LenisLike | null = null;
+
+export function scrollToId(id: string, offset = -80): void {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const g = typeof window !== "undefined" ? (window as unknown as { __csLenis?: LenisLike }).__csLenis : null;
+  const lenis = activeLenis ?? g ?? null;
+  if (lenis && typeof lenis.scrollTo === "function") lenis.scrollTo(el, { offset, duration: 1.1 });
+  else el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
   try {
     const [lenisMod, gsapMod, stMod] = await Promise.all([
@@ -34,6 +50,8 @@ export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
     const onTick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(onTick);
     gsap.ticker.lagSmoothing(0);
+    activeLenis = lenis as unknown as LenisLike;
+    (window as unknown as { __csLenis?: LenisLike }).__csLenis = activeLenis;
 
     // NOTE: the pinned hero beat (FR-SCENE-004) is intentionally NOT created
     // here. `pin: true` wraps .cs-hero in a GSAP-owned div.pin-spacer - real
@@ -48,6 +66,7 @@ export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
 
     return {
       destroy() {
+        activeLenis = null;
         gsap.ticker.remove(onTick);
         lenis.off("scroll", update);
         lenis.destroy();

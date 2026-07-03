@@ -26,7 +26,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
       ? "Lumi, vị thần đèn vàng của CyberSkill, biến một điều ước rõ ràng thành phần mềm chạy thật: thứ đội ngũ của bạn dùng mỗi ngày, được xây để bàn giao đúng hẹn và bền bỉ theo thời gian."
       : "Lumi, our golden genie, turns a clear wish into working software: the kind your team actually runs on, built to ship and to last.";
   return (
-    <section className="cs-hero" aria-labelledby="hero-title">
+    <section id="wish" className="cs-hero" aria-labelledby="hero-title">
       <Aurora />
       <div className="cs-container cs-hero-inner">
         <p className="cs-hero-meta" aria-hidden="true">

@@ -14,6 +14,7 @@ import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
 import { ScrollState } from "@/components/scroll/ScrollState";
 import { MotionExtras } from "@/components/motion/MotionExtras";
 import { SoundCues } from "@/components/sound/SoundCues";
+import { ChapterRail } from "@/components/scroll/ChapterRail";
 import { BlackHole } from "@/components/motion/BlackHole";
 import { IntroVeil } from "@/components/motion/IntroVeil";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
@@ -61,6 +62,27 @@ export default async function LocaleLayout({
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
 
+  // The story's acts, mapped to real home-page anchors. The rail hides itself on
+  // routes where these anchors do not exist (work, careers, legal pages).
+  const chapters =
+    lang === "vi"
+      ? [
+          { id: "wish", label: "Điều ước" },
+          { id: "services", label: "Kiến tạo" },
+          { id: "process", label: "Quy trình" },
+          { id: "work", label: "Dự án" },
+          { id: "proof", label: "Cam kết" },
+          { id: "contact", label: "Lời mời" },
+        ]
+      : [
+          { id: "wish", label: "The wish" },
+          { id: "services", label: "The craft" },
+          { id: "process", label: "The method" },
+          { id: "work", label: "The work" },
+          { id: "proof", label: "The proof" },
+          { id: "contact", label: "The invitation" },
+        ];
+
   return (
     <>
       <SkipLink label={dict.nav.skipToContent} />
@@ -79,6 +101,7 @@ export default async function LocaleLayout({
       <GenieStatusAnnouncer dict={dict} />
       <MotionExtras />
       <SoundCues />
+      <ChapterRail label={lang === "vi" ? "Các chương" : "Chapters"} chapters={chapters} />
       <BlackHole />
       <IntroVeil locale={lang} />
       <div className="cs-grain" aria-hidden="true" />
