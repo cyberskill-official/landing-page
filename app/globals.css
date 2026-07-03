@@ -895,9 +895,9 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   place-items: center;
   background: var(--cs-color-bg);
   pointer-events: none;
-  animation: cs-intro-veil 2s var(--cs-ease) both;
+  animation: cs-intro-veil 1.3s var(--cs-ease) both;
 }
-.cs-intro-inner { text-align: center; animation: cs-intro-rise 2s var(--cs-ease) both; }
+.cs-intro-inner { text-align: center; animation: cs-intro-rise 1.3s var(--cs-ease) both; }
 .cs-intro-orb { display: block; }
 .cs-intro-name {
   font-family: var(--cs-font-display);
@@ -909,13 +909,13 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   margin: 0 0 var(--cs-space-2);
 }
 .cs-intro-slogan { overflow: hidden; margin: 0; font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-fg); }
-.cs-intro-slogan span { display: inline-block; transform: translateY(120%); animation: cs-word-rise 700ms var(--cs-ease) 300ms both; }
+.cs-intro-slogan span { display: inline-block; transform: translateY(120%); animation: cs-word-rise 560ms var(--cs-ease) 150ms both; }
 @keyframes cs-intro-veil {
-  0%, 76% { opacity: 1; visibility: visible; }
+  0%, 52% { opacity: 1; visibility: visible; }
   100% { opacity: 0; visibility: hidden; }
 }
 @keyframes cs-intro-rise {
-  0%, 66% { opacity: 1; transform: none; }
+  0%, 58% { opacity: 1; transform: none; }
   100% { opacity: 0; transform: translateY(-10px) scale(0.97); }
 }
 
