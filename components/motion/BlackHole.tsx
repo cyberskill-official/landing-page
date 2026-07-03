@@ -25,8 +25,8 @@ import { digestEase } from "@/lib/motion/kinetic";
 // carried by the effect, and keyboard users simply never enter it.
 
 const HOLD_ARM_MS = 350;
-const DEVOUR_SECONDS = 2.6;
-const RESTORE_SECONDS = 1.1;
+const DEVOUR_SECONDS = 3.2;
+const RESTORE_SECONDS = 1.7;
 const INTERACTIVE_SELECTOR =
   "a, button, input, select, textarea, label, summary, [role='button'], .cs-genie, .cs-lumi-hotspot";
 const SCATTER_SELECTOR =
@@ -98,6 +98,7 @@ export function BlackHole() {
       }
       blocks = [];
       document.documentElement.removeAttribute("data-digesting");
+      document.documentElement.style.setProperty("--cs-digest", "0");
     };
 
     const frame = (now: number) => {
@@ -106,6 +107,9 @@ export function BlackHole() {
       p += dt / (holding ? DEVOUR_SECONDS : -RESTORE_SECONDS);
       p = Math.min(1, Math.max(0, p));
       setDigest(p);
+      // Publish progress to the CSS layer so the whole page fades out to reveal
+      // the starry universe behind as p -> 1, and flows back as it reverses.
+      document.documentElement.style.setProperty("--cs-digest", p.toFixed(3));
 
       if (p <= 0) {
         running = false;
@@ -139,7 +143,7 @@ export function BlackHole() {
         const along = 1 + e * 2.4;
         const across = Math.max(0.04, 1 - e * 0.92);
         b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) rotate(${th.toFixed(1)}deg) scale(${along.toFixed(3)}, ${across.toFixed(3)}) rotate(${(-th).toFixed(1)}deg)`;
-        b.el.style.opacity = `${Math.max(0, 1 - e * 0.9).toFixed(3)}`;
+        b.el.style.opacity = `${Math.max(0, 1 - e * 1.15).toFixed(3)}`;
       }
       raf = window.requestAnimationFrame(frame);
     };

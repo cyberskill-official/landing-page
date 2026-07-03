@@ -381,7 +381,10 @@ a {
 /* ------------------------------------------------------------------ */
 
 html { background: var(--cs-color-bg); }
-body { background: transparent; }
+/* overflow-x: clip kills any horizontal scrollbar (e.g. the digest stretch
+   briefly widening blocks) without creating a scroll container, so the sticky
+   header and scroll behaviour are untouched. */
+body { background: transparent; overflow-x: clip; }
 
 /* The 3D scene sits behind the content; the hero is transparent so it shows
    through there, and the remaining sections are opaque as you scroll over it. */
@@ -1804,6 +1807,22 @@ main > .cs-section::before {
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* The universe reveal (FR-CHAR-032): as the digest fills (--cs-digest 0 -> 1,
+   published each frame by BlackHole), the blocks first stretch and drag into the
+   hole; then in the back half the whole page - header, content, footer, and the
+   floating chrome - fades out, uncovering the 3D starfield, Lumi, and the black
+   hole behind. It flows straight back as the value falls on release. Opacity
+   only, so nothing shifts (CLS-safe); the Lumi hotspot is left visible so you
+   can still let go. */
+[data-digesting] .cs-header,
+[data-digesting] main,
+[data-digesting] .cs-footer,
+[data-digesting] .cs-persistent-cta,
+[data-digesting] .cs-rail,
+[data-digesting] .cs-progress {
+  opacity: calc(1 - max(0, (var(--cs-digest, 0) - 0.35) / 0.65));
 }
 
 /* --- round-5 guards --- */

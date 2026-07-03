@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float, Lightformer, Sparkles, Trail, useGLTF } from "@react-three/drei";
+import { Environment, Float, Lightformer, Sparkles, Stars, Trail, useGLTF } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette, SMAA, ToneMapping } from "@react-three/postprocessing";
 import { ToneMappingMode } from "postprocessing";
 import * as THREE from "three";
@@ -302,6 +302,25 @@ function BurstField() {
   );
 }
 
+// A deep starfield uncovered as the page is digested (FR-CHAR-032): the DOM
+// fades out to --cs-digest, revealing this cosmos - a dark universe of shining
+// stars behind Lumi and her black hole, the premium space beat. Only computed
+// while a digest is in progress; hidden (and free) otherwise.
+function CosmicStars() {
+  const ref = useRef<THREE.Group>(null);
+  useFrame(() => {
+    const g = ref.current;
+    if (!g) return;
+    const show = getDigest() > 0.01;
+    if (g.visible !== show) g.visible = show;
+  });
+  return (
+    <group ref={ref} visible={false}>
+      <Stars radius={90} depth={50} count={1800} factor={3.6} saturation={0.15} fade speed={0.5} />
+    </group>
+  );
+}
+
 // The black hole Lumi holds while she digests the page (FR-CHAR-032). A dark
 // event-horizon core reads as a true hole against the gold-lit scene, ringed by
 // two hot accretion bands that bloom and swirl, with gold motes spiralling in.
@@ -322,8 +341,8 @@ function DigestHole() {
     }
     g.visible = true;
     const w = getLumiWorld();
-    // Pinned small on one hand (down-and-out from her core), not her middle.
-    g.position.set(w.x + 0.24, w.y - 0.32, w.z + 0.2);
+    // Pinned to one hand, held low and out in front of her - not her belly.
+    g.position.set(w.x + 0.28, w.y - 0.62, w.z + 0.25);
     // Stay small: ease a compact bead in and hold it - a marble she cups, never
     // a growing blob. Eased so it does not pop in.
     const eased = d * d * (3 - 2 * d);
@@ -445,6 +464,7 @@ export function GenieScene() {
         <Lightformer form="rect" intensity={7.0} color="#ffffff" position={[2.5, 4, 4]} scale={[1.4, 1.4, 1]} />
       </Environment>
       <CameraRig />
+      <CosmicStars />
       <WishGrid />
       <BurstField />
       <DigestHole />
