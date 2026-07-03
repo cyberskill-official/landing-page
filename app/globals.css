@@ -409,16 +409,27 @@ body { background: transparent; overflow-x: clip; }
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 72% 16%, rgba(66, 44, 120, 0.5), rgba(10, 7, 20, 0) 55%),
-    radial-gradient(100% 85% at 16% 84%, rgba(122, 68, 30, 0.42), rgba(10, 7, 8, 0) 55%),
-    radial-gradient(150% 130% at 50% 46%, #0b0816 0%, #050309 68%, #030207 100%);
+  background: radial-gradient(150% 130% at 50% 42%, #0a0714 0%, #060410 62%, #020106 100%);
   /* Present behind the page but not shown until a digest uncovers it (the hero
      is transparent, so an always-visible cosmos would leak through it). No
      gradual fade - it is simply there the instant content starts pulling away. */
   opacity: 0;
   visibility: hidden;
 }
+/* Nebula clouds: big, soft, coloured, slowly drifting - depth and colour in the
+   void so the sky reads real, not a flat gradient. */
+.cs-cosmos-nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: cs-neb-drift 70s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.cs-neb-1 { width: 62vw; height: 62vw; left: 42%; top: 2%; background: radial-gradient(circle, rgba(104, 58, 190, 0.6), rgba(104, 58, 190, 0) 68%); }
+.cs-neb-2 { width: 56vw; height: 56vw; left: -8%; top: 42%; background: radial-gradient(circle, rgba(190, 74, 128, 0.42), rgba(190, 74, 128, 0) 68%); animation-duration: 92s; }
+.cs-neb-3 { width: 50vw; height: 50vw; left: 58%; top: 50%; background: radial-gradient(circle, rgba(38, 128, 158, 0.42), rgba(38, 128, 158, 0) 68%); animation-duration: 112s; }
+/* Star layers (parallax). */
 .cs-cosmos-stars {
   position: absolute;
   inset: -30%;
@@ -432,82 +443,96 @@ body { background: transparent; overflow-x: clip; }
     radial-gradient(1px 1px at 92% 74%, #cfe0ff, transparent),
     radial-gradient(1.3px 1.3px at 8% 52%, #ffffff, transparent);
   background-repeat: repeat;
-  background-size: 320px 320px;
-  opacity: 0.9;
-  animation: cs-cosmos-drift 150s ease-in-out infinite alternate;
+  background-size: 300px 300px;
+  opacity: 0.85;
+  animation: cs-cosmos-drift 160s ease-in-out infinite alternate;
   animation-play-state: paused;
 }
-.cs-cosmos-stars-2 {
-  background-size: 520px 520px;
-  opacity: 0.5;
-  animation-duration: 230s;
-  animation-direction: alternate-reverse;
+.cs-cosmos-stars-2 { background-size: 500px 500px; opacity: 0.5; animation-duration: 240s; animation-direction: alternate-reverse; }
+.cs-cosmos-stars-bright {
+  background-image:
+    radial-gradient(2.4px 2.4px at 30% 34%, #ffffff, transparent),
+    radial-gradient(2.2px 2.2px at 78% 66%, #ffe9b0, transparent),
+    radial-gradient(2.6px 2.6px at 54% 18%, #dfefff, transparent);
+  background-size: 760px 760px;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6));
+  animation-duration: 320s;
 }
+/* The star: hot white core -> gold -> orange corona, with a big soft bloom and a
+   slowly turning corona flare. */
 .cs-cosmos-sun {
   position: absolute;
   top: 42%;
   left: 50%;
-  width: 128px;
-  height: 128px;
+  width: 92px;
+  height: 92px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #fff6d8 0%, #ffcf6b 28%, rgba(244, 176, 32, 0.5) 54%, rgba(244, 176, 32, 0) 78%);
+  background: radial-gradient(circle at 50% 50%, #fffdf5 0%, #ffe9a8 24%, #ffb43a 50%, rgba(255, 150, 30, 0) 72%);
+  box-shadow: 0 0 60px 18px rgba(255, 182, 66, 0.55), 0 0 150px 60px rgba(255, 150, 40, 0.26);
   animation: cs-cosmos-pulse 9s ease-in-out infinite;
   animation-play-state: paused;
 }
-.cs-cosmos-system {
+.cs-cosmos-corona {
   position: absolute;
-  top: 42%;
-  left: 50%;
+  inset: -55%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(255, 190, 90, 0) 0deg, rgba(255, 190, 90, 0.3) 40deg, rgba(255, 190, 90, 0) 92deg, rgba(255, 190, 90, 0.3) 180deg, rgba(255, 190, 90, 0) 232deg, rgba(255, 190, 90, 0.3) 320deg, rgba(255, 190, 90, 0) 360deg);
+  filter: blur(12px);
+  animation: cs-cosmos-spin 46s linear infinite;
+  animation-play-state: paused;
 }
+.cs-cosmos-system { position: absolute; top: 42%; left: 50%; }
 .cs-cosmos-orbit {
   position: absolute;
   top: 0;
   left: 0;
-  border: 1px solid rgba(244, 186, 23, 0.15);
+  border: 1px solid rgba(210, 190, 150, 0.1);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: cs-orbit-spin linear infinite;
   animation-play-state: paused;
 }
-.cs-orbit-1 { width: 230px; height: 230px; animation-duration: 34s; }
-.cs-orbit-2 { width: 380px; height: 380px; animation-duration: 54s; }
-.cs-orbit-3 { width: 540px; height: 540px; animation-duration: 78s; }
-.cs-orbit-4 { width: 720px; height: 720px; animation-duration: 108s; }
-.cs-planet {
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  width: 14px;
-  height: 14px;
-  margin-left: -7px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffe6a0, #d98a1f 72%);
-  box-shadow: 0 0 12px rgba(255, 207, 107, 0.5);
-}
-.cs-planet-blue { background: radial-gradient(circle at 35% 30%, #cfe0ff, #5f86c8 72%); box-shadow: 0 0 12px rgba(159, 199, 255, 0.4); }
-.cs-planet-pale { width: 18px; height: 18px; margin-left: -9px; top: -9px; background: radial-gradient(circle at 35% 30%, #fff6e0, #caa96a 72%); }
+.cs-orbit-1 { width: 220px; height: 220px; animation-duration: 30s; }
+.cs-orbit-2 { width: 360px; height: 360px; animation-duration: 48s; }
+.cs-orbit-3 { width: 520px; height: 520px; animation-duration: 72s; }
+.cs-orbit-4 { width: 700px; height: 700px; animation-duration: 106s; }
+/* 3D-shaded planets: lit toward the sun, dark terminator opposite, atmosphere rim
+   glow - reads as a sphere, not a flat disc. */
+.cs-planet { position: absolute; top: -9px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; }
+.cs-planet-rock { background: radial-gradient(circle at 66% 66%, #ffe6a0 0%, #b07a2a 44%, #241606 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55), 0 0 9px rgba(255, 200, 110, 0.3); }
+.cs-planet-blue { width: 16px; height: 16px; margin-left: -8px; top: -8px; background: radial-gradient(circle at 66% 66%, #e2f2ff 0%, #4f83c8 44%, #081a32 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55), 0 0 10px rgba(150, 200, 255, 0.4); }
+.cs-planet-pale { width: 22px; height: 22px; margin-left: -11px; top: -11px; background: radial-gradient(circle at 66% 66%, #fff4dd 0%, #c9a86a 44%, #2f2109 92%); box-shadow: inset -3px -3px 7px rgba(0, 0, 0, 0.55), 0 0 11px rgba(255, 225, 160, 0.32); }
+.cs-planet-ringed { width: 20px; height: 20px; margin-left: -10px; top: -10px; background: radial-gradient(circle at 66% 66%, #ffe9c0 0%, #caa24e 44%, #33250f 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55); }
 .cs-planet-ringed::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 32px;
-  height: 11px;
-  transform: translate(-50%, -50%) rotate(-18deg);
-  border: 1px solid rgba(255, 230, 160, 0.55);
+  width: 46px;
+  height: 14px;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  border: 2px solid rgba(255, 228, 165, 0.5);
   border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 220, 150, 0.28);
 }
-@keyframes cs-cosmos-drift { from { transform: translate3d(-28px, -18px, 0); } to { transform: translate3d(28px, 18px, 0); } }
-@keyframes cs-cosmos-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; } 50% { transform: translate(-50%, -50%) scale(1.07); opacity: 1; } }
+/* Cinematic edge falloff. */
+.cs-cosmos-vignette { position: absolute; inset: 0; background: radial-gradient(120% 100% at 50% 44%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.55) 100%); }
+@keyframes cs-cosmos-drift { from { transform: translate3d(-26px, -16px, 0); } to { transform: translate3d(26px, 16px, 0); } }
+@keyframes cs-neb-drift { from { transform: translate3d(-24px, 14px, 0) scale(1); } to { transform: translate3d(24px, -14px, 0) scale(1.08); } }
+@keyframes cs-cosmos-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.92; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; } }
+@keyframes cs-cosmos-spin { to { transform: rotate(360deg); } }
 @keyframes cs-orbit-spin { from { transform: translate(-50%, -50%) rotate(0); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 /* Uncover it (and only then spend cycles animating) while a digest runs. */
 html[data-digesting] .cs-cosmos { opacity: 1; visibility: visible; }
+html[data-digesting] .cs-cosmos-nebula,
 html[data-digesting] .cs-cosmos-stars,
 html[data-digesting] .cs-cosmos-sun,
+html[data-digesting] .cs-cosmos-corona,
 html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
 @media (prefers-reduced-motion: reduce) {
-  .cs-cosmos-stars, .cs-cosmos-sun, .cs-cosmos-orbit { animation: none; }
+  .cs-cosmos-nebula, .cs-cosmos-stars, .cs-cosmos-sun, .cs-cosmos-corona, .cs-cosmos-orbit { animation: none; }
 }
 
 /* Header */

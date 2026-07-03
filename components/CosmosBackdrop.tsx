@@ -11,12 +11,18 @@
 export function CosmosBackdrop() {
   return (
     <div className="cs-cosmos" aria-hidden="true">
+      <div className="cs-cosmos-nebula cs-neb-1" />
+      <div className="cs-cosmos-nebula cs-neb-2" />
+      <div className="cs-cosmos-nebula cs-neb-3" />
       <div className="cs-cosmos-stars" />
       <div className="cs-cosmos-stars cs-cosmos-stars-2" />
-      <div className="cs-cosmos-sun" />
+      <div className="cs-cosmos-stars cs-cosmos-stars-bright" />
+      <div className="cs-cosmos-sun">
+        <span className="cs-cosmos-corona" />
+      </div>
       <div className="cs-cosmos-system">
         <div className="cs-cosmos-orbit cs-orbit-1">
-          <span className="cs-planet" />
+          <span className="cs-planet cs-planet-rock" />
         </div>
         <div className="cs-cosmos-orbit cs-orbit-2">
           <span className="cs-planet cs-planet-ringed" />
@@ -28,6 +34,7 @@ export function CosmosBackdrop() {
           <span className="cs-planet cs-planet-pale" />
         </div>
       </div>
+      <div className="cs-cosmos-vignette" />
     </div>
   );
 }
