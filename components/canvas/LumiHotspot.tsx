@@ -43,6 +43,9 @@ export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
   // (via events the BlackHole listens to); a quick tap opens the chat instead.
   const holdTimer = useRef(0);
   const held = useRef(false);
+  // True while the pointer is pressed on Lumi; keeps the hotspot armed even if
+  // she drifts out from under a still cursor, so a hold-to-digest never drops.
+  const pressing = useRef(false);
   const [visible, setVisible] = useState(false);
   // One-time discoverability hint ("click me"): shows the first time the
   // mascot appears in a session, then retires to sessionStorage.
@@ -99,7 +102,8 @@ export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
           const under = stack.find((n) => !n.closest(".cs-lumi-hotspot"));
           active = !(under && under.closest(INTERACTIVE_SELECTOR));
         }
-        if (el.dataset.active !== String(active)) el.dataset.active = String(active);
+        const armed = active || pressing.current;
+        if (el.dataset.active !== String(armed)) el.dataset.active = String(armed);
         setLumiExcite(near || focused.current);
       } else if (el) {
         if (el.dataset.active !== "false") el.dataset.active = "false";
@@ -137,6 +141,7 @@ export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
       onPointerDown={(e) => {
         if (e.pointerType === "mouse" && e.button !== 0) return;
         held.current = false;
+        pressing.current = true;
         try {
           e.currentTarget.setPointerCapture(e.pointerId);
         } catch {
@@ -149,10 +154,12 @@ export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
         }, HOLD_MS);
       }}
       onPointerUp={() => {
+        pressing.current = false;
         window.clearTimeout(holdTimer.current);
         if (held.current) window.dispatchEvent(new CustomEvent(LUMI_HOLD_END_EVENT));
       }}
       onPointerCancel={() => {
+        pressing.current = false;
         window.clearTimeout(holdTimer.current);
         if (held.current) {
           window.dispatchEvent(new CustomEvent(LUMI_HOLD_END_EVENT));

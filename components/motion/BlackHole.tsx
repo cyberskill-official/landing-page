@@ -69,7 +69,7 @@ function collectBlocks(): Block[] {
     const cy = rect.top + rect.height / 2;
     const dist = Math.hypot(cx - lumi.x, cy - lumi.y);
     maxDist = Math.max(maxDist, dist);
-    blocks.push({ el, cx, cy, normDist: dist, spin: (Math.random() * 2 - 1) * 220 });
+    blocks.push({ el, cx, cy, normDist: dist, spin: (Math.random() * 2 - 1) * 140 });
   }
   for (const b of blocks) b.normDist /= maxDist;
   return blocks;
@@ -126,10 +126,21 @@ export function BlackHole() {
           b.el.style.opacity = "";
           continue;
         }
+        // Spiral in: rotate the straight approach vector by an angle that grows
+        // with e, so each block curves into the hole like matter into an
+        // accretion disk instead of sliding in on a line. Direction follows the
+        // block's own spin sign so the field swirls both ways.
         const dx = (hx - b.cx) * e;
         const dy = (hy - b.cy) * e;
-        b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) scale(${(1 - e * 0.94).toFixed(3)}) rotate(${(b.spin * e).toFixed(1)}deg)`;
-        b.el.style.opacity = `${Math.max(0, 1 - e * 0.9).toFixed(3)}`;
+        const ang = e * 1.2 * (b.spin >= 0 ? 1 : -1);
+        const ca = Math.cos(ang);
+        const sa = Math.sin(ang);
+        const sx = dx * ca - dy * sa;
+        const sy = dx * sa + dy * ca;
+        // Fade out well before the block reaches the hole so the field dissolves
+        // into it cleanly instead of a pile-up of shrunken boxes at the centre.
+        b.el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) scale(${(1 - e * 0.96).toFixed(3)}) rotate(${(b.spin * e * 0.8).toFixed(1)}deg)`;
+        b.el.style.opacity = `${Math.max(0, 1 - e * 1.08).toFixed(3)}`;
       }
       raf = window.requestAnimationFrame(frame);
     };
@@ -148,8 +159,12 @@ export function BlackHole() {
 
     // Shared hold lifecycle, reused by the empty-space press path and by the
     // press-and-hold ON Lumi (the hotspot dispatches LUMI_HOLD_START/END).
-    const beginHold = () => {
-      if (!fine.matches || !hover.matches || !motion.matches) return;
+    const beginHold = (force = false) => {
+      if (!fine.matches || !hover.matches) return;
+      // Reduce-motion suppresses the ACCIDENTAL empty-space press, but an
+      // explicit press-and-hold ON Lumi is a deliberate action, so it runs even
+      // when the OS asks to reduce motion (that was why it looked "broken").
+      if (!force && !motion.matches) return;
       holding = true;
       try {
         window.getSelection()?.removeAllRanges();
@@ -173,7 +188,7 @@ export function BlackHole() {
       if (target instanceof Element && target.closest(INTERACTIVE_SELECTOR)) return;
       // Arm after a beat, so clicks and drag-selections stay untouched.
       window.clearTimeout(armTimer);
-      armTimer = window.setTimeout(beginHold, HOLD_ARM_MS);
+      armTimer = window.setTimeout(() => beginHold(false), HOLD_ARM_MS);
     };
 
     const release = () => {
@@ -181,8 +196,9 @@ export function BlackHole() {
       endHold();
     };
 
-    // Hold ON Lumi: the hotspot already timed the hold, so begin immediately.
-    const onLumiHoldStart = () => beginHold();
+    // Hold ON Lumi: the hotspot already timed the hold, so begin immediately;
+    // force=true so a deliberate press works even under reduce-motion.
+    const onLumiHoldStart = () => beginHold(true);
     const onLumiHoldEnd = () => endHold();
 
     window.addEventListener("pointerdown", onDown, true);

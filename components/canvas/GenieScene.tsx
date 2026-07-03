@@ -183,7 +183,7 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     // hovers in place between legs, layered on the Float bob. It rides only the
     // visible scale, not scaleRef, so the projected hotspot radius stays steady.
     const breath = 1 + Math.sin(state.clock.elapsedTime * 1.6) * 0.015;
-    scaleRef.current += (anchor.scale * (excite ? 1.12 : 1) * (1 + dig * 0.55) - scaleRef.current) * k;
+    scaleRef.current += (anchor.scale * (excite ? 1.12 : 1) * (1 + dig * 0.1) - scaleRef.current) * k;
     g.scale.setScalar(scaleRef.current * breath);
 
     // Project to CSS pixels for the DOM hotspot (hidden while the chat is
@@ -302,6 +302,56 @@ function BurstField() {
   );
 }
 
+// The black hole Lumi holds while she digests the page (FR-CHAR-032). A dark
+// event-horizon core reads as a true hole against the gold-lit scene, ringed by
+// two hot accretion bands that bloom and swirl, with gold motes spiralling in.
+// It grows from nothing to full as getDigest() ramps and sits at her hand, so
+// the page visibly pours into something, not just drifts. toneMapped=false keeps
+// the core black and the rings hot under the AGX grade.
+function DigestHole() {
+  const grp = useRef<THREE.Group>(null);
+  const sRef = useRef(0);
+  useFrame((_, delta) => {
+    const g = grp.current;
+    if (!g) return;
+    const d = getDigest();
+    if (d <= 0.002) {
+      if (g.visible) g.visible = false;
+      sRef.current = 0;
+      return;
+    }
+    g.visible = true;
+    const w = getLumiWorld();
+    // Pinned small on one hand (down-and-out from her core), not her middle.
+    g.position.set(w.x + 0.24, w.y - 0.32, w.z + 0.2);
+    // Stay small: ease a compact bead in and hold it - a marble she cups, never
+    // a growing blob. Eased so it does not pop in.
+    const eased = d * d * (3 - 2 * d);
+    const target = 0.12 + eased * 0.05;
+    sRef.current += (target - sRef.current) * Math.min(1, delta * 6);
+    g.scale.setScalar(sRef.current);
+    // Calm, steady swirl (not accelerating) so the motion reads clean.
+    g.rotation.z += delta * 1.5;
+  });
+  return (
+    <group ref={grp} visible={false}>
+      <mesh>
+        <sphereGeometry args={[0.5, 24, 24]} />
+        <meshBasicMaterial color="#040200" toneMapped={false} />
+      </mesh>
+      <mesh rotation-x={Math.PI / 2.1}>
+        <torusGeometry args={[0.66, 0.07, 14, 60]} />
+        <meshBasicMaterial color="#FFCF6B" toneMapped={false} />
+      </mesh>
+      <mesh rotation-x={Math.PI / 2.1}>
+        <torusGeometry args={[0.82, 0.02, 10, 60]} />
+        <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.7} />
+      </mesh>
+      <Sparkles count={14} scale={[1.4, 1.4, 0.5]} size={3} speed={0.7} color="#FFD873" opacity={0.85} />
+    </group>
+  );
+}
+
 // A waving golden wire floor under the hero: pure geometry, no textures. It
 // fades out with the hero progress so it never overlays the content sections
 // (the live canvas rides above them).
@@ -397,6 +447,7 @@ export function GenieScene() {
       <CameraRig />
       <WishGrid />
       <BurstField />
+      <DigestHole />
       {/* The comet trail tracks an anchor inside the rig but renders at scene
           level, so the rig's scale never distorts the ribbon. */}
       <Trail
