@@ -338,9 +338,8 @@ function AmbientMotes() {
 // the core black and the rings hot under the AGX grade.
 function DigestHole() {
   const grp = useRef<THREE.Group>(null);
-  const rings = useRef<THREE.Group>(null);
+  const plasma = useRef<THREE.Group>(null);
   const sRef = useRef(0);
-  const camera = useThree((s) => s.camera);
   useFrame((_, delta) => {
     const g = grp.current;
     if (!g) return;
@@ -352,46 +351,65 @@ function DigestHole() {
     }
     g.visible = true;
     const w = getLumiHand();
-    // Sits exactly in her hand (bone-tracked from GltfLumi), a touch in front of
-    // the palm - not her belly or feet.
+    // Rides her raised fingertip (bone-tracked from GltfLumi), a touch in front.
     g.position.set(w.x, w.y, w.z + 0.18);
-    // Stay small: ease a compact bead in and hold it - a marble she cups, never
-    // a growing blob. Eased so it does not pop in.
+    // Stay small: ease a compact bead in and hold it - a marble on her fingertip.
     const eased = d * d * (3 - 2 * d);
     const target = 0.12 + eased * 0.05;
     sRef.current += (target - sRef.current) * Math.min(1, delta * 6);
     g.scale.setScalar(sRef.current);
-    // Billboard the accretion so it always faces the camera - a round glowing
-    // rim around a dark core (a black hole), never an edge-on Saturn disc. A
-    // slow spin about the view axis gives it life without breaking the circle.
-    if (rings.current) {
-      rings.current.quaternion.copy(camera.quaternion);
-      rings.current.rotateZ((performance.now() / 1000) * 0.6);
-    }
+    // The plasma streaks whirl around the hole - the "energy running around it".
+    if (plasma.current) plasma.current.rotation.z += delta * 2.2;
   });
   return (
     <group ref={grp} visible={false}>
       {/* the dark singularity */}
       <mesh>
-        <sphereGeometry args={[0.5, 32, 32]} />
+        <sphereGeometry args={[0.42, 32, 32]} />
         <meshBasicMaterial color="#050300" toneMapped={false} />
       </mesh>
-      {/* camera-facing accretion glow: concentric rings, brightest at the rim */}
-      <group ref={rings}>
+      {/* the accretion disc, tilted so it reads as a disc seen at an angle (like a
+          real black hole), not a flat ring. Additive so it glows under the bloom. */}
+      <group rotation-x={1.2}>
         <mesh>
-          <ringGeometry args={[0.52, 0.72, 72]} />
-          <meshBasicMaterial color="#FFCF6B" toneMapped={false} transparent opacity={0.95} side={THREE.DoubleSide} />
+          <ringGeometry args={[0.46, 0.8, 96]} />
+          <meshBasicMaterial color="#fff0c0" toneMapped={false} transparent opacity={0.85} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
         <mesh>
-          <ringGeometry args={[0.72, 0.9, 72]} />
-          <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.45} side={THREE.DoubleSide} />
+          <ringGeometry args={[0.8, 1.15, 96]} />
+          <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.5} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
         <mesh>
-          <ringGeometry args={[0.9, 1.25, 72]} />
-          <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.13} side={THREE.DoubleSide} />
+          <ringGeometry args={[1.15, 1.6, 96]} />
+          <meshBasicMaterial color="#c8890a" toneMapped={false} transparent opacity={0.24} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
+        {/* bright plasma streaks (arcs) that whirl round as this group spins */}
+        <group ref={plasma}>
+          <mesh>
+            <ringGeometry args={[0.5, 0.74, 64, 1, 0, 2.1]} />
+            <meshBasicMaterial color="#fffbe8" toneMapped={false} transparent opacity={0.9} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+          </mesh>
+          <mesh rotation-z={2.5}>
+            <ringGeometry args={[0.8, 1.02, 64, 1, 0, 1.6]} />
+            <meshBasicMaterial color="#ffe6a0" toneMapped={false} transparent opacity={0.7} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+          </mesh>
+          <mesh rotation-z={4.4}>
+            <ringGeometry args={[1.04, 1.34, 64, 1, 0, 1.2]} />
+            <meshBasicMaterial color="#ffd873" toneMapped={false} transparent opacity={0.5} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+          </mesh>
+        </group>
       </group>
-      <Sparkles count={12} scale={[1.3, 1.3, 0.5]} size={2.6} speed={0.6} color="#FFD873" opacity={0.8} />
+      {/* bright photon ring hugging the event horizon (faces camera) */}
+      <mesh>
+        <ringGeometry args={[0.42, 0.49, 80]} />
+        <meshBasicMaterial color="#fff6d8" toneMapped={false} transparent opacity={0.85} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
+      </mesh>
+      {/* soft bloom halo */}
+      <mesh>
+        <sphereGeometry args={[0.95, 24, 24]} />
+        <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.09} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </mesh>
+      <Sparkles count={18} scale={[2.2, 0.7, 2.2]} size={2.4} speed={1.3} color="#FFD873" opacity={0.85} />
     </group>
   );
 }

@@ -497,10 +497,12 @@ body { background: transparent; overflow-x: clip; }
   animation: cs-orbit-spin linear infinite;
   animation-play-state: paused;
 }
-.cs-orbit-1 { width: 220px; height: 220px; animation-duration: 30s; }
-.cs-orbit-2 { width: 360px; height: 360px; animation-duration: 48s; }
-.cs-orbit-3 { width: 520px; height: 520px; animation-duration: 72s; }
-.cs-orbit-4 { width: 700px; height: 700px; animation-duration: 106s; }
+/* Negative delays start each orbit part-way round so the planets are spread
+   across their ellipses instead of stacked at the top. */
+.cs-orbit-1 { width: 220px; height: 220px; animation-duration: 30s; animation-delay: -6s; }
+.cs-orbit-2 { width: 360px; height: 360px; animation-duration: 48s; animation-delay: -21s; }
+.cs-orbit-3 { width: 520px; height: 520px; animation-duration: 72s; animation-delay: -44s; }
+.cs-orbit-4 { width: 700px; height: 700px; animation-duration: 106s; animation-delay: -78s; }
 /* 3D-shaded planets: lit toward the sun, dark terminator opposite, atmosphere rim
    glow - reads as a sphere, not a flat disc. */
 /* Counter the plane's vertical squash so the planet bodies stay round spheres
