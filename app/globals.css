@@ -437,6 +437,19 @@ body { background: transparent; }
 /* Sections */
 main > .cs-section { background: var(--cs-color-bg); }
 main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
+
+/* Curved section seams (audit fix): each band rises into the one above with a
+   soft full-width arc instead of a hard horizontal slice. The elliptical top
+   radius (50% wide, a gentle height) bends the whole top edge into one shallow
+   curve, and the rounded shoulders reveal the dark page base, so a lighter band
+   reads as curving up out of the dark. Applies to every content band and the
+   trust strip; the hero stays full-bleed. Faq is a base (dark) band so no two
+   light bands ever meet and leave a dark sliver at the curve. */
+main > .cs-section,
+.cs-trust {
+  border-top-left-radius: 50% 2.4rem;
+  border-top-right-radius: 50% 2.4rem;
+}
 .cs-section-lead { font-size: var(--cs-text-lg); color: var(--cs-color-fg-muted); max-width: 46rem; margin-bottom: var(--cs-space-8); }
 .cs-section-more { margin-top: var(--cs-space-8); }
 
@@ -456,16 +469,22 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 .cs-service-outcomes { margin: var(--cs-space-4) 0 0; padding-left: 1.1rem; color: var(--cs-color-fg-muted); }
 .cs-service-outcomes li { margin-bottom: var(--cs-space-2); }
 .cs-service-more {
-  display: inline-block;
-  margin-top: var(--cs-space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-top: var(--cs-space-5);
   font-weight: 600;
   color: var(--cs-color-brand);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  transition: border-color var(--cs-dur-fast, 150ms) var(--cs-ease);
+  transition: border-color var(--cs-dur-fast, 150ms) var(--cs-ease), gap var(--cs-dur-fast, 150ms) var(--cs-ease);
 }
-.cs-service-more::after { content: " \2192"; }
-.cs-service-more:hover, .cs-service-more:focus-visible { border-bottom-color: currentColor; }
+/* On the dark surface the umber brand reads as dimmed; use the ochre accent so
+   the link is a clear, legible call to action (same brand/accent split the
+   trust figures use). */
+[data-theme="dark"] .cs-service-more { color: var(--cs-color-accent); }
+.cs-service-more::after { content: "\2192"; }
+.cs-service-more:hover, .cs-service-more:focus-visible { border-bottom-color: currentColor; gap: 0.6em; }
 .cs-proof-card blockquote { margin: 0 0 var(--cs-space-4); font-size: var(--cs-text-lg); }
 .cs-proof-card footer { display: flex; flex-direction: column; font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); }
 .cs-proof-author { font-weight: 600; color: var(--cs-color-fg); }
