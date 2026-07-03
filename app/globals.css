@@ -638,6 +638,19 @@ main > .cs-section > .cs-container > h1 {
 .cs-persistent-cta .cs-btn { box-shadow: var(--cs-depth-3); }
 @media (max-width: 520px) { .cs-persistent-cta { left: var(--cs-space-4); flex-direction: row; } .cs-persistent-cta .cs-btn { flex: 1; } }
 
+/* Tighter vertical rhythm on phones and tablets: the 6rem section padding that
+   frames the desktop layout leaves mobile mostly whitespace and a very long
+   scroll. Step it down so sections read compact on small screens. Layout and
+   scroll choreography are unaffected (only the block padding changes). */
+@media (max-width: 760px) {
+  .cs-section { padding-block: var(--cs-space-16); }
+  .cs-hero { padding-block: var(--cs-space-16); min-height: min(80vh, 640px); }
+}
+@media (max-width: 440px) {
+  .cs-section { padding-block: var(--cs-space-12); }
+  .cs-container { padding-inline: var(--cs-space-4); }
+}
+
 /* Storyboard (lite) */
 .cs-lite { max-width: 52rem; }
 .cs-storyboard { list-style: none; padding: 0; margin: var(--cs-space-8) 0; display: grid; gap: var(--cs-space-4); }
