@@ -142,18 +142,29 @@ export function BlackHole() {
         // into place, so the revert reads as good as the devour.
         const toX = hx - b.cx;
         const toY = hy - b.cy;
-        const swirl = e * 2.3;
+        // Gentle swirl + an ACCELERATING pull (smoothstep), so each block is drawn
+        // bodily into the hole - travelling most of the way to the singularity -
+        // rather than dissolving in place. The travel is the story; the fade is
+        // held back until the block is nearly there.
+        const swirl = e * 1.5;
         const cs = Math.cos(swirl);
         const sn = Math.sin(swirl);
         const rx = toX * cs - toY * sn;
         const ry = toX * sn + toY * cs;
-        const dx = rx * e;
-        const dy = ry * e;
+        const pull = e * e * (3 - 2 * e);
+        const dx = rx * pull;
+        const dy = ry * pull;
         const th = (Math.atan2(ry, rx) * 180) / Math.PI;
-        const along = 1 + e * 2.2;
-        const across = Math.max(0.05, 1 - e * 0.9);
+        // Stretch along the travel, thin across, and shrink overall as it nears
+        // the point - so it visibly funnels down into the hole.
+        const shrink = 1 - e * 0.5;
+        const along = (1 + e * 1.7) * shrink;
+        const across = Math.max(0.05, (1 - e * 0.85) * shrink);
         b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) rotate(${th.toFixed(1)}deg) scale(${along.toFixed(3)}, ${across.toFixed(3)}) rotate(${(-th).toFixed(1)}deg)`;
-        b.el.style.opacity = `${Math.max(0, 1 - e * 1.05).toFixed(3)}`;
+        // Stay opaque while it travels; fade only in the last stretch as it is
+        // swallowed - not everywhere at once.
+        const fade = e < 0.62 ? 1 : Math.max(0, 1 - (e - 0.62) / 0.38);
+        b.el.style.opacity = fade.toFixed(3);
       }
       raf = window.requestAnimationFrame(frame);
     };

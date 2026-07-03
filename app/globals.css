@@ -483,7 +483,10 @@ body { background: transparent; overflow-x: clip; }
   animation: cs-cosmos-spin 46s linear infinite;
   animation-play-state: paused;
 }
-.cs-cosmos-system { position: absolute; top: 42%; left: 50%; }
+/* Squash the orbit plane so the system is seen at an oblique angle - circular
+   orbits read as ellipses (a side view, not a flat top-down), for a 3D feel. The
+   sun is a separate element, so it stays round. */
+.cs-cosmos-system { position: absolute; top: 42%; left: 50%; transform: scaleY(0.46); }
 .cs-cosmos-orbit {
   position: absolute;
   top: 0;
@@ -500,7 +503,9 @@ body { background: transparent; overflow-x: clip; }
 .cs-orbit-4 { width: 700px; height: 700px; animation-duration: 106s; }
 /* 3D-shaded planets: lit toward the sun, dark terminator opposite, atmosphere rim
    glow - reads as a sphere, not a flat disc. */
-.cs-planet { position: absolute; top: -9px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; }
+/* Counter the plane's vertical squash so the planet bodies stay round spheres
+   even though their orbits are flattened into ellipses. */
+.cs-planet { position: absolute; top: -9px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; transform: scaleY(2.17); }
 .cs-planet-rock { background: radial-gradient(circle at 66% 66%, #ffe6a0 0%, #b07a2a 44%, #241606 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55), 0 0 9px rgba(255, 200, 110, 0.3); }
 .cs-planet-blue { width: 16px; height: 16px; margin-left: -8px; top: -8px; background: radial-gradient(circle at 66% 66%, #e2f2ff 0%, #4f83c8 44%, #081a32 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55), 0 0 10px rgba(150, 200, 255, 0.4); }
 .cs-planet-pale { width: 22px; height: 22px; margin-left: -11px; top: -11px; background: radial-gradient(circle at 66% 66%, #fff4dd 0%, #c9a86a 44%, #2f2109 92%); box-shadow: inset -3px -3px 7px rgba(0, 0, 0, 0.55), 0 0 11px rgba(255, 225, 160, 0.32); }
@@ -524,8 +529,10 @@ body { background: transparent; overflow-x: clip; }
 @keyframes cs-cosmos-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.92; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; } }
 @keyframes cs-cosmos-spin { to { transform: rotate(360deg); } }
 @keyframes cs-orbit-spin { from { transform: translate(-50%, -50%) rotate(0); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-/* Uncover it (and only then spend cycles animating) while a digest runs. */
-html[data-digesting] .cs-cosmos { opacity: 1; visibility: visible; }
+/* Uncover it (and only then spend cycles animating) while a digest runs. The
+   opacity rides --cs-digest so the cosmos fades up in perfect step with the
+   content dissolving away - the smoothest possible reveal, no pop. */
+html[data-digesting] .cs-cosmos { opacity: var(--cs-digest, 1); visibility: visible; }
 html[data-digesting] .cs-cosmos-nebula,
 html[data-digesting] .cs-cosmos-stars,
 html[data-digesting] .cs-cosmos-sun,

@@ -82,15 +82,16 @@ export function GltfLumi({ url }: { url: string }) {
   const camera = useThree((s) => s.camera);
   const canvasSize = useThree((s) => s.size);
   const tmpV = useMemo(() => new THREE.Vector3(), []);
-  // The bone the black hole rides on: prefer a right hand, else any hand bone,
-  // so the hole locks to Lumi's real hand in whatever pose she holds - no guessed
-  // offset. glTF may sanitise "hand.R" to "hand_R"/"handR", so match loosely.
-  const handBone = useMemo(() => {
+  // Both hand bones. The digest pose lifts ONE arm overhead, and the hole rides
+  // that raised hand - so each frame we pick whichever hand is currently higher
+  // rather than trusting an R/L name (that was locking the hole to the lowered
+  // hand). glTF may sanitise "hand.R" to "hand_R"/"handR", so match loosely.
+  const handBones = useMemo(() => {
     const hands: THREE.Object3D[] = [];
     model.traverse((o) => {
       if ((o as THREE.Bone).isBone && o.name.toLowerCase().includes("hand")) hands.push(o);
     });
-    return hands.find((b) => /(^|[._-])r$|right/i.test(b.name)) ?? hands[0] ?? null;
+    return hands;
   }, [model]);
 
   // Play the baked idle loop (float + tail sway + hair). useAnimations advances
@@ -212,16 +213,26 @@ export function GltfLumi({ url }: { url: string }) {
     // frame - and during the turn-to-face that one-frame swing threw the hole to
     // the opposite side. mixer.update(0) reapplies the current clip pose without
     // advancing time; updateWorldMatrix walks the chain so g.rotation.y counts.
-    if (handBone) {
+    if (handBones.length) {
       mixer.update(0);
-      handBone.updateWorldMatrix(true, false);
-      handBone.getWorldPosition(tmpV);
-      // The hole rides on her FINGERTIP, not the middle of her hand: shift up the
-      // hand bone by ~one bone-length along its own axis (the bone's world +Y
-      // basis, so it stays correct under the model's scale and her turn). In the
-      // overhead point pose the finger aims up, so this lands the hole just past
-      // the tip.
-      const e = handBone.matrixWorld.elements;
+      // Ride the RAISED hand (highest world Y) - the overhead-point pose lifts
+      // one arm, and that is the hand holding the hole.
+      let hand = handBones[0];
+      let bestY = -Infinity;
+      for (const hb of handBones) {
+        hb.updateWorldMatrix(true, false);
+        hb.getWorldPosition(tmpV);
+        if (tmpV.y > bestY) {
+          bestY = tmpV.y;
+          hand = hb;
+        }
+      }
+      hand.getWorldPosition(tmpV);
+      // The hole rides her FINGERTIP, not the middle of the hand: shift up ~one
+      // bone-length along the hand's own axis (its world +Y basis, so it stays
+      // right under the model's scale and her turn). In the overhead point the
+      // finger aims up, so this lands the hole just past the tip.
+      const e = hand.matrixWorld.elements;
       tmpV.x += e[4] * 0.17;
       tmpV.y += e[5] * 0.17;
       tmpV.z += e[6] * 0.17;
