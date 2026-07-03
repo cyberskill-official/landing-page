@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float, Lightformer, Sparkles, Stars, Trail, useGLTF } from "@react-three/drei";
+import { Environment, Float, Lightformer, Sparkles, Trail, useGLTF } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette, SMAA, ToneMapping } from "@react-three/postprocessing";
 import { ToneMappingMode } from "postprocessing";
 import * as THREE from "three";
@@ -311,13 +311,9 @@ function BurstField() {
   );
 }
 
-// A deep starfield uncovered as the page is digested (FR-CHAR-032): the DOM
-// fades out to --cs-digest, revealing this cosmos - a dark universe of shining
-// stars behind Lumi and her black hole, the premium space beat. Only computed
-// while a digest is in progress; hidden (and free) otherwise.
 // Lumi's travelling pixie dust. Pulled out during a digest so the wide gold
-// bokeh does not clutter the cosmic reveal - the hole's own sparkle and the
-// solar system carry the sparkle then.
+// bokeh does not clutter the cosmic reveal - the permanent CosmosBackdrop (a DOM
+// layer behind the page) carries the space beat now, so the canvas stays clean.
 function AmbientMotes() {
   const ref = useRef<THREE.Group>(null);
   useFrame(() => {
@@ -329,114 +325,6 @@ function AmbientMotes() {
   return (
     <group ref={ref}>
       <Sparkles count={34} scale={[2.2, 1.9, 1.5]} size={3.2} speed={0.4} color="#F4BA17" opacity={0.75} />
-    </group>
-  );
-}
-
-function CosmicStars() {
-  const ref = useRef<THREE.Group>(null);
-  useFrame(() => {
-    const g = ref.current;
-    if (!g) return;
-    const show = getDigest() > 0.01;
-    if (g.visible !== show) g.visible = show;
-  });
-  return (
-    <group ref={ref} visible={false}>
-      <Stars radius={90} depth={50} count={1800} factor={3.6} saturation={0.15} fade speed={0.5} />
-    </group>
-  );
-}
-
-// An animated solar system revealed with the digest (FR-CHAR-032): a glowing
-// gold sun with planets orbiting on faint rings, deep behind Lumi. It scales and
-// fades in with getDigest, so when the page dissolves the visitor is left with
-// Lumi holding her black hole against a living cosmos. Only ticks while a digest
-// is in progress; hidden (and free) otherwise.
-const SOLAR = [
-  { r: 2.0, size: 0.16, speed: 0.55, color: "#ffe6a0", tilt: -0.3, ring: false },
-  { r: 2.9, size: 0.3, speed: 0.36, color: "#f4ba17", tilt: -0.44, ring: true },
-  { r: 3.9, size: 0.2, speed: 0.27, color: "#d98a1f", tilt: -0.22, ring: false },
-  { r: 5.0, size: 0.24, speed: 0.2, color: "#9fc7ff", tilt: -0.5, ring: false },
-  { r: 6.2, size: 0.34, speed: 0.14, color: "#fff2d0", tilt: -0.36, ring: false },
-] as const;
-
-function SolarSystem() {
-  const grp = useRef<THREE.Group>(null);
-  const orbits = useRef<Array<THREE.Group | null>>([]);
-  const sun = useRef<THREE.Mesh>(null);
-  const sRef = useRef(0);
-  useFrame((state, delta) => {
-    const g = grp.current;
-    if (!g) return;
-    const d = getDigest();
-    const show = d > 0.01;
-    if (g.visible !== show) g.visible = show;
-    if (!show) {
-      sRef.current = 0;
-      return;
-    }
-    const eased = d * d * (3 - 2 * d);
-    sRef.current += (0.6 + eased * 0.5 - sRef.current) * Math.min(1, delta * 4);
-    g.scale.setScalar(sRef.current);
-    for (let i = 0; i < SOLAR.length; i++) {
-      const o = orbits.current[i];
-      if (o) o.rotation.y += delta * SOLAR[i].speed;
-    }
-    g.rotation.z += delta * 0.012;
-    // gentle corona breathe on the sun
-    if (sun.current) {
-      const s = 1 + Math.sin(state.clock.elapsedTime * 0.8) * 0.04;
-      sun.current.scale.setScalar(s);
-    }
-  });
-  return (
-    <group ref={grp} position={[0, 0.3, -9]} visible={false}>
-      {/* nebula clouds: big, faint, additive - colour and depth in the void */}
-      <mesh position={[-6.5, 2.2, -6]}>
-        <sphereGeometry args={[7, 24, 24]} />
-        <meshBasicMaterial color="#3a2a6b" transparent opacity={0.1} toneMapped={false} blending={THREE.AdditiveBlending} depthWrite={false} />
-      </mesh>
-      <mesh position={[7, -3, -8]}>
-        <sphereGeometry args={[8, 24, 24]} />
-        <meshBasicMaterial color="#6b3d1f" transparent opacity={0.09} toneMapped={false} blending={THREE.AdditiveBlending} depthWrite={false} />
-      </mesh>
-      {/* sun core + soft corona */}
-      <mesh>
-        <sphereGeometry args={[1, 40, 40]} />
-        <meshBasicMaterial color="#FFCF6B" toneMapped={false} />
-      </mesh>
-      <mesh ref={sun}>
-        <sphereGeometry args={[1.5, 32, 32]} />
-        <meshBasicMaterial color="#FFB020" transparent opacity={0.3} toneMapped={false} blending={THREE.AdditiveBlending} depthWrite={false} />
-      </mesh>
-      <pointLight color="#ffd873" intensity={2.4} distance={32} />
-      {SOLAR.map((p, i) => (
-        <group
-          key={i}
-          ref={(el) => {
-            orbits.current[i] = el;
-          }}
-          rotation-x={p.tilt}
-        >
-          <mesh rotation-x={Math.PI / 2}>
-            <ringGeometry args={[p.r - 0.014, p.r + 0.014, 128]} />
-            <meshBasicMaterial color="#f4ba17" transparent opacity={0.22} side={THREE.DoubleSide} toneMapped={false} />
-          </mesh>
-          <group position={[p.r, 0, 0]}>
-            <mesh>
-              <sphereGeometry args={[p.size, 28, 28]} />
-              <meshStandardMaterial color={p.color} emissive={p.color} emissiveIntensity={0.4} metalness={0.5} roughness={0.4} />
-            </mesh>
-            {p.ring && (
-              <mesh rotation-x={Math.PI / 2.3} rotation-z={0.3}>
-                <ringGeometry args={[p.size * 1.5, p.size * 2.2, 48]} />
-                <meshBasicMaterial color="#ffe6a0" transparent opacity={0.5} side={THREE.DoubleSide} toneMapped={false} />
-              </mesh>
-            )}
-          </group>
-        </group>
-      ))}
     </group>
   );
 }
@@ -602,8 +490,6 @@ export function GenieScene() {
         <Lightformer form="rect" intensity={7.0} color="#ffffff" position={[2.5, 4, 4]} scale={[1.4, 1.4, 1]} />
       </Environment>
       <CameraRig />
-      <CosmicStars />
-      <SolarSystem />
       <WishGrid />
       <BurstField />
       <DigestHole />
