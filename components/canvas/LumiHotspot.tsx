@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getLumiScreen, setLumiExcite } from "@/lib/scene/mascot";
+import {
+  getLumiScreen,
+  setLumiExcite,
+  LUMI_HOLD_START_EVENT,
+  LUMI_HOLD_END_EVENT,
+} from "@/lib/scene/mascot";
 import { GENIE_OPEN_EVENT } from "@/components/genie/GenieOpenButton";
 import { useGenieStore } from "@/lib/genie/store";
 import { track } from "@/lib/analytics";
@@ -11,6 +16,10 @@ import { track } from "@/lib/analytics";
 // to the real UI straight through Lumi.
 const INTERACTIVE_SELECTOR =
   "a, button, input, select, textarea, label, summary, [role='button'], .cs-genie";
+
+// How long a press must last on Lumi before it counts as a hold (starts the
+// digest) rather than a tap (opens chat).
+const HOLD_MS = 320;
 
 // Lumi IS the chat entry (FR-CHAR-030): a real, focusable button that rides
 // on the mascot's projected screen position every frame, so activating the
@@ -30,6 +39,10 @@ export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
   const hintRef = useRef<HTMLSpanElement | null>(null);
   const pointer = useRef({ x: -1, y: -1 });
   const focused = useRef(false);
+  // Press-and-hold detection: a hold past HOLD_MS starts the black-hole digest
+  // (via events the BlackHole listens to); a quick tap opens the chat instead.
+  const holdTimer = useRef(0);
+  const held = useRef(false);
   const [visible, setVisible] = useState(false);
   // One-time discoverability hint ("click me"): shows the first time the
   // mascot appears in a session, then retires to sessionStorage.
@@ -121,7 +134,37 @@ export function LumiHotspot({ label, hint }: { label: string; hint: string }) {
       aria-label={label}
       aria-haspopup="dialog"
       aria-expanded={open}
+      onPointerDown={(e) => {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        held.current = false;
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          // capture unsupported: pointerup still arrives on most setups
+        }
+        window.clearTimeout(holdTimer.current);
+        holdTimer.current = window.setTimeout(() => {
+          held.current = true;
+          window.dispatchEvent(new CustomEvent(LUMI_HOLD_START_EVENT));
+        }, HOLD_MS);
+      }}
+      onPointerUp={() => {
+        window.clearTimeout(holdTimer.current);
+        if (held.current) window.dispatchEvent(new CustomEvent(LUMI_HOLD_END_EVENT));
+      }}
+      onPointerCancel={() => {
+        window.clearTimeout(holdTimer.current);
+        if (held.current) {
+          window.dispatchEvent(new CustomEvent(LUMI_HOLD_END_EVENT));
+          held.current = false;
+        }
+      }}
       onClick={() => {
+        // A completed hold suppresses the tap so a digest never also opens chat.
+        if (held.current) {
+          held.current = false;
+          return;
+        }
         track("genie_open", { source: "mascot" });
         window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT));
       }}
