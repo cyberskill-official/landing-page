@@ -183,7 +183,7 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     // hovers in place between legs, layered on the Float bob. It rides only the
     // visible scale, not scaleRef, so the projected hotspot radius stays steady.
     const breath = 1 + Math.sin(state.clock.elapsedTime * 1.6) * 0.015;
-    scaleRef.current += (anchor.scale * (excite ? 1.12 : 1) * (1 + dig * 0.55) - scaleRef.current) * k;
+    scaleRef.current += (anchor.scale * (excite ? 1.12 : 1) * (1 + dig * 0.1) - scaleRef.current) * k;
     g.scale.setScalar(scaleRef.current * breath);
 
     // Project to CSS pixels for the DOM hotspot (hidden while the chat is
@@ -310,22 +310,28 @@ function BurstField() {
 // the core black and the rings hot under the AGX grade.
 function DigestHole() {
   const grp = useRef<THREE.Group>(null);
+  const sRef = useRef(0);
   useFrame((_, delta) => {
     const g = grp.current;
     if (!g) return;
     const d = getDigest();
     if (d <= 0.002) {
       if (g.visible) g.visible = false;
+      sRef.current = 0;
       return;
     }
     g.visible = true;
     const w = getLumiWorld();
-    // Her hand: down-and-out from the projected core (matches the screen-space
-    // hand point the DOM blocks collapse toward).
-    g.position.set(w.x + 0.32, w.y - 0.16, w.z + 0.25);
-    const s = d * d;
-    g.scale.setScalar(0.1 + s * 0.5);
-    g.rotation.z += delta * (2.4 + d * 4);
+    // Pinned small on one hand (down-and-out from her core), not her middle.
+    g.position.set(w.x + 0.24, w.y - 0.32, w.z + 0.2);
+    // Stay small: ease a compact bead in and hold it - a marble she cups, never
+    // a growing blob. Eased so it does not pop in.
+    const eased = d * d * (3 - 2 * d);
+    const target = 0.12 + eased * 0.05;
+    sRef.current += (target - sRef.current) * Math.min(1, delta * 6);
+    g.scale.setScalar(sRef.current);
+    // Calm, steady swirl (not accelerating) so the motion reads clean.
+    g.rotation.z += delta * 1.5;
   });
   return (
     <group ref={grp} visible={false}>
@@ -341,7 +347,7 @@ function DigestHole() {
         <torusGeometry args={[0.82, 0.02, 10, 60]} />
         <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.7} />
       </mesh>
-      <Sparkles count={26} scale={[2, 2, 0.6]} size={3.5} speed={0.9} color="#FFD873" opacity={0.9} />
+      <Sparkles count={14} scale={[1.4, 1.4, 0.5]} size={3} speed={0.7} color="#FFD873" opacity={0.85} />
     </group>
   );
 }

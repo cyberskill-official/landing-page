@@ -69,7 +69,7 @@ function collectBlocks(): Block[] {
     const cy = rect.top + rect.height / 2;
     const dist = Math.hypot(cx - lumi.x, cy - lumi.y);
     maxDist = Math.max(maxDist, dist);
-    blocks.push({ el, cx, cy, normDist: dist, spin: (Math.random() * 2 - 1) * 220 });
+    blocks.push({ el, cx, cy, normDist: dist, spin: (Math.random() * 2 - 1) * 140 });
   }
   for (const b of blocks) b.normDist /= maxDist;
   return blocks;
@@ -132,13 +132,15 @@ export function BlackHole() {
         // block's own spin sign so the field swirls both ways.
         const dx = (hx - b.cx) * e;
         const dy = (hy - b.cy) * e;
-        const ang = e * 2.4 * (b.spin >= 0 ? 1 : -1);
+        const ang = e * 1.2 * (b.spin >= 0 ? 1 : -1);
         const ca = Math.cos(ang);
         const sa = Math.sin(ang);
         const sx = dx * ca - dy * sa;
         const sy = dx * sa + dy * ca;
-        b.el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) scale(${(1 - e * 0.97).toFixed(3)}) rotate(${(b.spin * e * 1.8).toFixed(1)}deg)`;
-        b.el.style.opacity = `${Math.max(0, 1 - e * 0.85).toFixed(3)}`;
+        // Fade out well before the block reaches the hole so the field dissolves
+        // into it cleanly instead of a pile-up of shrunken boxes at the centre.
+        b.el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) scale(${(1 - e * 0.96).toFixed(3)}) rotate(${(b.spin * e * 0.8).toFixed(1)}deg)`;
+        b.el.style.opacity = `${Math.max(0, 1 - e * 1.08).toFixed(3)}`;
       }
       raf = window.requestAnimationFrame(frame);
     };
