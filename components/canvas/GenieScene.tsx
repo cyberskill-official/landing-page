@@ -156,8 +156,18 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     const attend = chatOpen ? 0 : getAttend();
     const inward = pos.current.x >= 0 ? -1 : 1;
     const ky = Math.min(1, delta * 2.2);
-    g.rotation.y += (inward * 0.2 * attend - g.rotation.y) * ky;
-    g.rotation.x += (0.08 * attend - g.rotation.x) * ky;
+    // Ambient awareness (FR-CHAR-034): when Lumi is not presenting an act
+    // (attend low) and not held by the chat, she turns a touch toward the
+    // pointer, so she reads as noticing you. The presenting lean takes over as
+    // attend rises (the pointer glance is weighted by 1 - attend), so the two
+    // never fight. Amplitudes stay small - a glance, not a spin - and touch
+    // devices leave the pointer at centre, so nothing moves there.
+    const look = chatOpen ? 0 : 1 - attend;
+    const p = getPointerNorm();
+    const targetYaw = inward * 0.2 * attend + p.x * 0.16 * look;
+    const targetPitch = 0.08 * attend - p.y * 0.1 * look;
+    g.rotation.y += (targetYaw - g.rotation.y) * ky;
+    g.rotation.x += (targetPitch - g.rotation.x) * ky;
 
     // Hover excitement puffs Lumi and pops a burst on the rising edge; the
     // black-hole digest swells the whole mascot as it feeds (FR-CHAR-032).
@@ -169,8 +179,12 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     const dig = getDigest();
     if (dig > 0.5 && digPrev.current <= 0.5) requestBurst(1.6);
     digPrev.current = dig;
+    // A shallow breathing pulse (~1.5%) keeps Lumi feeling alive even when she
+    // hovers in place between legs, layered on the Float bob. It rides only the
+    // visible scale, not scaleRef, so the projected hotspot radius stays steady.
+    const breath = 1 + Math.sin(state.clock.elapsedTime * 1.6) * 0.015;
     scaleRef.current += (anchor.scale * (excite ? 1.12 : 1) * (1 + dig * 0.55) - scaleRef.current) * k;
-    g.scale.setScalar(scaleRef.current);
+    g.scale.setScalar(scaleRef.current * breath);
 
     // Project to CSS pixels for the DOM hotspot (hidden while the chat is
     // open so the panel underneath stays clickable).
