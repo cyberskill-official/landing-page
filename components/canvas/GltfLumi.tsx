@@ -194,7 +194,13 @@ export function GltfLumi({ url }: { url: string }) {
     const s = resolveSceneState(prog.current);
     // Window-fed pointer store: the canvas is pointer-inert, so r3f's own
     // state.pointer never updates (see lib/scene/mascot.ts).
-    g.rotation.y = s.model.spin + getPointerNorm().x * 0.2;
+    // Face the viewer while presenting the digest hole; otherwise follow the
+    // scroll spin + a light pointer glance.
+    if (digestHold.current) {
+      g.rotation.y += (0 - g.rotation.y) * Math.min(1, delta * 3);
+    } else {
+      g.rotation.y = s.model.spin + getPointerNorm().x * 0.2;
+    }
     g.position.x = BASE_POSITION[0] + s.model.driftX * 0.35;
     g.position.z = BASE_POSITION[2] + s.model.driftZ * 0.5;
 

@@ -168,10 +168,13 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     // is, with the act-presenting lean layered on top when an act is centred.
     // Amplitude stays under a quarter-turn so she never shows her back.
     const p = getPointerNorm();
-    const trackYaw = chatOpen ? 0 : p.x * 0.55;
-    const trackPitch = chatOpen ? 0 : -p.y * 0.28;
-    const targetYaw = trackYaw + inward * 0.15 * attend;
-    const targetPitch = trackPitch + 0.06 * attend;
+    // While digesting she presents the hole, so square her to the viewer (yaw and
+    // pitch ease to 0) instead of tracking the pointer or leaning into an act.
+    const presenting = getDigest() > 0.05;
+    const trackYaw = chatOpen || presenting ? 0 : p.x * 0.55;
+    const trackPitch = chatOpen || presenting ? 0 : -p.y * 0.28;
+    const targetYaw = presenting ? 0 : trackYaw + inward * 0.15 * attend;
+    const targetPitch = presenting ? 0 : trackPitch + 0.06 * attend;
     g.rotation.y += (targetYaw - g.rotation.y) * ky;
     g.rotation.x += (targetPitch - g.rotation.x) * ky;
 
@@ -312,6 +315,24 @@ function BurstField() {
 // fades out to --cs-digest, revealing this cosmos - a dark universe of shining
 // stars behind Lumi and her black hole, the premium space beat. Only computed
 // while a digest is in progress; hidden (and free) otherwise.
+// Lumi's travelling pixie dust. Pulled out during a digest so the wide gold
+// bokeh does not clutter the cosmic reveal - the hole's own sparkle and the
+// solar system carry the sparkle then.
+function AmbientMotes() {
+  const ref = useRef<THREE.Group>(null);
+  useFrame(() => {
+    const g = ref.current;
+    if (!g) return;
+    const show = getDigest() <= 0.15;
+    if (g.visible !== show) g.visible = show;
+  });
+  return (
+    <group ref={ref}>
+      <Sparkles count={34} scale={[2.2, 1.9, 1.5]} size={3.2} speed={0.4} color="#F4BA17" opacity={0.75} />
+    </group>
+  );
+}
+
 function CosmicStars() {
   const ref = useRef<THREE.Group>(null);
   useFrame(() => {
@@ -333,17 +354,19 @@ function CosmicStars() {
 // Lumi holding her black hole against a living cosmos. Only ticks while a digest
 // is in progress; hidden (and free) otherwise.
 const SOLAR = [
-  { r: 2.1, size: 0.16, speed: 0.55, color: "#ffe6a0", tilt: -0.3 },
-  { r: 3.1, size: 0.26, speed: 0.36, color: "#f4ba17", tilt: -0.42 },
-  { r: 4.3, size: 0.2, speed: 0.26, color: "#c8890a", tilt: -0.25 },
-  { r: 5.7, size: 0.32, speed: 0.17, color: "#fff2d0", tilt: -0.5 },
+  { r: 2.0, size: 0.16, speed: 0.55, color: "#ffe6a0", tilt: -0.3, ring: false },
+  { r: 2.9, size: 0.3, speed: 0.36, color: "#f4ba17", tilt: -0.44, ring: true },
+  { r: 3.9, size: 0.2, speed: 0.27, color: "#d98a1f", tilt: -0.22, ring: false },
+  { r: 5.0, size: 0.24, speed: 0.2, color: "#9fc7ff", tilt: -0.5, ring: false },
+  { r: 6.2, size: 0.34, speed: 0.14, color: "#fff2d0", tilt: -0.36, ring: false },
 ] as const;
 
 function SolarSystem() {
   const grp = useRef<THREE.Group>(null);
   const orbits = useRef<Array<THREE.Group | null>>([]);
+  const sun = useRef<THREE.Mesh>(null);
   const sRef = useRef(0);
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const g = grp.current;
     if (!g) return;
     const d = getDigest();
@@ -354,21 +377,40 @@ function SolarSystem() {
       return;
     }
     const eased = d * d * (3 - 2 * d);
-    sRef.current += (0.55 + eased * 0.55 - sRef.current) * Math.min(1, delta * 4);
+    sRef.current += (0.6 + eased * 0.5 - sRef.current) * Math.min(1, delta * 4);
     g.scale.setScalar(sRef.current);
     for (let i = 0; i < SOLAR.length; i++) {
       const o = orbits.current[i];
       if (o) o.rotation.y += delta * SOLAR[i].speed;
     }
-    g.rotation.z += delta * 0.015;
+    g.rotation.z += delta * 0.012;
+    // gentle corona breathe on the sun
+    if (sun.current) {
+      const s = 1 + Math.sin(state.clock.elapsedTime * 0.8) * 0.04;
+      sun.current.scale.setScalar(s);
+    }
   });
   return (
-    <group ref={grp} position={[0, 0.2, -9]} visible={false}>
+    <group ref={grp} position={[0, 0.3, -9]} visible={false}>
+      {/* nebula clouds: big, faint, additive - colour and depth in the void */}
+      <mesh position={[-6.5, 2.2, -6]}>
+        <sphereGeometry args={[7, 24, 24]} />
+        <meshBasicMaterial color="#3a2a6b" transparent opacity={0.1} toneMapped={false} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </mesh>
+      <mesh position={[7, -3, -8]}>
+        <sphereGeometry args={[8, 24, 24]} />
+        <meshBasicMaterial color="#6b3d1f" transparent opacity={0.09} toneMapped={false} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </mesh>
+      {/* sun core + soft corona */}
       <mesh>
-        <sphereGeometry args={[0.85, 32, 32]} />
+        <sphereGeometry args={[1, 40, 40]} />
         <meshBasicMaterial color="#FFCF6B" toneMapped={false} />
       </mesh>
-      <pointLight color="#ffd873" intensity={2.2} distance={26} />
+      <mesh ref={sun}>
+        <sphereGeometry args={[1.5, 32, 32]} />
+        <meshBasicMaterial color="#FFB020" transparent opacity={0.3} toneMapped={false} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </mesh>
+      <pointLight color="#ffd873" intensity={2.4} distance={32} />
       {SOLAR.map((p, i) => (
         <group
           key={i}
@@ -378,13 +420,21 @@ function SolarSystem() {
           rotation-x={p.tilt}
         >
           <mesh rotation-x={Math.PI / 2}>
-            <ringGeometry args={[p.r - 0.012, p.r + 0.012, 96]} />
-            <meshBasicMaterial color="#f4ba17" transparent opacity={0.16} side={THREE.DoubleSide} toneMapped={false} />
+            <ringGeometry args={[p.r - 0.014, p.r + 0.014, 128]} />
+            <meshBasicMaterial color="#f4ba17" transparent opacity={0.22} side={THREE.DoubleSide} toneMapped={false} />
           </mesh>
-          <mesh position={[p.r, 0, 0]}>
-            <sphereGeometry args={[p.size, 24, 24]} />
-            <meshStandardMaterial color={p.color} emissive={p.color} emissiveIntensity={0.35} metalness={0.5} roughness={0.4} />
-          </mesh>
+          <group position={[p.r, 0, 0]}>
+            <mesh>
+              <sphereGeometry args={[p.size, 28, 28]} />
+              <meshStandardMaterial color={p.color} emissive={p.color} emissiveIntensity={0.4} metalness={0.5} roughness={0.4} />
+            </mesh>
+            {p.ring && (
+              <mesh rotation-x={Math.PI / 2.3} rotation-z={0.3}>
+                <ringGeometry args={[p.size * 1.5, p.size * 2.2, 48]} />
+                <meshBasicMaterial color="#ffe6a0" transparent opacity={0.5} side={THREE.DoubleSide} toneMapped={false} />
+              </mesh>
+            )}
+          </group>
         </group>
       ))}
     </group>
@@ -478,7 +528,9 @@ function WishGrid() {
       attr.setZ(i, Math.sin(x * 0.55 + t * 0.7) * Math.cos(y * 0.7 + t * 0.5) * 0.22);
     }
     attr.needsUpdate = true;
-    const fade = Math.max(0, 1 - getScrollProgress() * 1.15);
+    // Fade with the hero, and pull the wire floor fully out during a digest so
+    // the reveal behind Lumi is clean cosmos, not a tron grid.
+    const fade = Math.max(0, 1 - getScrollProgress() * 1.15) * (1 - getDigest());
     const mat = m.material as THREE.MeshBasicMaterial;
     mat.opacity = (isLight ? 0.09 : 0.12) * fade;
     m.visible = mat.opacity > 0.004;
@@ -579,8 +631,9 @@ export function GenieScene() {
           </Suspense>
         </Float>
         {/* Pixie dust travels with the mascot instead of dusting the whole
-            page, so text stays clean outside Lumi's flight path. */}
-        <Sparkles count={34} scale={[2.2, 1.9, 1.5]} size={3.2} speed={0.4} color="#F4BA17" opacity={0.75} />
+            page, so text stays clean outside Lumi's flight path. Clears during
+            a digest (AmbientMotes) so the cosmic reveal reads clean. */}
+        <AmbientMotes />
       </LumiRig>
       {/* Premium post: bloom on the gold highlights + AgX filmic tone map (matches
           the Blender look) + a subtle vignette; SMAA replaces MSAA (antialias off,
