@@ -30,7 +30,9 @@ export function MotionExtras() {
   const glowRef = useRef<HTMLDivElement | null>(null);
   const dustRef = useRef<HTMLDivElement | null>(null);
 
-  // Thin gold scroll-progress bar (rAF-throttled, passive; scaleX only).
+  // Thin gold scroll-progress bar (rAF-throttled, passive; scaleX only) plus the
+  // two scroll variables the paint-only motion layers read: --cs-scroll (depth,
+  // for parallax) and --cs-scroll-v (0..1 speed, for velocity-reactive glow).
   useEffect(() => {
     const bar = barRef.current;
     if (!bar) return;
@@ -40,8 +42,8 @@ export function MotionExtras() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.transform = `scaleX(${max > 0 ? clamp(window.scrollY / max, 0, 1) : 0})`;
       // Scroll depth as a CSS length for paint-only parallax (the hero aurora
-      // reads it); consumers apply it under prefers-reduced-motion:
-      // no-preference only.
+      // and the depth field read it); consumers apply it under
+      // prefers-reduced-motion: no-preference only.
       document.documentElement.style.setProperty("--cs-scroll", `${Math.round(window.scrollY)}px`);
     };
     const request = () => {
@@ -49,13 +51,52 @@ export function MotionExtras() {
         ticking = true;
         window.requestAnimationFrame(update);
       }
+      kickVel();
     };
+
+    // Scroll velocity: a self-decaying 0..1 scalar the aurora, grain, and depth
+    // embers brighten with, so the whole field breathes with how fast you move.
+    // The rAF runs ONLY while scrolling and stops itself once it settles to 0,
+    // so an idle page pays nothing. Position feedback, not autonomous motion, so
+    // it is safe to compute for everyone; the CSS consumers still gate on
+    // no-preference, and this never touches layout.
+    const root = document.documentElement;
+    let vel = 0;
+    let lastY = window.scrollY;
+    let lastT = performance.now();
+    let vRaf = 0;
+    const vtick = () => {
+      const now = performance.now();
+      const dt = now - lastT || 16;
+      const inst = Math.abs(window.scrollY - lastY) / dt; // px per ms
+      lastY = window.scrollY;
+      lastT = now;
+      const target = clamp(inst / 2, 0, 1); // ~2px/ms flick saturates to 1
+      vel += (target - vel) * 0.2;
+      root.style.setProperty("--cs-scroll-v", vel.toFixed(3));
+      if (vel < 0.004 && target === 0) {
+        vel = 0;
+        root.style.setProperty("--cs-scroll-v", "0");
+        vRaf = 0;
+        return;
+      }
+      vRaf = window.requestAnimationFrame(vtick);
+    };
+    const kickVel = () => {
+      if (vRaf) return;
+      lastY = window.scrollY;
+      lastT = performance.now();
+      vRaf = window.requestAnimationFrame(vtick);
+    };
+
     update();
     window.addEventListener("scroll", request, { passive: true });
     window.addEventListener("resize", request);
     return () => {
       window.removeEventListener("scroll", request);
       window.removeEventListener("resize", request);
+      if (vRaf) window.cancelAnimationFrame(vRaf);
+      root.style.setProperty("--cs-scroll-v", "0");
     };
   }, []);
 
@@ -169,7 +210,11 @@ export function MotionExtras() {
       magnetEl = null;
     };
     const releaseTilt = () => {
-      if (tiltEl) tiltEl.style.transform = "";
+      if (tiltEl) {
+        tiltEl.style.transform = "";
+        tiltEl.style.removeProperty("--mx");
+        tiltEl.style.removeProperty("--my");
+      }
       tiltEl = null;
     };
 
@@ -197,6 +242,10 @@ export function MotionExtras() {
         const r = tiltEl.getBoundingClientRect();
         const { rx, ry } = tiltFromPointer(pos.x, pos.y, r, 4);
         tiltEl.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-2px)`;
+        // Pointer position inside the card (0..100%) for the CSS spotlight sheen
+        // that follows the cursor across the surface.
+        tiltEl.style.setProperty("--mx", `${(clamp((pos.x - r.left) / r.width, 0, 1) * 100).toFixed(1)}%`);
+        tiltEl.style.setProperty("--my", `${(clamp((pos.y - r.top) / r.height, 0, 1) * 100).toFixed(1)}%`);
       }
       raf = window.requestAnimationFrame(frame);
     };
