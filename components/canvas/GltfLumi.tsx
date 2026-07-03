@@ -11,6 +11,7 @@ import {
   requestBurst,
   drainGestures,
   getLumiExcite,
+  getDigest,
   setLumiHand,
   setLumiHandScreen,
   LUMI_GREET_EVENT,
@@ -39,6 +40,11 @@ const BASE_POSITION: [number, number, number] = [0, -0.4, 0];
 const IDLE_CLIP = "Idle";
 const WAVE_CLIP = "Wave";
 const CAST_CLIP = "Cast";
+// The offering pose (arm stretched forward, palm out) Lumi holds while she
+// digests the page, so the black hole sits in her outstretched hand instead of
+// at her side. Clamped on its last frame (the fully-extended reach), so it
+// stays held for as long as the digest runs, then crossfades back to idle.
+const HOLD_CLIP = "Hold";
 
 export function GltfLumi({ url }: { url: string }) {
   const group = useRef<THREE.Group>(null);
@@ -46,6 +52,7 @@ export function GltfLumi({ url }: { url: string }) {
   const greeting = useRef(false);
   const playGestureRef = useRef<((name: string) => void) | null>(null);
   const excitePrev = useRef(false);
+  const digestHold = useRef(false);
   const { scene, animations } = useGLTF(url);
   // A skinned mesh must be cloned with SkeletonUtils.clone: THREE.Object3D.clone()
   // leaves the copy bound to the source skeleton, so the baked animation would not
@@ -148,10 +155,36 @@ export function GltfLumi({ url }: { url: string }) {
   useFrame((_, delta) => {
     const g = group.current;
     if (!g) return;
+    // Digest pose: while the page is being devoured, Lumi holds the offering
+    // clip (arm outstretched) so the black hole sits in her extended hand, and
+    // she ignores section gestures. Crossfade in on the first digest frame,
+    // then back to idle once it has fully reversed. HOLD is LoopOnce+clamped, so
+    // it settles on the fully-reached pose and stays there for the whole hold;
+    // its later "finished" event is ignored because greeting.current is false.
+    const holdWanted = getDigest() > 0.02;
+    if (holdWanted !== digestHold.current) {
+      digestHold.current = holdWanted;
+      const idle = actions[IDLE_CLIP] ?? Object.values(actions)[0];
+      const hold = actions[HOLD_CLIP];
+      if (hold && idle && hold !== idle) {
+        greeting.current = false;
+        if (holdWanted) {
+          for (const a of Object.values(actions)) if (a && a !== hold) a.fadeOut(0.3);
+          hold.reset().setLoop(THREE.LoopOnce, 1);
+          hold.clampWhenFinished = true;
+          hold.fadeIn(0.3).play();
+        } else {
+          hold.fadeOut(0.45);
+          idle.reset().setLoop(THREE.LoopRepeat, Infinity).fadeIn(0.45).play();
+        }
+      }
+    }
+
     // Perform the queued gestures (act arrivals, from SceneFocus) and wave on
-    // the rising edge of a hover, so Lumi keeps reacting through the scroll.
+    // the rising edge of a hover, so Lumi keeps reacting through the scroll -
+    // unless she is holding the digest pose, which owns her arms.
     const play = playGestureRef.current;
-    if (play) {
+    if (play && !digestHold.current) {
       for (const name of drainGestures()) play(name);
       const ex = getLumiExcite();
       if (ex && !excitePrev.current) play(WAVE_CLIP);
