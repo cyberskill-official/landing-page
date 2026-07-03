@@ -494,17 +494,16 @@ body { background: transparent; overflow-x: clip; }
   border: 1px solid rgba(210, 190, 150, 0.1);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  /* Runs continuously (it advances even while the cosmos is hidden, and is cheap
-     - a composited transform), so the negative delays keep the planets spread
-     across their orbits by the time a digest reveals them. */
-  animation: cs-orbit-spin linear infinite;
 }
-/* Negative delays start each orbit part-way round so the planets are spread
-   across their ellipses instead of stacked at the top. */
-.cs-orbit-1 { width: 220px; height: 220px; animation-duration: 30s; animation-delay: -6s; }
-.cs-orbit-2 { width: 360px; height: 360px; animation-duration: 48s; animation-delay: -21s; }
-.cs-orbit-3 { width: 520px; height: 520px; animation-duration: 72s; animation-delay: -44s; }
-.cs-orbit-4 { width: 700px; height: 700px; animation-duration: 106s; animation-delay: -78s; }
+/* Full per-orbit animation (duration + a negative delay in ONE shorthand, so the
+   shorthand can't reset the duration to 0). It runs continuously and advances
+   even while the cosmos is hidden, so the planets are always spinning AND spread
+   across their ellipses - not stacked at the top - by the time a digest reveals
+   them. Composited transform, so it is cheap. */
+.cs-orbit-1 { width: 220px; height: 220px; animation: cs-orbit-spin 30s linear -6s infinite; }
+.cs-orbit-2 { width: 360px; height: 360px; animation: cs-orbit-spin 48s linear -21s infinite; }
+.cs-orbit-3 { width: 520px; height: 520px; animation: cs-orbit-spin 72s linear -44s infinite; }
+.cs-orbit-4 { width: 700px; height: 700px; animation: cs-orbit-spin 106s linear -78s infinite; }
 /* 3D-shaded planets: lit toward the sun, dark terminator opposite, atmosphere rim
    glow - reads as a sphere, not a flat disc. */
 /* Counter the plane's vertical squash so the planet bodies stay round spheres
