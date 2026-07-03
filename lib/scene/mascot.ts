@@ -82,6 +82,20 @@ export function drainBursts(): BurstRequest[] {
   return burstQueue.splice(0, burstQueue.length);
 }
 
+// One-shot gesture requests (a clip name like "Wave" / "Cast") from the scene.
+// SceneFocus fires these on section arrivals so Lumi actually waves and casts as
+// she presents each act, instead of gliding in Idle (the "ragdoll" fix). GltfLumi
+// drains the queue each frame and crossfades the clip over the idle loop.
+const gestureQueue: string[] = [];
+
+export function requestGesture(name: string): void {
+  if (gestureQueue.length < 4) gestureQueue.push(name);
+}
+
+export function drainGestures(): string[] {
+  return gestureQueue.splice(0, gestureQueue.length);
+}
+
 // How strongly Lumi should "present" the act at screen centre (0..1), written
 // by SceneFocus from the centred act's focus and read by the rig, which turns
 // Lumi a touch toward the page while an act is held and relaxes it between acts.

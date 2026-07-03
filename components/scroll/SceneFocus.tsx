@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { requestBurst, setAttend } from "@/lib/scene/mascot";
+import { requestBurst, requestGesture, setAttend } from "@/lib/scene/mascot";
 
 // Cinematic "rack focus" plus a directed scene hand-off (FR-SCENE-012 / -013).
 //
@@ -37,6 +37,7 @@ export function SceneFocus() {
     const armed: Record<string, boolean> = {};
     const enterTimers = new Map<string, number>();
     let lastBurst = 0;
+    let gestureN = 0;
     let first = true;
 
     const run = () => {
@@ -76,13 +77,16 @@ export function SceneFocus() {
           );
           const now = performance.now();
           // One gentle sparkle per arrival, rate-limited so a fast scroll past
-          // several acts does not turn into a stutter of bursts.
+          // several acts does not turn into a stutter of bursts. Lumi also plays
+          // a gesture as she arrives - alternating a wave and a cast so she
+          // presents each act with a real motion instead of gliding in Idle.
           if (now - lastBurst > 650) {
             lastBurst = now;
             try {
               requestBurst(0.6);
+              requestGesture(gestureN++ % 2 === 0 ? "Wave" : "Cast");
             } catch {
-              // Scene absent: the queue is a capped no-op, nothing to do.
+              // Scene absent: the queues are capped no-ops, nothing to do.
             }
           }
         }

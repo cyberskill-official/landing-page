@@ -6,7 +6,14 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
 import * as THREE from "three";
 import { getScrollProgress } from "@/lib/scroll/progress";
-import { getPointerNorm, requestBurst, LUMI_GREET_EVENT } from "@/lib/scene/mascot";
+import {
+  getPointerNorm,
+  requestBurst,
+  drainGestures,
+  getLumiExcite,
+  LUMI_GREET_EVENT,
+  WISH_GRANTED_EVENT,
+} from "@/lib/scene/mascot";
 import { resolveSceneState } from "@/lib/scene/progressMap";
 
 // Commissioned GLB Lumi (FR-CHAR-022). Mounted only when NEXT_PUBLIC_LUMI_GLB is
@@ -23,18 +30,20 @@ import { resolveSceneState } from "@/lib/scene/progressMap";
 // offsets are LOCAL (model centring), not page position.
 const BASE_SCALE = 1;
 const BASE_POSITION: [number, number, number] = [0, -0.4, 0];
-// Name of the baked idle clip in the GLB (see lumi-3d export). Falls back to the
-// first available clip if the name ever changes.
+// Baked clips in the GLB (lumi-3d export). Idle is the looping base; Wave (raise
+// hand + wave) and Cast (arms-wide magic) are one-shot gestures Lumi plays as
+// she arrives at each act, on hover, and when a wish is granted, then settles
+// back into Idle. Missing clips no-op safely.
 const IDLE_CLIP = "Idle";
-// Baked one-shot welcome clip (arms-open wave). Played once when the contact
-// section scrolls into view, then Lumi settles back into Idle. Optional: if the
-// export has no such clip the greet wiring simply no-ops.
-const GREET_CLIP = "Greet";
+const WAVE_CLIP = "Wave";
+const CAST_CLIP = "Cast";
 
 export function GltfLumi({ url }: { url: string }) {
   const group = useRef<THREE.Group>(null);
   const prog = useRef(0);
   const greeting = useRef(false);
+  const playGestureRef = useRef<((name: string) => void) | null>(null);
+  const excitePrev = useRef(false);
   const { scene, animations } = useGLTF(url);
   // A skinned mesh must be cloned with SkeletonUtils.clone: THREE.Object3D.clone()
   // leaves the copy bound to the source skeleton, so the baked animation would not
@@ -74,52 +83,65 @@ export function GltfLumi({ url }: { url: string }) {
     };
   }, [actions]);
 
-  // Greet when the contact section arrives (FR-CHAR-030 welcome beat): crossfade
-  // Idle -> Greet, play it once, then crossfade back to Idle on finish. Guarded
-  // so overlapping intersections never stack, and a burst of pixie dust punctuates
-  // the wave. No-ops safely if the export lacks a distinct greet clip.
+  // Gesture player (FR-CHAR-034): crossfade Idle -> a one-shot clip -> Idle.
+  // Driven by the scene - SceneFocus queues Wave/Cast on each act arrival, a
+  // granted wish casts, and hovering Lumi waves - so she performs instead of
+  // gliding in Idle (the "ragdoll" fix). Guarded so overlapping requests never
+  // stack; a pixie-dust burst and the greet chime punctuate each gesture.
+  // Missing clips no-op safely.
   useEffect(() => {
     const idle = actions[IDLE_CLIP] ?? Object.values(actions)[0];
-    const greet =
-      actions[GREET_CLIP] ?? Object.values(actions).find((a) => a && a !== idle) ?? null;
-    if (!idle || !greet || greet === idle) return;
-    const target = document.getElementById("contact");
-    if (!target || typeof IntersectionObserver === "undefined") return;
+    if (!idle) return;
 
-    const playGreet = () => {
+    const playGesture = (name: string) => {
       if (greeting.current) return;
+      const clip = actions[name];
+      if (!clip || clip === idle) return;
       greeting.current = true;
-      idle.fadeOut(0.3);
-      greet.reset().setLoop(THREE.LoopOnce, 1);
-      greet.clampWhenFinished = true;
-      greet.fadeIn(0.3).play();
-      requestBurst(1.2);
+      idle.fadeOut(0.25);
+      clip.reset().setLoop(THREE.LoopOnce, 1);
+      clip.clampWhenFinished = true;
+      clip.fadeIn(0.25).play();
+      try {
+        requestBurst(name === CAST_CLIP ? 1.6 : 1.0);
+      } catch {
+        // scene absent: capped no-op
+      }
       window.dispatchEvent(new CustomEvent(LUMI_GREET_EVENT));
     };
+    playGestureRef.current = playGesture;
+
     const onFinished = (e: { action: THREE.AnimationAction }) => {
-      if (e.action !== greet) return;
+      if (!greeting.current || e.action === idle) return;
       greeting.current = false;
-      greet.fadeOut(0.4);
-      idle.reset().fadeIn(0.4).play();
+      e.action.fadeOut(0.35);
+      idle.reset().fadeIn(0.35).play();
     };
     mixer.addEventListener("finished", onFinished);
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const en of entries) if (en.isIntersecting) playGreet();
-      },
-      { threshold: 0.4 },
-    );
-    io.observe(target);
+    // A granted wish is the big magic beat: Lumi casts.
+    const onWish = () => playGesture(CAST_CLIP);
+    window.addEventListener(WISH_GRANTED_EVENT, onWish);
+
     return () => {
-      io.disconnect();
       mixer.removeEventListener("finished", onFinished);
+      window.removeEventListener(WISH_GRANTED_EVENT, onWish);
+      playGestureRef.current = null;
     };
   }, [actions, mixer]);
 
   useFrame((_, delta) => {
     const g = group.current;
     if (!g) return;
+    // Perform the queued gestures (act arrivals, from SceneFocus) and wave on
+    // the rising edge of a hover, so Lumi keeps reacting through the scroll.
+    const play = playGestureRef.current;
+    if (play) {
+      for (const name of drainGestures()) play(name);
+      const ex = getLumiExcite();
+      if (ex && !excitePrev.current) play(WAVE_CLIP);
+      excitePrev.current = ex;
+    }
     prog.current += (getScrollProgress() - prog.current) * Math.min(1, delta * 2.5);
     const s = resolveSceneState(prog.current);
     // Window-fed pointer store: the canvas is pointer-inert, so r3f's own
