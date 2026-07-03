@@ -6,6 +6,7 @@
 // ssr:false (never blocks first paint) and fails closed to the poster.
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { StaticPoster } from "@/components/canvas/StaticPoster";
 
@@ -29,9 +30,20 @@ function capable(): boolean {
 }
 
 export function CanvasMount() {
+  const pathname = usePathname();
+  // Only the homepage carries the scene: the journey's anchors and the hero grid
+  // live there. On sub-pages the flight has nothing to fly to and the hero grid
+  // bleeds over the content, so render no canvas there at all (also a free perf
+  // win - sub-pages never fetch the 3D chunk).
+  const isHome = /^\/(en|vi)\/?$/.test(pathname ?? "");
   const [mount, setMount] = useState(false);
 
   useEffect(() => {
+    if (!isHome) {
+      setMount(false);
+      document.documentElement.removeAttribute("data-lumi-live");
+      return;
+    }
     const live = capable();
     setMount(live);
     // Signal the DOM that the living mascot is on stage (FR-CHAR-030): the
@@ -39,7 +51,9 @@ export function CanvasMount() {
     // clicking Lumi itself opens the chat on these devices.
     if (live) document.documentElement.setAttribute("data-lumi-live", "true");
     return () => document.documentElement.removeAttribute("data-lumi-live");
-  }, []);
+  }, [isHome]);
+
+  if (!isHome) return null;
 
   return (
     // The live scene rides ABOVE the content (cs-canvas-live raises z-index)

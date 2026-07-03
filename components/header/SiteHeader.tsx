@@ -14,8 +14,12 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
     <header className="cs-header cs-surface-light cs-no-print">
       <div className="cs-container cs-header-inner">
         <Link href={base} className="cs-wordmark" aria-label={dict.a11y.homeLabel}>
-          <span className="cs-wordmark-name">CyberSkill</span>
-          <span className="cs-wordmark-slogan">{localize(company.slogan, locale)}</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo.svg" alt="" width={34} height={41} className="cs-wordmark-mark" aria-hidden="true" />
+          <span className="cs-wordmark-text">
+            <span className="cs-wordmark-name">CyberSkill</span>
+            <span className="cs-wordmark-slogan">{localize(company.slogan, locale)}</span>
+          </span>
         </Link>
 
         <nav className="cs-nav" aria-label={dict.a11y.primaryNav}>

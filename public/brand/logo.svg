@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none" role="img" aria-label="CyberSkill">
+  <!-- Recreation of the CyberSkill genie head from the brand mark: a pointed
+       hood with the face cut out, the C, and a collar. Replace this file with the
+       official logo SVG for exact fidelity; the header, favicon, and social card
+       all read from /brand/logo.svg. -->
+  <path fill="#F4BA17" fill-rule="evenodd"
+    d="M50 5 C 27 24 11 49 18.5 72 C 24 89 35 99 50 99 C 65 99 76 89 81.5 72 C 89 49 73 24 50 5 Z
+       M50 66 m -17 0 a 17 17 0 1 0 34 0 a 17 17 0 1 0 -34 0 Z"/>
+  <path d="M55 31 a 9 9 0 1 0 0 16" fill="none" stroke="#45210E" stroke-width="4.6" stroke-linecap="round"/>
+  <path fill="#F4BA17" d="M30 96 L50 85 L70 96 L78 109 L57 113 L50 108 L43 113 L22 109 Z"/>
+</svg>
