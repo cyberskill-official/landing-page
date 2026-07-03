@@ -494,8 +494,10 @@ body { background: transparent; overflow-x: clip; }
   border: 1px solid rgba(210, 190, 150, 0.1);
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  /* Runs continuously (it advances even while the cosmos is hidden, and is cheap
+     - a composited transform), so the negative delays keep the planets spread
+     across their orbits by the time a digest reveals them. */
   animation: cs-orbit-spin linear infinite;
-  animation-play-state: paused;
 }
 /* Negative delays start each orbit part-way round so the planets are spread
    across their ellipses instead of stacked at the top. */
