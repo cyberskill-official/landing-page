@@ -16,7 +16,6 @@ import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
 import { HeroPin } from "@/components/scroll/HeroPin";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
-import { CosmosBackdrop } from "@/components/CosmosBackdrop";
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -25,9 +24,6 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-      {/* The permanent cosmos: always behind the content (z-index 0), revealed
-          when the black hole digests the page away. Homepage only. */}
-      <CosmosBackdrop />
       {/* The 3D canvas is mounted here, on the homepage only, so sub-pages carry
           no scene (its hero grid used to bleed over their content). */}
       <CanvasMount />
