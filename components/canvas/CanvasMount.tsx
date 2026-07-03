@@ -4,6 +4,11 @@
 // SSR/initial and incapable-device visual; capable desktops with motion allowed
 // upgrade to the live scene. The heavy R3F module is dynamically imported with
 // ssr:false (never blocks first paint) and fails closed to the poster.
+//
+// Mounted ONLY from the homepage page (app/[lang]/page.tsx), never the shared
+// layout - so sub-pages carry no canvas at all (the hero grid used to bleed over
+// their content and the flight had nothing to fly to), and there is no
+// usePathname/SSR gate that could desync hydration and shift layout (CLS).
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
