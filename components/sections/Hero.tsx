@@ -30,7 +30,6 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
       <Aurora />
       <div className="cs-container cs-hero-inner">
         <p className="cs-hero-meta" aria-hidden="true">
-          <span>10.7769°N 106.7009°E</span>
           <span>{locale === "vi" ? "TP. Hồ Chí Minh" : "Ho Chi Minh City"}</span>
           <span>EN / VI</span>
         </p>

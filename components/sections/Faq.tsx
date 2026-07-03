@@ -26,7 +26,7 @@ const faq: Record<Locale, { q: string; a: string }[]> = {
 export function Faq({ locale }: { locale: Locale }) {
   const title = locale === "vi" ? "Giải đáp thắc mắc" : "Questions, answered";
   return (
-    <section id="faq" className="cs-section cs-section-alt" aria-labelledby="faq-title">
+    <section id="faq" className="cs-section" aria-labelledby="faq-title">
       <div className="cs-container">
         <h2 id="faq-title" className="cs-kt-h" data-mask-reveal="" aria-label={title}>
           <KineticText text={title} />
