@@ -1910,3 +1910,47 @@ main .cs-section > .cs-container {
   transform: translateY(calc((1 - var(--scene, 1)) * 18px));
   will-change: opacity, transform;
 }
+
+/* Scene hand-off sweep (FR-SCENE-013): the first time an act crosses into focus,
+   SceneFocus flags it with data-enter for ~900ms and one soft gold light passes
+   across it - a directed cut between scenes, paired with Lumi's arrival sparkle.
+   Pointer-inert and sits above the content so the light reads as passing over
+   it; it removes itself so a later pass can replay. One-shot and low-contrast,
+   always-on to match the rack-focus decision; the resting scene is never
+   touched, and the ghost index (::before) is left alone. */
+main > .cs-section[data-enter]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: linear-gradient(
+    100deg,
+    transparent 38%,
+    rgba(244, 186, 23, 0.1) 48%,
+    rgba(244, 186, 23, 0.16) 50%,
+    rgba(244, 186, 23, 0.1) 52%,
+    transparent 62%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: cs-scene-sweep 900ms ease-out forwards;
+}
+[data-theme="dark"] main > .cs-section[data-enter]::after {
+  background-image: linear-gradient(
+    100deg,
+    transparent 38%,
+    rgba(244, 186, 23, 0.14) 48%,
+    rgba(244, 186, 23, 0.22) 50%,
+    rgba(244, 186, 23, 0.14) 52%,
+    transparent 62%
+  );
+}
+@keyframes cs-scene-sweep {
+  from {
+    background-position: 165% 0;
+  }
+  to {
+    background-position: -65% 0;
+  }
+}
