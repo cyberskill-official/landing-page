@@ -163,10 +163,15 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     // attend rises (the pointer glance is weighted by 1 - attend), so the two
     // never fight. Amplitudes stay small - a glance, not a spin - and touch
     // devices leave the pointer at centre, so nothing moves there.
-    const look = chatOpen ? 0 : 1 - attend;
+    // Always turn toward the cursor, even mid-flight (FR-CHAR-034): a firm yaw
+    // and pitch that track the pointer so Lumi keeps eye contact wherever she
+    // is, with the act-presenting lean layered on top when an act is centred.
+    // Amplitude stays under a quarter-turn so she never shows her back.
     const p = getPointerNorm();
-    const targetYaw = inward * 0.2 * attend + p.x * 0.16 * look;
-    const targetPitch = 0.08 * attend - p.y * 0.1 * look;
+    const trackYaw = chatOpen ? 0 : p.x * 0.55;
+    const trackPitch = chatOpen ? 0 : -p.y * 0.28;
+    const targetYaw = trackYaw + inward * 0.15 * attend;
+    const targetPitch = trackPitch + 0.06 * attend;
     g.rotation.y += (targetYaw - g.rotation.y) * ky;
     g.rotation.x += (targetPitch - g.rotation.x) * ky;
 
@@ -322,6 +327,70 @@ function CosmicStars() {
   );
 }
 
+// An animated solar system revealed with the digest (FR-CHAR-032): a glowing
+// gold sun with planets orbiting on faint rings, deep behind Lumi. It scales and
+// fades in with getDigest, so when the page dissolves the visitor is left with
+// Lumi holding her black hole against a living cosmos. Only ticks while a digest
+// is in progress; hidden (and free) otherwise.
+const SOLAR = [
+  { r: 2.1, size: 0.16, speed: 0.55, color: "#ffe6a0", tilt: -0.3 },
+  { r: 3.1, size: 0.26, speed: 0.36, color: "#f4ba17", tilt: -0.42 },
+  { r: 4.3, size: 0.2, speed: 0.26, color: "#c8890a", tilt: -0.25 },
+  { r: 5.7, size: 0.32, speed: 0.17, color: "#fff2d0", tilt: -0.5 },
+] as const;
+
+function SolarSystem() {
+  const grp = useRef<THREE.Group>(null);
+  const orbits = useRef<Array<THREE.Group | null>>([]);
+  const sRef = useRef(0);
+  useFrame((_, delta) => {
+    const g = grp.current;
+    if (!g) return;
+    const d = getDigest();
+    const show = d > 0.01;
+    if (g.visible !== show) g.visible = show;
+    if (!show) {
+      sRef.current = 0;
+      return;
+    }
+    const eased = d * d * (3 - 2 * d);
+    sRef.current += (0.55 + eased * 0.55 - sRef.current) * Math.min(1, delta * 4);
+    g.scale.setScalar(sRef.current);
+    for (let i = 0; i < SOLAR.length; i++) {
+      const o = orbits.current[i];
+      if (o) o.rotation.y += delta * SOLAR[i].speed;
+    }
+    g.rotation.z += delta * 0.015;
+  });
+  return (
+    <group ref={grp} position={[0, 0.2, -9]} visible={false}>
+      <mesh>
+        <sphereGeometry args={[0.85, 32, 32]} />
+        <meshBasicMaterial color="#FFCF6B" toneMapped={false} />
+      </mesh>
+      <pointLight color="#ffd873" intensity={2.2} distance={26} />
+      {SOLAR.map((p, i) => (
+        <group
+          key={i}
+          ref={(el) => {
+            orbits.current[i] = el;
+          }}
+          rotation-x={p.tilt}
+        >
+          <mesh rotation-x={Math.PI / 2}>
+            <ringGeometry args={[p.r - 0.012, p.r + 0.012, 96]} />
+            <meshBasicMaterial color="#f4ba17" transparent opacity={0.16} side={THREE.DoubleSide} toneMapped={false} />
+          </mesh>
+          <mesh position={[p.r, 0, 0]}>
+            <sphereGeometry args={[p.size, 24, 24]} />
+            <meshStandardMaterial color={p.color} emissive={p.color} emissiveIntensity={0.35} metalness={0.5} roughness={0.4} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
 // The black hole Lumi holds while she digests the page (FR-CHAR-032). A dark
 // event-horizon core reads as a true hole against the gold-lit scene, ringed by
 // two hot accretion bands that bloom and swirl, with gold motes spiralling in.
@@ -467,6 +536,7 @@ export function GenieScene() {
       </Environment>
       <CameraRig />
       <CosmicStars />
+      <SolarSystem />
       <WishGrid />
       <BurstField />
       <DigestHole />
