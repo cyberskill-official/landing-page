@@ -455,6 +455,17 @@ main > .cs-section.cs-section-alt { background: var(--cs-color-surface); }
 .cs-value-label { margin: 0; color: var(--cs-color-fg-muted); }
 .cs-service-outcomes { margin: var(--cs-space-4) 0 0; padding-left: 1.1rem; color: var(--cs-color-fg-muted); }
 .cs-service-outcomes li { margin-bottom: var(--cs-space-2); }
+.cs-service-more {
+  display: inline-block;
+  margin-top: var(--cs-space-4);
+  font-weight: 600;
+  color: var(--cs-color-brand);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--cs-dur-fast, 150ms) var(--cs-ease);
+}
+.cs-service-more::after { content: " \2192"; }
+.cs-service-more:hover, .cs-service-more:focus-visible { border-bottom-color: currentColor; }
 .cs-proof-card blockquote { margin: 0 0 var(--cs-space-4); font-size: var(--cs-text-lg); }
 .cs-proof-card footer { display: flex; flex-direction: column; font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); }
 .cs-proof-author { font-weight: 600; color: var(--cs-color-fg); }

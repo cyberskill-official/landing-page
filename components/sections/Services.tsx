@@ -25,6 +25,13 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dictionary })
                   <li key={j}>{localize(o, locale)}</li>
                 ))}
               </ul>
+              <a
+                className="cs-service-more"
+                href={`/${locale}/services/${s.id}`}
+                aria-label={`${localize(s.title, locale)}: ${locale === "vi" ? "tìm hiểu thêm" : "learn more"}`}
+              >
+                {locale === "vi" ? "Tìm hiểu thêm" : "Learn more"}
+              </a>
             </Reveal>
           ))}
         </div>
