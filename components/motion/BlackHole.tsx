@@ -126,21 +126,20 @@ export function BlackHole() {
           b.el.style.opacity = "";
           continue;
         }
-        // Spiral in: rotate the straight approach vector by an angle that grows
-        // with e, so each block curves into the hole like matter into an
-        // accretion disk instead of sliding in on a line. Direction follows the
-        // block's own spin sign so the field swirls both ways.
-        const dx = (hx - b.cx) * e;
-        const dy = (hy - b.cy) * e;
-        const ang = e * 1.2 * (b.spin >= 0 ? 1 : -1);
-        const ca = Math.cos(ang);
-        const sa = Math.sin(ang);
-        const sx = dx * ca - dy * sa;
-        const sy = dx * sa + dy * ca;
-        // Fade out well before the block reaches the hole so the field dissolves
-        // into it cleanly instead of a pile-up of shrunken boxes at the centre.
-        b.el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) scale(${(1 - e * 0.96).toFixed(3)}) rotate(${(b.spin * e * 0.8).toFixed(1)}deg)`;
-        b.el.style.opacity = `${Math.max(0, 1 - e * 1.08).toFixed(3)}`;
+        // Spaghettify: elongate each block ALONG the line to the hole and thin it
+        // across, then drag it in - so every component visibly stretches toward
+        // the singularity like matter under gravity, rather than just sliding.
+        // Reversing e on release un-stretches it cleanly back into place, so the
+        // revert reads as good as the devour.
+        const toX = hx - b.cx;
+        const toY = hy - b.cy;
+        const th = (Math.atan2(toY, toX) * 180) / Math.PI;
+        const dx = toX * e;
+        const dy = toY * e;
+        const along = 1 + e * 2.4;
+        const across = Math.max(0.04, 1 - e * 0.92);
+        b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) rotate(${th.toFixed(1)}deg) scale(${along.toFixed(3)}, ${across.toFixed(3)}) rotate(${(-th).toFixed(1)}deg)`;
+        b.el.style.opacity = `${Math.max(0, 1 - e * 0.9).toFixed(3)}`;
       }
       raf = window.requestAnimationFrame(frame);
     };

@@ -2107,6 +2107,24 @@ main > .cs-section[data-enter]::after {
     transparent 62%
   );
 }
+
+/* Lumi's magic touches the act as she arrives (FR-CHAR-034): the section's cards
+   lift and glow gold for a beat, so her cast visibly ripples through the page
+   components instead of only sparkling around her. No fill, so the card returns
+   to its own hover/tilt transform when the pulse ends. */
+@media (prefers-reduced-motion: no-preference) {
+  main > .cs-section[data-enter] .cs-service-card,
+  main > .cs-section[data-enter] .cs-work-card,
+  main > .cs-section[data-enter] .cs-proof-card,
+  main > .cs-section[data-enter] .cs-value-item {
+    animation: cs-magic-touch 820ms var(--cs-ease);
+  }
+}
+@keyframes cs-magic-touch {
+  0% { transform: translateY(0); box-shadow: none; }
+  32% { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(244, 186, 23, 0.42); }
+  100% { transform: translateY(0); box-shadow: none; }
+}
 @keyframes cs-scene-sweep {
   from {
     background-position: 165% 0;
