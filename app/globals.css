@@ -1897,3 +1897,16 @@ main > .cs-section::before {
 .cs-rail a:hover .cs-rail-dot { border-color: var(--cs-color-fg); }
 .cs-rail a:focus-visible { outline: 2px solid var(--cs-color-brand-ochre); outline-offset: 4px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) { .cs-rail ol::after, .cs-rail-dot, .cs-rail-name { transition: none; } }
+
+/* Scene rack-focus (FR-SCENE-012): the act nearest the viewport centre is in
+   full focus while neighbours dim and settle back a touch, so the page reads as
+   a sequence of shots. Driven by SceneFocus via --scene (0..1) on each section;
+   applied to the inner container only (never the section box the Lumi journey
+   and chapter rail measure). Always-on to match the site's motion decision; the
+   SSR / no-JS default (var --scene = 1) shows everything at full, and the scene
+   you rest on is always at full focus, so readability holds. */
+main .cs-section > .cs-container {
+  opacity: calc(0.55 + 0.45 * var(--scene, 1));
+  transform: translateY(calc((1 - var(--scene, 1)) * 18px));
+  will-change: opacity, transform;
+}
