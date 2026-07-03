@@ -399,7 +399,9 @@ function SolarSystem() {
 // the core black and the rings hot under the AGX grade.
 function DigestHole() {
   const grp = useRef<THREE.Group>(null);
+  const rings = useRef<THREE.Group>(null);
   const sRef = useRef(0);
+  const camera = useThree((s) => s.camera);
   useFrame((_, delta) => {
     const g = grp.current;
     if (!g) return;
@@ -420,24 +422,37 @@ function DigestHole() {
     const target = 0.12 + eased * 0.05;
     sRef.current += (target - sRef.current) * Math.min(1, delta * 6);
     g.scale.setScalar(sRef.current);
-    // Calm, steady swirl (not accelerating) so the motion reads clean.
-    g.rotation.z += delta * 1.5;
+    // Billboard the accretion so it always faces the camera - a round glowing
+    // rim around a dark core (a black hole), never an edge-on Saturn disc. A
+    // slow spin about the view axis gives it life without breaking the circle.
+    if (rings.current) {
+      rings.current.quaternion.copy(camera.quaternion);
+      rings.current.rotateZ((performance.now() / 1000) * 0.6);
+    }
   });
   return (
     <group ref={grp} visible={false}>
+      {/* the dark singularity */}
       <mesh>
-        <sphereGeometry args={[0.5, 24, 24]} />
-        <meshBasicMaterial color="#040200" toneMapped={false} />
+        <sphereGeometry args={[0.5, 32, 32]} />
+        <meshBasicMaterial color="#050300" toneMapped={false} />
       </mesh>
-      <mesh rotation-x={Math.PI / 2.1}>
-        <torusGeometry args={[0.66, 0.07, 14, 60]} />
-        <meshBasicMaterial color="#FFCF6B" toneMapped={false} />
-      </mesh>
-      <mesh rotation-x={Math.PI / 2.1}>
-        <torusGeometry args={[0.82, 0.02, 10, 60]} />
-        <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.7} />
-      </mesh>
-      <Sparkles count={14} scale={[1.4, 1.4, 0.5]} size={3} speed={0.7} color="#FFD873" opacity={0.85} />
+      {/* camera-facing accretion glow: concentric rings, brightest at the rim */}
+      <group ref={rings}>
+        <mesh>
+          <ringGeometry args={[0.52, 0.72, 72]} />
+          <meshBasicMaterial color="#FFCF6B" toneMapped={false} transparent opacity={0.95} side={THREE.DoubleSide} />
+        </mesh>
+        <mesh>
+          <ringGeometry args={[0.72, 0.9, 72]} />
+          <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.45} side={THREE.DoubleSide} />
+        </mesh>
+        <mesh>
+          <ringGeometry args={[0.9, 1.25, 72]} />
+          <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.13} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+      <Sparkles count={12} scale={[1.3, 1.3, 0.5]} size={2.6} speed={0.6} color="#FFD873" opacity={0.8} />
     </group>
   );
 }
