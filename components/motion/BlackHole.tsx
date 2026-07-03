@@ -26,8 +26,9 @@ import { digestEase } from "@/lib/motion/kinetic";
 // carried by the effect, and keyboard users simply never enter it.
 
 const HOLD_ARM_MS = 350;
-const DEVOUR_SECONDS = 3.2;
-const RESTORE_SECONDS = 1.7;
+// Slow, cinematic devour - a long draw into the hole rather than a quick flick.
+const DEVOUR_SECONDS = 5.5;
+const RESTORE_SECONDS = 3.2;
 const INTERACTIVE_SELECTOR =
   "a, button, input, select, textarea, label, summary, [role='button'], .cs-genie, .cs-lumi-hotspot";
 const SCATTER_SELECTOR =
@@ -132,20 +133,27 @@ export function BlackHole() {
           b.el.style.opacity = "";
           continue;
         }
-        // Spaghettify: elongate each block ALONG the line to the hole and thin it
-        // across, then drag it in - so every component visibly stretches toward
-        // the singularity like matter under gravity, rather than just sliding.
-        // Reversing e on release un-stretches it cleanly back into place, so the
-        // revert reads as good as the devour.
+        // Spiral in, then spaghettify: swirl the vector-to-hole by an angle that
+        // grows as the block is pulled, so each component curves into the
+        // singularity like a slow whirlpool instead of sliding straight in - one
+        // coherent vortex, not scattered flicks. Then elongate ALONG that curved
+        // travel and thin across, so it stretches like matter under gravity.
+        // Reversing e on release unwinds the spiral and the stretch cleanly back
+        // into place, so the revert reads as good as the devour.
         const toX = hx - b.cx;
         const toY = hy - b.cy;
-        const th = (Math.atan2(toY, toX) * 180) / Math.PI;
-        const dx = toX * e;
-        const dy = toY * e;
-        const along = 1 + e * 2.4;
-        const across = Math.max(0.04, 1 - e * 0.92);
+        const swirl = e * 2.3;
+        const cs = Math.cos(swirl);
+        const sn = Math.sin(swirl);
+        const rx = toX * cs - toY * sn;
+        const ry = toX * sn + toY * cs;
+        const dx = rx * e;
+        const dy = ry * e;
+        const th = (Math.atan2(ry, rx) * 180) / Math.PI;
+        const along = 1 + e * 2.2;
+        const across = Math.max(0.05, 1 - e * 0.9);
         b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) rotate(${th.toFixed(1)}deg) scale(${along.toFixed(3)}, ${across.toFixed(3)}) rotate(${(-th).toFixed(1)}deg)`;
-        b.el.style.opacity = `${Math.max(0, 1 - e * 1.15).toFixed(3)}`;
+        b.el.style.opacity = `${Math.max(0, 1 - e * 1.05).toFixed(3)}`;
       }
       raf = window.requestAnimationFrame(frame);
     };

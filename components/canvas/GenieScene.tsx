@@ -185,8 +185,9 @@ function LumiRig({ children }: { children: React.ReactNode }) {
       excitePrev.current = excite;
       if (excite) requestBurst(0.8);
     }
+    // The digest is a calm, slow draw now - no mid-devour pixie burst (that read
+    // as a flash). Lumi just swells a touch as she feeds (below).
     const dig = getDigest();
-    if (dig > 0.5 && digPrev.current <= 0.5) requestBurst(1.6);
     digPrev.current = dig;
     // A shallow breathing pulse (~1.5%) keeps Lumi feeling alive even when she
     // hovers in place between legs, layered on the Float bob. It rides only the

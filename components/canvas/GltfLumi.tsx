@@ -216,6 +216,15 @@ export function GltfLumi({ url }: { url: string }) {
       mixer.update(0);
       handBone.updateWorldMatrix(true, false);
       handBone.getWorldPosition(tmpV);
+      // The hole rides on her FINGERTIP, not the middle of her hand: shift up the
+      // hand bone by ~one bone-length along its own axis (the bone's world +Y
+      // basis, so it stays correct under the model's scale and her turn). In the
+      // overhead point pose the finger aims up, so this lands the hole just past
+      // the tip.
+      const e = handBone.matrixWorld.elements;
+      tmpV.x += e[4] * 0.17;
+      tmpV.y += e[5] * 0.17;
+      tmpV.z += e[6] * 0.17;
       setLumiHand({ x: tmpV.x, y: tmpV.y, z: tmpV.z });
       tmpV.project(camera);
       setLumiHandScreen({
