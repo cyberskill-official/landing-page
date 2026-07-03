@@ -82,6 +82,20 @@ export function drainBursts(): BurstRequest[] {
   return burstQueue.splice(0, burstQueue.length);
 }
 
+// How strongly Lumi should "present" the act at screen centre (0..1), written
+// by SceneFocus from the centred act's focus and read by the rig, which turns
+// Lumi a touch toward the page while an act is held and relaxes it between acts.
+// Plain scalar, no three import - the same DOM<->scene bridge as the rest here.
+let attend = 0;
+
+export function setAttend(value: number): void {
+  attend = value < 0 ? 0 : value > 1 ? 1 : value;
+}
+
+export function getAttend(): number {
+  return attend;
+}
+
 // Fired by LeadForm on a successful submission ("the wish is granted"); the
 // scene listens and celebrates.
 export const WISH_GRANTED_EVENT = "cs:wish-granted";

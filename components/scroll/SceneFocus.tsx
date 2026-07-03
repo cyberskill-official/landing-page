@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { requestBurst } from "@/lib/scene/mascot";
+import { requestBurst, setAttend } from "@/lib/scene/mascot";
 
 // Cinematic "rack focus" plus a directed scene hand-off (FR-SCENE-012 / -013).
 //
@@ -48,6 +48,7 @@ export function SceneFocus() {
       if (scenes.length === 0) return;
       const vc = window.innerHeight / 2;
       const reach = window.innerHeight * 0.7;
+      let maxFocus = 0;
 
       scenes.forEach((el, i) => {
         const r = el.getBoundingClientRect();
@@ -57,6 +58,7 @@ export function SceneFocus() {
         const dist = inside ? 0 : Math.min(Math.abs(r.top - vc), Math.abs(r.bottom - vc));
         const focus = 1 - Math.min(1, dist / reach);
         el.style.setProperty("--scene", focus.toFixed(3));
+        if (focus > maxFocus) maxFocus = focus;
 
         // Directed hand-off on the rising edge into focus. The hero (#wish) is
         // skipped: Lumi is already performing there, and it sits centred at load.
@@ -88,6 +90,12 @@ export function SceneFocus() {
         // later pass without flickering at the boundary.
         if (focus <= 0.5) armed[key] = true;
       });
+
+      // Tell the 3D rig how strongly to present: 0 until an act is genuinely
+      // centred (focus > 0.5), ramping to 1 when one is dead-centre, so Lumi
+      // turns toward the page only while holding an act and flies neutrally
+      // between them. setAttend clamps and is a no-op when there is no scene.
+      setAttend((maxFocus - 0.5) / 0.5);
 
       first = false;
     };

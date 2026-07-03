@@ -19,6 +19,7 @@ import {
 } from "@/lib/scene/journey";
 import {
   drainBursts,
+  getAttend,
   getDigest,
   getLumiExcite,
   getLumiWorld,
@@ -144,6 +145,19 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     // the skeletal idle reads clearly and Lumi never tips far off vertical).
     const velX = (pos.current.x - prevX) / Math.max(delta, 1e-4);
     g.rotation.z += (THREE.MathUtils.clamp(-velX * 0.08, -0.26, 0.26) - g.rotation.z) * Math.min(1, delta * 3);
+
+    // Present the act (FR-SCENE-014): while an act is held at screen centre
+    // (attend high), turn Lumi a touch toward the page - inward from whichever
+    // gutter it is flying - and give a small forward nod, so it reads as the
+    // genie showing you the scene, then relax to neutral between acts. Amplitude
+    // is deliberately tiny (a lean, ~11deg, never a turn-around) so the base
+    // facing and the skeletal idle always stay clear on either side. Zeroed
+    // while the chat holds Lumi at its cloud.
+    const attend = chatOpen ? 0 : getAttend();
+    const inward = pos.current.x >= 0 ? -1 : 1;
+    const ky = Math.min(1, delta * 2.2);
+    g.rotation.y += (inward * 0.2 * attend - g.rotation.y) * ky;
+    g.rotation.x += (0.08 * attend - g.rotation.x) * ky;
 
     // Hover excitement puffs Lumi and pops a burst on the rising edge; the
     // black-hole digest swells the whole mascot as it feeds (FR-CHAR-032).
