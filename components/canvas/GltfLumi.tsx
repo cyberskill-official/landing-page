@@ -206,8 +206,15 @@ export function GltfLumi({ url }: { url: string }) {
 
     // Publish the real hand position (world + projected to screen) so the black
     // hole sits exactly in her hand and the page-suck target aims at the same
-    // point. One-frame lag from matrixWorld is imperceptible.
+    // point. Force the skeleton pose and the rig matrices current THIS frame
+    // before reading: the mixer pose and the face-front rotation set just above
+    // both otherwise land after r3f's own matrix pass, so a plain read lags a
+    // frame - and during the turn-to-face that one-frame swing threw the hole to
+    // the opposite side. mixer.update(0) reapplies the current clip pose without
+    // advancing time; updateWorldMatrix walks the chain so g.rotation.y counts.
     if (handBone) {
+      mixer.update(0);
+      handBone.updateWorldMatrix(true, false);
       handBone.getWorldPosition(tmpV);
       setLumiHand({ x: tmpV.x, y: tmpV.y, z: tmpV.z });
       tmpV.project(camera);
