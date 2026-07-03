@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
 import * as THREE from "three";
@@ -11,6 +11,8 @@ import {
   requestBurst,
   drainGestures,
   getLumiExcite,
+  setLumiHand,
+  setLumiHandScreen,
   LUMI_GREET_EVENT,
   WISH_GRANTED_EVENT,
 } from "@/lib/scene/mascot";
@@ -70,6 +72,19 @@ export function GltfLumi({ url }: { url: string }) {
     return clone;
   }, [scene]);
   const { actions, mixer } = useAnimations(animations, model);
+  const camera = useThree((s) => s.camera);
+  const canvasSize = useThree((s) => s.size);
+  const tmpV = useMemo(() => new THREE.Vector3(), []);
+  // The bone the black hole rides on: prefer a right hand, else any hand bone,
+  // so the hole locks to Lumi's real hand in whatever pose she holds - no guessed
+  // offset. glTF may sanitise "hand.R" to "hand_R"/"handR", so match loosely.
+  const handBone = useMemo(() => {
+    const hands: THREE.Object3D[] = [];
+    model.traverse((o) => {
+      if ((o as THREE.Bone).isBone && o.name.toLowerCase().includes("hand")) hands.push(o);
+    });
+    return hands.find((b) => /(^|[._-])r$|right/i.test(b.name)) ?? hands[0] ?? null;
+  }, [model]);
 
   // Play the baked idle loop (float + tail sway + hair). useAnimations advances
   // its mixer on the r3f frame loop, so no manual tick is needed; the procedural
@@ -149,6 +164,19 @@ export function GltfLumi({ url }: { url: string }) {
     g.rotation.y = s.model.spin + getPointerNorm().x * 0.2;
     g.position.x = BASE_POSITION[0] + s.model.driftX * 0.35;
     g.position.z = BASE_POSITION[2] + s.model.driftZ * 0.5;
+
+    // Publish the real hand position (world + projected to screen) so the black
+    // hole sits exactly in her hand and the page-suck target aims at the same
+    // point. One-frame lag from matrixWorld is imperceptible.
+    if (handBone) {
+      handBone.getWorldPosition(tmpV);
+      setLumiHand({ x: tmpV.x, y: tmpV.y, z: tmpV.z });
+      tmpV.project(camera);
+      setLumiHandScreen({
+        x: (tmpV.x * 0.5 + 0.5) * canvasSize.width,
+        y: (-tmpV.y * 0.5 + 0.5) * canvasSize.height,
+      });
+    }
   });
 
   return (

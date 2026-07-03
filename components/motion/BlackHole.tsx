@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import {
   getLumiScreen,
+  getLumiHandScreen,
   setDigest,
   LUMI_HOLD_START_EVENT,
   LUMI_HOLD_END_EVENT,
@@ -117,12 +118,13 @@ export function BlackHole() {
         return;
       }
 
+      // Aim at Lumi's real hand (bone-projected by GltfLumi) so the page pours
+      // into the black hole she actually holds; fall back to a core offset for
+      // the procedural Lumi that has no hand bone.
+      const hs = getLumiHandScreen();
       const lumi = getLumiScreen();
-      // Collapse into Lumi's hand, not her centre: a small down-and-out offset
-      // from the projected core, so the page pours into the little black hole
-      // she holds rather than her middle.
-      const hx = lumi.x + lumi.r * 0.3;
-      const hy = lumi.y + lumi.r * 0.42;
+      const hx = hs.set ? hs.x : lumi.x + lumi.r * 0.3;
+      const hy = hs.set ? hs.y : lumi.y + lumi.r * 0.42;
       for (const b of blocks) {
         const e = digestEase(p, b.normDist);
         if (e <= 0.001) {

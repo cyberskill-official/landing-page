@@ -1817,7 +1817,7 @@ main > .cs-section::before {
    only, so nothing shifts (CLS-safe); the Lumi hotspot is left visible so you
    can still let go. */
 [data-digesting] .cs-header,
-[data-digesting] main,
+[data-digesting] main > *:not(.cs-canvas-layer),
 [data-digesting] .cs-footer,
 [data-digesting] .cs-persistent-cta,
 [data-digesting] .cs-rail,

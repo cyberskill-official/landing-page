@@ -22,6 +22,7 @@ import {
   getAttend,
   getDigest,
   getLumiExcite,
+  getLumiHand,
   getLumiWorld,
   getPointerNorm,
   requestBurst,
@@ -340,9 +341,10 @@ function DigestHole() {
       return;
     }
     g.visible = true;
-    const w = getLumiWorld();
-    // Pinned to one hand, held low and out in front of her - not her belly.
-    g.position.set(w.x + 0.28, w.y - 0.62, w.z + 0.25);
+    const w = getLumiHand();
+    // Sits exactly in her hand (bone-tracked from GltfLumi), a touch in front of
+    // the palm - not her belly or feet.
+    g.position.set(w.x, w.y, w.z + 0.18);
     // Stay small: ease a compact bead in and hold it - a marble she cups, never
     // a growing blob. Eased so it does not pop in.
     const eased = d * d * (3 - 2 * d);
