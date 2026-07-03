@@ -220,10 +220,10 @@ export const scenes: Scene[] = [
   {
     id: "team",
     kicker: { en: "The team", vi: "Đội ngũ" },
-    heading: { en: "The genie is really a small team", vi: "Thần đèn thật ra là một đội ngũ nhỏ" },
+    heading: { en: "A small senior team in Saigon", vi: "Một đội ngũ nhỏ, lành nghề tại Sài Gòn" },
     body: {
-      en: "Behind Lumi is a senior team in Ho Chi Minh City that answers for the work. You always know who is building what, and why.",
-      vi: "Phía sau Lumi là một đội ngũ giàu kinh nghiệm tại TP. Hồ Chí Minh, chịu trách nhiệm đến cùng với sản phẩm. Bạn luôn biết ai đang xây phần nào, và vì sao.",
+      en: "Behind Lumi is a senior team in Ho Chi Minh City that answers for the work end to end. You always know who is building what, and why, and the same people stay with you from first call to production.",
+      vi: "Phía sau Lumi là một đội ngũ giàu kinh nghiệm tại TP. Hồ Chí Minh, chịu trách nhiệm đến cùng với sản phẩm. Bạn luôn biết ai đang xây phần nào và vì sao, và vẫn là những con người đó đồng hành từ cuộc gọi đầu tiên đến khi sản phẩm chạy thật.",
     },
   },
   {

@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { getLumiScreen, setDigest } from "@/lib/scene/mascot";
+import {
+  getLumiScreen,
+  setDigest,
+  LUMI_HOLD_START_EVENT,
+  LUMI_HOLD_END_EVENT,
+} from "@/lib/scene/mascot";
 import { digestEase } from "@/lib/motion/kinetic";
 
 // The black-hole digest (FR-CHAR-032): press and HOLD the mouse on empty
@@ -109,6 +114,11 @@ export function BlackHole() {
       }
 
       const lumi = getLumiScreen();
+      // Collapse into Lumi's hand, not her centre: a small down-and-out offset
+      // from the projected core, so the page pours into the little black hole
+      // she holds rather than her middle.
+      const hx = lumi.x + lumi.r * 0.3;
+      const hy = lumi.y + lumi.r * 0.42;
       for (const b of blocks) {
         const e = digestEase(p, b.normDist);
         if (e <= 0.001) {
@@ -116,8 +126,8 @@ export function BlackHole() {
           b.el.style.opacity = "";
           continue;
         }
-        const dx = (lumi.x - b.cx) * e;
-        const dy = (lumi.y - b.cy) * e;
+        const dx = (hx - b.cx) * e;
+        const dy = (hy - b.cy) * e;
         b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) scale(${(1 - e * 0.94).toFixed(3)}) rotate(${(b.spin * e).toFixed(1)}deg)`;
         b.el.style.opacity = `${Math.max(0, 1 - e * 0.9).toFixed(3)}`;
       }
@@ -136,6 +146,25 @@ export function BlackHole() {
       raf = window.requestAnimationFrame(frame);
     };
 
+    // Shared hold lifecycle, reused by the empty-space press path and by the
+    // press-and-hold ON Lumi (the hotspot dispatches LUMI_HOLD_START/END).
+    const beginHold = () => {
+      if (!fine.matches || !hover.matches || !motion.matches) return;
+      holding = true;
+      try {
+        window.getSelection()?.removeAllRanges();
+      } catch {
+        // selection API unavailable: nothing to clear
+      }
+      start();
+    };
+    const endHold = () => {
+      if (!holding) return;
+      holding = false;
+      // The frame loop keeps running and unwinds p back to 0.
+      if (!running && p > 0) start();
+    };
+
     const onDown = (e: PointerEvent) => {
       if (e.button !== 0 || (e.pointerType && e.pointerType !== "mouse")) return;
       if (!fine.matches || !hover.matches || !motion.matches) return;
@@ -144,35 +173,32 @@ export function BlackHole() {
       if (target instanceof Element && target.closest(INTERACTIVE_SELECTOR)) return;
       // Arm after a beat, so clicks and drag-selections stay untouched.
       window.clearTimeout(armTimer);
-      armTimer = window.setTimeout(() => {
-        holding = true;
-        try {
-          window.getSelection()?.removeAllRanges();
-        } catch {
-          // selection API unavailable: nothing to clear
-        }
-        start();
-      }, HOLD_ARM_MS);
+      armTimer = window.setTimeout(beginHold, HOLD_ARM_MS);
     };
 
     const release = () => {
       window.clearTimeout(armTimer);
-      if (!holding) return;
-      holding = false;
-      // The frame loop keeps running and unwinds p back to 0.
-      if (!running && p > 0) start();
+      endHold();
     };
+
+    // Hold ON Lumi: the hotspot already timed the hold, so begin immediately.
+    const onLumiHoldStart = () => beginHold();
+    const onLumiHoldEnd = () => endHold();
 
     window.addEventListener("pointerdown", onDown, true);
     window.addEventListener("pointerup", release, true);
     window.addEventListener("pointercancel", release, true);
     window.addEventListener("blur", release);
+    window.addEventListener(LUMI_HOLD_START_EVENT, onLumiHoldStart);
+    window.addEventListener(LUMI_HOLD_END_EVENT, onLumiHoldEnd);
 
     return () => {
       window.removeEventListener("pointerdown", onDown, true);
       window.removeEventListener("pointerup", release, true);
       window.removeEventListener("pointercancel", release, true);
       window.removeEventListener("blur", release);
+      window.removeEventListener(LUMI_HOLD_START_EVENT, onLumiHoldStart);
+      window.removeEventListener(LUMI_HOLD_END_EVENT, onLumiHoldEnd);
       window.clearTimeout(armTimer);
       window.cancelAnimationFrame(raf);
       setDigest(0);
