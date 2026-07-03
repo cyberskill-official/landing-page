@@ -302,6 +302,50 @@ function BurstField() {
   );
 }
 
+// The black hole Lumi holds while she digests the page (FR-CHAR-032). A dark
+// event-horizon core reads as a true hole against the gold-lit scene, ringed by
+// two hot accretion bands that bloom and swirl, with gold motes spiralling in.
+// It grows from nothing to full as getDigest() ramps and sits at her hand, so
+// the page visibly pours into something, not just drifts. toneMapped=false keeps
+// the core black and the rings hot under the AGX grade.
+function DigestHole() {
+  const grp = useRef<THREE.Group>(null);
+  useFrame((_, delta) => {
+    const g = grp.current;
+    if (!g) return;
+    const d = getDigest();
+    if (d <= 0.002) {
+      if (g.visible) g.visible = false;
+      return;
+    }
+    g.visible = true;
+    const w = getLumiWorld();
+    // Her hand: down-and-out from the projected core (matches the screen-space
+    // hand point the DOM blocks collapse toward).
+    g.position.set(w.x + 0.32, w.y - 0.16, w.z + 0.25);
+    const s = d * d;
+    g.scale.setScalar(0.1 + s * 0.5);
+    g.rotation.z += delta * (2.4 + d * 4);
+  });
+  return (
+    <group ref={grp} visible={false}>
+      <mesh>
+        <sphereGeometry args={[0.5, 24, 24]} />
+        <meshBasicMaterial color="#040200" toneMapped={false} />
+      </mesh>
+      <mesh rotation-x={Math.PI / 2.1}>
+        <torusGeometry args={[0.66, 0.07, 14, 60]} />
+        <meshBasicMaterial color="#FFCF6B" toneMapped={false} />
+      </mesh>
+      <mesh rotation-x={Math.PI / 2.1}>
+        <torusGeometry args={[0.82, 0.02, 10, 60]} />
+        <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.7} />
+      </mesh>
+      <Sparkles count={26} scale={[2, 2, 0.6]} size={3.5} speed={0.9} color="#FFD873" opacity={0.9} />
+    </group>
+  );
+}
+
 // A waving golden wire floor under the hero: pure geometry, no textures. It
 // fades out with the hero progress so it never overlays the content sections
 // (the live canvas rides above them).
@@ -397,6 +441,7 @@ export function GenieScene() {
       <CameraRig />
       <WishGrid />
       <BurstField />
+      <DigestHole />
       {/* The comet trail tracks an anchor inside the rig but renders at scene
           level, so the rig's scale never distorts the ribbon. */}
       <Trail
