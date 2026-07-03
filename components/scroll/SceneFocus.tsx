@@ -84,7 +84,10 @@ export function SceneFocus() {
             lastBurst = now;
             try {
               requestBurst(0.6);
-              requestGesture(gestureN++ % 2 === 0 ? "Wave" : "Cast");
+              // Cycle the gesture set so each act gets a different motion - a
+              // wave, a point-to-present, a cast, a nod, a clap - instead of
+              // repeating two.
+              requestGesture(["Wave", "Point", "Cast", "Nod", "Clap"][gestureN++ % 5]);
             } catch {
               // Scene absent: the queues are capped no-ops, nothing to do.
             }
