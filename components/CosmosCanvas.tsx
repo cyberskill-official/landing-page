@@ -127,6 +127,19 @@ export function CosmosCanvas() {
     return () => mo.disconnect();
   }, []);
 
+  // R3F sizes its canvas from a resize measure taken at mount; because this
+  // canvas mounts hidden/transparent it can settle at the 300x150 default. When a
+  // digest reveals it, nudge R3F to re-measure so the buffer fills the viewport.
+  useEffect(() => {
+    if (!digesting) return;
+    const raf = requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    const t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 120);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(t);
+    };
+  }, [digesting]);
+
   const camera = useMemo(() => ({ position: [0, 4.7, 10.8] as [number, number, number], fov: 42 }), []);
 
   if (!capable) return null;
