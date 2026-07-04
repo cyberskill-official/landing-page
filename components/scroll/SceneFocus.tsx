@@ -110,21 +110,35 @@ export function SceneFocus() {
     const schedule = () => {
       if (!raf) raf = window.requestAnimationFrame(run);
     };
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    // Poll briefly so the heavy page settling after hydration is caught (same
-    // reason the chapter rail polls); each tick re-queries live nodes.
+
+    // Defer the first write until hydration has settled. SceneFocus mounts early
+    // and writes --scene onto every .cs-section; but a streamed section can still
+    // be hydrating, and setting an inline style on a not-yet-hydrated node
+    // triggers a (benign but noisy) React hydration mismatch. Starting only after
+    // load + a frame - with a timeout floor - means we touch hydrated nodes only.
+    // Content defaults fully visible until then, so nothing is lost.
     let polls = 0;
     let timer = 0;
+    let started = false;
     const poll = () => {
       schedule();
       if (polls++ < 25) timer = window.setTimeout(poll, 200);
     };
-    poll();
+    const start = () => {
+      if (started) return;
+      started = true;
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+      poll();
+    };
+    if (document.readyState === "complete") window.requestAnimationFrame(start);
+    else window.addEventListener("load", () => window.requestAnimationFrame(start), { once: true });
+    const floor = window.setTimeout(start, 1000);
 
     return () => {
       window.cancelAnimationFrame(raf);
       window.clearTimeout(timer);
+      window.clearTimeout(floor);
       enterTimers.forEach((t) => window.clearTimeout(t));
       enterTimers.clear();
       window.removeEventListener("scroll", schedule);

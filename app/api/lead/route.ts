@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { appendFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
 import { leadSchema } from "@/lib/lead/schema";
 import { company } from "@/lib/content/site";
 
@@ -42,17 +44,21 @@ export async function POST(req: Request) {
     source: lead.source || "unknown",
   };
 
-  // Always log (server-side). In production, replace with a DB write.
+  // Always log (server-side).
   console.info("[lead]", JSON.stringify(record));
 
-  // Fan out best-effort. A failed notification is logged but never fails the
-  // user's submission (FR-CTA-007).
+  // Fan out best-effort. A failed sink is logged but never fails the user's
+  // submission (FR-CTA-007). Every lead is durably saved: to a local JSONL file
+  // (works in dev and on any server with a writable disk) and, when configured,
+  // to a Supabase table; email / Slack / CRM are optional notifications.
   const results = await Promise.allSettled([
+    saveToFile(record),
+    saveToSupabase(record),
     notifyEmail(record, lead.email),
     notifySlack(record),
     forwardToCrm(record),
   ]);
-  const channels = ["email", "slack", "crm"];
+  const channels = ["file", "supabase", "email", "slack", "crm"];
   results.forEach((r, i) => {
     if (r.status === "rejected") console.error(`[lead] ${channels[i]} notify failed`, r.reason);
   });
@@ -98,6 +104,53 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string): Pr
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
     throw new Error(`resend ${res.status} ${detail.slice(0, 300)}`);
+  }
+}
+
+// Durable local save: append one JSON line per lead to .data/leads.jsonl under
+// the app's working directory. Works in dev and on any host with a writable
+// disk (a VPS, a container). On a read-only serverless filesystem this throws
+// and is caught by the fan-out - use Supabase / email there. Override the
+// directory with LEAD_STORE_DIR (e.g. a mounted volume).
+async function saveToFile(record: Record<string, unknown>): Promise<void> {
+  const dir = process.env.LEAD_STORE_DIR || join(process.cwd(), ".data");
+  await mkdir(dir, { recursive: true });
+  await appendFile(join(dir, "leads.jsonl"), JSON.stringify(record) + "\n", "utf8");
+}
+
+// Durable cloud save: insert the lead into a Supabase table (default "leads")
+// via the REST API with the service-role key (server-only). No-ops until
+// SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY are set, so it is safe to ship. The
+// table needs columns matching the record keys (received_at, name, email,
+// company, intent, message, locale, source).
+async function saveToSupabase(record: Record<string, unknown>): Promise<void> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return;
+  const table = process.env.LEAD_SUPABASE_TABLE || "leads";
+  const row = {
+    received_at: record.receivedAt,
+    name: record.name,
+    email: record.email,
+    company: record.company,
+    intent: record.intent,
+    message: record.message,
+    locale: record.locale,
+    source: record.source,
+  };
+  const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}`, {
+    method: "POST",
+    headers: {
+      apikey: key,
+      authorization: `Bearer ${key}`,
+      "content-type": "application/json",
+      prefer: "return=minimal",
+    },
+    body: JSON.stringify(row),
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`supabase ${res.status} ${detail.slice(0, 300)}`);
   }
 }
 

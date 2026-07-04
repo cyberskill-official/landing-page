@@ -1,82 +1,109 @@
 "use client";
 
 import { useEffect } from "react";
-import { getLumiScreen, getDigest, requestBurst } from "@/lib/scene/mascot";
+import { requestBurst } from "@/lib/scene/mascot";
 
-// Lumi, on her own, touches the work (FR-CHAR-033). As she drifts near a content
-// card she occasionally brushes it: the card lifts a little and a warm shine
-// sweeps across it, then it settles. So she reads as a living mascot playing with
-// the page, not a sprite gliding over it - and her passing OVER a card becomes a
-// deliberate, legible beat instead of an accidental occlusion.
+// Lumi plays with the work as she flies (FR-CHAR-033). Two layers:
 //
-// DOM-only: it reads the screen position the scene already publishes each frame
-// (no three import, so nothing heavy is pulled into this chunk) and toggles a
-// data-attribute the stylesheet animates. Idle and autonomous - it fires on its
-// own cadence, never on a click. Fully suppressed under reduced motion, while a
-// digest runs, and when the living mascot is not on stage (mobile / low-end),
-// where the cards simply never light.
+//  1. PROXIMITY - continuously, the content card nearest Lumi gets
+//     [data-lumi-near]: it warms and lifts a little while she is beside it, and
+//     settles the moment she drifts on. As she flies across the page the cards
+//     react to her in real time.
+//
+//  2. CAST - every ~9s she gives the card she is nearest a stronger one-shot:
+//     [data-lumi-touch] runs a light sweep + a bigger lift, plus a sparkle.
+//
+// It reads Lumi's live screen position from the .cs-lumi-hotspot element that the
+// 3D scene already positions on top of her every frame (a pure DOM read - no
+// dependency on the mascot store instance, which can be duplicated across the
+// lazily-loaded scene chunk), and toggles data-attributes the stylesheet
+// animates. Driven by a setInterval so it survives React's mount churn. Inert
+// while a digest runs and when the live mascot is not on stage (mobile / low-end,
+// where .cs-lumi-hotspot never appears), so the cards simply never light.
 
-const TOUCH_SELECTOR = ".cs-service-card, .cs-work-card, .cs-value-item, .cs-proof-card";
-const HOLD_MS = 1500; // how long a card stays lit once touched
-const MIN_GAP_MS = 2400; // minimum quiet time between touches
-const REACH = 300; // px from Lumi's centre a card must be to be brushed
+const SELECTOR = ".cs-service-card, .cs-work-card, .cs-value-item, .cs-proof-card";
+const MARGIN = 170; // px from a card's EDGE within which Lumi lights it (0 = over it)
+const CAST_EVERY_MS = 9000; // deliberate shine cadence
+const STEP_MS = 100; // sampling cadence (10x/s is plenty for a glow)
 
 export function LumiMagic() {
   useEffect(() => {
-    if (typeof window.matchMedia !== "function") return;
-    if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
-
-    let raf = 0;
+    let near: HTMLElement | null = null;
+    let casting: HTMLElement | null = null;
+    let castTimer = 0;
     let lastCast = 0;
-    let lit: HTMLElement | null = null;
-    let clearTimer = 0;
 
-    const release = () => {
-      if (lit) lit.removeAttribute("data-lumi-touch");
-      lit = null;
+    const clearNear = () => {
+      if (near) near.removeAttribute("data-lumi-near");
+      near = null;
     };
 
-    const tick = (now: number) => {
-      raf = requestAnimationFrame(tick);
+    const step = () => {
       const html = document.documentElement;
-      // Only while the living mascot is on stage and no digest is collapsing the page.
-      if (!html.hasAttribute("data-lumi-live") || html.hasAttribute("data-digesting") || getDigest() > 0.02) return;
-      if (lit || now - lastCast < MIN_GAP_MS) return;
+      if (!html.hasAttribute("data-lumi-live") || html.hasAttribute("data-digesting")) {
+        clearNear();
+        return;
+      }
+      // Lumi's live screen position = centre of the hotspot the scene rides on her.
+      const hot = document.querySelector<HTMLElement>(".cs-lumi-hotspot");
+      if (!hot) {
+        clearNear();
+        return;
+      }
+      const hr = hot.getBoundingClientRect();
+      if (hr.width === 0) {
+        clearNear();
+        return;
+      }
+      const lx = hr.left + hr.width / 2;
+      const ly = hr.top + hr.height / 2;
 
-      const lumi = getLumiScreen();
-      if (!lumi.visible) return;
-
-      // Nearest on-screen card within reach of where Lumi is right now.
+      // Card whose EDGE Lumi is closest to (0 = over it), so she lights a card
+      // whenever she flies over or just beside it.
       let best: HTMLElement | null = null;
-      let bestD = REACH;
-      document.querySelectorAll<HTMLElement>(TOUCH_SELECTOR).forEach((el) => {
+      let bestD = MARGIN;
+      for (const el of document.querySelectorAll<HTMLElement>(SELECTOR)) {
         const r = el.getBoundingClientRect();
-        if (r.width === 0 || r.bottom < 48 || r.top > window.innerHeight - 48) return;
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
-        const d = Math.hypot(cx - lumi.x, cy - lumi.y);
+        if (r.width === 0 || r.bottom < 40 || r.top > window.innerHeight - 40) continue;
+        const dx = Math.max(r.left - lx, 0, lx - r.right);
+        const dy = Math.max(r.top - ly, 0, ly - r.bottom);
+        const d = Math.hypot(dx, dy);
         if (d < bestD) {
           bestD = d;
           best = el;
         }
-      });
+      }
 
-      if (best) {
-        const el = best as HTMLElement;
-        el.setAttribute("data-lumi-touch", "");
-        lit = el;
+      if (best !== near) {
+        clearNear();
+        near = best;
+        if (near) near.setAttribute("data-lumi-near", "");
+      }
+
+      const now = performance.now();
+      if (near && !casting && now - lastCast > CAST_EVERY_MS) {
+        const el = near;
+        casting = el;
         lastCast = now;
-        // A whisper of sparkle from the scene so the touch feels cast, not CSS.
-        requestBurst(0.5);
-        clearTimer = window.setTimeout(release, HOLD_MS);
+        el.setAttribute("data-lumi-touch", "");
+        try {
+          requestBurst(0.6);
+        } catch {
+          // scene absent: capped no-op
+        }
+        castTimer = window.setTimeout(() => {
+          el.removeAttribute("data-lumi-touch");
+          casting = null;
+        }, 1500);
       }
     };
 
-    raf = requestAnimationFrame(tick);
+    const iv = window.setInterval(step, STEP_MS);
     return () => {
-      cancelAnimationFrame(raf);
-      window.clearTimeout(clearTimer);
-      release();
+      window.clearInterval(iv);
+      window.clearTimeout(castTimer);
+      clearNear();
+      if (casting) casting.removeAttribute("data-lumi-touch");
     };
   }, []);
 

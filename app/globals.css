@@ -1785,15 +1785,21 @@ main > .cs-section::before {
 #process .cs-services-grid::before {
   content: "";
   position: absolute;
-  top: 2.1rem;
-  left: 2%;
-  right: 2%;
+  /* Run the connector through the vertical CENTRE of the step icons (card
+     padding + half the 2.75rem icon), so the icons read as nodes ON the line
+     instead of the line slicing through their tops. */
+  top: calc(var(--cs-space-6) + 1.375rem);
+  left: 6%;
+  right: 6%;
   height: 2px;
-  background: linear-gradient(90deg, var(--cs-color-accent), rgba(244, 186, 23, 0.15));
+  background: linear-gradient(90deg, rgba(244, 186, 23, 0.15), var(--cs-color-accent), rgba(244, 186, 23, 0.15));
   transform: scaleX(0);
   transform-origin: 0 50%;
   transition: transform 1600ms var(--cs-ease) 300ms;
+  z-index: 0;
 }
+/* Keep the icon tiles above the connector so they sit ON it as nodes. */
+#process .cs-service-card { position: relative; z-index: 1; }
 #process h2[data-mask-reveal="shown"] ~ .cs-services-grid::before { transform: scaleX(1); }
 #process .cs-service-card .cs-eyebrow { transition: color 500ms var(--cs-ease), text-shadow 500ms var(--cs-ease); }
 #process h2[data-mask-reveal="shown"] ~ .cs-services-grid .cs-reveal:nth-child(1) .cs-eyebrow { color: var(--cs-color-accent); transition-delay: 500ms; }
@@ -2031,24 +2037,36 @@ main .cs-section { transition: background-color 0.9s ease; }
 [data-digesting] .cs-section-contact { overflow: visible; }
 
 /* Lumi's touch (FR-CHAR-033): when she brushes a card, LumiMagic sets
-   data-lumi-touch for a moment. The card lifts a touch, warms with a gold rim
-   and glow, and a soft light sweeps across it, then it settles. Motion-gated,
-   so reduced-motion visitors and the SSR/no-JS page never animate. */
-@media (prefers-reduced-motion: no-preference) {
-  .cs-service-card,
-  .cs-work-card,
-  .cs-value-item,
-  .cs-proof-card {
-    position: relative;
-    transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.55s ease, border-color 0.55s ease;
-  }
-  [data-lumi-touch] {
-    transform: translateY(-9px) scale(1.014);
-    border-color: color-mix(in srgb, var(--cs-color-accent) 70%, transparent) !important;
+   data-lumi-near / data-lumi-touch. The card lifts a touch, warms with a gold
+   rim and glow, and a light sweeps across on a cast, then it settles. Runs
+   whenever the live mascot is on stage - the same always-on-motion decision as
+   her flight - and stays inert on the SSR / no-JS page, where the attributes are
+   never set. */
+.cs-service-card,
+.cs-work-card,
+.cs-value-item,
+.cs-proof-card {
+  position: relative;
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.55s ease, border-color 0.55s ease;
+}
+  /* Ambient: the card Lumi is closest to warms and lifts a touch while she is
+     beside it, then settles as she flies on. This is the real-time "she is
+     touching it" reaction. */
+  [data-lumi-near] {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--cs-color-accent) 50%, transparent) !important;
     box-shadow:
-      0 28px 60px -20px color-mix(in srgb, var(--cs-color-accent) 72%, transparent),
-      0 0 22px -4px color-mix(in srgb, var(--cs-color-accent) 45%, transparent),
-      0 0 0 1px color-mix(in srgb, var(--cs-color-accent) 42%, transparent) inset;
+      0 18px 44px -26px color-mix(in srgb, var(--cs-color-accent) 55%, transparent),
+      0 0 16px -6px color-mix(in srgb, var(--cs-color-accent) 34%, transparent);
+  }
+  /* Cast: the stronger one-shot she throws every few seconds. */
+  [data-lumi-touch] {
+    transform: translateY(-9px) scale(1.015);
+    border-color: color-mix(in srgb, var(--cs-color-accent) 72%, transparent) !important;
+    box-shadow:
+      0 30px 62px -20px color-mix(in srgb, var(--cs-color-accent) 74%, transparent),
+      0 0 26px -4px color-mix(in srgb, var(--cs-color-accent) 48%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--cs-color-accent) 44%, transparent) inset;
   }
   /* The light sweep rides a pseudo-element clipped to the card's own radius. */
   [data-lumi-touch]::after {
@@ -2081,7 +2099,6 @@ main .cs-section { transition: background-color 0.9s ease; }
       opacity: 0;
     }
   }
-}
 
 /* --- round-5 guards --- */
 @media (prefers-reduced-motion: reduce) {

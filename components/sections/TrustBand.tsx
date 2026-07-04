@@ -34,6 +34,12 @@ export function TrustBand({ locale }: { locale: Locale }) {
               key={it.figure}
               className="cs-trust-item"
               data-pop=""
+              // The reveal observer (MotionExtras) flips data-pop to "shown"
+              // once in view. TrustBand sits just under the hero, so on a
+              // streamed hydrate the observer can mark it shown before React
+              // hydrates this node - a benign attribute-only mismatch. Suppress
+              // it so the reveal stays decorative and the console stays clean.
+              suppressHydrationWarning
               style={{ "--pi": i } as CSSProperties}
             >
               <p className="cs-trust-figure">
