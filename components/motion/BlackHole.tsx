@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import {
   getLumiScreen,
+  getLumiHandScreen,
   setDigest,
   LUMI_HOLD_START_EVENT,
   LUMI_HOLD_END_EVENT,
@@ -25,8 +26,9 @@ import { digestEase } from "@/lib/motion/kinetic";
 // carried by the effect, and keyboard users simply never enter it.
 
 const HOLD_ARM_MS = 350;
-const DEVOUR_SECONDS = 2.6;
-const RESTORE_SECONDS = 1.1;
+// Slow, cinematic devour - a long draw into the hole rather than a quick flick.
+const DEVOUR_SECONDS = 5.5;
+const RESTORE_SECONDS = 3.2;
 const INTERACTIVE_SELECTOR =
   "a, button, input, select, textarea, label, summary, [role='button'], .cs-genie, .cs-lumi-hotspot";
 const SCATTER_SELECTOR =
@@ -95,9 +97,12 @@ export function BlackHole() {
         b.el.style.transform = "";
         b.el.style.opacity = "";
         b.el.style.willChange = "";
+        b.el.style.zIndex = "";
+        b.el.style.position = "";
       }
       blocks = [];
       document.documentElement.removeAttribute("data-digesting");
+      document.documentElement.style.setProperty("--cs-digest", "0");
     };
 
     const frame = (now: number) => {
@@ -106,6 +111,9 @@ export function BlackHole() {
       p += dt / (holding ? DEVOUR_SECONDS : -RESTORE_SECONDS);
       p = Math.min(1, Math.max(0, p));
       setDigest(p);
+      // Publish progress to the CSS layer so the whole page fades out to reveal
+      // the starry universe behind as p -> 1, and flows back as it reverses.
+      document.documentElement.style.setProperty("--cs-digest", p.toFixed(3));
 
       if (p <= 0) {
         running = false;
@@ -113,34 +121,61 @@ export function BlackHole() {
         return;
       }
 
+      // Aim at Lumi's real hand (bone-projected by GltfLumi) so the page pours
+      // into the black hole she actually holds; fall back to a core offset for
+      // the procedural Lumi that has no hand bone.
+      const hs = getLumiHandScreen();
       const lumi = getLumiScreen();
-      // Collapse into Lumi's hand, not her centre: a small down-and-out offset
-      // from the projected core, so the page pours into the little black hole
-      // she holds rather than her middle.
-      const hx = lumi.x + lumi.r * 0.3;
-      const hy = lumi.y + lumi.r * 0.42;
+      const hx = hs.set ? hs.x : lumi.x + lumi.r * 0.3;
+      const hy = hs.set ? hs.y : lumi.y + lumi.r * 0.42;
       for (const b of blocks) {
         const e = digestEase(p, b.normDist);
         if (e <= 0.001) {
           b.el.style.transform = "";
           b.el.style.opacity = "";
+          b.el.style.zIndex = "";
           continue;
         }
-        // Spiral in: rotate the straight approach vector by an angle that grows
-        // with e, so each block curves into the hole like matter into an
-        // accretion disk instead of sliding in on a line. Direction follows the
-        // block's own spin sign so the field swirls both ways.
-        const dx = (hx - b.cx) * e;
-        const dy = (hy - b.cy) * e;
-        const ang = e * 1.2 * (b.spin >= 0 ? 1 : -1);
-        const ca = Math.cos(ang);
-        const sa = Math.sin(ang);
-        const sx = dx * ca - dy * sa;
-        const sy = dx * sa + dy * ca;
-        // Fade out well before the block reaches the hole so the field dissolves
-        // into it cleanly instead of a pile-up of shrunken boxes at the centre.
-        b.el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) scale(${(1 - e * 0.96).toFixed(3)}) rotate(${(b.spin * e * 0.8).toFixed(1)}deg)`;
-        b.el.style.opacity = `${Math.max(0, 1 - e * 1.08).toFixed(3)}`;
+        // Inward spiral in POLAR coordinates around the hole. Take the block's
+        // offset from the hole (this frame - the hole tracks Lumi's hand, so it
+        // stays correct as she flies), then collapse the RADIUS to zero as the
+        // pull grows while winding the ANGLE forward. Because the radius reaches
+        // 0 at e=1, every block lands EXACTLY ON the hole - it is genuinely
+        // sucked into the singularity, not flung past it. (The old code rotated
+        // the whole displacement vector, so at full swirl a block ended ~120 deg
+        // off the hole and everything just drifted the same way and faded.)
+        const ox = b.cx - hx;
+        const oy = b.cy - hy;
+        const r0 = Math.hypot(ox, oy);
+        const a0 = Math.atan2(oy, ox);
+        // Accelerating pull (smoothstep) so the draw eases in then rushes into
+        // the hole - matter accelerating down a gravity well.
+        const pull = e * e * (3 - 2 * e);
+        const r = r0 * (1 - pull);
+        const a = a0 + 2.4 * pull;
+        const nx = hx + r * Math.cos(a);
+        const ny = hy + r * Math.sin(a);
+        const dx = nx - b.cx;
+        const dy = ny - b.cy;
+        // Spaghettify along the line to the hole (radial), so the block stretches
+        // toward the point it is falling into.
+        const th = (Math.atan2(hy - ny, hx - nx) * 180) / Math.PI;
+        // Shrink toward a point is the DOMINANT motion (s: 1 -> 0.08) so the
+        // block funnels down into the hole; a tidal stretch ALONG the travel
+        // rides on top (spaghettification). Because shrink dominates, even a
+        // wide heading collapses to a thin sliver at the singularity instead of
+        // smearing across the screen - which was the old failure.
+        const s = 1 - 0.92 * e;
+        const along = s * (1 + 2.0 * e);
+        const across = Math.max(0.012, s * (1 - 0.55 * e));
+        // Lift the falling block above its neighbours so it visibly travels
+        // OVER the page toward the hole rather than under it.
+        b.el.style.zIndex = String(40 + Math.round(e * 40));
+        b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) rotate(${th.toFixed(1)}deg) scale(${along.toFixed(3)}, ${across.toFixed(3)}) rotate(${(-th).toFixed(1)}deg)`;
+        // Hold opacity while it travels; fade only in the final stretch, when it
+        // is already a tiny sliver being swallowed by the point.
+        const fade = e < 0.72 ? 1 : Math.max(0, 1 - (e - 0.72) / 0.28);
+        b.el.style.opacity = fade.toFixed(3);
       }
       raf = window.requestAnimationFrame(frame);
     };
@@ -150,7 +185,12 @@ export function BlackHole() {
       running = true;
       if (blocks.length === 0) {
         blocks = collectBlocks();
-        for (const b of blocks) b.el.style.willChange = "transform, opacity";
+        for (const b of blocks) {
+          b.el.style.willChange = "transform, opacity";
+          // Positioned so the per-frame z-index lift takes effect; relative
+          // keeps the block exactly in flow (no layout shift).
+          if (getComputedStyle(b.el).position === "static") b.el.style.position = "relative";
+        }
       }
       document.documentElement.setAttribute("data-digesting", "true");
       last = performance.now();

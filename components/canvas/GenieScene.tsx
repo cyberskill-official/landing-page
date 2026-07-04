@@ -22,6 +22,7 @@ import {
   getAttend,
   getDigest,
   getLumiExcite,
+  getLumiHand,
   getLumiWorld,
   getPointerNorm,
   requestBurst,
@@ -162,10 +163,18 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     // attend rises (the pointer glance is weighted by 1 - attend), so the two
     // never fight. Amplitudes stay small - a glance, not a spin - and touch
     // devices leave the pointer at centre, so nothing moves there.
-    const look = chatOpen ? 0 : 1 - attend;
+    // Always turn toward the cursor, even mid-flight (FR-CHAR-034): a firm yaw
+    // and pitch that track the pointer so Lumi keeps eye contact wherever she
+    // is, with the act-presenting lean layered on top when an act is centred.
+    // Amplitude stays under a quarter-turn so she never shows her back.
     const p = getPointerNorm();
-    const targetYaw = inward * 0.2 * attend + p.x * 0.16 * look;
-    const targetPitch = 0.08 * attend - p.y * 0.1 * look;
+    // While digesting she presents the hole, so square her to the viewer (yaw and
+    // pitch ease to 0) instead of tracking the pointer or leaning into an act.
+    const presenting = getDigest() > 0.05;
+    const trackYaw = chatOpen || presenting ? 0 : p.x * 0.55;
+    const trackPitch = chatOpen || presenting ? 0 : -p.y * 0.28;
+    const targetYaw = presenting ? 0 : trackYaw + inward * 0.15 * attend;
+    const targetPitch = presenting ? 0 : trackPitch + 0.06 * attend;
     g.rotation.y += (targetYaw - g.rotation.y) * ky;
     g.rotation.x += (targetPitch - g.rotation.x) * ky;
 
@@ -176,8 +185,9 @@ function LumiRig({ children }: { children: React.ReactNode }) {
       excitePrev.current = excite;
       if (excite) requestBurst(0.8);
     }
+    // The digest is a calm, slow draw now - no mid-devour pixie burst (that read
+    // as a flash). Lumi just swells a touch as she feeds (below).
     const dig = getDigest();
-    if (dig > 0.5 && digPrev.current <= 0.5) requestBurst(1.6);
     digPrev.current = dig;
     // A shallow breathing pulse (~1.5%) keeps Lumi feeling alive even when she
     // hovers in place between legs, layered on the Float bob. It rides only the
@@ -302,6 +312,24 @@ function BurstField() {
   );
 }
 
+// Lumi's travelling pixie dust. Pulled out during a digest so the wide gold
+// bokeh does not clutter the cosmic reveal - the permanent CosmosBackdrop (a DOM
+// layer behind the page) carries the space beat now, so the canvas stays clean.
+function AmbientMotes() {
+  const ref = useRef<THREE.Group>(null);
+  useFrame(() => {
+    const g = ref.current;
+    if (!g) return;
+    const show = getDigest() <= 0.15;
+    if (g.visible !== show) g.visible = show;
+  });
+  return (
+    <group ref={ref}>
+      <Sparkles count={34} scale={[2.2, 1.9, 1.5]} size={3.2} speed={0.4} color="#F4BA17" opacity={0.75} />
+    </group>
+  );
+}
+
 // The black hole Lumi holds while she digests the page (FR-CHAR-032). A dark
 // event-horizon core reads as a true hole against the gold-lit scene, ringed by
 // two hot accretion bands that bloom and swirl, with gold motes spiralling in.
@@ -310,6 +338,7 @@ function BurstField() {
 // the core black and the rings hot under the AGX grade.
 function DigestHole() {
   const grp = useRef<THREE.Group>(null);
+  const plasma = useRef<THREE.Group>(null);
   const sRef = useRef(0);
   useFrame((_, delta) => {
     const g = grp.current;
@@ -321,33 +350,66 @@ function DigestHole() {
       return;
     }
     g.visible = true;
-    const w = getLumiWorld();
-    // Pinned small on one hand (down-and-out from her core), not her middle.
-    g.position.set(w.x + 0.24, w.y - 0.32, w.z + 0.2);
-    // Stay small: ease a compact bead in and hold it - a marble she cups, never
-    // a growing blob. Eased so it does not pop in.
+    const w = getLumiHand();
+    // Rides her raised fingertip (bone-tracked from GltfLumi), a touch in front.
+    g.position.set(w.x, w.y, w.z + 0.18);
+    // Stay small: ease a compact bead in and hold it - a marble on her fingertip.
     const eased = d * d * (3 - 2 * d);
     const target = 0.12 + eased * 0.05;
     sRef.current += (target - sRef.current) * Math.min(1, delta * 6);
     g.scale.setScalar(sRef.current);
-    // Calm, steady swirl (not accelerating) so the motion reads clean.
-    g.rotation.z += delta * 1.5;
+    // The plasma streaks whirl around the hole - the "energy running around it".
+    if (plasma.current) plasma.current.rotation.z += delta * 2.2;
   });
   return (
     <group ref={grp} visible={false}>
+      {/* the dark singularity */}
       <mesh>
-        <sphereGeometry args={[0.5, 24, 24]} />
-        <meshBasicMaterial color="#040200" toneMapped={false} />
+        <sphereGeometry args={[0.42, 32, 32]} />
+        <meshBasicMaterial color="#050300" toneMapped={false} />
       </mesh>
-      <mesh rotation-x={Math.PI / 2.1}>
-        <torusGeometry args={[0.66, 0.07, 14, 60]} />
-        <meshBasicMaterial color="#FFCF6B" toneMapped={false} />
+      {/* the accretion disc, tilted so it reads as a disc seen at an angle (like a
+          real black hole), not a flat ring. Additive so it glows under the bloom. */}
+      <group rotation-x={1.2}>
+        <mesh>
+          <ringGeometry args={[0.46, 0.8, 96]} />
+          <meshBasicMaterial color="#fff0c0" toneMapped={false} transparent opacity={0.85} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+        <mesh>
+          <ringGeometry args={[0.8, 1.15, 96]} />
+          <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.5} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+        <mesh>
+          <ringGeometry args={[1.15, 1.6, 96]} />
+          <meshBasicMaterial color="#c8890a" toneMapped={false} transparent opacity={0.24} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+        {/* bright plasma streaks (arcs) that whirl round as this group spins */}
+        <group ref={plasma}>
+          <mesh>
+            <ringGeometry args={[0.5, 0.74, 64, 1, 0, 2.1]} />
+            <meshBasicMaterial color="#fffbe8" toneMapped={false} transparent opacity={0.9} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+          </mesh>
+          <mesh rotation-z={2.5}>
+            <ringGeometry args={[0.8, 1.02, 64, 1, 0, 1.6]} />
+            <meshBasicMaterial color="#ffe6a0" toneMapped={false} transparent opacity={0.7} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+          </mesh>
+          <mesh rotation-z={4.4}>
+            <ringGeometry args={[1.04, 1.34, 64, 1, 0, 1.2]} />
+            <meshBasicMaterial color="#ffd873" toneMapped={false} transparent opacity={0.5} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+          </mesh>
+        </group>
+      </group>
+      {/* bright photon ring hugging the event horizon (faces camera) */}
+      <mesh>
+        <ringGeometry args={[0.42, 0.49, 80]} />
+        <meshBasicMaterial color="#fff6d8" toneMapped={false} transparent opacity={0.85} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
       </mesh>
-      <mesh rotation-x={Math.PI / 2.1}>
-        <torusGeometry args={[0.82, 0.02, 10, 60]} />
-        <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.7} />
+      {/* soft bloom halo */}
+      <mesh>
+        <sphereGeometry args={[0.95, 24, 24]} />
+        <meshBasicMaterial color="#F4BA17" toneMapped={false} transparent opacity={0.09} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
-      <Sparkles count={14} scale={[1.4, 1.4, 0.5]} size={3} speed={0.7} color="#FFD873" opacity={0.85} />
+      <Sparkles count={18} scale={[2.2, 0.7, 2.2]} size={2.4} speed={1.3} color="#FFD873" opacity={0.85} />
     </group>
   );
 }
@@ -373,7 +435,17 @@ function WishGrid() {
       attr.setZ(i, Math.sin(x * 0.55 + t * 0.7) * Math.cos(y * 0.7 + t * 0.5) * 0.22);
     }
     attr.needsUpdate = true;
-    const fade = Math.max(0, 1 - getScrollProgress() * 1.15);
+    // Fade with the hero, and pull the wire floor fully out EARLY in a digest so
+    // the reveal behind Lumi is clean cosmos, not a tron grid. Read the digest
+    // from the --cs-digest custom property the DOM BlackHole writes each frame
+    // (an inline-style read, guaranteed shared) as well as the scene store, since
+    // the store can be a separate instance across the lazily-loaded scene chunk.
+    let dig = getDigest();
+    if (typeof document !== "undefined") {
+      const v = parseFloat(document.documentElement.style.getPropertyValue("--cs-digest"));
+      if (!Number.isNaN(v)) dig = Math.max(dig, v);
+    }
+    const fade = Math.max(0, 1 - getScrollProgress() * 1.15) * Math.max(0, 1 - dig * 4);
     const mat = m.material as THREE.MeshBasicMaterial;
     mat.opacity = (isLight ? 0.09 : 0.12) * fade;
     m.visible = mat.opacity > 0.004;
@@ -452,11 +524,13 @@ export function GenieScene() {
           level, so the rig's scale never distorts the ribbon. */}
       <Trail
         target={trailAnchor as React.MutableRefObject<THREE.Object3D>}
-        width={isLight ? 0.35 : 0.45}
-        length={3.5}
-        decay={3}
+        width={isLight ? 0.16 : 0.22}
+        length={2}
+        decay={3.6}
         color={isLight ? "#B5780A" : "#F4BA17"}
-        attenuation={(w) => w * w}
+        // Cube attenuation collapses the tail quickly, so it reads as a short
+        // sparkle hugging Lumi rather than a long ribbon drawn across the copy.
+        attenuation={(w) => w * w * w}
       />
       <LumiRig>
         <object3D ref={trailAnchor} />
@@ -472,8 +546,9 @@ export function GenieScene() {
           </Suspense>
         </Float>
         {/* Pixie dust travels with the mascot instead of dusting the whole
-            page, so text stays clean outside Lumi's flight path. */}
-        <Sparkles count={34} scale={[2.2, 1.9, 1.5]} size={3.2} speed={0.4} color="#F4BA17" opacity={0.75} />
+            page, so text stays clean outside Lumi's flight path. Clears during
+            a digest (AmbientMotes) so the cosmic reveal reads clean. */}
+        <AmbientMotes />
       </LumiRig>
       {/* Premium post: bloom on the gold highlights + AgX filmic tone map (matches
           the Blender look) + a subtle vignette; SMAA replaces MSAA (antialias off,

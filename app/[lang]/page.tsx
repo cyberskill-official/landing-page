@@ -16,6 +16,7 @@ import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
 import { HeroPin } from "@/components/scroll/HeroPin";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
+import { LumiMagic } from "@/components/motion/LumiMagic";
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -27,6 +28,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       {/* The 3D canvas is mounted here, on the homepage only, so sub-pages carry
           no scene (its hero grid used to bleed over their content). */}
       <CanvasMount />
+      {/* Lumi brushes the content cards as she drifts past them (FR-CHAR-033).
+          DOM-only, motion-gated, and inert until the live mascot is on stage. */}
+      <LumiMagic />
       <Hero locale={locale} dict={dict} />
       <TrustBand locale={locale} />
       <StoryArc locale={locale} />

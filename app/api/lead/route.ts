@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
+import { appendFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
 import { leadSchema } from "@/lib/lead/schema";
 import { company } from "@/lib/content/site";
 
 export const runtime = "nodejs";
 
 // Lead capture. Validates server-side, drops bot submissions (honeypot),
-// always logs (partial data is still valuable), and best-effort fans out to an
-// email notification, a Slack ping, and a CRM webhook if configured. No secret
-// ever reaches the client.
+// always logs (partial data is still valuable), and best-effort fans out to a
+// durable local file, an email notification to the company inbox, a Slack ping,
+// and the CyberOS lead-intake webhook if configured. No secret reaches the client.
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -42,17 +44,21 @@ export async function POST(req: Request) {
     source: lead.source || "unknown",
   };
 
-  // Always log (server-side). In production, replace with a DB write.
+  // Always log (server-side).
   console.info("[lead]", JSON.stringify(record));
 
-  // Fan out best-effort. A failed notification is logged but never fails the
-  // user's submission (FR-CTA-007).
+  // Fan out best-effort. A failed sink is logged but never fails the user's
+  // submission (FR-CTA-007). Every lead is saved durably: to a local JSONL file
+  // (works in dev and on any server with a writable disk) and, when configured,
+  // to CyberOS via its lead-intake webhook - the system of record. Email and
+  // Slack are the human notifications.
   const results = await Promise.allSettled([
+    saveToFile(record),
     notifyEmail(record, lead.email),
     notifySlack(record),
-    forwardToCrm(record),
+    forwardToCyberOs(record),
   ]);
-  const channels = ["email", "slack", "crm"];
+  const channels = ["file", "email", "slack", "cyberos"];
   results.forEach((r, i) => {
     if (r.status === "rejected") console.error(`[lead] ${channels[i]} notify failed`, r.reason);
   });
@@ -101,6 +107,17 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string): Pr
   }
 }
 
+// Durable local save: append one JSON line per lead to .data/leads.jsonl under
+// the app's working directory. Works in dev and on any host with a writable
+// disk (a VPS, a container). On a read-only serverless filesystem this throws
+// and is caught by the fan-out - use Supabase / email there. Override the
+// directory with LEAD_STORE_DIR (e.g. a mounted volume).
+async function saveToFile(record: Record<string, unknown>): Promise<void> {
+  const dir = process.env.LEAD_STORE_DIR || join(process.cwd(), ".data");
+  await mkdir(dir, { recursive: true });
+  await appendFile(join(dir, "leads.jsonl"), JSON.stringify(record) + "\n", "utf8");
+}
+
 async function notifySlack(record: Record<string, unknown>): Promise<void> {
   const url = process.env.LEAD_SLACK_WEBHOOK_URL;
   if (!url) return;
@@ -114,12 +131,26 @@ async function notifySlack(record: Record<string, unknown>): Promise<void> {
   });
 }
 
-async function forwardToCrm(record: Record<string, unknown>): Promise<void> {
+// Durable system-of-record save: forward the lead to CyberOS via its lead-intake
+// webhook. No-ops until LEAD_CRM_WEBHOOK_URL is set (e.g.
+// https://os.cyberskill.world/v1/leads). When LEAD_CRM_TOKEN is set it is sent
+// as a bearer secret so CyberOS can authenticate this machine-to-machine call.
+// A non-2xx surfaces via the Promise.allSettled handler instead of being
+// silently dropped.
+async function forwardToCyberOs(record: Record<string, unknown>): Promise<void> {
   const url = process.env.LEAD_CRM_WEBHOOK_URL;
   if (!url) return;
-  await fetch(url, {
+  const token = process.env.LEAD_CRM_TOKEN;
+  const res = await fetch(url, {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: {
+      "content-type": "application/json",
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
+    },
     body: JSON.stringify(record),
   });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`cyberos ${res.status} ${detail.slice(0, 300)}`);
+  }
 }

@@ -381,7 +381,10 @@ a {
 /* ------------------------------------------------------------------ */
 
 html { background: var(--cs-color-bg); }
-body { background: transparent; }
+/* overflow-x: clip kills any horizontal scrollbar (e.g. the digest stretch
+   briefly widening blocks) without creating a scroll container, so the sticky
+   header and scroll behaviour are untouched. */
+body { background: transparent; overflow-x: clip; }
 
 /* The 3D scene sits behind the content; the hero is transparent so it shows
    through there, and the remaining sections are opaque as you scroll over it. */
@@ -392,6 +395,162 @@ body { background: transparent; }
   pointer-events: none;
 }
 .cs-header, main, .cs-footer, .cs-persistent-cta { position: relative; z-index: 1; }
+
+/* ------------------------------------------------------------------ */
+/* Permanent cosmos backdrop (FR-CHAR-032): a fixed deep-space layer that
+   lives BEHIND the content (z-index 0 < content z-index 1), so opaque
+   sections cover it while reading and it is revealed - already there, not
+   fading in - the moment the black hole digests the page's top layer away.
+   Pure CSS. Orbit + drift only animate while a digest is on, so it is free
+   while covered. */
+.cs-cosmos {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: radial-gradient(150% 130% at 50% 42%, #0a0714 0%, #060410 62%, #020106 100%);
+  /* Present behind the page but not shown until a digest uncovers it (the hero
+     is transparent, so an always-visible cosmos would leak through it). No
+     gradual fade - it is simply there the instant content starts pulling away. */
+  opacity: 0;
+  visibility: hidden;
+}
+/* Nebula clouds: big, soft, coloured, slowly drifting - depth and colour in the
+   void so the sky reads real, not a flat gradient. */
+.cs-cosmos-nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: cs-neb-drift 70s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.cs-neb-1 { width: 62vw; height: 62vw; left: 42%; top: 2%; background: radial-gradient(circle, rgba(104, 58, 190, 0.6), rgba(104, 58, 190, 0) 68%); }
+.cs-neb-2 { width: 56vw; height: 56vw; left: -8%; top: 42%; background: radial-gradient(circle, rgba(190, 74, 128, 0.42), rgba(190, 74, 128, 0) 68%); animation-duration: 92s; }
+.cs-neb-3 { width: 50vw; height: 50vw; left: 58%; top: 50%; background: radial-gradient(circle, rgba(38, 128, 158, 0.42), rgba(38, 128, 158, 0) 68%); animation-duration: 112s; }
+/* Star layers (parallax). */
+.cs-cosmos-stars {
+  position: absolute;
+  inset: -30%;
+  background-image:
+    radial-gradient(1.4px 1.4px at 14% 22%, #ffffff, transparent),
+    radial-gradient(1.2px 1.2px at 68% 12%, #ffe6a0, transparent),
+    radial-gradient(1px 1px at 40% 60%, #cfe0ff, transparent),
+    radial-gradient(1.6px 1.6px at 85% 48%, #ffffff, transparent),
+    radial-gradient(1px 1px at 25% 80%, #fff2d0, transparent),
+    radial-gradient(1.2px 1.2px at 55% 88%, #ffffff, transparent),
+    radial-gradient(1px 1px at 92% 74%, #cfe0ff, transparent),
+    radial-gradient(1.3px 1.3px at 8% 52%, #ffffff, transparent);
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  opacity: 0.85;
+  animation: cs-cosmos-drift 160s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.cs-cosmos-stars-2 { background-size: 500px 500px; opacity: 0.5; animation-duration: 240s; animation-direction: alternate-reverse; }
+.cs-cosmos-stars-bright {
+  background-image:
+    radial-gradient(2.4px 2.4px at 30% 34%, #ffffff, transparent),
+    radial-gradient(2.2px 2.2px at 78% 66%, #ffe9b0, transparent),
+    radial-gradient(2.6px 2.6px at 54% 18%, #dfefff, transparent);
+  background-size: 760px 760px;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6));
+  animation-duration: 320s;
+}
+/* The star: hot white core -> gold -> orange corona, with a big soft bloom and a
+   slowly turning corona flare. */
+.cs-cosmos-sun {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 92px;
+  height: 92px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #fffdf5 0%, #ffe9a8 24%, #ffb43a 50%, rgba(255, 150, 30, 0) 72%);
+  box-shadow: 0 0 60px 18px rgba(255, 182, 66, 0.55), 0 0 150px 60px rgba(255, 150, 40, 0.26);
+  animation: cs-cosmos-pulse 9s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.cs-cosmos-corona {
+  position: absolute;
+  inset: -55%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(255, 190, 90, 0) 0deg, rgba(255, 190, 90, 0.3) 40deg, rgba(255, 190, 90, 0) 92deg, rgba(255, 190, 90, 0.3) 180deg, rgba(255, 190, 90, 0) 232deg, rgba(255, 190, 90, 0.3) 320deg, rgba(255, 190, 90, 0) 360deg);
+  filter: blur(12px);
+  animation: cs-cosmos-spin 46s linear infinite;
+  animation-play-state: paused;
+}
+/* Squash the orbit plane so the system is seen at an oblique angle - circular
+   orbits read as ellipses (a side view, not a flat top-down), for a 3D feel. The
+   sun is a separate element, so it stays round. */
+.cs-cosmos-system { position: absolute; top: 42%; left: 50%; transform: scaleY(0.46); }
+.cs-cosmos-orbit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid rgba(210, 190, 150, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Full per-orbit animation (duration + a negative delay in ONE shorthand, so the
+   shorthand can't reset the duration to 0). It runs continuously and advances
+   even while the cosmos is hidden, so the planets are always spinning AND spread
+   across their ellipses - not stacked at the top - by the time a digest reveals
+   them. Composited transform, so it is cheap. */
+.cs-orbit-1 { width: 220px; height: 220px; animation: cs-orbit-spin 30s linear -6s infinite; }
+.cs-orbit-2 { width: 360px; height: 360px; animation: cs-orbit-spin 48s linear -21s infinite; }
+.cs-orbit-3 { width: 520px; height: 520px; animation: cs-orbit-spin 72s linear -44s infinite; }
+.cs-orbit-4 { width: 700px; height: 700px; animation: cs-orbit-spin 106s linear -78s infinite; }
+/* 3D-shaded planets: lit toward the sun, dark terminator opposite, atmosphere rim
+   glow - reads as a sphere, not a flat disc. */
+/* Counter the plane's vertical squash so the planet bodies stay round spheres
+   even though their orbits are flattened into ellipses. */
+.cs-planet { position: absolute; top: -9px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; transform: scaleY(2.17); }
+.cs-planet-rock { background: radial-gradient(circle at 66% 66%, #ffe6a0 0%, #b07a2a 44%, #241606 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55), 0 0 9px rgba(255, 200, 110, 0.3); }
+.cs-planet-blue { width: 16px; height: 16px; margin-left: -8px; top: -8px; background: radial-gradient(circle at 66% 66%, #e2f2ff 0%, #4f83c8 44%, #081a32 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55), 0 0 10px rgba(150, 200, 255, 0.4); }
+.cs-planet-pale { width: 22px; height: 22px; margin-left: -11px; top: -11px; background: radial-gradient(circle at 66% 66%, #fff4dd 0%, #c9a86a 44%, #2f2109 92%); box-shadow: inset -3px -3px 7px rgba(0, 0, 0, 0.55), 0 0 11px rgba(255, 225, 160, 0.32); }
+.cs-planet-ringed { width: 20px; height: 20px; margin-left: -10px; top: -10px; background: radial-gradient(circle at 66% 66%, #ffe9c0 0%, #caa24e 44%, #33250f 92%); box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.55); }
+.cs-planet-ringed::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46px;
+  height: 14px;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  border: 2px solid rgba(255, 228, 165, 0.5);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 220, 150, 0.28);
+}
+/* Cinematic edge falloff. */
+.cs-cosmos-vignette { position: absolute; inset: 0; background: radial-gradient(120% 100% at 50% 44%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.55) 100%); }
+@keyframes cs-cosmos-drift { from { transform: translate3d(-26px, -16px, 0); } to { transform: translate3d(26px, 16px, 0); } }
+@keyframes cs-neb-drift { from { transform: translate3d(-24px, 14px, 0) scale(1); } to { transform: translate3d(24px, -14px, 0) scale(1.08); } }
+@keyframes cs-cosmos-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.92; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; } }
+@keyframes cs-cosmos-spin { to { transform: rotate(360deg); } }
+@keyframes cs-orbit-spin { from { transform: translate(-50%, -50%) rotate(0); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+/* Uncover it (and only then spend cycles animating) while a digest runs. The
+   opacity rides --cs-digest so the cosmos fades up in perfect step with the
+   content dissolving away - the smoothest possible reveal, no pop. */
+html[data-digesting] .cs-cosmos { opacity: var(--cs-digest, 1); visibility: visible; }
+/* The true-3D cosmos canvas rides just above the CSS cosmos (both z-index 0,
+   behind content) on capable devices, so it covers the CSS fallback. Same
+   digest-synced reveal. */
+/* Laid out (not visibility:hidden) so R3F measures the container and sizes its
+   canvas to the full viewport; just transparent until a digest reveals it. */
+.cs-cosmos3d { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; }
+html[data-digesting] .cs-cosmos3d { opacity: var(--cs-digest, 1); }
+html[data-digesting] .cs-cosmos-nebula,
+html[data-digesting] .cs-cosmos-stars,
+html[data-digesting] .cs-cosmos-sun,
+html[data-digesting] .cs-cosmos-corona,
+html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
+@media (prefers-reduced-motion: reduce) {
+  .cs-cosmos-nebula, .cs-cosmos-stars, .cs-cosmos-sun, .cs-cosmos-corona, .cs-cosmos-orbit { animation: none; }
+}
 
 /* Header */
 .cs-header {
@@ -635,6 +794,19 @@ main > .cs-section > .cs-container > h1 {
 .cs-persistent-cta .cs-btn { box-shadow: var(--cs-depth-3); }
 @media (max-width: 520px) { .cs-persistent-cta { left: var(--cs-space-4); flex-direction: row; } .cs-persistent-cta .cs-btn { flex: 1; } }
 
+/* Tighter vertical rhythm on phones and tablets: the 6rem section padding that
+   frames the desktop layout leaves mobile mostly whitespace and a very long
+   scroll. Step it down so sections read compact on small screens. Layout and
+   scroll choreography are unaffected (only the block padding changes). */
+@media (max-width: 760px) {
+  .cs-section { padding-block: var(--cs-space-16); }
+  .cs-hero { padding-block: var(--cs-space-16); min-height: min(80vh, 640px); }
+}
+@media (max-width: 440px) {
+  .cs-section { padding-block: var(--cs-space-12); }
+  .cs-container { padding-inline: var(--cs-space-4); }
+}
+
 /* Storyboard (lite) */
 .cs-lite { max-width: 52rem; }
 .cs-storyboard { list-style: none; padding: 0; margin: var(--cs-space-8) 0; display: grid; gap: var(--cs-space-4); }
@@ -732,12 +904,35 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 
 /* Trust band */
 .cs-trust { border-block: 1px solid var(--cs-color-line); background: var(--cs-color-surface); padding-block: var(--cs-space-12); }
-.cs-trust-grid { display: grid; gap: var(--cs-space-8); grid-template-columns: repeat(2, 1fr); }
+.cs-trust-grid { display: grid; gap: var(--cs-space-10) var(--cs-space-8); grid-template-columns: repeat(2, 1fr); }
 @media (min-width: 760px) { .cs-trust-grid { grid-template-columns: repeat(4, 1fr); } }
-.cs-trust-item { text-align: center; }
-.cs-trust-figure { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-brand); margin: 0 0 var(--cs-space-1); }
+/* Each stat is a column: the big figure sits on a shared baseline, the caption
+   reads beneath it at a fixed measure so the four read as one tidy row. */
+.cs-trust-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cs-space-2);
+  text-align: center;
+  padding-inline: var(--cs-space-4);
+}
+/* Hairline between columns (wide screens only), set in the middle of the gap. */
+@media (min-width: 760px) {
+  .cs-trust-item:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--cs-space-8) * -0.5);
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2.6rem;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--cs-color-line) 20%, var(--cs-color-line) 80%, transparent);
+  }
+}
+.cs-trust-figure { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); line-height: 1.02; color: var(--cs-color-brand); margin: 0; }
 [data-theme="dark"] .cs-trust-figure { color: var(--cs-color-accent); }
-.cs-trust-label { margin: 0; font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); }
+.cs-trust-label { margin: 0; font-size: var(--cs-text-sm); line-height: 1.5; color: var(--cs-color-fg-muted); max-width: 26ch; text-wrap: balance; }
 
 /* Case-study detail prose */
 .cs-case-section { margin-top: var(--cs-space-8); max-width: 46rem; }
@@ -1590,15 +1785,21 @@ main > .cs-section::before {
 #process .cs-services-grid::before {
   content: "";
   position: absolute;
-  top: 2.1rem;
-  left: 2%;
-  right: 2%;
+  /* Run the connector through the vertical CENTRE of the step icons (card
+     padding + half the 2.75rem icon), so the icons read as nodes ON the line
+     instead of the line slicing through their tops. */
+  top: calc(var(--cs-space-6) + 1.375rem);
+  left: 6%;
+  right: 6%;
   height: 2px;
-  background: linear-gradient(90deg, var(--cs-color-accent), rgba(244, 186, 23, 0.15));
+  background: linear-gradient(90deg, rgba(244, 186, 23, 0.15), var(--cs-color-accent), rgba(244, 186, 23, 0.15));
   transform: scaleX(0);
   transform-origin: 0 50%;
   transition: transform 1600ms var(--cs-ease) 300ms;
+  z-index: 0;
 }
+/* Keep the icon tiles above the connector so they sit ON it as nodes. */
+#process .cs-service-card { position: relative; z-index: 1; }
 #process h2[data-mask-reveal="shown"] ~ .cs-services-grid::before { transform: scaleX(1); }
 #process .cs-service-card .cs-eyebrow { transition: color 500ms var(--cs-ease), text-shadow 500ms var(--cs-ease); }
 #process h2[data-mask-reveal="shown"] ~ .cs-services-grid .cs-reveal:nth-child(1) .cs-eyebrow { color: var(--cs-color-accent); transition-delay: 500ms; }
@@ -1805,6 +2006,99 @@ main > .cs-section::before {
   user-select: none;
   -webkit-user-select: none;
 }
+
+/* The universe reveal (FR-CHAR-032): as the digest fills (--cs-digest 0 -> 1,
+   published each frame by BlackHole), the blocks first stretch and drag into the
+   hole; then in the back half the whole page - header, content, footer, and the
+   floating chrome - fades out, uncovering the 3D starfield, Lumi, and the black
+   hole behind. It flows straight back as the value falls on release. Opacity
+   only, so nothing shifts (CLS-safe); the Lumi hotspot is left visible so you
+   can still let go. */
+/* Chrome (header, footer, CTA, rail, progress) fades out with the digest. The
+   page SECTIONS deliberately do NOT fade here - if they did, their content would
+   just dissolve in place. Instead each content block STREAMS into the hole via
+   the BlackHole spaghettify (which owns its own opacity), and only the sections'
+   opaque BACKGROUNDS fade, to uncover the cosmos behind. */
+[data-digesting] .cs-header,
+[data-digesting] .cs-footer,
+[data-digesting] .cs-persistent-cta,
+[data-digesting] .cs-rail,
+[data-digesting] .cs-progress {
+  opacity: calc(1 - max(0, (var(--cs-digest, 0) - 0.35) / 0.65));
+}
+main .cs-section { transition: background-color 0.9s ease; }
+[data-digesting] main .cs-section { background-color: transparent; }
+/* While digesting, let content blocks travel across the page to the hole
+   without being clipped by a section that normally hides its overflow (the
+   hero and the contact section), so the pull reads as one continuous draw into
+   the singularity rather than blocks vanishing at a section edge. */
+[data-digesting] main,
+[data-digesting] .cs-hero,
+[data-digesting] .cs-section-contact { overflow: visible; }
+
+/* Lumi's touch (FR-CHAR-033): when she brushes a card, LumiMagic sets
+   data-lumi-near / data-lumi-touch. The card lifts a touch, warms with a gold
+   rim and glow, and a light sweeps across on a cast, then it settles. Runs
+   whenever the live mascot is on stage - the same always-on-motion decision as
+   her flight - and stays inert on the SSR / no-JS page, where the attributes are
+   never set. */
+.cs-service-card,
+.cs-work-card,
+.cs-value-item,
+.cs-proof-card {
+  position: relative;
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.55s ease, border-color 0.55s ease;
+}
+  /* Ambient: the card Lumi is closest to warms and lifts a touch while she is
+     beside it, then settles as she flies on. This is the real-time "she is
+     touching it" reaction. */
+  [data-lumi-near] {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--cs-color-accent) 50%, transparent) !important;
+    box-shadow:
+      0 18px 44px -26px color-mix(in srgb, var(--cs-color-accent) 55%, transparent),
+      0 0 16px -6px color-mix(in srgb, var(--cs-color-accent) 34%, transparent);
+  }
+  /* Cast: the stronger one-shot she throws every few seconds. */
+  [data-lumi-touch] {
+    transform: translateY(-9px) scale(1.015);
+    border-color: color-mix(in srgb, var(--cs-color-accent) 72%, transparent) !important;
+    box-shadow:
+      0 30px 62px -20px color-mix(in srgb, var(--cs-color-accent) 74%, transparent),
+      0 0 26px -4px color-mix(in srgb, var(--cs-color-accent) 48%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--cs-color-accent) 44%, transparent) inset;
+  }
+  /* The light sweep rides a pseudo-element clipped to the card's own radius. */
+  [data-lumi-touch]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+      105deg,
+      transparent 34%,
+      color-mix(in srgb, var(--cs-color-accent) 26%, transparent) 48%,
+      color-mix(in srgb, #fff 30%, transparent) 52%,
+      transparent 66%
+    );
+    background-size: 260% 100%;
+    animation: cs-lumi-sweep 1.5s ease both;
+  }
+  @keyframes cs-lumi-sweep {
+    from {
+      background-position: 175% 0;
+      opacity: 0;
+    }
+    18% {
+      opacity: 1;
+    }
+    to {
+      background-position: -75% 0;
+      opacity: 0;
+    }
+  }
 
 /* --- round-5 guards --- */
 @media (prefers-reduced-motion: reduce) {
@@ -2106,6 +2400,24 @@ main > .cs-section[data-enter]::after {
     rgba(244, 186, 23, 0.14) 52%,
     transparent 62%
   );
+}
+
+/* Lumi's magic touches the act as she arrives (FR-CHAR-034): the section's cards
+   lift and glow gold for a beat, so her cast visibly ripples through the page
+   components instead of only sparkling around her. No fill, so the card returns
+   to its own hover/tilt transform when the pulse ends. */
+@media (prefers-reduced-motion: no-preference) {
+  main > .cs-section[data-enter] .cs-service-card,
+  main > .cs-section[data-enter] .cs-work-card,
+  main > .cs-section[data-enter] .cs-proof-card,
+  main > .cs-section[data-enter] .cs-value-item {
+    animation: cs-magic-touch 820ms var(--cs-ease);
+  }
+}
+@keyframes cs-magic-touch {
+  0% { transform: translateY(0); box-shadow: none; }
+  32% { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(244, 186, 23, 0.42); }
+  100% { transform: translateY(0); box-shadow: none; }
 }
 @keyframes cs-scene-sweep {
   from {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
 import * as THREE from "three";
@@ -11,6 +11,9 @@ import {
   requestBurst,
   drainGestures,
   getLumiExcite,
+  getDigest,
+  setLumiHand,
+  setLumiHandScreen,
   LUMI_GREET_EVENT,
   WISH_GRANTED_EVENT,
 } from "@/lib/scene/mascot";
@@ -37,6 +40,11 @@ const BASE_POSITION: [number, number, number] = [0, -0.4, 0];
 const IDLE_CLIP = "Idle";
 const WAVE_CLIP = "Wave";
 const CAST_CLIP = "Cast";
+// The offering pose (arm stretched forward, palm out) Lumi holds while she
+// digests the page, so the black hole sits in her outstretched hand instead of
+// at her side. Clamped on its last frame (the fully-extended reach), so it
+// stays held for as long as the digest runs, then crossfades back to idle.
+const HOLD_CLIP = "Hold";
 
 export function GltfLumi({ url }: { url: string }) {
   const group = useRef<THREE.Group>(null);
@@ -44,6 +52,7 @@ export function GltfLumi({ url }: { url: string }) {
   const greeting = useRef(false);
   const playGestureRef = useRef<((name: string) => void) | null>(null);
   const excitePrev = useRef(false);
+  const digestHold = useRef(false);
   const { scene, animations } = useGLTF(url);
   // A skinned mesh must be cloned with SkeletonUtils.clone: THREE.Object3D.clone()
   // leaves the copy bound to the source skeleton, so the baked animation would not
@@ -70,6 +79,20 @@ export function GltfLumi({ url }: { url: string }) {
     return clone;
   }, [scene]);
   const { actions, mixer } = useAnimations(animations, model);
+  const camera = useThree((s) => s.camera);
+  const canvasSize = useThree((s) => s.size);
+  const tmpV = useMemo(() => new THREE.Vector3(), []);
+  // Both hand bones. The digest pose lifts ONE arm overhead, and the hole rides
+  // that raised hand - so each frame we pick whichever hand is currently higher
+  // rather than trusting an R/L name (that was locking the hole to the lowered
+  // hand). glTF may sanitise "hand.R" to "hand_R"/"handR", so match loosely.
+  const handBones = useMemo(() => {
+    const hands: THREE.Object3D[] = [];
+    model.traverse((o) => {
+      if ((o as THREE.Bone).isBone && o.name.toLowerCase().includes("hand")) hands.push(o);
+    });
+    return hands;
+  }, [model]);
 
   // Play the baked idle loop (float + tail sway + hair). useAnimations advances
   // its mixer on the r3f frame loop, so no manual tick is needed; the procedural
@@ -133,10 +156,36 @@ export function GltfLumi({ url }: { url: string }) {
   useFrame((_, delta) => {
     const g = group.current;
     if (!g) return;
+    // Digest pose: while the page is being devoured, Lumi holds the offering
+    // clip (arm outstretched) so the black hole sits in her extended hand, and
+    // she ignores section gestures. Crossfade in on the first digest frame,
+    // then back to idle once it has fully reversed. HOLD is LoopOnce+clamped, so
+    // it settles on the fully-reached pose and stays there for the whole hold;
+    // its later "finished" event is ignored because greeting.current is false.
+    const holdWanted = getDigest() > 0.02;
+    if (holdWanted !== digestHold.current) {
+      digestHold.current = holdWanted;
+      const idle = actions[IDLE_CLIP] ?? Object.values(actions)[0];
+      const hold = actions[HOLD_CLIP];
+      if (hold && idle && hold !== idle) {
+        greeting.current = false;
+        if (holdWanted) {
+          for (const a of Object.values(actions)) if (a && a !== hold) a.fadeOut(0.3);
+          hold.reset().setLoop(THREE.LoopOnce, 1);
+          hold.clampWhenFinished = true;
+          hold.fadeIn(0.3).play();
+        } else {
+          hold.fadeOut(0.45);
+          idle.reset().setLoop(THREE.LoopRepeat, Infinity).fadeIn(0.45).play();
+        }
+      }
+    }
+
     // Perform the queued gestures (act arrivals, from SceneFocus) and wave on
-    // the rising edge of a hover, so Lumi keeps reacting through the scroll.
+    // the rising edge of a hover, so Lumi keeps reacting through the scroll -
+    // unless she is holding the digest pose, which owns her arms.
     const play = playGestureRef.current;
-    if (play) {
+    if (play && !digestHold.current) {
       for (const name of drainGestures()) play(name);
       const ex = getLumiExcite();
       if (ex && !excitePrev.current) play(WAVE_CLIP);
@@ -146,9 +195,54 @@ export function GltfLumi({ url }: { url: string }) {
     const s = resolveSceneState(prog.current);
     // Window-fed pointer store: the canvas is pointer-inert, so r3f's own
     // state.pointer never updates (see lib/scene/mascot.ts).
-    g.rotation.y = s.model.spin + getPointerNorm().x * 0.2;
+    // Face the viewer while presenting the digest hole; otherwise follow the
+    // scroll spin + a light pointer glance.
+    if (digestHold.current) {
+      g.rotation.y += (0 - g.rotation.y) * Math.min(1, delta * 3);
+    } else {
+      g.rotation.y = s.model.spin + getPointerNorm().x * 0.2;
+    }
     g.position.x = BASE_POSITION[0] + s.model.driftX * 0.35;
     g.position.z = BASE_POSITION[2] + s.model.driftZ * 0.5;
+
+    // Publish the real hand position (world + projected to screen) so the black
+    // hole sits exactly in her hand and the page-suck target aims at the same
+    // point. Force the skeleton pose and the rig matrices current THIS frame
+    // before reading: the mixer pose and the face-front rotation set just above
+    // both otherwise land after r3f's own matrix pass, so a plain read lags a
+    // frame - and during the turn-to-face that one-frame swing threw the hole to
+    // the opposite side. mixer.update(0) reapplies the current clip pose without
+    // advancing time; updateWorldMatrix walks the chain so g.rotation.y counts.
+    if (handBones.length) {
+      mixer.update(0);
+      // Ride the RAISED hand (highest world Y) - the overhead-point pose lifts
+      // one arm, and that is the hand holding the hole.
+      let hand = handBones[0];
+      let bestY = -Infinity;
+      for (const hb of handBones) {
+        hb.updateWorldMatrix(true, false);
+        hb.getWorldPosition(tmpV);
+        if (tmpV.y > bestY) {
+          bestY = tmpV.y;
+          hand = hb;
+        }
+      }
+      hand.getWorldPosition(tmpV);
+      // The hole rides her FINGERTIP, not the middle of the hand: shift up ~one
+      // bone-length along the hand's own axis (its world +Y basis, so it stays
+      // right under the model's scale and her turn). In the overhead point the
+      // finger aims up, so this lands the hole just past the tip.
+      const e = hand.matrixWorld.elements;
+      tmpV.x += e[4] * 0.17;
+      tmpV.y += e[5] * 0.17;
+      tmpV.z += e[6] * 0.17;
+      setLumiHand({ x: tmpV.x, y: tmpV.y, z: tmpV.z });
+      tmpV.project(camera);
+      setLumiHandScreen({
+        x: (tmpV.x * 0.5 + 0.5) * canvasSize.width,
+        y: (-tmpV.y * 0.5 + 0.5) * canvasSize.height,
+      });
+    }
   });
 
   return (

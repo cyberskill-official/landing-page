@@ -80,8 +80,11 @@ export const valueProps: ValuePoint[] = [
     label: { en: "Building software for clients across Vietnam and beyond", vi: "Xây dựng phần mềm cho khách hàng tại Việt Nam và quốc tế" },
   },
   {
-    stat: { en: "Web, mobile, internal", vi: "Web, di động, nội bộ" },
-    label: { en: "Three focused practices, one accountable team", vi: "Ba mảng chuyên sâu, một đội ngũ chịu trách nhiệm" },
+    stat: { en: "One senior team", vi: "Một đội ngũ dày dạn" },
+    label: {
+      en: "Web, mobile, and internal systems, owned end to end by the people who build them",
+      vi: "Web, di động và hệ thống nội bộ, do chính những người xây dựng chịu trách nhiệm đến cùng",
+    },
   },
   {
     stat: { en: "Outcome-first", vi: "Ưu tiên kết quả" },
@@ -150,8 +153,8 @@ export const commitments: Commitment[] = [
   {
     title: { en: "We answer for the work", vi: "Chúng tôi chịu trách nhiệm với công việc" },
     body: {
-      en: "A small, senior team owns your project end to end. You always know who is building what, and why.",
-      vi: "Một đội ngũ nhỏ và giàu kinh nghiệm nhận trọn dự án của bạn, từ đầu đến cuối. Bạn luôn biết ai đang xây phần nào, và vì sao.",
+      en: "Senior engineers own your project end to end. You always know who is building what, and why.",
+      vi: "Các kỹ sư giàu kinh nghiệm nhận trọn dự án của bạn, từ đầu đến cuối. Bạn luôn biết ai đang xây phần nào, và vì sao.",
     },
   },
   {
@@ -219,11 +222,11 @@ export const scenes: Scene[] = [
   },
   {
     id: "team",
-    kicker: { en: "The team", vi: "Đội ngũ" },
-    heading: { en: "A small senior team in Saigon", vi: "Một đội ngũ nhỏ, lành nghề tại Sài Gòn" },
+    kicker: { en: "The company", vi: "Công ty" },
+    heading: { en: "A software company in Saigon", vi: "Một công ty phần mềm tại Sài Gòn" },
     body: {
-      en: "Behind Lumi is a senior team in Ho Chi Minh City that answers for the work end to end. You always know who is building what, and why, and the same people stay with you from first call to production.",
-      vi: "Phía sau Lumi là một đội ngũ giàu kinh nghiệm tại TP. Hồ Chí Minh, chịu trách nhiệm đến cùng với sản phẩm. Bạn luôn biết ai đang xây phần nào và vì sao, và vẫn là những con người đó đồng hành từ cuộc gọi đầu tiên đến khi sản phẩm chạy thật.",
+      en: "CyberSkill is a registered software company in Ho Chi Minh City. Senior engineers own the work end to end, so you always know who is building what, and why, and the same people stay with you from the first call to production.",
+      vi: "CyberSkill là công ty phần mềm đã đăng ký tại TP. Hồ Chí Minh. Các kỹ sư giàu kinh nghiệm chịu trách nhiệm đến cùng với sản phẩm, nên bạn luôn biết ai đang xây phần nào và vì sao, và vẫn là những con người đó đồng hành từ cuộc gọi đầu tiên đến khi sản phẩm chạy thật.",
     },
   },
   {

@@ -67,6 +67,27 @@ export function getLumiWorld(): LumiWorld {
   return world;
 }
 
+// Lumi's holding-hand position, published by GltfLumi from the ACTUAL hand bone
+// (world coords + its projection to screen pixels). The black hole and the
+// page-suck target lock to this, so the hole sits exactly in her hand in any
+// pose - no more guessed offsets. `set` is false until a rigged model reports a
+// hand, so consumers can fall back to the core position for the procedural Lumi.
+let hand: LumiWorld = { x: 1.4, y: 0, z: 0 };
+let handScreen: { x: number; y: number; set: boolean } = { x: 0, y: 0, set: false };
+
+export function setLumiHand(next: LumiWorld): void {
+  hand = next;
+}
+export function getLumiHand(): LumiWorld {
+  return hand;
+}
+export function setLumiHandScreen(next: { x: number; y: number }): void {
+  handScreen = { x: next.x, y: next.y, set: true };
+}
+export function getLumiHandScreen(): { x: number; y: number; set: boolean } {
+  return handScreen;
+}
+
 // Magic-burst requests from the DOM world (form success, hotspot clicks).
 // The scene drains this queue each frame; power scales the burst.
 export type BurstRequest = { power: number };

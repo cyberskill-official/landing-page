@@ -6,6 +6,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
+import { CosmosBackdrop } from "@/components/CosmosBackdrop";
+import { CosmosCanvas } from "@/components/CosmosCanvas";
 
 // Display face (FR-DS-008): Space Grotesk with the REAL Vietnamese subset.
 // The old system-serif stack (Iowan Old Style/Palatino) lacks Vietnamese
@@ -93,6 +95,11 @@ export default async function RootLayout({
               "(function(){try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=window.sessionStorage;if(s&&!s.getItem('cs-intro')){s.setItem('cs-intro','1');document.documentElement.setAttribute('data-intro','play');}}catch(e){}})();",
           }}
         />
+        {/* Permanent cosmos behind the content (z-index 0 < 1), revealed on
+            digest. The CSS backdrop is the universal fallback; the 3D canvas
+            rides just above it on capable devices for true depth. */}
+        <CosmosBackdrop />
+        <CosmosCanvas />
         {children}
         <Analytics />
         <SpeedInsights />

@@ -36,3 +36,9 @@ pnpm-debug.log*
 !.vscode/extensions.json
 .idea
 .vercel
+
+# Local Lighthouse CI reports
+.lighthouseci/
+
+# Local lead store (JSONL)
+.data/
