@@ -15,12 +15,20 @@ import * as THREE from "three";
 // it is idle otherwise; on narrow / low-core devices it does not mount at all and
 // the CSS CosmosBackdrop is the fallback.
 
+// The eight worlds, inner to outer, with distinct sizes and colours so the whole
+// system reads in full - little rocky inners, the gas giants, ringed Saturn, the
+// icy outers. r = orbit radius, spin = self-rotation.
+// phase = starting angle so the worlds are spread around the sun the instant the
+// system is revealed, not lined up on one side.
 const PLANETS = [
-  { r: 2.3, size: 0.16, speed: 0.5, color: "#ffe6a0", ring: false },
-  { r: 3.3, size: 0.32, speed: 0.33, color: "#f4ba17", ring: true },
-  { r: 4.6, size: 0.2, speed: 0.24, color: "#9fc7ff", ring: false },
-  { r: 6.0, size: 0.36, speed: 0.16, color: "#fff2d0", ring: false },
-  { r: 7.6, size: 0.24, speed: 0.11, color: "#d98a1f", ring: false },
+  { r: 2.0, size: 0.11, speed: 0.62, color: "#caa06a", ring: false, spin: 0.5, phase: 0.6 }, // Mercury
+  { r: 2.7, size: 0.18, speed: 0.47, color: "#e6c079", ring: false, spin: 0.4, phase: 2.4 }, // Venus
+  { r: 3.5, size: 0.19, speed: 0.4, color: "#6fb0e8", ring: false, spin: 0.6, phase: 4.1 }, // Earth
+  { r: 4.3, size: 0.14, speed: 0.33, color: "#d0714a", ring: false, spin: 0.55, phase: 5.5 }, // Mars
+  { r: 5.6, size: 0.42, speed: 0.22, color: "#e6c890", ring: false, spin: 0.9, phase: 1.3 }, // Jupiter
+  { r: 7.0, size: 0.36, speed: 0.16, color: "#f0d69a", ring: true, spin: 0.8, phase: 3.2 }, // Saturn
+  { r: 8.2, size: 0.27, speed: 0.12, color: "#a7dbe8", ring: false, spin: 0.5, phase: 5.0 }, // Uranus
+  { r: 9.2, size: 0.26, speed: 0.09, color: "#5f7fd8", ring: false, spin: 0.5, phase: 2.0 }, // Neptune
 ] as const;
 
 function CameraSetup() {
@@ -31,14 +39,46 @@ function CameraSetup() {
   return null;
 }
 
+// A faint ring of asteroids between Mars and Jupiter, built once as a point
+// cloud in the XZ plane and spun slowly - it fills the gap so the layout reads
+// as a real system, not five lonely dots.
+function AsteroidBelt() {
+  const belt = useRef<THREE.Points>(null);
+  const geom = useMemo(() => {
+    const N = 700;
+    const pos = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 4.7 + Math.random() * 0.55;
+      pos[i * 3] = Math.cos(a) * r;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 0.12;
+      pos[i * 3 + 2] = Math.sin(a) * r;
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    return g;
+  }, []);
+  useFrame((_, delta) => {
+    if (belt.current) belt.current.rotation.y += delta * 0.05;
+  });
+  return (
+    <points ref={belt} geometry={geom}>
+      <pointsMaterial color="#c9b184" size={0.035} sizeAttenuation transparent opacity={0.7} depthWrite={false} />
+    </points>
+  );
+}
+
 function System() {
   const grp = useRef<THREE.Group>(null);
   const orbits = useRef<Array<THREE.Group | null>>([]);
+  const planets = useRef<Array<THREE.Mesh | null>>([]);
   const sun = useRef<THREE.Mesh>(null);
   useFrame((state, delta) => {
     for (let i = 0; i < PLANETS.length; i++) {
       const o = orbits.current[i];
       if (o) o.rotation.y += delta * PLANETS[i].speed;
+      const pm = planets.current[i];
+      if (pm) pm.rotation.y += delta * PLANETS[i].spin;
     }
     if (grp.current) grp.current.rotation.y += delta * 0.02;
     if (sun.current) {
@@ -61,6 +101,7 @@ function System() {
       {PLANETS.map((p, i) => (
         <group
           key={i}
+          rotation-y={p.phase}
           ref={(el) => {
             orbits.current[i] = el;
           }}
@@ -72,19 +113,24 @@ function System() {
             <meshBasicMaterial color="#c8aa5a" transparent opacity={0.13} side={THREE.DoubleSide} toneMapped={false} />
           </mesh>
           <group position={[p.r, 0, 0]}>
-            <mesh>
+            <mesh
+              ref={(el) => {
+                planets.current[i] = el;
+              }}
+            >
               <sphereGeometry args={[p.size, 32, 32]} />
-              <meshStandardMaterial color={p.color} roughness={0.55} metalness={0.2} emissive={p.color} emissiveIntensity={0.12} />
+              <meshStandardMaterial color={p.color} roughness={0.6} metalness={0.15} emissive={p.color} emissiveIntensity={0.14} />
             </mesh>
             {p.ring && (
               <mesh rotation-x={-Math.PI / 2.3} rotation-z={0.2}>
-                <ringGeometry args={[p.size * 1.5, p.size * 2.4, 64]} />
-                <meshBasicMaterial color="#ffe6a0" transparent opacity={0.5} side={THREE.DoubleSide} toneMapped={false} />
+                <ringGeometry args={[p.size * 1.5, p.size * 2.5, 96]} />
+                <meshBasicMaterial color="#ffe6a0" transparent opacity={0.55} side={THREE.DoubleSide} toneMapped={false} />
               </mesh>
             )}
           </group>
         </group>
       ))}
+      <AsteroidBelt />
     </group>
   );
 }
@@ -140,7 +186,9 @@ export function CosmosCanvas() {
     };
   }, [digesting]);
 
-  const camera = useMemo(() => ({ position: [0, 4.7, 10.8] as [number, number, number], fov: 42 }), []);
+  // Pulled back + raised so the whole Neptune-radius system (r=9.2) sits inside
+  // the frame, viewed obliquely from above the orbit plane.
+  const camera = useMemo(() => ({ position: [0, 6.4, 16.5] as [number, number, number], fov: 40 }), []);
 
   if (!capable) return null;
 

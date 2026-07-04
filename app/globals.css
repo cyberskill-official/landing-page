@@ -1985,14 +1985,20 @@ main > .cs-section::before {
    hole behind. It flows straight back as the value falls on release. Opacity
    only, so nothing shifts (CLS-safe); the Lumi hotspot is left visible so you
    can still let go. */
+/* Chrome (header, footer, CTA, rail, progress) fades out with the digest. The
+   page SECTIONS deliberately do NOT fade here - if they did, their content would
+   just dissolve in place. Instead each content block STREAMS into the hole via
+   the BlackHole spaghettify (which owns its own opacity), and only the sections'
+   opaque BACKGROUNDS fade, to uncover the cosmos behind. */
 [data-digesting] .cs-header,
-[data-digesting] main > *:not(.cs-canvas-layer),
 [data-digesting] .cs-footer,
 [data-digesting] .cs-persistent-cta,
 [data-digesting] .cs-rail,
 [data-digesting] .cs-progress {
   opacity: calc(1 - max(0, (var(--cs-digest, 0) - 0.35) / 0.65));
 }
+main .cs-section { transition: background-color 0.9s ease; }
+[data-digesting] main .cs-section { background-color: transparent; }
 
 /* --- round-5 guards --- */
 @media (prefers-reduced-motion: reduce) {
