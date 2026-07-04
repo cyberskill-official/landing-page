@@ -2028,6 +2028,20 @@ main > .cs-section::before {
 }
 main .cs-section { transition: background-color 0.9s ease; }
 [data-digesting] main .cs-section { background-color: transparent; }
+/* The interstitial bands - the trust stats strip and the marquee - are not
+   .cs-section and do not stream into the hole, so their opaque backgrounds would
+   otherwise sit as a solid slab over the cosmos during a digest. Their entrance
+   is a Web-Animations opacity tween that pins opacity (opacity:0, even !important,
+   loses to it), so hide the whole band with visibility instead - untouched by that
+   tween. It paints nothing while keeping layout (CLS-safe) and reverses on release.
+   Backgrounds/borders are also cleared as a belt-and-suspenders against any
+   descendant that re-asserts visibility. */
+[data-digesting] .cs-trust,
+[data-digesting] .cs-marquee {
+  visibility: hidden;
+  background: transparent;
+  border-color: transparent;
+}
 /* While digesting, let content blocks travel across the page to the hole
    without being clipped by a section that normally hides its overflow (the
    hero and the contact section), so the pull reads as one continuous draw into
