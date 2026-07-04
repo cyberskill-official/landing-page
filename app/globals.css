@@ -539,8 +539,10 @@ html[data-digesting] .cs-cosmos { opacity: var(--cs-digest, 1); visibility: visi
 /* The true-3D cosmos canvas rides just above the CSS cosmos (both z-index 0,
    behind content) on capable devices, so it covers the CSS fallback. Same
    digest-synced reveal. */
-.cs-cosmos3d { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; visibility: hidden; }
-html[data-digesting] .cs-cosmos3d { opacity: var(--cs-digest, 1); visibility: visible; }
+/* Laid out (not visibility:hidden) so R3F measures the container and sizes its
+   canvas to the full viewport; just transparent until a digest reveals it. */
+.cs-cosmos3d { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; }
+html[data-digesting] .cs-cosmos3d { opacity: var(--cs-digest, 1); }
 html[data-digesting] .cs-cosmos-nebula,
 html[data-digesting] .cs-cosmos-stars,
 html[data-digesting] .cs-cosmos-sun,
