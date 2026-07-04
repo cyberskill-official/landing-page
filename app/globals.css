@@ -904,12 +904,35 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 
 /* Trust band */
 .cs-trust { border-block: 1px solid var(--cs-color-line); background: var(--cs-color-surface); padding-block: var(--cs-space-12); }
-.cs-trust-grid { display: grid; gap: var(--cs-space-8); grid-template-columns: repeat(2, 1fr); }
+.cs-trust-grid { display: grid; gap: var(--cs-space-10) var(--cs-space-8); grid-template-columns: repeat(2, 1fr); }
 @media (min-width: 760px) { .cs-trust-grid { grid-template-columns: repeat(4, 1fr); } }
-.cs-trust-item { text-align: center; }
-.cs-trust-figure { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-brand); margin: 0 0 var(--cs-space-1); }
+/* Each stat is a column: the big figure sits on a shared baseline, the caption
+   reads beneath it at a fixed measure so the four read as one tidy row. */
+.cs-trust-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cs-space-2);
+  text-align: center;
+  padding-inline: var(--cs-space-4);
+}
+/* Hairline between columns (wide screens only), set in the middle of the gap. */
+@media (min-width: 760px) {
+  .cs-trust-item:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--cs-space-8) * -0.5);
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2.6rem;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--cs-color-line) 20%, var(--cs-color-line) 80%, transparent);
+  }
+}
+.cs-trust-figure { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); line-height: 1.02; color: var(--cs-color-brand); margin: 0; }
 [data-theme="dark"] .cs-trust-figure { color: var(--cs-color-accent); }
-.cs-trust-label { margin: 0; font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); }
+.cs-trust-label { margin: 0; font-size: var(--cs-text-sm); line-height: 1.5; color: var(--cs-color-fg-muted); max-width: 26ch; text-wrap: balance; }
 
 /* Case-study detail prose */
 .cs-case-section { margin-top: var(--cs-space-8); max-width: 46rem; }
@@ -2006,6 +2029,59 @@ main .cs-section { transition: background-color 0.9s ease; }
 [data-digesting] main,
 [data-digesting] .cs-hero,
 [data-digesting] .cs-section-contact { overflow: visible; }
+
+/* Lumi's touch (FR-CHAR-033): when she brushes a card, LumiMagic sets
+   data-lumi-touch for a moment. The card lifts a touch, warms with a gold rim
+   and glow, and a soft light sweeps across it, then it settles. Motion-gated,
+   so reduced-motion visitors and the SSR/no-JS page never animate. */
+@media (prefers-reduced-motion: no-preference) {
+  .cs-service-card,
+  .cs-work-card,
+  .cs-value-item,
+  .cs-proof-card {
+    position: relative;
+    transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.55s ease, border-color 0.55s ease;
+  }
+  [data-lumi-touch] {
+    transform: translateY(-9px) scale(1.014);
+    border-color: color-mix(in srgb, var(--cs-color-accent) 70%, transparent) !important;
+    box-shadow:
+      0 28px 60px -20px color-mix(in srgb, var(--cs-color-accent) 72%, transparent),
+      0 0 22px -4px color-mix(in srgb, var(--cs-color-accent) 45%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--cs-color-accent) 42%, transparent) inset;
+  }
+  /* The light sweep rides a pseudo-element clipped to the card's own radius. */
+  [data-lumi-touch]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+      105deg,
+      transparent 34%,
+      color-mix(in srgb, var(--cs-color-accent) 26%, transparent) 48%,
+      color-mix(in srgb, #fff 30%, transparent) 52%,
+      transparent 66%
+    );
+    background-size: 260% 100%;
+    animation: cs-lumi-sweep 1.5s ease both;
+  }
+  @keyframes cs-lumi-sweep {
+    from {
+      background-position: 175% 0;
+      opacity: 0;
+    }
+    18% {
+      opacity: 1;
+    }
+    to {
+      background-position: -75% 0;
+      opacity: 0;
+    }
+  }
+}
 
 /* --- round-5 guards --- */
 @media (prefers-reduced-motion: reduce) {

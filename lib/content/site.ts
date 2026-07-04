@@ -80,8 +80,11 @@ export const valueProps: ValuePoint[] = [
     label: { en: "Building software for clients across Vietnam and beyond", vi: "Xây dựng phần mềm cho khách hàng tại Việt Nam và quốc tế" },
   },
   {
-    stat: { en: "Web, mobile, internal", vi: "Web, di động, nội bộ" },
-    label: { en: "Three focused practices, one accountable team", vi: "Ba mảng chuyên sâu, một đội ngũ chịu trách nhiệm" },
+    stat: { en: "One senior team", vi: "Một đội ngũ dày dạn" },
+    label: {
+      en: "Web, mobile, and internal systems, owned end to end by the people who build them",
+      vi: "Web, di động và hệ thống nội bộ, do chính những người xây dựng chịu trách nhiệm đến cùng",
+    },
   },
   {
     stat: { en: "Outcome-first", vi: "Ưu tiên kết quả" },

@@ -11,16 +11,16 @@ const years = new Date().getFullYear() - company.founded;
 type Item = { figure: string; label: string; count?: number };
 const items: Record<Locale, Item[]> = {
   en: [
-    { count: years, figure: "years", label: "Shipping software for real clients since 2020" },
-    { figure: "Web, mobile, internal", label: "Three focused practices" },
-    { figure: "EN + VN", label: "Bilingual delivery" },
-    { figure: "1 business day", label: "We reply within" },
+    { count: years, figure: "years", label: "of building software for real clients, since 2020" },
+    { figure: "3 practices", label: "web, mobile, and the internal systems that run a company" },
+    { figure: "EN + VN", label: "we scope, build, and ship in both languages" },
+    { figure: "1 business day", label: "the longest you will wait for a reply" },
   ],
   vi: [
-    { count: years, figure: "năm", label: "Bàn giao phần mềm cho khách hàng thật từ 2020" },
-    { figure: "Web, di động, nội bộ", label: "Ba mảng chuyên sâu" },
-    { figure: "Anh + Việt", label: "Bàn giao song ngữ" },
-    { figure: "1 ngày làm việc", label: "Chúng tôi phản hồi trong vòng" },
+    { count: years, figure: "năm", label: "xây phần mềm cho khách hàng thật, kể từ 2020" },
+    { figure: "3 mảng", label: "web, di động, và hệ thống nội bộ vận hành cả công ty" },
+    { figure: "Anh + Việt", label: "tư vấn, xây dựng và bàn giao bằng cả hai ngôn ngữ" },
+    { figure: "1 ngày làm việc", label: "khoảng chờ lâu nhất để bạn nhận phản hồi" },
   ],
 };
 
