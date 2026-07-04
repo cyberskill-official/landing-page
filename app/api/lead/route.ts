@@ -7,9 +7,9 @@ import { company } from "@/lib/content/site";
 export const runtime = "nodejs";
 
 // Lead capture. Validates server-side, drops bot submissions (honeypot),
-// always logs (partial data is still valuable), and best-effort fans out to an
-// email notification, a Slack ping, and a CRM webhook if configured. No secret
-// ever reaches the client.
+// always logs (partial data is still valuable), and best-effort fans out to a
+// durable local file, an email notification to the company inbox, a Slack ping,
+// and the CyberOS lead-intake webhook if configured. No secret reaches the client.
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -48,17 +48,17 @@ export async function POST(req: Request) {
   console.info("[lead]", JSON.stringify(record));
 
   // Fan out best-effort. A failed sink is logged but never fails the user's
-  // submission (FR-CTA-007). Every lead is durably saved: to a local JSONL file
+  // submission (FR-CTA-007). Every lead is saved durably: to a local JSONL file
   // (works in dev and on any server with a writable disk) and, when configured,
-  // to a Supabase table; email / Slack / CRM are optional notifications.
+  // to CyberOS via its lead-intake webhook - the system of record. Email and
+  // Slack are the human notifications.
   const results = await Promise.allSettled([
     saveToFile(record),
-    saveToSupabase(record),
     notifyEmail(record, lead.email),
     notifySlack(record),
-    forwardToCrm(record),
+    forwardToCyberOs(record),
   ]);
-  const channels = ["file", "supabase", "email", "slack", "crm"];
+  const channels = ["file", "email", "slack", "cyberos"];
   results.forEach((r, i) => {
     if (r.status === "rejected") console.error(`[lead] ${channels[i]} notify failed`, r.reason);
   });
@@ -118,42 +118,6 @@ async function saveToFile(record: Record<string, unknown>): Promise<void> {
   await appendFile(join(dir, "leads.jsonl"), JSON.stringify(record) + "\n", "utf8");
 }
 
-// Durable cloud save: insert the lead into a Supabase table (default "leads")
-// via the REST API with the service-role key (server-only). No-ops until
-// SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY are set, so it is safe to ship. The
-// table needs columns matching the record keys (received_at, name, email,
-// company, intent, message, locale, source).
-async function saveToSupabase(record: Record<string, unknown>): Promise<void> {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return;
-  const table = process.env.LEAD_SUPABASE_TABLE || "leads";
-  const row = {
-    received_at: record.receivedAt,
-    name: record.name,
-    email: record.email,
-    company: record.company,
-    intent: record.intent,
-    message: record.message,
-    locale: record.locale,
-    source: record.source,
-  };
-  const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}`, {
-    method: "POST",
-    headers: {
-      apikey: key,
-      authorization: `Bearer ${key}`,
-      "content-type": "application/json",
-      prefer: "return=minimal",
-    },
-    body: JSON.stringify(row),
-  });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(`supabase ${res.status} ${detail.slice(0, 300)}`);
-  }
-}
-
 async function notifySlack(record: Record<string, unknown>): Promise<void> {
   const url = process.env.LEAD_SLACK_WEBHOOK_URL;
   if (!url) return;
@@ -167,12 +131,26 @@ async function notifySlack(record: Record<string, unknown>): Promise<void> {
   });
 }
 
-async function forwardToCrm(record: Record<string, unknown>): Promise<void> {
+// Durable system-of-record save: forward the lead to CyberOS via its lead-intake
+// webhook. No-ops until LEAD_CRM_WEBHOOK_URL is set (e.g.
+// https://os.cyberskill.world/v1/leads). When LEAD_CRM_TOKEN is set it is sent
+// as a bearer secret so CyberOS can authenticate this machine-to-machine call.
+// A non-2xx surfaces via the Promise.allSettled handler instead of being
+// silently dropped.
+async function forwardToCyberOs(record: Record<string, unknown>): Promise<void> {
   const url = process.env.LEAD_CRM_WEBHOOK_URL;
   if (!url) return;
-  await fetch(url, {
+  const token = process.env.LEAD_CRM_TOKEN;
+  const res = await fetch(url, {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: {
+      "content-type": "application/json",
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
+    },
     body: JSON.stringify(record),
   });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`cyberos ${res.status} ${detail.slice(0, 300)}`);
+  }
 }
