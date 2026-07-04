@@ -21,15 +21,147 @@ import * as THREE from "three";
 // phase = starting angle so the worlds are spread around the sun the instant the
 // system is revealed, not lined up on one side.
 const PLANETS = [
-  { r: 2.0, size: 0.11, speed: 0.62, color: "#caa06a", ring: false, spin: 0.5, phase: 0.6 }, // Mercury
-  { r: 2.7, size: 0.18, speed: 0.47, color: "#e6c079", ring: false, spin: 0.4, phase: 2.4 }, // Venus
-  { r: 3.5, size: 0.19, speed: 0.4, color: "#6fb0e8", ring: false, spin: 0.6, phase: 4.1 }, // Earth
-  { r: 4.3, size: 0.14, speed: 0.33, color: "#d0714a", ring: false, spin: 0.55, phase: 5.5 }, // Mars
-  { r: 5.6, size: 0.42, speed: 0.22, color: "#e6c890", ring: false, spin: 0.9, phase: 1.3 }, // Jupiter
-  { r: 7.0, size: 0.36, speed: 0.16, color: "#f0d69a", ring: true, spin: 0.8, phase: 3.2 }, // Saturn
-  { r: 8.2, size: 0.27, speed: 0.12, color: "#a7dbe8", ring: false, spin: 0.5, phase: 5.0 }, // Uranus
-  { r: 9.2, size: 0.26, speed: 0.09, color: "#5f7fd8", ring: false, spin: 0.5, phase: 2.0 }, // Neptune
+  { r: 2.0, size: 0.11, speed: 0.62, color: "#caa06a", ring: false, spin: 0.5, phase: 0.6, kind: "mercury" }, // Mercury
+  { r: 2.7, size: 0.18, speed: 0.47, color: "#e6c079", ring: false, spin: 0.4, phase: 2.4, kind: "venus" }, // Venus
+  { r: 3.5, size: 0.19, speed: 0.4, color: "#6fb0e8", ring: false, spin: 0.6, phase: 4.1, kind: "earth" }, // Earth
+  { r: 4.3, size: 0.14, speed: 0.33, color: "#d0714a", ring: false, spin: 0.55, phase: 5.5, kind: "mars" }, // Mars
+  { r: 5.6, size: 0.42, speed: 0.22, color: "#e6c890", ring: false, spin: 0.9, phase: 1.3, kind: "jupiter" }, // Jupiter
+  { r: 7.0, size: 0.36, speed: 0.16, color: "#f0d69a", ring: true, spin: 0.8, phase: 3.2, kind: "saturn" }, // Saturn
+  { r: 8.2, size: 0.27, speed: 0.12, color: "#a7dbe8", ring: false, spin: 0.5, phase: 5.0, kind: "uranus" }, // Uranus
+  { r: 9.2, size: 0.26, speed: 0.09, color: "#5f7fd8", ring: false, spin: 0.5, phase: 2.0, kind: "neptune" }, // Neptune
 ] as const;
+
+// Paint a believable equirectangular planet skin on a 2D canvas - latitude bands
+// for the gas giants, mottled maria/continents for the rocky worlds, ice caps -
+// so each sphere reads with real surface detail and gradient instead of a flat
+// fill. Cheap (drawn once, 512x256) and lightweight enough for a background scene.
+function makePlanetTexture(kind: string): THREE.Texture | null {
+  if (typeof document === "undefined") return null;
+  const W = 512;
+  const H = 256;
+  const c = document.createElement("canvas");
+  c.width = W;
+  c.height = H;
+  const g = c.getContext("2d");
+  if (!g) return null;
+  const rnd = (seed: number) => {
+    let s = seed;
+    return () => {
+      s = (s * 1103515245 + 12345) & 0x7fffffff;
+      return s / 0x7fffffff;
+    };
+  };
+  const bands = (stops: [number, string][], jitter: number, seed: number) => {
+    const r = rnd(seed);
+    for (let y = 0; y < H; y++) {
+      const t = y / H;
+      // pick the surrounding stops and lerp, with a little wavy jitter per row
+      let col = stops[0][1];
+      for (let i = 0; i < stops.length - 1; i++) {
+        if (t >= stops[i][0] && t <= stops[i + 1][0]) {
+          col = i % 2 === 0 ? stops[i][1] : stops[i + 1][1];
+          break;
+        }
+      }
+      g.fillStyle = col;
+      g.fillRect(0, y, W, 1);
+      if (jitter > 0) {
+        g.globalAlpha = 0.08 + r() * 0.12;
+        g.fillStyle = r() > 0.5 ? "#ffffff" : "#000000";
+        const bw = 30 + r() * 120;
+        g.fillRect(r() * W - bw, y, bw, 1);
+        g.globalAlpha = 1;
+      }
+    }
+  };
+  const blobs = (base: string, cols: string[], n: number, seed: number, rmin: number, rmax: number) => {
+    g.fillStyle = base;
+    g.fillRect(0, 0, W, H);
+    const r = rnd(seed);
+    for (let i = 0; i < n; i++) {
+      g.globalAlpha = 0.35 + r() * 0.4;
+      g.fillStyle = cols[Math.floor(r() * cols.length)];
+      const x = r() * W;
+      const y = 30 + r() * (H - 60);
+      const rad = rmin + r() * (rmax - rmin);
+      g.beginPath();
+      g.ellipse(x, y, rad, rad * (0.6 + r() * 0.5), r() * Math.PI, 0, Math.PI * 2);
+      g.fill();
+    }
+    g.globalAlpha = 1;
+  };
+  const caps = (col: string, h: number) => {
+    g.fillStyle = col;
+    g.globalAlpha = 0.85;
+    g.beginPath();
+    g.ellipse(W / 2, 0, W, h, 0, 0, Math.PI * 2);
+    g.fill();
+    g.beginPath();
+    g.ellipse(W / 2, H, W, h, 0, 0, Math.PI * 2);
+    g.fill();
+    g.globalAlpha = 1;
+  };
+  switch (kind) {
+    case "jupiter":
+      bands(
+        [
+          [0, "#c9a877"], [0.12, "#e6d3ac"], [0.24, "#b07f52"], [0.36, "#eaddba"],
+          [0.5, "#a86a44"], [0.62, "#e2caa0"], [0.74, "#b98a5c"], [0.86, "#efe2c4"], [1, "#c19a6b"],
+        ],
+        1,
+        11,
+      );
+      // great red spot
+      g.globalAlpha = 0.8;
+      g.fillStyle = "#b1503a";
+      g.beginPath();
+      g.ellipse(W * 0.66, H * 0.62, 46, 26, 0, 0, Math.PI * 2);
+      g.fill();
+      g.globalAlpha = 1;
+      break;
+    case "saturn":
+      bands(
+        [
+          [0, "#e3d2a2"], [0.15, "#f1e6c4"], [0.32, "#d8c090"], [0.5, "#efe3bd"],
+          [0.68, "#dcc79a"], [0.85, "#f2e8c8"], [1, "#e0cd9e"],
+        ],
+        0.6,
+        23,
+      );
+      break;
+    case "uranus":
+      bands([[0, "#9fd3e2"], [0.5, "#b6e0ec"], [1, "#a6d8e6"]], 0.3, 31);
+      break;
+    case "neptune":
+      bands([[0, "#3f5fc8"], [0.4, "#5878da"], [0.6, "#3552b8"], [1, "#4f70d4"]], 0.4, 37);
+      g.globalAlpha = 0.7;
+      g.fillStyle = "#20306e";
+      g.beginPath();
+      g.ellipse(W * 0.4, H * 0.42, 34, 20, 0, 0, Math.PI * 2);
+      g.fill();
+      g.globalAlpha = 1;
+      break;
+    case "earth":
+      blobs("#20518c", ["#2f7a3e", "#3c8a48", "#7a6a42", "#2a6b46"], 26, 5, 20, 60);
+      caps("#eef4f6", 20);
+      break;
+    case "mars":
+      blobs("#c1502e", ["#9a3b1f", "#a8492a", "#7f2f18", "#d0663f"], 22, 9, 16, 50);
+      caps("#f1e6df", 12);
+      break;
+    case "venus":
+      bands([[0, "#e7cf8f"], [0.3, "#f2e2b0"], [0.6, "#dcc079"], [1, "#efdca0"]], 0.7, 13);
+      break;
+    default: // mercury - gray, cratered
+      blobs("#9a8b7c", ["#7d7064", "#b0a396", "#6b5f54", "#8a7d70"], 34, 3, 8, 34);
+      break;
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  tex.needsUpdate = true;
+  return tex;
+}
 
 function CameraSetup() {
   const camera = useThree((s) => s.camera);
@@ -73,6 +205,9 @@ function System() {
   const orbits = useRef<Array<THREE.Group | null>>([]);
   const planets = useRef<Array<THREE.Mesh | null>>([]);
   const sun = useRef<THREE.Mesh>(null);
+  // Build each planet's surface skin once; free them when the scene unmounts.
+  const textures = useMemo(() => PLANETS.map((p) => makePlanetTexture(p.kind)), []);
+  useEffect(() => () => textures.forEach((t) => t?.dispose()), [textures]);
   useFrame((state, delta) => {
     for (let i = 0; i < PLANETS.length; i++) {
       const o = orbits.current[i];
@@ -98,6 +233,8 @@ function System() {
         <meshBasicMaterial color="#ffb020" transparent opacity={0.28} toneMapped={false} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
       <pointLight position={[0, 0, 0]} intensity={2.6} distance={44} color="#ffd873" />
+      {/* Soft fill so the textured surfaces read on the shadowed side too. */}
+      <ambientLight intensity={0.42} color="#9fb0d0" />
       {PLANETS.map((p, i) => (
         <group
           key={i}
@@ -118,8 +255,15 @@ function System() {
                 planets.current[i] = el;
               }}
             >
-              <sphereGeometry args={[p.size, 32, 32]} />
-              <meshStandardMaterial color={p.color} roughness={0.6} metalness={0.15} emissive={p.color} emissiveIntensity={0.14} />
+              <sphereGeometry args={[p.size, 48, 48]} />
+              <meshStandardMaterial
+                map={textures[i] ?? undefined}
+                color={textures[i] ? "#ffffff" : p.color}
+                roughness={0.82}
+                metalness={0.05}
+                emissive={p.color}
+                emissiveIntensity={0.05}
+              />
             </mesh>
             {p.ring && (
               <mesh rotation-x={-Math.PI / 2.3} rotation-z={0.2}>

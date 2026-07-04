@@ -136,24 +136,30 @@ export function BlackHole() {
           b.el.style.zIndex = "";
           continue;
         }
-        // Vector from the block's centre to the hole.
-        const toX = hx - b.cx;
-        const toY = hy - b.cy;
-        // Swirl that vector by an angle that grows as the block falls, so it
-        // curves into the singularity like an accretion spiral instead of
-        // sliding straight in - one coherent vortex. Reversing e on release
-        // unwinds the whole thing cleanly back into place.
-        const swirl = e * 2.1;
-        const cs = Math.cos(swirl);
-        const sn = Math.sin(swirl);
-        const rx = toX * cs - toY * sn;
-        const ry = toX * sn + toY * cs;
-        // Accelerating pull that reaches the hole EXACTLY at e=1, so every block
-        // ends AT the point - it is bodily drawn in, never stalls mid-air.
+        // Inward spiral in POLAR coordinates around the hole. Take the block's
+        // offset from the hole (this frame - the hole tracks Lumi's hand, so it
+        // stays correct as she flies), then collapse the RADIUS to zero as the
+        // pull grows while winding the ANGLE forward. Because the radius reaches
+        // 0 at e=1, every block lands EXACTLY ON the hole - it is genuinely
+        // sucked into the singularity, not flung past it. (The old code rotated
+        // the whole displacement vector, so at full swirl a block ended ~120 deg
+        // off the hole and everything just drifted the same way and faded.)
+        const ox = b.cx - hx;
+        const oy = b.cy - hy;
+        const r0 = Math.hypot(ox, oy);
+        const a0 = Math.atan2(oy, ox);
+        // Accelerating pull (smoothstep) so the draw eases in then rushes into
+        // the hole - matter accelerating down a gravity well.
         const pull = e * e * (3 - 2 * e);
-        const dx = rx * pull;
-        const dy = ry * pull;
-        const th = (Math.atan2(ry, rx) * 180) / Math.PI;
+        const r = r0 * (1 - pull);
+        const a = a0 + 2.4 * pull;
+        const nx = hx + r * Math.cos(a);
+        const ny = hy + r * Math.sin(a);
+        const dx = nx - b.cx;
+        const dy = ny - b.cy;
+        // Spaghettify along the line to the hole (radial), so the block stretches
+        // toward the point it is falling into.
+        const th = (Math.atan2(hy - ny, hx - nx) * 180) / Math.PI;
         // Shrink toward a point is the DOMINANT motion (s: 1 -> 0.08) so the
         // block funnels down into the hole; a tidal stretch ALONG the travel
         // rides on top (spaghettification). Because shrink dominates, even a
