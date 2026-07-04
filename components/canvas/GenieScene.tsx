@@ -435,9 +435,17 @@ function WishGrid() {
       attr.setZ(i, Math.sin(x * 0.55 + t * 0.7) * Math.cos(y * 0.7 + t * 0.5) * 0.22);
     }
     attr.needsUpdate = true;
-    // Fade with the hero, and pull the wire floor fully out during a digest so
-    // the reveal behind Lumi is clean cosmos, not a tron grid.
-    const fade = Math.max(0, 1 - getScrollProgress() * 1.15) * (1 - getDigest());
+    // Fade with the hero, and pull the wire floor fully out EARLY in a digest so
+    // the reveal behind Lumi is clean cosmos, not a tron grid. Read the digest
+    // from the --cs-digest custom property the DOM BlackHole writes each frame
+    // (an inline-style read, guaranteed shared) as well as the scene store, since
+    // the store can be a separate instance across the lazily-loaded scene chunk.
+    let dig = getDigest();
+    if (typeof document !== "undefined") {
+      const v = parseFloat(document.documentElement.style.getPropertyValue("--cs-digest"));
+      if (!Number.isNaN(v)) dig = Math.max(dig, v);
+    }
+    const fade = Math.max(0, 1 - getScrollProgress() * 1.15) * Math.max(0, 1 - dig * 4);
     const mat = m.material as THREE.MeshBasicMaterial;
     mat.opacity = (isLight ? 0.09 : 0.12) * fade;
     m.visible = mat.opacity > 0.004;
@@ -516,11 +524,13 @@ export function GenieScene() {
           level, so the rig's scale never distorts the ribbon. */}
       <Trail
         target={trailAnchor as React.MutableRefObject<THREE.Object3D>}
-        width={isLight ? 0.35 : 0.45}
-        length={3.5}
-        decay={3}
+        width={isLight ? 0.16 : 0.22}
+        length={2}
+        decay={3.6}
         color={isLight ? "#B5780A" : "#F4BA17"}
-        attenuation={(w) => w * w}
+        // Cube attenuation collapses the tail quickly, so it reads as a short
+        // sparkle hugging Lumi rather than a long ribbon drawn across the copy.
+        attenuation={(w) => w * w * w}
       />
       <LumiRig>
         <object3D ref={trailAnchor} />
