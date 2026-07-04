@@ -97,6 +97,8 @@ export function BlackHole() {
         b.el.style.transform = "";
         b.el.style.opacity = "";
         b.el.style.willChange = "";
+        b.el.style.zIndex = "";
+        b.el.style.position = "";
       }
       blocks = [];
       document.documentElement.removeAttribute("data-digesting");
@@ -131,39 +133,42 @@ export function BlackHole() {
         if (e <= 0.001) {
           b.el.style.transform = "";
           b.el.style.opacity = "";
+          b.el.style.zIndex = "";
           continue;
         }
-        // Spiral in, then spaghettify: swirl the vector-to-hole by an angle that
-        // grows as the block is pulled, so each component curves into the
-        // singularity like a slow whirlpool instead of sliding straight in - one
-        // coherent vortex, not scattered flicks. Then elongate ALONG that curved
-        // travel and thin across, so it stretches like matter under gravity.
-        // Reversing e on release unwinds the spiral and the stretch cleanly back
-        // into place, so the revert reads as good as the devour.
+        // Vector from the block's centre to the hole.
         const toX = hx - b.cx;
         const toY = hy - b.cy;
-        // Gentle swirl + an ACCELERATING pull (smoothstep), so each block is drawn
-        // bodily into the hole - travelling most of the way to the singularity -
-        // rather than dissolving in place. The travel is the story; the fade is
-        // held back until the block is nearly there.
-        const swirl = e * 1.5;
+        // Swirl that vector by an angle that grows as the block falls, so it
+        // curves into the singularity like an accretion spiral instead of
+        // sliding straight in - one coherent vortex. Reversing e on release
+        // unwinds the whole thing cleanly back into place.
+        const swirl = e * 2.1;
         const cs = Math.cos(swirl);
         const sn = Math.sin(swirl);
         const rx = toX * cs - toY * sn;
         const ry = toX * sn + toY * cs;
+        // Accelerating pull that reaches the hole EXACTLY at e=1, so every block
+        // ends AT the point - it is bodily drawn in, never stalls mid-air.
         const pull = e * e * (3 - 2 * e);
         const dx = rx * pull;
         const dy = ry * pull;
         const th = (Math.atan2(ry, rx) * 180) / Math.PI;
-        // Stretch along the travel, thin across, and shrink overall as it nears
-        // the point - so it visibly funnels down into the hole.
-        const shrink = 1 - e * 0.5;
-        const along = (1 + e * 1.7) * shrink;
-        const across = Math.max(0.05, (1 - e * 0.85) * shrink);
+        // Shrink toward a point is the DOMINANT motion (s: 1 -> 0.08) so the
+        // block funnels down into the hole; a tidal stretch ALONG the travel
+        // rides on top (spaghettification). Because shrink dominates, even a
+        // wide heading collapses to a thin sliver at the singularity instead of
+        // smearing across the screen - which was the old failure.
+        const s = 1 - 0.92 * e;
+        const along = s * (1 + 2.0 * e);
+        const across = Math.max(0.012, s * (1 - 0.55 * e));
+        // Lift the falling block above its neighbours so it visibly travels
+        // OVER the page toward the hole rather than under it.
+        b.el.style.zIndex = String(40 + Math.round(e * 40));
         b.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) rotate(${th.toFixed(1)}deg) scale(${along.toFixed(3)}, ${across.toFixed(3)}) rotate(${(-th).toFixed(1)}deg)`;
-        // Stay opaque while it travels; fade only in the last stretch as it is
-        // swallowed - not everywhere at once.
-        const fade = e < 0.62 ? 1 : Math.max(0, 1 - (e - 0.62) / 0.38);
+        // Hold opacity while it travels; fade only in the final stretch, when it
+        // is already a tiny sliver being swallowed by the point.
+        const fade = e < 0.72 ? 1 : Math.max(0, 1 - (e - 0.72) / 0.28);
         b.el.style.opacity = fade.toFixed(3);
       }
       raf = window.requestAnimationFrame(frame);
@@ -174,7 +179,12 @@ export function BlackHole() {
       running = true;
       if (blocks.length === 0) {
         blocks = collectBlocks();
-        for (const b of blocks) b.el.style.willChange = "transform, opacity";
+        for (const b of blocks) {
+          b.el.style.willChange = "transform, opacity";
+          // Positioned so the per-frame z-index lift takes effect; relative
+          // keeps the block exactly in flow (no layout shift).
+          if (getComputedStyle(b.el).position === "static") b.el.style.position = "relative";
+        }
       }
       document.documentElement.setAttribute("data-digesting", "true");
       last = performance.now();

@@ -1999,6 +1999,13 @@ main > .cs-section::before {
 }
 main .cs-section { transition: background-color 0.9s ease; }
 [data-digesting] main .cs-section { background-color: transparent; }
+/* While digesting, let content blocks travel across the page to the hole
+   without being clipped by a section that normally hides its overflow (the
+   hero and the contact section), so the pull reads as one continuous draw into
+   the singularity rather than blocks vanishing at a section edge. */
+[data-digesting] main,
+[data-digesting] .cs-hero,
+[data-digesting] .cs-section-contact { overflow: visible; }
 
 /* --- round-5 guards --- */
 @media (prefers-reduced-motion: reduce) {
