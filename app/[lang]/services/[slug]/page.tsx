@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { services, work, company } from "@/lib/content/site";
+import { services, work, company, siteUrl } from "@/lib/content/site";
 import { localize, type LocalizedString } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -157,7 +157,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
+  const base = siteUrl;
   // Related work: engagements tagged with this service, linked for internal
   // discovery (and honest proof that the practice is real).
   const related = work.filter((w) => w.tags.includes(slug));
@@ -227,7 +227,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <h1>{localize(service.title, locale)}</h1>
         <p className="cs-section-lead">{localize(detail.lead, locale)}</p>
 
-        <div className="cs-surface-light" style={{ marginTop: "var(--cs-space-12)", maxWidth: "46rem" }}>
+        <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "46rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.forWho}</h2>
           <p>{localize(detail.forWho, locale)}</p>
 

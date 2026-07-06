@@ -23,6 +23,19 @@ export const company = {
   } satisfies LocalizedString,
 };
 
+// The canonical production origin for every absolute URL the site emits -
+// canonical tags, hreflang, OpenGraph, the sitemap, robots, and JSON-LD. An
+// explicit NEXT_PUBLIC_SITE_URL wins ONLY when it is not a Vercel host, so a
+// preview build or a *.vercel.app alias can never leak into a canonical tag or a
+// shared link: those always resolve to cyberskill.world. Internal page-to-page
+// links stay relative (Next <Link>), so they correctly follow whatever origin
+// the visitor is on.
+export const siteUrl = (() => {
+  const env = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, "");
+  if (env && !env.includes("vercel.app")) return env;
+  return company.url;
+})();
+
 export type Service = {
   id: string;
   title: LocalizedString;

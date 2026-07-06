@@ -659,6 +659,11 @@ main > .cs-section > .cs-container > h1 {
   .cs-proof-grid { grid-template-columns: repeat(2, 1fr); }
 }
 .cs-value-item, .cs-service-card, .cs-work-card, .cs-proof-card { padding: var(--cs-space-6); }
+/* Large prose surfaces on the child pages (service + work detail, how-we-build)
+   use a bare .cs-surface-light, which carries border and glass but no padding, so
+   without this their headings and copy sat flush against the border. Give them the
+   same generous inset as the contact form. */
+.cs-prose-card { padding: var(--cs-space-8); }
 .cs-value-stat { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-brand); margin: 0 0 var(--cs-space-2); }
 [data-theme="dark"] .cs-value-stat { color: var(--cs-color-accent); }
 .cs-value-label { margin: 0; color: var(--cs-color-fg-muted); }

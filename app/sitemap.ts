@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { company, services, work } from "@/lib/content/site";
+import { services, work, siteUrl } from "@/lib/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
+  const base = siteUrl;
   const paths = [
     "",
     "/work",

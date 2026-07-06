@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { work, company } from "@/lib/content/site";
+import { work, company, siteUrl } from "@/lib/content/site";
 import { localize, type LocalizedString } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -89,7 +89,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
   }
   const study = details[item.slug];
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
+  const base = siteUrl;
   // Portfolio entries were published with the site launch; modified date tracks
   // the same until per-item editing is added.
   const published = "2026-06-22";
@@ -140,7 +140,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
         </ul>
 
         {study ? (
-          <div className="cs-surface-light" style={{ marginTop: "var(--cs-space-12)", maxWidth: "44rem" }}>
+          <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "44rem" }}>
             <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.challenge}</h2>
             <p>{localize(study.challenge, locale)}</p>
             <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.approach}</h2>
