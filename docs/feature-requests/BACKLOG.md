@@ -192,3 +192,11 @@ files' status fields; earlier runs had updated this prose but not the table.)
   read its file, build, then flip its status here and add an `.awh` PROMOTE row.
 - Phase tags are guidance, not a hard gate; dependencies in each FR file govern
   ordering.
+
+## Conventions (CyberOS)
+
+One backlog for both classes: rows are `- [status] FR-ID-slug - title`;
+`class: improvement` rows carry an `(improvement)` suffix, product rows are untagged.
+FR frontmatter `status` is the record of truth; this file is the index.
+
+- improvement programs: see `improvement/` (moved from `docs/improvement/`; class: improvement work - convert items to FRs on pickup)
