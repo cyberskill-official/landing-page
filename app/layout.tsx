@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
-import { company } from "@/lib/content/site";
+import { company, siteUrl } from "@/lib/content/site";
 import { CosmosBackdrop } from "@/components/CosmosBackdrop";
 import { CosmosCanvas } from "@/components/CosmosCanvas";
 
@@ -22,7 +22,7 @@ const displayFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? company.url),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "CyberSkill - Turn Your Will Into Real",
     template: "%s - CyberSkill",

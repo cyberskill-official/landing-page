@@ -132,8 +132,8 @@ async function notifySlack(record: Record<string, unknown>): Promise<void> {
 }
 
 // Durable system-of-record save: forward the lead to CyberOS via its lead-intake
-// webhook. No-ops until LEAD_CRM_WEBHOOK_URL is set (e.g.
-// https://os.cyberskill.world/v1/leads). When LEAD_CRM_TOKEN is set it is sent
+// webhook. No-ops until LEAD_CRM_WEBHOOK_URL is set (the CyberOS chat service
+// endpoint: https://os.cyberskill.world/v1/chat/leads). When LEAD_CRM_TOKEN is set it is sent
 // as a bearer secret so CyberOS can authenticate this machine-to-machine call.
 // A non-2xx surfaces via the Promise.allSettled handler instead of being
 // silently dropped.

@@ -104,7 +104,7 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
         <h1>{t.title}</h1>
         <p className="cs-section-lead">{t.lead}</p>
 
-        <div className="cs-surface-light" style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
+        <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{localize(method.title, locale)}</h2>
           <ul className="cs-service-outcomes" role="list">
             {method.points.map((p, i) => (
