@@ -15,4 +15,13 @@ Sentry.init({
   tracesSampleRate: 0.1,
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 0,
+  // Benign aborted-stream noise. Lumi streams tokens over fetch; when a visitor navigates
+  // away or closes the tab mid-response, the abandoned reader surfaces "Connection closed"
+  // to window.onerror. It is expected and not user-facing, so drop it rather than alert on it.
+  // The same class of noise for a cancelled request (AbortError) is dropped too.
+  ignoreErrors: [
+    "Connection closed",
+    "AbortError",
+    "The user aborted a request",
+  ],
 });
