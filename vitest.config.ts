@@ -1,11 +1,9 @@
 import { defineConfig } from "vitest/config";
 import { fileURLToPath } from "node:url";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  // Components use the automatic JSX runtime (no `import React`), matching the
-  // Next build. Transform test-imported JSX the same way so rendering components
-  // in tests (e.g. the axe check) does not need a React global in scope.
-  esbuild: { jsx: "automatic" },
+  plugins: [react()],
   test: {
     environment: "node",
     include: ["tests/**/*.test.ts"],
