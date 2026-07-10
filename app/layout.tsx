@@ -4,7 +4,7 @@ import { Space_Grotesk } from "next/font/google";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GoogleTagManager } from "@next/third-parties/google";
+import Script from "next/script";
 import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
 import { company, siteUrl } from "@/lib/content/site";
 import { CosmosBackdrop } from "@/components/CosmosBackdrop";
@@ -84,8 +84,44 @@ export default async function RootLayout({
     // umber art direction is the brand-defining look. A stored "light"
     // preference still wins via the no-flash script below.
     <html lang={bcp47[locale]} data-theme="dark" className={displayFont.variable} suppressHydrationWarning>
-      <GoogleTagManager gtmId="GTM-TD6N8D98" />
+      <Script
+        id="gtm"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TD6N8D98');
+          `,
+        }}
+      />
+      <Script
+        strategy="lazyOnload"
+        src="https://www.googletagmanager.com/gtag/js?id=G-1QNZMJ0DD8"
+      />
+      <Script
+        id="ga4"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-1QNZMJ0DD8');
+          `,
+        }}
+      />
       <body>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-TD6N8D98"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <script
           // No-flash: apply the saved theme before paint, and arm the
           // once-per-session intro veil (FR-DS-012) - skipped entirely under
