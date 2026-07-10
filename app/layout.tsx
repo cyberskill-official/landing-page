@@ -4,6 +4,7 @@ import { Space_Grotesk } from "next/font/google";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
 import { company, siteUrl } from "@/lib/content/site";
 import { CosmosBackdrop } from "@/components/CosmosBackdrop";
@@ -83,6 +84,7 @@ export default async function RootLayout({
     // umber art direction is the brand-defining look. A stored "light"
     // preference still wins via the no-flash script below.
     <html lang={bcp47[locale]} data-theme="dark" className={displayFont.variable} suppressHydrationWarning>
+      <GoogleTagManager gtmId="GTM-TD6N8D98" />
       <body>
         <script
           // No-flash: apply the saved theme before paint, and arm the
