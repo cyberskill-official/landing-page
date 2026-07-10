@@ -16,9 +16,6 @@ const nextConfig: NextConfig = {
   // The 3D scene is a dynamically imported client-only enhancement. Keeping
   // strict typed routes off avoids friction while the route set is in flux.
   experimental: {},
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   async headers() {
     return [
       {
