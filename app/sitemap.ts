@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // sitemapped rather than orphan pages reachable only from the store entry.
     "/cyberos/privacy",
     "/cyberos/delete-account",
+    "/cyberos/content-policy",
     ...services.map((s) => `/services/${s.id}`),
     ...work.map((w) => `/work/${w.slug}`),
   ];
