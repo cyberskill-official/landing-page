@@ -3,16 +3,20 @@ id: FR-CHAR-022
 title: "Integrate the commissioned GLB via gltfjsx, replacing LumiPlaceholder behind the CanvasMount gate"
 module: CHAR
 priority: MUST
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P2
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [FR-CHAR-021, FR-SCENE-001]
 related_frs: [FR-CHAR-020, FR-CHAR-023]
 source_pages:
   - "research doc §L (Lumi visual identity), §J (3D scene scaffold)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

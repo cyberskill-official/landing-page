@@ -1,38 +1,52 @@
 ---
 id: FR-CMS-004
 title: "Replace placeholder testimonials with cleared client quotes"
-module: CMS
+status: ready_to_implement
+class: product
 priority: SHOULD
-status: planned
-verify: T
-phase: P6
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-CMS-001]
-blocks: []
-source_pages:
-  - "research doc §D (conversion + lead capture), §F (trust)"
+owner: mixed
+depends_on: [FR-BIZ-006, FR-CMS-012]
+routed_back_count: 0
+awh: N/A
+traces_to: [audit-A/phase-1-item-2, audit-C/trust-table, growth/PROOF-01]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CMS-004: Replace placeholder testimonials with cleared client quotes
 
-Testimonials MUST be real, attributed, and cleared for use, replacing every
-placeholder.
+## 0. Why (evidence)
 
-1. Each testimonial MUST carry a named person and role; logos MUST appear only
-   where the client has granted permission.
-2. No placeholder, invented, or unattributed quote may remain on any route.
-3. Each quote MUST have written clearance on file before it ships; an uncleared
-   quote MUST stay out of the build.
-4. Quotes MUST ship in their original language with a Vietnamese or English
-   translation as needed, and the displayed translation MUST be reviewed.
+All three audits rate the absence of testimonials as a top-three conversion gap; audit A cites a ~34% lift (SalesHive) and
+the pattern of placing social proof next to the ask. components/sections/SocialProof.tsx already reads a `testimonials`
+array and falls back to first-person commitments when it is empty - so the component is not the gap. The quotes are.
 
-## §2 Acceptance
+## 1. Description (normative)
 
-- Every visible testimonial has a name, a role, and recorded clearance.
-- No placeholder testimonial text remains in the content source.
+- 1.1 Each testimonial SHALL carry a named person, their role and their company; a logo SHALL appear only where that client granted permission.
+- 1.2 No placeholder, invented, paraphrased or unattributed quote SHALL exist on any route or in the content source.
+- 1.3 Each quote SHALL have a written permission record on file, referenced from the content module, before it ships; an uncleared quote SHALL be impossible to render.
+- 1.4 Quotes SHALL ship in their original language with a reviewed translation line in the other locale.
+- 1.5 With zero cleared quotes the site SHALL emit no testimonial markup at all.
 
-## §3 Evidence
+## 2. Acceptance criteria
 
-Not yet implemented; acceptance pending build.
+- [ ] AC for 1.1 - every rendered quote has name, role and company - test: `content/testimonial-shape`
+- [ ] AC for 1.2 - no placeholder quote string exists in the content source - test: `content/no-placeholders`
+- [ ] AC for 1.3 - a quote without a permission reference fails the build - test: `content/testimonial-permission`
+- [ ] AC for 1.4 - the original language renders with the translation line - test: `content/testimonial-placement`
+- [ ] AC for 1.5 - with an empty testimonials array, no testimonial markup is emitted - test: `content/testimonial-placement`
+
+## 3. Edge cases
+
+- A client who permits the quote but not the logo.
+- A permission later withdrawn must be removable in one commit.
+
+## 4. Out of scope / non-goals
+
+- Obtaining the quotes (FR-BIZ-006).
+- Placement beside the CTAs (FR-CMS-012).
+
+## 5. Protected invariants this FR must not weaken
+
+- Nothing published may claim a fact, metric, credential or client the company cannot evidence.
+- No client name, logo, quote, photo or metric is published without recorded written permission.
+- AGENTS.md §4.5 Vietnamese-first: every user-facing string ships EN and VN in the same commit.

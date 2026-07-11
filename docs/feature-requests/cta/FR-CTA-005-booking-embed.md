@@ -1,39 +1,49 @@
 ---
 id: FR-CTA-005
-title: "Calendar booking embed for high-intent leads"
-module: CTA
+title: "Call-booking path for high-intent leads (link, not embed)"
+status: ready_to_implement
+class: product
 priority: SHOULD
-status: planned
-verify: T
-phase: P6
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-CTA-001]
-blocks: []
-source_pages:
-  - "research doc §D (conversion + lead capture)"
+owner: mixed
+depends_on: [FR-BIZ-013, FR-CTA-010]
+routed_back_count: 0
+awh: N/A
+traces_to: [growth/CONV-02, audit-A/section-9, audit-B/finding-2-high]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CTA-005: Call-booking path for high-intent leads (link, not embed)
 
-High-intent leads MUST be able to book a call without leaving the page, and the
-embed MUST load in a privacy-conscious way.
+## 0. Why (evidence)
 
-1. A booking embed (for example Calendly) MUST appear after a high-intent action
-   (such as selecting a sales or demo intent), not on first paint.
-2. The third-party script MUST load only after explicit user action or consent;
-   it MUST NOT run before the consent gate from FR-CTA-001 is cleared.
-3. The booking provider URL or key MUST come from `process.env` and MUST NOT be
-   hard-coded in the client bundle.
-4. The booking section MUST ship English and Vietnamese copy (EN: "Book a call."
-   / VN: "Dat lich goi.") and MUST keep a non-embed fallback link.
+Many buyers pick a time slot but never write a message. Scope corrected on 2026-07-11: this is a link, not an embed. A
+third-party booking iframe would cost page weight, a consent surface and a CSP allowance (FR-OPS-009) on a page that is
+already fighting a mobile performance problem (audit B: 1,370 ms TBT, ~900 KB JS).
 
-## §2 Acceptance
+## 1. Description (normative)
 
-- No booking script loads until the user opts in.
-- A high-intent lead can reach a working booking flow on the page.
+- 1.1 A secondary action ("Book a 30-minute call") SHALL render in the contact section and on the thank-you panel (FR-CTA-010), opening the booking URL in a new tab.
+- 1.2 The action SHALL be gated on `NEXT_PUBLIC_BOOKING_URL`: it renders only when the URL is configured, and no booking script SHALL be loaded at any time.
+- 1.3 The click SHALL emit `booking_clicked` (FR-OPS-011).
+- 1.4 Labels SHALL ship EN and VN in the same commit, from the dictionaries.
 
-## §3 Evidence
+## 2. Acceptance criteria
 
-Not yet implemented; acceptance pending build.
+- [ ] AC for 1.1 - the action renders in both places and opens the URL in a new tab - test: `cta/booking-action`
+- [ ] AC for 1.2 - with the env unset, nothing renders and no third-party request is made - test: `cta/booking-action`
+- [ ] AC for 1.3 - the click emits booking_clicked with its location - test: `analytics/both-lead-paths`
+- [ ] AC for 1.4 - both locales render the label - test: `content/cta-copy`
+
+## 3. Edge cases
+
+- A booking URL that 404s must not be shipped - validate it at build time.
+- The new tab must carry rel="noopener".
+
+## 4. Out of scope / non-goals
+
+- Creating the booking account and supplying the URL (FR-BIZ-013).
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.7: the CI performance budget (lighthouse/budget.json) is never relaxed to make a gate green.
+- AGENTS.md §4.5 Vietnamese-first: every user-facing string ships EN and VN in the same commit.
+- AGENTS.md §4.2: every secret lives only in server env; no NEXT_PUBLIC_ secret, ever (NFR-SEC-001).

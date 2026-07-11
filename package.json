@@ -19,7 +19,8 @@
     "check:apca": "node scripts/check-apca.mjs",
     "check:a11y:routes": "node scripts/axe-routes.mjs",
     "test": "vitest run",
-    "clean": "rm -rf .next"
+    "clean": "rm -rf .next",
+    "check:frs": "node scripts/check-frs.mjs"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",

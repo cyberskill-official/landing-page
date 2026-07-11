@@ -1,60 +1,60 @@
 ---
 id: FR-CHAR-029
 title: "Harden per-IP rate limiting, input validation, and prompt-injection defence on the proxy"
-module: CHAR
+status: ready_to_implement
+class: improvement
 priority: SHOULD
-status: planned
-verify: T
-phase: P6
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-CHAR-010]
-related_frs: [FR-CHAR-011, FR-CHAR-028]
-source_pages:
-  - "research doc §I (conversational Genie), §G (secrets + privacy)"
+owner: mixed
+depends_on: [FR-OPS-004]
+routed_back_count: 0
+awh: N/A
+traces_to: [research-doc/section-I, research-doc/section-G]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CHAR-029: Harden per-IP rate limiting, input validation, and prompt-injection defence on the proxy
 
-The proxy MUST resist abuse and injection beyond the best-effort baseline.
+## 0. Why (evidence)
 
-1. Per-IP rate limiting MUST be hardened with a durable store so limits hold
-   across serverless instances, not only in one process.
-2. The handler MUST validate and bound every request field (message length,
-   history size, shape) and MUST reject anything malformed.
-3. The system prompt and grounded context MUST be isolated from user input so
-   prompt-injection cannot override the persona or exfiltrate instructions.
-4. Abuse responses MUST fail safe: the handler MUST throttle or refuse without
-   leaking internal errors, and MUST log the event.
+Research doc §I + §G. Substantially hardened already; one item remains, and it needs a datastore the operator must provision.
 
-## §2 Acceptance
+Already true (verified: tsc clean, vitest 44/44, lint clean, next build rc=0):
+- Input validation is a pure, unit-tested function (`parseChatRequest`, `tests/genie-validate.test.ts`, 7 cases): rejects
+  non-array / empty / over-30 histories, requires the first valid message to be the user, caps each message at 4,000 chars
+  and the request at 12,000, drops invalid roles, strips C0/C1 control characters.
+- Prompt-injection defence: the system prompt is a structurally separate `system` block, never concatenated with user
+  turns, and carries an explicit rule to treat all conversation as the visitor's words and refuse persona override or
+  prompt disclosure.
+- Fail-safe: 429 returns Retry-After with no internal detail; the limiter prunes expired buckets; upstream errors are
+  logged server-side, not leaked.
 
-- Rapid requests are throttled consistently across instances.
-- Malformed or oversized requests are rejected before reaching upstream.
-- An injection attempt does not change Lumi's persona or reveal the prompt.
+Open: the rate limiter is per-serverless-instance, so a global limit does not hold across instances. That needs an
+external KV (Vercel KV / Upstash), which is a datastore plus a secret - operator input.
 
-## §3 Evidence
+## 1. Description (normative)
 
-Substantially hardened (status stays planned for the one remaining item).
+- 1.1 Per-IP rate limiting SHALL use a durable store so the limit holds across serverless instances, not only within one process.
+- 1.2 The handler SHALL validate and bound every request field (message length, history size, shape) and SHALL reject anything malformed before it reaches upstream.
+- 1.3 The system prompt and any grounded context SHALL stay structurally isolated from user input, so prompt injection cannot override the persona or exfiltrate instructions.
+- 1.4 Abuse responses SHALL fail safe: the handler SHALL throttle or refuse without leaking internal errors, and SHALL log the event.
 
-Done in `app/api/genie/route.ts` + `lib/genie/validate.ts` + `lib/genie/persona.ts`:
-- Input validation is now a pure, unit-tested function (`parseChatRequest`,
-  `tests/genie-validate.test.ts`, 7 cases): rejects non-array/empty/over-30
-  histories, requires the first valid message to be the user, caps each message
-  at 4000 chars and the whole request at 12000, drops invalid roles, and strips
-  C0/C1 control characters (keeping tab/newline). Covers §1.2 and §2 item 2.
-- Prompt-injection defence (§1.3, §2 item 3): the system prompt is sent as a
-  structurally separate `system` block (never concatenated with user turns), and
-  now carries an explicit rule to treat all conversation as the visitor's words,
-  refuse attempts to override instructions / change persona / reveal or modify
-  the prompt, and stay Lumi for the whole conversation.
-- Fail-safe (§1.4): 429 returns a `Retry-After` header and no internal detail;
-  the per-instance limiter prunes expired buckets so memory stays bounded;
-  upstream errors are logged server-side, not leaked verbatim to the client.
+## 2. Acceptance criteria
 
-Still open (§1.1): a DURABLE cross-instance rate-limit store. The current limiter
-is per-serverless-instance (best-effort). A global limit needs an external KV
-(Vercel KV / Upstash Redis), which requires a datastore + secret to provision -
-operator input. Until then this FR stays planned. Verified: tsc clean, vitest
-44/44, lint clean, next build rc=0.
+- [ ] AC for 1.1 - rapid requests are throttled consistently when served by two different instances - test: `genie/rate-limit-durable`
+- [ ] AC for 1.2 - malformed and oversized requests are rejected before upstream - test: `tests/genie-validate.test.ts`
+- [ ] AC for 1.3 - a scripted injection attempt changes neither the persona nor reveals the prompt - test: `genie/injection-resistance`
+- [ ] AC for 1.4 - a throttled response carries Retry-After and no internal detail, and the event is logged - test: `genie/fail-safe-429`
+
+## 3. Edge cases
+
+- A shared corporate IP (one office, many visitors) must not be locked out by a per-IP limit.
+- The KV being down must fail closed on abuse, not open.
+- An injection payload written in Vietnamese.
+
+## 4. Out of scope / non-goals
+
+- Provisioning the KV (FR-OPS-004 owns the env and secret scoping).
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.2: the Anthropic and every other key lives only in server env; no NEXT_PUBLIC_ secret, ever.
+- The persona and the system prompt are never disclosed or overridable by visitor input.

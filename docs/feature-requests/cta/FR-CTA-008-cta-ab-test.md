@@ -3,16 +3,20 @@ id: FR-CTA-008
 title: "A/B testbed for first-person CTA copy"
 module: CTA
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P6
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: []
 blocks: []
 source_pages:
   - "research doc §D (conversion + lead capture)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

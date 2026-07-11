@@ -1,39 +1,49 @@
 ---
 id: FR-CHAR-027
 title: "On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript"
-module: CHAR
+status: ready_to_implement
+class: product
 priority: SHOULD
-status: planned
-verify: T
-phase: P6
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-CHAR-026]
-related_frs: [FR-CHAR-028, FR-CTA-001]
-source_pages:
-  - "research doc §O (lead capture + qualification), §G (secrets + privacy)"
+owner: agent
+depends_on: [FR-CHAR-026, FR-BIZ-002, FR-OPS-010]
+routed_back_count: 0
+awh: N/A
+traces_to: [research-doc/section-O, research-doc/section-G, growth/LEAD-02]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CHAR-027: On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript
 
-A captured lead MUST reach the team promptly and reliably.
+## 0. Why (evidence)
 
-1. On `LEAD_CAPTURED` (FR-CHAR-026) the server MUST write the lead to the CRM
-   of record with the collected fields.
-2. The server MUST fire a Slack or email notification that includes the
-   conversation transcript so the team has full context.
-3. All CRM and notification credentials MUST be read server-side only and MUST
-   NOT be exposed to the client.
-4. A delivery failure MUST be logged and retried best-effort, and MUST NOT lose
-   the lead silently or break the chat.
+Research doc §O + §G. A qualified lead that never reaches a human is a lost lead, and the chat path is the one audit A
+rates as a genuine differentiator. The fan-out already exists in /api/lead; this FR binds the chat's LEAD_CAPTURED state
+to it and adds the transcript so the team has the context that made the lead qualified.
 
-## §2 Acceptance
+## 1. Description (normative)
 
-- A captured lead appears in the CRM with its fields.
-- The team receives a Slack or email alert with the transcript.
-- A simulated delivery failure is logged and does not drop the lead.
+- 1.1 On LEAD_CAPTURED the server SHALL write the lead to the CRM of record with every collected field, the locale, the source and the UTM context.
+- 1.2 The server SHALL fire a Slack or email notification carrying the conversation transcript so the team has the full context.
+- 1.3 All CRM and notification credentials SHALL be read server-side only and SHALL NOT reach the client bundle.
+- 1.4 A delivery failure SHALL be logged, retried best-effort, and SHALL NOT lose the lead silently nor break the chat - the total-failure alert in FR-OPS-010 SHALL fire.
 
-## §3 Evidence
+## 2. Acceptance criteria
 
-Not yet implemented; acceptance pending build.
+- [ ] AC for 1.1 - a captured lead appears in the CRM with every field, locale and source - test: `genie/crm-handoff`
+- [ ] AC for 1.2 - the notification contains the transcript - test: `genie/crm-handoff`
+- [ ] AC for 1.3 - no credential appears in the client bundle - test: `ci/no-public-secrets`
+- [ ] AC for 1.4 - with every sink mocked to reject, the chat still completes and the alert fires - test: `lead/total-failure-alert`
+
+## 3. Edge cases
+
+- A transcript containing the visitor's confidential business details must not be posted to a public channel.
+- A very long transcript must be truncated in the notification, never in the stored record (FR-CHAR-028).
+- A duplicate LEAD_CAPTURED (double submit) must not create two CRM records.
+
+## 4. Out of scope / non-goals
+
+- Provisioning the CRM endpoint (FR-BIZ-002).
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.2: the Anthropic and every other key lives only in server env; no NEXT_PUBLIC_ secret, ever.
+- A captured lead is never silently lost.

@@ -3,16 +3,20 @@ id: FR-SCENE-005
 title: "Authored camera keyframe sequence indexed by section progress"
 module: SCENE
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P4
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [FR-SCENE-007]
 related_frs: [FR-SCENE-002, FR-SCENE-006]
 source_pages:
   - "research doc §J (3D scene scaffold), §K (scrollytelling beats)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

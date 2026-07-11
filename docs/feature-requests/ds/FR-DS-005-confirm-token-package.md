@@ -3,10 +3,12 @@ id: FR-DS-005
 title: "Confirm whether @cyberskill design-system packages are installable"
 module: DS
 priority: SHOULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P0
-owner: Stephen Cheng
+owner: mixed
+author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [FR-DS-001]
@@ -14,6 +16,8 @@ source_pages:
   - "research doc Phase 0 (resolve dependency, open question), §A (design-system analysis)"
 new_files:
   - docs/decisions/2026-06-22-token-package-source.md
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

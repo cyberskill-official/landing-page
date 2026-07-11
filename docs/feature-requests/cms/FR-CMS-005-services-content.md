@@ -1,40 +1,48 @@
 ---
 id: FR-CMS-005
-title: "Long-form bilingual services content for detail pages"
-module: CMS
+title: "Long-form bilingual services content for the detail pages"
+status: ready_to_implement
+class: product
 priority: SHOULD
-status: planned
-verify: T
-phase: P4
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-CMS-001]
-blocks: []
-source_pages:
-  - "research doc §C (information architecture), §E (Vietnamese-first)"
+owner: agent
+depends_on: [FR-SEO-016]
+routed_back_count: 0
+awh: N/A
+traces_to: [research-doc/section-D, audit-C/on-page-seo]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CMS-005: Long-form bilingual services content for the detail pages
 
-Each service MUST have long-form bilingual content that feeds its detail page
-from the shared content source.
+## 0. Why (evidence)
 
-1. Every service detail page MUST draw from the FR-CMS-001 content module; no
-   detail copy may be hard-coded in the component.
-2. Each service entry MUST carry a summary, the problem it solves, the approach,
-   and a call to action, each in English and Vietnamese.
-3. A field present in one locale MUST be present in the other; a missing field
-   MUST be a build-time error, not a runtime blank.
-4. The content shape MUST be typed and MUST stay consistent across all services
-   so pages render uniformly.
+Research doc §D. The /services/[slug] routes exist and render short copy; audit C found some routes return thin extracted
+body text. This FR owns the content module those pages read - FR-SEO-016 owns the page shape and the depth target.
 
-## §2 Acceptance
+## 1. Description (normative)
 
-- Each service detail page renders summary, problem, approach, and CTA in both
-  locales.
-- A missing localized field fails the build rather than rendering blank.
+- 1.1 Every service detail page SHALL draw its copy from the FR-CMS-001 content module; no detail copy SHALL be hardcoded in a component.
+- 1.2 Each service entry SHALL carry a summary, the problem it solves, the approach, the typical stack and a call to action, in English and Vietnamese.
+- 1.3 A field present in one locale SHALL be present in the other; a missing localized field SHALL be a build-time error, never a runtime blank.
+- 1.4 The content shape SHALL be typed and identical across all services so the pages render uniformly.
 
-## §3 Evidence
+## 2. Acceptance criteria
 
-Not yet implemented; acceptance pending build.
+- [ ] AC for 1.1 - no service copy literal exists in a component file - test: `lint/no-hardcoded-copy`
+- [ ] AC for 1.2 - each service page renders all five fields in both locales - test: `content/service-page-shape`
+- [ ] AC for 1.3 - deleting a VN field fails the build - test: `content/vi-key-parity`
+- [ ] AC for 1.4 - all three services satisfy the same type - test: `content/service-page-shape`
+
+## 3. Edge cases
+
+- A service with no case study to link to yet.
+- VN copy is a native pass, not a translation (FR-CMS-003).
+
+## 4. Out of scope / non-goals
+
+- The page depth target and the FAQ blocks (FR-SEO-016).
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.5 Vietnamese-first: every user-facing string ships EN and VN in the same commit.
+- AGENTS.md §4.1 HTML-first: every meaningful state stays server-rendered DOM and the canvas never owns LCP.
+- Nothing published may claim a fact, metric, credential or client the company cannot evidence.

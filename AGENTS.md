@@ -21,8 +21,12 @@ Three goals at once: lead generation (primary), portfolio, recruiting.
 
 `DS` design system / tokens · `WEB` web foundation + routing · `SCENE` 3D scene
 + scroll choreography · `CHAR` Lumi (3D model + chat persona) · `CTA`
-conversion + forms · `CMS` content + copy + i18n · `SEO` discoverability ·
-`A11Y` accessibility · `PERF` performance budgets · `OPS` build, CI, deploy.
+conversion + forms · `CMS` content + copy + i18n · `SEO` discoverability + GEO ·
+`A11Y` accessibility · `PERF` performance budgets · `OPS` build, CI, deploy,
+observability · `BIZ` off-site work the repository cannot do (accounts,
+credentials, client permissions, directory profiles, commercial policy, standing
+rituals). BIZ FRs carry `owner: human` or `owner: mixed` and never enter the
+build queue on their own; they appear in the `depends_on` of the FRs they block.
 
 An FR id is `FR-<MODULE>-<NNN>`.
 
@@ -34,9 +38,41 @@ An FR id is `FR-<MODULE>-<NNN>`.
 - `P3` 3D Genie + scroll storytelling (gated behind the perf budget; ships with
   the static fallback in the same change, never after).
 
-Status flow: `draft -> audited -> accepted -> building -> shipped`
-(or `deferred` / `superseded`). An FR cannot enter `building` until every
-`depends_on` FR is `shipped`.
+## §3a FR lifecycle (CyberOS, normative)
+
+The status enum is the CyberOS one, not a project dialect. It is defined in
+`.cyberos/cuo/STATUS-REFERENCE.md` and that file wins over this one:
+
+`draft -> ready_to_implement -> implementing -> ready_to_review -> reviewing ->
+ready_to_test -> testing -> done`, with the off-ramps `on_hold` and `closed`.
+
+An FR cannot enter `implementing` until every `depends_on` FR is `done`. Two
+transitions are human-acceptance gates the agent MUST NOT cross by itself:
+`reviewing -> ready_to_test` and `testing -> done`. The agent brings the FR up to
+each gate with evidence and halts. The old project vocabulary
+(`audited / accepted / building / shipped / planned / hold / deferred`) was
+migrated on 2026-07-11; the mapping is in
+`docs/feature-requests/MIGRATION-MAP.md`.
+
+One backlog holds everything: `class: product` (net-new) and `class: improvement`
+(hardening, refactor, audit remediation). There is no second improvement track.
+
+## §3b The queue and the gate
+
+Every FR carries `owner: agent | human | mixed`. `ship-feature-requests` picks the
+first `ready_to_implement` FR with `owner: agent` whose every `depends_on` is
+`done`. It never picks a `human` or `mixed` FR: those hold accounts, credentials,
+client permissions and commercial decisions, and they exist so the agent halts on
+a missing input instead of inventing one (a price, a testimonial, a metric).
+
+`npm run check:frs` is the spec gate and runs in CI. It enforces this repo's FR
+contract - frontmatter enums, `depends_on` resolution, BACKLOG parity, and for
+every `ready_to_implement` FR the five required sections plus clause -> AC ->
+named-test traceability. An FR that does not pass it is not implementable.
+
+Do NOT run the CyberOS plugin's `feature-request-audit` (`audit_rubric@2.0`)
+against these FRs: it audits a different FR contract and fails on every FR here,
+including shipped ones. The reasoning is in `docs/adrs/ADR-001-fr-contract.md`.
 
 ## §4 Non-negotiables (enforced, not aspirational)
 

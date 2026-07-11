@@ -3,16 +3,20 @@ id: FR-CHAR-023
 title: "Named animation-clip state machine cross-faded via AnimationMixer, bound to the genie store"
 module: CHAR
 priority: SHOULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P4
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [FR-CHAR-022, FR-CHAR-012]
 related_frs: [FR-CHAR-024]
 source_pages:
   - "research doc §L (Lumi visual identity), §I (conversational Genie)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)
