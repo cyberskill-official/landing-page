@@ -1,56 +1,56 @@
 ---
 id: FR-SCENE-009
-title: "LOD by distance, under 100 draw calls per frame, dispose GPU resources on unmount"
-module: SCENE
-priority: SHOULD
+title: "Draw-call budget, GPU disposal, and LOD for the scene"
 status: ready_to_implement
-class: product
-verify: T
-phase: P5
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-SCENE-001]
-related_frs: [FR-SCENE-008, FR-SCENE-010]
-source_pages:
-  - "research doc §J (3D scene scaffold), §M (renderer + performance)"
+class: improvement
+priority: SHOULD
+owner: agent
+depends_on: []
 routed_back_count: 0
 awh: N/A
+traces_to: [research-doc/section-K, audit-C/performance, audit-B/finding-2-high]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-SCENE-009: Draw-call budget, GPU disposal, and LOD for the scene
 
-The scene MUST stay within a fixed GPU budget.
+## 0. Why (evidence)
 
-1. Models MUST use level-of-detail by camera distance, swapping to lighter
-   meshes as the subject recedes.
-2. The scene MUST render under 100 draw calls per frame in the steady state,
-   measured on the operator machine.
-3. On unmount the scene MUST dispose geometries, materials, and textures and
-   release the WebGL or WebGPU context so memory does not leak across mounts.
-4. Asset budgets MUST hold for the gated desktop path and MUST NOT regress the
-   static poster path.
+Research doc §K. Partially done (2026-06-24, branch auto/glb-perf-a11y):
 
-## §2 Acceptance
+- GPU disposal on unmount is in place: components/canvas/GltfLumi.tsx disposes geometries and materials on unmount, and
+  LumiPlaceholder.tsx disposes the hand-built aura ShaderMaterial that R3F does not own.
+- The asset/budget guard holds: `npm run check:assets` keeps the gated-desktop client JS and public assets under budget,
+  and the poster path carries no GLB cost.
 
-- LOD meshes swap with distance without visible popping at normal scroll speed.
-- Steady-state draw calls stay under 100 per frame.
-- Unmounting the scene frees GPU memory with no leak across remounts.
+Open: a measured steady-state draw-call count. Distance LOD is only meaningful once a real multi-resolution GLB exists, so
+it is deferred to FR-CHAR-021 (on hold). Audit C independently flags the always-on scene as the main INP risk, which
+FR-PERF-012 addresses.
 
-## §3 Evidence
+## 1. Description (normative)
 
-Partial (2026-06-24, branch `auto/glb-perf-a11y`). Status stays `planned` until
-LOD lands and draw calls are measured on the operator machine.
+- 1.1 The scene SHALL render under 100 draw calls per frame in the steady state, measured and recorded, on both the placeholder and the GLB path.
+- 1.2 On unmount the scene SHALL dispose geometries, materials and textures and release the WebGL context, so memory does not leak across mounts.
+- 1.3 The asset budget SHALL hold for the gated desktop path and SHALL NOT regress the static poster path.
+- 1.4 Distance-based level-of-detail SHALL swap to lighter meshes as the subject recedes (deferred to FR-CHAR-021 - meaningless until the multi-resolution GLB exists).
 
-- Done - GPU disposal on unmount (criterion 3): `components/canvas/GltfLumi.tsx`
-  traverses the cloned model and disposes geometries + materials on unmount;
-  `components/canvas/LumiPlaceholder.tsx` disposes the hand-built aura
-  `ShaderMaterial` (the one R3F does not own) when the theme flips or the scene
-  unmounts. R3F disposes the built-in geometries/materials it created.
-- Holds - asset/budget guard (criterion 4): `npm run check:assets` keeps the
-  gated-desktop client JS and public assets under budget; the poster path
-  carries no GLB cost.
-- Remaining - distance LOD (criterion 1) and a measured steady-state draw-call
-  count under 100 (criterion 2). The procedural scene is well under budget by
-  inspection (< ~20 draw calls), but LOD is only meaningful once the real
-  multi-resolution GLB exists, so it is deferred with the model.
+## 2. Acceptance criteria
+
+- [ ] AC for 1.1 - a measured steady-state draw-call count under 100 is recorded - test: `scene/draw-call-budget`
+- [ ] AC for 1.2 - mounting and unmounting the scene ten times shows no GPU memory growth - test: `scene/dispose-no-leak`
+- [ ] AC for 1.3 - check:assets stays green and the poster path carries no GLB bytes - test: `ci/asset-size-guard`
+
+## 3. Edge cases
+
+- A low-end GPU where even the placeholder is expensive - the capability gate must send it to the poster.
+- A remount triggered by a theme flip must not leak the shader material.
+
+## 4. Out of scope / non-goals
+
+- The LOD meshes themselves (FR-CHAR-021, on hold).
+- Pausing the render loop (FR-PERF-012).
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.3 progressive enhancement: the 3D scene stays code-split, gated, and ships with its static poster fallback.
+- AGENTS.md §4.7: the CI performance budget (lighthouse/budget.json) is never relaxed to make a gate green.
+- AGENTS.md §4.1 HTML-first: every meaningful state stays server-rendered DOM and the canvas never owns LCP.

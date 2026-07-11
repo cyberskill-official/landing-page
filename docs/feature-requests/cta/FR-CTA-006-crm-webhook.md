@@ -1,43 +1,48 @@
 ---
 id: FR-CTA-006
-title: "Map form leads to a CRM via webhook"
-module: CTA
-priority: SHOULD
+title: "Map form leads to the CRM via a server-side webhook"
 status: ready_to_implement
 class: product
-verify: T
-phase: P6
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-CTA-001]
-blocks: []
-source_pages:
-  - "research doc §D (conversion + lead capture)"
+priority: SHOULD
+owner: agent
+depends_on: [FR-BIZ-002, FR-OPS-010]
 routed_back_count: 0
 awh: N/A
+traces_to: [research-doc/section-O, growth/LEAD-02]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CTA-006: Map form leads to the CRM via a server-side webhook
 
-Every valid lead MUST be deliverable to a CRM (HubSpot or Pipedrive) through a
-server-side webhook, with a documented field mapping.
+## 0. Why (evidence)
 
-1. The route handler MUST POST a mapped payload to the CRM webhook on each valid
-   submission; the call MUST run server-side only.
-2. A field-mapping table MUST define how form fields (name, email, company,
-   intent, message) map to CRM properties, including the default deal or contact
-   owner and the lead source.
-3. A failed CRM call MUST be logged and MUST NOT fail the user's submission, per
-   the best-effort fan-out rule in FR-CTA-001.
-4. The CRM endpoint and token MUST come from `process.env`; no secret may reach
-   the client.
+Research doc §O. app/api/lead/route.ts already fans out to a CRM webhook URL, but there is no documented field mapping and
+no test that the mapping survives the hop - so a schema change on either side would break the pipeline silently. FR-BIZ-002
+provides the endpoint; FR-OPS-010 provides the alert when the hop fails.
 
-## §2 Acceptance
+## 1. Description (normative)
 
-- A valid lead produces a CRM contact or deal with fields mapped per the table.
-- A CRM outage returns 200 to the user and a logged server-side error.
+- 1.1 The route handler SHALL POST a mapped payload to the CRM webhook on every valid submission, server-side only.
+- 1.2 A field-mapping table SHALL be recorded in the repo, defining how each form field (name, email, company, intent, message, locale, source, utm_*) maps to a CRM property, including the default owner and the lead source.
+- 1.3 A failed CRM call SHALL be logged and SHALL NOT fail the visitor's submission (best-effort fan-out), but SHALL count toward the total-failure alert in FR-OPS-010.
+- 1.4 The CRM endpoint and token SHALL come from server env; no secret SHALL reach the client.
 
-## §3 Evidence
+## 2. Acceptance criteria
 
-Not yet implemented; acceptance pending build.
+- [ ] AC for 1.1 - a valid lead produces a CRM record with every mapped field - test: `api/lead-crm-mapping`
+- [ ] AC for 1.2 - the mapping table exists and the test asserts it field by field - test: `api/lead-crm-mapping`
+- [ ] AC for 1.3 - a CRM outage returns 200 to the visitor, logs the error and counts toward the alert - test: `lead/total-failure-alert`
+- [ ] AC for 1.4 - no CRM credential appears in the client bundle - test: `ci/no-public-secrets`
+
+## 3. Edge cases
+
+- A CRM schema change must fail the mapping test, not silently drop a field.
+- A duplicate submission must not create two records.
+
+## 4. Out of scope / non-goals
+
+- Deploying the CRM endpoint (FR-BIZ-002).
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.2: every secret lives only in server env; no NEXT_PUBLIC_ secret, ever (NFR-SEC-001).
+- A submitted lead is never silently lost.

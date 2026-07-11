@@ -1,50 +1,56 @@
 ---
 id: FR-CHAR-026
 title: "Conversational lead-capture sequence, value-first, with ICP qualification and a LEAD_CAPTURED state"
-module: CHAR
-priority: SHOULD
 status: ready_to_implement
 class: product
-verify: T
-phase: P2
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-CHAR-011]
-related_frs: [FR-CHAR-027, FR-CHAR-028, FR-CTA-001]
-source_pages:
-  - "research doc §I (conversational Genie), §O (lead capture + qualification)"
+priority: SHOULD
+owner: agent
+depends_on: [FR-BIZ-013]
 routed_back_count: 0
 awh: N/A
+traces_to: [research-doc/section-I, research-doc/section-O]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CHAR-026: Conversational lead-capture sequence, value-first, with ICP qualification and a LEAD_CAPTURED state
 
-Lumi SHOULD capture a qualified lead through conversation, value first.
+## 0. Why (evidence)
 
-1. Lumi MUST give useful help before asking for details, then gather them in
-   order: name, need, company, budget or timeline, email.
-2. Each step MUST be a single conversational ask; the sequence MUST tolerate
-   out-of-order answers and skipped fields without breaking.
-3. Lumi MUST qualify against the ICP and MUST adapt follow-ups to the answers,
-   not read a rigid script.
-4. On a complete enough lead, the genie store MUST enter a `LEAD_CAPTURED`
-   state holding the collected fields for downstream handoff.
+Research doc §I (conversational Genie) and §O (lead capture + qualification).
 
-## §2 Acceptance
+Down-payment already shipped (FR-CHAR-031, 2026-07-02): a deterministic in-chat wish flow collects name, email, company,
+message and consent conversationally, tolerates skips, and submits to /api/lead. What is still missing is the part that
+makes it a *qualification*: value-first help before the ask, tolerance for free-form out-of-order answers, ICP-adaptive
+follow-ups, and a formal LEAD_CAPTURED state for the handoff in FR-CHAR-027.
 
-- Lumi helps first, then collects the fields conversationally.
-- Out-of-order or partial answers are handled without a dead end.
-- A qualified lead sets `LEAD_CAPTURED` with the gathered fields.
+## 1. Description (normative)
 
-## §3 Evidence
+- 1.1 Lumi SHALL give useful help before asking for contact details, then gather them in order: name, need, company, budget or timeline, email.
+- 1.2 Each step SHALL be a single conversational ask; the sequence SHALL tolerate out-of-order answers, free-form answers and skipped fields without dead-ending.
+- 1.3 Lumi SHALL qualify the enquiry against the recorded ICP (FR-BIZ-013) and SHALL adapt its follow-ups to the answers rather than reading a fixed script.
+- 1.4 On a sufficiently complete lead the genie store SHALL enter a `LEAD_CAPTURED` state holding the collected fields for downstream handoff.
+- 1.5 Lumi SHALL NOT fabricate a qualification answer (price, timeline, capacity) that is not in the recorded commercial policy.
 
-Not yet implemented; acceptance pending build.
+## 2. Acceptance criteria
 
-Down-payment (2026-07-02): FR-CHAR-031 shipped the deterministic in-chat
-wish flow - name/email/company/message/consent collected conversationally
-with skips and explicit consent, submitting to /api/lead and celebrating
-via the mascot. What keeps THIS FR planned: value-first help before the
-ask, tolerance for out-of-order free-form answers, ICP-adaptive follow-ups
-(needs the AI path plus agreed qualification criteria), and the formal
-LEAD_CAPTURED store state for downstream handoff (FR-CHAR-027).
+- [ ] AC for 1.1 - the transcript shows help before the first ask - test: `genie/value-first-sequence`
+- [ ] AC for 1.2 - answering the fields out of order, and skipping two, still reaches a valid lead - test: `genie/out-of-order-capture`
+- [ ] AC for 1.3 - two different ICP profiles produce different follow-ups - test: `genie/icp-adaptive`
+- [ ] AC for 1.4 - a complete lead sets LEAD_CAPTURED with every gathered field - test: `genie/lead-captured-state`
+- [ ] AC for 1.5 - asked for a price with no recorded policy, Lumi declines rather than inventing one - test: `genie/no-fabricated-commitments`
+
+## 3. Edge cases
+
+- A visitor who gives an email and nothing else - partial capture must still be useful (FR-CHAR-028).
+- A hostile visitor probing for the system prompt mid-flow (FR-CHAR-029).
+- A Vietnamese conversation must qualify identically to an English one.
+
+## 4. Out of scope / non-goals
+
+- The CRM/Slack handoff (FR-CHAR-027).
+- Transcript persistence (FR-CHAR-028).
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.2: the Anthropic and every other key lives only in server env; no NEXT_PUBLIC_ secret, ever.
+- Nothing published may claim a fact, metric, credential or client the company cannot evidence.
+- AGENTS.md §4.5 Vietnamese-first: every user-facing string ships EN and VN in the same commit.

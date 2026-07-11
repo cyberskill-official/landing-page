@@ -7,7 +7,8 @@ status: done
 class: product
 verify: T
 phase: P4
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 created: 2026-07-02
 shipped: 2026-07-02
 depends_on: [FR-DS-008, FR-DS-011]

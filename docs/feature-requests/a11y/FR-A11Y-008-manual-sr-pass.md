@@ -1,45 +1,47 @@
 ---
 id: FR-A11Y-008
 title: "Manual VoiceOver and NVDA screen-reader pass"
-module: A11Y
-priority: SHOULD
 status: ready_to_implement
 class: product
-verify: T
-phase: P5
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: []
-blocks: []
-source_pages:
-  - "research doc §H (manual a11y testing, screen readers)"
-planned_files:
-  - docs/a11y/screen-reader-checklist.md
+priority: SHOULD
+owner: mixed
+depends_on: [FR-A11Y-004]
 routed_back_count: 0
 awh: N/A
+traces_to: [research-doc/section-H, audit-C/responsiveness]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-A11Y-008: Manual VoiceOver and NVDA screen-reader pass
 
-Automated checks SHOULD be backed by a manual screen-reader pass on real
-assistive technology.
+## 0. Why (evidence)
 
-1. A manual pass SHOULD run with VoiceOver and with NVDA across the home,
-   `/work`, `/careers`, and the chat widget.
-2. The pass MUST follow a written checklist covering landmarks, headings, link
-   and button names, form labels, and live-region announcements.
-3. Each finding MUST be logged with the route, the tool, and the observed
-   behaviour, and tracked to a fix.
-4. The checklist and its results MUST be stored in the repository so later runs
-   can repeat the same steps.
+Research doc §H. Automated checks (axe, Lighthouse) cannot hear what a screen reader says. Audit C independently notes
+that its browser tool clamped the viewport and could not exercise real assistive technology, and recommends the pass.
 
-## §2 Acceptance
+## 1. Description (normative)
 
-- A documented checklist exists and is run on both VoiceOver and NVDA.
-- Findings are logged with route, tool, and behaviour.
-- The checklist and results live in the repository.
+- 1.1 A manual pass SHALL run with VoiceOver and with NVDA across the home page, /work, /careers, /team and the chat widget, in both locales.
+- 1.2 The pass SHALL follow a written checklist stored in the repository covering landmarks, heading order, link and button names, form labels and errors, and live-region announcements.
+- 1.3 Each finding SHALL be logged with the route, the tool, the observed behaviour and the expected behaviour, and tracked to a fix or an FR.
+- 1.4 The checklist and its results SHALL live in docs/a11y/ so a later run repeats the same steps and the delta is visible.
 
-## §3 Evidence
+## 2. Acceptance criteria
 
-Not yet implemented; acceptance pending build.
+- [ ] AC for 1.1 - a dated report exists covering all five surfaces on both tools, both locales - test: `docs/screen-reader-report`
+- [ ] AC for 1.2 - the checklist exists and every item has a recorded result - test: `docs/screen-reader-report`
+- [ ] AC for 1.3 - every finding carries route, tool, observed and expected - test: `docs/screen-reader-report`
+- [ ] AC for 1.4 - a second run can be diffed against the first - test: `docs/screen-reader-report`
+
+## 3. Edge cases
+
+- The streaming chat's live region is the hardest surface - it must announce without flooding.
+- Vietnamese content read by an English-voice screen reader: the lang attributes must switch the voice.
+
+## 4. Out of scope / non-goals
+
+- Fixing what the pass finds - each finding becomes its own FR or a fix in the owning FR.
+
+## 5. Protected invariants this FR must not weaken
+
+- AGENTS.md §4.4: WCAG 2.2 AA floor and prefers-reduced-motion support.
+- AGENTS.md §4.5 Vietnamese-first: every user-facing string ships EN and VN in the same commit.

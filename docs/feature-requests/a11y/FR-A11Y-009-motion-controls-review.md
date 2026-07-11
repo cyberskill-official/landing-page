@@ -7,7 +7,8 @@ status: closed
 class: product
 verify: T
 phase: P5
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: []

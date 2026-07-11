@@ -1,57 +1,54 @@
 ---
 id: FR-CMS-009
 title: "Replace placeholder case studies with cleared real outcomes"
-module: CMS
-priority: SHOULD
 status: ready_to_implement
 class: product
-verify: T
-phase: P6
-owner: Stephen Cheng
-created: 2026-06-22
-shipped: null
-depends_on: [FR-WEB-003, FR-CMS-001]
-blocks: []
-source_pages:
-  - "research doc §C (information architecture), §F (trust)"
+priority: MUST
+owner: mixed
+depends_on: [FR-BIZ-006, FR-CMS-011]
 routed_back_count: 0
 awh: N/A
+traces_to: [audit-A/phase-1-item-1, audit-B/finding-8-medium, audit-C/content-credibility, growth/PROOF-02]
 ---
 
-## §1 Requirement (BCP-14 normative)
+# FR-CMS-009: Replace placeholder case studies with cleared real outcomes
 
-Case studies MUST present real, cleared outcomes with real assets, replacing
-every placeholder on the work pages built in FR-WEB-003.
+## 0. Why (evidence)
 
-1. Each case study MUST carry a real client context, the problem, the work done,
-   and measurable outcomes; no invented metric may appear.
-2. Logos, screenshots, and quotes MUST be used only with the client's written
-   permission on file; uncleared assets MUST stay out of the build.
-3. No placeholder case-study text or image may remain on any work/[slug] route.
-4. Each case study MUST ship English and Vietnamese values for narrative fields,
-   with the Vietnamese reviewed by a native speaker.
+The #1 gap in all three audits. Case studies are anonymized ("a logistics client"), roughly three paragraphs each, with no
+company name, no numbers, no screenshots, no quote. Audit A's benchmark reads "reduced time-to-deploy from six weeks to
+two days for a major global retailer"; CyberSkill's reads "the operations team works from one live view". Audit C calls
+named case studies with measurable results table stakes and the highest-impact conversion asset. Raised to MUST.
 
-## §2 Acceptance
+## 1. Description (normative)
 
-- Every work/[slug] page shows real context, work, and outcomes with clearance.
-- No placeholder case-study content remains in the content source.
+- 1.1 Each case study SHALL carry a real client context, the problem, the work done and quantified outcomes: 2-3 numbers with units, a measurement period and a source note.
+- 1.2 No invented, estimated or agency-calculated metric SHALL be published as a client outcome; the number is the client's own measurement or it does not ship.
+- 1.3 Logos, screenshots and quotes SHALL be used only with the client's written permission on file; uncleared assets SHALL be impossible to render.
+- 1.4 A case study that remains anonymized SHALL be labelled explicitly as an anonymized pattern, and SHALL NOT be presented as a client result.
+- 1.5 Each case study SHALL ship English and Vietnamese narrative fields, with the Vietnamese reviewed (FR-CMS-003) and the category tags localized.
 
-## §3 Evidence
+## 2. Acceptance criteria
 
-Not yet implemented; acceptance pending build.
+- [ ] AC for 1.1 - every published case study renders 2-3 metrics with units, a period and a source note - test: `content/case-study-template`
+- [ ] AC for 1.2 - a metric without a source note fails the build - test: `content/case-study-template`
+- [ ] AC for 1.3 - an asset without a permission reference fails the build - test: `content/testimonial-permission`
+- [ ] AC for 1.4 - an anonymized case study renders the pattern label - test: `content/case-study-template`
+- [ ] AC for 1.5 - no placeholder case-study text remains, and VN tags are Vietnamese - test: `content/no-placeholders`
 
-## Addendum - 2026-07-11 audits
+## 3. Edge cases
 
-This is the #1 gap in all three audits. Two requirements are tightened:
+- An NDA client permits industry + metrics but not the name - the template supports it (FR-CMS-011 clause 1.2).
+- A screenshot containing client data must be cleared and redacted.
+- A metric that later proves wrong must be correctable without republishing the whole page.
 
-- A case study without **quantified outcomes** does not count as proof. Audit A's
-  benchmark: "reduced time-to-deploy from six weeks to two days for a major global
-  retailer" versus the current "the operations team works from one live view".
-  Every published case study carries 2-3 numbers with units, a period, and a source
-  note (measured how) - see FR-CMS-011 clauses 1.1 and 1.3.
-- A case study that stays anonymized **must be labelled an anonymized pattern**, not
-  presented as a client result (FR-CMS-011 clause 1.2).
+## 4. Out of scope / non-goals
 
-The template is FR-CMS-011; the client permission and the numbers are FR-BIZ-006.
+- The template (FR-CMS-011).
+- Obtaining the permissions and numbers (FR-BIZ-006).
 
-Traces: audit-A/phase-1-item-1, audit-B/finding-8-medium, audit-C/content-credibility.
+## 5. Protected invariants this FR must not weaken
+
+- Nothing published may claim a fact, metric, credential or client the company cannot evidence.
+- No client name, logo, quote, photo or metric is published without recorded written permission.
+- AGENTS.md §4.5 Vietnamese-first: every user-facing string ships EN and VN in the same commit.

@@ -9,7 +9,8 @@ verify: T
 phase: P2
 created: 2026-07-02
 shipped: 2026-07-02
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 depends_on: [FR-CHAR-030, FR-CTA-001]
 related_frs: [FR-CHAR-026, FR-CHAR-027]
 source_pages:

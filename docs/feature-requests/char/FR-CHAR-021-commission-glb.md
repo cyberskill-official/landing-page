@@ -7,7 +7,8 @@ status: on_hold
 class: product
 verify: T
 phase: P3
-owner: Stephen Cheng
+owner: human
+author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [FR-CHAR-020]

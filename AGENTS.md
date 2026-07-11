@@ -57,6 +57,23 @@ migrated on 2026-07-11; the mapping is in
 One backlog holds everything: `class: product` (net-new) and `class: improvement`
 (hardening, refactor, audit remediation). There is no second improvement track.
 
+## §3b The queue and the gate
+
+Every FR carries `owner: agent | human | mixed`. `ship-feature-requests` picks the
+first `ready_to_implement` FR with `owner: agent` whose every `depends_on` is
+`done`. It never picks a `human` or `mixed` FR: those hold accounts, credentials,
+client permissions and commercial decisions, and they exist so the agent halts on
+a missing input instead of inventing one (a price, a testimonial, a metric).
+
+`npm run check:frs` is the spec gate and runs in CI. It enforces this repo's FR
+contract - frontmatter enums, `depends_on` resolution, BACKLOG parity, and for
+every `ready_to_implement` FR the five required sections plus clause -> AC ->
+named-test traceability. An FR that does not pass it is not implementable.
+
+Do NOT run the CyberOS plugin's `feature-request-audit` (`audit_rubric@2.0`)
+against these FRs: it audits a different FR contract and fails on every FR here,
+including shipped ones. The reasoning is in `docs/adrs/ADR-001-fr-contract.md`.
+
 ## §4 Non-negotiables (enforced, not aspirational)
 
 1. HTML-first. Every meaningful state (H1, value prop, services, CTA, contact)

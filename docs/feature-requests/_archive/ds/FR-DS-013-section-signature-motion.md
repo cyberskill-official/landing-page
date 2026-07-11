@@ -9,7 +9,8 @@ verify: T
 phase: P4
 created: 2026-07-02
 shipped: 2026-07-02
-owner: Stephen Cheng
+owner: agent
+author: Stephen Cheng
 depends_on: [FR-DS-011, FR-DS-012]
 source_pages:
   - "operator direction 2026-07-02: other than Lumi the sections still look static - each section needs a wow"
