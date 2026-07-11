@@ -3,7 +3,8 @@ id: FR-CMS-003
 title: "Complete Vietnamese localization with native-speaker review"
 module: CMS
 priority: MUST
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CMS-001]
 blocks: []
 source_pages:
   - "research doc §E (Vietnamese-first)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -38,3 +41,19 @@ by a native speaker before launch.
 ## §3 Evidence
 
 Not yet implemented; acceptance pending build.
+
+## Addendum - 2026-07-11 audits
+
+Audits A and C add three concrete VN defects this FR must close, on top of the
+native-speaker pass already specified:
+
+- The `/vi` routes serve the **English `<title>`** ("Turn Your Will Into Real - CyberSkill")
+  while the H1 and description are translated. The title work itself is FR-SEO-011;
+  this FR owns the Vietnamese copy it uses.
+- The VN **stat-badge labels** differ from EN and are reordered.
+- The case-study **category tags** ("Logistics operations", "Education", "Retail")
+  remain in English on the VN pages (also FR-CMS-011 clause 1.5).
+- Diacritic rendering in the kinetic type must be verified after FR-SEO-010 changes
+  the word-splitting (migrated growth task PERF-04).
+
+Traces: audit-A/section-6, audit-C/technical-seo-gaps, growth/PERF-04.

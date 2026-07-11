@@ -3,7 +3,8 @@ id: FR-PERF-005
 title: "Font subset, display, and preload strategy including Vietnamese glyphs"
 module: PERF
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -17,6 +18,8 @@ new_files:
   - lib/fonts.ts
 modified_files:
   - app/layout.tsx
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

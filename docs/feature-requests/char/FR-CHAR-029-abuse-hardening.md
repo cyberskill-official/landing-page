@@ -3,7 +3,8 @@ id: FR-CHAR-029
 title: "Harden per-IP rate limiting, input validation, and prompt-injection defence on the proxy"
 module: CHAR
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CHAR-010]
 related_frs: [FR-CHAR-011, FR-CHAR-028]
 source_pages:
   - "research doc §I (conversational Genie), §G (secrets + privacy)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

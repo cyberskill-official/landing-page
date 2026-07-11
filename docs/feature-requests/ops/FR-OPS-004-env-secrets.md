@@ -3,7 +3,8 @@ id: FR-OPS-004
 title: "Env and secret management across production and preview with separate keys"
 module: OPS
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -16,6 +17,8 @@ source_pages:
 new_files:
   - .env.example
   - docs/deploy/env-vars.md
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

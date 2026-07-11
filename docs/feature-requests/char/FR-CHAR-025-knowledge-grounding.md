@@ -3,7 +3,8 @@ id: FR-CHAR-025
 title: "Retrieval grounding over company and portfolio facts for richer answers"
 module: CHAR
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CHAR-011]
 related_frs: [FR-CHAR-010, FR-CHAR-026]
 source_pages:
   - "research doc §I (conversational Genie), §N (knowledge base)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

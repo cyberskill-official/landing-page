@@ -3,7 +3,8 @@ id: FR-CMS-007
 title: "Bilingual insights/blog content collection"
 module: CMS
 priority: COULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CMS-001]
 blocks: []
 source_pages:
   - "research doc §C (information architecture), §H (SEO + discovery)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

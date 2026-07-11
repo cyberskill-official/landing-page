@@ -3,7 +3,8 @@ id: FR-CMS-006
 title: "About, team, and culture content (recruiting + trust surface)"
 module: CMS
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P4
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CMS-001]
 blocks: []
 source_pages:
   - "research doc §C (information architecture), §F (trust)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -38,3 +41,17 @@ employer and partner, in both locales.
 ## §3 Evidence
 
 Not yet implemented; acceptance pending build.
+
+## Addendum - 2026-07-11 audits
+
+Audits A and C both call the missing team the biggest authenticity gap: the site
+promises "senior engineers own the work end to end" and "you always know who is
+building what", the nav offers a Team link, and it lands on a one-line company
+statement with no named people.
+
+- This FR owns the **content** (names, roles, bios, photos, credentials).
+- **FR-WEB-012** owns the **route** (`/[lang]/team`), the Person JSON-LD and the nav fix.
+- **FR-BIZ-006** owns the **consent**: no name, photo or profile link is published
+  without the named person's recorded written consent (PDPL).
+
+Traces: audit-A/phase-2-item-8, audit-C/content-credibility, growth/PROOF-05.

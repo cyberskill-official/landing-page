@@ -3,7 +3,8 @@ id: FR-CTA-006
 title: "Map form leads to a CRM via webhook"
 module: CTA
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CTA-001]
 blocks: []
 source_pages:
   - "research doc §D (conversion + lead capture)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

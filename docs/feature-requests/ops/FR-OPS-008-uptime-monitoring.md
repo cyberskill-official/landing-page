@@ -3,7 +3,8 @@ id: FR-OPS-008
 title: "Uptime and deploy-health monitoring with alerts"
 module: OPS
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -15,6 +16,8 @@ source_pages:
   - "research doc §L (uptime and alerting), §F (health endpoint)"
 new_files:
   - docs/deploy/monitoring.md
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

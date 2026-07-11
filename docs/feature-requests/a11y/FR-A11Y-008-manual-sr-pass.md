@@ -3,7 +3,8 @@ id: FR-A11Y-008
 title: "Manual VoiceOver and NVDA screen-reader pass"
 module: A11Y
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -15,6 +16,8 @@ source_pages:
   - "research doc §H (manual a11y testing, screen readers)"
 planned_files:
   - docs/a11y/screen-reader-checklist.md
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

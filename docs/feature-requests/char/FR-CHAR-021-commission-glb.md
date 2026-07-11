@@ -3,7 +3,8 @@ id: FR-CHAR-021
 title: "Commission optimised golden-genie GLB (Draco+KTX2, Mixamo rig, ARKit visemes)"
 module: CHAR
 priority: MUST
-status: deferred
+status: on_hold
+class: product
 verify: T
 phase: P3
 owner: Stephen Cheng
@@ -14,6 +15,8 @@ blocks: []
 source_pages:
   - "research doc §J (3D Genie asset pipeline), §K (lip-sync fidelity)"
 new_files: []
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

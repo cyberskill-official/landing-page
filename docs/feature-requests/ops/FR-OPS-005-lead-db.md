@@ -3,7 +3,8 @@ id: FR-OPS-005
 title: "Lead and transcript datastore behind /api/lead and /api/genie"
 module: OPS
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -16,6 +17,8 @@ source_pages:
 new_files:
   - lib/db/schema.ts
   - lib/db/client.ts
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

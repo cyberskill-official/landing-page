@@ -3,7 +3,8 @@ id: FR-CTA-004
 title: "Progressive profiling across visits and steps"
 module: CTA
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CTA-001]
 blocks: []
 source_pages:
   - "research doc §D (conversion + lead capture)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

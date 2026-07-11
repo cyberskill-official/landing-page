@@ -3,7 +3,8 @@ id: FR-CMS-009
 title: "Replace placeholder case studies with cleared real outcomes"
 module: CMS
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-WEB-003, FR-CMS-001]
 blocks: []
 source_pages:
   - "research doc §C (information architecture), §F (trust)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -36,3 +39,19 @@ every placeholder on the work pages built in FR-WEB-003.
 ## §3 Evidence
 
 Not yet implemented; acceptance pending build.
+
+## Addendum - 2026-07-11 audits
+
+This is the #1 gap in all three audits. Two requirements are tightened:
+
+- A case study without **quantified outcomes** does not count as proof. Audit A's
+  benchmark: "reduced time-to-deploy from six weeks to two days for a major global
+  retailer" versus the current "the operations team works from one live view".
+  Every published case study carries 2-3 numbers with units, a period, and a source
+  note (measured how) - see FR-CMS-011 clauses 1.1 and 1.3.
+- A case study that stays anonymized **must be labelled an anonymized pattern**, not
+  presented as a client result (FR-CMS-011 clause 1.2).
+
+The template is FR-CMS-011; the client permission and the numbers are FR-BIZ-006.
+
+Traces: audit-A/phase-1-item-1, audit-B/finding-8-medium, audit-C/content-credibility.

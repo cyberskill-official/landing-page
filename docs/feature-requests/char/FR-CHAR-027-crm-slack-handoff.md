@@ -3,7 +3,8 @@ id: FR-CHAR-027
 title: "On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript"
 module: CHAR
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CHAR-026]
 related_frs: [FR-CHAR-028, FR-CTA-001]
 source_pages:
   - "research doc §O (lead capture + qualification), §G (secrets + privacy)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

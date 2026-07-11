@@ -3,7 +3,8 @@ id: FR-SCENE-009
 title: "LOD by distance, under 100 draw calls per frame, dispose GPU resources on unmount"
 module: SCENE
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-SCENE-001]
 related_frs: [FR-SCENE-008, FR-SCENE-010]
 source_pages:
   - "research doc §J (3D scene scaffold), §M (renderer + performance)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

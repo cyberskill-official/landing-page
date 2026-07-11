@@ -3,7 +3,8 @@ id: FR-WEB-006
 title: "Draft and preview mode for unpublished content"
 module: WEB
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -14,6 +15,8 @@ source_pages:
   - "research doc §G (content updates, editorial), §F (Next.js App Router)"
 new_files:
   - app/api/preview/route.ts
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

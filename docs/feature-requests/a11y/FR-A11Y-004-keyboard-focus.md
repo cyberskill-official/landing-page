@@ -3,7 +3,8 @@ id: FR-A11Y-004
 title: "Full keyboard operability, visible focus, and focus order"
 module: A11Y
 priority: MUST
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: []
 blocks: []
 source_pages:
   - "research doc §H (WCAG 2.1.1 keyboard, 2.4.7 focus visible)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

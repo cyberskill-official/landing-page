@@ -3,7 +3,8 @@ id: FR-SEO-006
 title: "RSS/Atom feed for the insights collection"
 module: SEO
 priority: COULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -15,6 +16,8 @@ source_pages:
   - "research doc §F (content syndication), §E (discoverability)"
 planned_files:
   - app/insights/feed.xml/route.ts
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

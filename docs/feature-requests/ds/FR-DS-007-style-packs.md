@@ -3,7 +3,8 @@ id: FR-DS-007
 title: "Style-pack switching layered on the theme"
 module: DS
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -15,6 +16,8 @@ source_pages:
 new_files:
   - app/globals.css
   - lib/theme/style-packs.ts
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

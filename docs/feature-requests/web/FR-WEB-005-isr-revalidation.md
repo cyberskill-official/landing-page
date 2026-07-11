@@ -3,7 +3,8 @@ id: FR-WEB-005
 title: "ISR and on-demand revalidation for content pages"
 module: WEB
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P3
 owner: Stephen Cheng
@@ -14,6 +15,8 @@ source_pages:
   - "research doc §F (Next.js App Router, rendering), §G (content updates)"
 new_files:
   - app/api/revalidate/route.ts
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

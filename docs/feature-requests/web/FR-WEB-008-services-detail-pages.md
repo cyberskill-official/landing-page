@@ -3,7 +3,8 @@ id: FR-WEB-008
 title: "Per-service detail pages with static params and hreflang"
 module: WEB
 priority: SHOULD
-status: planned
+status: closed
+class: product
 verify: T
 phase: P4
 owner: Stephen Cheng
@@ -14,6 +15,9 @@ source_pages:
   - "research doc §C (information architecture), §E (hreflang), §F (Next.js App Router)"
 new_files:
   - app/[lang]/services/[slug]/page.tsx
+routed_back_count: 0
+awh: N/A
+closed_reason: superseded by FR-SEO-016 (service-page depth); the /services/[slug] routes already ship
 ---
 
 ## §1 Requirement (BCP-14 normative)

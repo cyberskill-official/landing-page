@@ -3,7 +3,8 @@ id: FR-A11Y-009
 title: "Reconcile always-on motion with a user-facing motion control"
 module: A11Y
 priority: SHOULD
-status: planned
+status: closed
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -14,6 +15,9 @@ blocks: []
 related_frs: [FR-SCENE-003, FR-A11Y-001]
 source_pages:
   - "research doc §H (WCAG 2.3.3 animation from interactions), §J (motion stance)"
+routed_back_count: 0
+awh: N/A
+closed_reason: superseded by FR-A11Y-010 (reduced-motion JS gate, which also binds the manual toggle)
 ---
 
 ## §1 Requirement (BCP-14 normative)

@@ -3,7 +3,8 @@ id: FR-CTA-005
 title: "Calendar booking embed for high-intent leads"
 module: CTA
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P6
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CTA-001]
 blocks: []
 source_pages:
   - "research doc §D (conversion + lead capture)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)
@@ -37,3 +40,18 @@ embed MUST load in a privacy-conscious way.
 ## §3 Evidence
 
 Not yet implemented; acceptance pending build.
+
+## Addendum - 2026-07-11 audits
+
+Scope confirmed by the migrated growth task CONV-02: this is a **link, not an
+embed**. A third-party booking iframe would cost page weight, a consent surface and
+a CSP allowance (FR-OPS-009) for a page that is already fighting a mobile
+performance problem (FR-PERF-008).
+
+- Render a "Book a 30-minute call" secondary action in the contact section and on
+  the thank-you panel (FR-CTA-010), opening the booking URL in a new tab.
+- Gate it on `NEXT_PUBLIC_BOOKING_URL`: the button renders only when the URL is set.
+- Emit `booking_clicked` (FR-OPS-011). EN and VN labels ship together.
+- The booking account and the URL are the owner's to supply (FR-BIZ-013).
+
+Traces: growth/CONV-02, audit-A/section-9.

@@ -3,7 +3,8 @@ id: FR-CMS-005
 title: "Long-form bilingual services content for detail pages"
 module: CMS
 priority: SHOULD
-status: planned
+status: ready_to_implement
+class: product
 verify: T
 phase: P4
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-CMS-001]
 blocks: []
 source_pages:
   - "research doc §C (information architecture), §E (Vietnamese-first)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)

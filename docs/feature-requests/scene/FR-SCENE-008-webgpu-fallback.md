@@ -3,7 +3,8 @@ id: FR-SCENE-008
 title: "WebGPURenderer with automatic WebGL fallback"
 module: SCENE
 priority: COULD
-status: planned
+status: on_hold
+class: product
 verify: T
 phase: P5
 owner: Stephen Cheng
@@ -13,6 +14,8 @@ depends_on: [FR-SCENE-001]
 related_frs: [FR-SCENE-009]
 source_pages:
   - "research doc §J (3D scene scaffold), §M (renderer + performance)"
+routed_back_count: 0
+awh: N/A
 ---
 
 ## §1 Requirement (BCP-14 normative)
