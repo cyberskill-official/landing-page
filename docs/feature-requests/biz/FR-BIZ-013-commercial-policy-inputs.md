@@ -32,6 +32,7 @@ moment it ships: the CTA promise (FR-CTA-015), the engagement models and startin
 - [ ] AC for 1.1 - every listed decision has a recorded value and date - test: `content/commercial-policy-record`
 - [ ] AC for 1.2 - the dependent FRs read their values from that record, not from a component - test: `content/no-placeholders`
 - [ ] AC for 1.3 - a stale decision (past its review date) blocks the dependent copy from rendering - test: `content/capacity-line`
+- [ ] AC for 1.4 - a decision the company cannot keep is recorded as withdrawn or changed, never softened into vaguer copy - evidence: the decision record's history
 
 ## 3. Edge cases
 

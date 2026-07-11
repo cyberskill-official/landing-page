@@ -31,6 +31,7 @@ ritual.
 - [ ] AC for 1.1 - both consoles verified and the sitemap accepted - evidence: screenshots
 - [ ] AC for 1.2 - the first indexing report is reviewed and logged - test: `docs/seo-log`
 - [ ] AC for 1.3 - the monthly log has at least one entry and a template for the rest - test: `docs/seo-log`
+- [ ] AC for 1.4 - the quarterly re-audit is scheduled with a named owner and a date, and the benchmark method is recorded so the score is comparable - test: `docs/seo-log`
 
 ## 3. Edge cases
 

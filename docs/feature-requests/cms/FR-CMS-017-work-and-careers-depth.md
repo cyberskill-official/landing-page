@@ -23,13 +23,14 @@ Audit A adds that there is no dedicated about/company-story page and no culture/
 - 1.1 The work index SHALL introduce the practice areas, the shape of a typical engagement, and link every case study with its outcome line.
 - 1.2 The careers page SHALL cover: how the team works, the hiring process end to end, what seniority means here, the tools and gates a new engineer will meet, and current openings (or the honest statement that none are open, with the talent-pool capture from FR-CTA-020).
 - 1.3 Each page SHALL exceed roughly 500 words of real content per locale.
-- 1.4 EN and VN ship together.
+- 1.4 Both pages SHALL ship EN and VN in the same commit.
 
 ## 2. Acceptance criteria
 
 - [ ] AC for 1.1 - the work index renders the new sections and links every case study - test: `content/work-index-shape`
 - [ ] AC for 1.2 - the careers page renders every named section - test: `content/careers-shape`
 - [ ] AC for 1.3 - word count >= 500 per locale on both pages - test: `content/page-depth`
+- [ ] AC for 1.4 - both locales render in the same commit on both pages - test: `content/page-depth`
 
 ## 3. Edge cases
 

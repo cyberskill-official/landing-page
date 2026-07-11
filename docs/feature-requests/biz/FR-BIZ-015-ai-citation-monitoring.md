@@ -31,6 +31,7 @@ this as a monthly ritual, and the cited sources are the map of where to invest n
 - [ ] AC for 1.1 - the log template exists and the first monthly entry is recorded - test: `docs/geo-log`
 - [ ] AC for 1.2 - each entry names the cited sources per engine - test: `docs/geo-log`
 - [ ] AC for 1.3 - the brand-confusion check is recorded separately - test: `docs/geo-log`
+- [ ] AC for 1.4 - the brand-confusion result is a separate logged line per month, and a conflation result re-opens FR-SEO-017 / FR-SEO-018 - test: `docs/geo-log`
 
 ## 3. Edge cases
 

@@ -30,6 +30,7 @@ and Slack - which is where leads go to be forgotten.
 - [ ] AC for 1.1 - the endpoint is live and rejects an unauthenticated POST - evidence: request log
 - [ ] AC for 1.2 - a production lead appears in CyberOS within seconds - evidence: FR-BIZ-003
 - [ ] AC for 1.3 - the payload fields survive the hop - test: `api/lead-intent-routing`
+- [ ] AC for 1.4 - the CyberOS record shows intent, source, locale and utm_* exactly as submitted - test: `api/lead-intent-routing`
 
 ## 3. Edge cases
 

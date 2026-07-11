@@ -24,7 +24,7 @@ elements buyers look for. Everything in this block is already true and simply un
 - 1.1 A compact block SHALL render (footer-adjacent and on /how-we-build): registered legal name, founding year, DUNS 673219568, business registration number, the Tan Dinh Ward address with a static map image linking to Google Maps (no iframe, no consent burden), and the public repository link.
 - 1.2 It SHALL additionally state the verifiable engineering commitments the repo actually enforces: code review on every change, CI gates, WCAG 2.2 AA target, performance budget, PDPL-aligned data handling.
 - 1.3 Every claim in the block SHALL be true today and evidenced; an unavailable field (e.g. the registration number) SHALL be omitted rather than faked.
-- 1.4 EN and VN ship together.
+- 1.4 The block SHALL ship EN and VN in the same commit.
 
 ## 2. Acceptance criteria
 
@@ -32,6 +32,7 @@ elements buyers look for. Everything in this block is already true and simply un
 - [ ] AC for 1.2 - an unset field is omitted with no empty row - test: `content/verify-us-block`
 - [ ] AC for 1.3 - the map is a static image link, loading no third-party script - test: `headers/csp-clean-crawl`
 - [ ] AC for 1.4 - each engineering claim maps to a CI gate that exists - test: `content/gates-claims-parity`
+- [ ] AC for 1.4 - both locales render in the same commit; no EN-only field ships - test: `content/verify-us-block`
 
 ## 3. Edge cases
 

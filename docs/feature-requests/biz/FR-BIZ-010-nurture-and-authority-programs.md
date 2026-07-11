@@ -33,6 +33,7 @@ enterprise budget. None of this is code - it is a set of standing commitments wi
 - [ ] AC for 1.2 - the LinkedIn checklist and four drafts exist; the first post is live - evidence: post URL
 - [ ] AC for 1.3 - the share checklist exists and one note has been through the full loop - test: `docs/nurture-assets`
 - [ ] AC for 1.4 - the client-letter template exists and the first letter is sent - evidence: the send
+- [ ] AC for 1.5 - every started program names an owner and a cadence; a program with neither is not started - test: `docs/nurture-assets`
 
 ## 3. Edge cases
 

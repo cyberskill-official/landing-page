@@ -31,6 +31,7 @@ Team nav item points at an anchor that does not match the section id (#team vs #
 - [ ] AC for 1.1 - the nav and both footers contain the link - test: `nav/footer-parity`
 - [ ] AC for 1.2 - each named gate maps to a real CI job - test: `content/gates-claims-parity`
 - [ ] AC for 1.3 - no dangling anchor remains in either locale - test: `nav/team-link`
+- [ ] AC for 1.4 - a gate named on the page but absent from CI fails the parity test - test: `content/gates-claims-parity`
 
 ## 3. Edge cases
 

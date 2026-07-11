@@ -35,6 +35,7 @@ dozens of such pages.
 - [ ] AC for 1.2 - no /vi route serves an English title - test: `seo/metadata-matrix`
 - [ ] AC for 1.3 - titles and descriptions are within their length bounds - test: `seo/metadata-matrix`
 - [ ] AC for 1.4 - OG title may differ; canonical stays self-referencing - test: `seo/canonical-hreflang`
+- [ ] AC for 1.5 - the metadata matrix test runs across the full indexable route set in both locales and fails on a duplicate or an English title on /vi - test: `seo/metadata-matrix`
 
 ## 3. Edge cases
 

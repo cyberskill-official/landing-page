@@ -34,6 +34,7 @@ this for, and what happened?' - and the site cannot answer."
 - [ ] AC for 1.2 - >= 3 requests sent; >= 1 full named case study granted - evidence: permission records
 - [ ] AC for 1.3 - every proof asset in the repo has a matching permission record - test: `content/testimonial-permission`
 - [ ] AC for 1.4 - every named team member has a recorded consent - test: `content/team-consent`
+- [ ] AC for 1.5 - no proof asset (logo, photo, quote, screenshot, metric) exists in the repo without a matching permission record - test: `content/testimonial-permission`
 
 ## 3. Edge cases
 

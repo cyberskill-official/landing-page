@@ -31,6 +31,7 @@ carry a crisp sentence LLMs can lift verbatim; the main site has no single sourc
 - [ ] AC for 1.1 - one exported constant per locale; no second copy exists in the repo - test: `content/entity-sentence-single-source`
 - [ ] AC for 1.2 - it appears in >= 4 rendered surfaces per locale - test: `content/entity-sentence-single-source`
 - [ ] AC for 1.3 - editing it updates every surface with no further change - test: `content/entity-sentence-single-source`
+- [ ] AC for 1.4 - the sentence is documented as required external-profile boilerplate and the profile pack quotes it verbatim - test: `docs/profile-pack`
 
 ## 3. Edge cases
 

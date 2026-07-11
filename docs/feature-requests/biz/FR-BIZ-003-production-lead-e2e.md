@@ -29,6 +29,7 @@ Only a real submission through the real site proves the whole chain. Everything 
 - [ ] AC for 1.1 - three submissions confirmed on every configured sink - evidence: verification record
 - [ ] AC for 1.2 - the Reply-To round trip works - evidence: verification record
 - [ ] AC for 1.3 - the record is dated and committed - test: `docs/post-deploy-verification`
+- [ ] AC for 1.4 - the evidence file exists under docs/verification/ with timestamps and links - test: `docs/post-deploy-verification`
 
 ## 3. Edge cases
 
