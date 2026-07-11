@@ -5,7 +5,7 @@ status: ready_to_implement
 class: improvement
 priority: MUST
 owner: agent
-depends_on: [FR-CMS-009]
+depends_on: []
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/phase-1-item-1, audit-B/finding-8-medium, audit-C/content-credibility, growth/PROOF-02]

@@ -5,7 +5,7 @@ status: ready_to_implement
 class: product
 priority: SHOULD
 owner: agent
-depends_on: [FR-BIZ-013]
+depends_on: []
 routed_back_count: 0
 awh: N/A
 traces_to: [research-doc/section-I, research-doc/section-O]
@@ -26,7 +26,7 @@ follow-ups, and a formal LEAD_CAPTURED state for the handoff in FR-CHAR-027.
 
 - 1.1 Lumi SHALL give useful help before asking for contact details, then gather them in order: name, need, company, budget or timeline, email.
 - 1.2 Each step SHALL be a single conversational ask; the sequence SHALL tolerate out-of-order answers, free-form answers and skipped fields without dead-ending.
-- 1.3 Lumi SHALL qualify the enquiry against the recorded ICP (FR-BIZ-013) and SHALL adapt its follow-ups to the answers rather than reading a fixed script.
+- 1.3 Lumi SHALL qualify the enquiry against the ICP recorded in the commercial policy (FR-BIZ-013) and SHALL adapt its follow-ups to the answers rather than reading a fixed script. Where no ICP is recorded, Lumi SHALL collect the lead without qualifying it and SHALL NOT invent criteria.
 - 1.4 On a sufficiently complete lead the genie store SHALL enter a `LEAD_CAPTURED` state holding the collected fields for downstream handoff.
 - 1.5 Lumi SHALL NOT fabricate a qualification answer (price, timeline, capacity) that is not in the recorded commercial policy.
 
@@ -34,7 +34,7 @@ follow-ups, and a formal LEAD_CAPTURED state for the handoff in FR-CHAR-027.
 
 - [ ] AC for 1.1 - the transcript shows help before the first ask - test: `genie/value-first-sequence`
 - [ ] AC for 1.2 - answering the fields out of order, and skipping two, still reaches a valid lead - test: `genie/out-of-order-capture`
-- [ ] AC for 1.3 - two different ICP profiles produce different follow-ups - test: `genie/icp-adaptive`
+- [ ] AC for 1.3 - two different ICP profiles produce different follow-ups, and with no ICP recorded the flow collects without qualifying - test: `genie/icp-adaptive`
 - [ ] AC for 1.4 - a complete lead sets LEAD_CAPTURED with every gathered field - test: `genie/lead-captured-state`
 - [ ] AC for 1.5 - asked for a price with no recorded policy, Lumi declines rather than inventing one - test: `genie/no-fabricated-commitments`
 

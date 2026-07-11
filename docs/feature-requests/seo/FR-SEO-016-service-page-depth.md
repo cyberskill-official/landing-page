@@ -5,7 +5,7 @@ status: ready_to_implement
 class: improvement
 priority: SHOULD
 owner: agent
-depends_on: [FR-CTA-017]
+depends_on: []
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/phase-3-item-14, audit-C/phase-2, audit-B/finding-16-low, growth/SEO-02]
