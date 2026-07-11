@@ -4,8 +4,8 @@ title: "Lead and transcript datastore behind /api/lead and /api/genie"
 status: ready_to_implement
 class: product
 priority: SHOULD
-owner: mixed
-depends_on: [FR-OPS-004, FR-BIZ-002]
+owner: agent
+depends_on: [FR-OPS-004]
 routed_back_count: 0
 awh: N/A
 traces_to: [research-doc/section-O, growth/LEAD-02, audit-A/section-9]
@@ -26,6 +26,7 @@ database.
 - 1.2 The same datastore SHALL persist Genie chat transcripts received by `/api/genie`, linked to a lead where one exists (FR-CHAR-028).
 - 1.3 The schema SHALL be version-controlled in the repo so the data model changes only through a reviewed diff.
 - 1.4 Personal data SHALL carry a retention date and SHALL be deleted when it passes, and a deletion request SHALL remove the record (PDPL right to erasure).
+- 1.5 Without a configured datastore the persistence layer SHALL no-op safely behind the FR-OPS-010 alert rather than failing the visitor's request; provisioning the datastore is the operator's step.
 
 ## 2. Acceptance criteria
 
@@ -33,6 +34,7 @@ database.
 - [ ] AC for 1.2 - a Genie conversation is stored and linkable to its lead - test: `db/transcript-link`
 - [ ] AC for 1.3 - the schema lives in the repo and a migration is required to change it - test: `db/schema-versioned`
 - [ ] AC for 1.4 - a record past retention is deleted, and a deletion request removes it - test: `db/retention-and-erasure`
+- [ ] AC for 1.5 - with no store configured, a lead is still accepted and the zero-sinks alert fires - test: `db/no-store-noop`
 
 ## 3. Edge cases
 

@@ -90,6 +90,50 @@ for (const fr of frs.values()) {
   }
 }
 
+// DEP-003: no cycles - a cycle is a queue that can never drain.
+const CYCLE_MARK = new Map();
+const findCycle = (id, path = []) => {
+  if (path.includes(id)) return [...path.slice(path.indexOf(id)), id];
+  if (CYCLE_MARK.get(id) === "clean") return null;
+  for (const d of frs.get(id)?.deps ?? []) {
+    if (!frs.has(d)) continue;
+    const c = findCycle(d, [...path, id]);
+    if (c) return c;
+  }
+  CYCLE_MARK.set(id, "clean");
+  return null;
+};
+const reported = new Set();
+for (const id of frs.keys()) {
+  const c = findCycle(id);
+  if (c) {
+    const k = [...new Set(c)].sort().join(">");
+    if (!reported.has(k)) { reported.add(k); err(id, "DEP-003", `dependency cycle: ${c.join(" -> ")}`); }
+  }
+}
+
+// DEP-004: an agent-owned FR must never depend (transitively) on a human/mixed FR that is
+// not done - that is a permanent stall: the queue would skip it forever with no signal.
+// The right shape is a mechanism that ships env/config-gated and degrades gracefully, with
+// the human input landing later. See docs/feature-requests/README.md §1.
+const humanBlockers = (id, seen = new Set()) => {
+  const out = new Set();
+  for (const d of frs.get(id)?.deps ?? []) {
+    if (seen.has(d) || !frs.has(d)) continue;
+    seen.add(d);
+    const dep = frs.get(d);
+    if (dep.status === "done") continue;
+    if (dep.owner !== "agent") out.add(d);
+    for (const x of humanBlockers(d, seen)) out.add(x);
+  }
+  return out;
+};
+for (const fr of frs.values()) {
+  if (fr.status !== "ready_to_implement" || fr.owner !== "agent") continue;
+  const blockers = humanBlockers(fr.id);
+  if (blockers.size) err(fr.id, "DEP-004", `agent-owned but permanently stalled behind human-owned ${[...blockers].sort().join(", ")} - re-scope so the mechanism ships gated, or change the owner`);
+}
+
 // body rules - only for FRs the queue can pick up
 for (const fr of frs.values()) {
   if (fr.status !== "ready_to_implement") continue;

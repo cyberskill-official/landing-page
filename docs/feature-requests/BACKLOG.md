@@ -15,6 +15,9 @@ acceptance for a recorded human verdict, and never sets `done` itself.
 Last rebuilt: 2026-07-11, from the three audits in `docs/audits/2026-07-11/` plus the migrated
 growth program. Live in production at https://cyberskill.world.
 
+> **Implementing agent: read `README.md` in this folder first.** It is the five-minute
+> brief on how the queue, the contract and the gates work here.
+
 ## §0 How to read this backlog
 
 One row is one FR; one FR is one atomic, testable requirement. Rows are grouped by status, then
@@ -58,8 +61,8 @@ repo cannot do (accounts, permissions, credentials, rituals, commercial policy).
 
 `ship-feature-requests` picks the first `ready_to_implement` FR with `owner: agent` whose
 every `depends_on` is `done`. Run `npm run check:frs` to print this queue and to gate the
-contract (ADR-001). Counts: **28 agent-eligible now**, 23 agent-blocked on a
-dependency, 35 waiting on a human.
+contract (ADR-001). Counts: **40 agent-eligible now**, 13 agent-blocked on a
+dependency, 33 waiting on a human.
 
 ### §2.1 Agent-eligible now (no unmet dependency)
 
@@ -67,19 +70,29 @@ dependency, 35 waiting on a human.
 #### WEB
 
 - [ready_to_implement] FR-WEB-011 - Serve the negotiated locale at the root without a visible redirect hop (improvement)
+- [ready_to_implement] FR-WEB-012 - Real /team route with named people, replacing the on-page anchor (improvement)
 
 #### SCENE
 
 - [ready_to_implement] FR-SCENE-009 - Draw-call budget, GPU disposal, and LOD for the scene (improvement)
 
+#### CHAR
+
+- [ready_to_implement] FR-CHAR-026 - Conversational lead-capture sequence, value-first, with ICP qualification and a LEAD_CAPTURED state
+
 #### CTA
 
 - [ready_to_implement] FR-CTA-010 - Thank-you state with next steps, and a trust line under the form (improvement)
+- [ready_to_implement] FR-CTA-011 - Auto-acknowledgement email to the lead, localized (improvement)
+- [ready_to_implement] FR-CTA-012 - Zalo and WhatsApp one-tap contact chips, config-driven (improvement)
 - [ready_to_implement] FR-CTA-013 - Mark required fields in the markup, validate, and verify the honeypot (improvement)
 
 #### CMS
 
 - [ready_to_implement] FR-CMS-007 - Bilingual insights/notes content collection
+- [ready_to_implement] FR-CMS-011 - Work-detail template that can carry proof: metrics band, client quote, screenshots (improvement)
+- [ready_to_implement] FR-CMS-012 - Testimonial component placed beside every major CTA (improvement)
+- [ready_to_implement] FR-CMS-013 - Client logo strip, with an honest interim line until logos are cleared (improvement)
 - [ready_to_implement] FR-CMS-015 - Promote How-we-build into the nav and surface the quality gates as proof (improvement)
 - [ready_to_implement] FR-CMS-017 - Deepen the work index and careers pages (improvement)
 - [ready_to_implement] FR-CMS-018 - Public changelog (/now) seeded from real shipped history (improvement)
@@ -91,7 +104,11 @@ dependency, 35 waiting on a human.
 - [ready_to_implement] FR-SEO-012 - Complete the sitemap and stamp real lastModified dates (improvement)
 - [ready_to_implement] FR-SEO-013 - Replace non-descriptive link text ("Learn more") sitewide (improvement)
 - [ready_to_implement] FR-SEO-014 - Complete the OpenGraph and Twitter card fields (improvement)
+- [ready_to_implement] FR-SEO-015 - Service schema per service page, and Review/AggregateRating once testimonials are verifiable (improvement)
+- [ready_to_implement] FR-SEO-016 - Deepen the three service pages into ranking, converting pages (improvement)
 - [ready_to_implement] FR-SEO-018 - One canonical entity sentence, single-sourced and reused everywhere (improvement)
+- [ready_to_implement] FR-SEO-019 - Enrich the Organization graph: sameAs, founder, LocalBusiness, and visible profile links (improvement)
+- [ready_to_implement] FR-SEO-020 - Expand the FAQ to 15-20 answerable, citable Q&As (improvement)
 
 #### A11Y
 
@@ -111,6 +128,7 @@ dependency, 35 waiting on a human.
 
 #### OPS
 
+- [ready_to_implement] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement)
 - [ready_to_implement] FR-OPS-009 - Add a Content-Security-Policy, report-only first (improvement)
 - [ready_to_implement] FR-OPS-010 - Alert when every lead sink fails, and prove the pipeline weekly with a synthetic lead (improvement) - depends: FR-OPS-006
 - [ready_to_implement] FR-OPS-011 - One event taxonomy across both lead paths, with UTM source capture (improvement)
@@ -119,40 +137,26 @@ dependency, 35 waiting on a human.
 ### §2.2 Agent-blocked (waiting on another FR)
 
 
-#### WEB
-
-- [ready_to_implement] FR-WEB-012 - Real /team route with named people, replacing the on-page anchor (improvement) - depends: FR-CMS-006, FR-BIZ-006
-
 #### CHAR
 
-- [ready_to_implement] FR-CHAR-026 - Conversational lead-capture sequence, value-first, with ICP qualification and a LEAD_CAPTURED state - depends: FR-BIZ-013
-- [ready_to_implement] FR-CHAR-027 - On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript - depends: FR-CHAR-026, FR-BIZ-002, FR-OPS-010
+- [ready_to_implement] FR-CHAR-027 - On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript - depends: FR-CHAR-026, FR-OPS-010
 - [ready_to_implement] FR-CHAR-028 - Persist chat transcripts and lead records server-side, including partial conversations - depends: FR-OPS-005, FR-OPS-013
 
 #### CTA
 
-- [ready_to_implement] FR-CTA-006 - Map form leads to the CRM via a server-side webhook - depends: FR-BIZ-002, FR-OPS-010
-- [ready_to_implement] FR-CTA-011 - Auto-acknowledgement email to the lead, localized (improvement) - depends: FR-BIZ-001
-- [ready_to_implement] FR-CTA-012 - Zalo and WhatsApp one-tap contact chips, config-driven (improvement) - depends: FR-BIZ-007
-- [ready_to_implement] FR-CTA-014 - Newsletter capture with double opt-in (improvement) - depends: FR-BIZ-001, FR-OPS-013
+- [ready_to_implement] FR-CTA-006 - Map form leads to the CRM via a server-side webhook - depends: FR-OPS-010
+- [ready_to_implement] FR-CTA-014 - Newsletter capture with double opt-in (improvement) - depends: FR-OPS-013
 - [ready_to_implement] FR-CTA-020 - Careers talent-pool email capture (improvement) - depends: FR-CTA-014
 
 #### CMS
 
 - [ready_to_implement] FR-CMS-005 - Long-form bilingual services content for the detail pages - depends: FR-SEO-016
 - [ready_to_implement] FR-CMS-010 - Insights post template enforces author, dates and a TLDR (improvement) - depends: FR-CMS-007
-- [ready_to_implement] FR-CMS-011 - Work-detail template that can carry proof: metrics band, client quote, screenshots (improvement) - depends: FR-CMS-009
-- [ready_to_implement] FR-CMS-012 - Testimonial component placed beside every major CTA (improvement) - depends: FR-CMS-004, FR-BIZ-006
-- [ready_to_implement] FR-CMS-013 - Client logo strip, with an honest interim line until logos are cleared (improvement) - depends: FR-BIZ-006
 
 #### SEO
 
 - [ready_to_implement] FR-SEO-006 - RSS/Atom feed for the insights collection - depends: FR-CMS-007
-- [ready_to_implement] FR-SEO-015 - Service schema per service page, and Review/AggregateRating once testimonials are verifiable (improvement) - depends: FR-CMS-012
-- [ready_to_implement] FR-SEO-016 - Deepen the three service pages into ranking, converting pages (improvement) - depends: FR-CTA-017
 - [ready_to_implement] FR-SEO-017 - Publish llms.txt / llms-full.txt and take an explicit AI-crawler position (improvement) - depends: FR-SEO-018
-- [ready_to_implement] FR-SEO-019 - Enrich the Organization graph: sameAs, founder, LocalBusiness, and visible profile links (improvement) - depends: FR-BIZ-007
-- [ready_to_implement] FR-SEO-020 - Expand the FAQ to 15-20 answerable, citable Q&As (improvement) - depends: FR-CTA-017
 
 #### A11Y
 
@@ -162,6 +166,10 @@ dependency, 35 waiting on a human.
 
 - [ready_to_implement] FR-PERF-009 - Defer and consent-gate the analytics tags so they cost nothing on first paint (improvement) - depends: FR-OPS-013
 - [ready_to_implement] FR-PERF-011 - Preload the LCP element and give background images correct responsive sizes (improvement) - depends: FR-PERF-005
+
+#### OPS
+
+- [ready_to_implement] FR-OPS-005 - Lead and transcript datastore behind /api/lead and /api/genie - depends: FR-OPS-004
 
 ### §2.3 Needs a human (owner human / mixed)
 
@@ -200,8 +208,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 #### OPS
 
-- [ready_to_implement] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement) [mixed]
-- [ready_to_implement] FR-OPS-005 - Lead and transcript datastore behind /api/lead and /api/genie [mixed] - depends: FR-OPS-004, FR-BIZ-002
 - [ready_to_implement] FR-OPS-012 - Cookieless session replay (Microsoft Clarity), env-gated (improvement) [mixed] - depends: FR-OPS-013
 
 #### BIZ

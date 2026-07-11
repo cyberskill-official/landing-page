@@ -4,7 +4,7 @@ title: "Env and secret management across production and preview, with separate k
 status: ready_to_implement
 class: improvement
 priority: MUST
-owner: mixed
+owner: agent
 depends_on: []
 routed_back_count: 0
 awh: N/A
@@ -25,6 +25,7 @@ leaked preview key that can write production data is exactly that class of incid
 - 1.2 `.env.example` SHALL enumerate every required variable by name with placeholder values only, so a fresh checkout knows what to set.
 - 1.3 `docs/deploy/env-vars.md` SHALL document each variable: what it is, where it is set, which environments consume it, and what breaks when it is absent.
 - 1.4 A CI check SHALL assert that no secret value and no `NEXT_PUBLIC_`-prefixed secret appears in the client bundle or the repository.
+- 1.5 The code SHALL read every provider key from server env and SHALL fail closed (a named error, never a silent no-op on a write path) when a required production key is absent; provisioning the separate production and preview key VALUES is FR-BIZ-001.
 
 ## 2. Acceptance criteria
 
@@ -32,6 +33,7 @@ leaked preview key that can write production data is exactly that class of incid
 - [ ] AC for 1.2 - .env.example lists every variable the code reads, with placeholders only - test: `ci/env-example-parity`
 - [ ] AC for 1.3 - the env doc maps each variable to its environments - test: `docs/env-vars`
 - [ ] AC for 1.4 - a seeded secret in the client bundle fails CI - test: `ci/no-public-secrets`
+- [ ] AC for 1.5 - with a required production key absent, the write path returns a named error and the alert fires - test: `ci/env-fail-closed`
 
 ## 3. Edge cases
 

@@ -5,7 +5,7 @@ status: ready_to_implement
 class: product
 priority: SHOULD
 owner: agent
-depends_on: [FR-CHAR-026, FR-BIZ-002, FR-OPS-010]
+depends_on: [FR-CHAR-026, FR-OPS-010]
 routed_back_count: 0
 awh: N/A
 traces_to: [research-doc/section-O, research-doc/section-G, growth/LEAD-02]

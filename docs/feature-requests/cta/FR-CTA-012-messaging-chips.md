@@ -5,7 +5,7 @@ status: ready_to_implement
 class: improvement
 priority: SHOULD
 owner: agent
-depends_on: [FR-BIZ-007]
+depends_on: []
 routed_back_count: 0
 awh: N/A
 traces_to: [growth/CONV-05]

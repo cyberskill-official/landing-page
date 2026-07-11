@@ -5,7 +5,7 @@ status: ready_to_implement
 class: improvement
 priority: SHOULD
 owner: agent
-depends_on: [FR-CMS-006, FR-BIZ-006]
+depends_on: []
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/section-4, audit-A/phase-2-item-8, audit-C/content-credibility, growth/PROOF-05, growth/COPY-02]
@@ -27,6 +27,7 @@ as a Phase 2 high-priority item. The growth backlog also flags the #team vs #pro
 - 1.3 The Team nav item SHALL point at the route (not an anchor), and the stale anchor mismatch (#team vs #proof) SHALL be removed.
 - 1.4 A person who withholds a photo SHALL still render correctly (initials avatar), and no personal data beyond what the person approved SHALL be published.
 - 1.5 The page SHALL emit Person JSON-LD linked to the Organization node, and appear in the sitemap with a real lastModified.
+- 1.6 With no consented team member in config the route SHALL still render (the founder card alone, or an honest empty state) and SHALL NOT 404 or emit a dangling Person node.
 
 ## 2. Acceptance criteria
 
@@ -35,6 +36,7 @@ as a Phase 2 high-priority item. The growth backlog also flags the #team vs #pro
 - [ ] AC for 1.3 - the nav link resolves to the route; no dangling anchor remains - test: `nav/team-link`
 - [ ] AC for 1.4 - a person without a photo renders an initials avatar - test: `routes/team-page`
 - [ ] AC for 1.5 - Person JSON-LD validates and links to #organization - test: `seo/person-jsonld`
+- [ ] AC for 1.6 - with an empty team array the route renders, the JSON-LD stays valid, and no placeholder person appears - test: `routes/team-page`
 
 ## 3. Edge cases
 
