@@ -8,6 +8,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/work",
     "/careers",
     "/how-we-build",
+    // App-store legal pages for CyberOS. Google Play requires the account
+    // deletion URL to be "easily discoverable", so both are indexable and
+    // sitemapped rather than orphan pages reachable only from the store entry.
+    "/cyberos/privacy",
+    "/cyberos/delete-account",
     ...services.map((s) => `/services/${s.id}`),
     ...work.map((w) => `/work/${w.slug}`),
   ];
