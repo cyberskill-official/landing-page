@@ -53,7 +53,7 @@ async function seriousViolations(locale: Locale): Promise<string[]> {
     createElement(WorkPreview, { locale, dict }),
     createElement(SocialProof, { locale, dict }),
     createElement(Careers, { locale, dict }),
-    createElement(Faq, { locale }),
+    createElement(Faq, { locale, dict }),
     createElement(SiteFooter, { locale, dict }),
   ];
   const html = renderToStaticMarkup(createElement("main", null, ...sections));
