@@ -93,9 +93,9 @@ export function LeadForm({
 
   if (status === "ok") {
     return (
-      <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite">
-        <h3>{dict.form.successTitle}</h3>
-        <p>{dict.form.successBody}</p>
+      <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite" style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", borderTop: "1px solid var(--cs-color-border)", textAlign: "center" }}>
+        <h3 style={{ color: "var(--cs-color-primary)", marginBottom: "var(--cs-space-sm)" }}>{dict.form.successTitle}</h3>
+        <p style={{ margin: 0, fontSize: "var(--cs-text-md)" }}>{dict.form.successBody}</p>
       </div>
     );
   }
@@ -155,12 +155,17 @@ export function LeadForm({
       </div>
       {errors.consent && <span className="cs-field-error">{messageFor(errors.consent.message, dict)}</span>}
 
-      <button type="submit" className="cs-btn cs-btn-primary" disabled={status === "submitting"}>
-        {status === "submitting" ? dict.form.submitting : dict.form.submit}
-      </button>
+      <div style={{ marginTop: "var(--cs-space-md)" }}>
+        <button type="submit" className="cs-btn cs-btn-primary" disabled={status === "submitting"} style={{ width: "100%", marginBottom: "var(--cs-space-xs)" }}>
+          {status === "submitting" ? dict.form.submitting : dict.form.submit}
+        </button>
+        <p style={{ textAlign: "center", fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", margin: 0 }}>
+          {dict.form.trustLine}
+        </p>
+      </div>
 
       {status === "error" && (
-        <p className="cs-field-error" role="alert">
+        <p className="cs-field-error" role="alert" style={{ marginTop: "var(--cs-space-sm)" }}>
           {dict.form.errorGeneric}
         </p>
       )}

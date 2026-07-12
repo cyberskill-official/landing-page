@@ -59,6 +59,7 @@ export type Dictionary = {
     submitting: string;
     successTitle: string;
     successBody: string;
+    trustLine: string;
     errorGeneric: string;
     required: string;
     invalidEmail: string;
@@ -172,8 +173,9 @@ const en: Dictionary = {
     consent: "I agree to be contacted about my enquiry.",
     submit: "Send",
     submitting: "Sending...",
-    successTitle: "Thank you.",
-    successBody: "Your note reached us. We will reply within one business day.",
+    successTitle: "Message received.",
+    successBody: "Thank you. Our engineering team will read your message and follow up within one business day from info@cyberskill.world. In the meantime, feel free to explore our past work or follow us on social media.",
+    trustLine: "Your details go straight to the team. We never share them.",
     errorGeneric: "Something went wrong. Please try again, or email info@cyberskill.world.",
     required: "This field is required.",
     invalidEmail: "Enter a valid email address.",
@@ -286,8 +288,9 @@ const vi: Dictionary = {
     consent: "Tôi đồng ý được liên hệ về yêu cầu của mình.",
     submit: "Gửi",
     submitting: "Đang gửi...",
-    successTitle: "Cảm ơn bạn.",
-    successBody: "Chúng tôi đã nhận được lời nhắn của bạn và sẽ phản hồi trong một ngày làm việc.",
+    successTitle: "Đã nhận được lời nhắn.",
+    successBody: "Cảm ơn bạn. Đội ngũ kỹ sư của chúng tôi sẽ đọc lời nhắn và phản hồi bạn trong một ngày làm việc qua email từ địa chỉ info@cyberskill.world. Trong lúc chờ đợi, mời bạn xem qua các dự án chúng tôi đã bàn giao hoặc theo dõi chúng tôi trên mạng xã hội.",
+    trustLine: "Thông tin của bạn được gửi trực tiếp đến đội ngũ. Chúng tôi không bao giờ chia sẻ thông tin này.",
     errorGeneric: "Đã có lỗi xảy ra. Vui lòng thử lại, hoặc gửi email tới info@cyberskill.world.",
     required: "Trường này là bắt buộc.",
     invalidEmail: "Vui lòng nhập email hợp lệ.",

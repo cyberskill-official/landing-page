@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-010
 title: "Thank-you state with next steps, and a trust line under the form"
-status: ready_to_implement
+status: done
 class: improvement
 priority: MUST
 owner: agent

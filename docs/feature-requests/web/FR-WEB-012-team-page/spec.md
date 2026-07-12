@@ -1,7 +1,7 @@
 ---
 id: FR-WEB-012
 title: "Real /team route with named people, replacing the on-page anchor"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

@@ -78,6 +78,24 @@ export function GltfLumi({ url }: { url: string }) {
     });
     return clone;
   }, [scene]);
+
+  // Dispose cloned materials and geometries when the model unmounts or changes (FR-SCENE-009).
+  useEffect(() => {
+    return () => {
+      model.traverse((o) => {
+        const mesh = o as THREE.Mesh;
+        if (mesh.isMesh) {
+          if (mesh.geometry) mesh.geometry.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => m.dispose());
+          } else if (mesh.material) {
+            mesh.material.dispose();
+          }
+        }
+      });
+    };
+  }, [model]);
+
   const { actions, mixer } = useAnimations(animations, model);
   const camera = useThree((s) => s.camera);
   const canvasSize = useThree((s) => s.size);

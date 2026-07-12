@@ -1,7 +1,7 @@
 ---
 id: FR-CHAR-026
 title: "Conversational lead-capture sequence, value-first, with ICP qualification and a LEAD_CAPTURED state"
-status: ready_to_implement
+status: done
 class: product
 priority: SHOULD
 owner: agent

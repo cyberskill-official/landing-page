@@ -212,11 +212,29 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
       setStatus("speaking");
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
+      let fullText = "";
       for (;;) {
         const { done, value } = await reader.read();
         if (done) break;
-        appendToMessage(assistantId, decoder.decode(value, { stream: true }));
+        const chunk = decoder.decode(value, { stream: true });
+        fullText += chunk;
+        
+        // We continuously append to the UI, but we'll hide the tag via regex on render.
+        appendToMessage(assistantId, chunk);
       }
+      
+      const captureMatch = fullText.match(/<LEAD_CAPTURED>([\s\S]*?)<\/LEAD_CAPTURED>/);
+      if (captureMatch) {
+        try {
+          const leadData = JSON.parse(captureMatch[1]);
+          useGenieStore.getState().setLeadCaptured(true, leadData);
+          track("lead_submitted", { source: "lumi-conversational" });
+        } catch (e) {
+          // If JSON parse fails, just set it to true
+          useGenieStore.getState().setLeadCaptured(true);
+        }
+      }
+
       setStatus("idle");
     } catch {
       appendToMessage(assistantId, dict.genie.unavailable);
@@ -225,6 +243,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   }
 
   const consentStep = wish?.step === "consent";
+  const isLeadCaptured = useGenieStore((s) => s.isLeadCaptured);
 
   return (
     <section
@@ -249,61 +268,82 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         aria-busy={busy}
       >
         <div className="cs-genie-msg cs-genie-msg-genie">{dict.genie.greeting}</div>
-        {messages.map((m) => (
-          <div
-            key={m.id}
-            className={`cs-genie-msg ${m.role === "user" ? "cs-genie-msg-user" : "cs-genie-msg-genie"}`}
-          >
-            {m.content || (m.role === "assistant" && busy ? dict.genie.thinking : "")}
-          </div>
-        ))}
+        {messages.map((m) => {
+          // Hide the JSON block from the user interface
+          const visibleContent = m.content.replace(/<LEAD_CAPTURED>[\s\S]*?<\/LEAD_CAPTURED>/g, "").trim();
+          return (
+            <div
+              key={m.id}
+              className={`cs-genie-msg ${m.role === "user" ? "cs-genie-msg-user" : "cs-genie-msg-genie"}`}
+            >
+              {visibleContent || (m.role === "assistant" && busy ? dict.genie.thinking : "")}
+            </div>
+          );
+        })}
       </div>
 
       {/* Quick actions: start the wish flow, or drive its skip/consent steps. */}
-      <div className="cs-genie-chips">
-        {!wish && (
-          <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={startWish} disabled={busy}>
-            <Icon name="sparkle" size="sm" /> {dict.genie.wishCta}
-          </button>
-        )}
-        {wish && consentStep && (
-          <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={submitWish} disabled={busy}>
-            {dict.genie.wishAgree}
-          </button>
-        )}
-        {wish && !consentStep && isOptionalStep(wish.step) && (
-          <button type="button" className="cs-genie-chip" onClick={() => feedWish("")} disabled={busy}>
-            {dict.genie.wishSkip}
-          </button>
-        )}
-        {wish && (
-          <button type="button" className="cs-genie-chip" onClick={cancelWish} disabled={busy}>
-            {dict.genie.wishCancel}
-          </button>
-        )}
-      </div>
+      {!isLeadCaptured && (
+        <div className="cs-genie-chips">
+          {!wish && (
+            <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={startWish} disabled={busy}>
+              <Icon name="sparkle" size="sm" /> {dict.genie.wishCta}
+            </button>
+          )}
+          {wish && consentStep && (
+            <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={submitWish} disabled={busy}>
+              {dict.genie.wishAgree}
+            </button>
+          )}
+          {wish && !consentStep && isOptionalStep(wish.step) && (
+            <button type="button" className="cs-genie-chip" onClick={() => feedWish("")} disabled={busy}>
+              {dict.genie.wishSkip}
+            </button>
+          )}
+          {wish && (
+            <button type="button" className="cs-genie-chip" onClick={cancelWish} disabled={busy}>
+              {dict.genie.wishCancel}
+            </button>
+          )}
+        </div>
+      )}
 
-      <p className="cs-genie-consent">
-        {dict.genie.consent}{" "}
-        <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
-          {dict.footer.privacy}
-        </a>
-      </p>
+      {isLeadCaptured ? (
+        <div style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", borderTop: "1px solid var(--cs-color-border)" }}>
+          <p className="cs-eyebrow" style={{ color: "var(--cs-color-primary)", marginBottom: "var(--cs-space-sm)" }}>
+            {locale === "vi" ? "Đã ghi nhận thông tin" : "Details captured"}
+          </p>
+          <p style={{ margin: 0, fontSize: "var(--cs-text-sm)" }}>
+            {locale === "vi" 
+              ? "Cảm ơn bạn. Đội ngũ của chúng tôi sẽ liên hệ lại qua email trong vòng một ngày làm việc."
+              : "Thank you. Our team will follow up via email within one business day."}
+          </p>
+        </div>
+      ) : (
+        <>
+          <p className="cs-genie-consent">
+            {dict.genie.consent}{" "}
+            <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
+              {dict.footer.privacy}
+            </a>
+          </p>
 
-      <form className="cs-genie-form" onSubmit={send}>
-        <input
-          ref={inputRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={dict.genie.placeholder}
-          aria-label={dict.genie.placeholder}
-          disabled={busy || consentStep}
-          maxLength={4000}
-        />
-        <button className="cs-btn cs-btn-primary" type="submit" disabled={busy || consentStep || !input.trim()}>
-          {dict.genie.send}
-        </button>
-      </form>
+          <form className="cs-genie-form" onSubmit={send}>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={dict.genie.placeholder}
+              aria-label={dict.genie.placeholder}
+              disabled={busy || consentStep}
+              maxLength={4000}
+            />
+            <button className="cs-btn cs-btn-primary" type="submit" disabled={busy || consentStep || !input.trim()}>
+              {dict.genie.send}
+            </button>
+          </form>
+        </>
+      )}
     </section>
   );
 }

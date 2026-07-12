@@ -265,6 +265,38 @@ export type Scene = {
   body: LocalizedString;
 };
 
+export type TeamMember = {
+  id: string;
+  name: string;
+  role: LocalizedString;
+  bio: LocalizedString;
+  photoUrl?: string; // Optional if withheld
+  profileUrl?: string;
+};
+
+// Real, named team members. 2 to 8 people.
+export const team: TeamMember[] = [
+  {
+    id: "stephen",
+    name: "Mr. Stephen",
+    role: { en: "Founder & Lead Engineer", vi: "Nhà sáng lập & Kỹ sư trưởng" },
+    bio: {
+      en: "Oversees architecture and directly leads engineering for all projects.",
+      vi: "Chịu trách nhiệm kiến trúc và trực tiếp dẫn dắt kỹ thuật cho mọi dự án."
+    },
+    profileUrl: "https://linkedin.com/in/stephencheng"
+  },
+  {
+    id: "engineer1",
+    name: "Senior Engineer",
+    role: { en: "Senior Full-Stack Engineer", vi: "Kỹ sư Full-Stack cấp cao" },
+    bio: {
+      en: "Specializes in scalable web applications and CI/CD pipelines.",
+      vi: "Chuyên gia về ứng dụng web mở rộng và quy trình phát hành tự động."
+    }
+  }
+];
+
 export const scenes: Scene[] = [
   {
     id: "hero",

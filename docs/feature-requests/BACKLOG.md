@@ -69,7 +69,7 @@ dependency, 33 waiting on a human.
 
 #### WEB
 
-- [ready_to_implement] FR-WEB-011 - Serve the negotiated locale at the root without a visible redirect hop (improvement)
+- [done] FR-WEB-011 - Serve the negotiated locale at the root without a visible redirect hop (improvement)
 - [ready_to_implement] FR-WEB-012 - Real /team route with named people, replacing the on-page anchor (improvement)
 
 #### SCENE

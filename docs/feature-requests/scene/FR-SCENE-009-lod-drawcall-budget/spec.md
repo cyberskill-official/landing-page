@@ -1,7 +1,7 @@
 ---
 id: FR-SCENE-009
 title: "Draw-call budget, GPU disposal, and LOD for the scene"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent
