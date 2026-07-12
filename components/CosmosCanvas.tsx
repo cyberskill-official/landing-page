@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { useMotionStore } from "@/lib/a11y/motion-store";
 
 // Light wrapper for the true-3D solar system behind the site (FR-CHAR-032). It
 // carries NO three.js import itself - the heavy scene lives in ./CosmosScene and
@@ -28,8 +29,13 @@ export function CosmosCanvas() {
   // three.js chunk loads once (on the first hold) and every later reveal is
   // instant. Before that first hold, nothing heavy is loaded at all.
   const [armed, setArmed] = useState(false);
+  const reduce = useMotionStore((s) => s.reduce);
 
   useEffect(() => {
+    if (reduce) {
+      setCapable(false);
+      return;
+    }
     // Wide + enough cores. Deliberately NOT gated on pointer type: the digest
     // only fires on desktop (holding Lumi), so on touch this canvas simply never
     // reveals - and nothing loads until then anyway.
@@ -46,7 +52,7 @@ export function CosmosCanvas() {
     const mo = new MutationObserver(update);
     mo.observe(el, { attributes: true, attributeFilter: ["data-digesting"] });
     return () => mo.disconnect();
-  }, []);
+  }, [reduce]);
 
   if (!capable) return null;
 

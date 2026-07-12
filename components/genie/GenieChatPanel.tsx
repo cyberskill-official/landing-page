@@ -31,6 +31,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   const appendToMessage = useGenieStore((s) => s.appendToMessage);
   const pendingWish = useGenieStore((s) => s.pendingWish);
   const setPendingWish = useGenieStore((s) => s.setPendingWish);
+  const isLeadCaptured = useGenieStore((s) => s.isLeadCaptured);
 
   const [input, setInput] = useState("");
   // Conversational lead capture (FR-CHAR-026): when active, the input feeds
@@ -243,7 +244,6 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   }
 
   const consentStep = wish?.step === "consent";
-  const isLeadCaptured = useGenieStore((s) => s.isLeadCaptured);
 
   return (
     <section

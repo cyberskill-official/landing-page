@@ -110,7 +110,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html:
               "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();" +
-              "(function(){try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=window.sessionStorage;if(s&&!s.getItem('cs-intro')){s.setItem('cs-intro','1');document.documentElement.setAttribute('data-intro','play');}}catch(e){}})();",
+              "(function(){try{var m=localStorage.getItem('cs-motion-reduce');var r=m==='true'||(m!=='false'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);if(r){document.documentElement.setAttribute('data-motion','reduce');return;}var s=window.sessionStorage;if(s&&!s.getItem('cs-intro')){s.setItem('cs-intro','1');document.documentElement.setAttribute('data-intro','play');}}catch(e){}})();",
           }}
         />
         {/* Permanent cosmos behind the content (z-index 0 < 1), revealed on

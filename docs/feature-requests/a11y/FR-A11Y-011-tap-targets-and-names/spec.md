@@ -1,7 +1,7 @@
 ---
 id: FR-A11Y-011
 title: "Meet 44px tap targets and align the wordmark's accessible name with its visible text"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { clamp, magneticOffset, tiltFromPointer } from "@/lib/motion/kinetic";
+import { useMotionStore } from "@/lib/a11y/motion-store";
 
 // Premium pointer + scroll polish layer (FR-DS-012), mounted once in the locale
 // layout. One component owns: the gold scroll-progress bar, the custom cursor
@@ -24,6 +25,7 @@ const TEXT_SELECTOR = "input, textarea";
 
 export function MotionExtras() {
   const pathname = usePathname();
+  const reduce = useMotionStore((s) => s.reduce);
   const barRef = useRef<HTMLDivElement | null>(null);
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
@@ -161,9 +163,8 @@ export function MotionExtras() {
     const queries = [
       window.matchMedia("(pointer: fine)"),
       window.matchMedia("(hover: hover)"),
-      window.matchMedia("(prefers-reduced-motion: no-preference)"),
     ];
-    const enabled = () => queries.every((q) => q.matches);
+    const enabled = () => queries.every((q) => q.matches) && !reduce;
 
     const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     const ringPos = { x: pos.x, y: pos.y };
@@ -352,7 +353,7 @@ export function MotionExtras() {
       }
       stop();
     };
-  }, []);
+  }, [reduce]);
 
   return (
     <>

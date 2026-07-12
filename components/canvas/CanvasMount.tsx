@@ -13,6 +13,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { StaticPoster } from "@/components/canvas/StaticPoster";
+import { useMotionStore } from "@/lib/a11y/motion-store";
 
 const GenieScene = dynamic(
   () =>
@@ -24,9 +25,6 @@ const GenieScene = dynamic(
 
 function capable(): boolean {
   if (typeof window === "undefined") return false;
-  // Motion is always on by product decision (the toggle was removed). We still
-  // gate on device capability so mobile / low-end get the static poster - that
-  // is a Core Web Vitals choice, not a motion preference.
   const wide = window.matchMedia("(min-width: 1024px)").matches;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
   const cores = navigator.hardwareConcurrency ?? 4;
@@ -35,16 +33,18 @@ function capable(): boolean {
 
 export function CanvasMount() {
   const [mount, setMount] = useState(false);
+  const reduce = useMotionStore((s) => s.reduce);
 
   useEffect(() => {
-    const live = capable();
+    const live = capable() && !reduce;
     setMount(live);
     // Signal the DOM that the living mascot is on stage (FR-CHAR-030): the
     // duplicate "Talk to Lumi" CTAs (.cs-lumi-alt) hide themselves, since
     // clicking Lumi itself opens the chat on these devices.
     if (live) document.documentElement.setAttribute("data-lumi-live", "true");
+    else document.documentElement.removeAttribute("data-lumi-live");
     return () => document.documentElement.removeAttribute("data-lumi-live");
-  }, []);
+  }, [reduce]);
 
   return (
     // The live scene rides ABOVE the content (cs-canvas-live raises z-index)

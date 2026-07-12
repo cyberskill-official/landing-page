@@ -8,6 +8,7 @@ import {
   LUMI_HOLD_START_EVENT,
   LUMI_HOLD_END_EVENT,
 } from "@/lib/scene/mascot";
+import { useMotionStore } from "@/lib/a11y/motion-store";
 import { digestEase } from "@/lib/motion/kinetic";
 
 // The black-hole digest (FR-CHAR-032): press and HOLD the mouse on empty
@@ -78,11 +79,12 @@ function collectBlocks(): Block[] {
 }
 
 export function BlackHole() {
+  const reduce = useMotionStore((s) => s.reduce);
+
   useEffect(() => {
     if (typeof window.matchMedia !== "function") return;
     const fine = window.matchMedia("(pointer: fine)");
     const hover = window.matchMedia("(hover: hover)");
-    const motion = window.matchMedia("(prefers-reduced-motion: no-preference)");
 
     let holding = false;
     let armTimer = 0;
@@ -204,7 +206,7 @@ export function BlackHole() {
       // Reduce-motion suppresses the ACCIDENTAL empty-space press, but an
       // explicit press-and-hold ON Lumi is a deliberate action, so it runs even
       // when the OS asks to reduce motion (that was why it looked "broken").
-      if (!force && !motion.matches) return;
+      if (!force && reduce) return;
       holding = true;
       try {
         window.getSelection()?.removeAllRanges();
@@ -222,7 +224,7 @@ export function BlackHole() {
 
     const onDown = (e: PointerEvent) => {
       if (e.button !== 0 || (e.pointerType && e.pointerType !== "mouse")) return;
-      if (!fine.matches || !hover.matches || !motion.matches) return;
+      if (!fine.matches || !hover.matches || reduce) return;
       if (!document.documentElement.hasAttribute("data-lumi-live")) return;
       const target = e.target;
       if (target instanceof Element && target.closest(INTERACTIVE_SELECTOR)) return;
@@ -260,7 +262,7 @@ export function BlackHole() {
       setDigest(0);
       clearStyles();
     };
-  }, []);
+  }, [reduce]);
 
   return null;
 }

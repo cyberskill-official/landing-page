@@ -112,10 +112,10 @@ dependency, 33 waiting on a human.
 
 #### A11Y
 
-- [ready_to_implement] FR-A11Y-010 - Honour prefers-reduced-motion in JavaScript: gate the WebGL scene and particle system (improvement)
-- [ready_to_implement] FR-A11Y-011 - Meet 44px tap targets and align the wordmark's accessible name with its visible text (improvement)
-- [ready_to_implement] FR-A11Y-012 - Contain the persistent CTA bar in a landmark and keep it clear of content on mobile (improvement)
-- [ready_to_implement] FR-A11Y-013 - Give the logo and every content image meaningful alt text (improvement)
+- [ready_to_review] FR-A11Y-010 - Honour prefers-reduced-motion in JavaScript: gate the WebGL scene and particle system (improvement)
+- [ready_to_review] FR-A11Y-011 - Meet 44px tap targets and align the wordmark's accessible name with its visible text (improvement)
+- [ready_to_review] FR-A11Y-012 - Contain the persistent CTA bar in a landmark and keep it clear of content on mobile (improvement)
+- [ready_to_review] FR-A11Y-013 - Give the logo and every content image meaningful alt text (improvement)
 
 #### PERF
 

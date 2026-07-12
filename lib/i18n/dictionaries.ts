@@ -109,6 +109,7 @@ export type Dictionary = {
     lumiResponding: string;
     sceneNoscript: string;
     homeLabel: string;
+    logoAlt: string;
     primaryNav: string;
     languageLabel: string;
     quickActions: string;
@@ -223,7 +224,8 @@ const en: Dictionary = {
     lumiThinking: "Lumi is thinking.",
     lumiResponding: "Lumi is responding.",
     sceneNoscript: "Lumi, an animated golden genie, decorates this page. It is purely visual - all information and actions are available as text and controls on the page.",
-    homeLabel: "CyberSkill home",
+    homeLabel: "CyberSkill - home",
+    logoAlt: "CyberSkill logo",
     primaryNav: "Primary navigation",
     languageLabel: "Language",
     quickActions: "Quick actions",
@@ -338,7 +340,8 @@ const vi: Dictionary = {
     lumiThinking: "Lumi đang suy nghĩ.",
     lumiResponding: "Lumi đang trả lời.",
     sceneNoscript: "Lumi, một thần đèn vàng hoạt họa, chỉ để trang trí cho trang này. Mọi thông tin và thao tác đều có sẵn dưới dạng văn bản và nút điều khiển trên trang.",
-    homeLabel: "Trang chủ CyberSkill",
+    homeLabel: "CyberSkill - trang chủ",
+    logoAlt: "Logo CyberSkill",
     primaryNav: "Điều hướng chính",
     languageLabel: "Ngôn ngữ",
     quickActions: "Thao tác nhanh",

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { requestBurst } from "@/lib/scene/mascot";
+import { useMotionStore } from "@/lib/a11y/motion-store";
 
 // Lumi plays with the work as she flies (FR-CHAR-033). Two layers:
 //
@@ -27,6 +28,8 @@ const CAST_EVERY_MS = 9000; // deliberate shine cadence
 const STEP_MS = 100; // sampling cadence (10x/s is plenty for a glow)
 
 export function LumiMagic() {
+  const reduce = useMotionStore((s) => s.reduce);
+
   useEffect(() => {
     let near: HTMLElement | null = null;
     let casting: HTMLElement | null = null;
@@ -39,6 +42,10 @@ export function LumiMagic() {
     };
 
     const step = () => {
+      if (reduce) {
+        clearNear();
+        return;
+      }
       const html = document.documentElement;
       if (!html.hasAttribute("data-lumi-live") || html.hasAttribute("data-digesting")) {
         clearNear();
@@ -105,7 +112,7 @@ export function LumiMagic() {
       clearNear();
       if (casting) casting.removeAttribute("data-lumi-touch");
     };
-  }, []);
+  }, [reduce]);
 
   return null;
 }

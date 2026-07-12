@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { useMotionStore } from "@/lib/a11y/motion-store";
 
 // Site-wide parallax depth field (FR-DS-014): a faint layer of gold embers that
 // drift at several scroll rates, so the page reads with real z-depth instead of
@@ -30,6 +31,10 @@ const EMBERS: ReadonlyArray<{ x: number; y: number; r: number; s: number }> = [
 ];
 
 export function DepthField() {
+  const reduce = useMotionStore((s) => s.reduce);
+  
+  if (reduce) return null;
+
   return (
     <div className="cs-depth" aria-hidden="true">
       {EMBERS.map((e, i) => (

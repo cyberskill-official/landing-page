@@ -1,7 +1,7 @@
 ---
 id: FR-A11Y-010
 title: "Honour prefers-reduced-motion in JavaScript: gate the WebGL scene and particle system"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: MUST
 owner: agent

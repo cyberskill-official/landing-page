@@ -304,6 +304,33 @@ a {
     outline: 3px solid Highlight;
     outline-offset: 2px;
   }
+  /* ------------------------------------------------------------------ */
+/* Interactive UI (Buttons & Forms)                                   */
+/* ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  /* FR-A11Y-011: 44px tap targets */
+  .cs-theme-toggle::before,
+  .cs-lang-link::before,
+  .cs-wordmark::before,
+  .cs-nav a::before,
+  .cs-rail-chapter::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .cs-theme-toggle,
+  .cs-lang-link,
+  .cs-wordmark,
+  .cs-nav a,
+  .cs-rail-chapter {
+    position: relative;
+  }
+}
+
   /* Buttons lose their author background; a border keeps them legible as controls. */
   .cs-btn, .cs-btn-primary, .cs-btn-secondary, .cs-genie-close, .cs-theme-toggle {
     border: 1px solid ButtonText;
@@ -668,7 +695,7 @@ main > .cs-section > .cs-container > h1 {
 .cs-prose-card { padding: var(--cs-space-8); }
 .cs-value-stat { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-brand); margin: 0 0 var(--cs-space-2); }
 [data-theme="dark"] .cs-value-stat { color: var(--cs-color-accent); }
-.cs-value-label { margin: 0; color: var(--cs-color-fg-muted); }
+.cs-value-label { margin: 0; color: var(--cs-color-fg); }
 .cs-service-outcomes { margin: var(--cs-space-4) 0 0; padding-left: 1.1rem; color: var(--cs-color-fg-muted); }
 .cs-service-outcomes li { margin-bottom: var(--cs-space-2); }
 .cs-service-more {
@@ -798,8 +825,26 @@ main > .cs-section > .cs-container > h1 {
   position: fixed; right: var(--cs-space-4); bottom: var(--cs-space-4);
   display: flex; flex-direction: column; gap: var(--cs-space-2); z-index: 40;
 }
+.cs-persistent-cta .cs-cta-icon { display: none; }
 .cs-persistent-cta .cs-btn { box-shadow: var(--cs-depth-3); }
-@media (max-width: 520px) { .cs-persistent-cta { left: var(--cs-space-4); flex-direction: row; } .cs-persistent-cta .cs-btn { flex: 1; } }
+
+@media (max-width: 767px) { 
+  .cs-persistent-cta { 
+    left: 0; right: 0; bottom: 0; width: 100%;
+    padding: var(--cs-space-3) max(var(--cs-space-4), env(safe-area-inset-right));
+    padding-bottom: max(var(--cs-space-4), env(safe-area-inset-bottom));
+    padding-left: max(var(--cs-space-4), env(safe-area-inset-left));
+    background: var(--cs-surface-standard);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--cs-color-line);
+    flex-direction: row;
+    justify-content: stretch;
+    border-radius: 0;
+  } 
+  .cs-persistent-cta .cs-btn-brand { display: none; }
+  .cs-persistent-cta .cs-btn { flex: 1; margin: 0; }
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+}
 
 /* Tighter vertical rhythm on phones and tablets: the 6rem section padding that
    frames the desktop layout leaves mobile mostly whitespace and a very long
@@ -983,6 +1028,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   animation: cs-accent-slide 4s ease-in-out infinite;
 }
 .cs-sparkle { color: var(--cs-color-accent); animation: cs-sparkle-pulse 3.2s ease-in-out infinite; transform-origin: center; }
+.cs-btn-primary .cs-sparkle { color: currentColor; }
 @keyframes cs-accent-slide {
   0%, 100% { background-position: 0% 0; }
   50% { background-position: 100% 0; }
@@ -1891,7 +1937,11 @@ main > .cs-section::before {
 .cs-contact-lumi { margin: 0 0 var(--cs-space-6); }
 /* Folded, the card hugs its summary instead of stretching to the row. */
 .cs-contact-form { align-self: start; }
-.cs-btn-lumi { animation: cs-cta-breathe 3.8s var(--cs-ease) infinite; }
+.cs-btn-lumi { 
+  animation: cs-cta-breathe 3.8s var(--cs-ease) infinite;
+  background-color: var(--cs-color-accent) !important;
+  color: var(--cs-color-accent-ink) !important;
+}
 .cs-contact-details > summary {
   cursor: pointer;
   list-style: none;

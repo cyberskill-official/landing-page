@@ -19,7 +19,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
               unchanged whether or not the SVG has painted (CLS-safe). Decorative
               (alt=""): the visible name and the link's aria-label carry meaning. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="cs-wordmark-mark" src="/brand/logo.svg" alt="" width={34} height={34} />
+          <img className="cs-wordmark-mark" src="/brand/logo.svg" alt={dict.a11y.logoAlt} width={34} height={34} />
           <span className="cs-wordmark-text">
             <span className="cs-wordmark-name">CyberSkill</span>
             <span className="cs-wordmark-slogan">{localize(company.slogan, locale)}</span>

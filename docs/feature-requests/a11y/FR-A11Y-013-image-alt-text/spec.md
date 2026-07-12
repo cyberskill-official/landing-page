@@ -1,7 +1,7 @@
 ---
 id: FR-A11Y-013
 title: "Give the logo and every content image meaningful alt text"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent
