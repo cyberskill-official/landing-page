@@ -82,7 +82,7 @@ async function main() {
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
       await page.evaluate(axeSource);
       const results = await page.evaluate(async () => {
-        // eslint-disable-next-line no-undef
+         
         return await window.axe.run(document, {
           resultTypes: ["violations"],
           // Run the standard WCAG 2.x A/AA rule set.

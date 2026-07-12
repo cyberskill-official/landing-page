@@ -219,7 +219,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         />
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
+           
           dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }}
         />
 

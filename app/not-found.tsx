@@ -10,7 +10,7 @@ export default function NotFound() {
         <p className="cs-eyebrow">404 - Wish not found</p>
         <h1 style={{ marginBottom: "1rem" }}>The lamp is empty</h1>
         <p className="cs-section-lead">
-          <span lang="vi">Lumi không thể tìm thấy trang này.</span> / Lumi couldn't find this page in the lamp.
+          <span lang="vi">Lumi không thể tìm thấy trang này.</span> / Lumi couldn&apos;t find this page in the lamp.
         </p>
         <div className="cs-hero-actions" style={{ justifyContent: "center" }}>
           <Link className="cs-btn cs-btn-primary" href="/en">

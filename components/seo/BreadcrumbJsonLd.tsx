@@ -17,7 +17,7 @@ export function BreadcrumbJsonLd({ items }: { items: { name: string; path: strin
   return (
     <script
       type="application/ld+json"
-      // eslint-disable-next-line react/no-danger
+       
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );
