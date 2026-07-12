@@ -1,6 +1,6 @@
 ---
 id: FR-CMS-014
-title: ""Verify us" block: registration, DUNS, address, repositories"
+title: "\"Verify us\" block: registration, DUNS, address, repositories"
 status: ready_to_implement
 class: improvement
 priority: SHOULD

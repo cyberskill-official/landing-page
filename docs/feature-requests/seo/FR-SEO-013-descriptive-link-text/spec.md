@@ -1,6 +1,6 @@
 ---
 id: FR-SEO-013
-title: "Replace non-descriptive link text ("Learn more") sitewide"
+title: "Replace non-descriptive link text (\"Learn more\") sitewide"
 status: ready_to_implement
 class: improvement
 priority: SHOULD
