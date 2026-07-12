@@ -24,7 +24,7 @@
 // Archived (`done`), `on_hold` and `closed` FRs are checked for frontmatter validity only.
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, basename } from "node:path";
+import { join, basename, dirname } from "node:path";
 
 const ROOT = "docs/feature-requests";
 const STATUSES = ["draft", "ready_to_implement", "implementing", "ready_to_review", "reviewing", "ready_to_test", "testing", "done", "on_hold", "closed"];
@@ -41,7 +41,13 @@ const err = (id, rule, msg) => errors.push(`${id} [${rule}] ${msg}`);
 function walk(dir) {
   return readdirSync(dir).flatMap((name) => {
     const p = join(dir, name);
-    return statSync(p).isDirectory() ? walk(p) : p.endsWith(".md") && basename(p).startsWith("FR-") ? [p] : [];
+    if (statSync(p).isDirectory()) return walk(p);
+    if (p.endsWith(".md")) {
+      const base = basename(p);
+      if (base.startsWith("FR-")) return [p];
+      if (base === "spec.md" && basename(dirname(p)).startsWith("FR-")) return [p];
+    }
+    return [];
   });
 }
 
@@ -67,7 +73,8 @@ for (const path of walk(ROOT).sort()) {
   const id = fm.id;
   if (!id) { errors.push(`${path} [FM-001] no id`); continue; }
   if (frs.has(id)) errors.push(`${path} [FM-003] duplicate FR id ${id} (also ${frs.get(id).path})`);
-  if (!basename(path).startsWith(id)) err(id, "FM-001", `filename does not start with the id (${basename(path)})`);
+  const baseNameCheck = basename(path) === "spec.md" ? basename(dirname(path)) : basename(path);
+  if (!baseNameCheck.startsWith(id)) err(id, "FM-001", `filename or folder does not start with the id (${baseNameCheck})`);
   if (!MODULES.includes(id.split("-")[1])) err(id, "FM-001", `unknown module '${id.split("-")[1]}'`);
   if (!fm.title) err(id, "FM-101", "title missing");
   if (!STATUSES.includes(fm.status)) err(id, "FM-104", `status '${fm.status}' is not one of ${STATUSES.join(" | ")}`);
