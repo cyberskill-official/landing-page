@@ -1,0 +1,28 @@
+name: Synthetic Lead Check
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Every Monday at 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  prove-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST Synthetic Lead
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://cyberskill.world/api/lead \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "Synthetic Test User",
+              "email": "synthetic@cyberskill.world",
+              "intent": "project",
+              "consent": true,
+              "locale": "en",
+              "source": "synthetic"
+            }')
+          if [ "$HTTP_STATUS" -ne 200 ]; then
+            echo "Pipeline test failed with HTTP $HTTP_STATUS"
+            exit 1
+          fi
+          echo "Pipeline test succeeded"

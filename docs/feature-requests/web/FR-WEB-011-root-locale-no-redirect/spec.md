@@ -1,7 +1,7 @@
 ---
 id: FR-WEB-011
 title: "Serve the negotiated locale at the root without a visible redirect hop"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent
@@ -28,10 +28,10 @@ any content - a full round trip on every first visit. middleware.ts currently re
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - GET / returns 200 with rendered content - test: `routing/root-no-redirect`
-- [ ] AC for 1.2 - the served page's canonical points at /en or /vi and hreflang stays reciprocal - test: `seo/canonical-hreflang`
-- [ ] AC for 1.3 - a cs-locale=vi cookie serves the VN page at / - test: `routing/root-cookie-priority`
-- [ ] AC for 1.4 - zero redirects in the navigation timeline - test: `perf/no-root-redirect`
+- [x] AC for 1.1 - GET / returns 200 with rendered content - test: `routing/root-no-redirect`
+- [x] AC for 1.2 - the served page's canonical points at /en or /vi and hreflang stays reciprocal - test: `seo/canonical-hreflang`
+- [x] AC for 1.3 - a cs-locale=vi cookie serves the VN page at / - test: `routing/root-cookie-priority`
+- [x] AC for 1.4 - zero redirects in the navigation timeline - test: `perf/no-root-redirect`
 
 ## 3. Edge cases
 

@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-008
 title: "Cut and defer first-load JavaScript (TBT 1,370 ms -> under 300 ms)"
-status: ready_to_implement
+status: done
 class: improvement
 priority: MUST
 owner: agent

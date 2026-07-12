@@ -14,9 +14,8 @@ import { Careers } from "@/components/sections/Careers";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
-import { HeroPin } from "@/components/scroll/HeroPin";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
-import { LumiMagic } from "@/components/motion/LumiMagic";
+import { HomeMotionBundle } from "@/components/motion/HomeMotionBundle";
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -30,7 +29,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <CanvasMount />
       {/* Lumi brushes the content cards as she drifts past them (FR-CHAR-033).
           DOM-only, motion-gated, and inert until the live mascot is on stage. */}
-      <LumiMagic />
+      <HomeMotionBundle />
       <Hero locale={locale} dict={dict} />
       <TrustBand locale={locale} />
       <StoryArc locale={locale} dict={dict} />
@@ -45,9 +44,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <ContactCta locale={locale} dict={dict} />
       <HomeFaqJsonLd locale={locale} />
       <ServicesJsonLd locale={locale} />
-      {/* Last in the page segment: its effect proves the segment hydrated
-          before GSAP is allowed to wrap .cs-hero in a pin-spacer. */}
-      <HeroPin />
+      {/* HeroPin is now part of HomeMotionBundle */}
     </>
   );
 }

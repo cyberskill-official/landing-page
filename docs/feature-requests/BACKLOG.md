@@ -120,8 +120,8 @@ dependency, 33 waiting on a human.
 #### PERF
 
 - [ready_to_implement] FR-PERF-005 - Font subset, display, and preload strategy including Vietnamese glyphs (improvement)
-- [ready_to_implement] FR-PERF-007 - Eliminate the mobile hero layout shift (CLS 0.431 -> below 0.1) (improvement)
-- [ready_to_implement] FR-PERF-008 - Cut and defer first-load JavaScript (TBT 1,370 ms -> under 300 ms) (improvement)
+- [done] FR-PERF-007 - Eliminate the mobile hero layout shift (CLS 0.431 -> below 0.1) (improvement)
+- [done] FR-PERF-008 - Cut and defer first-load JavaScript (TBT 1,370 ms -> under 300 ms) (improvement)
 - [ready_to_implement] FR-PERF-010 - Serve brand image assets with long immutable caching (improvement)
 - [ready_to_implement] FR-PERF-012 - Pause off-screen and idle animation to protect INP and battery (improvement)
 - [ready_to_implement] FR-PERF-013 - Measure and gate real Core Web Vitals: mobile Lighthouse assertions plus field data (improvement)
@@ -130,7 +130,7 @@ dependency, 33 waiting on a human.
 
 - [ready_to_implement] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement)
 - [ready_to_implement] FR-OPS-009 - Add a Content-Security-Policy, report-only first (improvement)
-- [ready_to_implement] FR-OPS-010 - Alert when every lead sink fails, and prove the pipeline weekly with a synthetic lead (improvement) - depends: FR-OPS-006
+- [done] FR-OPS-010 - Alert when every lead sink fails, and prove the pipeline weekly with a synthetic lead (improvement) - depends: FR-OPS-006
 - [ready_to_implement] FR-OPS-011 - One event taxonomy across both lead paths, with UTM source capture (improvement)
 - [ready_to_implement] FR-OPS-013 - Decide and implement the consent stance before any non-cookieless tag ships (improvement)
 

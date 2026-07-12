@@ -19,7 +19,7 @@ import { CursorTrail } from "@/components/motion/CursorTrail";
 // swap does not shift layout.
 const displayFont = Space_Grotesk({
   subsets: ["latin", "vietnamese"],
-  display: "swap",
+  display: "optional",
   variable: "--font-display",
 });
 

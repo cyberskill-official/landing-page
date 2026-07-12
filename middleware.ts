@@ -16,7 +16,11 @@ export function middleware(req: NextRequest) {
     const target = isLocale(chosen) ? chosen : negotiateLocale(req.headers.get("accept-language"));
     const url = req.nextUrl.clone();
     url.pathname = `/${target}`;
-    return NextResponse.redirect(url);
+    
+    const headers = new Headers(req.headers);
+    headers.set("x-cs-locale", target);
+    
+    return NextResponse.rewrite(url, { request: { headers } });
   }
 
   const seg = pathname.split("/")[1];

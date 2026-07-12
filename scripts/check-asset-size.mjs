@@ -45,6 +45,22 @@ if (chunks.length === 0) failures.push("no built client JS found - run `next bui
 if (jsTotal > budget.maxClientJsTotalKB * KB) failures.push(`client JS total ${(jsTotal / KB) | 0}KB > maxClientJsTotalKB ${budget.maxClientJsTotalKB}KB`);
 note(`client JS: ${chunks.length} chunks, ${(jsTotal / KB) | 0}KB total`);
 
+// 3. First-load JS heuristic (FR-PERF-008). 
+// Sums core shared chunks (main-app, framework, webpack) + route segment chunks (page, layout).
+const firstLoadChunks = chunks.filter(f => {
+  const name = f.split('/').pop();
+  return name.startsWith('main-app-') || 
+         name.startsWith('framework-') || 
+         name.startsWith('webpack-') || 
+         name.startsWith('layout-') || 
+         name.startsWith('page-');
+});
+const firstLoadJsTotal = firstLoadChunks.reduce((s, f) => s + statSync(f).size, 0);
+if (firstLoadJsTotal > budget.maxFirstLoadJsKB * KB) {
+  failures.push(`first-load JS total ${(firstLoadJsTotal / KB) | 0}KB > maxFirstLoadJsKB ${budget.maxFirstLoadJsKB}KB`);
+}
+note(`first-load JS: ${firstLoadChunks.length} core chunks, ${(firstLoadJsTotal / KB) | 0}KB total`);
+
 if (failures.length) {
   console.error("\nAsset-size budget exceeded (FR-PERF-003):");
   for (const f of failures) console.error("  - " + f);

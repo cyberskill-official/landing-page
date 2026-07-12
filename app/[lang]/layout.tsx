@@ -9,15 +9,10 @@ import { PersistentCta } from "@/components/cta/PersistentCta";
 import { GenieChat } from "@/components/genie/GenieChat";
 import { GenieStatusAnnouncer } from "@/components/genie/GenieStatusAnnouncer";
 import { LumiHotspot } from "@/components/canvas/LumiHotspot";
-import { ScrollStoryProvider } from "@/components/scroll/ScrollStoryProvider";
+import { MotionBundle } from "@/components/motion/MotionBundle";
 import { ScrollState } from "@/components/scroll/ScrollState";
-import { MotionExtras } from "@/components/motion/MotionExtras";
-import { SoundCues } from "@/components/sound/SoundCues";
 import { ChapterRail } from "@/components/scroll/ChapterRail";
 import { SceneFocus } from "@/components/scroll/SceneFocus";
-import { BlackHole } from "@/components/motion/BlackHole";
-import { DepthField } from "@/components/motion/DepthField";
-import { IntroVeil } from "@/components/motion/IntroVeil";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 
 export function generateStaticParams() {
@@ -87,7 +82,6 @@ export default async function LocaleLayout({
   return (
     <>
       <SkipLink label={dict.nav.skipToContent} />
-      <ScrollStoryProvider />
       <ScrollState />
       <noscript>
         <p className="cs-scene-noscript">{dict.a11y.sceneNoscript}</p>
@@ -99,13 +93,9 @@ export default async function LocaleLayout({
       <GenieChat locale={lang} dict={dict} />
       <LumiHotspot label={dict.genie.open} hint={dict.genie.hint} />
       <GenieStatusAnnouncer dict={dict} />
-      <MotionExtras />
       <SceneFocus />
-      <SoundCues />
       <ChapterRail label={lang === "vi" ? "Các chương" : "Chapters"} chapters={chapters} />
-      <BlackHole />
-      <DepthField />
-      <IntroVeil locale={lang} />
+      <MotionBundle locale={lang} />
       <div className="cs-grain" aria-hidden="true" />
       <OrganizationJsonLd locale={lang} />
     </>

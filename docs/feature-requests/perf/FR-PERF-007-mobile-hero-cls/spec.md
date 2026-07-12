@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-007
 title: "Eliminate the mobile hero layout shift (CLS 0.431 -> below 0.1)"
-status: ready_to_implement
+status: done
 class: improvement
 priority: MUST
 owner: agent

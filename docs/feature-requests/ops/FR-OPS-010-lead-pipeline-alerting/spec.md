@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-010
 title: "Alert when every lead sink fails, and prove the pipeline weekly with a synthetic lead"
-status: ready_to_implement
+status: done
 class: improvement
 priority: MUST
 owner: agent
@@ -29,11 +29,11 @@ leads it wins land in a black hole.
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - a skipped (unconfigured) sink is not counted as a failure - test: `lead/sink-accounting`
-- [ ] AC for 1.2 - with all sinks mocked to reject, the tracker is called and the response stays ok:true - test: `lead/total-failure-alert`
-- [ ] AC for 1.3 - zero configured sinks in production triggers the alert - test: `lead/total-failure-alert`
-- [ ] AC for 1.4 - a synthetic lead skips the CRM forward and carries the tag - test: `lead/synthetic-path`
-- [ ] AC for 1.5 - the weekly workflow exists and fails loudly on a non-2xx - test: `ci/synthetic-lead-workflow`
+- [x] AC for 1.1 - a skipped (unconfigured) sink is not counted as a failure - test: `lead/sink-accounting`
+- [x] AC for 1.2 - with all sinks mocked to reject, the tracker is called and the response stays ok:true - test: `lead/total-failure-alert`
+- [x] AC for 1.3 - zero configured sinks in production triggers the alert - test: `lead/total-failure-alert`
+- [x] AC for 1.4 - a synthetic lead skips the CRM forward and carries the tag - test: `lead/synthetic-path`
+- [x] AC for 1.5 - the weekly workflow exists and fails loudly on a non-2xx - test: `ci/synthetic-lead-workflow`
 
 ## 3. Edge cases
 
