@@ -12,7 +12,7 @@ export function ThemeToggle({ toDark, toLight }: { toDark: string; toLight: stri
   const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
-    const current = (document.documentElement.getAttribute("data-theme") as Theme) || "light";
+    const current = (document.documentElement.getAttribute("data-theme") as Theme) || "dark";
     setTheme(current);
   }, []);
 

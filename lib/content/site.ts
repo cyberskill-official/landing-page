@@ -101,7 +101,76 @@ export const valueProps: ValuePoint[] = [
   },
   {
     stat: { en: "Outcome-first", vi: "Ưu tiên kết quả" },
-    label: { en: "We measure success in your results, not our hours", vi: "Thành công được đo bằng kết quả của bạn, không phải số giờ chúng tôi ngồi làm" },
+    label: { en: "We win when your numbers move, not when the clock runs.", vi: "Chúng tôi thành công khi chỉ số của bạn tốt lên, không phải khi đồng hồ hết giờ." },
+  },
+];
+
+export type ProcessStep = {
+  n: string;
+  title: LocalizedString;
+  body: LocalizedString;
+};
+
+export const processSteps: ProcessStep[] = [
+  {
+    n: "01",
+    title: { en: "Discover", vi: "Khám phá" },
+    body: {
+      en: "We start by understanding the goal and the constraints. We ask what success looks like and what cannot move, so the work targets your result and not our assumptions.",
+      vi: "Chúng tôi bắt đầu bằng việc hiểu mục tiêu và các ràng buộc: thành công trông như thế nào, điều gì không thể xê dịch - để công việc nhắm thẳng vào kết quả của bạn, không phải giả định của chúng tôi."
+    },
+  },
+  {
+    n: "02",
+    title: { en: "Shape", vi: "Định hình" },
+    body: {
+      en: "We scope the work, plan the path, and design the parts that carry the most risk first. You see the trade-offs in plain language before any code is written.",
+      vi: "Chúng tôi khoanh phạm vi, vạch lộ trình, và thiết kế trước những phần nhiều rủi ro nhất. Bạn thấy rõ các đánh đổi bằng lời lẽ dễ hiểu, trước khi dòng mã đầu tiên được viết."
+    },
+  },
+  {
+    n: "03",
+    title: { en: "Build", vi: "Xây dựng" },
+    body: {
+      en: "We ship in reviewable increments with CI that fails on regressions. Every change is small enough to read, and you can watch the product take shape week by week.",
+      vi: "Chúng tôi bàn giao theo từng phần nhỏ đủ để đọc và review kỹ, với CI tự chặn lỗi hồi quy. Bạn nhìn sản phẩm thành hình theo từng tuần."
+    },
+  },
+  {
+    n: "04",
+    title: { en: "Support", vi: "Đồng hành" },
+    body: {
+      en: "After launch we measure, maintain, and improve. We track what matters, fix what breaks, and keep the software healthy so it keeps earning its place.",
+      vi: "Sau khi ra mắt, chúng tôi đo lường, bảo trì và cải tiến: theo dõi điều quan trọng, sửa ngay thứ hỏng, giữ phần mềm luôn khoẻ để nó tiếp tục xứng đáng với chỗ đứng của mình."
+    },
+  },
+];
+
+export type FaqItem = {
+  q: LocalizedString;
+  a: LocalizedString;
+};
+
+export const faqs: FaqItem[] = [
+  {
+    q: { en: "What does CyberSkill do?", vi: "CyberSkill làm gì?" },
+    a: { en: "We are a software solutions consultancy. We build web applications, mobile applications, and internal software systems.", vi: "Chúng tôi là công ty tư vấn giải pháp phần mềm. Chúng tôi xây dựng ứng dụng web, ứng dụng di động và hệ thống phần mềm nội bộ." },
+  },
+  {
+    q: { en: `Where is CyberSkill based?`, vi: `CyberSkill đặt trụ sở ở đâu?` },
+    a: { en: `We are based in ${company.city}, ${company.country}, and work with clients in Vietnam and internationally.`, vi: `Trụ sở của chúng tôi ở ${company.city}, ${company.country}; chúng tôi làm việc với khách hàng trong nước lẫn quốc tế.` },
+  },
+  {
+    q: { en: "How do I start a project?", vi: "Làm sao để bắt đầu một dự án?" },
+    a: { en: `Send a short note through the contact form or chat with Lumi. We reply within one business day. You can also email ${company.email}.`, vi: `Gửi một lời nhắn ngắn qua biểu mẫu liên hệ, hoặc trò chuyện với Lumi. Chúng tôi phản hồi trong một ngày làm việc. Bạn cũng có thể email tới ${company.email}.` },
+  },
+  {
+    q: { en: "How fast do you reply?", vi: "Bạn phản hồi nhanh thế nào?" },
+    a: { en: "Within one business day. If the request is clear, you will usually hear back from a person, not an autoresponder.", vi: "Trong một ngày làm việc. Nếu yêu cầu đã rõ ràng, người trả lời bạn thường là một người thật, không phải thư tự động." },
+  },
+  {
+    q: { en: "Do you work with international clients?", vi: "Bạn có làm việc với khách hàng quốc tế không?" },
+    a: { en: "Yes. We work in English and Vietnamese, and we are used to working across time zones.", vi: "Có. Chúng tôi làm việc bằng cả tiếng Anh và tiếng Việt, và đã quen phối hợp qua nhiều múi giờ." },
   },
 ];
 

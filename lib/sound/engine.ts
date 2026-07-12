@@ -10,7 +10,7 @@
 export const SOUND_CHANGED_EVENT = "cs:sound:changed";
 const STORAGE_KEY = "cs-sound";
 
-type Cue = "open" | "grant" | "greet" | "toggle";
+type Cue = "open" | "grant" | "greet" | "toggle" | "hover" | "easterEgg";
 
 let ctx: AudioContext | null = null;
 let bus: GainNode | null = null; // notes connect here (dry); also feeds reverb
@@ -139,6 +139,15 @@ export function play(cue: Cue): void {
       bell(783.99, 0.12, 2.0, 0.11, 0.08); // G5
       bell(987.77, 0.2, 2.2, 0.09, 0.18); // B5
       bell(1174.66, 0.28, 2.2, 0.06, 0.0); // D6 sparkle (the add9)
+      break;
+    case "hover": // soft blip on hover
+      bell(880.0, 0, 0.2, 0.05, 0);
+      break;
+    case "easterEgg": // magic chord for the easter egg
+      bell(523.25, 0, 2.0, 0.15, -0.2); // C5
+      bell(659.25, 0.1, 2.0, 0.15, 0.2); // E5
+      bell(783.99, 0.2, 2.0, 0.15, 0); // G5
+      bell(1046.50, 0.3, 2.5, 0.2, 0); // C6
       break;
     case "toggle": // confirmation when sound is switched on: a single soft blip
       bell(880.0, 0, 0.5, 0.18, 0);

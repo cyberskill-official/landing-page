@@ -33,14 +33,14 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <LumiMagic />
       <Hero locale={locale} dict={dict} />
       <TrustBand locale={locale} />
-      <StoryArc locale={locale} />
+      <StoryArc locale={locale} dict={dict} />
       <ValueProp locale={locale} dict={dict} />
       <Marquee dict={dict} />
       <Services locale={locale} dict={dict} />
       <Process locale={locale} dict={dict} />
       <WorkPreview locale={locale} dict={dict} />
       <SocialProof locale={locale} dict={dict} />
-      <Faq locale={locale} />
+      <Faq locale={locale} dict={dict} />
       <Careers locale={locale} dict={dict} />
       <ContactCta locale={locale} dict={dict} />
       <HomeFaqJsonLd locale={locale} />

@@ -4,39 +4,18 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { splitSloganWords } from "@/lib/motion/kinetic";
 import { Aurora } from "@/components/motion/Aurora";
-import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 import { HeroWish } from "@/components/genie/HeroWish";
-import { Icon } from "@/components/ui/Icon";
+import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 
-// Story-driven hero. The H1 is real server-rendered text (the LCP element),
-// never the canvas, so the page paints, ranks, and converts even if WebGL
-// never loads (research doc §E: don't let the canvas own LCP).
-//
-// Kinetic headline (FR-DS-012): the slogan renders as per-word masked spans so
-// each line rises in with a clip reveal and carries a slow gold shimmer. The
-// full slogan stays the accessible name via aria-label (the visual spans are
-// aria-hidden), the words are real SSR text inside layout-stable wrappers
-// (transform-only reveal = zero CLS), and reduced motion gets the static
-// headline via CSS.
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const slogan = company.slogan[locale];
   const words = splitSloganWords(slogan);
-  const lead =
-    locale === "vi"
-      ? "Lumi, vị thần đèn vàng của CyberSkill, biến một điều ước rõ ràng thành phần mềm chạy thật: thứ đội ngũ của bạn dùng mỗi ngày, được xây để bàn giao đúng hẹn và bền bỉ theo thời gian."
-      : "Lumi, our golden genie, turns a clear wish into working software: the kind your team actually runs on, built to ship and to last.";
+  const lead = dict.hero.lead;
   return (
     <section id="wish" className="cs-hero" aria-labelledby="hero-title">
       <Aurora />
       <div className="cs-container cs-hero-inner">
-        <p className="cs-hero-meta" aria-hidden="true">
-          <span>{locale === "vi" ? "TP. Hồ Chí Minh" : "Ho Chi Minh City"}</span>
-          <span>EN / VI</span>
-        </p>
-        <p className="cs-eyebrow">
-          <Icon name="sparkle" size="sm" className="cs-sparkle" />{" "}
-          {dict.hero.eyebrow}
-        </p>
+        <p className="cs-eyebrow">{dict.hero.eyebrow}</p>
         <h1 id="hero-title" className="cs-hero-title cs-kinetic" aria-label={slogan}>
           {words.map((word, i) => (
             <span className="cs-kinetic-word" aria-hidden="true" key={`${word}-${i}`}>

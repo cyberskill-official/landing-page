@@ -19,15 +19,15 @@ export const ROUTE: ReadonlyArray<{ selector: string; anchor: ViewportAnchor }> 
   // Hero: big but clear of the 46rem text column (the live canvas paints
   // ABOVE content, so anchors must respect the type).
   { selector: ".cs-hero", anchor: { vx: 0.82, vy: 0.38, scale: 0.72 } },
-  { selector: ".cs-trust", anchor: { vx: 0.9, vy: 0.4, scale: 0.5 } },
+  { selector: ".cs-trust", anchor: { vx: 0.86, vy: 0.4, scale: 0.5 } },
   { selector: "#story", anchor: { vx: 0.07, vy: 0.4, scale: 0.4 } },
-  { selector: "[aria-labelledby='value-title']", anchor: { vx: 0.94, vy: 0.3, scale: 0.36 } },
+  { selector: "[aria-labelledby='value-title']", anchor: { vx: 0.86, vy: 0.3, scale: 0.36 } },
   { selector: "#services", anchor: { vx: 0.06, vy: 0.34, scale: 0.38 } },
-  { selector: "#process", anchor: { vx: 0.94, vy: 0.36, scale: 0.36 } },
+  { selector: "#process", anchor: { vx: 0.86, vy: 0.36, scale: 0.36 } },
   { selector: "#work", anchor: { vx: 0.06, vy: 0.4, scale: 0.38 } },
-  { selector: "#proof", anchor: { vx: 0.94, vy: 0.32, scale: 0.36 } },
+  { selector: "#proof", anchor: { vx: 0.86, vy: 0.32, scale: 0.36 } },
   { selector: "#faq", anchor: { vx: 0.06, vy: 0.36, scale: 0.36 } },
-  { selector: "#careers", anchor: { vx: 0.9, vy: 0.42, scale: 0.4 } },
+  { selector: "#careers", anchor: { vx: 0.86, vy: 0.42, scale: 0.4 } },
   // Contact: hover the seam between the info column and the form card.
   { selector: "#contact", anchor: { vx: 0.47, vy: 0.42, scale: 0.36 } },
 ];

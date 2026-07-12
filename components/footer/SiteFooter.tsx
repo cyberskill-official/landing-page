@@ -19,9 +19,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
               {company.phone} ({company.phoneContact})
             </a>
           </p>
-          <p className="cs-footer-meta">
-            {dict.footer.duns}: {company.duns}
-          </p>
+
         </div>
         <div className="cs-footer-end">
           <nav className="cs-footer-links" aria-label={locale === "vi" ? "Liên kết chân trang" : "Footer links"}>

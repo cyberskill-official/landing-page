@@ -9,6 +9,7 @@ import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
 import { company, siteUrl } from "@/lib/content/site";
 import { CosmosBackdrop } from "@/components/CosmosBackdrop";
 import { CosmosCanvas } from "@/components/CosmosCanvas";
+import { CursorTrail } from "@/components/motion/CursorTrail";
 
 // Display face (FR-DS-008): Space Grotesk with the REAL Vietnamese subset.
 // The old system-serif stack (Iowan Old Style/Palatino) lacks Vietnamese
@@ -117,6 +118,7 @@ export default async function RootLayout({
             rides just above it on capable devices for true depth. */}
         <CosmosBackdrop />
         <CosmosCanvas />
+        <CursorTrail />
         {children}
         <Analytics />
         <SpeedInsights />

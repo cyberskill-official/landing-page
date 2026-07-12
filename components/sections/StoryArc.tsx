@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { scenes } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
@@ -11,38 +12,42 @@ import { KineticText } from "@/components/motion/KineticText";
 // and the canvas read the same source), so the three stay in sync.
 const BEAT_IDS = ["origin", "craft", "proof", "team"] as const;
 
-export function StoryArc({ locale }: { locale: Locale }) {
+const TeamAvatars = () => (
+  <div className="cs-team-avatars" aria-hidden="true" style={{ display: "flex", gap: "12px", marginTop: "16px" }}>
+    {[1, 2, 3].map(i => (
+      <svg key={i} width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ borderRadius: "50%", background: "rgba(255,255,255,0.05)" }}>
+        <circle cx="24" cy="18" r="8" fill="rgba(244,186,23,0.2)" />
+        <path d="M12 40c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="rgba(244,186,23,0.2)" strokeWidth="4" />
+      </svg>
+    ))}
+  </div>
+);
+
+export function StoryArc({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const beats = BEAT_IDS.map((id) => scenes.find((s) => s.id === id)).filter(
     (s): s is NonNullable<typeof s> => Boolean(s),
   );
-  const intro =
-    locale === "vi"
-      ? "Mỗi dự án đều đi qua một hành trình: từ một điều ước rõ ràng đến phần mềm chạy thật giữa đời thực."
-      : "Every project follows one arc: from a clear wish to software running in the real world.";
-  const title = locale === "vi" ? "Hành trình của một điều ước" : "The arc of a wish";
 
   return (
     <section id="story" className="cs-section cs-story" aria-labelledby="story-title">
       <div className="cs-container">
-        <h2 id="story-title" className="cs-kt-h" data-mask-reveal="" aria-label={title}>
-          <KineticText text={title} />
+        <h2 id="story-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.storyTitle}>
+          <KineticText text={dict.sections.storyTitle} />
         </h2>
-        <p className="cs-section-lead" data-mask-reveal="">{intro}</p>
+        <p className="cs-section-lead" data-mask-reveal="">{dict.sections.storyLead}</p>
         <ol className="cs-story-arc" role="list" data-line-reveal="">
           {beats.map((beat, i) => (
             <Reveal
               as="li"
+              id={beat.id === "team" ? "team" : undefined}
               key={beat.id}
               className="cs-story-beat"
               delayMs={i * 90}
-              // Only the team beat gets a DOM id: it is the honest destination
-              // for the "Team" nav link. ("proof" would collide with the
-              // SocialProof section that already owns id="proof".)
-              id={beat.id === "team" ? "team" : undefined}
             >
               <p className="cs-eyebrow">{localize(beat.kicker, locale)}</p>
               <h3 className="cs-story-beat-title">{localize(beat.heading, locale)}</h3>
               <p className="cs-story-beat-body">{localize(beat.body, locale)}</p>
+              {beat.id === "team" && <TeamAvatars />}
             </Reveal>
           ))}
         </ol>

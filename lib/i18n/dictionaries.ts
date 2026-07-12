@@ -14,6 +14,7 @@ export type Dictionary = {
   };
   hero: {
     eyebrow: string;
+    lead: string;
     ctaPrimary: string;
     ctaSecondary: string;
     scrollHint: string;
@@ -32,6 +33,11 @@ export type Dictionary = {
     careersCta: string;
     contactTitle: string;
     contactLead: string;
+    processTitle: string;
+    processLead: string;
+    faqTitle: string;
+    storyTitle: string;
+    storyLead: string;
   };
   // Decorative keyword marquee (FR-DS-012). The band itself is aria-hidden;
   // these strings only need to read well visually in both locales.
@@ -124,7 +130,8 @@ const en: Dictionary = {
     skipToContent: "Skip to content",
   },
   hero: {
-    eyebrow: "A software company in Saigon, building since 2020",
+    eyebrow: "A small studio in Saigon that turns wishes into working software. Since 2020.",
+    lead: "Lumi, our golden genie, turns a clear wish into working software: the kind your team actually runs on, built to ship and to last.",
     ctaPrimary: "Start my project",
     ctaSecondary: "Talk to Lumi",
     scrollHint: "Scroll to follow the wish",
@@ -143,6 +150,11 @@ const en: Dictionary = {
     careersCta: "See open roles",
     contactTitle: "Tell us your wish",
     contactLead: "Send a short note. We reply within one business day.",
+    processTitle: "How we work",
+    processLead: "A simple, honest sequence that keeps you in the loop from the first call to the last release.",
+    faqTitle: "Questions, answered",
+    storyTitle: "The arc of a wish",
+    storyLead: "Every project follows one arc: from a clear wish to software running in the real world.",
   },
   marquee: {
     items: ["Web apps", "Mobile apps", "Internal systems", "Automation", "Design systems", "Built to last"],
@@ -232,7 +244,8 @@ const vi: Dictionary = {
     skipToContent: "Tới nội dung chính",
   },
   hero: {
-    eyebrow: "Một công ty phần mềm tại Sài Gòn, kiến tạo từ 2020",
+    eyebrow: "Một studio nhỏ tại Sài Gòn chuyên biến điều ước thành phần mềm. Từ 2020.",
+    lead: "Lumi, vị thần đèn vàng của CyberSkill, biến một điều ước rõ ràng thành phần mềm chạy thật: thứ đội ngũ của bạn dùng mỗi ngày, được xây để bàn giao đúng hẹn và bền bỉ theo thời gian.",
     ctaPrimary: "Bắt đầu dự án",
     ctaSecondary: "Trò chuyện với Lumi",
     scrollHint: "Cuộn xuống để theo điều ước",
@@ -251,6 +264,11 @@ const vi: Dictionary = {
     careersCta: "Xem vị trí đang tuyển",
     contactTitle: "Kể chúng tôi nghe điều bạn ước",
     contactLead: "Chỉ cần một lời nhắn ngắn. Chúng tôi phản hồi trong một ngày làm việc.",
+    processTitle: "Cách chúng tôi làm việc",
+    processLead: "Một trình tự đơn giản và minh bạch: bạn nắm rõ mọi thứ, từ cuộc gọi đầu tiên đến lần phát hành cuối cùng.",
+    faqTitle: "Giải đáp thắc mắc",
+    storyTitle: "Hành trình của một điều ước",
+    storyLead: "Mỗi dự án đều đi qua một hành trình: từ một điều ước rõ ràng đến phần mềm chạy thật giữa đời thực.",
   },
   marquee: {
     items: ["Ứng dụng web", "Ứng dụng di động", "Hệ thống nội bộ", "Tự động hoá", "Hệ thống thiết kế", "Bền bỉ dài lâu"],
