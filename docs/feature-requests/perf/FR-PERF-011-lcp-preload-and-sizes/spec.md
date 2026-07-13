@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-011
 title: "Preload the LCP element and give background images correct responsive sizes"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

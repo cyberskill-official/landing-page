@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-005
 title: "Long-form bilingual services content for the detail pages"
-status: ready_to_implement
+status: ready_to_review
 class: product
 priority: SHOULD
 owner: agent

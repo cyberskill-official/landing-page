@@ -139,18 +139,18 @@ dependency, 33 waiting on a human.
 
 #### CHAR
 
-- [ready_to_implement] FR-CHAR-027 - On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript - depends: FR-CHAR-026, FR-OPS-010
+- [ready_to_review] FR-CHAR-027 - On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript - depends: FR-CHAR-026, FR-OPS-010
 - [ready_to_implement] FR-CHAR-028 - Persist chat transcripts and lead records server-side, including partial conversations - depends: FR-OPS-005, FR-OPS-013
 
 #### CTA
 
-- [ready_to_implement] FR-CTA-006 - Map form leads to the CRM via a server-side webhook - depends: FR-OPS-010
-- [ready_to_implement] FR-CTA-014 - Newsletter capture with double opt-in (improvement) - depends: FR-OPS-013
+- [ready_to_review] FR-CTA-006 - Map form leads to the CRM via a server-side webhook - depends: FR-OPS-010
+- [ready_to_review] FR-CTA-014 - Newsletter capture with double opt-in (improvement) - depends: FR-OPS-013
 - [ready_to_implement] FR-CTA-020 - Careers talent-pool email capture (improvement) - depends: FR-CTA-014
 
 #### CMS
 
-- [ready_to_implement] FR-CMS-005 - Long-form bilingual services content for the detail pages - depends: FR-SEO-016
+- [ready_to_review] FR-CMS-005 - Long-form bilingual services content for the detail pages - depends: FR-SEO-016
 - [ready_to_implement] FR-CMS-010 - Insights post template enforces author, dates and a TLDR (improvement) - depends: FR-CMS-007
 
 #### SEO
@@ -164,8 +164,8 @@ dependency, 33 waiting on a human.
 
 #### PERF
 
-- [ready_to_implement] FR-PERF-009 - Defer and consent-gate the analytics tags so they cost nothing on first paint (improvement) - depends: FR-OPS-013
-- [ready_to_implement] FR-PERF-011 - Preload the LCP element and give background images correct responsive sizes (improvement) - depends: FR-PERF-005
+- [ready_to_review] FR-PERF-009 - Defer and consent-gate the analytics tags so they cost nothing on first paint (improvement) - depends: FR-OPS-013
+- [ready_to_review] FR-PERF-011 - Preload the LCP element and give background images correct responsive sizes (improvement) - depends: FR-PERF-005
 
 #### OPS
 

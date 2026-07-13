@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-009
 title: "Defer and consent-gate the analytics tags so they cost nothing on first paint"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent
