@@ -1,12 +1,13 @@
 import Image from "next/image";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { company } from "@/lib/content/site";
+import { company, clientLogos, testimonials } from "@/lib/content/site";
 import { LeadForm } from "@/components/cta/LeadForm";
 import { Aurora } from "@/components/motion/Aurora";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 import { Icon } from "@/components/ui/Icon";
 import { KineticText } from "@/components/motion/KineticText";
+import { Testimonial } from "@/components/ui/Testimonial";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -47,6 +48,35 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
             </li>
             <li>{company.address}</li>
           </ul>
+
+          {testimonials.length > 0 && (
+            <div style={{ marginTop: "var(--cs-space-lg)" }}>
+              <Testimonial testimonial={testimonials[0]} locale={locale} />
+            </div>
+          )}
+
+          {clientLogos.length >= 3 && (
+            <div className="cs-logo-strip" style={{
+              display: "flex",
+              gap: "var(--cs-space-md)",
+              flexWrap: "wrap",
+              marginTop: "var(--cs-space-lg)",
+              opacity: 0.6,
+              filter: "grayscale(100%)",
+            }}>
+              {clientLogos.map((logo) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={logo.name}
+                  src={logo.logoUrl}
+                  alt={logo.name}
+                  width={100}
+                  height={30}
+                  style={{ objectFit: "contain", maxHeight: "25px" }}
+                />
+              ))}
+            </div>
+          )}
         </div>
         <div className="cs-contact-form cs-surface-light">
           {/* Native details/summary: works without JS, so the form stays

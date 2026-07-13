@@ -10,6 +10,8 @@ export type Dictionary = {
     team: string;
     careers: string;
     contact: string;
+    howWeBuild: string;
+    notes: string;
     skipToContent: string;
   };
   hero: {
@@ -129,6 +131,8 @@ const en: Dictionary = {
     team: "Team",
     careers: "Careers",
     contact: "Contact",
+    howWeBuild: "How we build",
+    notes: "Notes",
     skipToContent: "Skip to content",
   },
   hero: {
@@ -245,6 +249,8 @@ const vi: Dictionary = {
     team: "Đội ngũ",
     careers: "Tuyển dụng",
     contact: "Liên hệ",
+    howWeBuild: "Cách chúng tôi xây",
+    notes: "Góc nhìn",
     skipToContent: "Tới nội dung chính",
   },
   hero: {

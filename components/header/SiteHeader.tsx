@@ -29,7 +29,9 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
         <nav className="cs-nav" aria-label={dict.a11y.primaryNav}>
           <a href={`${base}#services`}>{dict.nav.services}</a>
           <Link href={`${base}/work`}>{dict.nav.work}</Link>
-          <a href={`${base}/team`}>{dict.nav.team}</a>
+          <Link href={`${base}/team`}>{dict.nav.team}</Link>
+          <Link href={`${base}/how-we-build`}>{dict.nav.howWeBuild}</Link>
+          <Link href={`${base}/notes`}>{dict.nav.notes}</Link>
           <Link href={`${base}/careers`}>{dict.nav.careers}</Link>
           <a href={`${base}#contact`}>{dict.nav.contact}</a>
         </nav>

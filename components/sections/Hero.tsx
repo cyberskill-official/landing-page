@@ -1,11 +1,12 @@
 import type { CSSProperties } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { company } from "@/lib/content/site";
+import { company, testimonials } from "@/lib/content/site";
 import { splitSloganWords } from "@/lib/motion/kinetic";
 import { Aurora } from "@/components/motion/Aurora";
 import { HeroWish } from "@/components/genie/HeroWish";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { Testimonial } from "@/components/ui/Testimonial";
 
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const slogan = company.slogan[locale];
@@ -42,6 +43,11 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             {dict.hero.ctaSecondary}
           </GenieOpenButton>
         </div>
+        {testimonials.length > 0 && (
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "var(--cs-space-md)" }}>
+            <Testimonial testimonial={testimonials[0]} locale={locale} />
+          </div>
+        )}
         <p className="cs-hero-hint" aria-hidden="true">
           {dict.hero.scrollHint}
         </p>

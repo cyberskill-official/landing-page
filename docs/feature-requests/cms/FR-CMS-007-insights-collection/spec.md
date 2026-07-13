@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-007
 title: "Bilingual insights/notes content collection"
-status: ready_to_implement
+status: ready_to_review
 class: product
 priority: SHOULD
 owner: agent

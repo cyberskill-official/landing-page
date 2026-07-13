@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-015
 title: "Promote How-we-build into the nav and surface the quality gates as proof"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

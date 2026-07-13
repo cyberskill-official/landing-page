@@ -224,6 +224,54 @@ export const routeMetadata: RouteMetadata[] = [
     },
     lastUpdated: "2026-07-13",
   },
+  {
+    route: "/now",
+    title: {
+      en: "What We Are Doing Now — Product Changelog | CyberSkill",
+      vi: "Nhật ký hoạt động — Cập nhật tiến độ sản phẩm | CyberSkill",
+    },
+    description: {
+      en: "See what CyberSkill is building and shipping right now. Real-time timeline of our engineering updates, releases, and milestones in Saigon.",
+      vi: "Theo dõi những gì CyberSkill đang xây dựng và bàn giao. Dòng thời gian cập nhật tiến độ kỹ thuật, phát hành và cột mốc tại Sài Gòn.",
+    },
+    lastUpdated: "2026-07-13",
+  },
+  {
+    route: "/notes",
+    title: {
+      en: "Insights, Notes & Engineering Articles | CyberSkill",
+      vi: "Góc nhìn, Ghi chép & Bài viết kỹ thuật | CyberSkill",
+    },
+    description: {
+      en: "Technical notes, engineering insights, and design lessons from the CyberSkill software team in Ho Chi Minh City, Vietnam.",
+      vi: "Các ghi chép kỹ thuật, góc nhìn phát triển và bài học thiết kế từ đội ngũ kỹ sư phần mềm CyberSkill tại TP.HCM.",
+    },
+    lastUpdated: "2026-07-13",
+  },
+  {
+    route: "/notes/continuous-integration-bar",
+    title: {
+      en: "Automating Core Web Vitals Gating in CI | CyberSkill",
+      vi: "Tự động hóa kiểm soát Core Web Vitals trong CI | CyberSkill",
+    },
+    description: {
+      en: "Learn how we failures builds on mobile LCP or CLS regressions to guarantee fast performance on modern Next.js web applications.",
+      vi: "Tìm hiểu cách tự động khóa build khi điểm hiệu năng giảm để đảm bảo ứng dụng web Next.js luôn có tốc độ tải nhanh nhất.",
+    },
+    lastUpdated: "2026-07-13",
+  },
+  {
+    route: "/notes/accessibility-first-design",
+    title: {
+      en: "Standardizing WCAG 2.2 AA in CI Workflows | CyberSkill",
+      vi: "Tiêu chuẩn hóa WCAG 2.2 AA trong Workflow CI | CyberSkill",
+    },
+    description: {
+      en: "How we automate served-route axe-core scans in our pipeline to prevent accessibility regressions on every code change.",
+      vi: "Cách tự động chạy quét axe-core trên các route thực tế để tránh lỗi hồi quy về hỗ trợ tiếp cận trên mỗi thay đổi.",
+    },
+    lastUpdated: "2026-07-13",
+  },
 ];
 
 /** Resolve metadata for a locale + route. Returns title, description, and OG fields. */

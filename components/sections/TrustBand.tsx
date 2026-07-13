@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Locale } from "@/lib/i18n/config";
-import { company } from "@/lib/content/site";
+import { company, clientLogos, industriesServed } from "@/lib/content/site";
+import { localize } from "@/lib/i18n/types";
 import { CountUp } from "@/components/ui/CountUp";
 
 // Honest credibility strip (no invented logos or metrics). The first figure is a
@@ -55,6 +56,43 @@ export function TrustBand({ locale }: { locale: Locale }) {
             </li>
           ))}
         </ul>
+
+        {/* Client Logos / Industries Served (FR-CMS-013) */}
+        {clientLogos.length >= 3 ? (
+          <div className="cs-logo-strip" style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "var(--cs-space-lg)",
+            flexWrap: "wrap",
+            marginTop: "var(--cs-space-md)",
+            opacity: 0.6,
+            filter: "grayscale(100%)",
+          }}>
+            {clientLogos.map((logo) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={logo.name}
+                src={logo.logoUrl}
+                alt={logo.name}
+                title={logo.name}
+                width={120}
+                height={40}
+                style={{ objectFit: "contain", maxHeight: "30px" }}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="cs-trust-industries" style={{
+            textAlign: "center",
+            marginTop: "var(--cs-space-md)",
+            color: "var(--cs-color-fg-muted)",
+            fontSize: "var(--cs-text-sm)",
+            fontStyle: "italic"
+          }}>
+            {localize(industriesServed, locale)}
+          </p>
+        )}
       </div>
     </section>
   );

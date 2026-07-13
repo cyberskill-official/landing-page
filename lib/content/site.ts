@@ -380,14 +380,33 @@ export type Testimonial = {
   quote: LocalizedString;
   author: string;
   role: LocalizedString;
+  company: string;
+  translation?: LocalizedString;
+  permission?: {
+    grantedBy: string;
+    grantedAt: string;
+    reference: string;
+  };
 };
 
-// Real, named, consented client quotes only. Until those are collected (see
-// docs/content/case-study-testimonial-intake.md), this stays empty and the
-// proof section renders the first-person commitments below instead of invented
-// quotes. Do NOT add placeholder or unattributed quotes here - on a live site
-// they read as real endorsements.
 export const testimonials: Testimonial[] = [];
+
+export type ClientLogo = {
+  name: string;
+  logoUrl: string;
+  permission?: {
+    grantedBy: string;
+    grantedAt: string;
+    reference: string;
+  };
+};
+
+export const clientLogos: ClientLogo[] = [];
+
+export const industriesServed = {
+  en: "Teams in logistics, education, and retail run on software we built.",
+  vi: "Đội ngũ trong các ngành vận tải/logistics, giáo dục và bán lẻ đang vận hành trên phần mềm chúng tôi xây dựng.",
+} satisfies LocalizedString;
 
 export type Commitment = {
   title: LocalizedString;

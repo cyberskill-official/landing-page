@@ -119,6 +119,110 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
           ))}
         </div>
 
+        {/* Automated Quality Gates (FR-CMS-015 §1.2, 1.4) */}
+        <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
+          <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
+            {locale === "vi" ? "Các cổng kiểm soát chất lượng tự động" : "Automated Quality Gates"}
+          </h2>
+          <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", marginBottom: "var(--cs-space-md)" }}>
+            {locale === "vi" 
+              ? "Mỗi commit gửi lên kho lưu trữ này đều phải đi qua 10 cổng tự động kiểm tra nghiêm ngặt trong pipeline tích hợp liên tục (CI) của chúng tôi trước khi được phép tích hợp và phát hành:"
+              : "Every commit pushed to this repository must pass 10 rigorous automated gates in our Continuous Integration (CI) pipeline before it is merged or released:"}
+          </p>
+          <ul className="cs-service-outcomes" role="list" style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.6" }}>
+            <li>
+              <strong>{locale === "vi" ? "Cổng thông số tính năng (check:frs)" : "Feature Request Gate (check:frs)"}</strong>:{" "}
+              {locale === "vi" 
+                ? "Đảm bảo mọi tính năng được định nghĩa rõ ràng, đầy đủ liên kết và truy vết."
+                : "Verifies every feature is fully specified and traced to business goals."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L18-L19" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Kiểm tra nhập tĩnh (verify)" : "Static Verification (verify)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Quét mã để phát hiện các import lỗi hoặc file thừa."
+                : "Scans for invalid imports or duplicate structures."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L20-L21" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Kiểm tra cú pháp (lint)" : "Syntax Linting (lint)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Duy trì tiêu chuẩn viết code sạch theo chuẩn dự án."
+                : "Enforces project-wide clean code styles and conventions."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L22-L23" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Kiểm tra kiểu dữ liệu (typecheck)" : "Type Safety Gate (typecheck)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Biên dịch TypeScript nghiêm ngặt không cho phép lỗi kiểu dữ liệu ẩn."
+                : "Strict compilation ensuring no hidden type bugs enter production."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L24-L25" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Bộ kiểm thử đơn vị (test)" : "Unit Test Suite (test)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Chạy toàn bộ 110+ test kiểm thử chức năng nghiệp vụ, a11y và luồng UI."
+                : "Executes 110+ automated checks on business logic, a11y, and routes."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L26-L27" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Biên dịch sản phẩm (build)" : "Production Compiler (build)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Biên dịch tối ưu hóa tài nguyên Next.js giúp tăng tốc độ tải trang."
+                : "Validates bundle compilation and prerenders static routes."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L28-L29" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Giới hạn kích thước tài nguyên (check:assets)" : "Asset Size Guard (check:assets)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Tự động chặn các hình ảnh hoặc mô hình 3D quá nặng vượt ngân sách."
+                : "Blocks pull requests introducing oversized images or 3D models."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L30-L31" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Cấu hình ngân sách hiệu năng (budget.json)" : "Lighthouse Budget Gate (budget.json)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Đảm bảo cấu hình ngân sách LCP luôn nhỏ hơn 2500ms."
+                : "Ensures the performance budgets file preserves LCP <= 2500ms."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/lighthouse/budget.json" target="_blank" rel="noopener noreferrer">
+                [Budget config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Kiểm thử hiệu năng di động (Lighthouse CI)" : "Lighthouse CI Performance (Lighthouse CI)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Mô phỏng thiết bị di động để kiểm tra và chặn lỗi CLS > 0.1."
+                : "Simulates mobile devices to block layouts with CLS > 0.1."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/lighthouserc.json" target="_blank" rel="noopener noreferrer">
+                [LHC config]
+              </a>
+            </li>
+            <li>
+              <strong>{locale === "vi" ? "Kiểm tra tiếp cận từng trang (check:a11y:routes)" : "Served-Route Axe Gate (check:a11y:routes)"}</strong>:{" "}
+              {locale === "vi"
+                ? "Chạy axe-core trên trình duyệt ảo Chrome để phát hiện lỗi tiếp cận nghiêm trọng."
+                : "Runs accessibility checks on dynamic routes to block serious a11y errors."}{" "}
+              <a href="https://github.com/cyberskill-official/landing-page/blob/main/.github/workflows/ci.yml#L80-L81" target="_blank" rel="noopener noreferrer">
+                [CI config]
+              </a>
+            </li>
+          </ul>
+        </div>
+
         <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
           <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
             {t.cta}

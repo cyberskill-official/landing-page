@@ -1,10 +1,11 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { services } from "@/lib/content/site";
+import { services, testimonials } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
 import { BrandIcon, type BrandIconName } from "@/components/ui/BrandIcon";
+import { Testimonial } from "@/components/ui/Testimonial";
 
 export function Services({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
@@ -39,6 +40,11 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dictionary })
             </Reveal>
           ))}
         </div>
+        {testimonials.length > 0 && (
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "var(--cs-space-xl)" }}>
+            <Testimonial testimonial={testimonials[0]} locale={locale} />
+          </div>
+        )}
       </div>
     </section>
   );

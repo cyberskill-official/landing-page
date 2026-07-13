@@ -89,13 +89,13 @@ dependency, 33 waiting on a human.
 
 #### CMS
 
-- [ready_to_implement] FR-CMS-007 - Bilingual insights/notes content collection
+- [ready_to_review] FR-CMS-007 - Bilingual insights/notes content collection
 - [ready_to_review] FR-CMS-011 - Work-detail template that can carry proof: metrics band, client quote, screenshots (improvement)
-- [ready_to_implement] FR-CMS-012 - Testimonial component placed beside every major CTA (improvement)
-- [ready_to_implement] FR-CMS-013 - Client logo strip, with an honest interim line until logos are cleared (improvement)
-- [ready_to_implement] FR-CMS-015 - Promote How-we-build into the nav and surface the quality gates as proof (improvement)
-- [ready_to_implement] FR-CMS-017 - Deepen the work index and careers pages (improvement)
-- [ready_to_implement] FR-CMS-018 - Public changelog (/now) seeded from real shipped history (improvement)
+- [ready_to_review] FR-CMS-012 - Testimonial component placed beside every major CTA (improvement)
+- [ready_to_review] FR-CMS-013 - Client logo strip, with an honest interim line until logos are cleared (improvement)
+- [ready_to_review] FR-CMS-015 - Promote How-we-build into the nav and surface the quality gates as proof (improvement)
+- [ready_to_review] FR-CMS-017 - Deepen the work index and careers pages (improvement)
+- [ready_to_review] FR-CMS-018 - Public changelog (/now) seeded from real shipped history (improvement)
 
 #### SEO
 
