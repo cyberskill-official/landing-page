@@ -6,6 +6,7 @@ import { company } from "@/lib/content/site";
 import { getRequiredEnv } from "@/lib/ops/env";
 import { buildAckEmail } from "@/lib/email/ack-templates";
 import { mapLeadToCrm } from "@/lib/lead/crm-mapping";
+import { getDb } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -86,8 +87,10 @@ export async function POST(req: Request) {
     lead.source === "synthetic" ? Promise.resolve({ configured: false }) : forwardToCyberOs(record, lead),
     // FR-CTA-011: Best-effort ack to the lead. Skipped for synthetic.
     lead.source === "synthetic" ? Promise.resolve({ configured: false }) : notifyLeadAck(lead.email, lead.name, lead.locale),
+    // FR-OPS-005: Save to datastore
+    saveToDb(lead),
   ]);
-  const channels = ["file", "email", "slack", "cyberos", "ack"];
+  const channels = ["file", "email", "slack", "cyberos", "ack", "db"];
   
   let configuredCount = 0;
   let failedCount = 0;
@@ -255,5 +258,49 @@ async function notifyLeadAck(
   } catch (err) {
     console.warn("[lead:ack] failed to send ack email", err);
     return { configured: true }; // configured but non-fatal failure
+  }
+}
+
+async function saveToDb(lead: LeadInput): Promise<{ configured: boolean }> {
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) {
+    try {
+      const db = getDb();
+      const sessionId = lead.sessionId || `anon-${Math.random().toString(36).slice(2)}`;
+      await db.saveLead({
+        sessionId,
+        email: lead.email,
+        name: lead.name,
+        locale: lead.locale,
+        source: lead.source || "unknown",
+        intent: lead.intent,
+        utmSource: lead.utm_source,
+        utmMedium: lead.utm_medium,
+        utmCampaign: lead.utm_campaign,
+      });
+    } catch {
+      // ignore
+    }
+    return { configured: false };
+  }
+
+  try {
+    const db = getDb();
+    const sessionId = lead.sessionId || `anon-${Math.random().toString(36).slice(2)}`;
+    await db.saveLead({
+      sessionId,
+      email: lead.email,
+      name: lead.name,
+      locale: lead.locale,
+      source: lead.source || "unknown",
+      intent: lead.intent,
+      utmSource: lead.utm_source,
+      utmMedium: lead.utm_medium,
+      utmCampaign: lead.utm_campaign,
+    });
+    return { configured: true };
+  } catch (err) {
+    console.error("[lead] datastore save failed", err);
+    throw err;
   }
 }

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { buildSystemPrompt } from "@/lib/genie/persona";
 import { makeAnthropicTextDecoder } from "@/lib/genie/sse";
 import { parseChatRequest } from "@/lib/genie/validate";
+import { getDb } from "@/lib/db";
 
 // Serverless reverse proxy for Lumi. The ANTHROPIC_API_KEY lives only here, in
 // server env; the browser calls this endpoint and never sees the key
@@ -114,6 +115,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "upstream", status: upstream.status, detail }, { status: 502 });
   }
 
+  const rawBody = body as { sessionId?: string };
+  const sessionId = typeof rawBody?.sessionId === "string" ? rawBody.sessionId : `anon-chat-${Math.random().toString(36).slice(2)}`;
+
   // Re-stream only the text deltas as plain UTF-8 so the client stays simple.
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -121,11 +125,13 @@ export async function POST(req: Request) {
       const decoder = new TextDecoder();
       const encoder = new TextEncoder();
       const parse = makeAnthropicTextDecoder();
+      let fullResponseText = "";
       try {
         for (;;) {
           const { done, value } = await reader.read();
           if (done) break;
           for (const text of parse.push(decoder.decode(value, { stream: true }))) {
+            fullResponseText += text;
             controller.enqueue(encoder.encode(text));
           }
         }
@@ -133,6 +139,30 @@ export async function POST(req: Request) {
         // upstream interrupted; close gracefully
       } finally {
         controller.close();
+        
+        // Asynchronously persist the transcript to datastore (FR-OPS-005 / FR-CHAR-028)
+        try {
+          const db = getDb();
+          const dbMessages = [
+            ...messages.map((m) => ({
+              sender: m.role === "user" ? "user" : "genie",
+              text: m.content,
+              ts: new Date().toISOString(),
+            })),
+            {
+              sender: "genie",
+              text: fullResponseText,
+              ts: new Date().toISOString(),
+            },
+          ];
+          await db.saveTranscript({
+            sessionId,
+            messages: dbMessages,
+            locale: locale === "vi" ? "vi" : "en",
+          });
+        } catch (dbErr) {
+          console.error("[genie] failed to persist transcript", dbErr);
+        }
       }
     },
   });

@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-005
 title: "Lead and transcript datastore behind /api/lead and /api/genie"
-status: ready_to_implement
+status: ready_to_review
 class: product
 priority: SHOULD
 owner: agent

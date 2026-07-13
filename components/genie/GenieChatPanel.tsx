@@ -21,6 +21,16 @@ function uid(): string {
   return Math.random().toString(36).slice(2);
 }
 
+function getSessionId(): string {
+  if (typeof window === "undefined") return "";
+  let id = window.sessionStorage.getItem("cs-chat-session");
+  if (!id) {
+    id = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    window.sessionStorage.setItem("cs-chat-session", id);
+  }
+  return id;
+}
+
 export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const open = useGenieStore((s) => s.open);
   const status = useGenieStore((s) => s.status);
@@ -167,7 +177,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, sessionId: getSessionId() }),
       });
       if (res.ok) {
         emit("lead_submitted", { source: "lumi-chat", locale, utm: readUtm() });
@@ -210,7 +220,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
       const res = await fetch("/api/genie", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ messages: history, locale }),
+        body: JSON.stringify({ messages: history, locale, sessionId: getSessionId() }),
       });
       if (!res.ok || !res.body) {
         appendToMessage(assistantId, dict.genie.unavailable);

@@ -23,6 +23,14 @@ export async function generateMetadata({
         en: `/en/notes`,
         vi: `/vi/notes`,
       },
+      types: {
+        "application/rss+xml": [
+          {
+            url: `/${locale}/feed.xml`,
+            title: locale === "vi" ? "Góc nhìn kỹ thuật — CyberSkill" : "Engineering Insights — CyberSkill",
+          },
+        ],
+      },
     },
     openGraph: {
       title: meta.title,

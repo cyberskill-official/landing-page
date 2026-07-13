@@ -49,6 +49,9 @@ export const leadSchema = z.object({
   utm_campaign: z.string().max(100).optional(),
   utm_term: z.string().max(100).optional(),
   utm_content: z.string().max(100).optional(),
+  // Attribution / Session details
+  sessionId: z.string().max(100).optional(),
+  roleInterest: z.string().max(100).optional(),
   // FR-CHAR-027: Optional chat conversation transcript
   transcript: z
     .array(

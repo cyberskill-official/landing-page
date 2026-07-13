@@ -126,6 +126,7 @@
   --cs-glass-tint-standard: rgba(36, 24, 17, 0.66);
   --cs-glass-tint-heavy: rgba(36, 24, 17, 0.8);
   --cs-glass-border: rgba(244, 186, 23, 0.16);
+  --cs-color-focus: var(--cs-color-brand-ochre);
 }
 
 * {

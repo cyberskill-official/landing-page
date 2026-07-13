@@ -7,6 +7,7 @@ import { resolveMetadata } from "@/lib/content/metadata";
 import { notes } from "@/lib/content/notes";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 
 export async function generateStaticParams() {
   const params: { lang: string; slug: string }[] = [];
@@ -36,6 +37,14 @@ export async function generateMetadata({
         en: `/en/notes/${slug}`,
         vi: `/vi/notes/${slug}`,
       },
+      types: {
+        "application/rss+xml": [
+          {
+            url: `/${locale}/feed.xml`,
+            title: locale === "vi" ? "Góc nhìn kỹ thuật — CyberSkill" : "Engineering Insights — CyberSkill",
+          },
+        ],
+      },
     },
     openGraph: {
       title: meta.title,
@@ -63,11 +72,13 @@ export default async function NoteDetailPage({
   }
 
   const titleText = localize(post.title, locale);
+  const tldrText = localize(post.tldr, locale);
   const bodyText = localize(post.body, locale);
   const altLocale = locale === "en" ? "vi" : "en";
 
   return (
     <article className="cs-section">
+      <ArticleJsonLd post={post} locale={locale} />
       <div className="cs-container" style={{ maxWidth: "42rem" }}>
         <BreadcrumbJsonLd
           items={[
@@ -86,9 +97,16 @@ export default async function NoteDetailPage({
             color: "var(--cs-color-text-muted)",
             marginBottom: "var(--cs-space-sm)"
           }}>
-            <time dateTime={post.publishedAt}>
-              {locale === "vi" ? "Đăng ngày:" : "Published:"} {post.publishedAt}
-            </time>
+            <div>
+              <time dateTime={post.publishedAt}>
+                {locale === "vi" ? "Đăng:" : "Published:"} {post.publishedAt}
+              </time>
+              {post.updatedAt !== post.publishedAt && (
+                <span style={{ marginLeft: "var(--cs-space-sm)" }}>
+                  ({locale === "vi" ? "Cập nhật:" : "Updated:"} {post.updatedAt})
+                </span>
+              )}
+            </div>
             
             {/* Cross-locale alternate link (FR-CMS-007) */}
             <Link
@@ -112,7 +130,34 @@ export default async function NoteDetailPage({
           }}>
             {titleText}
           </h1>
+
+          <p style={{
+            fontSize: "var(--cs-text-xs)",
+            color: "var(--cs-color-text-muted)",
+            margin: 0
+          }}>
+            {locale === "vi" ? "Tác giả:" : "Author:"} {post.author.name}
+          </p>
         </header>
+
+        {/* TLDR block */}
+        <div style={{
+          background: "rgba(234, 160, 66, 0.08)",
+          borderLeft: "4px solid var(--cs-color-gold)",
+          padding: "var(--cs-space-sm) var(--cs-space-md)",
+          marginBottom: "var(--cs-space-lg)",
+          borderRadius: "0 var(--cs-radius-md) var(--cs-radius-md) 0",
+        }}>
+          <p style={{
+            margin: 0,
+            fontSize: "var(--cs-text-sm)",
+            lineHeight: "1.6",
+            fontStyle: "italic",
+            color: "var(--cs-color-fg)"
+          }}>
+            {tldrText}
+          </p>
+        </div>
 
         {/* Note Body with simple rendering */}
         <div style={{

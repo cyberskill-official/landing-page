@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-017
 title: "Publish llms.txt / llms-full.txt and take an explicit AI-crawler position"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

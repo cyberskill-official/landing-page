@@ -151,16 +151,16 @@ dependency, 33 waiting on a human.
 #### CMS
 
 - [done] FR-CMS-005 - Long-form bilingual services content for the detail pages - depends: FR-SEO-016
-- [ready_to_implement] FR-CMS-010 - Insights post template enforces author, dates and a TLDR (improvement) - depends: FR-CMS-007
+- [ready_to_review] FR-CMS-010 - Insights post template enforces author, dates and a TLDR (improvement) - depends: FR-CMS-007
 
 #### SEO
 
-- [ready_to_implement] FR-SEO-006 - RSS/Atom feed for the insights collection - depends: FR-CMS-007
-- [ready_to_implement] FR-SEO-017 - Publish llms.txt / llms-full.txt and take an explicit AI-crawler position (improvement) - depends: FR-SEO-018
+- [ready_to_review] FR-SEO-006 - RSS/Atom feed for the insights collection - depends: FR-CMS-007
+- [ready_to_review] FR-SEO-017 - Publish llms.txt / llms-full.txt and take an explicit AI-crawler position (improvement) - depends: FR-SEO-018
 
 #### A11Y
 
-- [ready_to_implement] FR-A11Y-004 - Full keyboard operability, visible focus, and focus order - depends: FR-A11Y-011
+- [ready_to_review] FR-A11Y-004 - Full keyboard operability, visible focus, and focus order - depends: FR-A11Y-011
 
 #### PERF
 
@@ -169,7 +169,7 @@ dependency, 33 waiting on a human.
 
 #### OPS
 
-- [ready_to_implement] FR-OPS-005 - Lead and transcript datastore behind /api/lead and /api/genie - depends: FR-OPS-004
+- [ready_to_review] FR-OPS-005 - Lead and transcript datastore behind /api/lead and /api/genie - depends: FR-OPS-004
 
 ### §2.3 Needs a human (owner human / mixed)
 

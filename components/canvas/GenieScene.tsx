@@ -539,6 +539,7 @@ export function GenieScene() {
         frameloop={active ? "always" : "never"}
         camera={{ position: [0, 0, CAM_Z], fov: CAM_FOV }}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+        tabIndex={-1}
       >
       <ambientLight intensity={0.45} />
       <directionalLight position={[3, 4, 5]} intensity={0.6} color="#fff4d6" />
