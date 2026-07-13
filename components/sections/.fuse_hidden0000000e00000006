@@ -25,6 +25,9 @@ export function SocialProof({ locale, dict }: { locale: Locale; dict: Dictionary
       : "What we stand behind";
 
   return (
+    {/* suppressHydrationWarning: SceneFocus writes a scroll-driven --scene
+        style onto every .cs-section node imperatively; see StoryArc.tsx for
+        the full rationale. */}
     <section id="proof" className="cs-section cs-section-alt" aria-labelledby="proof-title" suppressHydrationWarning>
       <div className="cs-container">
         <h2 id="proof-title" className="cs-kt-h" data-mask-reveal="" aria-label={heading}>

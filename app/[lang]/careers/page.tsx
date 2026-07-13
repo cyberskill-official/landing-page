@@ -63,7 +63,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
       };
 
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container">
         <BreadcrumbJsonLd
           items={[

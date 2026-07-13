@@ -2,7 +2,7 @@
 // works for both locales without params. Announced politely to assistive tech.
 export default function Loading() {
   return (
-    <section className="cs-section" aria-busy="true" aria-live="polite">
+    <section className="cs-section" aria-busy="true" aria-live="polite" suppressHydrationWarning>
       <div className="cs-container">
         <span className="cs-visually-hidden">Loading</span>
         <div className="cs-lumi-orb" aria-hidden="true" />

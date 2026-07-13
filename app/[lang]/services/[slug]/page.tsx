@@ -136,7 +136,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         };
 
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container">
         <BreadcrumbJsonLd
           items={[

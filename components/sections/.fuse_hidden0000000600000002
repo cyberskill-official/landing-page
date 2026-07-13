@@ -13,6 +13,9 @@ import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   return (
+    {/* suppressHydrationWarning: SceneFocus writes a scroll-driven --scene
+        style onto every .cs-section node imperatively; see StoryArc.tsx for
+        the full rationale. */}
     <section id="contact" className="cs-section cs-section-contact" aria-labelledby="contact-title" suppressHydrationWarning>
       <div className="cs-contact-bg" aria-hidden="true">
         <Image

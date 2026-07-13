@@ -43,7 +43,7 @@ export default async function ChangelogPage({
   const dict = getDictionary(locale);
 
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container" style={{ maxWidth: "42rem" }}>
         <BreadcrumbJsonLd
           items={[

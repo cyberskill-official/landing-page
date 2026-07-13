@@ -53,7 +53,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
       };
 
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container">
         <BreadcrumbJsonLd
           items={[

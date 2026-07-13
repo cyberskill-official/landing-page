@@ -9,6 +9,9 @@ import { WorkThumb } from "@/components/ui/WorkThumb";
 
 export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
+    {/* suppressHydrationWarning: SceneFocus writes a scroll-driven --scene
+        style onto every .cs-section node imperatively; see StoryArc.tsx for
+        the full rationale. */}
     <section id="work" className="cs-section" aria-labelledby="work-title" suppressHydrationWarning>
       <div className="cs-container">
         <h2 id="work-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.workTitle}>

@@ -51,7 +51,7 @@ export default async function NotesListPage({
   const dict = getDictionary(locale);
 
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container" style={{ maxWidth: "48rem" }}>
         <BreadcrumbJsonLd
           items={[

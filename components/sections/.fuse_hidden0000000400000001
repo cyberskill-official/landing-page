@@ -8,6 +8,9 @@ import { KineticText } from "@/components/motion/KineticText";
 // careers-intent visitors here (research doc §E recruiting layer).
 export function Careers({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
+    {/* suppressHydrationWarning: SceneFocus writes a scroll-driven --scene
+        style onto every .cs-section node imperatively; see StoryArc.tsx for
+        the full rationale. */}
     <section id="careers" className="cs-section" aria-labelledby="careers-title" suppressHydrationWarning>
       <Aurora />
       <div className="cs-container cs-careers">

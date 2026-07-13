@@ -11,6 +11,9 @@ const stepIcons: BrandIconName[] = ["discover", "shape", "build", "support"];
 
 export function Process({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
+    {/* suppressHydrationWarning: SceneFocus writes a scroll-driven --scene
+        style onto every .cs-section node imperatively; see StoryArc.tsx for
+        the full rationale. */}
     <section id="process" className="cs-section" aria-labelledby="process-title" suppressHydrationWarning>
       <div className="cs-container">
         <h2 id="process-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.processTitle}>

@@ -85,7 +85,7 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
         };
 
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container">
         <BreadcrumbJsonLd
           items={[

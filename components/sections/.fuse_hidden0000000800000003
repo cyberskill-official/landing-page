@@ -7,6 +7,9 @@ import { NewsletterForm } from "@/components/cta/NewsletterForm";
 
 export function Faq({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   return (
+    {/* suppressHydrationWarning: SceneFocus writes a scroll-driven --scene
+        style onto every .cs-section node imperatively; see StoryArc.tsx for
+        the full rationale. */}
     <section id="faq" className="cs-section" aria-labelledby="faq-title" suppressHydrationWarning>
       <div className="cs-container">
         <h2 id="faq-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.faqTitle}>

@@ -6,7 +6,12 @@ import { negotiateLocale } from "@/lib/i18n/negotiate";
 // request header, and redirects the bare "/" to a locale chosen from the
 // visitor's Accept-Language header (FR-WEB-004), so every indexable page lives
 // under /en or /vi and first-time visitors land in their own language.
-export function middleware(req: NextRequest) {
+//
+// 2026-07-14: renamed from middleware.ts to proxy.ts (Next.js renamed the
+// "middleware" file convention to "proxy" - same runtime, same API, just a
+// different file name and exported function name). See
+// https://nextjs.org/docs/messages/middleware-to-proxy
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // FR-OPS-009: Generate cryptographically secure base64 nonce for inline scripts.
@@ -20,11 +25,11 @@ export function middleware(req: NextRequest) {
     const target = isLocale(chosen) ? chosen : negotiateLocale(req.headers.get("accept-language"));
     const url = req.nextUrl.clone();
     url.pathname = `/${target}`;
-    
+
     const headers = new Headers(req.headers);
     headers.set("x-cs-locale", target);
     headers.set("x-nonce", nonce);
-    
+
     const res = NextResponse.rewrite(url, { request: { headers } });
     res.headers.set("Content-Security-Policy-Report-Only", cspHeader);
     return res;
@@ -46,4 +51,3 @@ export const config = {
   // Skip API, Next internals, and any path with a file extension.
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)"],
 };
-

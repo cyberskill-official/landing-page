@@ -23,7 +23,7 @@ export default async function TeamPage({ params }: { params: Promise<{ lang: str
   // If array is empty, we show an honest empty state.
 
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container">
         <BreadcrumbJsonLd
           items={[

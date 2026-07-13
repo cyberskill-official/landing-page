@@ -3,7 +3,7 @@
 // Root error boundary. Keeps the page recoverable instead of a blank crash.
 export default function Error({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <main id="main" className="cs-section">
+    <main id="main" className="cs-section" suppressHydrationWarning>
       <div className="cs-container" style={{ maxWidth: "40rem", textAlign: "center" }}>
         <h1>Something went wrong</h1>
         <p className="cs-section-lead">

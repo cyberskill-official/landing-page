@@ -106,7 +106,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
   const locale = isLocale(lang) ? lang : "en";
   const c = content[locale];
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container cs-prose">
         <BreadcrumbJsonLd
           items={[

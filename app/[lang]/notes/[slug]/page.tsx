@@ -77,7 +77,7 @@ export default async function NoteDetailPage({
   const altLocale = locale === "en" ? "vi" : "en";
 
   return (
-    <article className="cs-section">
+    <article className="cs-section" suppressHydrationWarning>
       <ArticleJsonLd post={post} locale={locale} />
       <div className="cs-container" style={{ maxWidth: "42rem" }}>
         <BreadcrumbJsonLd

@@ -4,7 +4,7 @@ import Link from "next/link";
 // path has no locale segment.
 export default function NotFound() {
   return (
-    <main id="main" className="cs-section">
+    <main id="main" className="cs-section" suppressHydrationWarning>
       <div className="cs-container" style={{ maxWidth: "40rem", textAlign: "center" }}>
         <div className="cs-lumi-orb" aria-hidden="true" style={{ width: "80px", height: "80px", margin: "0 auto 24px", background: "radial-gradient(circle, #f4ba17 0%, transparent 70%)", borderRadius: "50%", opacity: 0.8 }} />
         <p className="cs-eyebrow">404 - Wish not found</p>

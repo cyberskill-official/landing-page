@@ -136,7 +136,7 @@ export default async function CyberOsContentPolicyPage({ params }: { params: Pro
   const locale = isLocale(lang) ? lang : "en";
   const c = content[locale];
   return (
-    <section className="cs-section">
+    <section className="cs-section" suppressHydrationWarning>
       <div className="cs-container cs-prose">
         <BreadcrumbJsonLd
           items={[
