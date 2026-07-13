@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-010
 title: "Insights post template enforces author, dates and a TLDR"
-status: ready_to_review
+status: done
 class: improvement
 priority: COULD
 owner: agent

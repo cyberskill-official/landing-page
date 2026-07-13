@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-006
 title: "RSS/Atom feed for the insights collection"
-status: ready_to_review
+status: done
 class: product
 priority: COULD
 owner: agent

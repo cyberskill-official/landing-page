@@ -1,7 +1,7 @@
 ---
 id: FR-A11Y-004
 title: "Full keyboard operability, visible focus, and focus order"
-status: ready_to_review
+status: done
 class: product
 priority: MUST
 owner: agent
