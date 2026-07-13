@@ -5,6 +5,9 @@ export type ServiceDetail = {
   metaDescription: LocalizedString;
   lead: LocalizedString;
   forWho: LocalizedString;
+  summary: LocalizedString;  // FR-CMS-005: Concise description of the practice
+  problem: LocalizedString;  // FR-CMS-005: The core operational bottlenecks it addresses
+  approach: LocalizedString; // FR-CMS-005: Our engineering and integration methodology
   scopeIntro: LocalizedString;
   scopeItems: { title: LocalizedString; description: LocalizedString }[];
   processIntro: LocalizedString;
@@ -13,6 +16,7 @@ export type ServiceDetail = {
   engagementIntro: LocalizedString;
   engagementModels?: { title: LocalizedString; description: LocalizedString; startingRange?: LocalizedString; timeline?: LocalizedString }[];
   stack: LocalizedString;
+  cta: LocalizedString;      // FR-CMS-005: The outcome-oriented next step for the prospect
   faqs: { q: LocalizedString; a: LocalizedString }[];
 };
 
@@ -25,6 +29,18 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     metaDescription: {
       en: "Custom web application development in Ho Chi Minh City. Next.js, React, TypeScript. We design, build, and hand over secure, high-performance dashboards, SaaS platforms, and enterprise web solutions.",
       vi: "Phát triển ứng dụng web theo yêu cầu tại TP.HCM. Sử dụng Next.js, React, TypeScript. Thiết kế, xây dựng và bàn giao dashboard bảo mật, nền tảng SaaS hiệu năng cao.",
+    },
+    summary: {
+      en: "Custom web applications designed to load instantly, scale seamlessly, and preserve core business logic without technical debt.",
+      vi: "Ứng dụng web tùy chỉnh được thiết kế để tải tức thì, mở rộng liền mạch và lưu giữ logic kinh doanh cốt lõi mà không vướng nợ kỹ thuật."
+    },
+    problem: {
+      en: "Many organizations struggle with fragmented workflows, insecure spreadsheets, and slow, legacy web tools that delay operations and compromise critical company data.",
+      vi: "Nhiều tổ chức đang gặp khó khăn với quy trình làm việc phân tán, bảng tính không bảo mật và các công cụ web cũ chậm chạp làm chậm hoạt động và đe dọa dữ liệu quan trọng."
+    },
+    approach: {
+      en: "We focus on clean server-rendered architectures (HTML-first), rigorous automated test pipelines, and standards-based component development using stable frameworks like React and Next.js.",
+      vi: "Chúng tôi tập trung vào kiến trúc render phía máy chủ sạch sẽ (ưu tiên HTML), quy trình kiểm thử tự động nghiêm ngặt và phát triển thành phần dựa trên tiêu chuẩn sử dụng các framework ổn định như React và Next.js."
     },
     lead: {
       en: "We design and build production-grade web applications that carry real operational weight. Whether you need an analytics dashboard, a customer portal, a headless e-commerce system, or a multi-tenant SaaS platform, we deliver codebases that ship on time, scale reliably, and remain highly maintainable for years to come.",
@@ -114,6 +130,10 @@ export const serviceDetails: Record<string, ServiceDetail> = {
       en: "We build our web applications using Next.js and React with TypeScript, styling with Vanilla CSS and component custom properties. The data layer is powered by PostgreSQL or MongoDB, securely deployed on AWS, Google Cloud, or Vercel, with automated backups and monitoring. We pick proven, well-supported technologies over short-lived trends to protect your investment.",
       vi: "Chúng tôi xây dựng ứng dụng web bằng Next.js và React với TypeScript, tạo kiểu bằng Vanilla CSS và các biến thuộc tính CSS. Lớp dữ liệu được cung cấp bởi PostgreSQL hoặc MongoDB, triển khai bảo mật trên AWS, Google Cloud hoặc Vercel, kèm sao lưu và giám sát tự động."
     },
+    cta: {
+      en: "Tell Lumi your web application requirements and receive a detailed, honest commercial proposal within one business day.",
+      vi: "Chia sẻ yêu cầu ứng dụng web của bạn với Lumi và nhận đề xuất thương mại chi tiết, trung thực trong vòng một ngày làm việc."
+    },
     faqs: [
       {
         q: { en: "Do we own the source code after the project is finished?", vi: "Chúng tôi có sở hữu mã nguồn sau khi dự án kết thúc không?" },
@@ -160,6 +180,18 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     metaDescription: {
       en: "Bilingual mobile app development in Ho Chi Minh City. React Native, Flutter, Swift, Kotlin. We build offline-friendly, secure mobile apps with automated store release pipelines.",
       vi: "Phát triển ứng dụng di động song ngữ tại TP.HCM. Sử dụng React Native, Flutter, Swift, Kotlin. Xây dựng ứng dụng di động ưu tiên ngoại tuyến, bảo mật cao.",
+    },
+    summary: {
+      en: "Bilingual iOS and Android apps utilizing shared codebases for efficiency, native paths where performance counts, with offline syncing built-in.",
+      vi: "Ứng dụng iOS và Android song ngữ sử dụng mã nguồn chung để tối ưu hiệu quả, thuần native ở phần cần hiệu năng cao, tích hợp sẵn đồng bộ ngoại tuyến."
+    },
+    problem: {
+      en: "Mobile apps often fail due to poor offline signal handling, high battery drain, memory leaks, and complicated store deployment processes.",
+      vi: "Ứng dụng di động thường thất bại do xử lý sóng ngoại tuyến kém, hao pin nhanh, rò rỉ bộ nhớ và quy trình phát hành lên các cửa hàng phức tạp."
+    },
+    approach: {
+      en: "We build native-quality apps with cross-platform frameworks, write clean native bridges when hardware access requires, and deploy using automated Fastlane pipelines.",
+      vi: "Chúng tôi xây dựng ứng dụng chất lượng như native bằng framework đa nền tảng, viết các cầu nối native sạch sẽ khi cần truy cập phần cứng và phát hành bằng quy trình Fastlane tự động."
     },
     lead: {
       en: "We build mobile applications that remain reliable in the hands of users on the move. From public store apps on iOS and Android to enterprise field tooling, we deliver high-performance applications designed to work under weak network signals, integrate seamlessly with hardware features, and ship with crash reporting and analytics from day one.",
@@ -249,6 +281,10 @@ export const serviceDetails: Record<string, ServiceDetail> = {
       en: "We develop cross-platform apps using React Native or Flutter with TypeScript/Dart. For native elements, we use Swift (iOS) and Kotlin (Android). We implement local persistence using SQLite or WatermelonDB and secure communications via HTTPS/WSS. Stability metrics are tracked using Firebase Crashlytics, and build distribution is automated with Fastlane.",
       vi: "Chúng tôi phát triển ứng dụng đa nền tảng bằng React Native hoặc Flutter với TypeScript/Dart. Với các phần native, chúng tôi dùng Swift (iOS) và Kotlin (Android). Lưu trữ dữ liệu cục bộ dùng SQLite hoặc WatermelonDB và kết nối bảo mật qua HTTPS/WSS."
     },
+    cta: {
+      en: "Discuss your iOS or Android app vision with Lumi and let our team map out a structured roadmap for store deployment.",
+      vi: "Trao đổi tầm nhìn ứng dụng iOS hoặc Android của bạn với Lumi để đội ngũ của chúng tôi vạch ra lộ trình phát hành lên store rõ ràng."
+    },
     faqs: [
       {
         q: { en: "Should we build native (Swift/Kotlin) or cross-platform (React Native/Flutter)?", vi: "Chúng nên xây dựng native (Swift/Kotlin) hay đa nền tảng (React Native/Flutter)?" },
@@ -295,6 +331,18 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     metaDescription: {
       en: "Operations tooling, automation, and enterprise integrations in Ho Chi Minh City. We replace spreadsheets with a secure database source of truth. Fully documented handover.",
       vi: "Thiết kế công cụ vận hành, tự động hóa và tích hợp doanh nghiệp tại TP.HCM. Thay thế bảng tính bằng cơ sở dữ liệu nguồn thông tin duy nhất bảo mật.",
+    },
+    summary: {
+      en: "Operations dashboards, automation services, and legacy integrations that unify disjointed business data into a single source of truth.",
+      vi: "Bảng điều khiển vận hành, dịch vụ tự động hóa và tích hợp hệ thống cũ giúp hợp nhất dữ liệu kinh doanh phân tán thành một nguồn thông tin duy nhất."
+    },
+    problem: {
+      en: "Admin teams are frequently overwhelmed by manual data entry, drifting spreadsheets, and systems that cannot communicate, causing shipping and processing bottlenecks.",
+      vi: "Các đội ngũ hành chính thường bị quá tải bởi việc nhập liệu thủ công, bảng tính sai lệch số liệu và các hệ thống không thể giao tiếp với nhau, gây nghẽn điều phối."
+    },
+    approach: {
+      en: "We shadow operations teams to map workflows, build secure private cloud databases, implement granular role access control (RBAC), and deploy incremental modules.",
+      vi: "Chúng tôi quan sát thực tế đội vận hành để vẽ quy trình, xây dựng cơ sở dữ liệu đám mây riêng tư bảo mật, triển khai phân quyền chi tiết (RBAC) và bàn giao theo mô-đun."
     },
     lead: {
       en: "We build the software that keeps a business running smoothly behind the scenes. From custom ERP extensions and logistics coordination portals to internal operations tools and automated data pipelines, we replace error-prone spreadsheets with a single, secure database source of truth that automates manual work and gives hours back to your team.",
@@ -383,6 +431,10 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     stack: {
       en: "We build operations software using custom Next.js admin dashboards with Node.js/TypeScript backend services. We implement PostgreSQL databases for structured operational records and Redis for queue management. We deploy securely inside private cloud subnets on AWS or Google Cloud, integrating with corporate identity providers via SAML/OIDC.",
       vi: "Chúng tôi xây dựng phần mềm vận hành bằng dashboard Next.js tùy chỉnh kết hợp dịch vụ Node.js/TypeScript backend. Cơ sở dữ liệu dùng PostgreSQL cho các bản ghi có cấu trúc và Redis cho quản lý hàng đợi, triển khai an toàn trên AWS hoặc Google Cloud."
+    },
+    cta: {
+      en: "Share your business operational bottlenecks with Lumi to discover how custom automation can optimize your team's workflow.",
+      vi: "Chia sẻ điểm nghẽn vận hành doanh nghiệp của bạn với Lumi để khám phá cách tự động hóa tùy chỉnh có thể tối ưu hóa quy trình của đội bạn."
     },
     faqs: [
       {

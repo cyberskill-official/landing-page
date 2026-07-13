@@ -111,6 +111,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           cta: "Bắt đầu dự án",
           how: "Cách chúng tôi làm việc",
           back: "Xem tất cả dịch vụ",
+          summary: "Tóm tắt dịch vụ",
+          problem: "Vấn đề giải quyết",
+          approach: "Phương pháp triển khai",
+          ctaNotice: "Cam kết hành động",
         }
       : {
           eyebrow: "Service",
@@ -125,6 +129,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           cta: "Start my project",
           how: "How we build",
           back: "See all services",
+          summary: "Service Summary",
+          problem: "Problems Solved",
+          approach: "Our Engineering Approach",
+          ctaNotice: "Action Promise",
         };
 
   return (
@@ -151,8 +159,16 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <p className="cs-section-lead">{localize(detail.lead, locale)}</p>
 
         <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
+          {/* FR-CMS-005: Summary */}
+          <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.summary}</h2>
+          <p>{localize(detail.summary, locale)}</p>
+
+          {/* FR-CMS-005: Problem */}
+          <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.problem}</h2>
+          <p>{localize(detail.problem, locale)}</p>
+
           {/* Who it is for */}
-          <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.forWho}</h2>
+          <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.forWho}</h2>
           <p>{localize(detail.forWho, locale)}</p>
 
           {/* Scope of Work */}
@@ -165,6 +181,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               </li>
             ))}
           </ul>
+
+          {/* FR-CMS-005: Approach */}
+          <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.approach}</h2>
+          <p>{localize(detail.approach, locale)}</p>
 
           {/* Core Stack */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.stack}</h2>
@@ -189,6 +209,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           {/* Engagement Models (optional range block absent per BIZ approvals status) */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.engagement}</h2>
           <p>{localize(detail.engagementIntro, locale)}</p>
+
+          {/* FR-CMS-005: Call to Action Promise */}
+          <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.ctaNotice}</h2>
+          <p>{localize(detail.cta, locale)}</p>
 
           {/* Service FAQs */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.faqSection}</h2>

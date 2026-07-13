@@ -914,16 +914,25 @@ main > .cs-section > .cs-container > h1 {
   /* Premium fallback for mobile / low-GPU: the real gold Lumi (a 78KB transparent
      Cycles render) over a warm glow. Still zero-JS, so Core Web Vitals hold. */
   background:
-    url(/lumi-poster.webp) 82% 42% / auto 72% no-repeat,
     radial-gradient(34% 42% at 82% 38%, rgba(252, 233, 168, 0.30), rgba(244, 186, 23, 0) 70%),
     radial-gradient(56% 64% at 82% 46%, rgba(244, 186, 23, 0.16), rgba(244, 186, 23, 0) 72%);
+}
+.cs-poster-img {
+  object-fit: contain !important;
+  object-position: 82% 42% !important;
+  max-height: 72% !important;
+  top: 14% !important;
 }
 @media (max-width: 1023px) {
   /* On smaller screens Lumi sits smaller, upper-right, behind the hero. */
   .cs-poster {
     background:
-      url(/lumi-poster.webp) 86% 15% / auto 44% no-repeat,
       radial-gradient(54% 32% at 84% 15%, rgba(244, 186, 23, 0.26), rgba(244, 186, 23, 0) 70%);
+  }
+  .cs-poster-img {
+    object-position: 86% 15% !important;
+    max-height: 44% !important;
+    top: 5% !important;
   }
 }
 

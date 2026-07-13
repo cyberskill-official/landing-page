@@ -19,7 +19,7 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
           src={auroraGold}
           alt=""
           fill
-          sizes="100vw"
+          sizes="(max-width: 768px) 276px, 100vw"
           placeholder="blur"
           className="cs-contact-bg-img"
         />
