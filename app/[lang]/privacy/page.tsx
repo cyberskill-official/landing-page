@@ -3,20 +3,12 @@ import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { resolveMetadata } from "@/lib/content/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/privacy",
-    title: locale === "vi" ? "Quyền riêng tư" : "Privacy",
-    description:
-      locale === "vi"
-        ? "Cách CyberSkill thu thập và xử lý dữ liệu từ biểu mẫu liên hệ và trò chuyện, theo PDPL và GDPR."
-        : "How CyberSkill collects and handles data from the contact form and chat, aligned with PDPL and GDPR.",
-  });
+  return resolveMetadata(locale, "/privacy");
 }
 
 type Block = { h: string; body: string[] };
@@ -110,6 +102,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
         />
         <h1>{c.title}</h1>
         <p className="cs-section-lead">{c.intro}</p>
+        <p className="cs-privacy-entity">{company.entity[locale]}</p>
         {c.blocks.map((b) => (
           <div key={b.h} className="cs-case-section">
             <h2>{b.h}</h2>

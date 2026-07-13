@@ -17,6 +17,7 @@ export function OrganizationJsonLd({ locale }: { locale: Locale }) {
         url,
         foundingDate: String(company.founded),
         slogan: company.slogan[locale],
+        description: company.entity[locale],
         email: company.email,
         telephone: company.phone,
         address: {

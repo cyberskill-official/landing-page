@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { resolveMetadata } from "@/lib/content/metadata";
 import { SkipLink } from "@/components/a11y/SkipLink";
 import { SiteHeader } from "@/components/header/SiteHeader";
 import { SiteFooter } from "@/components/footer/SiteFooter";
@@ -19,11 +20,6 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-const descriptions: Record<Locale, string> = {
-  en: "CyberSkill is a software solutions consultancy in Ho Chi Minh City, building web apps, mobile apps, and internal systems that ship and stay maintainable.",
-  vi: "CyberSkill là công ty tư vấn giải pháp phần mềm tại TP. Hồ Chí Minh: chúng tôi xây ứng dụng web, ứng dụng di động và hệ thống nội bộ chạy ổn định, dễ bảo trì.",
-};
-
 export async function generateMetadata({
   params,
 }: {
@@ -31,20 +27,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return {
-    title: "Turn Your Will Into Real",
-    description: descriptions[locale],
-    alternates: {
-      canonical: `/${locale}`,
-      languages: { en: "/en", vi: "/vi", "x-default": "/en" },
-    },
-    openGraph: {
-      locale: locale === "vi" ? "vi_VN" : "en_US",
-      alternateLocale: locale === "vi" ? "en_US" : "vi_VN",
-      title: "CyberSkill - Turn Your Will Into Real",
-      description: descriptions[locale],
-    },
-  };
+  return resolveMetadata(locale, "/");
 }
 
 export default async function LocaleLayout({

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
 
 // The CyberOS acceptable-use / content policy. Required by Google Play: an app carrying
 // user-generated content must declare user-to-user communication in the content rating, which puts
@@ -16,18 +15,12 @@ import { pageMetadata } from "@/lib/seo/metadata";
 //
 // Deliberately short. A content policy nobody reads is a compliance artefact, not a rule.
 
+import { resolveMetadata } from "@/lib/content/metadata";
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/cyberos/content-policy",
-    title: locale === "vi" ? "Qui tắc nội dung CyberOS" : "CyberOS Content Policy",
-    description:
-      locale === "vi"
-        ? "Điều gì được phép và không được phép trong CyberOS, cách báo cáo, và điều gì sẽ xảy ra sau đó."
-        : "What is and is not allowed in CyberOS, how to report it, and what happens next.",
-  });
+  return resolveMetadata(locale, "/cyberos/content-policy");
 }
 
 type Block = { h: string; body: string[] };

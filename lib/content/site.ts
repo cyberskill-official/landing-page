@@ -21,6 +21,15 @@ export const company = {
     en: "Turn Your Will Into Real",
     vi: "Hiện Thực Hoá Ý Chí",
   } satisfies LocalizedString,
+
+  // FR-SEO-018 §1.1: One canonical entity sentence per locale.
+  // This is the SINGLE SOURCE for Organization JSON-LD description, footer
+  // tagline, llms files, OG/meta descriptions, and external-profile boilerplate.
+  // Edit here → every surface updates automatically.
+  entity: {
+    en: "CyberSkill is a software company in Ho Chi Minh City, Vietnam, founded in 2020, building web applications, mobile apps, and internal systems for businesses worldwide.",
+    vi: "CyberSkill là công ty phần mềm tại TP. Hồ Chí Minh, Việt Nam, thành lập năm 2020, chuyên xây dựng ứng dụng web, ứng dụng di động và hệ thống nội bộ cho doanh nghiệp toàn cầu.",
+  } satisfies LocalizedString,
 };
 
 // The canonical production origin for every absolute URL the site emits -

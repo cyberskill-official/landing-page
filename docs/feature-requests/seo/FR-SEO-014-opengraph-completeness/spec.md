@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-014
 title: "Complete the OpenGraph and Twitter card fields"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

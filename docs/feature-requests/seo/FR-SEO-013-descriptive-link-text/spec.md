@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-013
 title: "Replace non-descriptive link text (\"Learn more\") sitewide"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

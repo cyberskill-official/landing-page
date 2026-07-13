@@ -4,7 +4,6 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { LocalizedString } from "@/lib/i18n/types";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
 
 // A plain-spoken "how we build" page: the method, the quality bar we hold
 // ourselves to, how we handle a client's data, and how an engagement runs.
@@ -55,18 +54,12 @@ const blocks: Block[] = [
   },
 ];
 
+import { resolveMetadata } from "@/lib/content/metadata";
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/how-we-build",
-    title: locale === "vi" ? "Cách chúng tôi xây" : "How we build",
-    description:
-      locale === "vi"
-        ? "Cách CyberSkill làm việc: quy trình từ cuộc gọi đầu đến bản phát hành cuối, tiêu chuẩn chất lượng, cách xử lý dữ liệu, và cách hai bên phối hợp. Minh bạch để bạn tin tưởng trước khi bắt đầu."
-        : "How CyberSkill works: the method from first call to last release, the quality bar we hold ourselves to, how we handle your data, and how an engagement runs. The context enterprise and partner buyers want before they commit.",
-  });
+  return resolveMetadata(locale, "/how-we-build");
 }
 
 export default async function HowWeBuildPage({ params }: { params: Promise<{ lang: string }> }) {

@@ -4,7 +4,6 @@ import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { work, company, siteUrl } from "@/lib/content/site";
 import { localize, type LocalizedString } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
 
 // One detail page per work item per locale. The narrative below is deliberately
 // generic and honest: no invented client names, exact percentages, or logos.
@@ -65,19 +64,12 @@ export function generateStaticParams() {
   return locales.flatMap((lang) => work.map((item) => ({ lang, slug: item.slug })));
 }
 
+import { resolveMetadata } from "@/lib/content/metadata";
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
   const { lang, slug } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  const item = work.find((w) => w.slug === slug);
-  if (!item) {
-    return { title: locale === "vi" ? "Dự án" : "Work" };
-  }
-  return pageMetadata({
-    locale,
-    path: `/work/${slug}`,
-    title: localize(item.title, locale),
-    description: localize(item.result, locale),
-  });
+  return resolveMetadata(locale, `/work/${slug}`);
 }
 
 export default async function WorkDetailPage({ params }: { params: Promise<{ lang: string; slug: string }> }) {

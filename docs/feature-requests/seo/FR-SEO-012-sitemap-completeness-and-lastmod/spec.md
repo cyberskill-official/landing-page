@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-012
 title: "Complete the sitemap and stamp real lastModified dates"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

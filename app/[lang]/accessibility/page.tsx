@@ -3,20 +3,12 @@ import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { resolveMetadata } from "@/lib/content/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/accessibility",
-    title: locale === "vi" ? "Khả năng tiếp cận" : "Accessibility",
-    description:
-      locale === "vi"
-        ? "Cam kết tiếp cận của CyberSkill: mục tiêu WCAG 2.2 AA, lập trường chuyển động, và cách báo lỗi tiếp cận."
-        : "CyberSkill's accessibility commitment: WCAG 2.2 AA target, motion stance, and how to report an issue.",
-  });
+  return resolveMetadata(locale, "/accessibility");
 }
 
 type Block = { h: string; body: string[] };

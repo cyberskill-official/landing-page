@@ -5,20 +5,12 @@ import { team } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { TeamJsonLd } from "@/components/seo/TeamJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { resolveMetadata } from "@/lib/content/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/team",
-    title: locale === "vi" ? "Đội ngũ" : "Team",
-    description:
-      locale === "vi"
-        ? "Gặp gỡ đội ngũ kỹ sư tại CyberSkill. Các kỹ sư giàu kinh nghiệm trực tiếp xây dựng và chịu trách nhiệm đến cùng với sản phẩm của bạn."
-        : "Meet the engineering team at CyberSkill. Senior engineers who directly build and own your product end to end.",
-  });
+  return resolveMetadata(locale, "/team");
 }
 
 export default async function TeamPage({ params }: { params: Promise<{ lang: string }> }) {

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
 
 // CyberOS app privacy policy. This is the URL submitted to Google Play and the
 // Apple App Store, so it MUST stay accurate against what the app actually
@@ -19,18 +18,12 @@ import { pageMetadata } from "@/lib/seo/metadata";
 // reviewer must be able to read it WITHOUT signing in - the CyberOS console is
 // behind Google SSO.
 
+import { resolveMetadata } from "@/lib/content/metadata";
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/cyberos/privacy",
-    title: locale === "vi" ? "Quyền riêng tư - CyberOS" : "CyberOS Privacy Policy",
-    description:
-      locale === "vi"
-        ? "Ứng dụng CyberOS thu thập dữ liệu gì, vì sao, ai xử lý, và cách yêu cầu xoá."
-        : "What the CyberOS app collects, why, who processes it, and how to request deletion.",
-  });
+  return resolveMetadata(locale, "/cyberos/privacy");
 }
 
 type Block = { h: string; body: string[] };

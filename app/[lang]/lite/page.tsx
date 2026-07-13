@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { scenes } from "@/lib/content/site";
+import { scenes, company } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -39,6 +39,9 @@ export default async function LitePage({ params }: { params: Promise<{ lang: str
             </li>
           ))}
         </ol>
+        <div className="cs-lite-about cs-surface-solid" style={{ marginTop: "2rem", padding: "1.5rem", borderRadius: "var(--cs-radius-md)" }}>
+          <p className="cs-lite-entity">{company.entity[locale]}</p>
+        </div>
         <div className="cs-hero-actions">
           <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>{dict.hero.ctaPrimary}</a>
           <Link className="cs-btn cs-btn-secondary" href={`/${locale}`}>{dict.a11y.cinematicLink}</Link>

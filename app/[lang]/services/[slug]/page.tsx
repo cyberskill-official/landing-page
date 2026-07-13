@@ -4,7 +4,6 @@ import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { services, work, company, siteUrl } from "@/lib/content/site";
 import { localize, type LocalizedString } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
 
 // One detail page per service (web-apps, mobile-apps, internal-systems), per
 // locale. The copy is honest and capability-level: no invented client names,
@@ -132,20 +131,12 @@ export function generateStaticParams() {
   return locales.flatMap((lang) => services.map((s) => ({ lang, slug: s.id })));
 }
 
+import { resolveMetadata } from "@/lib/content/metadata";
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
   const { lang, slug } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  const detail = details[slug];
-  const service = services.find((s) => s.id === slug);
-  if (!detail || !service) {
-    return { title: locale === "vi" ? "Dịch vụ" : "Services" };
-  }
-  return pageMetadata({
-    locale,
-    path: `/services/${slug}`,
-    title: localize(detail.metaTitle, locale),
-    description: localize(detail.metaDescription, locale),
-  });
+  return resolveMetadata(locale, `/services/${slug}`);
 }
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ lang: string; slug: string }> }) {

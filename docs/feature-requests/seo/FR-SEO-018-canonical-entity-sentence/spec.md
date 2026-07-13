@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-018
 title: "One canonical entity sentence, single-sourced and reused everywhere"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

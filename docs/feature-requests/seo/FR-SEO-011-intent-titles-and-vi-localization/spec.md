@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-011
 title: "Intent-carrying, locale-correct titles and descriptions on every indexable route"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: MUST
 owner: agent

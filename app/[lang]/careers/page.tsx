@@ -3,20 +3,12 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { LeadForm } from "@/components/cta/LeadForm";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { resolveMetadata } from "@/lib/content/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/careers",
-    title: locale === "vi" ? "Tuyển dụng" : "Careers",
-    description:
-      locale === "vi"
-        ? "Gia nhập CyberSkill: đội ngũ nhỏ, giàu kinh nghiệm, làm phần mềm chạy thật với quyền tự chủ thật sự."
-        : "Join CyberSkill: a small senior team building production software with real ownership.",
-  });
+  return resolveMetadata(locale, "/careers");
 }
 
 const values: Record<Locale, { title: string; body: string }[]> = {

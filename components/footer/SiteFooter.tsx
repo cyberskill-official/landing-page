@@ -12,6 +12,9 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
           <p className="cs-footer-meta">
             {company.address}
           </p>
+          <p className="cs-footer-entity" lang={locale}>
+            {company.entity[locale]}
+          </p>
           <p className="cs-footer-meta">
             <a href={`mailto:${company.email}`}>{company.email}</a>
             {" - "}

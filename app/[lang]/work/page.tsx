@@ -5,20 +5,12 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { work } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { resolveMetadata } from "@/lib/content/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/work",
-    title: locale === "vi" ? "Dự án" : "Work",
-    description:
-      locale === "vi"
-        ? "Tuyển chọn dự án CyberSkill đã xây và bàn giao: nền tảng web, ứng dụng di động, cổng thương mại."
-        : "Selected CyberSkill projects we built and shipped: web platforms, mobile apps, and commerce portals.",
-  });
+  return resolveMetadata(locale, "/work");
 }
 
 export default async function WorkPage({ params }: { params: Promise<{ lang: string }> }) {

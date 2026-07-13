@@ -100,13 +100,13 @@ dependency, 33 waiting on a human.
 #### SEO
 
 - [ready_to_implement] FR-SEO-010 - Restore word spacing in the machine-readable text of kinetic headings (improvement)
-- [ready_to_implement] FR-SEO-011 - Intent-carrying, locale-correct titles and descriptions on every indexable route (improvement)
-- [ready_to_implement] FR-SEO-012 - Complete the sitemap and stamp real lastModified dates (improvement)
-- [ready_to_implement] FR-SEO-013 - Replace non-descriptive link text ("Learn more") sitewide (improvement)
-- [ready_to_implement] FR-SEO-014 - Complete the OpenGraph and Twitter card fields (improvement)
+- [ready_to_review] FR-SEO-011 - Intent-carrying, locale-correct titles and descriptions on every indexable route (improvement)
+- [ready_to_review] FR-SEO-012 - Complete the sitemap and stamp real lastModified dates (improvement)
+- [ready_to_review] FR-SEO-013 - Replace non-descriptive link text ("Learn more") sitewide (improvement)
+- [ready_to_review] FR-SEO-014 - Complete the OpenGraph and Twitter card fields (improvement)
 - [ready_to_implement] FR-SEO-015 - Service schema per service page, and Review/AggregateRating once testimonials are verifiable (improvement)
 - [ready_to_implement] FR-SEO-016 - Deepen the three service pages into ranking, converting pages (improvement)
-- [ready_to_implement] FR-SEO-018 - One canonical entity sentence, single-sourced and reused everywhere (improvement)
+- [ready_to_review] FR-SEO-018 - One canonical entity sentence, single-sourced and reused everywhere (improvement)
 - [ready_to_implement] FR-SEO-019 - Enrich the Organization graph: sameAs, founder, LocalBusiness, and visible profile links (improvement)
 - [ready_to_implement] FR-SEO-020 - Expand the FAQ to 15-20 answerable, citable Q&As (improvement)
 

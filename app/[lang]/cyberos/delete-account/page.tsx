@@ -3,7 +3,6 @@ import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { pageMetadata } from "@/lib/seo/metadata";
 
 // Account + data deletion page for CyberOS. Google Play REQUIRES a publicly
 // reachable URL (no sign-in) that names the developer and the app, explains how
@@ -16,18 +15,12 @@ import { pageMetadata } from "@/lib/seo/metadata";
 // changes, BOTH move together - a promise here that the runbook cannot execute
 // is a compliance failure, not a wording problem.
 
+import { resolveMetadata } from "@/lib/content/metadata";
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
-  return pageMetadata({
-    locale,
-    path: "/cyberos/delete-account",
-    title: locale === "vi" ? "Xoá tài khoản CyberOS" : "Delete your CyberOS account",
-    description:
-      locale === "vi"
-        ? "Cách yêu cầu xoá tài khoản CyberOS và dữ liệu của bạn, những gì bị xoá và những gì được giữ lại."
-        : "How to request deletion of your CyberOS account and data, what is deleted, and what is retained.",
-  });
+  return resolveMetadata(locale, "/cyberos/delete-account");
 }
 
 type Block = { h: string; body: string[] };

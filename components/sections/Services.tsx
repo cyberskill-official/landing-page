@@ -28,9 +28,13 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dictionary })
               <a
                 className="cs-service-more"
                 href={`/${locale}/services/${s.id}`}
-                aria-label={`${localize(s.title, locale)}: ${locale === "vi" ? "tìm hiểu thêm" : "learn more"}`}
               >
                 {locale === "vi" ? "Tìm hiểu thêm" : "Learn more"}
+                <span className="cs-visually-hidden">
+                  {locale === "vi"
+                    ? ` về dịch vụ ${localize(s.title, locale).toLowerCase()}`
+                    : ` about our ${localize(s.title, locale).toLowerCase()} services`}
+                </span>
               </a>
             </Reveal>
           ))}
