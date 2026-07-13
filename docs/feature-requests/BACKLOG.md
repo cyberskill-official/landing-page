@@ -179,8 +179,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 #### CHAR
 
-- [ready_to_implement] FR-CHAR-029 - Harden per-IP rate limiting, input validation, and prompt-injection defence on the proxy (improvement) [mixed] - depends: FR-OPS-004
-
 #### CTA
 
 - [ready_to_implement] FR-CTA-005 - Call-booking path for high-intent leads (link, not embed) [mixed] - depends: FR-BIZ-013, FR-CTA-010
@@ -306,6 +304,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 - [done] FR-CHAR-031 - Wish flow: deterministic in-chat lead capture, Lumi-first contact
 - [done] FR-CHAR-032 - Black-hole digest: press-and-hold devours the page, release restores it
 - [done] FR-CHAR-033 - Chat cloud: the genie panel becomes a thought bubble tethered to Lumi
+- [done] FR-CHAR-029 - Harden per-IP rate limiting, input validation, and prompt-injection defence on the proxy (improvement) [mixed]
 
 ### CTA
 

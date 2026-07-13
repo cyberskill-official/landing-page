@@ -1,7 +1,7 @@
 ---
 id: FR-CHAR-029
 title: "Harden per-IP rate limiting, input validation, and prompt-injection defence on the proxy"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: mixed

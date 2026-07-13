@@ -20,7 +20,7 @@ const MAX_REQ = 20;
 // this is a guard against casual abuse, not a global quota (documented).
 const buckets = new Map<string, { count: number; resetAt: number }>();
 
-function checkRate(ip: string): { limited: boolean; retryAfter: number } {
+function checkLocalRate(ip: string): { limited: boolean; retryAfter: number } {
   const now = Date.now();
   // Bound memory on a long-lived instance: prune expired buckets when the map grows.
   if (buckets.size > 1000) {
@@ -33,6 +33,58 @@ function checkRate(ip: string): { limited: boolean; retryAfter: number } {
   }
   b.count += 1;
   return { limited: b.count > MAX_REQ, retryAfter: Math.ceil((b.resetAt - now) / 1000) };
+}
+
+async function checkRate(ip: string): Promise<{ limited: boolean; retryAfter: number }> {
+  const url = process.env.KV_REST_API_URL;
+  const token = process.env.KV_REST_API_TOKEN;
+
+  if (!url || !token) {
+    return checkLocalRate(ip);
+  }
+
+  const key = `ratelimit:${ip}`;
+  try {
+    const res = await fetch(`${url}/pipeline`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([
+        ["INCR", key],
+        ["TTL", key],
+      ]),
+      signal: AbortSignal.timeout(2000),
+    });
+
+    if (!res.ok) {
+      throw new Error(`KV API error status ${res.status}`);
+    }
+
+    const data = (await res.json()) as Array<{ result: number }>;
+    const count = data[0]?.result ?? 1;
+    let ttl = data[1]?.result ?? -1;
+
+    // If key is new (count is 1) or has no expiration (ttl is -1), set it to 300s (5m)
+    if (count === 1 || ttl === -1) {
+      await fetch(`${url}/expire/${key}/300`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      ttl = 300;
+    }
+
+    return {
+      limited: count > MAX_REQ,
+      retryAfter: ttl > 0 ? ttl : Math.ceil(WINDOW_MS / 1000),
+    };
+  } catch (err) {
+    console.error("[genie/rate-limit] Durable rate limiter failed, failing safe to memory", err);
+    return checkLocalRate(ip);
+  }
 }
 
 import { getRequiredEnv } from "@/lib/ops/env";
@@ -52,7 +104,7 @@ export async function POST(req: Request) {
   }
 
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anon";
-  const rate = checkRate(ip);
+  const rate = await checkRate(ip);
   if (rate.limited) {
     return NextResponse.json(
       { error: "rate_limited" },
