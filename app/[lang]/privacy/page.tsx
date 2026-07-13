@@ -32,8 +32,8 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
       {
         h: "Consent and Tracking Tags",
         body: [
-          "No third-party tracking, marketing pixels, or analytics cookies are loaded by default. The site is cookieless.",
-          "Any future optional tags (such as session replay or marketing pixels) will only load if you explicitly grant consent through our consent options. Currently, no such tags are configured or loaded.",
+          "No third-party tracking, marketing pixels, or analytics cookies are loaded by default. The site is cookieless-first.",
+          "Any optional tags (such as Google Analytics 4) will only load if you explicitly grant consent through our consent options. They are deferred until interaction and strictly opt-in.",
         ],
       },
       {
@@ -75,8 +75,8 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
       {
         h: "Đồng ý và Thẻ theo dõi",
         body: [
-          "Không có trình theo dõi của bên thứ ba, pixel tiếp thị, hoặc cookie phân tích nào được tải theo mặc định. Website này hoàn toàn không sử dụng cookie.",
-          "Bất kỳ thẻ tùy chọn nào trong tương lai (như ghi hình phiên làm việc hoặc pixel tiếp thị) sẽ chỉ tải nếu bạn đồng ý rõ ràng thông qua tùy chọn đồng ý của chúng tôi. Hiện tại, không có thẻ nào như vậy được định cấu hình hoặc tải.",
+          "Không có trình theo dõi của bên thứ ba, pixel tiếp thị, hoặc cookie phân tích nào được tải theo mặc định. Website này ưu tiên không sử dụng cookie.",
+          "Bất kỳ thẻ tùy chọn nào (như Google Analytics 4) sẽ chỉ tải nếu bạn đồng ý rõ ràng thông qua tùy chọn đồng ý của chúng tôi. Chúng tôi trì hoãn tải cho đến khi có tương tác và hoàn toàn dựa trên sự chọn lựa tự nguyện.",
         ],
       },
       {

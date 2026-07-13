@@ -10,6 +10,7 @@ import { CosmosBackdrop } from "@/components/CosmosBackdrop";
 import { CosmosCanvas } from "@/components/CosmosCanvas";
 import { CursorTrail } from "@/components/motion/CursorTrail";
 import { displayFont } from "@/app/fonts";
+import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -74,24 +75,7 @@ export default async function RootLayout({
     // umber art direction is the brand-defining look. A stored "light"
     // preference still wins via the no-flash script below.
     <html lang={bcp47[locale]} data-theme="dark" className={displayFont.variable} suppressHydrationWarning>
-      <Script
-        strategy="lazyOnload"
-        src="https://www.googletagmanager.com/gtag/js?id=G-C5VJCLKZE7"
-        nonce={nonce}
-      />
-      <Script
-        id="ga4"
-        strategy="lazyOnload"
-        nonce={nonce}
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-C5VJCLKZE7');
-          `,
-        }}
-      />
+      <AnalyticsScripts nonce={nonce} />
       <body>
         <script
           // No-flash: apply the saved theme before paint, and arm the
