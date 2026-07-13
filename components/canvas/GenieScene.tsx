@@ -492,7 +492,11 @@ export function GenieScene() {
     let observer: IntersectionObserver | null = null;
     if (el) {
       observer = new IntersectionObserver(([entry]) => {
-        setVisible(entry.isIntersecting && !document.hidden);
+        // Hydration/CSS loading guard: if the element has 0 dimensions, it is not yet laid out.
+        // We keep the default visible=true rather than pausing.
+        if (entry.boundingClientRect.width > 0 && entry.boundingClientRect.height > 0) {
+          setVisible(entry.isIntersecting && !document.hidden);
+        }
       }, { threshold: 0 });
       observer.observe(el);
     }
