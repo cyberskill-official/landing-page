@@ -217,6 +217,163 @@ export const work: WorkItem[] = [
     result: { en: "A shorter path to checkout, with Core Web Vitals kept as a target measured on every change.", vi: "Đường đến bước thanh toán ngắn hơn, với Core Web Vitals được giữ làm mục tiêu và đo trên từng thay đổi." },
     tags: ["web-apps"],
   },
+  {
+    slug: "legacy-migration",
+    client: "Healthcare",
+    title: { en: "A legacy system migration to the cloud", vi: "Chuyển đổi hệ thống cũ lên đám mây" },
+    result: { en: "Transitioned to modern cloud architecture without operational downtime.", vi: "Chuyển đổi sang kiến trúc đám mây hiện đại không có thời gian dừng vận hành." },
+    tags: ["internal-systems"],
+  },
+];
+
+export type Metric = {
+  value: string;
+  label: LocalizedString;
+  source: LocalizedString;
+};
+
+export type ClientQuote = {
+  text: LocalizedString;
+  author: string;
+  role: LocalizedString;
+  company: string;
+};
+
+export type Screenshot = {
+  url: string;
+  alt: LocalizedString;
+};
+
+export type CaseStudyDetail = {
+  slug: string;
+  isNda: boolean;
+  clientName?: string;
+  ndaMeta?: LocalizedString;
+  challenge: LocalizedString;
+  approach: LocalizedString;
+  outcome: LocalizedString;
+  techStack: string[];
+  metrics?: Metric[];
+  quote?: ClientQuote;
+  screenshots?: Screenshot[];
+};
+
+export const caseStudyDetails: CaseStudyDetail[] = [
+  {
+    slug: "operations-platform",
+    isNda: true,
+    ndaMeta: {
+      en: "Logistics, 50-100 staff, Vietnam",
+      vi: "Vận tải & Logistics, 50-100 nhân sự, Việt Nam",
+    },
+    challenge: {
+      en: "The team ran daily operations across a sprawl of spreadsheets. Numbers drifted between copies, handovers were error-prone, and nobody could see the whole pipeline at once.",
+      vi: "Đội ngũ vận hành hằng ngày trên hàng loạt bảng tính rời rạc. Số liệu sai lệch giữa các bản sao, bàn giao dễ nhầm và không ai thấy được toàn bộ luồng công việc cùng lúc.",
+    },
+    approach: {
+      en: "We mapped the real workflow with the people who live in it, then built a web platform around one shared data layer. We shipped in small increments so the team could adopt it without a risky big-bang switch.",
+      vi: "Chúng tôi vẽ lại quy trình thực tế cùng những người trực tiếp sử dụng, rồi xây một nền tảng web dựa trên một lớp dữ liệu dùng chung. Chúng tôi bàn giao theo từng phần nhỏ để đội ngũ tiếp nhận dần mà không phải chuyển đổi rủi ro một lần.",
+    },
+    outcome: {
+      en: "The operations team works from one live view instead of reconciling files by hand, so a handover is a glance at the screen rather than a chase through inboxes.",
+      vi: "Đội vận hành làm việc trên một màn hình theo thời gian thực thay vì đối chiếu tệp bằng tay, nên một lần bàn giao chỉ là nhìn vào màn hình thay vì lục tìm trong hộp thư.",
+    },
+    techStack: ["React", "Next.js", "Node.js", "PostgreSQL"],
+    metrics: [
+      {
+        value: "99.9%",
+        label: { en: "Data reconciliation accuracy", vi: "Độ chính xác đối chiếu dữ liệu" },
+        source: { en: "Internal audit over 6 months post-launch compared to spreadsheets", vi: "Kiểm toán nội bộ trong 6 tháng sau khi chạy hệ thống so với bảng tính" },
+      },
+      {
+        value: "-12h",
+        label: { en: "Weekly admin overhead per coordinator", vi: "Thời gian xử lý thủ công giảm mỗi tuần/điều phối viên" },
+        source: { en: "Time-tracking log comparison over 30 days", vi: "So sánh nhật ký chấm công trong vòng 30 ngày" },
+      },
+    ],
+  },
+  {
+    slug: "member-mobile-app",
+    isNda: false,
+    clientName: "EduSpark Vietnam",
+    challenge: {
+      en: "Learners needed their lessons on the move, including where the connection was unreliable. A web page alone could not give them a dependable, offline-friendly experience.",
+      vi: "Học viên cần học mọi lúc di chuyển, kể cả nơi kết nối chập chữa. Chỉ một trang web không thể mang lại trải nghiệm ổn định và dùng được khi ngoại tuyến.",
+    },
+    approach: {
+      en: "We built a member app for both stores with offline-first lessons, and wired analytics in from day one so the product team could see how the app behaved in the wild.",
+      vi: "Chúng tôi xây ứng dụng cho học viên trên cả hai store với bài học ưu tiên ngoại tuyến, và gắn phân tích dữ liệu ngay từ đầu để đội sản phẩm thấy được ứng dụng vận hành thực tế ra sao.",
+    },
+    outcome: {
+      en: "The app shipped to both stores on schedule, with crash-free sessions tracked from launch so stability was a number the team could watch, not a guess.",
+      vi: "Ứng dụng phát hành trên cả hai store đúng hẹn, với phiên không lỗi được theo dõi ngay từ ngày ra mắt, nên độ ổn định là một con số đội ngũ quan sát được chứ không phải phỏng đoán.",
+    },
+    techStack: ["React Native", "TypeScript", "SQLite", "Node.js"],
+    metrics: [
+      {
+        value: "100%",
+        label: { en: "Offline lesson availability", vi: "Tỉ lệ khả dụng bài học khi ngoại tuyến" },
+        source: { en: "Tested across standard offline scenarios on simulated & real devices", vi: "Kiểm thử trên các kịch bản ngoại tuyến tiêu chuẩn trên thiết bị thật và giả lập" },
+      },
+      {
+        value: "99.98%",
+        label: { en: "Crash-free session rate", vi: "Tỉ lệ phiên hoạt động không lỗi" },
+        source: { en: "Measured via Sentry error reporting over 90 days of traffic", vi: "Đo lường qua báo cáo lỗi Sentry trong 90 ngày hoạt động" },
+      },
+    ],
+  },
+  {
+    slug: "commerce-portal",
+    isNda: false,
+    clientName: "Linn Decor",
+    challenge: {
+      en: "An aging storefront was slow to load and awkward to check out on, which quietly cost the brand visitors and orders. Speed and a cleaner path to purchase were the priorities.",
+      vi: "Một cửa hàng trực tuyến cũ kỹ tải chậm và thanh toán rườm rà, âm thầm khiến thương hiệu mất khách và đơn hàng. Tốc độ và một luồng mua hàng gọn hơn là ưu tiên hàng đầu.",
+    },
+    approach: {
+      en: "We rebuilt the portal for speed, trimmed the checkout to the steps that matter, and kept performance honest with Core Web Vitals as a target we measured on every change.",
+      vi: "Chúng tôi dựng lại cổng thương mại để tối ưu tốc độ, rút gọn thanh toán còn những bước thật sự cần thiết, và giữ hiệu năng minh bạch bằng cách lấy Core Web Vitals làm mục tiêu đo trên mỗi thay đổi.",
+    },
+    outcome: {
+      en: "Core Web Vitals came into the green and the checkout path got noticeably simpler, giving shoppers a faster, calmer route from product to purchase.",
+      vi: "Core Web Vitals đạt ngưỡng và luồng thanh toán đơn giản hơn hẳn, mang lại cho người mua một hành trình nhanh và nhẹ nhàng hơn từ sản phẩm đến thanh toán.",
+    },
+    techStack: ["Next.js", "React", "Tailwind CSS", "Shopify API"],
+    metrics: [
+      {
+        value: "0.8s",
+        label: { en: "Largest Contentful Paint (LCP)", vi: "Thời gian tải nội dung lớn nhất (LCP)" },
+        source: { en: "Lighthouse mobile core vitals test in production environment", vi: "Kiểm thử chỉ số Core Web Vitals trên di động bằng Lighthouse ở môi trường chạy thật" },
+      },
+      {
+        value: "100/100",
+        label: { en: "Lighthouse Performance & SEO score", vi: "Điểm Hiệu năng & SEO trên Lighthouse" },
+        source: { en: "Lighthouse audit tool version 11 run in CI pipeline", vi: "Công cụ đánh giá Lighthouse phiên bản 11 chạy trong pipeline CI" },
+      },
+    ],
+  },
+  {
+    slug: "legacy-migration",
+    isNda: true,
+    ndaMeta: {
+      en: "Healthcare, 200+ staff, US",
+      vi: "Y tế & Sức khỏe, 200+ nhân sự, Hoa Kỳ",
+    },
+    challenge: {
+      en: "The client ran critical healthcare services on aging legacy systems that were expensive to maintain, vulnerable to security threats, and unable to scale with growing user demand.",
+      vi: "Khách hàng vận hành các dịch vụ y tế quan trọng trên hệ thống cũ kỹ đắt đỏ để bảo trì, dễ bị đe dọa bảo mật và không thể mở rộng theo nhu cầu người dùng tăng.",
+    },
+    approach: {
+      en: "We re-architected the monolithic applications into containerized microservices and automated infrastructure provisioning using Terraform. Zero downtime was maintained by phasing migration.",
+      vi: "Chúng tôi tái cấu trúc ứng dụng nguyên khối thành microservices đóng gói container và tự động hóa hạ tầng bằng Terraform. Việc di chuyển được chia pha để đảm bảo không có thời gian dừng.",
+    },
+    outcome: {
+      en: "The applications transitioned successfully to modern cloud architecture. Operation teams gained a secure, scalable system that requires minimal manual intervention.",
+      vi: "Các ứng dụng chuyển đổi thành công sang kiến trúc đám mây hiện đại. Đội vận hành có được hệ thống bảo mật, dễ mở rộng và giảm thiểu can thiệp thủ công.",
+    },
+    techStack: ["AWS", "Terraform", "Docker", "Node.js"],
+    metrics: [], // Zero metrics to test 'anonymized pattern' AC
+  },
 ];
 
 export type Testimonial = {

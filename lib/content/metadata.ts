@@ -212,6 +212,18 @@ export const routeMetadata: RouteMetadata[] = [
     },
     lastUpdated: "2026-07-12",
   },
+  {
+    route: "/work/legacy-migration",
+    title: {
+      en: "Legacy Cloud Migration Case Study | CyberSkill",
+      vi: "Chuyển đổi hệ thống cũ lên đám mây - Case Study",
+    },
+    description: {
+      en: "How we migrated legacy healthcare systems to a containerized cloud architecture. Transitioned to modern AWS infrastructure with zero downtime.",
+      vi: "Cách chúng tôi di chuyển hệ thống y tế cũ sang kiến trúc đám mây container hóa. Chuyển đổi sang AWS hiện đại mà không mất thời gian dừng.",
+    },
+    lastUpdated: "2026-07-13",
+  },
 ];
 
 /** Resolve metadata for a locale + route. Returns title, description, and OG fields. */

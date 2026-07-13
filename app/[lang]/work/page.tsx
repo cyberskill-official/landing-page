@@ -12,7 +12,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const locale: Locale = isLocale(lang) ? lang : "en";
   return resolveMetadata(locale, "/work");
 }
-
+const tagTranslations: Record<string, Record<Locale, string>> = {
+  "web-apps": { en: "Web apps", vi: "Ứng dụng web" },
+  "mobile-apps": { en: "Mobile apps", vi: "Ứng dụng di động" },
+  "internal-systems": { en: "Internal systems", vi: "Hệ thống nội bộ" },
+};
 export default async function WorkPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : "en";
@@ -42,7 +46,9 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
               <p>{localize(item.result, locale)}</p>
               <ul className="cs-tag-row" role="list">
                 {item.tags.map((t) => (
-                  <li key={t} className="cs-tag">{t}</li>
+                  <li key={t} className="cs-tag">
+                    {tagTranslations[t]?.[locale] ?? t}
+                  </li>
                 ))}
               </ul>
             </article>

@@ -1,64 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { work, company, siteUrl } from "@/lib/content/site";
-import { localize, type LocalizedString } from "@/lib/i18n/types";
+import { work, caseStudyDetails, company, siteUrl } from "@/lib/content/site";
+import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 // One detail page per work item per locale. The narrative below is deliberately
 // generic and honest: no invented client names, exact percentages, or logos.
 // Outcomes stay qualitative, matching the cleared copy in lib/content/site.ts.
-
-type CaseStudy = {
-  challenge: LocalizedString;
-  approach: LocalizedString;
-  outcome: LocalizedString;
-};
-
-const details: Record<string, CaseStudy> = {
-  "operations-platform": {
-    challenge: {
-      en: "The team ran daily operations across a sprawl of spreadsheets. Numbers drifted between copies, handovers were error-prone, and nobody could see the whole pipeline at once.",
-      vi: "Đội ngũ vận hành hằng ngày trên hàng loạt bảng tính rời rạc. Số liệu sai lệch giữa các bản sao, bàn giao dễ nhầm và không ai thấy được toàn bộ luồng công việc cùng lúc.",
-    },
-    approach: {
-      en: "We mapped the real workflow with the people who live in it, then built a web platform around one shared data layer. We shipped in small increments so the team could adopt it without a risky big-bang switch.",
-      vi: "Chúng tôi vẽ lại quy trình thực tế cùng những người trực tiếp sử dụng, rồi xây một nền tảng web dựa trên một lớp dữ liệu dùng chung. Chúng tôi bàn giao theo từng phần nhỏ để đội ngũ tiếp nhận dần mà không phải chuyển đổi rủi ro một lần.",
-    },
-    outcome: {
-      en: "The operations team works from one live view instead of reconciling files by hand, so a handover is a glance at the screen rather than a chase through inboxes.",
-      vi: "Đội vận hành làm việc trên một màn hình theo thời gian thực thay vì đối chiếu tệp bằng tay, nên một lần bàn giao chỉ là nhìn vào màn hình thay vì lục tìm trong hộp thư.",
-    },
-  },
-  "member-mobile-app": {
-    challenge: {
-      en: "Learners needed their lessons on the move, including where the connection was unreliable. A web page alone could not give them a dependable, offline-friendly experience.",
-      vi: "Học viên cần học mọi lúc di chuyển, kể cả nơi kết nối chập chờn. Chỉ một trang web không thể mang lại trải nghiệm ổn định và dùng được khi ngoại tuyến.",
-    },
-    approach: {
-      en: "We built a member app for both stores with offline-first lessons, and wired analytics in from day one so the product team could see how the app behaved in the wild.",
-      vi: "Chúng tôi xây ứng dụng cho học viên trên cả hai store với bài học ưu tiên ngoại tuyến, và gắn phân tích dữ liệu ngay từ đầu để đội sản phẩm thấy được ứng dụng vận hành thực tế ra sao.",
-    },
-    outcome: {
-      en: "The app shipped to both stores on schedule, with crash-free sessions tracked from launch so stability was a number the team could watch, not a guess.",
-      vi: "Ứng dụng phát hành trên cả hai store đúng hẹn, với phiên không lỗi được theo dõi ngay từ ngày ra mắt, nên độ ổn định là một con số đội ngũ quan sát được chứ không phải phỏng đoán.",
-    },
-  },
-  "commerce-portal": {
-    challenge: {
-      en: "An aging storefront was slow to load and awkward to check out on, which quietly cost the brand visitors and orders. Speed and a cleaner path to purchase were the priorities.",
-      vi: "Một cửa hàng trực tuyến cũ kỹ tải chậm và thanh toán rườm rà, âm thầm khiến thương hiệu mất khách và đơn hàng. Tốc độ và một luồng mua hàng gọn hơn là ưu tiên hàng đầu.",
-    },
-    approach: {
-      en: "We rebuilt the portal for speed, trimmed the checkout to the steps that matter, and kept performance honest with Core Web Vitals as a target we measured on every change.",
-      vi: "Chúng tôi dựng lại cổng thương mại để tối ưu tốc độ, rút gọn thanh toán còn những bước thật sự cần thiết, và giữ hiệu năng minh bạch bằng cách lấy Core Web Vitals làm mục tiêu đo trên mỗi thay đổi.",
-    },
-    outcome: {
-      en: "Core Web Vitals came into the green and the checkout path got noticeably simpler, giving shoppers a faster, calmer route from product to purchase.",
-      vi: "Core Web Vitals đạt ngưỡng và luồng thanh toán đơn giản hơn hẳn, mang lại cho người mua một hành trình nhanh và nhẹ nhàng hơn từ sản phẩm đến thanh toán.",
-    },
-  },
-};
 
 export function generateStaticParams() {
   return locales.flatMap((lang) => work.map((item) => ({ lang, slug: item.slug })));
@@ -72,6 +21,12 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return resolveMetadata(locale, `/work/${slug}`);
 }
 
+const tagTranslations: Record<string, Record<Locale, string>> = {
+  "web-apps": { en: "Web apps", vi: "Ứng dụng web" },
+  "mobile-apps": { en: "Mobile apps", vi: "Ứng dụng di động" },
+  "internal-systems": { en: "Internal systems", vi: "Hệ thống nội bộ" },
+};
+
 export default async function WorkDetailPage({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params;
   const locale = isLocale(lang) ? lang : "en";
@@ -79,11 +34,9 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
   if (!item) {
     notFound();
   }
-  const study = details[item.slug];
+  const study = caseStudyDetails.find((d) => d.slug === item.slug);
 
   const base = siteUrl;
-  // Portfolio entries were published with the site launch; modified date tracks
-  // the same until per-item editing is added.
   const published = "2026-06-22";
   const creativeWork = {
     "@context": "https://schema.org",
@@ -96,16 +49,34 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
     keywords: item.tags.join(", "),
     datePublished: published,
     dateModified: published,
-    // Reference the same Organization node emitted by OrganizationJsonLd so the
-    // author and publisher resolve to one entity (FR-SEO-004 clause 4).
     author: { "@type": "Organization", "@id": `${base}/#organization`, name: company.shortName },
     publisher: { "@id": `${base}/#organization` },
   };
 
   const labels =
     locale === "vi"
-      ? { challenge: "Thách thức", approach: "Việc chúng tôi đã làm", outcome: "Kết quả", cta: "Bắt đầu dự án", back: "Quay lại danh sách dự án" }
-      : { challenge: "The challenge", approach: "What we did", outcome: "The outcome", cta: "Start my project", back: "Back to work" };
+      ? {
+          challenge: "Thách thức",
+          approach: "Việc chúng tôi đã làm",
+          outcome: "Kết quả",
+          techStack: "Công nghệ sử dụng",
+          metricsTitle: "Chỉ số kết quả",
+          clientQuote: "Đánh giá từ khách hàng",
+          anonymized: "Mô hình ẩn danh",
+          cta: "Bắt đầu dự án",
+          back: "Quay lại danh sách dự án"
+        }
+      : {
+          challenge: "The challenge",
+          approach: "What we did",
+          outcome: "The outcome",
+          techStack: "Tech stack",
+          metricsTitle: "Measured outcomes",
+          clientQuote: "Client feedback",
+          anonymized: "Anonymized pattern",
+          cta: "Start my project",
+          back: "Back to work"
+        };
 
   return (
     <section className="cs-section">
@@ -119,26 +90,108 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
         />
         <script
           type="application/ld+json"
-           
           dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWork) }}
         />
-        <p className="cs-eyebrow">{item.client}</p>
+        
+        {/* Client identity: handles NDA vs Public Client name */}
+        <p className="cs-eyebrow">
+          {study?.isNda
+            ? (study.ndaMeta ? localize(study.ndaMeta, locale) : item.client)
+            : (study?.clientName || item.client)}
+        </p>
+
         <h1>{localize(item.title, locale)}</h1>
         <p className="cs-section-lead">{localize(item.result, locale)}</p>
+        
+        {/* Category tags localized (FR-CMS-011 §1.5) */}
         <ul className="cs-tag-row" role="list">
           {item.tags.map((t) => (
-            <li key={t} className="cs-tag">{t}</li>
+            <li key={t} className="cs-tag">
+              {tagTranslations[t]?.[locale] ?? t}
+            </li>
           ))}
         </ul>
 
         {study ? (
-          <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "44rem" }}>
-            <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.challenge}</h2>
-            <p>{localize(study.challenge, locale)}</p>
-            <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.approach}</h2>
-            <p>{localize(study.approach, locale)}</p>
-            <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.outcome}</h2>
-            <p>{localize(study.outcome, locale)}</p>
+          <div className="cs-prose-container" style={{ marginTop: "var(--cs-space-12)", maxWidth: "44rem" }}>
+            
+            {/* Anonymized pattern banner if zero metrics are present (FR-CMS-011 §1.2) */}
+            {(!study.metrics || study.metrics.length === 0) && (
+              <div className="cs-anonymized-pattern-banner cs-surface-solid" style={{ padding: "1rem", borderRadius: "var(--cs-radius-md)", marginBottom: "2rem", borderLeft: "4px solid var(--cs-ochre)" }}>
+                <p style={{ margin: 0, fontWeight: "bold" }}>{labels.anonymized}</p>
+                <p style={{ margin: "0.25rem 0 0 0", fontSize: "var(--cs-text-sm)", color: "var(--cs-text-muted)" }}>
+                  {locale === "vi"
+                    ? "Dự án này được mô tả dưới dạng mô hình ẩn danh do thỏa thuận bảo mật (NDA). Mọi chi tiết kỹ thuật và quy trình đều là thực tế."
+                    : "This project is presented as an anonymized pattern due to non-disclosure agreements (NDA). All engineering and process details are real."}
+                </p>
+              </div>
+            )}
+
+            <div className="cs-surface-light cs-prose-card">
+              <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.challenge}</h2>
+              <p>{localize(study.challenge, locale)}</p>
+              <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.approach}</h2>
+              <p>{localize(study.approach, locale)}</p>
+              <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.outcome}</h2>
+              <p>{localize(study.outcome, locale)}</p>
+            </div>
+
+            {/* Tech stack list */}
+            {study.techStack && study.techStack.length > 0 && (
+              <div style={{ marginTop: "2rem" }}>
+                <h3 style={{ fontSize: "var(--cs-text-md)", color: "var(--cs-text-muted)", marginBottom: "0.5rem" }}>{labels.techStack}</h3>
+                <ul className="cs-tag-row" role="list">
+                  {study.techStack.map((tech) => (
+                    <li key={tech} className="cs-tag cs-tag-tech" style={{ background: "var(--cs-surface-light)", border: "1px solid var(--cs-border)" }}>{tech}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Metrics band (FR-CMS-011 §1.1, §1.3) */}
+            {study.metrics && study.metrics.length > 0 && (
+              <div style={{ marginTop: "2.5rem" }}>
+                <h3 style={{ fontSize: "var(--cs-text-md)", color: "var(--cs-text-muted)", marginBottom: "1rem" }}>{labels.metricsTitle}</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))", gap: "1rem" }}>
+                  {study.metrics.map((m, idx) => (
+                    <div key={idx} className="cs-metric-card cs-surface-solid" style={{ padding: "1.25rem", borderRadius: "var(--cs-radius-md)", display: "flex", flexDirection: "column" }}>
+                      <span className="cs-metric-value" style={{ fontSize: "var(--cs-text-2xl)", fontWeight: "bold", color: "var(--cs-ochre)", lineHeight: 1 }}>{m.value}</span>
+                      <span className="cs-metric-label" style={{ fontSize: "var(--cs-text-sm)", fontWeight: "500", marginTop: "0.5rem" }}>{localize(m.label, locale)}</span>
+                      <span className="cs-metric-source" style={{ fontSize: "var(--cs-text-xs)", color: "var(--cs-text-muted)", marginTop: "0.5rem", fontStyle: "italic" }}>
+                        Source: {localize(m.source, locale)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Client quote (FR-CMS-011 §1.1) */}
+            {study.quote && (
+              <blockquote className="cs-blockquote" style={{ borderLeft: "4px solid var(--cs-ochre)", paddingLeft: "1.25rem", margin: "2.5rem 0", fontStyle: "italic" }}>
+                <p style={{ fontSize: "var(--cs-text-lg)", marginBottom: "0.5rem" }}>&ldquo;{localize(study.quote.text, locale)}&rdquo;</p>
+                <cite style={{ fontStyle: "normal", fontSize: "var(--cs-text-sm)", color: "var(--cs-text-muted)" }}>
+                  <strong>{study.quote.author}</strong> — {localize(study.quote.role, locale)}, {study.quote.company}
+                </cite>
+              </blockquote>
+            )}
+
+            {/* Screenshots (FR-CMS-011 §1.1, §1.4) */}
+            {study.screenshots && study.screenshots.length > 0 && (
+              <div style={{ marginTop: "2.5rem" }}>
+                {study.screenshots.map((s, idx) => (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    key={idx}
+                    src={s.url}
+                    alt={localize(s.alt, locale)}
+                    loading="lazy"
+                    style={{ width: "100%", height: "auto", borderRadius: "var(--cs-radius-md)", marginTop: "1rem", border: "1px solid var(--cs-border)" }}
+                  />
+                ))}
+              </div>
+            )}
+
           </div>
         ) : null}
 
