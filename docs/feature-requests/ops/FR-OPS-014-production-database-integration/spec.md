@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-014
 title: "Integrate Prisma PostgreSQL client with connection pooling and secure credentials"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

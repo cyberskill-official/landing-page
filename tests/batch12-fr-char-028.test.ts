@@ -8,8 +8,11 @@ import path from "node:path";
 
 function mockEnv(vars: Record<string, string | undefined>) {
   const original: Record<string, string | undefined> = {};
-  for (const k of Object.keys(vars)) original[k] = process.env[k];
-  Object.assign(process.env, vars);
+  for (const k of Object.keys(vars)) {
+    original[k] = process.env[k];
+    if (vars[k] === undefined) delete process.env[k];
+    else process.env[k] = vars[k];
+  }
   return () => {
     for (const k of Object.keys(vars)) {
       if (original[k] === undefined) delete process.env[k];

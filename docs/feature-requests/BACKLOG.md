@@ -209,7 +209,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 #### OPS
 
 - [ready_to_implement] FR-OPS-012 - Cookieless session replay (Microsoft Clarity), env-gated (improvement) [mixed] - depends: FR-OPS-013
-- [ready_to_implement] FR-OPS-014 - Integrate Prisma PostgreSQL client with connection pooling and secure credentials (improvement) - depends: FR-OPS-005
 - [ready_to_implement] FR-OPS-015 - Implement strict Content-Security-Policy headers in production and report-only in preview (improvement) - depends: FR-OPS-009
 - [ready_to_implement] FR-OPS-016 - Optimize SVG vector assets in build/CI and enforce file-size budgets (improvement) - depends: FR-OPS-001
 - [ready_to_implement] FR-OPS-017 - Expose static CDN Cache-Control headers on sitemaps, feeds, and LLM text routes (improvement) - depends: FR-OPS-005
@@ -361,6 +360,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 - [done] FR-OPS-003 - Vercel deploy config, runbook, and live production at cyberskill.world
 - [done] FR-OPS-006 - Error and exception tracking for client and server
 - [done] FR-OPS-007 - Wire Vercel Speed Insights with the legacy-peer-deps install note
+- [done] FR-OPS-014 - Integrate Prisma PostgreSQL client with connection pooling and secure credentials (improvement)
 
 ## §7 The gate
 
