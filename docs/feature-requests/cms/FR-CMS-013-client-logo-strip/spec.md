@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-013
 title: "Client logo strip, with an honest interim line until logos are cleared"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

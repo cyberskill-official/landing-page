@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-017
 title: "Deepen the work index and careers pages"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

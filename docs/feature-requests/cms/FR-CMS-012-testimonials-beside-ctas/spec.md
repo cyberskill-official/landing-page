@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-012
 title: "Testimonial component placed beside every major CTA"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

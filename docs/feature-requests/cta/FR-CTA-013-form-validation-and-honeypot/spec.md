@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-013
 title: "Mark required fields in the markup, validate, and verify the honeypot"
-status: ready_to_review
+status: done
 class: improvement
 priority: MUST
 owner: agent

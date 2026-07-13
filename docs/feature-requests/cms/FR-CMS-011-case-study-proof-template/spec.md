@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-011
 title: "Work-detail template that can carry proof: metrics band, client quote, screenshots"
-status: ready_to_review
+status: done
 class: improvement
 priority: MUST
 owner: agent

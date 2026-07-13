@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-018
 title: "Public changelog (/now) seeded from real shipped history"
-status: ready_to_review
+status: done
 class: improvement
 priority: COULD
 owner: agent

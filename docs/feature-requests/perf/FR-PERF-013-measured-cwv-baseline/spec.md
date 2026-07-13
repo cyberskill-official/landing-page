@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-013
 title: "Measure and gate real Core Web Vitals: mobile Lighthouse assertions plus field data"
-status: ready_to_review
+status: done
 class: improvement
 priority: MUST
 owner: agent

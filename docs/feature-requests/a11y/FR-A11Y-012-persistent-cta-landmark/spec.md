@@ -1,7 +1,7 @@
 ---
 id: FR-A11Y-012
 title: "Contain the persistent CTA bar in a landmark and keep it clear of content on mobile"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

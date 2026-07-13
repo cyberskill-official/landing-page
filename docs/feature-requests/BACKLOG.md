@@ -85,25 +85,25 @@ dependency, 33 waiting on a human.
 - [done] FR-CTA-010 - Thank-you state with next steps, and a trust line under the form (improvement)
 - [done] FR-CTA-011 - Auto-acknowledgement email to the lead, localized (improvement)
 - [done] FR-CTA-012 - Zalo and WhatsApp one-tap contact chips, config-driven (improvement)
-- [ready_to_review] FR-CTA-013 - Mark required fields in the markup, validate, and verify the honeypot (improvement)
+- [done] FR-CTA-013 - Mark required fields in the markup, validate, and verify the honeypot (improvement)
 
 #### CMS
 
 - [done] FR-CMS-007 - Bilingual insights/notes content collection
-- [ready_to_review] FR-CMS-011 - Work-detail template that can carry proof: metrics band, client quote, screenshots (improvement)
-- [ready_to_review] FR-CMS-012 - Testimonial component placed beside every major CTA (improvement)
-- [ready_to_review] FR-CMS-013 - Client logo strip, with an honest interim line until logos are cleared (improvement)
-- [ready_to_review] FR-CMS-015 - Promote How-we-build into the nav and surface the quality gates as proof (improvement)
-- [ready_to_review] FR-CMS-017 - Deepen the work index and careers pages (improvement)
-- [ready_to_review] FR-CMS-018 - Public changelog (/now) seeded from real shipped history (improvement)
+- [done] FR-CMS-011 - Work-detail template that can carry proof: metrics band, client quote, screenshots (improvement)
+- [done] FR-CMS-012 - Testimonial component placed beside every major CTA (improvement)
+- [done] FR-CMS-013 - Client logo strip, with an honest interim line until logos are cleared (improvement)
+- [done] FR-CMS-015 - Promote How-we-build into the nav and surface the quality gates as proof (improvement)
+- [done] FR-CMS-017 - Deepen the work index and careers pages (improvement)
+- [done] FR-CMS-018 - Public changelog (/now) seeded from real shipped history (improvement)
 
 #### SEO
 
-- [ready_to_review] FR-SEO-010 - Restore word spacing in the machine-readable text of kinetic headings (improvement)
-- [ready_to_review] FR-SEO-011 - Intent-carrying, locale-correct titles and descriptions on every indexable route (improvement)
-- [ready_to_review] FR-SEO-012 - Complete the sitemap and stamp real lastModified dates (improvement)
-- [ready_to_review] FR-SEO-013 - Replace non-descriptive link text ("Learn more") sitewide (improvement)
-- [ready_to_review] FR-SEO-014 - Complete the OpenGraph and Twitter card fields (improvement)
+- [done] FR-SEO-010 - Restore word spacing in the machine-readable text of kinetic headings (improvement)
+- [done] FR-SEO-011 - Intent-carrying, locale-correct titles and descriptions on every indexable route (improvement)
+- [done] FR-SEO-012 - Complete the sitemap and stamp real lastModified dates (improvement)
+- [done] FR-SEO-013 - Replace non-descriptive link text ("Learn more") sitewide (improvement)
+- [done] FR-SEO-014 - Complete the OpenGraph and Twitter card fields (improvement)
 - [done] FR-SEO-015 - Service schema per service page, and Review/AggregateRating once testimonials are verifiable (improvement)
 - [done] FR-SEO-016 - Deepen the three service pages into ranking, converting pages (improvement)
 - [done] FR-SEO-018 - One canonical entity sentence, single-sourced and reused everywhere (improvement)
@@ -112,10 +112,10 @@ dependency, 33 waiting on a human.
 
 #### A11Y
 
-- [ready_to_review] FR-A11Y-010 - Honour prefers-reduced-motion in JavaScript: gate the WebGL scene and particle system (improvement)
+- [done] FR-A11Y-010 - Honour prefers-reduced-motion in JavaScript: gate the WebGL scene and particle system (improvement)
 - [done] FR-A11Y-011 - Meet 44px tap targets and align the wordmark's accessible name with its visible text (improvement)
-- [ready_to_review] FR-A11Y-012 - Contain the persistent CTA bar in a landmark and keep it clear of content on mobile (improvement)
-- [ready_to_review] FR-A11Y-013 - Give the logo and every content image meaningful alt text (improvement)
+- [done] FR-A11Y-012 - Contain the persistent CTA bar in a landmark and keep it clear of content on mobile (improvement)
+- [done] FR-A11Y-013 - Give the logo and every content image meaningful alt text (improvement)
 
 #### PERF
 
@@ -124,7 +124,7 @@ dependency, 33 waiting on a human.
 - [done] FR-PERF-008 - Cut and defer first-load JavaScript (TBT 1,370 ms -> under 300 ms) (improvement)
 - [done] FR-PERF-010 - Serve brand image assets with long immutable caching (improvement)
 - [done] FR-PERF-012 - Pause off-screen and idle animation to protect INP and battery (improvement)
-- [ready_to_review] FR-PERF-013 - Measure and gate real Core Web Vitals: mobile Lighthouse assertions plus field data (improvement)
+- [done] FR-PERF-013 - Measure and gate real Core Web Vitals: mobile Lighthouse assertions plus field data (improvement)
 
 #### OPS
 
