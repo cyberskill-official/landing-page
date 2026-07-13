@@ -14,9 +14,14 @@ import { negotiateLocale } from "@/lib/i18n/negotiate";
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // FR-OPS-009: Generate cryptographically secure base64 nonce for inline scripts.
+  // FR-OPS-009 / FR-OPS-015: Generate cryptographically secure base64 nonce for inline scripts.
   const nonce = crypto.randomUUID ? Buffer.from(crypto.randomUUID()).toString("base64") : "static-nonce-fallback";
-  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
+  
+  const isProduction = process.env.VERCEL_ENV === "production" || process.env.VITEST_FORCE_PROD === "true";
+  const cspHeaderKey = isProduction ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only";
+  const styleSrc = isProduction ? `'self' 'nonce-${nonce}'` : `'self' 'unsafe-inline'`;
+  
+  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com; style-src ${styleSrc}; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
 
   if (pathname === "/") {
     // An explicit switcher choice (cs-locale cookie) wins over header negotiation
@@ -31,7 +36,7 @@ export function proxy(req: NextRequest) {
     headers.set("x-nonce", nonce);
 
     const res = NextResponse.rewrite(url, { request: { headers } });
-    res.headers.set("Content-Security-Policy-Report-Only", cspHeader);
+    res.headers.set(cspHeaderKey, cspHeader);
     return res;
   }
 
@@ -43,7 +48,7 @@ export function proxy(req: NextRequest) {
   headers.set("x-nonce", nonce);
 
   const res = NextResponse.next({ request: { headers } });
-  res.headers.set("Content-Security-Policy-Report-Only", cspHeader);
+  res.headers.set(cspHeaderKey, cspHeader);
   return res;
 }
 

@@ -16,7 +16,7 @@ export default function Loading() {
           height: "48px",
           borderRadius: "50%",
           background: "radial-gradient(circle, #f4ba17 0%, transparent 70%)",
-          animation: "pulse 1.5s infinite ease-in-out",
+          animation: "cs-loading-pulse 1.5s infinite ease-in-out",
           opacity: 0.8,
           marginBottom: "16px"
         }}
@@ -24,13 +24,6 @@ export default function Loading() {
       <p style={{ fontFamily: "var(--font-display)", opacity: 0.7 }}>
         Summoning...
       </p>
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes pulse {
-          0% { transform: scale(0.8); opacity: 0.4; }
-          50% { transform: scale(1.2); opacity: 1; }
-          100% { transform: scale(0.8); opacity: 0.4; }
-        }
-      `}} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-015
 title: "Implement strict Content-Security-Policy headers in production and report-only in preview"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent
