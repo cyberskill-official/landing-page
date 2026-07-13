@@ -209,6 +209,8 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 #### OPS
 
 - [ready_to_implement] FR-OPS-012 - Cookieless session replay (Microsoft Clarity), env-gated (improvement) [mixed] - depends: FR-OPS-013
+- [ready_to_implement] FR-OPS-014 - Integrate Prisma PostgreSQL client with connection pooling and secure credentials (improvement) - depends: FR-OPS-005
+- [ready_to_implement] FR-OPS-015 - Implement strict Content-Security-Policy headers in production and report-only in preview (improvement) - depends: FR-OPS-009
 
 #### BIZ
 
