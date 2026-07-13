@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { NextRequest } from "next/server";
-import { middleware } from "../middleware";
+import { proxy as middleware } from "../proxy";
 
 describe("middleware routing", () => {
   test("routing/root-no-redirect: root path rewrites instead of redirects", () => {

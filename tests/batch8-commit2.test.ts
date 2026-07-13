@@ -1,6 +1,6 @@
 import { expect, test, describe, vi } from "vitest";
 import { NextRequest } from "next/server";
-import { middleware } from "../middleware";
+import { proxy as middleware } from "../proxy";
 import { displayFont } from "@/app/fonts";
 
 describe("Commit 2 tests — FR-PERF-005, FR-PERF-012, FR-OPS-009", () => {
