@@ -11,6 +11,7 @@ import { CosmosCanvas } from "@/components/CosmosCanvas";
 import { CursorTrail } from "@/components/motion/CursorTrail";
 import { displayFont } from "@/app/fonts";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
+import { MotionPreferenceSync } from "@/components/a11y/MotionPreferenceSync";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -82,6 +83,16 @@ export default async function RootLayout({
           // once-per-session intro veil (FR-DS-012) - skipped entirely under
           // prefers-reduced-motion, and without JS the attribute is never set,
           // so the veil stays display:none for crawlers and no-JS visitors.
+          //
+          // suppressHydrationWarning: browsers intentionally clear the `nonce`
+          // *content attribute* right after parsing a script tag (it stays
+          // readable only via the `.nonce` IDL property) so inline CSP nonces
+          // can't be read back out of the DOM. React's hydration diff reads the
+          // attribute, so it always sees "" on the live DOM even though it
+          // rendered the real nonce - a benign, well-known false positive
+          // (https://github.com/facebook/react/issues/29577), not an actual
+          // markup mismatch. suppressHydrationWarning silences just that.
+          suppressHydrationWarning
           nonce={nonce}
           dangerouslySetInnerHTML={{
             __html:
@@ -92,6 +103,12 @@ export default async function RootLayout({
         {/* Permanent cosmos behind the content (z-index 0 < 1), revealed on
             digest. The CSS backdrop is the universal fallback; the 3D canvas
             rides just above it on capable devices for true depth. */}
+        {/* Resolves the real prefers-reduced-motion / cs-motion-reduce state
+            into useMotionStore exactly once, strictly after hydration - see
+            lib/a11y/motion-store.ts for why this can't happen at module scope
+            (that was the source of the DepthField/StoryArc hydration-mismatch
+            errors and the intermittent "Lumi frozen" reports). */}
+        <MotionPreferenceSync />
         <CosmosBackdrop />
         <CosmosCanvas />
         <CursorTrail />

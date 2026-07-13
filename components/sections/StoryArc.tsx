@@ -29,7 +29,22 @@ export function StoryArc({ locale, dict }: { locale: Locale; dict: Dictionary })
   );
 
   return (
-    <section id="story" className="cs-section cs-story" aria-labelledby="story-title">
+    // suppressHydrationWarning: components/scroll/SceneFocus.tsx writes a
+    // scroll-driven `--scene` custom property directly onto every
+    // `.cs-section` node (imperative DOM, outside React's control) as soon as
+    // it can measure layout. On this route that write can land before/while
+    // this section is still hydrating, so React's hydration diff sees a
+    // `style` attribute the server never rendered - a benign, expected
+    // mismatch (the server intentionally omits `--scene`; app/globals.css
+    // falls back to `var(--scene, 1)`, i.e. fully visible, until the client
+    // value lands), not a real markup bug. Same fix as the nonce script in
+    // app/layout.tsx.
+    <section
+      id="story"
+      className="cs-section cs-story"
+      aria-labelledby="story-title"
+      suppressHydrationWarning
+    >
       <div className="cs-container">
         <h2 id="story-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.storyTitle}>
           <KineticText text={dict.sections.storyTitle} />
