@@ -128,7 +128,7 @@ dependency, 33 waiting on a human.
 
 #### OPS
 
-- [ready_to_implement] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement)
+- [ready_to_review] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement)
 - [ready_to_implement] FR-OPS-009 - Add a Content-Security-Policy, report-only first (improvement)
 - [done] FR-OPS-010 - Alert when every lead sink fails, and prove the pipeline weekly with a synthetic lead (improvement) - depends: FR-OPS-006
 - [ready_to_implement] FR-OPS-011 - One event taxonomy across both lead paths, with UTM source capture (improvement)

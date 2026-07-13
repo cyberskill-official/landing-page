@@ -34,8 +34,17 @@ function checkRate(ip: string): { limited: boolean; retryAfter: number } {
   return { limited: b.count > MAX_REQ, retryAfter: Math.ceil((b.resetAt - now) / 1000) };
 }
 
+import { getRequiredEnv } from "@/lib/ops/env";
+
 export async function POST(req: Request) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  let apiKey: string;
+  try {
+    apiKey = getRequiredEnv("ANTHROPIC_API_KEY", true);
+  } catch (err: any) {
+    console.error("[genie] configuration_error", err.message);
+    return NextResponse.json({ error: "configuration_error", message: err.message }, { status: 500 });
+  }
+
   if (!apiKey) {
     // No key configured: tell the client to fall back to the contact form.
     return NextResponse.json({ error: "unavailable" }, { status: 503 });

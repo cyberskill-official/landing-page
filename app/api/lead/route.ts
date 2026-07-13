@@ -3,6 +3,7 @@ import { appendFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { leadSchema } from "@/lib/lead/schema";
 import { company } from "@/lib/content/site";
+import { getRequiredEnv } from "@/lib/ops/env";
 
 export const runtime = "nodejs";
 
@@ -27,6 +28,18 @@ export async function POST(req: Request) {
   }
 
   const lead = parsed.data;
+
+  // Validate production env keys (fail closed if required ones are absent)
+  try {
+    getRequiredEnv("RESEND_API_KEY", true);
+    getRequiredEnv("LEAD_CRM_WEBHOOK_URL", true);
+  } catch (err: any) {
+    console.error("[lead] configuration_error", err.message);
+    return NextResponse.json(
+      { ok: false, error: "configuration_error", message: err.message },
+      { status: 500 }
+    );
+  }
 
   // Honeypot tripped -> pretend success, store nothing.
   if (lead.website && lead.website.length > 0) {

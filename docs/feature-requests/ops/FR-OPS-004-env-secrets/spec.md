@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-004
 title: "Env and secret management across production and preview, with separate keys"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: MUST
 owner: agent
