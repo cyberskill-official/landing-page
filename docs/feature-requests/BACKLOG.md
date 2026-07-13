@@ -89,7 +89,7 @@ dependency, 33 waiting on a human.
 
 #### CMS
 
-- [ready_to_review] FR-CMS-007 - Bilingual insights/notes content collection
+- [done] FR-CMS-007 - Bilingual insights/notes content collection
 - [ready_to_review] FR-CMS-011 - Work-detail template that can carry proof: metrics band, client quote, screenshots (improvement)
 - [ready_to_review] FR-CMS-012 - Testimonial component placed beside every major CTA (improvement)
 - [ready_to_review] FR-CMS-013 - Client logo strip, with an honest interim line until logos are cleared (improvement)
@@ -106,14 +106,14 @@ dependency, 33 waiting on a human.
 - [ready_to_review] FR-SEO-014 - Complete the OpenGraph and Twitter card fields (improvement)
 - [done] FR-SEO-015 - Service schema per service page, and Review/AggregateRating once testimonials are verifiable (improvement)
 - [done] FR-SEO-016 - Deepen the three service pages into ranking, converting pages (improvement)
-- [ready_to_review] FR-SEO-018 - One canonical entity sentence, single-sourced and reused everywhere (improvement)
+- [done] FR-SEO-018 - One canonical entity sentence, single-sourced and reused everywhere (improvement)
 - [done] FR-SEO-019 - Enrich the Organization graph: sameAs, founder, LocalBusiness, and visible profile links (improvement)
 - [done] FR-SEO-020 - Expand the FAQ to 15-20 answerable, citable Q&As (improvement)
 
 #### A11Y
 
 - [ready_to_review] FR-A11Y-010 - Honour prefers-reduced-motion in JavaScript: gate the WebGL scene and particle system (improvement)
-- [ready_to_review] FR-A11Y-011 - Meet 44px tap targets and align the wordmark's accessible name with its visible text (improvement)
+- [done] FR-A11Y-011 - Meet 44px tap targets and align the wordmark's accessible name with its visible text (improvement)
 - [ready_to_review] FR-A11Y-012 - Contain the persistent CTA bar in a landmark and keep it clear of content on mobile (improvement)
 - [ready_to_review] FR-A11Y-013 - Give the logo and every content image meaningful alt text (improvement)
 
@@ -128,7 +128,7 @@ dependency, 33 waiting on a human.
 
 #### OPS
 
-- [ready_to_review] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement)
+- [done] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement)
 - [done] FR-OPS-009 - Add a Content-Security-Policy, report-only first (improvement)
 - [done] FR-OPS-010 - Alert when every lead sink fails, and prove the pipeline weekly with a synthetic lead (improvement) - depends: FR-OPS-006
 - [done] FR-OPS-011 - One event taxonomy across both lead paths, with UTM source capture (improvement)
@@ -146,7 +146,7 @@ dependency, 33 waiting on a human.
 
 - [done] FR-CTA-006 - Map form leads to the CRM via a server-side webhook - depends: FR-OPS-010
 - [done] FR-CTA-014 - Newsletter capture with double opt-in (improvement) - depends: FR-OPS-013
-- [ready_to_review] FR-CTA-020 - Careers talent-pool email capture (improvement) - depends: FR-CTA-014
+- [done] FR-CTA-020 - Careers talent-pool email capture (improvement) - depends: FR-CTA-014
 
 #### CMS
 
