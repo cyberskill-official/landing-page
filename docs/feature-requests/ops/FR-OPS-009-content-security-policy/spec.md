@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-009
 title: "Add a Content-Security-Policy, report-only first"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

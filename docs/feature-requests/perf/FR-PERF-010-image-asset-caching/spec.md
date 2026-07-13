@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-010
 title: "Serve brand image assets with long immutable caching"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

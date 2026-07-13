@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-020
 title: "Expand the FAQ to 15-20 answerable, citable Q&As"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

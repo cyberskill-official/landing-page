@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-011
 title: "Auto-acknowledgement email to the lead, localized"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

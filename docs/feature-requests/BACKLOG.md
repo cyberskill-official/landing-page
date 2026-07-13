@@ -83,8 +83,8 @@ dependency, 33 waiting on a human.
 #### CTA
 
 - [done] FR-CTA-010 - Thank-you state with next steps, and a trust line under the form (improvement)
-- [ready_to_review] FR-CTA-011 - Auto-acknowledgement email to the lead, localized (improvement)
-- [ready_to_review] FR-CTA-012 - Zalo and WhatsApp one-tap contact chips, config-driven (improvement)
+- [done] FR-CTA-011 - Auto-acknowledgement email to the lead, localized (improvement)
+- [done] FR-CTA-012 - Zalo and WhatsApp one-tap contact chips, config-driven (improvement)
 - [ready_to_review] FR-CTA-013 - Mark required fields in the markup, validate, and verify the honeypot (improvement)
 
 #### CMS
@@ -104,11 +104,11 @@ dependency, 33 waiting on a human.
 - [ready_to_review] FR-SEO-012 - Complete the sitemap and stamp real lastModified dates (improvement)
 - [ready_to_review] FR-SEO-013 - Replace non-descriptive link text ("Learn more") sitewide (improvement)
 - [ready_to_review] FR-SEO-014 - Complete the OpenGraph and Twitter card fields (improvement)
-- [ready_to_review] FR-SEO-015 - Service schema per service page, and Review/AggregateRating once testimonials are verifiable (improvement)
-- [ready_to_review] FR-SEO-016 - Deepen the three service pages into ranking, converting pages (improvement)
+- [done] FR-SEO-015 - Service schema per service page, and Review/AggregateRating once testimonials are verifiable (improvement)
+- [done] FR-SEO-016 - Deepen the three service pages into ranking, converting pages (improvement)
 - [ready_to_review] FR-SEO-018 - One canonical entity sentence, single-sourced and reused everywhere (improvement)
-- [ready_to_review] FR-SEO-019 - Enrich the Organization graph: sameAs, founder, LocalBusiness, and visible profile links (improvement)
-- [ready_to_review] FR-SEO-020 - Expand the FAQ to 15-20 answerable, citable Q&As (improvement)
+- [done] FR-SEO-019 - Enrich the Organization graph: sameAs, founder, LocalBusiness, and visible profile links (improvement)
+- [done] FR-SEO-020 - Expand the FAQ to 15-20 answerable, citable Q&As (improvement)
 
 #### A11Y
 
@@ -119,20 +119,20 @@ dependency, 33 waiting on a human.
 
 #### PERF
 
-- [ready_to_review] FR-PERF-005 - Font subset, display, and preload strategy including Vietnamese glyphs (improvement)
+- [done] FR-PERF-005 - Font subset, display, and preload strategy including Vietnamese glyphs (improvement)
 - [done] FR-PERF-007 - Eliminate the mobile hero layout shift (CLS 0.431 -> below 0.1) (improvement)
 - [done] FR-PERF-008 - Cut and defer first-load JavaScript (TBT 1,370 ms -> under 300 ms) (improvement)
-- [ready_to_review] FR-PERF-010 - Serve brand image assets with long immutable caching (improvement)
-- [ready_to_review] FR-PERF-012 - Pause off-screen and idle animation to protect INP and battery (improvement)
+- [done] FR-PERF-010 - Serve brand image assets with long immutable caching (improvement)
+- [done] FR-PERF-012 - Pause off-screen and idle animation to protect INP and battery (improvement)
 - [ready_to_review] FR-PERF-013 - Measure and gate real Core Web Vitals: mobile Lighthouse assertions plus field data (improvement)
 
 #### OPS
 
 - [ready_to_review] FR-OPS-004 - Env and secret management across production and preview, with separate keys (improvement)
-- [ready_to_review] FR-OPS-009 - Add a Content-Security-Policy, report-only first (improvement)
+- [done] FR-OPS-009 - Add a Content-Security-Policy, report-only first (improvement)
 - [done] FR-OPS-010 - Alert when every lead sink fails, and prove the pipeline weekly with a synthetic lead (improvement) - depends: FR-OPS-006
-- [ready_to_review] FR-OPS-011 - One event taxonomy across both lead paths, with UTM source capture (improvement)
-- [ready_to_review] FR-OPS-013 - Decide and implement the consent stance before any non-cookieless tag ships (improvement)
+- [done] FR-OPS-011 - One event taxonomy across both lead paths, with UTM source capture (improvement)
+- [done] FR-OPS-013 - Decide and implement the consent stance before any non-cookieless tag ships (improvement)
 
 ### §2.2 Agent-blocked (waiting on another FR)
 

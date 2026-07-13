@@ -40,6 +40,7 @@ export default async function LocaleLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const hasNewsletter = !!process.env.RESEND_API_KEY;
 
   // The story's acts, mapped to real home-page anchors. The rail hides itself on
   // routes where these anchors do not exist (work, careers, legal pages).
@@ -71,7 +72,7 @@ export default async function LocaleLayout({
       </noscript>
       <SiteHeader locale={lang} dict={dict} />
       <main id="main">{children}</main>
-      <SiteFooter locale={lang} dict={dict} />
+      <SiteFooter locale={lang} dict={dict} hasNewsletter={hasNewsletter} />
       <PersistentCta locale={lang} dict={dict} />
       <GenieChat locale={lang} dict={dict} />
       <LumiHotspot label={dict.genie.open} hint={dict.genie.hint} />

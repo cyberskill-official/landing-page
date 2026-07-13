@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-016
 title: "Deepen the three service pages into ranking, converting pages"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

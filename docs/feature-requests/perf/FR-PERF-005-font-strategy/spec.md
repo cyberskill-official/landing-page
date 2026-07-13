@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-005
 title: "Font subset, display, and preload strategy including Vietnamese glyphs"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent
