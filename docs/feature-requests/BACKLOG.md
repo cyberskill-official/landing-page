@@ -140,7 +140,7 @@ dependency, 33 waiting on a human.
 #### CHAR
 
 - [done] FR-CHAR-027 - On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript - depends: FR-CHAR-026, FR-OPS-010
-- [ready_to_implement] FR-CHAR-028 - Persist chat transcripts and lead records server-side, including partial conversations - depends: FR-OPS-005, FR-OPS-013
+- [ready_to_review] FR-CHAR-028 - Persist chat transcripts and lead records server-side, including partial conversations - depends: FR-OPS-005, FR-OPS-013
 
 #### CTA
 
