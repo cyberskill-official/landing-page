@@ -21,12 +21,14 @@ const nextConfig: NextConfig = {
     // These files never change without a filename change (logo uses semantic
     // versioning via git; models carry a version in their name on any swap).
     const immutable = { key: "Cache-Control", value: "public, max-age=31536000, immutable" };
+    const sitemapCache = { key: "Cache-Control", value: "public, max-age=86400, s-maxage=86400, stale-while-revalidate=3600" };
     const immutableAssets = [
       { source: "/brand/:file*", headers: [immutable] },
       { source: "/models/:file*", headers: [immutable] },
       { source: "/logo.svg", headers: [immutable] },
       { source: "/favicon.svg", headers: [immutable] },
       { source: "/lumi-poster.webp", headers: [immutable] },
+      { source: "/sitemap.xml", headers: [sitemapCache] },
     ];
 
     return [

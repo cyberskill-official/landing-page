@@ -31,9 +31,11 @@ for (const f of publicFiles) {
   const ext = extname(f).toLowerCase();
   const isImage = [".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"].includes(ext);
   const isGlb = ext === ".glb" || ext === ".gltf";
+  const isSvg = ext === ".svg";
   const rel = f.replace(root + "/", "");
   if (isGlb && size > budget.maxGlbKB * KB) failures.push(`${rel}: ${(size / KB) | 0}KB > maxGlbKB ${budget.maxGlbKB}KB`);
   else if (isImage && size > budget.maxImageKB * KB) failures.push(`${rel}: ${(size / KB) | 0}KB > maxImageKB ${budget.maxImageKB}KB`);
+  else if (isSvg && size > budget.maxSvgKB * KB) failures.push(`${rel}: ${(size / KB) | 0}KB > maxSvgKB ${budget.maxSvgKB}KB`);
 }
 if (publicTotal > budget.maxPublicTotalKB * KB) failures.push(`public/ total ${(publicTotal / KB) | 0}KB > maxPublicTotalKB ${budget.maxPublicTotalKB}KB`);
 note(`public/: ${publicFiles.length} files, ${(publicTotal / KB) | 0}KB total`);

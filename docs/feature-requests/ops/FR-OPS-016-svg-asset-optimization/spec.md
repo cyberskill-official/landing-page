@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-016
 title: "Optimize SVG vector assets in build/CI and enforce file-size budgets"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

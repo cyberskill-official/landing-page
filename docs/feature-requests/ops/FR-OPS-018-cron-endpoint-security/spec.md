@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-018
 title: "Secure prune cron API route against spoofing via edge routing and signature validation"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

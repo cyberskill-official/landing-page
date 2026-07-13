@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-017
 title: "Expose static CDN Cache-Control headers on sitemaps, feeds, and LLM text routes"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: agent

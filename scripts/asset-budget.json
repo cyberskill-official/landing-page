@@ -1,6 +1,7 @@
 {
   "maxImageKB": 200,
   "maxGlbKB": 4096,
+  "maxSvgKB": 10,
   "maxPublicTotalKB": 4200,
   "maxClientJsTotalKB": 2800,
   "maxFirstLoadJsKB": 550,
