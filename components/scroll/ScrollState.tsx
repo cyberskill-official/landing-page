@@ -2,12 +2,14 @@
 
 import { useEffect } from "react";
 import { setPageScroll, setScrollProgress } from "@/lib/scroll/progress";
+import { captureUtm } from "@/lib/analytics/taxonomy";
 
 // Adds [data-scrolled="true"] to <html> once the page is scrolled past the top
 // (so the sticky header can solidify) and publishes normalised scroll progress
 // for the 3D scene. Passive listener, rAF-throttled.
 export function ScrollState() {
   useEffect(() => {
+    captureUtm();
     let ticking = false;
     const update = () => {
       ticking = false;

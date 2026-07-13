@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-015
 title: "Service schema per service page, and Review/AggregateRating once testimonials are verifiable"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

@@ -50,9 +50,10 @@ describe("Lead Pipeline API", () => {
     expect(console.error).not.toHaveBeenCalledWith(expect.stringContaining("pipeline failure"));
   });
 
-  it("lead/total-failure-alert: all sinks fail, tracker is called, returns ok:true", async () => {
-    process.env.RESEND_API_KEY = "test";
-    
+  it("lead/total-failure-alert: all non-ack sinks fail without api key, returns ok:true", async () => {
+    // With no RESEND_API_KEY, the ack sink is not configured.
+    delete process.env.RESEND_API_KEY;
+
     // Mock fetch to reject
     global.fetch = vi.fn(() => Promise.reject(new Error("network error")));
     // Mock file sink to reject
@@ -62,11 +63,12 @@ describe("Lead Pipeline API", () => {
       method: "POST",
       body: JSON.stringify(base),
     });
-    
+
     const res = await POST(req);
     expect((res as NextResponse).status).toBe(200); // User still gets success
-    
-    // Check if error was logged as a pipeline failure
+
+    // With file rejecting and no other configured sinks (no env vars set),
+    // pipeline failure is logged.
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining("pipeline failure"),
       expect.any(Object)

@@ -30,13 +30,20 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         ],
       },
       {
+        h: "Consent and Tracking Tags",
+        body: [
+          "No third-party tracking, marketing pixels, or analytics cookies are loaded by default. The site is cookieless.",
+          "Any future optional tags (such as session replay or marketing pixels) will only load if you explicitly grant consent through our consent options. Currently, no such tags are configured or loaded.",
+        ],
+      },
+      {
         h: "Why we collect it",
         body: ["To reply to your enquiry, follow up about your project, and improve the site. We ask for your consent before you submit the form."],
       },
       {
         h: "Who processes it",
         body: [
-          "Chat messages are sent to our AI provider (Anthropic) to generate replies. The site is hosted on Vercel. If you ask us to, we may add your details to our customer records. We do not sell your data.",
+          "Chat messages are sent to our AI provider (Anthropic, LLC in the United States) to generate replies. This constitutes a cross-border data transfer, which we disclose at the point of use before you start the chat. The site hosting is provided by Vercel. If you ask us to, we may add your details to our customer records. We do not sell your data.",
         ],
       },
       {
@@ -47,7 +54,7 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         ],
       },
     ],
-    updated: "Last updated 22 June 2026.",
+    updated: "Last updated 13 July 2026.",
   },
   vi: {
     title: "Quyền riêng tư",
@@ -66,13 +73,20 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         ],
       },
       {
+        h: "Đồng ý và Thẻ theo dõi",
+        body: [
+          "Không có trình theo dõi của bên thứ ba, pixel tiếp thị, hoặc cookie phân tích nào được tải theo mặc định. Website này hoàn toàn không sử dụng cookie.",
+          "Bất kỳ thẻ tùy chọn nào trong tương lai (như ghi hình phiên làm việc hoặc pixel tiếp thị) sẽ chỉ tải nếu bạn đồng ý rõ ràng thông qua tùy chọn đồng ý của chúng tôi. Hiện tại, không có thẻ nào như vậy được định cấu hình hoặc tải.",
+        ],
+      },
+      {
         h: "Vì sao chúng tôi thu thập",
         body: ["Để phản hồi yêu cầu, theo dõi dự án của bạn, và cải thiện website. Chúng tôi xin sự đồng ý của bạn trước khi bạn gửi biểu mẫu."],
       },
       {
         h: "Ai xử lý dữ liệu",
         body: [
-          "Tin nhắn trò chuyện được gửi tới nhà cung cấp AI của chúng tôi (Anthropic) để tạo câu trả lời. Website được lưu trữ trên Vercel. Nếu bạn yêu cầu, chúng tôi có thể thêm thông tin của bạn vào hồ sơ khách hàng. Chúng tôi không bán dữ liệu của bạn.",
+          "Tin nhắn trò chuyện được gửi tới nhà cung cấp AI của chúng tôi (Anthropic, LLC tại Hoa Kỳ) để tạo câu trả lời. Đây là hoạt động chuyển dữ liệu qua biên giới, được chúng tôi thông báo rõ tại điểm sử dụng trước khi bạn bắt đầu trò chuyện. Website được lưu trữ trên Vercel. Nếu bạn yêu cầu, chúng tôi có thể thêm thông tin của bạn vào hồ sơ khách hàng. Chúng tôi không bán dữ liệu của bạn.",
         ],
       },
       {
@@ -83,7 +97,7 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         ],
       },
     ],
-    updated: "Cập nhật lần cuối ngày 22 tháng 6 năm 2026.",
+    updated: "Cập nhật lần cuối ngày 13 tháng 7 năm 2026.",
   },
 };
 

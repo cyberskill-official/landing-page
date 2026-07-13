@@ -1,7 +1,7 @@
 ---
 id: FR-PERF-012
 title: "Pause off-screen and idle animation to protect INP and battery"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { leadSchema } from "@/lib/lead/schema";
 import { company } from "@/lib/content/site";
 import { getRequiredEnv } from "@/lib/ops/env";
+import { buildAckEmail } from "@/lib/email/ack-templates";
 
 export const runtime = "nodejs";
 
@@ -57,6 +58,16 @@ export async function POST(req: Request) {
     message: lead.message || null,
     locale: lead.locale,
     source: lead.source || "unknown",
+    // FR-OPS-011: UTM params forwarded to CRM if present
+    utm: lead.utm_source || lead.utm_medium || lead.utm_campaign || lead.utm_term || lead.utm_content
+      ? {
+          utm_source: lead.utm_source || undefined,
+          utm_medium: lead.utm_medium || undefined,
+          utm_campaign: lead.utm_campaign || undefined,
+          utm_term: lead.utm_term || undefined,
+          utm_content: lead.utm_content || undefined,
+        }
+      : undefined,
   };
 
   // Always log (server-side).
@@ -72,8 +83,10 @@ export async function POST(req: Request) {
     notifyEmail(record, lead.email),
     notifySlack(record),
     lead.source === "synthetic" ? Promise.resolve({ configured: false }) : forwardToCyberOs(record),
+    // FR-CTA-011: Best-effort ack to the lead. Skipped for synthetic.
+    lead.source === "synthetic" ? Promise.resolve({ configured: false }) : notifyLeadAck(lead.email, lead.name, lead.locale),
   ]);
-  const channels = ["file", "email", "slack", "cyberos"];
+  const channels = ["file", "email", "slack", "cyberos", "ack"];
   
   let configuredCount = 0;
   let failedCount = 0;
@@ -198,4 +211,47 @@ async function forwardToCyberOs(record: Record<string, unknown>): Promise<{ conf
     throw new Error(`cyberos ${res.status} ${detail.slice(0, 300)}`);
   }
   return { configured: true };
+}
+
+// FR-CTA-011: Auto-acknowledgement email to the lead.
+// Best-effort only — never throws. Returns configured:false (not a failure) when
+// RESEND_API_KEY is absent so the ack-not-sent case never triggers a pipeline alert.
+// Sends from a human-named sender so the lead can Reply-To directly.
+async function notifyLeadAck(
+  toEmail: string,
+  name: string,
+  locale: string,
+): Promise<{ configured: boolean }> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return { configured: false };
+
+  const safeLocale = locale === "vi" ? "vi" : "en";
+  const bookingUrl = process.env.LEAD_BOOKING_URL || undefined;
+  const { subject, text } = buildAckEmail({ name, locale: safeLocale, bookingUrl });
+
+  const domain = company.email.split("@")[1];
+  const from = process.env.LEAD_ACK_FROM || `${company.phoneContact} at ${company.shortName} <${company.phoneContact.toLowerCase().replace(/[^a-z]/g, "")}@${domain}>`;
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        from,
+        to: [toEmail],
+        reply_to: company.email,
+        subject,
+        text,
+      }),
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      console.warn(`[lead:ack] resend ${res.status} ${detail.slice(0, 200)}`);
+      return { configured: true }; // configured but non-fatal failure
+    }
+    return { configured: true };
+  } catch (err) {
+    console.warn("[lead:ack] failed to send ack email", err);
+    return { configured: true }; // configured but non-fatal failure
+  }
 }

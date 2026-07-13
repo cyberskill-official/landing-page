@@ -8,6 +8,7 @@ import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 import { Icon } from "@/components/ui/Icon";
 import { KineticText } from "@/components/motion/KineticText";
 import { Testimonial } from "@/components/ui/Testimonial";
+import { MessagingChips } from "@/components/cta/MessagingChips";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -48,6 +49,8 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
             </li>
             <li>{company.address}</li>
           </ul>
+
+          <MessagingChips locale={locale} location="contact-section" />
 
           {testimonials.length > 0 && (
             <div style={{ marginTop: "var(--cs-space-lg)" }}>

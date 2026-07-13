@@ -17,6 +17,18 @@ const nextConfig: NextConfig = {
   // strict typed routes off avoids friction while the route set is in flux.
   experimental: {},
   async headers() {
+    // FR-PERF-010: content-stable public assets with immutable caching.
+    // These files never change without a filename change (logo uses semantic
+    // versioning via git; models carry a version in their name on any swap).
+    const immutable = { key: "Cache-Control", value: "public, max-age=31536000, immutable" };
+    const immutableAssets = [
+      { source: "/brand/:file*", headers: [immutable] },
+      { source: "/models/:file*", headers: [immutable] },
+      { source: "/logo.svg", headers: [immutable] },
+      { source: "/favicon.svg", headers: [immutable] },
+      { source: "/lumi-poster.webp", headers: [immutable] },
+    ];
+
     return [
       {
         // Baseline security headers for the whole site.
@@ -30,6 +42,7 @@ const nextConfig: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), browsing-topics=()" },
         ],
       },
+      ...immutableAssets,
     ];
   },
 };

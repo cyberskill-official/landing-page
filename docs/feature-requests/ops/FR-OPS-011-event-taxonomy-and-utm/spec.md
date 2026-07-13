@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-011
 title: "One event taxonomy across both lead paths, with UTM source capture"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

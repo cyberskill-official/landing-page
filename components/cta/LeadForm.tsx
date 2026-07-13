@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { leadSchema, type LeadInput } from "@/lib/lead/schema";
-import { track } from "@/lib/analytics";
+import { emit, readUtm } from "@/lib/analytics/taxonomy";
 import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -44,7 +44,7 @@ export function LeadForm({
   function markStarted() {
     if (!startedRef.current) {
       startedRef.current = true;
-      track("form_start", { source });
+      emit("form_started", { formId: source });
     }
   }
 
@@ -52,7 +52,7 @@ export function LeadForm({
     function reportAbandon() {
       if (startedRef.current && !submittedRef.current && !abandonedRef.current) {
         abandonedRef.current = true;
-        track("lead_abandoned", { source });
+        emit("form_abandoned", { formId: source });
       }
     }
     window.addEventListener("pagehide", reportAbandon);
@@ -73,15 +73,21 @@ export function LeadForm({
 
   async function onSubmit(values: LeadInput) {
     setStatus("submitting");
+    const utm = readUtm();
+    // FR-OPS-011: append UTM fields if captured from session
+    const payload = {
+      ...values,
+      ...utm,
+    };
     try {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         submittedRef.current = true;
-        track("lead_submitted", { source });
+        emit("lead_submitted", { source: source as any, locale, utm });
         // The wish is granted: Lumi (when mounted) celebrates with a burst.
         window.dispatchEvent(new CustomEvent(WISH_GRANTED_EVENT));
       }

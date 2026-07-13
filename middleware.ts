@@ -9,6 +9,10 @@ import { negotiateLocale } from "@/lib/i18n/negotiate";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // FR-OPS-009: Generate cryptographically secure base64 nonce for inline scripts.
+  const nonce = crypto.randomUUID ? Buffer.from(crypto.randomUUID()).toString("base64") : "static-nonce-fallback";
+  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
+
   if (pathname === "/") {
     // An explicit switcher choice (cs-locale cookie) wins over header negotiation
     // so a returning reader is never re-routed against their selection (FR-WEB-004).
@@ -19,8 +23,11 @@ export function middleware(req: NextRequest) {
     
     const headers = new Headers(req.headers);
     headers.set("x-cs-locale", target);
+    headers.set("x-nonce", nonce);
     
-    return NextResponse.rewrite(url, { request: { headers } });
+    const res = NextResponse.rewrite(url, { request: { headers } });
+    res.headers.set("Content-Security-Policy-Report-Only", cspHeader);
+    return res;
   }
 
   const seg = pathname.split("/")[1];
@@ -28,10 +35,15 @@ export function middleware(req: NextRequest) {
 
   const headers = new Headers(req.headers);
   headers.set("x-cs-locale", locale);
-  return NextResponse.next({ request: { headers } });
+  headers.set("x-nonce", nonce);
+
+  const res = NextResponse.next({ request: { headers } });
+  res.headers.set("Content-Security-Policy-Report-Only", cspHeader);
+  return res;
 }
 
 export const config = {
   // Skip API, Next internals, and any path with a file extension.
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)"],
 };
+

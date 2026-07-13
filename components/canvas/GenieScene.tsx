@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, Lightformer, Sparkles, Trail, useGLTF } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette, SMAA, ToneMapping } from "@react-three/postprocessing";
@@ -473,6 +473,47 @@ function WishGrid() {
 export function GenieScene() {
   const isLight = useThemeMode() === "light";
   const trailAnchor = useRef<THREE.Object3D>(null!);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
+  const [focused, setFocused] = useState(true);
+
+  useEffect(() => {
+    // FR-PERF-012: Pause R3F render loop when document hidden or tab loses focus
+    const onVisibility = () => {
+      setVisible(!document.hidden);
+    };
+    const onFocus = () => setFocused(true);
+    const onBlur = () => setFocused(false);
+
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("blur", onBlur);
+
+    // Initial check
+    setVisible(!document.hidden);
+    if (typeof document !== "undefined") {
+      setFocused(document.hasFocus());
+    }
+
+    // FR-PERF-012: Pause R3F render loop when canvas container leaves viewport
+    const el = containerRef.current;
+    let observer: IntersectionObserver | null = null;
+    if (el) {
+      observer = new IntersectionObserver(([entry]) => {
+        setVisible(entry.isIntersecting && !document.hidden);
+      }, { threshold: 0 });
+      observer.observe(el);
+    }
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("blur", onBlur);
+      observer?.disconnect();
+    };
+  }, []);
+
+  const active = visible && focused;
 
   // Feed the normalized pointer from a WINDOW listener. r3f's own pointer
   // tracking needs its canvas to receive pointer events, but this canvas is
@@ -490,13 +531,15 @@ export function GenieScene() {
   }, []);
 
   return (
-    <Canvas
-      className="cs-canvas"
-      dpr={[1, 2]}
-      flat
-      camera={{ position: [0, 0, CAM_Z], fov: CAM_FOV }}
-      gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
-    >
+    <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
+      <Canvas
+        className="cs-canvas"
+        dpr={[1, 2]}
+        flat
+        frameloop={active ? "always" : "never"}
+        camera={{ position: [0, 0, CAM_Z], fov: CAM_FOV }}
+        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+      >
       <ambientLight intensity={0.45} />
       <directionalLight position={[3, 4, 5]} intensity={0.6} color="#fff4d6" />
       <pointLight position={[-4, -2, 1]} intensity={0.5} color="#F4BA17" distance={14} />
@@ -560,5 +603,6 @@ export function GenieScene() {
         <SMAA />
       </EffectComposer>
     </Canvas>
+  </div>
   );
 }

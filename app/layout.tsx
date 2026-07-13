@@ -1,6 +1,5 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk } from "next/font/google";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -10,18 +9,7 @@ import { company, siteUrl } from "@/lib/content/site";
 import { CosmosBackdrop } from "@/components/CosmosBackdrop";
 import { CosmosCanvas } from "@/components/CosmosCanvas";
 import { CursorTrail } from "@/components/motion/CursorTrail";
-
-// Display face (FR-DS-008): Space Grotesk with the REAL Vietnamese subset.
-// The old system-serif stack (Iowan Old Style/Palatino) lacks Vietnamese
-// diacritics, so VN headings fell back per-glyph and rendered as a mix of
-// typefaces. next/font self-hosts the files at build time (keyless, no
-// runtime request to Google) and generates a size-adjusted fallback so the
-// swap does not shift layout.
-const displayFont = Space_Grotesk({
-  subsets: ["latin", "vietnamese"],
-  display: "optional",
-  variable: "--font-display",
-});
+import { displayFont } from "@/app/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -79,6 +67,7 @@ export default async function RootLayout({
   const h = await headers();
   const headerLocale = h.get("x-cs-locale") ?? defaultLocale;
   const locale = isLocale(headerLocale) ? headerLocale : defaultLocale;
+  const nonce = h.get("x-nonce") ?? undefined;
 
   return (
     // Dark is the default theme (operator decision 2026-07-02): the gold-on-
@@ -88,10 +77,12 @@ export default async function RootLayout({
       <Script
         strategy="lazyOnload"
         src="https://www.googletagmanager.com/gtag/js?id=G-C5VJCLKZE7"
+        nonce={nonce}
       />
       <Script
         id="ga4"
         strategy="lazyOnload"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
@@ -107,6 +98,7 @@ export default async function RootLayout({
           // once-per-session intro veil (FR-DS-012) - skipped entirely under
           // prefers-reduced-motion, and without JS the attribute is never set,
           // so the veil stays display:none for crawlers and no-JS visitors.
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html:
               "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();" +

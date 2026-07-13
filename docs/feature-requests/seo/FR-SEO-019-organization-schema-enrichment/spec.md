@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-019
 title: "Enrich the Organization graph: sameAs, founder, LocalBusiness, and visible profile links"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

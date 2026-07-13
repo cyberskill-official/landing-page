@@ -30,6 +30,40 @@ export const company = {
     en: "CyberSkill is a software company in Ho Chi Minh City, Vietnam, founded in 2020, building web applications, mobile apps, and internal systems for businesses worldwide.",
     vi: "CyberSkill là công ty phần mềm tại TP. Hồ Chí Minh, Việt Nam, thành lập năm 2020, chuyên xây dựng ứng dụng web, ứng dụng di động và hệ thống nội bộ cho doanh nghiệp toàn cầu.",
   } satisfies LocalizedString,
+
+  // FR-SEO-019: External profile URLs for sameAs and footer social row.
+  // Only populated URLs are emitted — never placeholder or aspirational links.
+  // Add a URL here when the profile is live; remove to hide it everywhere.
+  profiles: {
+    linkedin: "https://www.linkedin.com/company/cyberskill-world",
+    github: "https://github.com/cyberskill-world",
+    // zalo: "",   // Add Zalo OA URL when created (FR-BIZ-007)
+    // facebook: "", // Add Facebook page URL when created (FR-BIZ-007)
+    // clutch: "",  // Add Clutch profile URL when claimed (FR-BIZ-005)
+  } as Record<string, string>,
+
+  // FR-SEO-019: Founder record for Person JSON-LD node.
+  founder: {
+    name: "Stephen (Mr. Stephen)",
+    url: "https://www.linkedin.com/in/stephencheng",
+  },
+
+  // FR-SEO-019: Geo coordinates for the Tan Dinh Ward office address.
+  // Verified against: 207A Nguyen Van Thu St, Tan Dinh Ward, District 1, HCMC.
+  geo: {
+    lat: 10.7909,
+    lng: 106.6929,
+  },
+
+  // FR-SEO-019: Opening hours for LocalBusiness JSON-LD.
+  openingHours: ["Mo-Fr 09:00-18:00"],
+
+  // FR-CTA-012: Messaging app contact channels. Config-driven — only set
+  // channels are rendered (contact section + footer chip row).
+  contacts: {
+    // whatsapp: "84906878091", // E.164 without '+', set when OA is live
+    // zalo: "https://zalo.me/...", // Set when Zalo OA link is live (FR-BIZ-007)
+  } as Record<string, string>,
 };
 
 // The canonical production origin for every absolute URL the site emits -
@@ -161,27 +195,137 @@ export type FaqItem = {
 };
 
 export const faqs: FaqItem[] = [
+  // --- What we do & where we are ---
   {
-    q: { en: "What does CyberSkill do?", vi: "CyberSkill làm gì?" },
-    a: { en: "We are a software solutions consultancy. We build web applications, mobile applications, and internal software systems.", vi: "Chúng tôi là công ty tư vấn giải pháp phần mềm. Chúng tôi xây dựng ứng dụng web, ứng dụng di động và hệ thống phần mềm nội bộ." },
+    q: { en: "What does CyberSkill build?", vi: "CyberSkill xây dựng gì?" },
+    a: {
+      en: "CyberSkill builds web applications, mobile applications, and internal software systems for businesses. We are a software consultancy based in Ho Chi Minh City, founded in 2020, and we work with clients across Vietnam and internationally.",
+      vi: "CyberSkill xây dựng ứng dụng web, ứng dụng di động và hệ thống phần mềm nội bộ cho doanh nghiệp. Chúng tôi là công ty tư vấn phần mềm tại TP. Hồ Chí Minh, thành lập năm 2020, làm việc với khách hàng trong nước lẫn quốc tế.",
+    },
   },
   {
     q: { en: `Where is CyberSkill based?`, vi: `CyberSkill đặt trụ sở ở đâu?` },
-    a: { en: `We are based in ${company.city}, ${company.country}, and work with clients in Vietnam and internationally.`, vi: `Trụ sở của chúng tôi ở ${company.city}, ${company.country}; chúng tôi làm việc với khách hàng trong nước lẫn quốc tế.` },
+    a: {
+      en: `We are based at ${company.address}. Our team works from Ho Chi Minh City and collaborates with clients in Vietnam, Southeast Asia, Europe, and North America.`,
+      vi: `Chúng tôi có văn phòng tại ${company.address}. Đội ngũ của chúng tôi làm việc tại TP. Hồ Chí Minh và hợp tác với khách hàng ở Việt Nam, Đông Nam Á, châu Âu và Bắc Mỹ.`,
+    },
   },
+  // --- How to start ---
   {
     q: { en: "How do I start a project?", vi: "Làm sao để bắt đầu một dự án?" },
-    a: { en: `Send a short note through the contact form or chat with Lumi. We reply within one business day. You can also email ${company.email}.`, vi: `Gửi một lời nhắn ngắn qua biểu mẫu liên hệ, hoặc trò chuyện với Lumi. Chúng tôi phản hồi trong một ngày làm việc. Bạn cũng có thể email tới ${company.email}.` },
+    a: {
+      en: `Send a short note through the contact form or chat with Lumi — describe the problem you want to solve. We reply within one business day. You can also email ${company.email} directly.`,
+      vi: `Gửi một lời nhắn qua biểu mẫu liên hệ, hoặc trò chuyện với Lumi — mô tả vấn đề bạn muốn giải quyết. Chúng tôi phản hồi trong một ngày làm việc. Bạn cũng có thể email trực tiếp tới ${company.email}.`,
+    },
   },
+  {
+    q: { en: "What happens in the first two weeks?", vi: "Hai tuần đầu tiên diễn ra như thế nào?" },
+    a: {
+      en: "In the first two weeks we run a scoping session to understand your goals and constraints, agree on a backlog of the first increment, confirm the tech stack, and share a written summary of what we will build, what we will not, and why. No code is written until we both agree on the scope.",
+      vi: "Trong hai tuần đầu, chúng tôi tổ chức buổi xác định phạm vi để hiểu mục tiêu và ràng buộc của bạn, thống nhất backlog cho phần đầu tiên, xác nhận công nghệ, và chia sẻ bản tóm tắt bằng văn bản về những gì chúng tôi sẽ xây và không xây, cùng lý do. Không có dòng code nào được viết cho đến khi cả hai đồng thuận về phạm vi.",
+    },
+  },
+  // --- Reply speed & communication ---
   {
     q: { en: "How fast do you reply?", vi: "Bạn phản hồi nhanh thế nào?" },
-    a: { en: "Within one business day. If the request is clear, you will usually hear back from a person, not an autoresponder.", vi: "Trong một ngày làm việc. Nếu yêu cầu đã rõ ràng, người trả lời bạn thường là một người thật, không phải thư tự động." },
+    a: {
+      en: "Within one business day. If the request is clear, you will usually hear back from a person — not an autoresponder. For urgent production issues we aim for same-day acknowledgement.",
+      vi: "Trong một ngày làm việc. Nếu yêu cầu đã rõ ràng, người trả lời bạn thường là một người thật, không phải thư tự động. Với các sự cố sản xuất khẩn cấp, chúng tôi phấn đấu phản hồi trong ngày.",
+    },
   },
+  // --- International clients & time zones ---
   {
     q: { en: "Do you work with international clients?", vi: "Bạn có làm việc với khách hàng quốc tế không?" },
-    a: { en: "Yes. We work in English and Vietnamese, and we are used to working across time zones.", vi: "Có. Chúng tôi làm việc bằng cả tiếng Anh và tiếng Việt, và đã quen phối hợp qua nhiều múi giờ." },
+    a: {
+      en: "We work with international clients across various regions, communicating in English and Vietnamese, and our team is accustomed to asynchronous communication across time zones — EU, APAC, and North America. Key reviews and demos are scheduled to fit your working hours.",
+      vi: "Chúng tôi hợp tác với các đối tác quốc tế bằng tiếng Anh và tiếng Việt, và đội ngũ của chúng tôi đã quen với giao tiếp không đồng bộ qua nhiều múi giờ — EU, APAC và Bắc Mỹ. Các buổi review và demo quan trọng được sắp xếp theo giờ làm việc của bạn.",
+    },
+  },
+  {
+    q: { en: "What is your time-zone overlap with clients in Europe or North America?", vi: "Múi giờ làm việc của bạn có khớp với khách hàng ở châu Âu hay Bắc Mỹ không?" },
+    a: {
+      en: "We are UTC+7 (Indochina Time). With Europe (CET/CEST) we share a 2–4 hour morning overlap. With North America we work asynchronously, with a shared window available in the early HCMC morning. We have delivered projects for clients on all continents using this model.",
+      vi: "Chúng tôi ở múi giờ UTC+7 (Giờ Đông Dương). Với châu Âu (CET/CEST) chúng tôi có khoảng 2–4 tiếng giao thoa buổi sáng. Với Bắc Mỹ, chúng tôi làm việc không đồng bộ, có cửa sổ chung vào sáng sớm tại HCMC. Chúng tôi đã giao nhiều dự án cho khách hàng ở tất cả các châu lục theo mô hình này.",
+    },
+  },
+  // --- Team & seniority ---
+  {
+    q: { en: "Who will be working on my project?", vi: "Ai sẽ làm dự án của tôi?" },
+    a: {
+      en: "Senior engineers own the work from the first call to production. We do not staff junior-heavy teams and bill at senior rates. You will know exactly who is building what and why — the same people stay with the project, not a revolving team.",
+      vi: "Các kỹ sư cấp cao chịu trách nhiệm từ cuộc gọi đầu tiên đến khi sản phẩm ra thật. Chúng tôi không dùng đội nhiều junior để tính giá senior. Bạn sẽ biết chính xác ai đang xây phần nào và vì sao — cùng những con người đó suốt dự án, không luân chuyển.",
+    },
+  },
+  {
+    q: { en: "What is the English level of your team?", vi: "Trình độ tiếng Anh của đội ngũ ra sao?" },
+    a: {
+      en: "Our team communicates comfortably in English — meetings, code reviews, documentation, and written handoffs are all in English with international clients. We also work fully in Vietnamese for local clients.",
+      vi: "Đội ngũ của chúng tôi giao tiếp tiếng Anh thoải mái — họp, review code, tài liệu và bàn giao bằng văn bản đều bằng tiếng Anh khi làm việc với khách hàng quốc tế. Với khách hàng trong nước, chúng tôi làm việc hoàn toàn bằng tiếng Việt.",
+    },
+  },
+  // --- Preferred stacks ---
+  {
+    q: { en: "What tech stacks do you work with?", vi: "Bạn làm việc với công nghệ nào?" },
+    a: {
+      en: "Our preferred stack is TypeScript/Node.js for the backend, React and Next.js for web frontends, Flutter for mobile, and PostgreSQL or a document store for data. We favour proven, maintainable tools over novelty. For internal systems we also work with Python and Go when they fit the problem better.",
+      vi: "Stack ưa thích của chúng tôi là TypeScript/Node.js cho backend, React và Next.js cho web frontend, Flutter cho mobile, và PostgreSQL hoặc document store cho dữ liệu. Chúng tôi ưu tiên công cụ đã kiểm chứng, dễ bảo trì hơn là công nghệ mới lạ. Với hệ thống nội bộ, chúng tôi cũng dùng Python và Go khi phù hợp hơn.",
+    },
+  },
+  // --- Maintenance & handover ---
+  {
+    q: { en: "Do you offer maintenance and support after launch?", vi: "Bạn có hỗ trợ sau khi ra mắt không?" },
+    a: {
+      en: "We offer ongoing maintenance and support engagements after launch — fixing bugs, keeping dependencies current, and adding features as the product evolves. We can also hand the system over cleanly to your in-house team with full documentation and an onboarding session.",
+      vi: "Chúng tôi cung cấp gói bảo trì và hỗ trợ liên tục sau khi bàn giao dự án — sửa lỗi, cập nhật thư viện, và bổ sung tính năng khi sản phẩm phát triển. Chúng tôi cũng có thể bàn giao hệ thống gọn gàng cho đội nội bộ của bạn với đầy đủ tài liệu và buổi onboarding.",
+    },
+  },
+  {
+    q: { en: "Can you take over an existing codebase?", vi: "Bạn có thể tiếp nhận một dự án đang có sẵn không?" },
+    a: {
+      en: "We routinely take over and remediate existing code bases — we start with a structured technical assessment (what works, what is fragile, what is missing), agree on a remediation and feature roadmap, then work alongside or replace the previous arrangement. We have a standard intake process for this.",
+      vi: "Chúng tôi thường xuyên tiếp nhận codebase hiện có — chúng tôi bắt đầu bằng một đánh giá kỹ thuật có cấu trúc (cái gì đang chạy, cái gì đang mong manh, cái gì còn thiếu), thống nhất lộ trình khắc phục và phát triển tính năng, rồi làm việc song song hoặc thay thế bố trí cũ. Chúng tôi có quy trình tiếp nhận chuẩn cho việc này.",
+    },
+  },
+  // --- IP, NDAs & contracts ---
+  {
+    q: { en: "Who owns the intellectual property at the end of a project?", vi: "Ai sở hữu sản phẩm trí tuệ sau khi dự án kết thúc?" },
+    a: {
+      en: "You own all intellectual property at the end of the project. On final payment, all code, design assets, and documentation we create for your project transfer to you with no restrictions. We retain no licence to use your proprietary work.",
+      vi: "Bạn sở hữu toàn bộ tài sản trí tuệ khi dự án kết thúc. Khi thanh toán cuối cùng hoàn tất, toàn bộ code, tài sản thiết kế và tài liệu chúng tôi tạo ra cho dự án của bạn đều chuyển sang cho bạn mà không có ràng buộc nào. Chúng tôi không giữ bất kỳ giấy phép nào để sử dụng công việc độc quyền của bạn.",
+    },
+  },
+  {
+    q: { en: "Can you sign an NDA?", vi: "Bạn có ký NDA không?" },
+    a: {
+      en: "We sign mutual NDAs as standard before any detailed technical discussion. Our template is available on request; we are equally comfortable signing yours.",
+      vi: "Chúng tôi ký NDA song phương như tiêu chuẩn trước bất kỳ cuộc thảo luận kỹ thuật chi tiết nào. Mẫu của chúng tôi có sẵn theo yêu cầu; chúng tôi cũng sẵn sàng ký mẫu của bạn.",
+    },
+  },
+  // --- Timelines ---
+  {
+    q: { en: "What is a typical project timeline?", vi: "Thời gian thực hiện dự án thường là bao lâu?" },
+    a: {
+      en: "A focused MVP or first increment typically takes 6–12 weeks from scoping to a production-ready release, depending on scope and complexity. We work in short iterations so you see progress every 1–2 weeks — not just at the end.",
+      vi: "Một MVP tập trung hoặc phần đầu tiên thường mất 6–12 tuần từ giai đoạn xác định phạm vi đến khi ra mắt sẵn sàng cho sản xuất, tuỳ thuộc vào quy mô và độ phức tạp. Chúng tôi làm việc theo chu kỳ ngắn để bạn thấy tiến độ mỗi 1–2 tuần — không chỉ vào cuối dự án.",
+    },
+  },
+  // --- Privacy & data ---
+  {
+    q: { en: "How does your AI chat (Lumi) handle my data?", vi: "Chat AI (Lumi) xử lý dữ liệu của tôi như thế nào?" },
+    a: {
+      en: "Messages you send to Lumi are forwarded to Anthropic's API to generate a reply. This is a cross-border transfer (Vietnam → US) disclosed before your first message. We do not use your chat messages for training data, we do not sell them, and they are retained only as long as needed to support the conversation and follow-up. Please do not share confidential credentials or sensitive personal data in the chat.",
+      vi: "Tin nhắn bạn gửi cho Lumi được chuyển đến API của Anthropic để tạo ra phản hồi. Đây là chuyển dữ liệu qua biên giới (Việt Nam → Mỹ) được thông báo trước khi bạn gửi tin nhắn đầu tiên. Chúng tôi không dùng tin nhắn chat của bạn để huấn luyện mô hình, không bán dữ liệu này, và chỉ lưu trữ trong thời gian cần thiết để hỗ trợ cuộc trò chuyện và theo dõi. Vui lòng không chia sẻ thông tin xác thực bí mật hoặc dữ liệu cá nhân nhạy cảm trong chat.",
+    },
+  },
+  {
+    q: { en: "Does your site use cookies or tracking?", vi: "Website của bạn có dùng cookie hay theo dõi người dùng không?" },
+    a: {
+      en: "No third-party cookies and no cross-site tracking. We collect anonymous, first-party usage events (page views and button clicks) to understand how the site is used. Your theme and language preferences are stored locally in your browser only — never on our servers.",
+      vi: "Không có cookie của bên thứ ba và không theo dõi chéo trang web. Chúng tôi thu thập các sự kiện sử dụng ẩn danh, nội bộ (lượt xem trang và nhấp chuột) để hiểu cách sử dụng trang web. Cài đặt giao diện và ngôn ngữ của bạn chỉ được lưu cục bộ trong trình duyệt — không bao giờ trên máy chủ của chúng tôi.",
+    },
   },
 ];
+
 
 export type WorkItem = {
   slug: string;
@@ -381,6 +525,7 @@ export type Testimonial = {
   author: string;
   role: LocalizedString;
   company: string;
+  rating?: number; // FR-SEO-015: Optional star rating (e.g., 5)
   translation?: LocalizedString;
   permission?: {
     grantedBy: string;
@@ -538,3 +683,6 @@ export const scenes: Scene[] = [
     },
   },
 ];
+
+export { serviceDetails } from "./services";
+

@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-013
 title: "Decide and implement the consent stance before any non-cookieless tag ships"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

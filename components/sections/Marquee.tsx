@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { Icon } from "@/components/ui/Icon";
 
@@ -7,11 +10,33 @@ import { Icon } from "@/components/ui/Icon";
 // as real, accessible content. The loop is CSS-only (translate3d on a
 // max-content track, two identical halves for a seamless -50% wrap), pauses on
 // hover, and freezes under prefers-reduced-motion.
+//
+// FR-PERF-012: The CSS animation is paused when the section is off-screen to
+// conserve CPU and battery.
 export function Marquee({ dict }: { dict: Dictionary }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const items = dict.marquee.items;
   return (
-    <div className="cs-marquee cs-no-print" aria-hidden="true">
-      <div className="cs-marquee-track">
+    <div ref={containerRef} className="cs-marquee cs-no-print" aria-hidden="true">
+      <div
+        className="cs-marquee-track"
+        style={{ animationPlayState: visible ? "running" : "paused" }}
+      >
         {[0, 1].map((half) => (
           <div className="cs-marquee-half" key={half}>
             {items.map((item, i) => (
@@ -26,3 +51,4 @@ export function Marquee({ dict }: { dict: Dictionary }) {
     </div>
   );
 }
+

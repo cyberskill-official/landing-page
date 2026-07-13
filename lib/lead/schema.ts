@@ -43,6 +43,12 @@ export const leadSchema = z.object({
   locale: z.enum(["en", "vi"]),
   // Optional source tag (e.g. "hero", "footer", "genie").
   source: z.string().max(40).optional(),
+  // FR-OPS-011: Optional UTM parameters for campaign attribution.
+  utm_source: z.string().max(100).optional(),
+  utm_medium: z.string().max(100).optional(),
+  utm_campaign: z.string().max(100).optional(),
+  utm_term: z.string().max(100).optional(),
+  utm_content: z.string().max(100).optional(),
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;

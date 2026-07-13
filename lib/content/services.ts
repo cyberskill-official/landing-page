@@ -1,0 +1,425 @@
+import type { LocalizedString } from "@/lib/i18n/types";
+
+export type ServiceDetail = {
+  metaTitle: LocalizedString;
+  metaDescription: LocalizedString;
+  lead: LocalizedString;
+  forWho: LocalizedString;
+  scopeIntro: LocalizedString;
+  scopeItems: { title: LocalizedString; description: LocalizedString }[];
+  processIntro: LocalizedString;
+  processSteps: { title: LocalizedString; body: LocalizedString }[];
+  timeline: LocalizedString;
+  engagementIntro: LocalizedString;
+  engagementModels?: { title: LocalizedString; description: LocalizedString; startingRange?: LocalizedString; timeline?: LocalizedString }[];
+  stack: LocalizedString;
+  faqs: { q: LocalizedString; a: LocalizedString }[];
+};
+
+export const serviceDetails: Record<string, ServiceDetail> = {
+  "web-apps": {
+    metaTitle: {
+      en: "Web Application Development Services — CyberSkill",
+      vi: "Dịch Vụ Phát Triển Ứng Dụng Web Chuyên Nghiệp — CyberSkill",
+    },
+    metaDescription: {
+      en: "Custom web application development in Ho Chi Minh City. Next.js, React, TypeScript. We design, build, and hand over secure, high-performance dashboards, SaaS platforms, and enterprise web solutions.",
+      vi: "Phát triển ứng dụng web theo yêu cầu tại TP.HCM. Sử dụng Next.js, React, TypeScript. Thiết kế, xây dựng và bàn giao dashboard bảo mật, nền tảng SaaS hiệu năng cao.",
+    },
+    lead: {
+      en: "We design and build production-grade web applications that carry real operational weight. Whether you need an analytics dashboard, a customer portal, a headless e-commerce system, or a multi-tenant SaaS platform, we deliver codebases that ship on time, scale reliably, and remain highly maintainable for years to come.",
+      vi: "Chúng tôi thiết kế và xây dựng các ứng dụng web sẵn sàng vận hành thực tế. Cho dù bạn cần bảng điều khiển phân tích (dashboard), cổng thông tin khách hàng, hệ thống thương mại điện tử headless hay nền tảng SaaS đa khách thuê, chúng tôi bàn giao mã nguồn bàn giao đúng hạn, vận hành tin cậy và dễ dàng bảo trì trong nhiều năm.",
+    },
+    forWho: {
+      en: "This service is tailored for mid-market companies that have outgrown the limitations of spreadsheets or off-the-shelf software, startups requiring a robust, production-grade product rather than a throwaway prototype, and enterprise teams seeking to modernize their legacy legacy platforms. We build software that serves as a core commercial asset, ensuring that your business logic is securely preserved and optimized.",
+      vi: "Dịch vụ này được thiết kế riêng cho các doanh nghiệp vừa đã vượt quá giới hạn của bảng tính hoặc phần mềm đóng gói sẵn, các startup cần một sản phẩm sẵn sàng vận hành thực tế thay vì một bản mẫu dùng một lần, và các đội ngũ doanh nghiệp muốn hiện đại hóa nền tảng cũ. Chúng tôi xây dựng phần mềm như một tài sản thương mại cốt lõi, đảm bảo logic kinh doanh của bạn được bảo vệ và tối ưu hóa.",
+    },
+    scopeIntro: {
+      en: "Our web development scope covers everything required to take a web application from initial concept to a production-ready system hosted on secure cloud infrastructure.",
+      vi: "Phạm vi phát triển web của chúng tôi bao gồm mọi thứ cần thiết để đưa một ứng dụng web từ ý tưởng ban đầu đến một hệ thống sẵn sàng vận hành trên hạ tầng đám mây bảo mật.",
+    },
+    scopeItems: [
+      {
+        title: { en: "High-Performance Frontend Systems", vi: "Hệ thống Frontend Hiệu năng cao" },
+        description: {
+          en: "We build user interfaces with Next.js and React that load instantly and provide fluid interactions. We prioritize accessibility (WCAG 2.2 AA) and ensure Core Web Vitals stay in the green to optimize search visibility and user conversion rates.",
+          vi: "Chúng tôi xây dựng giao diện người dùng bằng Next.js và React giúp tải tức thì và tương tác mượt mà. Chúng tôi ưu tiên khả năng tiếp cận (WCAG 2.2 AA) và đảm bảo các chỉ số Core Web Vitals ở ngưỡng xanh để tối ưu hóa SEO và tỷ lệ chuyển đổi."
+        }
+      },
+      {
+        title: { en: "Secure API and Data Layers", vi: "Lớp dữ liệu và API Bảo mật" },
+        description: {
+          en: "We design typed API contracts and relational database schemas that protect data integrity. We implement row-level security, clean migrations, and structured indexing to handle growing transaction volumes without latency.",
+          vi: "Chúng tôi thiết kế các hợp đồng API có kiểm tra kiểu dữ liệu và cấu trúc cơ sở dữ liệu quan hệ bảo vệ tính toàn vẹn dữ liệu. Chúng tôi triển khai bảo mật cấp dòng, migration rõ ràng và đánh chỉ mục để xử lý khối lượng giao dịch ngày càng tăng."
+        }
+      },
+      {
+        title: { en: "Third-Party Integrations and Auth", vi: "Tích hợp Bên thứ ba và Xác thực" },
+        description: {
+          en: "We wire custom systems into your existing IT landscape, including ERPs, CRMs, payment gateways, and shipping APIs. We implement standard Single Sign-On (SSO), OAuth, and multi-factor authentication for enterprise compliance.",
+          vi: "Chúng tôi kết nối hệ thống tùy chỉnh vào hạ tầng IT hiện tại của bạn, bao gồm ERP, CRM, cổng thanh toán và API giao hàng. Chúng tôi triển khai Đăng nhập một lần (SSO) tiêu chuẩn, OAuth và xác thực nhiều yếu tố để tuân thủ doanh nghiệp."
+        }
+      },
+      {
+        title: { en: "Cloud Deployment and CI/CD Pipelines", vi: "Triển khai Đám mây và Quy trình CI/CD" },
+        description: {
+          en: "We set up automated deployment pipelines where every commit runs linting, type checks, and unit tests. We package applications using Docker and deploy to AWS, Google Cloud, or Vercel with structured environment variables.",
+          vi: "Chúng tôi thiết kế các quy trình triển khai tự động, nơi mỗi lần commit đều chạy linting, kiểm tra kiểu dữ liệu và kiểm thử đơn vị. Chúng tôi đóng gói ứng dụng bằng Docker và triển khai lên AWS, Google Cloud hoặc Vercel."
+        }
+      }
+    ],
+    processIntro: {
+      en: "We follow a disciplined, four-step process to ensure that your project is delivered without surprises, scope creep, or operational downtime.",
+      vi: "Chúng tôi tuân thủ quy trình bốn bước kỷ luật để đảm bảo dự án của bạn được bàn giao mà không gặp bất ngờ, phình phạm vi hay thời gian dừng vận hành."
+    },
+    processSteps: [
+      {
+        title: { en: "1. Discover and Audit", vi: "1. Khám phá và Kiểm định" },
+        body: {
+          en: "We spend the first week understanding your existing workflow, interviewing actual users, and analyzing legacy systems. We define success metrics in clear, measurable terms (such as page load time, transaction limits, or administrative hours saved) so that we build exactly what your business requires rather than working on assumptions.",
+          vi: "Chúng tôi dành tuần đầu tiên để tìm hiểu quy trình làm việc hiện tại, phỏng vấn người dùng thực tế và phân tích hệ thống cũ. Chúng tôi xác định các chỉ số thành công bằng các điều khoản rõ ràng, có thể đo lường (như thời gian tải trang, giới hạn giao dịch hoặc số giờ quản lý tiết kiệm được) để xây dựng chính xác những gì doanh nghiệp cần."
+        }
+      },
+      {
+        title: { en: "2. Shape and Design", vi: "2. Định hình và Thiết kế" },
+        body: {
+          en: "Before writing any code, we map out the data model, draft API contracts, and create component layouts. We walk you through every technical trade-off (such as performance versus hosting cost, or build versus buy for specific features) so that you can make informed commercial decisions before significant resources are spent.",
+          vi: "Trước khi viết code, chúng tôi phác thảo mô hình dữ liệu, dự thảo hợp đồng API và tạo bố cục thành phần. Chúng tôi hướng dẫn bạn qua mọi đánh đổi kỹ thuật (như hiệu năng so với chi phí lưu trữ, hoặc tự xây so với mua các tính năng cụ thể) để bạn đưa ra quyết định thương mại sáng suốt."
+        }
+      },
+      {
+        title: { en: "3. Build and Integrate", vi: "3. Xây dựng và Tích hợp" },
+        body: {
+          en: "We build the application in two-week sprints, deploying to a private staging environment at the end of each cycle. We write automated tests to cover critical user journeys (such as signup, payment, and data exports), ensuring that new features do not regress existing code. You can log in and test the live application at any point.",
+          vi: "Chúng tôi xây dựng ứng dụng trong các chu kỳ sprint kéo dài hai tuần, triển khai lên môi trường staging riêng tư vào cuối mỗi chu kỳ. Chúng tôi viết các bài kiểm thử tự động để bao phủ hành trình quan trọng của người dùng (như đăng ký, thanh toán và xuất dữ liệu), đảm bảo tính năng mới không làm lỗi code cũ."
+        }
+      },
+      {
+        title: { en: "4. Support and Handover", vi: "4. Đồng hành và Bàn giao" },
+        body: {
+          en: "We transition the project to production under a structured release plan. We set up real-time error tracking and application monitoring (using Sentry and Prometheus) to catch runtime issues immediately. Finally, we conduct clean handoff sessions, deliver comprehensive documentation, and train your internal team so that you remain independent.",
+          vi: "Chúng tôi chuyển giao dự án sang môi trường chạy thực tế theo kế hoạch phát hành có cấu trúc. Chúng tôi thiết lập theo dõi lỗi thời gian thực và giám sát ứng dụng (sử dụng Sentry và Prometheus). Cuối cùng, chúng tôi tiến hành bàn giao sạch sẽ, cung cấp tài liệu toàn diện và đào tạo đội ngũ của bạn."
+        }
+      }
+    ],
+    timeline: {
+      en: "A typical custom web application project takes between 8 to 16 weeks from discovery to production launch. We break this down into: 2 weeks for discovery and technical design, 6 to 12 weeks for active development cycles, and 2 weeks for security audits, integration testing, and production deployment.",
+      vi: "Một dự án ứng dụng web tùy chỉnh tiêu chuẩn thường mất từ 8 đến 16 tuần từ khi khám phá đến khi ra mắt chạy thực tế. Quy trình gồm: 2 tuần khám phá và thiết kế kỹ thuật, 6 đến 12 tuần cho các chu kỳ phát triển tích cực, và 2 tuần để kiểm định bảo mật, kiểm thử tích hợp và triển khai thực tế."
+    },
+    engagementIntro: {
+      en: "We offer structured engagement models to align with your business goals, team structure, and budget constraints.",
+      vi: "Chúng tôi cung cấp các mô hình hợp tác có cấu trúc phù hợp với mục tiêu kinh doanh, cấu trúc đội ngũ và ngân sách của bạn."
+    },
+    stack: {
+      en: "We build our web applications using Next.js and React with TypeScript, styling with Vanilla CSS and component custom properties. The data layer is powered by PostgreSQL or MongoDB, securely deployed on AWS, Google Cloud, or Vercel, with automated backups and monitoring. We pick proven, well-supported technologies over short-lived trends to protect your investment.",
+      vi: "Chúng tôi xây dựng ứng dụng web bằng Next.js và React với TypeScript, tạo kiểu bằng Vanilla CSS và các biến thuộc tính CSS. Lớp dữ liệu được cung cấp bởi PostgreSQL hoặc MongoDB, triển khai bảo mật trên AWS, Google Cloud hoặc Vercel, kèm sao lưu và giám sát tự động."
+    },
+    faqs: [
+      {
+        q: { en: "Do we own the source code after the project is finished?", vi: "Chúng tôi có sở hữu mã nguồn sau khi dự án kết thúc không?" },
+        a: {
+          en: "Yes, you own 100% of the custom source code, database structures, configuration files, and assets we build for you. Once final payment is made, the repository ownership is fully transferred to your team under an unrestricted commercial license.",
+          vi: "Có, bạn sở hữu 100% mã nguồn tùy chỉnh, cấu trúc cơ sở dữ liệu, tệp cấu hình và tài nguyên chúng tôi xây dựng. Sau khi thanh toán hoàn tất, quyền sở hữu kho lưu trữ sẽ được chuyển giao hoàn toàn cho đội của bạn kèm giấy phép thương mại không giới hạn."
+        }
+      },
+      {
+        q: { en: "How do you ensure the web application is secure?", vi: "Làm thế nào để các bạn đảm bảo ứng dụng web được bảo mật?" },
+        a: {
+          en: "We apply industry-standard security practices throughout development. This includes writing clean SQL queries to prevent injection attacks, validating all inputs server-side with strict schemas, setting up content security policies (CSP) to stop cross-site scripting (XSS), encrypting sensitive data at rest and in transit, and setting up role-based access control.",
+          vi: "Chúng tôi áp dụng các tiêu chuẩn bảo mật trong suốt quá trình phát triển. Bao gồm viết truy vấn SQL an toàn để ngăn chặn tấn công injection, xác thực dữ liệu đầu vào phía máy chủ bằng schema nghiêm ngặt, thiết lập chính sách bảo mật nội dung (CSP) để chặn XSS, và mã hóa dữ liệu nhạy cảm."
+        }
+      },
+      {
+        q: { en: "Can you integrate with our existing CRM, ERP, or legacy database?", vi: "Các bạn có thể tích hợp với CRM, ERP hoặc cơ sở dữ liệu cũ của chúng tôi không?" },
+        a: {
+          en: "Yes, we regularly build integrations with third-party software and legacy databases. We write custom API wrappers, data synchronization scripts, and batch migration jobs to let your new web application exchange data cleanly with your existing internal systems without breaking operations.",
+          vi: "Có, chúng tôi thường xuyên tích hợp với phần mềm bên thứ ba và cơ sở dữ liệu cũ. Chúng tôi viết các wrapper API tùy chỉnh, kịch bản đồng bộ dữ liệu và tiến trình migration hàng loạt để ứng dụng web mới trao đổi dữ liệu sạch sẽ với hệ thống nội bộ hiện có."
+        }
+      },
+      {
+        q: { en: "How do we check progress during the build?", vi: "Làm thế nào để chúng tôi kiểm tra tiến độ trong khi xây dựng?" },
+        a: {
+          en: "Every two weeks, we host a sprint review call to demonstrate working features. We also provide you with access to a secure staging environment where you can interact with the app in real time as we build it. You can see the progress reflected directly in working software, not just status reports.",
+          vi: "Cứ sau hai tuần, chúng tôi tổ chức một cuộc họp review sprint để trình diễn các tính năng đang hoạt động. Chúng tôi cũng cung cấp cho bạn quyền truy cập vào môi trường staging bảo mật để tương tác với ứng dụng theo thời gian thực khi chúng tôi xây dựng."
+        }
+      },
+      {
+        q: { en: "What hosting platforms do you recommend and who pays for them?", vi: "Các bạn đề xuất nền tảng lưu trữ nào và ai chi trả chi phí đó?" },
+        a: {
+          en: "We recommend hosting on Vercel for the frontend and AWS or Google Cloud for backend APIs and databases. We set up all accounts directly under your organization so that you maintain direct financial control over your infrastructure, and we help you configure budget alerts to prevent unexpected bills.",
+          vi: "Chúng tôi khuyên bạn nên lưu trữ trên Vercel cho frontend và AWS hoặc Google Cloud cho API backend và cơ sở dữ liệu. Chúng tôi thiết lập tất cả tài khoản trực tiếp dưới tên tổ chức của bạn để bạn duy trì quyền kiểm soát tài chính và thiết lập cảnh báo ngân sách."
+        }
+      }
+    ],
+  },
+  "mobile-apps": {
+    metaTitle: {
+      en: "Mobile Application Development Services — CyberSkill",
+      vi: "Dịch Vụ Phát Triển Ứng Dụng Di Động iOS & Android — CyberSkill",
+    },
+    metaDescription: {
+      en: "Bilingual mobile app development in Ho Chi Minh City. React Native, Flutter, Swift, Kotlin. We build offline-friendly, secure mobile apps with automated store release pipelines.",
+      vi: "Phát triển ứng dụng di động song ngữ tại TP.HCM. Sử dụng React Native, Flutter, Swift, Kotlin. Xây dựng ứng dụng di động ưu tiên ngoại tuyến, bảo mật cao.",
+    },
+    lead: {
+      en: "We build mobile applications that remain reliable in the hands of users on the move. From public store apps on iOS and Android to enterprise field tooling, we deliver high-performance applications designed to work under weak network signals, integrate seamlessly with hardware features, and ship with crash reporting and analytics from day one.",
+      vi: "Chúng tôi xây dựng các ứng dụng di động luôn đáng tin cậy trong tay người dùng khi di chuyển. Từ các ứng dụng công khai trên cửa hàng App Store và Google Play đến các công cụ nghiệp vụ doanh nghiệp, chúng tôi bàn giao sản phẩm hiệu năng cao, thiết kế hoạt động tốt cả khi mạng yếu, và tích hợp sâu với phần cứng."
+    },
+    forWho: {
+      en: "This service is built for product teams launching consumer services, operational businesses requiring a dedicated tool for field staff (such as logistics coordinators or site inspectors), and brands establishing loyalty programs. We help you choose the right approach - cross-platform or native - depending on your technical requirements and long-term maintenance resources.",
+      vi: "Dịch vụ này được xây dựng cho các đội ngũ sản phẩm ra mắt dịch vụ tiêu dùng, các doanh nghiệp cần công cụ chuyên dụng cho nhân viên hiện trường (như điều phối viên logistics hoặc giám sát công trình), và các thương hiệu xây dựng chương trình khách hàng thân thiết. Chúng tôi giúp bạn chọn cách tiếp cận phù hợp."
+    },
+    scopeIntro: {
+      en: "Our mobile development process covers the entire app lifecycle, from device compatibility design to successful publishing and post-launch maintenance.",
+      vi: "Quy trình phát triển di động của chúng tôi bao phủ toàn bộ vòng đời ứng dụng, từ thiết kế tương thích thiết bị đến xuất bản thành công trên các cửa hàng ứng dụng và bảo trì."
+    },
+    scopeItems: [
+      {
+        title: { en: "Cross-Platform and Native Builds", vi: "Bản dựng Đa nền tảng và Native" },
+        description: {
+          en: "We build using React Native or Flutter to target both iOS and Android from a single codebase, saving development cost. For high-performance graphics, complex Bluetooth tasks, or system-level services, we write native Swift or Kotlin code.",
+          vi: "Chúng tôi phát triển bằng React Native hoặc Flutter để nhắm mục tiêu cả iOS và Android từ một mã nguồn duy nhất, tiết kiệm chi phí. Đối với đồ họa hiệu năng cao, tác vụ Bluetooth phức tạp hoặc dịch vụ cấp hệ thống, chúng tôi viết Swift hoặc Kotlin native."
+        }
+      },
+      {
+        title: { en: "Offline-First Synchronization", vi: "Đồng bộ hóa Ưu tiên Ngoại tuyến" },
+        description: {
+          en: "We implement local storage layers (using SQLite or WatermelonDB) to let the app work without an internet connection. When the device goes online, the app runs structured sync cycles that resolve conflicts without losing user data.",
+          vi: "Chúng tôi triển khai các lớp lưu trữ cục bộ (sử dụng SQLite hoặc WatermelonDB) để ứng dụng hoạt động không cần mạng. Khi thiết bị trực tuyến, ứng dụng sẽ chạy đồng bộ hóa giải quyết xung đột mà không làm mất dữ liệu người dùng."
+        }
+      },
+      {
+        title: { en: "Hardware and System Integration", vi: "Tích hợp Phần cứng và Hệ thống" },
+        description: {
+          en: "We integrate camera functions for barcode scanning, GPS tracking for geolocation, push notifications for user alerts, and biometrics (Face ID/Touch ID) for secure and fast login experiences.",
+          vi: "Chúng tôi tích hợp các chức năng camera để quét mã vạch, theo dõi GPS để định vị địa lý, thông báo đẩy (push notification) cho các cảnh báo người dùng và sinh trắc học (Face ID/Touch ID) để đăng nhập an toàn."
+        }
+      },
+      {
+        title: { en: "Automated Store Publishing Pipelines", vi: "Quy trình Xuất bản Store Tự động" },
+        description: {
+          en: "We set up automated build pipelines using Fastlane to sign, package, and upload builds directly to TestFlight and Google Play Console. This simplifies beta testing and ensures that release day runs smoothly.",
+          vi: "Chúng tôi thiết lập quy trình build tự động bằng Fastlane để ký, đóng gói và tải bản dựng trực tiếp lên TestFlight và Google Play Console. Điều này giúp đơn giản hóa việc thử nghiệm và đảm bảo ngày ra mắt suôn sẻ."
+        }
+      }
+    ],
+    processIntro: {
+      en: "We follow a structured mobile development workflow to deliver stable, high-performance apps that pass store reviews.",
+      vi: "Chúng tôi tuân thủ quy trình phát triển di động có cấu trúc để bàn giao các ứng dụng ổn định, hiệu năng cao và dễ dàng vượt qua vòng duyệt của cửa hàng."
+    },
+    processSteps: [
+      {
+        title: { en: "1. Device and Signal Audit", vi: "1. Kiểm định Thiết bị và Sóng mạng" },
+        body: {
+          en: "We analyze the devices and operating systems your target audience uses and audit network conditions. We design how the application behaves when signal strength drops, defining what data is stored locally and what queries are deferred so that the app remains usable in any environment.",
+          vi: "Chúng tôi phân tích các thiết bị và hệ điều hành mà đối tượng mục tiêu của bạn sử dụng và kiểm tra điều kiện mạng. Chúng tôi thiết kế hành vi của ứng dụng khi sóng mạng yếu, xác định dữ liệu nào được lưu cục bộ và truy vấn nào được trì hoãn."
+        }
+      },
+      {
+        title: { en: "2. Contract and Architecture Design", vi: "2. Thiết kế Hợp đồng và Kiến trúc" },
+        body: {
+          en: "We design the app architecture to keep business logic separate from UI render states. We draft API schemas and sync contracts, agreeing on how conflicts are resolved (such as server-wins or client-wins) before writing code. This avoids runtime sync errors later.",
+          vi: "Chúng tôi thiết kế kiến trúc ứng dụng để tách biệt logic nghiệp vụ khỏi trạng thái hiển thị UI. Chúng tôi soạn thảo schema API và hợp đồng đồng bộ, thống nhất cách giải quyết xung đột (như ưu tiên máy chủ hoặc ưu tiên máy khách) trước khi code."
+        }
+      },
+      {
+        title: { en: "3. Beta Testing and Device Verification", vi: "3. Thử nghiệm Beta và Kiểm thử Thiết bị" },
+        body: {
+          en: "We deliver working builds to your phone early using TestFlight or Firebase App Distribution. We test the app on physical devices (not just simulators) to verify memory usage, battery drain, and thermal behavior under continuous operation, ensuring that the app remains fast and lightweight.",
+          vi: "Chúng tôi cung cấp bản dựng chạy thử trực tiếp trên điện thoại của bạn từ sớm qua TestFlight hoặc Firebase App Distribution. Chúng tôi kiểm thử trên thiết bị vật lý thực tế để xác minh mức tiêu thụ RAM, pin và nhiệt độ thiết bị."
+        }
+      },
+      {
+        title: { en: "4. Store Submission and Monitoring", vi: "4. Nộp hồ sơ Store và Giám sát" },
+        body: {
+          en: "We manage the submission, metadata preparation, and review processes on both Apple App Store and Google Play Console. Once live, we monitor app stability using real-time crash reporting (such as Firebase Crashlytics) to capture and resolve errors before users post bad reviews.",
+          vi: "Chúng tôi quản lý quy trình nộp ứng dụng, chuẩn bị siêu dữ liệu (metadata) và duyệt hồ sơ trên cả Apple App Store và Google Play Console. Sau khi chạy chính thức, chúng tôi giám sát sự ổn định bằng hệ thống báo cáo sự cố thời gian thực."
+        }
+      }
+    ],
+    timeline: {
+      en: "A typical custom mobile application takes 12 to 20 weeks to go from initial concept to store launch. Discovery takes 2 weeks, active development cycles take 8 to 14 weeks (including API integration), and the final store submission, regression testing, and review process takes 2 to 4 weeks.",
+      vi: "Một ứng dụng di động tùy chỉnh thường mất từ 12 đến 20 tuần từ ý tưởng ban đầu đến khi xuất bản trên store. Khám phá mất 2 tuần, các chu kỳ phát triển tích cực mất 8 đến 14 tuần, và nộp duyệt store, kiểm thử hồi quy mất từ 2 đến 4 tuần."
+    },
+    engagementIntro: {
+      en: "We provide flexible engagement models depending on whether you require a full product team or targeted sprint delivery.",
+      vi: "Chúng tôi cung cấp các mô hình hợp tác linh hoạt tùy thuộc vào việc bạn cần một đội ngũ sản phẩm đầy đủ hay bàn giao theo sprint."
+    },
+    stack: {
+      en: "We develop cross-platform apps using React Native or Flutter with TypeScript/Dart. For native elements, we use Swift (iOS) and Kotlin (Android). We implement local persistence using SQLite or WatermelonDB and secure communications via HTTPS/WSS. Stability metrics are tracked using Firebase Crashlytics, and build distribution is automated with Fastlane.",
+      vi: "Chúng tôi phát triển ứng dụng đa nền tảng bằng React Native hoặc Flutter với TypeScript/Dart. Với các phần native, chúng tôi dùng Swift (iOS) và Kotlin (Android). Lưu trữ dữ liệu cục bộ dùng SQLite hoặc WatermelonDB và kết nối bảo mật qua HTTPS/WSS."
+    },
+    faqs: [
+      {
+        q: { en: "Should we build native (Swift/Kotlin) or cross-platform (React Native/Flutter)?", vi: "Chúng nên xây dựng native (Swift/Kotlin) hay đa nền tảng (React Native/Flutter)?" },
+        a: {
+          en: "For 90% of business applications, cross-platform (React Native or Flutter) is the best choice because it lets you target both iOS and Android from a single codebase, reducing initial cost and ongoing maintenance. We only recommend native Swift or Kotlin for apps that require high-performance rendering, complex 3D graphics, or advanced system integrations.",
+          vi: "Đối với 90% ứng dụng doanh nghiệp, đa nền tảng (React Native hoặc Flutter) là lựa chọn tối ưu vì nó giúp xây dựng cho cả iOS và Android từ một mã nguồn duy nhất, giảm chi phí ban đầu và bảo trì. Chúng tôi chỉ khuyên dùng native khi ứng dụng cần đồ họa 3D phức tạp hoặc tích hợp hệ thống sâu."
+        }
+      },
+      {
+        q: { en: "Who sets up and owns the App Store developer accounts?", vi: "Ai là người thiết lập và sở hữu tài khoản nhà phát triển App Store?" },
+        a: {
+          en: "You must set up and own the Apple and Google Developer accounts. We guide you through the enrollment process step-by-step. This ensures that you maintain full ownership of your app listing, distribution rights, and customer reviews. We only request developer access to sign and upload the builds.",
+          vi: "Bạn sẽ thiết lập và sở hữu tài khoản Nhà phát triển Apple và Google. Chúng tôi sẽ hướng dẫn bạn qua từng bước đăng ký. Điều này đảm bảo bạn duy trì toàn quyền sở hữu thông tin ứng dụng, quyền phân phối và đánh giá của khách hàng."
+        }
+      },
+      {
+        q: { en: "How does the app behave when there is no internet connection?", vi: "Ứng dụng sẽ hoạt động thế nào khi không có kết nối internet?" },
+        a: {
+          en: "We build our apps to be offline-friendly. The application stores vital database records, drafts, and media locally. Users can continue filling out forms, viewing cached information, and performing tasks. Once a connection is detected, the app automatically syncs the offline changes to the server in the background.",
+          vi: "Chúng tôi xây dựng ứng dụng thân thiện với chế độ ngoại tuyến. Ứng dụng lưu các bản ghi dữ liệu, bản nháp và tệp đa phương tiện cục bộ trên thiết bị. Người dùng có thể tiếp tục điền biểu mẫu, xem dữ liệu đã lưu. Khi có mạng trở lại, ứng dụng tự động đồng bộ hóa."
+        }
+      },
+      {
+        q: { en: "How do you test the app on different mobile phones?", vi: "Các bạn kiểm thử ứng dụng trên các dòng điện thoại khác nhau như thế nào?" },
+        a: {
+          en: "We use a combination of simulated devices and physical hardware testing. We focus physical testing on a representative set of devices covering popular screen sizes, aspects, OS versions, and hardware specifications (low-end to high-end Android, and recent iPhone models) to verify real-world performance.",
+          vi: "Chúng tôi kết hợp thiết bị mô phỏng và kiểm thử trên phần cứng thực tế. Chúng tôi tập trung kiểm thử thực tế trên tập hợp thiết bị đại diện gồm các kích thước màn hình phổ biến, phiên bản hệ điều hành và thông số phần cứng để xác minh hiệu năng thực tế."
+        }
+      },
+      {
+        q: { en: "How do you handle application security and data privacy?", vi: "Làm thế nào để các bạn xử lý bảo mật ứng dụng và quyền riêng tư dữ liệu?" },
+        a: {
+          en: "We secure the mobile app by storing sensitive data (such as login tokens) in the device's secure hardware enclave (iOS Keychain and Android Keystore). We enforce SSL pinning to prevent man-in-the-middle attacks, encrypt all data stored locally, and implement session timeouts to protect user access.",
+          vi: "Chúng tôi bảo mật ứng dụng bằng cách lưu dữ liệu nhạy cảm (như token đăng nhập) trong vùng lưu trữ phần cứng an toàn của thiết bị (iOS Keychain và Android Keystore). Chúng tôi áp dụng SSL pinning để ngăn chặn tấn công trung gian."
+        }
+      }
+    ],
+  },
+  "internal-systems": {
+    metaTitle: {
+      en: "Custom Internal Software and Business Systems — CyberSkill",
+      vi: "Xây Dựng Phần Mềm Nội Bộ & Hệ Thống Doanh Nghiệp — CyberSkill",
+    },
+    metaDescription: {
+      en: "Operations tooling, automation, and enterprise integrations in Ho Chi Minh City. We replace spreadsheets with a secure database source of truth. Fully documented handover.",
+      vi: "Thiết kế công cụ vận hành, tự động hóa và tích hợp doanh nghiệp tại TP.HCM. Thay thế bảng tính bằng cơ sở dữ liệu nguồn thông tin duy nhất bảo mật.",
+    },
+    lead: {
+      en: "We build the software that keeps a business running smoothly behind the scenes. From custom ERP extensions and logistics coordination portals to internal operations tools and automated data pipelines, we replace error-prone spreadsheets with a single, secure database source of truth that automates manual work and gives hours back to your team.",
+      vi: "Chúng tôi xây dựng phần mềm giúp doanh nghiệp vận hành trơn tru phía sau hậu trường. Từ các phần mở rộng ERP tùy chỉnh, cổng điều phối logistics đến các công cụ vận hành nội bộ và quy trình dữ liệu tự động, chúng tôi thay thế bảng tính bằng một nguồn cơ sở dữ liệu duy nhất bảo mật."
+    },
+    forWho: {
+      en: "This service is built for operations leaders drowning in manual admin steps, logistics and manufacturing teams coordinating complex workflows across disconnected files, and executives who want a clear, live view of company operations. We design software that adapts to your actual workflow rather than forcing you to change how you run your business.",
+      vi: "Dịch vụ này được xây dựng cho các nhà quản lý vận hành đang ngập trong các bước thủ công, các đội ngũ sản xuất và logistics phối hợp các quy trình làm việc phức tạp trên các tệp rời rạc, và ban điều hành muốn có một góc nhìn vận hành trực quan."
+    },
+    scopeIntro: {
+      en: "Our internal systems scope targets the elimination of operational bottlenecks and the secure integration of disconnected business applications.",
+      vi: "Phạm vi hệ thống nội bộ của chúng tôi hướng tới việc loại bỏ các điểm nghẽn vận hành và tích hợp bảo mật các ứng dụng doanh nghiệp rời rạc."
+    },
+    scopeItems: [
+      {
+        title: { en: "Custom Back-Office Tooling", vi: "Công cụ Back-Office Tùy chỉnh" },
+        description: {
+          en: "We build web dashboards designed for internal staff to manage inventories, coordinate logistics, process orders, and review customer applications. We prioritize grid efficiency, keyboard shortcuts, and clear status fields.",
+          vi: "Chúng tôi xây dựng bảng điều khiển quản lý kho hàng, điều phối vận chuyển, xử lý đơn hàng và duyệt hồ sơ khách hàng. Chúng tôi ưu tiên hiệu năng hiển thị lưới (grid), phím tắt bàn phím và trạng thái rõ ràng."
+        }
+      },
+      {
+        title: { en: "System Integrations and Pipelines", vi: "Tích hợp Hệ thống và Đường ống dữ liệu" },
+        description: {
+          en: "We bridge legacy databases, accounting software, external CRM platforms, and shipping services. We build automated data pipelines that eliminate manual copy-pasting and ensure data remains consistent across platforms.",
+          vi: "Chúng tôi kết nối cơ sở dữ liệu cũ, phần mềm kế toán, nền tảng CRM bên ngoài và dịch vụ vận chuyển. Chúng tôi xây dựng đường ống dẫn dữ liệu tự động giúp loại bỏ việc sao chép thủ công."
+        }
+      },
+      {
+        title: { en: "Legacy Database Migrations", vi: "Di chuyển Cơ sở dữ liệu Cũ" },
+        description: {
+          en: "We normalize, clean, and transfer scattered operational data into structured relational databases (such as PostgreSQL) with minimal operational downtime, setting up indexed queries designed for reporting.",
+          vi: "Chúng tôi chuẩn hóa, làm sạch và chuyển dữ liệu vận hành rời rạc vào cơ sở dữ liệu quan hệ có cấu trúc (như PostgreSQL) với thời gian dừng vận hành tối thiểu, thiết lập các truy vấn tối ưu cho báo cáo."
+        }
+      },
+      {
+        title: { en: "Granular Role-Based Access Control", vi: "Phân quyền Truy cập theo Vai trò Chi tiết" },
+        description: {
+          en: "We secure internal systems using strict role-based permissions, logging all user actions to create an audit trail. We implement Single Sign-On (SSO) using SAML or OpenID Connect to integrate with your existing corporate directory.",
+          vi: "Chúng tôi bảo mật hệ thống bằng cách phân quyền theo vai trò (RBAC) nghiêm ngặt, ghi nhật ký hành động để tạo dấu vết kiểm toán. Chúng tôi triển khai Đăng nhập một lần (SSO) sử dụng SAML hoặc OpenID Connect."
+        }
+      }
+    ],
+    processIntro: {
+      en: "We build internal software incrementally, matching the actual operational rhythms of your staff to avoid disruption.",
+      vi: "Chúng tôi xây dựng phần mềm nội bộ theo từng giai đoạn, phù hợp với nhịp độ vận hành thực tế của nhân viên để tránh gián đoạn."
+    },
+    processSteps: [
+      {
+        title: { en: "1. Workflow Mapping and Shadowing", vi: "1. Vẽ sơ đồ Quy trình và Quan sát" },
+        body: {
+          en: "We spend the first week shadowing your operational team, observing exactly how they process orders, reconcile data, or coordinate handovers. We map the spreadsheet sprawl, document the manual checks, and identify the primary bottlenecks that cause errors and delays before proposing a technical solution.",
+          vi: "Chúng tôi dành tuần đầu tiên quan sát thực tế đội ngũ vận hành làm việc, xem cách họ xử lý đơn hàng, đối chiếu dữ liệu. Chúng tôi vẽ sơ đồ phân tán dữ liệu, ghi lại các bước kiểm tra thủ công và xác định điểm nghẽn chính trước khi đề xuất giải pháp."
+        }
+      },
+      {
+        title: { en: "2. Schema Audit and Integration Risk Plan", vi: "2. Kiểm định Schema và Kế hoạch Rủi ro Tích hợp" },
+        body: {
+          en: "We audit your existing legacy databases and system APIs. We design a unified database schema and map fields to ensure that the new system integrates safely. We draft a transition risk mitigation plan to ensure that company operations continue running without interruption during deployment.",
+          vi: "Chúng tôi kiểm tra cơ sở dữ liệu cũ và API hệ thống hiện có. Chúng tôi thiết kế schema cơ sở dữ liệu thống nhất và ánh xạ các trường dữ liệu để hệ thống mới tích hợp an toàn, lên kế hoạch giảm thiểu rủi ro gián đoạn khi triển khai."
+        }
+      },
+      {
+        title: { en: "3. Incremental Launch and Shadow Runs", vi: "3. Ra mắt Từng bước và Vận hành Song song" },
+        body: {
+          en: "We deploy the system in modules, starting with the features that resolve the most painful administrative tasks. We run the new tools in shadow-mode alongside your existing processes, validating data accuracy and system performance against actual transactions before retiring the legacy files.",
+          vi: "Chúng tôi triển khai hệ thống theo từng mô-đun, bắt đầu với các tính năng giải quyết các tác vụ hành chính nhức nhối nhất. Chúng tôi chạy các công cụ mới song song với quy trình cũ để xác thực độ chính xác dữ liệu."
+        }
+      },
+      {
+        title: { en: "4. Corporate Handover and IT Onboarding", vi: "4. Bàn giao Doanh nghiệp và Hướng dẫn IT" },
+        body: {
+          en: "We deliver full system documentation, database schemas, and API mapping guides to your internal IT team. We host structured onboarding sessions to walk your developers and coordinators through system administration, ensuring that you maintain the software in-house without lock-in.",
+          vi: "Chúng tôi bàn giao tài liệu hệ thống đầy đủ, schema cơ sở dữ liệu và tài liệu API cho đội ngũ IT của bạn. Chúng tôi tổ chức các buổi hướng dẫn chi tiết về quản trị hệ thống, giúp bạn làm chủ phần mềm."
+        }
+      }
+    ],
+    timeline: {
+      en: "An internal system or operations tool takes between 10 to 18 weeks. Discovery and workflow shadowing take 2 weeks, database schema design and API integration setup take 2 weeks, module development and shadow testing take 6 to 12 weeks, and corporate IT handover and live deployment take 2 weeks.",
+      vi: "Một hệ thống nội bộ hoặc công cụ vận hành mất từ 10 đến 18 tuần. Khám phá và quan sát quy trình mất 2 tuần, thiết kế schema cơ sở dữ liệu và tích hợp API mất 2 tuần, phát triển mô-đun và chạy thử song song mất 6 đến 12 tuần, bàn giao IT mất 2 tuần."
+    },
+    engagementIntro: {
+      en: "We work under defined scopes or monthly iterations depending on whether you are replacing a legacy platform or building new automation features.",
+      vi: "Chúng tôi làm việc theo phạm vi xác định hoặc lặp lại hàng tháng tùy thuộc vào việc bạn thay thế nền tảng cũ hay xây dựng tính năng tự động hóa mới."
+    },
+    stack: {
+      en: "We build operations software using custom Next.js admin dashboards with Node.js/TypeScript backend services. We implement PostgreSQL databases for structured operational records and Redis for queue management. We deploy securely inside private cloud subnets on AWS or Google Cloud, integrating with corporate identity providers via SAML/OIDC.",
+      vi: "Chúng tôi xây dựng phần mềm vận hành bằng dashboard Next.js tùy chỉnh kết hợp dịch vụ Node.js/TypeScript backend. Cơ sở dữ liệu dùng PostgreSQL cho các bản ghi có cấu trúc và Redis cho quản lý hàng đợi, triển khai an toàn trên AWS hoặc Google Cloud."
+    },
+    faqs: [
+      {
+        q: { en: "Can you work with old legacy software that does not have an API?", vi: "Các bạn có thể làm việc với các phần mềm cũ không có API không?" },
+        a: {
+          en: "Yes. If your legacy software has no API, we look for secure alternative paths. We can write database connection scripts to exchange data directly at the database layer, create automated file exports and imports, or build custom microservices to interface with the old system without risking data loss.",
+          vi: "Có. Nếu phần mềm cũ không có API, chúng tôi tìm các hướng đi thay thế an toàn. Chúng tôi có thể viết kịch bản kết nối để trao đổi dữ liệu trực tiếp ở lớp cơ sở dữ liệu, tạo luồng xuất nhập tệp tự động hoặc xây dựng microservice."
+        }
+      },
+      {
+        q: { en: "How do you ensure role-based access control and system security?", vi: "Làm thế nào để các bạn đảm bảo phân quyền theo vai trò và bảo mật hệ thống?" },
+        a: {
+          en: "We implement granular access permissions based on user roles (such as coordinator, manager, auditor, or admin). Each user only accesses the tables and actions necessary for their work. We log every data modification and administrative action to a read-only audit log database, ensuring accountability and compliance.",
+          vi: "Chúng tôi triển khai phân quyền chi tiết dựa trên vai trò người dùng (như điều phối viên, quản lý, kiểm toán viên hoặc admin). Mỗi người dùng chỉ truy cập bảng và tác vụ cần thiết. Mọi chỉnh sửa dữ liệu đều được lưu nhật ký kiểm toán."
+        }
+      },
+      {
+        q: { en: "Will there be downtime or disruption to our daily business during migration?", vi: "Liệu có xảy ra thời gian dừng hệ thống hay gián đoạn công việc kinh doanh khi di chuyển dữ liệu?" },
+        a: {
+          en: "We design migrations to minimize operational disruption. We prepare database schemas and sync scripts in staging, and run tests on copy data. When transitioning, we schedule data updates during off-peak hours (nights or weekends) and run the new tool alongside the old process for validation, ensuring zero business interruption.",
+          vi: "Chúng tôi thiết kế quy trình di chuyển dữ liệu để giảm thiểu gián đoạn. Chúng tôi chạy thử nghiệm trên bản sao dữ liệu. Khi chuyển đổi thực tế, chúng tôi lên lịch cập nhật vào giờ thấp điểm (đêm hoặc cuối tuần) và chạy song song để kiểm chứng."
+        }
+      },
+      {
+        q: { en: "Can we integrate internal tools with active directory or our Google Workspace logins?", vi: "Chúng tôi có thể tích hợp công cụ nội bộ với active directory hoặc đăng nhập Google Workspace không?" },
+        a: {
+          en: "Yes, we implement standard Single Sign-On (SSO) integrations. We connect the custom internal application to your corporate directory using SAML or OpenID Connect (supporting services like Microsoft Azure AD/Entra ID, Google Workspace, or Okta), letting your staff log in using their existing company credentials.",
+          vi: "Có, chúng tôi triển khai tích hợp Đăng nhập một lần (SSO) tiêu chuẩn. Chúng tôi kết nối ứng dụng với danh bạ doanh nghiệp qua SAML hoặc OpenID Connect (hỗ trợ Azure AD, Google Workspace hoặc Okta) để đăng nhập bằng tài khoản công ty sẵn có."
+        }
+      },
+      {
+        q: { en: "Do you write user documentation for our team?", vi: "Các bạn có viết tài liệu hướng dẫn sử dụng cho đội ngũ của chúng tôi không?" },
+        a: {
+          en: "Yes. Along with the technical codebase documentation, we write plain-language user guides for your operations staff. This includes step-by-step instructions, screenshots, and troubleshooting checklists for common operational scenarios, ensuring a smooth transition and fast onboarding for new hires.",
+          vi: "Có. Đi kèm tài liệu kỹ thuật, chúng tôi viết tài liệu hướng dẫn sử dụng bằng ngôn ngữ dễ hiểu cho nhân sự vận hành. Tài liệu gồm hướng dẫn từng bước, ảnh chụp màn hình và checklist xử lý sự cố cho các tình huống thường gặp."
+        }
+      }
+    ],
+  },
+};

@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-012
 title: "Zalo and WhatsApp one-tap contact chips, config-driven"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: SHOULD
 owner: agent

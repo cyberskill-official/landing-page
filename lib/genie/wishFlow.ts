@@ -1,5 +1,6 @@
 import { leadSchema, type LeadInput } from "@/lib/lead/schema";
 import type { Locale } from "@/lib/i18n/config";
+import { readUtm } from "@/lib/analytics/taxonomy";
 
 // Conversational lead capture (FR-CHAR-026): a deterministic, keyless state
 // machine that lets Lumi collect a wish IN the chat - name, email, optional
@@ -82,11 +83,14 @@ export function resolveConsent(state: WishState, agreed: boolean): WishState {
   return agreed ? { ...state, step: "done" } : state;
 }
 
+
+
 // Build the /api/lead payload once the flow reached "done". Returns null if
 // anything mandatory is missing (defensive - the flow cannot normally get
 // here without them).
 export function wishFlowPayload(state: WishState, locale: Locale): LeadInput | null {
   if (state.step !== "done" || !state.draft.name || !state.draft.email) return null;
+  const utm = typeof window !== "undefined" ? readUtm() : {};
   const candidate: LeadInput = {
     name: state.draft.name,
     email: state.draft.email,
@@ -97,7 +101,9 @@ export function wishFlowPayload(state: WishState, locale: Locale): LeadInput | n
     website: "",
     locale,
     source: "lumi-chat",
+    ...utm,
   };
   const parsed = leadSchema.safeParse(candidate);
   return parsed.success ? parsed.data : null;
 }
+

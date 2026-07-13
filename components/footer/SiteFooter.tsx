@@ -1,9 +1,21 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
+import { MessagingChips } from "@/components/cta/MessagingChips";
+
+// FR-SEO-019: Label maps for social profile accessible names.
+const profileLabels: Record<string, Record<string, string>> = {
+  linkedin: { en: "CyberSkill on LinkedIn", vi: "CyberSkill trên LinkedIn" },
+  github: { en: "CyberSkill on GitHub", vi: "CyberSkill trên GitHub" },
+  zalo: { en: "CyberSkill on Zalo", vi: "CyberSkill trên Zalo" },
+  facebook: { en: "CyberSkill on Facebook", vi: "CyberSkill trên Facebook" },
+  clutch: { en: "CyberSkill on Clutch", vi: "CyberSkill trên Clutch" },
+};
 
 export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const year = new Date().getFullYear();
+  const socialProfiles = Object.entries(company.profiles ?? {}).filter(([, url]) => Boolean(url));
+
   return (
     <footer className="cs-footer cs-no-print">
       <div className="cs-container cs-footer-inner">
@@ -23,6 +35,30 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
             </a>
           </p>
 
+          {/* FR-SEO-019 §1.3: Config-driven social profile row.
+              Hidden entirely when no profiles are configured. */}
+          {socialProfiles.length > 0 && (
+            <nav
+              className="cs-footer-social"
+              aria-label={locale === "vi" ? "Mạng xã hội" : "Social profiles"}
+            >
+              {socialProfiles.map(([key, url]) => (
+                <a
+                  key={key}
+                  href={url}
+                  rel="me noopener"
+                  target="_blank"
+                  aria-label={profileLabels[key]?.[locale] ?? `CyberSkill on ${key}`}
+                  className="cs-footer-social-link"
+                >
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                </a>
+              ))}
+            </nav>
+          )}
+
+          {/* FR-CTA-012: Messaging chips — rendered only when configured */}
+          <MessagingChips locale={locale} location="footer" />
         </div>
         <div className="cs-footer-end">
           <nav className="cs-footer-links" aria-label={locale === "vi" ? "Liên kết chân trang" : "Footer links"}>
@@ -43,3 +79,4 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
     </footer>
   );
 }
+

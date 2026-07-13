@@ -14,7 +14,7 @@ import {
   type WishState,
 } from "@/lib/genie/wishFlow";
 import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
-import { track } from "@/lib/analytics";
+import { emit, readUtm } from "@/lib/analytics/taxonomy";
 import { Icon } from "@/components/ui/Icon";
 
 function uid(): string {
@@ -106,7 +106,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     if (busy || wish) return;
     const state = startWishFlow();
     setWish(state);
-    track("wish_flow_started");
+    emit("form_started", { formId: "lumi-chat" });
     say(promptFor(state));
     inputRef.current?.focus();
   }
@@ -115,7 +115,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     if (wish) return;
     const state = startWishFlowWith(message);
     setWish(state);
-    track("wish_flow_started", { source: "hero" });
+    emit("form_started", { formId: "lumi-chat" });
     addMessage({ id: uid(), role: "user", content: message });
     say(dict.genie.wishSeedAck);
     inputRef.current?.focus();
@@ -163,7 +163,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         body: JSON.stringify(payload),
       });
       if (res.ok) {
-        track("lead_submitted", { source: "lumi-chat" });
+        emit("lead_submitted", { source: "lumi-chat", locale, utm: readUtm() });
         setWish(null);
         say(dict.genie.wishDone);
         // Lumi celebrates: the scene listens and bursts (FR-CHAR-030).
@@ -229,7 +229,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         try {
           const leadData = JSON.parse(captureMatch[1]);
           useGenieStore.getState().setLeadCaptured(true, leadData);
-          track("lead_submitted", { source: "lumi-conversational" });
+          emit("lead_submitted", { source: "lumi-chat", locale, utm: readUtm() });
         } catch (e) {
           // If JSON parse fails, just set it to true
           useGenieStore.getState().setLeadCaptured(true);
