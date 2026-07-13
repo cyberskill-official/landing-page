@@ -1,7 +1,7 @@
 ---
 id: FR-CHAR-027
 title: "On LEAD_CAPTURED, write the lead to CRM and fire a Slack/email notification with the transcript"
-status: ready_to_review
+status: done
 class: product
 priority: SHOULD
 owner: agent

@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-014
 title: "Newsletter capture with double opt-in"
-status: ready_to_review
+status: done
 class: improvement
 priority: SHOULD
 owner: agent
