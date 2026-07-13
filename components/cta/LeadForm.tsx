@@ -119,7 +119,7 @@ export function LeadForm({
   }
 
   return (
-    <form className="cs-form" onSubmit={handleSubmit(onSubmit)} onFocus={markStarted} noValidate>
+    <form className="cs-form clarity-mask" data-clarity-mask="true" onSubmit={handleSubmit(onSubmit)} onFocus={markStarted} noValidate>
       {/* Honeypot: hidden from people, tempting to bots (FR-CTA-013 §1.3). */}
       <div className="cs-visually-hidden" aria-hidden="true">
         <label htmlFor="website" aria-hidden="true">Leave this empty</label>

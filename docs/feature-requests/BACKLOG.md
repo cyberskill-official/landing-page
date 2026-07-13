@@ -206,8 +206,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 #### OPS
 
-- [ready_to_implement] FR-OPS-012 - Cookieless session replay (Microsoft Clarity), env-gated (improvement) [mixed] - depends: FR-OPS-013
-
 #### BIZ
 
 - [ready_to_implement] FR-BIZ-001 - Configure the lead sinks: Resend domain, API key, Slack webhook (improvement) [human]
@@ -360,6 +358,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 - [done] FR-OPS-016 - Optimize SVG vector assets in build/CI and enforce file-size budgets (improvement)
 - [done] FR-OPS-017 - Expose static CDN Cache-Control headers on sitemaps, feeds, and LLM text routes (improvement)
 - [done] FR-OPS-018 - Secure prune cron API route against spoofing via edge routing and signature validation (improvement)
+- [done] FR-OPS-012 - Cookieless session replay (Microsoft Clarity), env-gated (improvement) [mixed]
 
 ## §7 The gate
 

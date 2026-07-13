@@ -77,7 +77,7 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
 
   return (
     <div className="cs-newsletter-container" style={{ margin: "var(--cs-space-4) 0" }}>
-      <form onSubmit={handleSubmit} className="cs-newsletter-form" style={{ display: "flex", gap: "var(--cs-space-2)", maxWidth: "450px" }}>
+      <form onSubmit={handleSubmit} className="cs-newsletter-form clarity-mask" data-clarity-mask="true" style={{ display: "flex", gap: "var(--cs-space-2)", maxWidth: "450px" }}>
         {/* Honeypot field */}
         <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true">
           <input

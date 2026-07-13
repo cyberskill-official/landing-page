@@ -264,7 +264,8 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
 
   return (
     <section
-      className="cs-genie cs-surface-heavy cs-no-print"
+      className="cs-genie cs-surface-heavy cs-no-print clarity-mask"
+      data-clarity-mask="true"
       role="dialog"
       aria-label={dict.genie.title}
       aria-modal="false"

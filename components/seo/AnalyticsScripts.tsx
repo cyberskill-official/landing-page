@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ConsentGate } from "@/lib/analytics/consent";
 
 interface AnalyticsScriptsProps {
@@ -8,20 +8,13 @@ interface AnalyticsScriptsProps {
 }
 
 export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
-  const [shouldLoad, setShouldLoad] = useState(false);
-
   useEffect(() => {
-    // 1. Check if analytics consent is granted
-    if (!ConsentGate.canLoad("analytics")) {
-      return;
-    }
-
-    let lcpPainted = false;
-    let loaded = false;
-
-    const loadTag = () => {
-      if (loaded || !lcpPainted) return;
-      loaded = true;
+    // 1. Google Analytics 4 (GA4) loader
+    let gaLoaded = false;
+    const loadGa = () => {
+      if (gaLoaded) return;
+      if (!ConsentGate.canLoad("analytics")) return;
+      gaLoaded = true;
 
       // Inject GA4 script tag dynamically
       const script = document.createElement("script");
@@ -46,12 +39,48 @@ export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
       document.head.appendChild(inlineScript);
     };
 
-    // 2. Set up LCP Observer to detect when the LCP element has painted
+    // 2. Microsoft Clarity loader
+    let clarityLoaded = false;
+    const loadClarity = () => {
+      if (clarityLoaded) return;
+      
+      const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
+      const isProd = process.env.NODE_ENV === "production" || process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+      const isTest = process.env.NODE_ENV === "test";
+
+      if (!clarityId || (!isProd && !isTest)) return;
+      if (!ConsentGate.canLoad("session-replay")) return;
+
+      clarityLoaded = true;
+
+      // Inject Clarity script tag with inline config
+      const script = document.createElement("script");
+      if (nonce) {
+        script.setAttribute("nonce", nonce);
+      }
+      script.innerHTML = `
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script","${clarityId}");
+        window.clarity("consent", false);
+      `;
+      document.head.appendChild(script);
+    };
+
+    let lcpPainted = false;
+    const triggerLoadIfReady = () => {
+      if (!lcpPainted) return;
+      loadGa();
+      loadClarity();
+    };
+
+    // Set up LCP Observer to detect when the LCP element has painted
     const observer = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       if (entries.length > 0) {
         lcpPainted = true;
-        // Trigger load if interaction or idle already happened
         triggerLoadIfReady();
       }
     });
@@ -70,11 +99,7 @@ export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
     };
     window.addEventListener("load", handleLoad);
 
-    const triggerLoadIfReady = () => {
-      loadTag();
-    };
-
-    // 3. First user interaction listener
+    // First user interaction listener
     const onInteraction = () => {
       triggerLoadIfReady();
       cleanup();
@@ -85,7 +110,7 @@ export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
       window.addEventListener(event, onInteraction, { passive: true });
     });
 
-    // 4. Browser idle fallback (requestIdleCallback or setTimeout)
+    // Browser idle fallback (requestIdleCallback or setTimeout)
     let idleId: number | undefined;
     let timeoutId: any;
 

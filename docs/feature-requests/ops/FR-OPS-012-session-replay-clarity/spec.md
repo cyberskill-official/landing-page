@@ -1,7 +1,7 @@
 ---
 id: FR-OPS-012
 title: "Cookieless session replay (Microsoft Clarity), env-gated"
-status: ready_to_implement
+status: done
 class: improvement
 priority: COULD
 owner: mixed
