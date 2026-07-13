@@ -3,8 +3,9 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company, faqs } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { KineticText } from "@/components/motion/KineticText";
+import { NewsletterForm } from "@/components/cta/NewsletterForm";
 
-export function Faq({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+export function Faq({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   return (
     <section id="faq" className="cs-section" aria-labelledby="faq-title">
       <div className="cs-container">
@@ -23,6 +24,15 @@ export function Faq({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             </li>
           ))}
         </ul>
+
+        {hasNewsletter && (
+          <div className="cs-faq-newsletter cs-surface-light" style={{ marginTop: "var(--cs-space-8)", padding: "var(--cs-space-6)", borderRadius: "8px", border: "1px solid var(--cs-color-border)", maxWidth: "600px" }}>
+            <h3 style={{ margin: 0, fontSize: "var(--cs-text-lg)", color: "var(--cs-color-gold)" }}>
+              {locale === "vi" ? "Đăng ký nhận bản tin CyberSkill" : "Subscribe to the CyberSkill Newsletter"}
+            </h3>
+            <NewsletterForm locale={locale} />
+          </div>
+        )}
       </div>
     </section>
   );

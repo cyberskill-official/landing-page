@@ -22,6 +22,8 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
   const locale = isLocale(lang) ? lang : "en";
   const dict = getDictionary(locale);
 
+  const hasNewsletter = !!process.env.RESEND_API_KEY;
+
   return (
     <>
       {/* The 3D canvas is mounted here, on the homepage only, so sub-pages carry
@@ -39,9 +41,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <Process locale={locale} dict={dict} />
       <WorkPreview locale={locale} dict={dict} />
       <SocialProof locale={locale} dict={dict} />
-      <Faq locale={locale} dict={dict} />
+      <Faq locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
       <Careers locale={locale} dict={dict} />
-      <ContactCta locale={locale} dict={dict} />
+      <ContactCta locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
       <HomeFaqJsonLd locale={locale} />
       <ServicesJsonLd locale={locale} />
       {/* HeroPin is now part of HomeMotionBundle */}

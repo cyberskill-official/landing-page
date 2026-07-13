@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { MessagingChips } from "@/components/cta/MessagingChips";
+import { NewsletterForm } from "@/components/cta/NewsletterForm";
 
 // FR-SEO-019: Label maps for social profile accessible names.
 const profileLabels: Record<string, Record<string, string>> = {
@@ -12,7 +13,7 @@ const profileLabels: Record<string, Record<string, string>> = {
   clutch: { en: "CyberSkill on Clutch", vi: "CyberSkill trên Clutch" },
 };
 
-export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   const year = new Date().getFullYear();
   const socialProfiles = Object.entries(company.profiles ?? {}).filter(([, url]) => Boolean(url));
 
@@ -61,6 +62,14 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
           <MessagingChips locale={locale} location="footer" />
         </div>
         <div className="cs-footer-end">
+          {hasNewsletter && (
+            <div className="cs-footer-newsletter" style={{ marginBottom: "var(--cs-space-6)" }}>
+              <p style={{ fontWeight: 600, margin: 0, fontSize: "var(--cs-text-md)" }}>
+                {locale === "vi" ? "Đăng ký nhận bản tin" : "Subscribe to Newsletter"}
+              </p>
+              <NewsletterForm locale={locale} />
+            </div>
+          )}
           <nav className="cs-footer-links" aria-label={locale === "vi" ? "Liên kết chân trang" : "Footer links"}>
             <a href={`/${locale}/how-we-build`}>{dict.nav.howWeBuild}</a>
             <a href={`/${locale}/now`}>{locale === "vi" ? "Nhật ký" : "Changelog"}</a>

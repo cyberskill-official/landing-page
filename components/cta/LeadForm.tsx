@@ -9,6 +9,8 @@ import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
+import { NewsletterForm } from "@/components/cta/NewsletterForm";
+
 // Maps zod error codes to localised messages.
 function messageFor(code: string | undefined, dict: Dictionary): string | undefined {
   switch (code) {
@@ -27,10 +29,12 @@ export function LeadForm({
   locale,
   dict,
   source = "contact",
+  hasNewsletter,
 }: {
   locale: Locale;
   dict: Dictionary;
   source?: string;
+  hasNewsletter?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "ok" | "error">("idle");
 
@@ -101,7 +105,15 @@ export function LeadForm({
     return (
       <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite" style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", borderTop: "1px solid var(--cs-color-border)", textAlign: "center" }}>
         <h3 style={{ color: "var(--cs-color-primary)", marginBottom: "var(--cs-space-sm)" }}>{dict.form.successTitle}</h3>
-        <p style={{ margin: 0, fontSize: "var(--cs-text-md)" }}>{dict.form.successBody}</p>
+        <p style={{ margin: 0, fontSize: "var(--cs-text-md)", marginBottom: "var(--cs-space-4)" }}>{dict.form.successBody}</p>
+        {hasNewsletter && (
+          <div style={{ marginTop: "var(--cs-space-6)", paddingTop: "var(--cs-space-6)", borderTop: "1px dashed var(--cs-color-border)", textAlign: "left" }}>
+            <h4 style={{ color: "var(--cs-color-gold)", margin: 0, fontSize: "var(--cs-text-md)", fontWeight: 600 }}>
+              {locale === "vi" ? "Nhận thêm thông tin mỗi tháng" : "Get monthly insights delivered"}
+            </h4>
+            <NewsletterForm locale={locale} />
+          </div>
+        )}
       </div>
     );
   }

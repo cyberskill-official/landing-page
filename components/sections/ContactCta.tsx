@@ -11,7 +11,7 @@ import { Testimonial } from "@/components/ui/Testimonial";
 import { MessagingChips } from "@/components/cta/MessagingChips";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
-export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   return (
     <section id="contact" className="cs-section cs-section-contact" aria-labelledby="contact-title">
       <div className="cs-contact-bg" aria-hidden="true">
@@ -86,7 +86,7 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary 
               reachable for every visitor while the conversation leads. */}
           <details className="cs-contact-details">
             <summary>{dict.genie.contactFormFallback}</summary>
-            <LeadForm locale={locale} dict={dict} source="contact" />
+            <LeadForm locale={locale} dict={dict} source="contact" hasNewsletter={hasNewsletter} />
             <p className="cs-consent-note">{dict.genie.consent}</p>
           </details>
         </div>
