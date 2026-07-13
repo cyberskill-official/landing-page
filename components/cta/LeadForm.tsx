@@ -102,22 +102,48 @@ export function LeadForm({
 
   return (
     <form className="cs-form" onSubmit={handleSubmit(onSubmit)} onFocus={markStarted} noValidate>
-      {/* Honeypot: hidden from people, tempting to bots. */}
+      {/* Honeypot: hidden from people, tempting to bots (FR-CTA-013 §1.3). */}
       <div className="cs-visually-hidden" aria-hidden="true">
-        <label htmlFor="website">Leave this empty</label>
-        <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
+        <label htmlFor="website" aria-hidden="true">Leave this empty</label>
+        <input id="website" type="text" tabIndex={-1} aria-hidden="true" autoComplete="off" {...register("website")} />
       </div>
 
       <div className="cs-field">
         <label htmlFor="name">{dict.form.name}</label>
-        <input id="name" type="text" autoComplete="name" aria-invalid={!!errors.name} {...register("name")} />
-        {errors.name && <span className="cs-field-error">{messageFor(errors.name.message, dict)}</span>}
+        <input
+          id="name"
+          type="text"
+          required
+          aria-required="true"
+          autoComplete="name"
+          aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? "name-error" : undefined}
+          {...register("name")}
+        />
+        {errors.name && (
+          <span id="name-error" className="cs-field-error" role="alert">
+            {messageFor(errors.name.message, dict)}
+          </span>
+        )}
       </div>
 
       <div className="cs-field">
         <label htmlFor="email">{dict.form.email}</label>
-        <input id="email" type="email" autoComplete="email" aria-invalid={!!errors.email} {...register("email")} />
-        {errors.email && <span className="cs-field-error">{messageFor(errors.email.message, dict)}</span>}
+        <input
+          id="email"
+          type="email"
+          required
+          aria-required="true"
+          autoComplete="email"
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? "email-error" : undefined}
+          {...register("email")}
+        />
+        {errors.email && (
+          <span id="email-error" className="cs-field-error" role="alert">
+            {messageFor(errors.email.message, dict)}
+          </span>
+        )}
       </div>
 
       <div className="cs-field">
@@ -145,7 +171,15 @@ export function LeadForm({
       </div>
 
       <div className="cs-field cs-field-check">
-        <input id="consent" type="checkbox" aria-invalid={!!errors.consent} {...register("consent")} />
+        <input
+          id="consent"
+          type="checkbox"
+          required
+          aria-required="true"
+          aria-invalid={!!errors.consent}
+          aria-describedby={errors.consent ? "consent-error" : undefined}
+          {...register("consent")}
+        />
         <label htmlFor="consent">
           {dict.form.consent}{" "}
           <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
@@ -153,7 +187,11 @@ export function LeadForm({
           </a>
         </label>
       </div>
-      {errors.consent && <span className="cs-field-error">{messageFor(errors.consent.message, dict)}</span>}
+      {errors.consent && (
+        <span id="consent-error" className="cs-field-error" role="alert">
+          {messageFor(errors.consent.message, dict)}
+        </span>
+      )}
 
       <div style={{ marginTop: "var(--cs-space-md)" }}>
         <button type="submit" className="cs-btn cs-btn-primary" disabled={status === "submitting"} style={{ width: "100%", marginBottom: "var(--cs-space-xs)" }}>

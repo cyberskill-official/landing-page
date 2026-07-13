@@ -1,7 +1,7 @@
 ---
 id: FR-SEO-010
 title: "Restore word spacing in the machine-readable text of kinetic headings"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: MUST
 owner: agent

@@ -15,6 +15,7 @@ export function KineticText({ text }: { text: string }) {
           <span className="cs-kt-inner" style={{ "--kti": i } as CSSProperties}>
             {word}
           </span>
+          <span className="cs-visually-hidden"> </span>
         </span>
       ))}
     </>

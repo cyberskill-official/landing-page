@@ -70,22 +70,22 @@ dependency, 33 waiting on a human.
 #### WEB
 
 - [done] FR-WEB-011 - Serve the negotiated locale at the root without a visible redirect hop (improvement)
-- [ready_to_implement] FR-WEB-012 - Real /team route with named people, replacing the on-page anchor (improvement)
+- [done] FR-WEB-012 - Real /team route with named people, replacing the on-page anchor (improvement)
 
 #### SCENE
 
-- [ready_to_implement] FR-SCENE-009 - Draw-call budget, GPU disposal, and LOD for the scene (improvement)
+- [done] FR-SCENE-009 - Draw-call budget, GPU disposal, and LOD for the scene (improvement)
 
 #### CHAR
 
-- [ready_to_implement] FR-CHAR-026 - Conversational lead-capture sequence, value-first, with ICP qualification and a LEAD_CAPTURED state
+- [done] FR-CHAR-026 - Conversational lead-capture sequence, value-first, with ICP qualification and a LEAD_CAPTURED state
 
 #### CTA
 
-- [ready_to_implement] FR-CTA-010 - Thank-you state with next steps, and a trust line under the form (improvement)
+- [done] FR-CTA-010 - Thank-you state with next steps, and a trust line under the form (improvement)
 - [ready_to_implement] FR-CTA-011 - Auto-acknowledgement email to the lead, localized (improvement)
 - [ready_to_implement] FR-CTA-012 - Zalo and WhatsApp one-tap contact chips, config-driven (improvement)
-- [ready_to_implement] FR-CTA-013 - Mark required fields in the markup, validate, and verify the honeypot (improvement)
+- [ready_to_review] FR-CTA-013 - Mark required fields in the markup, validate, and verify the honeypot (improvement)
 
 #### CMS
 
@@ -99,7 +99,7 @@ dependency, 33 waiting on a human.
 
 #### SEO
 
-- [ready_to_implement] FR-SEO-010 - Restore word spacing in the machine-readable text of kinetic headings (improvement)
+- [ready_to_review] FR-SEO-010 - Restore word spacing in the machine-readable text of kinetic headings (improvement)
 - [ready_to_review] FR-SEO-011 - Intent-carrying, locale-correct titles and descriptions on every indexable route (improvement)
 - [ready_to_review] FR-SEO-012 - Complete the sitemap and stamp real lastModified dates (improvement)
 - [ready_to_review] FR-SEO-013 - Replace non-descriptive link text ("Learn more") sitewide (improvement)
@@ -124,7 +124,7 @@ dependency, 33 waiting on a human.
 - [done] FR-PERF-008 - Cut and defer first-load JavaScript (TBT 1,370 ms -> under 300 ms) (improvement)
 - [ready_to_implement] FR-PERF-010 - Serve brand image assets with long immutable caching (improvement)
 - [ready_to_implement] FR-PERF-012 - Pause off-screen and idle animation to protect INP and battery (improvement)
-- [ready_to_implement] FR-PERF-013 - Measure and gate real Core Web Vitals: mobile Lighthouse assertions plus field data (improvement)
+- [ready_to_review] FR-PERF-013 - Measure and gate real Core Web Vitals: mobile Lighthouse assertions plus field data (improvement)
 
 #### OPS
 

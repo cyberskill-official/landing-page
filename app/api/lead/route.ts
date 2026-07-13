@@ -19,11 +19,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "bad_json" }, { status: 400 });
   }
 
+  // Honeypot tripped -> pretend success, store nothing (FR-CTA-013 §1.4).
+  // Checked on raw body since Zod schema enforces max length 0 and would reject with 400.
+  const rawWebsite = (body as any)?.website;
+  if (rawWebsite && typeof rawWebsite === "string" && rawWebsite.length > 0) {
+    return NextResponse.json({ ok: true });
+  }
+
   const parsed = leadSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { ok: false, error: "validation", issues: parsed.error.flatten().fieldErrors },
-      { status: 422 },
+      { ok: false, error: "validation_error", message: "Invalid lead payload", issues: parsed.error.flatten().fieldErrors },
+      { status: 400 },
     );
   }
 
@@ -39,11 +46,6 @@ export async function POST(req: Request) {
       { ok: false, error: "configuration_error", message: err.message },
       { status: 500 }
     );
-  }
-
-  // Honeypot tripped -> pretend success, store nothing.
-  if (lead.website && lead.website.length > 0) {
-    return NextResponse.json({ ok: true });
   }
 
   const record = {
