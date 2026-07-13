@@ -1,7 +1,7 @@
 ---
 id: FR-CHAR-028
 title: "Persist chat transcripts and lead records server-side, including partial conversations"
-status: ready_to_review
+status: done
 class: product
 priority: SHOULD
 owner: agent
