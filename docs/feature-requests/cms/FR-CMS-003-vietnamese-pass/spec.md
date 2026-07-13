@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-003
 title: "Complete Vietnamese localization with native-speaker review"
-status: ready_to_implement
+status: done
 class: product
 priority: MUST
 owner: mixed

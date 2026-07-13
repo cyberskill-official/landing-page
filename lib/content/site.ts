@@ -329,7 +329,7 @@ export const faqs: FaqItem[] = [
 
 export type WorkItem = {
   slug: string;
-  client: string;
+  client: LocalizedString;
   title: LocalizedString;
   result: LocalizedString;
   tags: string[];
@@ -342,28 +342,28 @@ export type WorkItem = {
 export const work: WorkItem[] = [
   {
     slug: "operations-platform",
-    client: "Logistics operations",
+    client: { en: "Logistics operations", vi: "Vận hành logistics" },
     title: { en: "An operations platform that retires the spreadsheets", vi: "Nền tảng vận hành cho bảng tính nghỉ hưu" },
     result: { en: "One shared operations view the whole team works from, instead of reconciling files by hand.", vi: "Cả đội làm việc trên một màn hình vận hành dùng chung, thay vì ngồi đối chiếu từng file bằng tay." },
     tags: ["internal-systems", "web-apps"],
   },
   {
     slug: "member-mobile-app",
-    client: "Education",
+    client: { en: "Education", vi: "Giáo dục" },
     title: { en: "A member mobile app with offline-first lessons", vi: "Ứng dụng học viên, học được cả khi mất mạng" },
     result: { en: "Lessons that work on the move, on the App Store and Google Play, with crash-free sessions tracked from launch.", vi: "Bài học chạy mượt trên đường đi, có mặt trên App Store và Google Play, với tỉ lệ phiên không lỗi được theo dõi từ ngày ra mắt." },
     tags: ["mobile-apps"],
   },
   {
     slug: "commerce-portal",
-    client: "Retail",
+    client: { en: "Retail", vi: "Bán lẻ" },
     title: { en: "A commerce portal rebuilt for speed", vi: "Cổng thương mại được dựng lại vì tốc độ" },
     result: { en: "A shorter path to checkout, with Core Web Vitals kept as a target measured on every change.", vi: "Đường đến bước thanh toán ngắn hơn, với Core Web Vitals được giữ làm mục tiêu và đo trên từng thay đổi." },
     tags: ["web-apps"],
   },
   {
     slug: "legacy-migration",
-    client: "Healthcare",
+    client: { en: "Healthcare", vi: "Y tế" },
     title: { en: "A legacy system migration to the cloud", vi: "Chuyển đổi hệ thống cũ lên đám mây" },
     result: { en: "Transitioned to modern cloud architecture without operational downtime.", vi: "Chuyển đổi sang kiến trúc đám mây hiện đại không có thời gian dừng vận hành." },
     tags: ["internal-systems"],

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import fs from "fs";
 import path from "path";
-import { testimonials, clientLogos } from "@/lib/content/site";
+import { testimonials, clientLogos, work } from "@/lib/content/site";
 import { notes } from "@/lib/content/notes";
 import { changelog } from "@/lib/content/changelog";
 
@@ -123,6 +123,23 @@ describe("CMS Content & Layout Integration", () => {
       expect(note.counterparts.vi).toBe(note.slug);
       expect(note.permission.grantedBy).toBeTruthy();
       expect(note.permission.reference).toBeTruthy();
+    });
+  });
+
+  it("docs/vi-review-signoff: native-speaker sign-off exists and is recorded", () => {
+    const signoffPath = path.join(process.cwd(), "docs/vi-review-signoff.md");
+    expect(fs.existsSync(signoffPath)).toBe(true);
+    const content = fs.readFileSync(signoffPath, "utf8");
+    expect(content).toContain("APPROVED");
+    expect(content).toContain("Stephen Cheng");
+  });
+
+  it("content/vi-parity: case-study category tags are translated in Vietnamese", () => {
+    work.forEach((item) => {
+      expect(item.client).toBeDefined();
+      expect(item.client.en).toBeTruthy();
+      expect(item.client.vi).toBeTruthy();
+      expect(item.client.vi).not.toBe(item.client.en);
     });
   });
 });

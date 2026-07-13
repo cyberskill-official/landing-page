@@ -21,7 +21,7 @@ export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary
               {/* HUD viewfinder brackets: appear on hover (decorative). */}
               <span className="cs-corners" aria-hidden="true" />
               <WorkThumb slug={item.slug} />
-              <p className="cs-eyebrow">{item.client}</p>
+              <p className="cs-eyebrow">{localize(item.client, locale)}</p>
               <h3>
                 <Link className="cs-stretch" href={`/${locale}/work/${item.slug}`}>
                   {localize(item.title, locale)}

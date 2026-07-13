@@ -15,7 +15,7 @@ export default async function CaseStudyOg({ params }: { params: Promise<{ lang: 
   const locale = isLocale(lang) ? lang : "en";
   const item = work.find((w) => w.slug === slug);
   const heading = item ? localize(item.title, locale) : locale === "vi" ? "Dự án" : "Work";
-  const client = item ? item.client : "CyberSkill";
+  const client = item ? localize(item.client, locale) : "CyberSkill";
 
   return new ImageResponse(
     (

@@ -100,7 +100,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
           <div className="cs-work-grid">
             {work.map((item) => (
               <article key={item.slug} className="cs-work-card cs-surface-light">
-                <p className="cs-eyebrow">{item.client}</p>
+                <p className="cs-eyebrow">{localize(item.client, locale)}</p>
                 <h3 style={{ fontSize: "var(--cs-text-xl)", margin: "0 0 var(--cs-space-xs) 0" }}>
                   <Link className="cs-stretch" href={`/${locale}/work/${item.slug}`}>
                     {localize(item.title, locale)}

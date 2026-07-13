@@ -190,7 +190,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 #### CMS
 
-- [ready_to_implement] FR-CMS-003 - Complete Vietnamese localization with native-speaker review [mixed]
 - [ready_to_implement] FR-CMS-004 - Replace placeholder testimonials with cleared client quotes [mixed] - depends: FR-BIZ-006, FR-CMS-012
 - [ready_to_implement] FR-CMS-006 - About, team, and culture content (recruiting + trust surface) [mixed] - depends: FR-BIZ-006
 - [ready_to_implement] FR-CMS-009 - Replace placeholder case studies with cleared real outcomes [mixed] - depends: FR-BIZ-006, FR-CMS-011
@@ -317,6 +316,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 - [done] FR-CMS-001 - Bilingual content source-of-truth (EN + VN)
 - [done] FR-CMS-002 - On-page Process and FAQ sections (FAQ mirrors the JSON-LD)
 - [done] FR-CMS-008 - Privacy and legal page covering PDPL/GDPR and consent
+- [done] FR-CMS-003 - Complete Vietnamese localization with native-speaker review [mixed]
 
 ### SEO
 

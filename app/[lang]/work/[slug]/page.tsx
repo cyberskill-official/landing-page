@@ -96,8 +96,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
         {/* Client identity: handles NDA vs Public Client name */}
         <p className="cs-eyebrow">
           {study?.isNda
-            ? (study.ndaMeta ? localize(study.ndaMeta, locale) : item.client)
-            : (study?.clientName || item.client)}
+            ? (study.ndaMeta ? localize(study.ndaMeta, locale) : localize(item.client, locale))
+            : (study?.clientName || localize(item.client, locale))}
         </p>
 
         <h1>{localize(item.title, locale)}</h1>
