@@ -146,7 +146,7 @@ dependency, 33 waiting on a human.
 
 - [done] FR-CTA-006 - Map form leads to the CRM via a server-side webhook - depends: FR-OPS-010
 - [done] FR-CTA-014 - Newsletter capture with double opt-in (improvement) - depends: FR-OPS-013
-- [ready_to_implement] FR-CTA-020 - Careers talent-pool email capture (improvement) - depends: FR-CTA-014
+- [ready_to_review] FR-CTA-020 - Careers talent-pool email capture (improvement) - depends: FR-CTA-014
 
 #### CMS
 

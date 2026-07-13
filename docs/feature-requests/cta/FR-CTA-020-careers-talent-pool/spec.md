@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-020
 title: "Careers talent-pool email capture"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: COULD
 owner: agent

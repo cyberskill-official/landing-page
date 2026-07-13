@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { LeadForm } from "@/components/cta/LeadForm";
+import { TalentPoolForm } from "@/components/cta/TalentPoolForm";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { resolveMetadata } from "@/lib/content/metadata";
 
@@ -28,6 +28,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : "en";
   const dict = getDictionary(locale);
+  const hasNewsletterKey = !!process.env.RESEND_API_KEY;
 
   const t = locale === "vi"
     ? {
@@ -114,21 +115,23 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
           </ul>
         </div>
 
-        {/* Talent Pool & Form (FR-CMS-017 §1.2) */}
+        {/* Talent Pool & Form (FR-CTA-020) */}
         <div className="cs-contact-form cs-surface-light" style={{ marginTop: "var(--cs-space-12)", maxWidth: "40rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
             {locale === "vi" ? "Gia nhập Kho tài năng của CyberSkill" : "Join the Talent Pool"}
           </h2>
           <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", marginBottom: "var(--cs-space-md)" }}>{t.noOpenings}</p>
-          
-          <LeadForm locale={locale} dict={dict} source="careers" />
-          
-          <p className="cs-consent-note" style={{ marginTop: "var(--cs-space-md)" }}>
-            {dict.genie.consent}{" "}
-            <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
-              {dict.footer.privacy}
-            </a>
-          </p>
+
+          {hasNewsletterKey ? (
+            <TalentPoolForm locale={locale} />
+          ) : (
+            /* Fallback when subscribe service not configured */
+            <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)" }}>
+              {locale === "vi"
+                ? "Vui lòng liên hệ trực tiếp qua email: hello@cyberskill.vn"
+                : "Please reach out directly: hello@cyberskill.vn"}
+            </p>
+          )}
         </div>
       </div>
     </section>

@@ -7,32 +7,39 @@ export const runtime = "nodejs";
 
 const SIGNING_SECRET = process.env.SUBSCRIBE_SIGNING_SECRET || process.env.RESEND_API_KEY || "default_secret";
 
-function generateToken(email: string): string {
+function generateToken(email: string, audienceTag?: string): string {
   const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-  const payload = `${email}:${expiresAt}`;
+  const tag = audienceTag ? encodeURIComponent(audienceTag) : "";
+  const payload = `${email}:${expiresAt}:${tag}`;
   const hmac = crypto.createHmac("sha256", SIGNING_SECRET).update(payload).digest("hex");
   return Buffer.from(`${payload}:${hmac}`).toString("base64url");
 }
 
-function verifyToken(token: string): { email: string; valid: boolean } {
+function verifyToken(token: string): { email: string; audienceTag: string; valid: boolean } {
   try {
     const decoded = Buffer.from(token, "base64url").toString("utf8");
     const parts = decoded.split(":");
-    if (parts.length !== 3) return { email: "", valid: false };
-    const [email, expiresAtStr, signature] = parts;
+    // Format: email:expiresAt:tag:hmac (tag may be empty string)
+    if (parts.length < 4) return { email: "", audienceTag: "", valid: false };
+    const hmac = parts[parts.length - 1];
+    const expiresAtStr = parts[parts.length - 3];
+    const tagEncoded = parts[parts.length - 2];
+    // email may contain colons (unlikely but handle gracefully)
+    const email = parts.slice(0, parts.length - 3).join(":");
     const expiresAt = parseInt(expiresAtStr, 10);
     if (isNaN(expiresAt) || expiresAt < Date.now()) {
-      return { email, valid: false };
+      return { email, audienceTag: "", valid: false };
     }
-    const expectedPayload = `${email}:${expiresAtStr}`;
+    const expectedPayload = `${email}:${expiresAtStr}:${tagEncoded}`;
     const expectedHmac = crypto.createHmac("sha256", SIGNING_SECRET).update(expectedPayload).digest("hex");
     const valid = crypto.timingSafeEqual(
-      Buffer.from(signature, "hex"),
+      Buffer.from(hmac, "hex"),
       Buffer.from(expectedHmac, "hex")
     );
-    return { email, valid };
+    const audienceTag = tagEncoded ? decodeURIComponent(tagEncoded) : "";
+    return { email, audienceTag, valid };
   } catch {
-    return { email: "", valid: false };
+    return { email: "", audienceTag: "", valid: false };
   }
 }
 
@@ -94,7 +101,7 @@ export async function GET(req: Request) {
     return new Response("Missing token", { status: 400 });
   }
 
-  const { email: verifiedEmail, valid } = verifyToken(token);
+  const { email: verifiedEmail, audienceTag: verifiedAudienceTag, valid } = verifyToken(token);
   if (!valid || !verifiedEmail) {
     return new Response(
       `<!DOCTYPE html>
@@ -126,16 +133,21 @@ export async function GET(req: Request) {
 
   if (key && audienceId) {
     try {
+      const contactPayload: Record<string, unknown> = {
+        email: verifiedEmail,
+        unsubscribed: false,
+      };
+      // Apply audience tag when present (e.g. "talent-pool" from careers form)
+      if (verifiedAudienceTag) {
+        contactPayload.tags = [verifiedAudienceTag];
+      }
       const res = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${key}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: verifiedEmail,
-          unsubscribed: false,
-        }),
+        body: JSON.stringify(contactPayload),
       });
 
       if (!res.ok) {
@@ -146,7 +158,7 @@ export async function GET(req: Request) {
       console.error("[subscribe] API connection error", err);
     }
   } else {
-    console.log(`[subscribe] [NO-OP] Confirmed subscription for: ${verifiedEmail}`);
+    console.log(`[subscribe] [NO-OP] Confirmed subscription for: ${verifiedEmail} tag=${verifiedAudienceTag || "newsletter"}`);
   }
 
   return new Response(
@@ -184,7 +196,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "bad_json" }, { status: 400 });
   }
 
-  const { email, locale, website } = (body as any) || {};
+  const { email, locale, website, audienceTag } = (body as any) || {};
 
   // Honeypot triggered -> fake success
   if (website && typeof website === "string" && website.length > 0) {
@@ -195,6 +207,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
   }
 
+  // Validate audienceTag: only alphanumeric/dash/underscore, max 64 chars
+  const safeTag =
+    typeof audienceTag === "string" && /^[a-z0-9_-]{1,64}$/i.test(audienceTag)
+      ? audienceTag
+      : undefined;
+
   const validLocale = locale === "vi" ? "vi" : "en";
 
   const key = process.env.RESEND_API_KEY;
@@ -203,7 +221,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, note: "provider_env_missing_noop" });
   }
 
-  const token = generateToken(email);
+  const token = generateToken(email, safeTag);
   const origin = new URL(req.url).origin;
   const confirmUrl = `${origin}/api/subscribe?token=${token}`;
   const unsubscribeUrl = `${origin}/api/subscribe?action=unsubscribe&email=${encodeURIComponent(email)}`;
