@@ -475,25 +475,17 @@ export function GenieScene() {
   const trailAnchor = useRef<THREE.Object3D>(null!);
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
-  const [focused, setFocused] = useState(true);
 
   useEffect(() => {
-    // FR-PERF-012: Pause R3F render loop when document hidden or tab loses focus
+    // FR-PERF-012: Pause R3F render loop when document hidden
     const onVisibility = () => {
       setVisible(!document.hidden);
     };
-    const onFocus = () => setFocused(true);
-    const onBlur = () => setFocused(false);
 
     document.addEventListener("visibilitychange", onVisibility);
-    window.addEventListener("focus", onFocus);
-    window.addEventListener("blur", onBlur);
 
     // Initial check
     setVisible(!document.hidden);
-    if (typeof document !== "undefined") {
-      setFocused(document.hasFocus());
-    }
 
     // FR-PERF-012: Pause R3F render loop when canvas container leaves viewport
     const el = containerRef.current;
@@ -507,13 +499,11 @@ export function GenieScene() {
 
     return () => {
       document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("focus", onFocus);
-      window.removeEventListener("blur", onBlur);
       observer?.disconnect();
     };
   }, []);
 
-  const active = visible && focused;
+  const active = visible;
 
   // Feed the normalized pointer from a WINDOW listener. r3f's own pointer
   // tracking needs its canvas to receive pointer events, but this canvas is
