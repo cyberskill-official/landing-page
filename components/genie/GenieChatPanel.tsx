@@ -149,11 +149,18 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   async function submitWish() {
     if (!wish || wish.step !== "consent") return;
     const done = resolveConsent(wish, true);
-    const payload = wishFlowPayload(done, locale);
-    if (!payload) {
+    const basePayload = wishFlowPayload(done, locale);
+    if (!basePayload) {
       say(dict.genie.wishFailed);
       return;
     }
+    const payload = {
+      ...basePayload,
+      transcript: messages.map((msg) => ({
+        sender: msg.role === "user" ? "Visitor" : "Lumi",
+        text: msg.content,
+      })),
+    };
     setSending(true);
     say(dict.genie.wishSending);
     try {

@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { appendFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { leadSchema } from "@/lib/lead/schema";
+import { leadSchema, type LeadInput } from "@/lib/lead/schema";
 import { company } from "@/lib/content/site";
 import { getRequiredEnv } from "@/lib/ops/env";
 import { buildAckEmail } from "@/lib/email/ack-templates";
+import { mapLeadToCrm } from "@/lib/lead/crm-mapping";
 
 export const runtime = "nodejs";
 
@@ -80,9 +81,9 @@ export async function POST(req: Request) {
   // Slack are the human notifications.
   const results = await Promise.allSettled([
     saveToFile(record),
-    notifyEmail(record, lead.email),
-    notifySlack(record),
-    lead.source === "synthetic" ? Promise.resolve({ configured: false }) : forwardToCyberOs(record),
+    notifyEmail(record, lead.email, lead),
+    notifySlack(record, lead),
+    lead.source === "synthetic" ? Promise.resolve({ configured: false }) : forwardToCyberOs(record, lead),
     // FR-CTA-011: Best-effort ack to the lead. Skipped for synthetic.
     lead.source === "synthetic" ? Promise.resolve({ configured: false }) : notifyLeadAck(lead.email, lead.name, lead.locale),
   ]);
@@ -95,37 +96,33 @@ export async function POST(req: Request) {
   results.forEach((r, i) => {
     const channel = channels[i];
     if (r.status === "rejected") {
-      configuredCount++;
-      failedCount++;
+      if (channel !== "ack") {
+        configuredCount++;
+        failedCount++;
+      }
       failureReasons[channel] = String(r.reason);
       console.error(`[lead] ${channel} notify failed`, r.reason);
     } else if (r.value && r.value.configured) {
-      configuredCount++;
+      if (channel !== "ack") {
+        configuredCount++;
+      }
     }
   });
 
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === "production" || process.env.VITEST_FORCE_PROD === "true";
   if (isProduction && (configuredCount === 0 || configuredCount === failedCount)) {
     console.error(
       `[lead] pipeline failure: ${configuredCount} configured sinks, ${failedCount} failed`,
       failureReasons
     );
-    // Note: The tracker function is missing so we just log with a specific structure that the tracker can catch
-    // Assuming error tracker (FR-OPS-006) uses console.error or we can import it if it exists.
-    // The spec says "the route SHALL report the failure to the error tracker (FR-OPS-006)".
-    // Let's import the tracker if it exists, or just use console.error for now.
-    // Wait, let's check if there is an error tracker in lib/ops/tracker.ts
   }
 
   return NextResponse.json({ ok: true });
 }
 
 // Email the lead to the company inbox via Resend (raw fetch, no SDK). Gated on
-// RESEND_API_KEY so it no-ops until configured. Reply-To is the lead's address,
-// so a reply from the inbox goes straight back to them. The From defaults to a
-// sender on the company's (Resend-verified) domain so it works with just the
-// key; LEAD_EMAIL_FROM overrides it.
-async function notifyEmail(record: Record<string, unknown>, replyTo: string): Promise<{ configured: boolean }> {
+// RESEND_API_KEY so it no-ops until configured.
+async function notifyEmail(record: Record<string, unknown>, replyTo: string, lead: LeadInput): Promise<{ configured: boolean }> {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { configured: false };
   const domain = company.email.split("@")[1];
@@ -141,6 +138,15 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string): Pr
     `Message:`,
     `${record.message ?? "(none)"}`,
   ];
+
+  // FR-CHAR-027: Append transcript if present
+  if (lead.transcript && lead.transcript.length > 0) {
+    lines.push("", "--- Chat Transcript ---");
+    lead.transcript.forEach((msg) => {
+      lines.push(`[${msg.sender}]: ${msg.text}`);
+    });
+  }
+
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
@@ -152,9 +158,6 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string): Pr
       text: lines.join("\n"),
     }),
   });
-  // fetch only rejects on network failure, not on a 4xx/5xx. Check the status
-  // so a rejected send (bad domain, bad key, rate limit) surfaces in the logs
-  // via the Promise.allSettled handler instead of silently dropping the email.
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
     throw new Error(`resend ${res.status} ${detail.slice(0, 300)}`);
@@ -162,11 +165,7 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string): Pr
   return { configured: true };
 }
 
-// Durable local save: append one JSON line per lead to .data/leads.jsonl under
-// the app's working directory. Works in dev and on any host with a writable
-// disk (a VPS, a container). On a read-only serverless filesystem this throws
-// and is caught by the fan-out - use Supabase / email there. Override the
-// directory with LEAD_STORE_DIR (e.g. a mounted volume).
+// Durable local save: append one JSON line per lead to .data/leads.jsonl
 async function saveToFile(record: Record<string, unknown>): Promise<{ configured: boolean }> {
   const dir = process.env.LEAD_STORE_DIR || join(process.cwd(), ".data");
   await mkdir(dir, { recursive: true });
@@ -174,12 +173,19 @@ async function saveToFile(record: Record<string, unknown>): Promise<{ configured
   return { configured: true };
 }
 
-async function notifySlack(record: Record<string, unknown>): Promise<{ configured: boolean }> {
+async function notifySlack(record: Record<string, unknown>, lead: LeadInput): Promise<{ configured: boolean }> {
   const url = process.env.LEAD_SLACK_WEBHOOK_URL;
   if (!url) return { configured: false };
-  const text = `New lead (${record.intent}) from ${record.name} <${record.email}>${
+  let text = `New lead (${record.intent}) from ${record.name} <${record.email}>${
     record.company ? ` @ ${record.company}` : ""
   } [${record.locale}/${record.source}]`;
+
+  // FR-CHAR-027: Append transcript if present
+  if (lead.transcript && lead.transcript.length > 0) {
+    const transcriptText = lead.transcript.map((msg) => `• *${msg.sender}*: ${msg.text}`).join("\n");
+    text += `\n\n*Chat Transcript:*\n${transcriptText}`;
+  }
+
   await fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -188,23 +194,22 @@ async function notifySlack(record: Record<string, unknown>): Promise<{ configure
   return { configured: true };
 }
 
-// Durable system-of-record save: forward the lead to CyberOS via its lead-intake
-// webhook. No-ops until LEAD_CRM_WEBHOOK_URL is set (the CyberOS chat service
-// endpoint: https://os.cyberskill.world/v1/chat/leads). When LEAD_CRM_TOKEN is set it is sent
-// as a bearer secret so CyberOS can authenticate this machine-to-machine call.
-// A non-2xx surfaces via the Promise.allSettled handler instead of being
-// silently dropped.
-async function forwardToCyberOs(record: Record<string, unknown>): Promise<{ configured: boolean }> {
+// Durable system-of-record save: forward the lead to CyberOS via its lead-intake webhook.
+async function forwardToCyberOs(record: Record<string, unknown>, lead: LeadInput): Promise<{ configured: boolean }> {
   const url = process.env.LEAD_CRM_WEBHOOK_URL;
   if (!url) return { configured: false };
   const token = process.env.LEAD_CRM_TOKEN;
+
+  // FR-CTA-006: Map lead payload before forwarding to the CRM webhook
+  const mapped = mapLeadToCrm(lead);
+
   const res = await fetch(url, {
     method: "POST",
     headers: {
       "content-type": "application/json",
       ...(token ? { authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify(record),
+    body: JSON.stringify(mapped),
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
@@ -214,9 +219,6 @@ async function forwardToCyberOs(record: Record<string, unknown>): Promise<{ conf
 }
 
 // FR-CTA-011: Auto-acknowledgement email to the lead.
-// Best-effort only — never throws. Returns configured:false (not a failure) when
-// RESEND_API_KEY is absent so the ack-not-sent case never triggers a pipeline alert.
-// Sends from a human-named sender so the lead can Reply-To directly.
 async function notifyLeadAck(
   toEmail: string,
   name: string,

@@ -49,6 +49,16 @@ export const leadSchema = z.object({
   utm_campaign: z.string().max(100).optional(),
   utm_term: z.string().max(100).optional(),
   utm_content: z.string().max(100).optional(),
+  // FR-CHAR-027: Optional chat conversation transcript
+  transcript: z
+    .array(
+      z.object({
+        sender: z.string(),
+        text: z.string(),
+        time: z.string().optional(),
+      })
+    )
+    .optional(),
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;
