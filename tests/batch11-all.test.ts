@@ -6,7 +6,6 @@ import { GET as getLlms } from "@/app/llms.txt/route";
 import { GET as getLlmsFull } from "@/app/llms-full.txt/route";
 import { GET as getRobots } from "@/app/robots.txt/route";
 import { GET as getFeed } from "@/app/[lang]/feed.xml/route";
-import { PostSchema } from "@/lib/content/post-schema"; // we will create this or use NotePost schema
 import { getDb, resetDb } from "@/lib/db";
 import { InMemoryAdapter } from "@/lib/db/in-memory";
 import fs from "node:fs";

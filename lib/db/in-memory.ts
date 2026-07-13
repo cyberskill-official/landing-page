@@ -118,6 +118,14 @@ export class InMemoryAdapter implements DbAdapter {
     return Array.from(transcriptsDb.values()).filter((r) => !r.deletedAt).length;
   }
 
+  getLeadsMap() {
+    return leadsDb;
+  }
+
+  getTranscriptsMap() {
+    return transcriptsDb;
+  }
+
   clearAll(): void {
     leadsDb.clear();
     transcriptsDb.clear();
