@@ -108,11 +108,14 @@ describe("FR-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     // Three.js loads the same glTF blob: texture via fetch() on this path,
     // which connect-src governs, not img-src - both are needed.
     expect(csp).toContain("connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com");
-    // Vercel Live Feedback/Toolbar: needs both script-src (loads its script)
-    // and frame-src (opens its iframe) - confirmed live, the frame-src gap
-    // was the last violation left standing after the script-src fix.
+    // Vercel Live Feedback/Toolbar: needs script-src (loads its script),
+    // frame-src (opens its iframe), and font-src (its self-hosted Geist
+    // webfonts, e.g. "Loading the font 'https://vercel.live/geist.woff2'
+    // violates ... font-src 'self'") - each was the next violation surfaced
+    // once the prior one was fixed.
     expect(csp).toContain("https://vercel.live");
     expect(csp).toContain("frame-src 'self' https://vercel.live");
+    expect(csp).toContain("font-src 'self' https://vercel.live");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("base-uri 'self'");
     expect(csp).toContain("report-uri /api/csp-report");

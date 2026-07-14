@@ -52,10 +52,15 @@ export function proxy(req: NextRequest) {
   // frame-src for the same origin: the toolbar also opens vercel.live in an
   // iframe ("Framing 'https://vercel.live/' violates ... default-src"). No
   // frame-src was set, so default-src 'self' was the fallback and blocked
-  // it - confirmed live, this was the last violation left after the
-  // script-src fix. child-src is the legacy fallback for browsers that
-  // predate frame-src, set to the same value for consistency.
-  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com https://vercel.live; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com; frame-src 'self' https://vercel.live; child-src 'self' https://vercel.live; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
+  // it. child-src is the legacy fallback for browsers that predate
+  // frame-src, set to the same value for consistency.
+  // font-src for the same origin too: the toolbar iframe self-hosts its
+  // Geist webfonts from vercel.live ("Loading the font
+  // 'https://vercel.live/geist.woff2' violates ... font-src 'self'") - this
+  // was the next violation surfaced once frame-src was fixed, same pattern
+  // as script-src/frame-src before it (Vercel Live keeps needing one more
+  // directive as each blocked resource type surfaces).
+  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com https://vercel.live; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self' https://vercel.live; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com; frame-src 'self' https://vercel.live; child-src 'self' https://vercel.live; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
 
   if (pathname === "/") {
     // An explicit switcher choice (cs-locale cookie) wins over header negotiation
