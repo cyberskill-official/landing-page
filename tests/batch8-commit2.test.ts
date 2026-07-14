@@ -23,7 +23,10 @@ describe("Commit 2 tests — FR-PERF-005, FR-PERF-012, FR-OPS-009", () => {
     expect(csp).toContain("nonce-");
     expect(csp).toContain("https://www.googletagmanager.com");
     expect(csp).toContain("style-src 'self' 'unsafe-inline'");
-    expect(csp).toContain("connect-src 'self' https://*.google-analytics.com");
+    // connect-src carries blob: since the FR-OPS-015 CSP fix (Lumi's glTF
+    // texture loads via fetch() on a blob: URL) - see tests/csp-security.test.ts
+    // for the full regression suite on this header.
+    expect(csp).toContain("connect-src 'self' blob: https://*.google-analytics.com");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("base-uri 'self'");
     expect(csp).toContain("report-uri /api/csp-report");
