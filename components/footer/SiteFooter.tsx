@@ -4,6 +4,7 @@ import { company } from "@/lib/content/site";
 import { MessagingChips } from "@/components/cta/MessagingChips";
 import { NewsletterForm } from "@/components/cta/NewsletterForm";
 import { VerifyUs } from "@/components/sections/VerifyUs";
+import { ProfileDownloadLink } from "@/components/cta/ProfileDownloadLink";
 
 // FR-SEO-019: Label maps for social profile accessible names.
 const profileLabels: Record<string, Record<string, string>> = {
@@ -83,6 +84,8 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
             <a href={`/${locale}/privacy`}>{dict.footer.privacy}</a>
             <a href={`/${locale}/accessibility`}>{dict.footer.accessibility}</a>
             <a href={`/${locale}/terms`}>{dict.footer.terms}</a>
+            {/* FR-CTA-016: company profile PDF */}
+            <ProfileDownloadLink locale={locale} location="footer" className="" />
           </nav>
           <p>
             © {year} {company.shortName}. {dict.footer.rights}

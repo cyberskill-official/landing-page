@@ -10,6 +10,8 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 import { NewsletterForm } from "@/components/cta/NewsletterForm";
+import { BookingLink } from "@/components/cta/BookingLink";
+import { ProfileDownloadLink } from "@/components/cta/ProfileDownloadLink";
 
 // Maps zod error codes to localised messages.
 function messageFor(code: string | undefined, dict: Dictionary): string | undefined {
@@ -109,6 +111,11 @@ export function LeadForm({
       <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite" style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", borderTop: "1px solid var(--cs-color-border)", textAlign: "center" }}>
         <h3 style={{ color: "var(--cs-color-primary)", marginBottom: "var(--cs-space-sm)" }}>{dict.form.successTitle}</h3>
         <p style={{ margin: 0, fontSize: "var(--cs-text-md)", marginBottom: "var(--cs-space-4)" }}>{dict.form.successBody}</p>
+        {/* FR-CTA-005 thank-you booking path + FR-CTA-016 profile PDF */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--cs-space-2)", justifyContent: "center", marginBottom: "var(--cs-space-4)" }}>
+          <BookingLink locale={locale} location="thank-you" />
+          <ProfileDownloadLink locale={locale} location="thank-you" />
+        </div>
         {hasNewsletter && (
           <div style={{ marginTop: "var(--cs-space-6)", paddingTop: "var(--cs-space-6)", borderTop: "1px dashed var(--cs-color-border)", textAlign: "left" }}>
             <h4 style={{ color: "var(--cs-color-gold)", margin: 0, fontSize: "var(--cs-text-md)", fontWeight: 600 }}>

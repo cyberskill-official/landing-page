@@ -5,7 +5,7 @@ status: ready_to_implement
 class: product
 priority: MUST
 owner: mixed
-depends_on: [FR-BIZ-006, FR-CMS-011]
+depends_on: [FR-BIZ-006, FR-CMS-011, FR-OPS-019]
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/phase-1-item-1, audit-B/finding-8-medium, audit-C/content-credibility, growth/PROOF-02]
@@ -22,7 +22,7 @@ named case studies with measurable results table stakes and the highest-impact c
 
 ## 1. Description (normative)
 
-- 1.1 Each case study SHALL carry a real client context, the problem, the work done and quantified outcomes: 2-3 numbers with units, a measurement period and a source note.
+- 1.1 Each case study SHALL carry a real client context, the problem, the work done and quantified outcomes: 2-3 numbers with units, a measurement period and a source note. Entities live in the publishable content source (git module today; CyberOS via FR-OPS-019 when configured).
 - 1.2 No invented, estimated or agency-calculated metric SHALL be published as a client outcome; the number is the client's own measurement or it does not ship.
 - 1.3 Logos, screenshots and quotes SHALL be used only with the client's written permission on file; uncleared assets SHALL be impossible to render.
 - 1.4 A case study that remains anonymized SHALL be labelled explicitly as an anonymized pattern, and SHALL NOT be presented as a client result.

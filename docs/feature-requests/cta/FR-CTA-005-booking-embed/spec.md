@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-005
 title: "Call-booking path for high-intent leads (link, not embed)"
-status: ready_to_implement
+status: done
 class: product
 priority: SHOULD
 owner: mixed
@@ -28,10 +28,10 @@ already fighting a mobile performance problem (audit B: 1,370 ms TBT, ~900 KB JS
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - the action renders in both places and opens the URL in a new tab - test: `cta/booking-action`
-- [ ] AC for 1.2 - with the env unset, nothing renders and no third-party request is made - test: `cta/booking-action`
-- [ ] AC for 1.3 - the click emits booking_clicked with its location - test: `analytics/both-lead-paths`
-- [ ] AC for 1.4 - both locales render the label - test: `content/cta-copy`
+- [x] AC for 1.1 - the action renders in both places and opens the URL in a new tab - test: `cta/booking-action`
+- [x] AC for 1.2 - with the env unset, nothing renders and no third-party request is made - test: `cta/booking-action`
+- [x] AC for 1.3 - the click emits booking_clicked with its location - test: `analytics/both-lead-paths`
+- [x] AC for 1.4 - both locales render the label - test: `content/cta-copy`
 
 ## 3. Edge cases
 

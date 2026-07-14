@@ -5,7 +5,7 @@ status: ready_to_implement
 class: product
 priority: SHOULD
 owner: mixed
-depends_on: [FR-BIZ-006, FR-CMS-012]
+depends_on: [FR-BIZ-006, FR-CMS-012, FR-OPS-019]
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/phase-1-item-2, audit-C/trust-table, growth/PROOF-01]
@@ -22,8 +22,8 @@ array and falls back to first-person commitments when it is empty - so the compo
 ## 1. Description (normative)
 
 - 1.1 Each testimonial SHALL carry a named person, their role and their company; a logo SHALL appear only where that client granted permission.
-- 1.2 No placeholder, invented, paraphrased or unattributed quote SHALL exist on any route or in the content source.
-- 1.3 Each quote SHALL have a written permission record on file, referenced from the content module, before it ships; an uncleared quote SHALL be impossible to render.
+- 1.2 No placeholder, invented, paraphrased or unattributed quote SHALL exist on any route or in the content source (git module **or** CyberOS-published entities via FR-OPS-019).
+- 1.3 Each quote SHALL have a written permission record on file, referenced from the content source (module and/or CyberOS content meta after FR-OPS-019), before it ships; an uncleared quote SHALL be impossible to render.
 - 1.4 Quotes SHALL ship in their original language with a reviewed translation line in the other locale.
 - 1.5 With zero cleared quotes the site SHALL emit no testimonial markup at all.
 

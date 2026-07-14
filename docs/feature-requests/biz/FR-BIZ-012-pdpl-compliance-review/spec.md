@@ -5,7 +5,7 @@ status: ready_to_implement
 class: improvement
 priority: MUST
 owner: human
-depends_on: [FR-OPS-013]
+depends_on: [FR-OPS-013, FR-BIZ-016]
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/section-8, audit-A/phase-3-item-16]
@@ -25,7 +25,7 @@ company scaling globally should hold without a review.
 
 ## 1. Description (normative)
 
-- 1.1 A formal review SHALL be conducted (counsel or a qualified adviser) covering: the lawful basis and consent mechanics for the contact form, the chat, and the newsletter; the cross-border transfer to Anthropic; retention periods; and the Article 38 small-enterprise position.
+- 1.1 A formal review SHALL be conducted (counsel or a qualified adviser) covering: the lawful basis and consent mechanics for the contact form, the chat, and the newsletter; the cross-border transfer to Anthropic; **CyberOS as processor/sub-processor for leads, transcripts, and any content stored there (FR-BIZ-016)**; retention periods; and the Article 38 small-enterprise position.
 - 1.2 A Transfer Impact Assessment (or the recorded, reasoned decision that Article 38 exempts it) SHALL exist for the Anthropic transfer.
 - 1.3 A 72-hour breach-notification procedure SHALL be written, with a named owner and a rehearsed contact path.
 - 1.4 The privacy policy SHALL be updated to match whatever the review concludes, EN and VN, and the in-product disclosures (FR-OPS-013) SHALL match the policy.

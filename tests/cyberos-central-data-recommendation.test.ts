@@ -47,9 +47,12 @@ describe("docs/cyberos-central-data-recommendation", () => {
 
   it("every ready_to_implement BACKLOG FR has exactly one disposition keyword", () => {
     const ready = readyFrIds();
-    expect(ready.length).toBeGreaterThanOrEqual(21);
+    expect(ready.length).toBeGreaterThan(0);
     const rec = fs.readFileSync(REC, "utf8");
     const disp = dispositions(rec);
+    // Disposition table is the full set that was ready when the recommendation
+    // was written; every *current* ready FR must still appear there (or have
+    // been shipped - then it is no longer ready and is out of this check).
     for (const id of ready) {
       expect(disp.has(id), `missing disposition for ${id}`).toBe(true);
       const d = disp.get(id)!.toLowerCase();

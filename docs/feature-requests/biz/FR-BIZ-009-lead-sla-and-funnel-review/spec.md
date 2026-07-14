@@ -5,7 +5,7 @@ status: ready_to_implement
 class: improvement
 priority: SHOULD
 owner: mixed
-depends_on: [FR-BIZ-002, FR-OPS-011]
+depends_on: [FR-BIZ-002, FR-OPS-011, FR-OPS-020]
 routed_back_count: 0
 awh: N/A
 traces_to: [growth/NURT-04, growth/MEAS-04, growth/NURT-03, audit-A/section-9]
@@ -21,7 +21,7 @@ produces numbers nobody reads.
 
 ## 1. Description (normative)
 
-- 1.1 Every lead SHALL land in one system of record with a status (new, contacted, proposal, won, lost) and a next-action date; before CyberOS is live, a shared sheet with the same columns SHALL serve.
+- 1.1 Every lead SHALL land in one system of record with a status (new, contacted, proposal, won, lost) and a next-action date. **CyberOS is that system of record once FR-BIZ-002/FR-BIZ-003 are green.** Until then only, a shared sheet with the same columns MAY serve as an interim SoR; the sheet SHALL be retired after CyberOS e2e proof and dual-write migration (FR-OPS-020).
 - 1.2 Intent SHALL route deterministically: project -> sales nurture, partnership -> partner track, role -> talent pool, other -> manual triage; the routing map SHALL be documented and the tag carried in the payload.
 - 1.3 A weekly 15-minute review SHALL be run: leads by source, status moves, median first-reply time against the one-business-day promise, and one note on what changed.
 - 1.4 The measured median first-reply time SHALL be the number the site is allowed to publish (FR-CMS-014); if it exceeds the promise, the promise changes, not the measurement.
@@ -40,7 +40,7 @@ produces numbers nobody reads.
 
 ## 4. Out of scope / non-goals
 
-- Building the CRM (FR-BIZ-002).
+- Building the CyberOS CRM product (FR-BIZ-016 / FR-BIZ-002).
 
 ## 5. Protected invariants this FR must not weaken
 

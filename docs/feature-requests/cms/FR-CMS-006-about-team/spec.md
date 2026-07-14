@@ -5,7 +5,7 @@ status: ready_to_implement
 class: product
 priority: SHOULD
 owner: mixed
-depends_on: [FR-BIZ-006]
+depends_on: [FR-BIZ-006, FR-OPS-019]
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/phase-2-item-8, audit-C/content-credibility, growth/PROOF-05]
@@ -22,7 +22,7 @@ FR-BIZ-006 owns the consent.
 
 ## 1. Description (normative)
 
-- 1.1 The content SHALL cover the company story (founded 2020, Ho Chi Minh City, the slogan), the team and the working culture, sourced from the FR-CMS-001 content module.
+- 1.1 The content SHALL cover the company story (founded 2020, Ho Chi Minh City, the slogan), the team and the working culture, sourced from the publishable content read model (FR-CMS-001 module today; CyberOS via FR-OPS-019 when configured, with git fallback).
 - 1.2 Each team entry SHALL support a name, a role, a short bio, an optional photo, an optional profile link and an optional employee-voice quote.
 - 1.3 Every string SHALL ship English and Vietnamese, with the Vietnamese reviewed by a native speaker (FR-CMS-003).
 - 1.4 A person SHALL appear only with their recorded written consent, and SHALL be removable in one commit if it is withdrawn.

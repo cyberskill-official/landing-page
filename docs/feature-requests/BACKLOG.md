@@ -190,14 +190,12 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 #### CTA
 
-- [ready_to_implement] FR-CTA-005 - Call-booking path for high-intent leads (link, not embed) [mixed] - depends: FR-BIZ-013, FR-CTA-010
-- [ready_to_implement] FR-CTA-016 - Company profile one-pager PDF, EN and VN (improvement) [mixed] - depends: FR-BIZ-013
 
 #### CMS
 
-- [ready_to_implement] FR-CMS-004 - Replace placeholder testimonials with cleared client quotes [mixed] - depends: FR-BIZ-006, FR-CMS-012
-- [ready_to_implement] FR-CMS-006 - About, team, and culture content (recruiting + trust surface) [mixed] - depends: FR-BIZ-006
-- [ready_to_implement] FR-CMS-009 - Replace placeholder case studies with cleared real outcomes [mixed] - depends: FR-BIZ-006, FR-CMS-011
+- [ready_to_implement] FR-CMS-004 - Replace placeholder testimonials with cleared client quotes [mixed] - depends: FR-BIZ-006, FR-CMS-012, FR-OPS-019
+- [ready_to_implement] FR-CMS-006 - About, team, and culture content (recruiting + trust surface) [mixed] - depends: FR-BIZ-006, FR-OPS-019
+- [ready_to_implement] FR-CMS-009 - Replace placeholder case studies with cleared real outcomes [mixed] - depends: FR-BIZ-006, FR-CMS-011, FR-OPS-019
 
 #### A11Y
 
@@ -209,17 +207,17 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 #### BIZ
 
 - [ready_to_implement] FR-BIZ-001 - Configure the lead sinks: Resend domain, API key, Slack webhook (improvement) [human]
-- [ready_to_implement] FR-BIZ-002 - Deploy the CyberOS lead-intake endpoint and wire the webhook (improvement) [human] - depends: FR-BIZ-001
+- [ready_to_implement] FR-BIZ-002 - Deploy the CyberOS lead-intake endpoint and wire the webhook (improvement) [human] - depends: FR-BIZ-001, FR-BIZ-016
 - [ready_to_implement] FR-BIZ-003 - Prove the lead pipeline end to end in production (improvement) [human] - depends: FR-BIZ-001
 - [ready_to_implement] FR-BIZ-004 - Claim the Google Business Profile and reconcile the NAP everywhere (improvement) [human]
 - [ready_to_implement] FR-BIZ-005 - Create the directory profiles and earn verified reviews (improvement) [mixed] - depends: FR-SEO-018, FR-BIZ-004
 - [ready_to_implement] FR-BIZ-006 - Obtain the client permissions and proof assets: names, logos, metrics, quotes, photos (improvement) [mixed]
 - [ready_to_implement] FR-BIZ-007 - Establish the social and messaging profiles the site can link to (improvement) [human]
 - [ready_to_implement] FR-BIZ-008 - Verify Search Console and Bing, submit the sitemap, and run the monthly review (improvement) [human]
-- [ready_to_implement] FR-BIZ-009 - Lead system of record, SLA ritual, and the weekly funnel review (improvement) [mixed] - depends: FR-BIZ-002, FR-OPS-011
+- [ready_to_implement] FR-BIZ-009 - Lead system of record, SLA ritual, and the weekly funnel review (improvement) [mixed] - depends: FR-BIZ-002, FR-OPS-011, FR-OPS-020
 - [ready_to_implement] FR-BIZ-010 - Standing programs: welcome sequence, founder LinkedIn, share workflow, quarterly client letter (improvement) [mixed] - depends: FR-CTA-014, FR-BIZ-007
 - [ready_to_implement] FR-BIZ-011 - Earn third-party mentions: listicles, local press, and an awards submission (improvement) [mixed] - depends: FR-BIZ-005, FR-CMS-011
-- [ready_to_implement] FR-BIZ-012 - Formal PDPL / Decree 356 review, including the Anthropic cross-border transfer (improvement) [human] - depends: FR-OPS-013
+- [ready_to_implement] FR-BIZ-012 - Formal PDPL / Decree 356 review, including the Anthropic cross-border transfer (improvement) [human] - depends: FR-OPS-013, FR-BIZ-016
 
 - [ready_to_implement] FR-BIZ-014 - Decide and start the certification path (ISO 27001 / SOC 2) (improvement) [human] - depends: FR-BIZ-005
 - [ready_to_implement] FR-BIZ-015 - Monthly AI answer-engine citation check (improvement) [human] - depends: FR-BIZ-005
@@ -231,6 +229,8 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 ## §4.5 recently done (this wave)
 
+- [done] FR-CTA-016 - Company profile one-pager PDF, EN and VN (improvement)
+- [done] FR-CTA-005 - Call-booking path for high-intent leads (link, not embed)
 - [done] FR-CTA-015 - Outcome-led CTA promise instead of an action label (improvement)
 - [done] FR-CTA-017 - Engagement models and price signals section (improvement)
 - [done] FR-CTA-018 - True capacity line near the contact heading (improvement)

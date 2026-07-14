@@ -11,6 +11,7 @@ import { Testimonial } from "@/components/ui/Testimonial";
 import { MessagingChips } from "@/components/cta/MessagingChips";
 import { CapacityLine } from "@/components/sections/CapacityLine";
 import { CtaLink } from "@/components/cta/CtaLink";
+import { BookingLink } from "@/components/cta/BookingLink";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
@@ -45,6 +46,10 @@ export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; di
             >
               {dict.hero.ctaPrimary}
             </CtaLink>
+          </p>
+          {/* FR-CTA-005: booking link — env-gated, no embed/script */}
+          <p className="cs-contact-booking" style={{ marginTop: "var(--cs-space-2)" }}>
+            <BookingLink locale={locale} location="contact-section" />
           </p>
           {/* Lumi-first contact (FR-CHAR-026): the conversation is the primary
               path; the classic form stays available below as the fallback. */}
