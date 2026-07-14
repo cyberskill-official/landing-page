@@ -48,11 +48,14 @@ export function proxy(req: NextRequest) {
   // https://vercel.live on script-src: the Vercel Live Feedback/Toolbar
   // widget (_next-live/feedback/feedback.js) loads on production, not just
   // previews, and was hitting the same "script-src-elem falls back to
-  // script-src" block seen live in the console. If the toolbar still can't
-  // open a live connection after this (it uses a websocket back to Vercel),
-  // that's connect-src, not script-src - not added here since nothing in the
-  // captured console output pointed at connect-src being the blocker for it.
-  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com https://vercel.live; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
+  // script-src" block seen live in the console.
+  // frame-src for the same origin: the toolbar also opens vercel.live in an
+  // iframe ("Framing 'https://vercel.live/' violates ... default-src"). No
+  // frame-src was set, so default-src 'self' was the fallback and blocked
+  // it - confirmed live, this was the last violation left after the
+  // script-src fix. child-src is the legacy fallback for browsers that
+  // predate frame-src, set to the same value for consistency.
+  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com https://vercel.live; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com; frame-src 'self' https://vercel.live; child-src 'self' https://vercel.live; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
 
   if (pathname === "/") {
     // An explicit switcher choice (cs-locale cookie) wins over header negotiation
