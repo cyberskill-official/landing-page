@@ -100,6 +100,18 @@ function parseIsoDate(iso: string): Date {
 }
 
 /**
+ * Normalize any Date | string to the UTC calendar day (00:00:00.000Z).
+ * Ensures `new Date('YYYY-MM-DDT12:00:00Z')` and `"YYYY-MM-DD"` compare equal
+ * for review-cadence checks — due day stays inclusive for both paths.
+ */
+function toUtcCalendarDay(asOf: Date | string): Date {
+  if (typeof asOf === "string") return parseIsoDate(asOf);
+  return new Date(
+    Date.UTC(asOf.getUTCFullYear(), asOf.getUTCMonth(), asOf.getUTCDate()),
+  );
+}
+
+/**
  * Add whole calendar months in UTC (preserves day-of-month where possible;
  * clamps to end of month when needed).
  */
@@ -127,15 +139,16 @@ export function policyReviewDueAt(
 }
 
 /**
- * True when `asOf` is strictly after the review-due date — the decision is
- * past its cadence and dependents MUST refuse to render commercial copy.
+ * True when `asOf`'s UTC calendar day is strictly after the review-due day —
+ * the decision is past its cadence and dependents MUST refuse to render
+ * commercial copy. The review-due day itself is still fresh (inclusive).
  */
 export function isPolicyStale(
   policy: Pick<CommercialPolicy, "decidedOn" | "reviewCadence">,
   asOf: Date | string = new Date(),
 ): boolean {
-  const asOfDate = typeof asOf === "string" ? parseIsoDate(asOf) : asOf;
-  return asOfDate.getTime() > policyReviewDueAt(policy).getTime();
+  const asOfDay = toUtcCalendarDay(asOf);
+  return asOfDay.getTime() > policyReviewDueAt(policy).getTime();
 }
 
 /**

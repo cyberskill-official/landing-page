@@ -5,31 +5,56 @@ import {
   getPublishableRegistrationNumber,
 } from "@/lib/content/policy";
 
-const ENGINEERING_CLAIMS: { en: string; vi: string; gate: string }[] = [
+/**
+ * FR-CMS-014 §1.2–1.3: only claims the repo actually enforces in CI.
+ * Each entry's `ciCommand` is the exact `run:` / script token that must appear
+ * in `.github/workflows/ci.yml` (not a vague substring match).
+ */
+export type EngineeringClaim = {
+  en: string;
+  vi: string;
+  /** Short id for data-gate / tests */
+  gate: string;
+  /** Exact command fragment required in ci.yml (e.g. `npm run lint`) */
+  ciCommand: string;
+};
+
+export const ENGINEERING_CLAIMS: EngineeringClaim[] = [
   {
-    en: "Code review on every change",
-    vi: "Review mã trên mọi thay đổi",
+    en: "Static import and content integrity check on every push",
+    vi: "Kiểm tra import tĩnh và tính toàn vẹn nội dung trên mọi push",
     gate: "verify",
+    ciCommand: "npm run verify",
   },
   {
-    en: "CI gates on every push (lint, typecheck, test, build)",
-    vi: "Cổng CI trên mọi push (lint, typecheck, test, build)",
+    en: "Lint on every push",
+    vi: "Lint trên mọi push",
     gate: "lint",
+    ciCommand: "npm run lint",
   },
   {
-    en: "WCAG 2.2 AA accessibility target",
-    vi: "Mục tiêu tiếp cận WCAG 2.2 AA",
+    en: "Typecheck on every push",
+    vi: "Typecheck trên mọi push",
+    gate: "typecheck",
+    ciCommand: "npm run typecheck",
+  },
+  {
+    en: "Automated unit tests on every push",
+    vi: "Kiểm thử đơn vị tự động trên mọi push",
+    gate: "test",
+    ciCommand: "npm test",
+  },
+  {
+    en: "Served-route axe gate (serious/critical) for accessibility",
+    vi: "Cổng axe trên route đã phục vụ (serious/critical) cho tiếp cận",
     gate: "check:a11y:routes",
+    ciCommand: "npm run check:a11y:routes",
   },
   {
-    en: "Performance budget enforced in CI",
-    vi: "Ngân sách hiệu năng được enforce trong CI",
+    en: "Performance budget (LCP) validated in CI",
+    vi: "Ngân sách hiệu năng (LCP) được xác thực trong CI",
     gate: "budget.json",
-  },
-  {
-    en: "PDPL-aligned data handling (consent + least privilege)",
-    vi: "Xử lý dữ liệu theo tinh thần PDPL (đồng ý + quyền tối thiểu)",
-    gate: "check:frs",
+    ciCommand: "lighthouse/budget.json",
   },
 ];
 
@@ -126,14 +151,14 @@ export function VerifyUs({
       </dl>
       <h3 style={{ fontSize: "var(--cs-text-md)", marginTop: "var(--cs-space-md)" }}>
         {locale === "vi"
-          ? "Cam kết kỹ thuật có thể kiểm chứng"
-          : "Verifiable engineering commitments"}
+          ? "Cam kết kỹ thuật có thể kiểm chứng trong CI"
+          : "Verifiable engineering commitments (CI-enforced)"}
       </h3>
       <ul className="cs-service-outcomes" role="list" data-engineering-claims="">
         {ENGINEERING_CLAIMS.map((c) => (
-          <li key={c.gate} data-gate={c.gate}>
+          <li key={c.gate} data-gate={c.gate} data-ci-command={c.ciCommand}>
             {locale === "vi" ? c.vi : c.en}{" "}
-            <span className="cs-visually-hidden">({c.gate})</span>
+            <span className="cs-visually-hidden">({c.ciCommand})</span>
           </li>
         ))}
       </ul>

@@ -12,7 +12,11 @@ import { previousCtaPrimary, ctaCopyHistory } from "@/lib/content/cta-history";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { CapacityLine } from "@/components/sections/CapacityLine";
 import { EngagementModels } from "@/components/sections/EngagementModels";
-import { VerifyUs, verifyUsEngineeringGates } from "@/components/sections/VerifyUs";
+import {
+  VerifyUs,
+  ENGINEERING_CLAIMS,
+  verifyUsEngineeringGates,
+} from "@/components/sections/VerifyUs";
 import { Partnership } from "@/components/sections/Partnership";
 import { Hero } from "@/components/sections/Hero";
 import { ContactCta } from "@/components/sections/ContactCta";
@@ -178,13 +182,34 @@ describe("content/verify-us-block", () => {
 });
 
 describe("content/gates-claims-parity", () => {
-  it("each engineering claim maps to a CI gate that exists", () => {
+  it("each engineering claim maps to an exact CI command/evidence token, not a loose substring", () => {
     const ci = fs.readFileSync(
       path.join(process.cwd(), ".github/workflows/ci.yml"),
       "utf8",
     );
-    for (const gate of verifyUsEngineeringGates) {
-      expect(ci.toLowerCase()).toContain(gate.toLowerCase());
+    expect(ENGINEERING_CLAIMS.length).toBeGreaterThanOrEqual(4);
+    expect(verifyUsEngineeringGates).toEqual(
+      ENGINEERING_CLAIMS.map((c) => c.gate),
+    );
+
+    for (const claim of ENGINEERING_CLAIMS) {
+      // Exact command / path token required in ci.yml (avoids "verify" matching
+      // unrelated prose, or mapping "code review" → static verify script).
+      expect(
+        ci.includes(claim.ciCommand),
+        `CI must contain exact command "${claim.ciCommand}" for claim "${claim.en}"`,
+      ).toBe(true);
+
+      // Claim copy must not invent unenforced practices
+      expect(claim.en.toLowerCase()).not.toMatch(/code review on every change/);
+      expect(claim.en.toLowerCase()).not.toMatch(/pdpl/);
+    }
+
+    // Rendered block carries the CI command for audit
+    const html = renderToStaticMarkup(createElement(VerifyUs, { locale: "en" }));
+    for (const claim of ENGINEERING_CLAIMS) {
+      expect(html).toContain(`data-ci-command="${claim.ciCommand}"`);
+      expect(html).toContain(claim.en);
     }
   });
 });
@@ -215,6 +240,19 @@ describe("content/partnership-shape", () => {
       expect(html).toContain('data-partnership-section=""');
       expect(html).toContain('data-field="offer"');
       expect(html).toContain(commercialPolicy.partnershipOffer[locale]);
+      expect(html).toContain('data-field="capacity"');
+      // Capacity bullet is distinct from the offer (not a rehash of partnershipOffer)
+      const capacityMatch = html.match(
+        /data-field="capacity"[^>]*>([^<]+)</,
+      );
+      expect(capacityMatch?.[1]).toBeTruthy();
+      expect(capacityMatch![1]).not.toBe(commercialPolicy.partnershipOffer[locale]);
+      expect(capacityMatch![1]).toContain(
+        String(commercialPolicy.capacity.projectsPerQuarter),
+      );
+      expect(capacityMatch![1]).toContain(
+        commercialPolicy.capacity.nextOpenSlot[locale],
+      );
       expect(html).toContain('data-field="whiteLabel"');
       expect(html).toContain('data-field="timezone"');
       expect(html).toContain('data-field="ndaIp"');

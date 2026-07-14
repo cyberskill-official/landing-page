@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import {
   commercialPolicy,
+  getPublishableCapacity,
   getPublishablePartnershipOffer,
 } from "@/lib/content/policy";
 import { localize } from "@/lib/i18n/types";
@@ -22,6 +23,15 @@ export function Partnership({
 }) {
   const offer = getPublishablePartnershipOffer();
   if (!offer) return null;
+
+  // FR-CMS-019: capacity bullet from commercial policy capacity SSOT (not a
+  // rehash of the partnership offer string). Omitted when capacity is stale.
+  const capacity = getPublishableCapacity();
+  const capacityLine = capacity
+    ? locale === "vi"
+      ? `Năng lực đối tác: tối đa ${capacity.projectsPerQuarter} dự án mới mỗi quý; suất mở tiếp theo ${localize(capacity.nextOpenSlot, locale)} (chính sách thương mại ${commercialPolicy.decidedOn}).`
+      : `Partner capacity: at most ${capacity.projectsPerQuarter} new projects per quarter; next open slot ${localize(capacity.nextOpenSlot, locale)} (commercial policy ${commercialPolicy.decidedOn}).`
+    : null;
 
   const title =
     locale === "vi"
@@ -58,7 +68,9 @@ export function Partnership({
           {localize(offer, locale)}
         </p>
         <ul className="cs-service-outcomes" role="list">
-          <li data-field="capacity">{localize(offer, locale)}</li>
+          {capacityLine ? (
+            <li data-field="capacity">{capacityLine}</li>
+          ) : null}
           <li data-field="whiteLabel">{whiteLabel}</li>
           <li data-field="timezone">{timezone}</li>
           <li data-field="ndaIp">

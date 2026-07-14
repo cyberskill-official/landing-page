@@ -7,6 +7,7 @@ import {
   policyReviewDueAt,
   isDecisionPublishable,
   decisionFieldStatus,
+  getPublishableCapacity,
   type CommercialPolicy,
   type DecisionHistoryEntry,
 } from "@/lib/content/policy";
@@ -192,6 +193,15 @@ describe("content/capacity-line", () => {
     // Last day still within window (due date inclusive as not-yet-stale)
     expect(isPolicyStale(policy, "2026-10-14")).toBe(false);
     expect(isPolicyPublishable(policy, "2026-10-14")).toBe(true);
+
+    // Date path: noon UTC on the due day must stay fresh (calendar-day inclusive)
+    const dueNoon = new Date("2026-10-14T12:00:00Z");
+    expect(isPolicyStale(policy, dueNoon)).toBe(false);
+    expect(isPolicyPublishable(policy, dueNoon)).toBe(true);
+    expect(getPublishableCapacity(policy, dueNoon)).not.toBeNull();
+    expect(getPublishableCapacity(policy, dueNoon)?.projectsPerQuarter).toBe(
+      policy.capacity.projectsPerQuarter,
+    );
 
     // Day after review due: blocked — dependents must not render commercial copy
     expect(isPolicyStale(policy, "2026-10-15")).toBe(true);
