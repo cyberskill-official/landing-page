@@ -98,6 +98,12 @@ This document maps and explains each environment variable used in the CyberSkill
 - **Environments**: Dev, Preview, Production.
 - **What breaks**: Defaults to `https://cyberskill.world` if absent or Vercel preview host (to prevent drift).
 
+### `NEXT_PUBLIC_BOOKING_URL`
+- **Description**: Optional public booking calendar URL (https). When set, the “Book a 30-minute call” control renders on contact and thank-you (FR-CTA-005). No third-party booking script is loaded.
+- **Where Set**: Client/Server Environment (public).
+- **Environments**: Dev (optional), Preview (optional), Production (optional).
+- **What breaks**: Control is hidden when unset or non-http(s).
+
 ### `NEXT_PUBLIC_LUMI_GLB`
 - **Description**: Path to the 3D Lumi GLB model file.
 - **Where Set**: Client/Server Environment.

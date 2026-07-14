@@ -2,15 +2,11 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import {
-  team,
-  aboutStory,
-  aboutCulture,
-} from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { TeamJsonLd } from "@/components/seo/TeamJsonLd";
 import { resolveMetadata } from "@/lib/content/metadata";
+import { getPublishableContent } from "@/lib/content/read-model";
 
 export async function generateMetadata({
   params,
@@ -30,6 +26,8 @@ export default async function TeamPage({
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : "en";
   const dict = getDictionary(locale);
+  // FR-OPS-019 scaffold: single read-model entry (git today, CyberOS later)
+  const { team, aboutStory, aboutCulture } = getPublishableContent();
 
   return (
     <section className="cs-section" suppressHydrationWarning data-about-team="">
