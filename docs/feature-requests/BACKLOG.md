@@ -193,7 +193,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 - [ready_to_implement] FR-CMS-006 - About, team, and culture content (recruiting + trust surface) [mixed] - depends: FR-BIZ-006
 - [ready_to_implement] FR-CMS-009 - Replace placeholder case studies with cleared real outcomes [mixed] - depends: FR-BIZ-006, FR-CMS-011
 - [ready_to_implement] FR-CMS-014 - Verify us" block: registration, DUNS, address, repositories (improvement) [mixed] - depends: FR-BIZ-013
-- [ready_to_implement] FR-CMS-016 - Publish a Terms of Service page (improvement) [mixed]
 - [ready_to_implement] FR-CMS-019 - Partnership offer for agencies and studios abroad (improvement) [mixed] - depends: FR-BIZ-013
 - [ready_to_implement] FR-CMS-020 - Hero subline that names the audience (improvement) [mixed] - depends: FR-BIZ-013
 
@@ -218,13 +217,18 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 - [ready_to_implement] FR-BIZ-010 - Standing programs: welcome sequence, founder LinkedIn, share workflow, quarterly client letter (improvement) [mixed] - depends: FR-CTA-014, FR-BIZ-007
 - [ready_to_implement] FR-BIZ-011 - Earn third-party mentions: listicles, local press, and an awards submission (improvement) [mixed] - depends: FR-BIZ-005, FR-CMS-011
 - [ready_to_implement] FR-BIZ-012 - Formal PDPL / Decree 356 review, including the Anthropic cross-border transfer (improvement) [human] - depends: FR-OPS-013
-- [ready_to_implement] FR-BIZ-013 - Decide the commercial policy the site is allowed to publish (improvement) [human]
+
 - [ready_to_implement] FR-BIZ-014 - Decide and start the certification path (ISO 27001 / SOC 2) (improvement) [human] - depends: FR-BIZ-005
 - [ready_to_implement] FR-BIZ-015 - Monthly AI answer-engine citation check (improvement) [human] - depends: FR-BIZ-005
 
 ## §3 in flight
 
 - (implementing / reviewing / testing FRs appear here)
+
+
+## §4.5 recently done (this wave)
+
+- [done] FR-BIZ-013 - Decide the commercial policy the site is allowed to publish (improvement)
 
 ## §4 on_hold
 
@@ -317,6 +321,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 - [done] FR-CMS-002 - On-page Process and FAQ sections (FAQ mirrors the JSON-LD)
 - [done] FR-CMS-008 - Privacy and legal page covering PDPL/GDPR and consent
 - [done] FR-CMS-003 - Complete Vietnamese localization with native-speaker review [mixed]
+- [done] FR-CMS-016 - Publish a Terms of Service page (improvement)
 
 ### SEO
 

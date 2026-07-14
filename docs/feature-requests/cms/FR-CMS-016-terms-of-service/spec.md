@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-016
 title: "Publish a Terms of Service page"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: mixed
@@ -26,9 +26,9 @@ procurement checklist item.
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - the route renders, is in the footer and the sitemap - test: `routes/terms-page`
-- [ ] AC for 1.2 - every required section is present, both locales - test: `content/terms-shape`
-- [ ] AC for 1.3 - the page carries a real last-updated date - test: `content/terms-shape`
+- [x] AC for 1.1 - the route renders, is in the footer and the sitemap - test: `routes/terms-page`
+- [x] AC for 1.2 - every required section is present, both locales - test: `content/terms-shape`
+- [x] AC for 1.3 - the page carries a real last-updated date - test: `content/terms-shape`
 
 ## 3. Edge cases
 
