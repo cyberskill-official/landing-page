@@ -61,7 +61,14 @@ jobs:
         with:
           node-version: "20"
       - name: Install
+        # See the `build` job's Install step for why this is here and scoped
+        # to just this step: `prisma generate` (postinstall) needs a
+        # syntactically valid DATABASE_URL to load prisma.config.ts, but the
+        # app must run without it so lib/db/index.ts's getDb() falls back to
+        # the InMemoryAdapter for Build.
         run: npm install --no-audit --no-fund
+        env:
+          DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
       - name: Build
         run: npm run build
       - name: Lighthouse CI (budget assertions)
@@ -85,7 +92,14 @@ jobs:
         with:
           node-version: "20"
       - name: Install
+        # See the `build` job's Install step for why this is here and scoped
+        # to just this step: `prisma generate` (postinstall) needs a
+        # syntactically valid DATABASE_URL to load prisma.config.ts, but the
+        # app must run without it so lib/db/index.ts's getDb() falls back to
+        # the InMemoryAdapter for Build.
         run: npm install --no-audit --no-fund
+        env:
+          DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
       - name: Build
         run: npm run build
       - name: Served-route axe gate (serious/critical)
