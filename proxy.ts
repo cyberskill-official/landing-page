@@ -21,7 +21,15 @@ export function proxy(req: NextRequest) {
   const cspHeaderKey = isProduction ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only";
   const styleSrc = isProduction ? `'self' 'nonce-${nonce}'` : `'self' 'unsafe-inline'`;
   
-  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com; style-src ${styleSrc}; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
+  // img-src needs `blob:` and script-src needs `'wasm-unsafe-eval'` for the
+  // Lumi mascot's embedded glTF (components/canvas/GltfLumi.tsx): the loader
+  // decodes bufferView images via URL.createObjectURL() (a blob: URL) and
+  // decompresses the mesh through a WebAssembly module (drei's useGLTF /
+  // Draco path), both of which the strict CSP blocked once it went from
+  // report-only to enforcing in production - the model's base-color texture
+  // failed closed to the glTF default (white), and on some loads the WASM
+  // compile failure kept the mesh from rendering at all.
+  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
 
   if (pathname === "/") {
     // An explicit switcher choice (cs-locale cookie) wins over header negotiation

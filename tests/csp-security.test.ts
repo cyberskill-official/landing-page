@@ -93,7 +93,13 @@ describe("FR-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     // Verify Google Analytics/GTM is whitelisted in script, connect, img
     expect(csp).toContain("script-src 'self' 'nonce-");
     expect(csp).toContain("https://www.googletagmanager.com");
-    expect(csp).toContain("img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com");
+    expect(csp).toContain("img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com");
+    // blob: (glTF texture decode) and 'wasm-unsafe-eval' (glTF mesh
+    // decompression) are required by the Lumi mascot's Three.js scene -
+    // regression guard for the CSP gap that made her render white / not
+    // render at all once this header went from report-only to enforcing.
+    expect(csp).toContain("img-src 'self' data: blob:");
+    expect(csp).toContain("'wasm-unsafe-eval'");
     expect(csp).toContain("connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("base-uri 'self'");
