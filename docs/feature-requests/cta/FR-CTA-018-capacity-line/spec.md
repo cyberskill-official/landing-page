@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-018
 title: "True capacity line near the contact heading"
-status: ready_to_implement
+status: done
 class: improvement
 priority: COULD
 owner: mixed
@@ -26,9 +26,9 @@ tactics - and only works if it is true.
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - the line renders from config, both locales - test: `content/capacity-line`
-- [ ] AC for 1.2 - unset or stale config renders nothing - test: `content/capacity-line`
-- [ ] AC for 1.3 - the rendered values equal the owner's recorded numbers (FR-BIZ-013) and carry a review date - test: `content/commercial-policy-record`
+- [x] AC for 1.1 - the line renders from config, both locales - test: `content/capacity-line`
+- [x] AC for 1.2 - unset or stale config renders nothing - test: `content/capacity-line`
+- [x] AC for 1.3 - the rendered values equal the owner's recorded numbers (FR-BIZ-013) and carry a review date - test: `content/commercial-policy-record`
 
 ## 3. Edge cases
 

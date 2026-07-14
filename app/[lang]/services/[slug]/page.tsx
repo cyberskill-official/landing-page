@@ -206,9 +206,16 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.timeline}</h2>
           <p>{localize(detail.timeline, locale)}</p>
 
-          {/* Engagement Models (optional range block absent per BIZ approvals status) */}
+          {/* Engagement Models — ranges live on homepage FR-CTA-017 SSOT */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.engagement}</h2>
           <p>{localize(detail.engagementIntro, locale)}</p>
+          <p>
+            <a href={`/${locale}#engagement`} data-engagement-link="">
+              {locale === "vi"
+                ? "Xem mô hình hợp tác và khoảng bắt đầu đã duyệt"
+                : "See approved engagement models and starting ranges"}
+            </a>
+          </p>
 
           {/* FR-CMS-005: Call to Action Promise */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.ctaNotice}</h2>

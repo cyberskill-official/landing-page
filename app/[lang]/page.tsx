@@ -13,6 +13,9 @@ import { Faq } from "@/components/sections/Faq";
 import { Careers } from "@/components/sections/Careers";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { TeardownCta } from "@/components/sections/TeardownCta";
+import { EngagementModels } from "@/components/sections/EngagementModels";
+import { Partnership } from "@/components/sections/Partnership";
+import { VerifyUs } from "@/components/sections/VerifyUs";
 import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
@@ -39,13 +42,18 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <ValueProp locale={locale} dict={dict} />
       <Marquee dict={dict} />
       <Services locale={locale} dict={dict} />
+      <EngagementModels locale={locale} />
       <Process locale={locale} dict={dict} />
       <WorkPreview locale={locale} dict={dict} />
       <SocialProof locale={locale} dict={dict} />
+      <Partnership locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
       <Faq locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
       <Careers locale={locale} dict={dict} />
       <TeardownCta locale={locale} dict={dict} />
       <ContactCta locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
+      <div className="cs-container" style={{ paddingBottom: "var(--cs-space-12)" }}>
+        <VerifyUs locale={locale} />
+      </div>
       <HomeFaqJsonLd locale={locale} />
       <ServicesJsonLd locale={locale} />
       {/* HeroPin is now part of HomeMotionBundle */}

@@ -29,11 +29,14 @@ export function LeadForm({
   locale,
   dict,
   source = "contact",
+  defaultIntent = "project",
   hasNewsletter,
 }: {
   locale: Locale;
   dict: Dictionary;
   source?: string;
+  /** FR-CMS-019: partnership section pre-selects intent=partnership */
+  defaultIntent?: LeadInput["intent"];
   hasNewsletter?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "ok" | "error">("idle");
@@ -72,7 +75,7 @@ export function LeadForm({
     formState: { errors },
   } = useForm<LeadInput>({
     resolver: zodResolver(leadSchema),
-    defaultValues: { intent: "project", consent: false, locale, source, website: "" },
+    defaultValues: { intent: defaultIntent, consent: false, locale, source, website: "" },
   });
 
   async function onSubmit(values: LeadInput) {

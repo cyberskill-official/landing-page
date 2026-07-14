@@ -235,3 +235,78 @@ export function isDecisionPublishable(
 ): boolean {
   return decisionFieldStatus(field, history) === "active";
 }
+
+/**
+ * Publishable capacity numbers for FR-CTA-018.
+ * Returns null when the policy is stale or capacity decision is withdrawn —
+ * dependents MUST render nothing in that case.
+ */
+export function getPublishableCapacity(
+  policy: CommercialPolicy = commercialPolicy,
+  asOf: Date | string = new Date(),
+): CommercialPolicy["capacity"] | null {
+  if (!isPolicyPublishable(policy, asOf)) return null;
+  if (!isDecisionPublishable("capacity")) return null;
+  return policy.capacity;
+}
+
+/**
+ * Publishable CTA promise for FR-CTA-015. Null when stale or withdrawn.
+ */
+export function getPublishableCtaPromise(
+  policy: CommercialPolicy = commercialPolicy,
+  asOf: Date | string = new Date(),
+): LocalizedString | null {
+  if (!isPolicyPublishable(policy, asOf)) return null;
+  if (!isDecisionPublishable("ctaPromise")) return null;
+  return policy.ctaPromise;
+}
+
+/**
+ * Publishable engagement models for FR-CTA-017.
+ */
+export function getPublishableEngagementModels(
+  policy: CommercialPolicy = commercialPolicy,
+  asOf: Date | string = new Date(),
+): CommercialPolicy["engagementModels"] | null {
+  if (!isPolicyPublishable(policy, asOf)) return null;
+  if (!isDecisionPublishable("engagementModels")) return null;
+  return policy.engagementModels;
+}
+
+/**
+ * Publishable registration number for FR-CMS-014. Empty/unset → omit.
+ */
+export function getPublishableRegistrationNumber(
+  policy: CommercialPolicy = commercialPolicy,
+  asOf: Date | string = new Date(),
+): string | null {
+  if (!isPolicyPublishable(policy, asOf)) return null;
+  if (!isDecisionPublishable("registrationNumber")) return null;
+  const n = policy.registrationNumber?.trim();
+  return n ? n : null;
+}
+
+/**
+ * Publishable partnership offer for FR-CMS-019.
+ */
+export function getPublishablePartnershipOffer(
+  policy: CommercialPolicy = commercialPolicy,
+  asOf: Date | string = new Date(),
+): LocalizedString | null {
+  if (!isPolicyPublishable(policy, asOf)) return null;
+  if (!isDecisionPublishable("partnershipOffer")) return null;
+  return policy.partnershipOffer;
+}
+
+/**
+ * Publishable hero audience for FR-CMS-020.
+ */
+export function getPublishableHeroAudience(
+  policy: CommercialPolicy = commercialPolicy,
+  asOf: Date | string = new Date(),
+): LocalizedString | null {
+  if (!isPolicyPublishable(policy, asOf)) return null;
+  if (!isDecisionPublishable("heroAudience")) return null;
+  return policy.heroAudience;
+}

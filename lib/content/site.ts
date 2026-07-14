@@ -309,6 +309,17 @@ export const faqs: FaqItem[] = [
       vi: "Một MVP tập trung hoặc phần đầu tiên thường mất 6–12 tuần từ giai đoạn xác định phạm vi đến khi ra mắt sẵn sàng cho sản xuất, tuỳ thuộc vào quy mô và độ phức tạp. Chúng tôi làm việc theo chu kỳ ngắn để bạn thấy tiến độ mỗi 1–2 tuần — không chỉ vào cuối dự án.",
     },
   },
+  // --- Engagement models (FR-CTA-017) ---
+  {
+    q: {
+      en: "What engagement models and starting ranges do you offer?",
+      vi: "Bạn cung cấp mô hình hợp tác và khoảng bắt đầu nào?",
+    },
+    a: {
+      en: "We publish the models we actually offer — Dedicated Senior Team and Fixed-Scope Delivery — with owner-approved starting ranges and timelines on the homepage engagement section (/#engagement). Ranges are commercial commitments reviewed quarterly.",
+      vi: "Chúng tôi công bố các mô hình thực sự cung cấp — Đội ngũ kỹ sư cấp cao chuyên biệt và Bàn giao theo phạm vi cố định — kèm khoảng bắt đầu và thời gian đã được chủ sở hữu duyệt trên phần mô hình hợp tác ở trang chủ (/#engagement). Các khoảng là cam kết thương mại được rà soát theo quý.",
+    },
+  },
   // --- Privacy & data ---
   {
     q: { en: "How does your AI chat (Lumi) handle my data?", vi: "Chat AI (Lumi) xử lý dữ liệu của tôi như thế nào?" },

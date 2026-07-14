@@ -3,6 +3,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { MessagingChips } from "@/components/cta/MessagingChips";
 import { NewsletterForm } from "@/components/cta/NewsletterForm";
+import { VerifyUs } from "@/components/sections/VerifyUs";
 
 // FR-SEO-019: Label maps for social profile accessible names.
 const profileLabels: Record<string, Record<string, string>> = {
@@ -60,6 +61,11 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
 
           {/* FR-CTA-012: Messaging chips — rendered only when configured */}
           <MessagingChips locale={locale} location="footer" />
+
+          {/* FR-CMS-014: verify-us block footer-adjacent */}
+          <div style={{ marginTop: "var(--cs-space-lg)" }}>
+            <VerifyUs locale={locale} />
+          </div>
         </div>
         <div className="cs-footer-end">
           {hasNewsletter && (

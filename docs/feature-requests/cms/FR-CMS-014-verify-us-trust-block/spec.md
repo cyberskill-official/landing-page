@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-014
 title: "\"Verify us\" block: registration, DUNS, address, repositories"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: mixed
@@ -28,11 +28,11 @@ elements buyers look for. Everything in this block is already true and simply un
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - the block renders every configured field, both locales - test: `content/verify-us-block`
-- [ ] AC for 1.2 - an unset field is omitted with no empty row - test: `content/verify-us-block`
-- [ ] AC for 1.3 - the map is a static image link, loading no third-party script - test: `headers/csp-clean-crawl`
-- [ ] AC for 1.4 - each engineering claim maps to a CI gate that exists - test: `content/gates-claims-parity`
-- [ ] AC for 1.4 - both locales render in the same commit; no EN-only field ships - test: `content/verify-us-block`
+- [x] AC for 1.1 - the block renders every configured field, both locales - test: `content/verify-us-block`
+- [x] AC for 1.2 - an unset field is omitted with no empty row - test: `content/verify-us-block`
+- [x] AC for 1.3 - the map is a static image link, loading no third-party script - test: `headers/csp-clean-crawl`
+- [x] AC for 1.4 - each engineering claim maps to a CI gate that exists - test: `content/gates-claims-parity`
+- [x] AC for 1.4 - both locales render in the same commit; no EN-only field ships - test: `content/verify-us-block`
 
 ## 3. Edge cases
 

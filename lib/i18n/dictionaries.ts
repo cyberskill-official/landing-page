@@ -1,7 +1,9 @@
 import type { Locale } from "./config";
+import { commercialPolicy } from "@/lib/content/policy";
 
 // Chrome / UI strings. Structured content (services, work, scenes) lives in
 // lib/content/site.ts as LocalizedString pairs. This file is the UI shell.
+// FR-CTA-015: primary CTA promise is sourced from commercialPolicy (FR-BIZ-013).
 
 export type Dictionary = {
   nav: {
@@ -153,7 +155,8 @@ const en: Dictionary = {
   hero: {
     eyebrow: "A small studio in Saigon that turns wishes into working software. Since 2020.",
     lead: "Lumi, our golden genie, turns a clear wish into working software: the kind your team actually runs on, built to ship and to last.",
-    ctaPrimary: "Start my project",
+    // FR-CTA-015: outcome promise from commercial policy SSOT (not a free-form action label).
+    ctaPrimary: commercialPolicy.ctaPromise.en,
     ctaSecondary: "Talk to Lumi",
     scrollHint: "Scroll to follow the wish",
     wishPlaceholder: "Make a wish... a faster checkout, an app, a tool",
@@ -286,7 +289,8 @@ const vi: Dictionary = {
   hero: {
     eyebrow: "Một studio nhỏ tại Sài Gòn chuyên biến điều ước thành phần mềm. Từ 2020.",
     lead: "Lumi, vị thần đèn vàng của CyberSkill, biến một điều ước rõ ràng thành phần mềm chạy thật: thứ đội ngũ của bạn dùng mỗi ngày, được xây để bàn giao đúng hẹn và bền bỉ theo thời gian.",
-    ctaPrimary: "Bắt đầu dự án",
+    // FR-CTA-015: outcome promise from commercial policy SSOT.
+    ctaPrimary: commercialPolicy.ctaPromise.vi,
     ctaSecondary: "Trò chuyện với Lumi",
     scrollHint: "Cuộn xuống để theo điều ước",
     wishPlaceholder: "Ước một điều... thanh toán nhanh hơn, một ứng dụng, một công cụ",

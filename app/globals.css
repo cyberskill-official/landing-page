@@ -639,6 +639,50 @@ html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
 .cs-hero-inner { max-width: 46rem; position: relative; z-index: 1; }
 .cs-hero-title { font-size: var(--cs-text-4xl); margin-top: var(--cs-space-3); }
 .cs-hero-lead { font-size: var(--cs-text-xl); color: var(--cs-color-fg-muted); max-width: 38rem; }
+.cs-hero-subline {
+  font-size: var(--cs-text-lg);
+  color: var(--cs-color-fg-muted);
+  max-width: 36rem;
+  margin: 0 0 var(--cs-space-3);
+  line-height: 1.45;
+}
+.cs-capacity-line {
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-fg-muted);
+  margin: var(--cs-space-2) 0 var(--cs-space-3);
+  max-width: 36rem;
+}
+.cs-verify-us {
+  padding: var(--cs-space-6);
+  border-radius: 8px;
+  max-width: 40rem;
+}
+.cs-verify-us-list {
+  display: grid;
+  gap: var(--cs-space-3);
+  margin: var(--cs-space-4) 0 0;
+}
+.cs-verify-us-list dt {
+  font-size: var(--cs-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cs-color-fg-muted);
+  margin: 0;
+}
+.cs-verify-us-list dd {
+  margin: 0.15rem 0 0;
+  font-size: var(--cs-text-sm);
+}
+.cs-verify-map {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: var(--cs-space-2);
+}
+.cs-verify-address-text { display: block; }
+.cs-contact-promise { margin: var(--cs-space-3) 0; }
 .cs-hero-actions { display: flex; flex-wrap: wrap; gap: var(--cs-space-3); margin-top: var(--cs-space-6); }
 .cs-hero-hint { margin-top: var(--cs-space-12); font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); letter-spacing: 0.04em; }
 

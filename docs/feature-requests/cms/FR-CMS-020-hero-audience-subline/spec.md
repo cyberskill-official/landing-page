@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-020
 title: "Hero subline that names the audience"
-status: ready_to_implement
+status: done
 class: improvement
 priority: COULD
 owner: mixed
@@ -25,8 +25,8 @@ copy as excellent but search- and buyer-intent-poor; one subline naming the audi
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - the subline renders in the SSR HTML on both locales - test: `content/hero-subline`
-- [ ] AC for 1.2 - the approved wording matches the content module - test: `content/no-placeholders`
+- [x] AC for 1.1 - the subline renders in the SSR HTML on both locales - test: `content/hero-subline`
+- [x] AC for 1.2 - the approved wording matches the content module - test: `content/no-placeholders`
 
 ## 3. Edge cases
 

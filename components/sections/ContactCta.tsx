@@ -9,6 +9,8 @@ import { Icon } from "@/components/ui/Icon";
 import { KineticText } from "@/components/motion/KineticText";
 import { Testimonial } from "@/components/ui/Testimonial";
 import { MessagingChips } from "@/components/cta/MessagingChips";
+import { CapacityLine } from "@/components/sections/CapacityLine";
+import { CtaLink } from "@/components/cta/CtaLink";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
@@ -30,7 +32,20 @@ export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; di
           <h2 id="contact-title" className="cs-kt-h" data-mask-reveal="" aria-label={dict.sections.contactTitle}>
             <KineticText text={dict.sections.contactTitle} />
           </h2>
+          {/* FR-CTA-018: capacity line adjacent to contact heading */}
+          <CapacityLine locale={locale} />
           <p className="cs-section-lead" data-mask-reveal="">{dict.sections.contactLead}</p>
+          {/* FR-CTA-015: outcome-led promise also in the contact band */}
+          <p className="cs-contact-promise">
+            <CtaLink
+              className="cs-btn cs-btn-secondary"
+              href={`/${locale}#contact`}
+              location="contact-section"
+              label={dict.hero.ctaPrimary}
+            >
+              {dict.hero.ctaPrimary}
+            </CtaLink>
+          </p>
           {/* Lumi-first contact (FR-CHAR-026): the conversation is the primary
               path; the classic form stays available below as the fallback. */}
           <p className="cs-contact-lumi">

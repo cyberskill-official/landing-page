@@ -40,6 +40,14 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dictionary })
             </Reveal>
           ))}
         </div>
+        {/* FR-CTA-017 §1.3: services surface links to engagement models */}
+        <p className="cs-section-lead" style={{ marginTop: "var(--cs-space-lg)" }}>
+          <a href={`/${locale}#engagement`} data-engagement-link="">
+            {locale === "vi"
+              ? "Xem mô hình hợp tác và khoảng bắt đầu"
+              : "See engagement models and starting ranges"}
+          </a>
+        </p>
         {testimonials.length > 0 && (
           <div style={{ display: "flex", justifyContent: "center", marginTop: "var(--cs-space-xl)" }}>
             <Testimonial testimonial={testimonials[0]} locale={locale} />

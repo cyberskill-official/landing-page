@@ -1,7 +1,7 @@
 ---
 id: FR-CMS-019
 title: "Partnership offer for agencies and studios abroad"
-status: ready_to_implement
+status: done
 class: improvement
 priority: COULD
 owner: mixed
@@ -27,9 +27,9 @@ comfort, time-zone overlap).
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - the section renders every named element, both locales - test: `content/partnership-shape`
-- [ ] AC for 1.2 - the enquiry carries intent=partnership through to the CRM payload - test: `api/lead-intent-routing`
-- [ ] AC for 1.3 - no unapproved commitment ships - test: `content/no-placeholders`
+- [x] AC for 1.1 - the section renders every named element, both locales - test: `content/partnership-shape`
+- [x] AC for 1.2 - the enquiry carries intent=partnership through to the CRM payload - test: `api/lead-intent-routing`
+- [x] AC for 1.3 - no unapproved commitment ships - test: `content/no-placeholders`
 
 ## 3. Edge cases
 

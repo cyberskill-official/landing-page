@@ -4,6 +4,7 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { LocalizedString } from "@/lib/i18n/types";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { VerifyUs } from "@/components/sections/VerifyUs";
 
 // A plain-spoken "how we build" page: the method, the quality bar we hold
 // ourselves to, how we handle a client's data, and how an engagement runs.
@@ -96,6 +97,11 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
         <p className="cs-eyebrow">{t.eyebrow}</p>
         <h1>{t.title}</h1>
         <p className="cs-section-lead">{t.lead}</p>
+
+        {/* FR-CMS-014: verify-us on how-we-build */}
+        <div style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
+          <VerifyUs locale={locale} />
+        </div>
 
         <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{localize(method.title, locale)}</h2>

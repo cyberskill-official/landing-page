@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-017
 title: "Engagement models and price signals section"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: mixed
@@ -28,10 +28,10 @@ notes buyers shortlist on this and competitors show it. Price is the question ev
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - three model cards render with all five fields, both locales - test: `content/engagement-models`
-- [ ] AC for 1.2 - no FOR REVIEW or placeholder range reaches production - test: `content/no-placeholders`
-- [ ] AC for 1.3 - service pages and FAQ link to it - test: `content/engagement-models`
-- [ ] AC for 1.4 - both locales render in the same commit; no EN-only card ships - test: `content/engagement-models`
+- [x] AC for 1.1 - three model cards render with all five fields, both locales - test: `content/engagement-models`
+- [x] AC for 1.2 - no FOR REVIEW or placeholder range reaches production - test: `content/no-placeholders`
+- [x] AC for 1.3 - service pages and FAQ link to it - test: `content/engagement-models`
+- [x] AC for 1.4 - both locales render in the same commit; no EN-only card ships - test: `content/engagement-models`
 
 ## 3. Edge cases
 

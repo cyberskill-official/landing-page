@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-015
 title: "Outcome-led CTA promise instead of an action label"
-status: ready_to_implement
+status: done
 class: improvement
 priority: SHOULD
 owner: mixed
@@ -27,10 +27,10 @@ testable. Audit A rates the positioning as strong in voice but weak in evidence 
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - both locales render the approved promise - test: `content/cta-copy`
-- [ ] AC for 1.2 - no unapproved promise string exists in the build - test: `content/no-placeholders`
-- [ ] AC for 1.3 - clicks carry the location - test: `analytics/both-lead-paths`
-- [ ] AC for 1.4 - the previous CTA strings remain retrievable from the dictionary history, so a rollback is one commit - test: `content/cta-copy`
+- [x] AC for 1.1 - both locales render the approved promise - test: `content/cta-copy`
+- [x] AC for 1.2 - no unapproved promise string exists in the build - test: `content/no-placeholders`
+- [x] AC for 1.3 - clicks carry the location - test: `analytics/both-lead-paths`
+- [x] AC for 1.4 - the previous CTA strings remain retrievable from the dictionary history, so a rollback is one commit - test: `content/cta-copy`
 
 ## 3. Edge cases
 

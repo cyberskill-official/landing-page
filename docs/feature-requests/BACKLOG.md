@@ -182,19 +182,13 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 #### CTA
 
 - [ready_to_implement] FR-CTA-005 - Call-booking path for high-intent leads (link, not embed) [mixed] - depends: FR-BIZ-013, FR-CTA-010
-- [ready_to_implement] FR-CTA-015 - Outcome-led CTA promise instead of an action label (improvement) [mixed] - depends: FR-BIZ-013
 - [ready_to_implement] FR-CTA-016 - Company profile one-pager PDF, EN and VN (improvement) [mixed] - depends: FR-BIZ-013
-- [ready_to_implement] FR-CTA-017 - Engagement models and price signals section (improvement) [mixed] - depends: FR-BIZ-013
-- [ready_to_implement] FR-CTA-018 - True capacity line near the contact heading (improvement) [mixed] - depends: FR-BIZ-013
 
 #### CMS
 
 - [ready_to_implement] FR-CMS-004 - Replace placeholder testimonials with cleared client quotes [mixed] - depends: FR-BIZ-006, FR-CMS-012
 - [ready_to_implement] FR-CMS-006 - About, team, and culture content (recruiting + trust surface) [mixed] - depends: FR-BIZ-006
 - [ready_to_implement] FR-CMS-009 - Replace placeholder case studies with cleared real outcomes [mixed] - depends: FR-BIZ-006, FR-CMS-011
-- [ready_to_implement] FR-CMS-014 - Verify us" block: registration, DUNS, address, repositories (improvement) [mixed] - depends: FR-BIZ-013
-- [ready_to_implement] FR-CMS-019 - Partnership offer for agencies and studios abroad (improvement) [mixed] - depends: FR-BIZ-013
-- [ready_to_implement] FR-CMS-020 - Hero subline that names the audience (improvement) [mixed] - depends: FR-BIZ-013
 
 #### A11Y
 
@@ -228,6 +222,12 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 ## §4.5 recently done (this wave)
 
+- [done] FR-CTA-015 - Outcome-led CTA promise instead of an action label (improvement)
+- [done] FR-CTA-017 - Engagement models and price signals section (improvement)
+- [done] FR-CTA-018 - True capacity line near the contact heading (improvement)
+- [done] FR-CMS-014 - Verify us block: registration, DUNS, address, repositories (improvement)
+- [done] FR-CMS-019 - Partnership offer for agencies and studios abroad (improvement)
+- [done] FR-CMS-020 - Hero subline that names the audience (improvement)
 - [done] FR-BIZ-013 - Decide the commercial policy the site is allowed to publish (improvement)
 
 ## §4 on_hold
