@@ -30,6 +30,9 @@ this for, and what happened?' - and the site cannot answer."
 
 ## 2. Acceptance criteria
 
+> **Agent progress (2026-07-14):** drafts EN+VN, permission ledger, team consent model, and gates for 1.1/1.3/1.4/1.5 are in-repo. **1.2 remains owner-only** (send >=3 client requests; secure one named case study). Status stays `ready_to_implement` until 1.2 is evidenced.
+
+
 - [ ] AC for 1.1 - the request drafts exist in both languages - test: `docs/permission-request-drafts`
 - [ ] AC for 1.2 - >= 3 requests sent; >= 1 full named case study granted - evidence: permission records
 - [ ] AC for 1.3 - every proof asset in the repo has a matching permission record - test: `content/testimonial-permission`

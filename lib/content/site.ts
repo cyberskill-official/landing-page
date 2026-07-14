@@ -613,9 +613,20 @@ export type TeamMember = {
   bio: LocalizedString;
   photoUrl?: string; // Optional if withheld
   profileUrl?: string;
+  /** Optional employee-voice quote (FR-CMS-006 §1.2) */
+  quote?: LocalizedString;
+  /**
+   * FR-BIZ-006 / FR-CMS-006: must reference teamConsents id.
+   * Members without consent must not appear in this array.
+   */
+  consentId: string;
 };
 
-// Real, named team members. 2 to 8 people.
+/**
+ * Named team members with recorded consent only (FR-BIZ-006 §1.4).
+ * Placeholder / role-only entries are forbidden — remove rather than invent.
+ * 0 members → honest empty state on /team (FR-WEB-012).
+ */
 export const team: TeamMember[] = [
   {
     id: "stephen",
@@ -623,20 +634,55 @@ export const team: TeamMember[] = [
     role: { en: "Founder & Lead Engineer", vi: "Nhà sáng lập & Kỹ sư trưởng" },
     bio: {
       en: "Oversees architecture and directly leads engineering for all projects.",
-      vi: "Chịu trách nhiệm kiến trúc và trực tiếp dẫn dắt kỹ thuật cho mọi dự án."
+      vi: "Chịu trách nhiệm kiến trúc và trực tiếp dẫn dắt kỹ thuật cho mọi dự án.",
     },
-    profileUrl: "https://linkedin.com/in/stephencheng"
+    profileUrl: "https://www.linkedin.com/in/stephencheng",
+    consentId: "team-stephen-2026",
   },
-  {
-    id: "engineer1",
-    name: "Senior Engineer",
-    role: { en: "Senior Full-Stack Engineer", vi: "Kỹ sư Full-Stack cấp cao" },
-    bio: {
-      en: "Specializes in scalable web applications and CI/CD pipelines.",
-      vi: "Chuyên gia về ứng dụng web mở rộng và quy trình phát hành tự động."
-    }
-  }
 ];
+
+/** FR-CMS-006: company story + culture (not third-party proof). */
+export const aboutStory: {
+  title: LocalizedString;
+  body: LocalizedString;
+} = {
+  title: {
+    en: "A software company in Ho Chi Minh City since 2020",
+    vi: "Công ty phần mềm tại TP. Hồ Chí Minh từ năm 2020",
+  },
+  body: {
+    en: "CyberSkill builds web applications, mobile apps, and internal systems for businesses worldwide. We are a registered company in Tan Dinh Ward, Ho Chi Minh City. Our slogan is simple: Turn Your Will Into Real — clear wishes, honest engineering, software that ships and lasts.",
+    vi: "CyberSkill xây dựng ứng dụng web, ứng dụng di động và hệ thống nội bộ cho doanh nghiệp toàn cầu. Chúng tôi là công ty đã đăng ký tại phường Tân Định, TP. Hồ Chí Minh. Slogan của chúng tôi đơn giản: Hiện Thực Hoá Ý Chí — điều ước rõ ràng, kỹ thuật trung thực, phần mềm bàn giao đúng hẹn và bền.",
+  },
+};
+
+export const aboutCulture: {
+  title: LocalizedString;
+  points: LocalizedString[];
+} = {
+  title: {
+    en: "How we work",
+    vi: "Cách chúng tôi làm việc",
+  },
+  points: [
+    {
+      en: "Senior engineers own the work end to end — you always know who is building what, and why.",
+      vi: "Kỹ sư cấp cao chịu trách nhiệm trọn dự án — bạn luôn biết ai đang xây phần nào, và vì sao.",
+    },
+    {
+      en: "Small, reviewable increments with CI that fails on regressions before they reach users.",
+      vi: "Bàn giao theo từng phần nhỏ, có review, với CI chặn hồi quy trước khi tới tay người dùng.",
+    },
+    {
+      en: "We name trade-offs in plain language before they cost you.",
+      vi: "Chúng tôi gọi tên mọi đánh đổi bằng lời lẽ dễ hiểu trước khi bạn phải trả giá.",
+    },
+    {
+      en: "English and Vietnamese, reply within one business day.",
+      vi: "Làm việc bằng tiếng Anh và tiếng Việt, phản hồi trong một ngày làm việc.",
+    },
+  ],
+};
 
 export const scenes: Scene[] = [
   {

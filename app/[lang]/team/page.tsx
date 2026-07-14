@@ -1,55 +1,128 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { team } from "@/lib/content/site";
+import {
+  team,
+  aboutStory,
+  aboutCulture,
+} from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { TeamJsonLd } from "@/components/seo/TeamJsonLd";
 import { resolveMetadata } from "@/lib/content/metadata";
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "en";
   return resolveMetadata(locale, "/team");
 }
 
-export default async function TeamPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function TeamPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : "en";
   const dict = getDictionary(locale);
 
-  // If no team members are configured, fallback to just showing the founder (first in array theoretically, or empty array handled gracefully)
-  // But FR states "with no consented team member in config the route SHALL still render (the founder card alone, or an honest empty state) and SHALL NOT 404"
-  // If array is empty, we show an honest empty state.
-
   return (
-    <section className="cs-section" suppressHydrationWarning>
+    <section className="cs-section" suppressHydrationWarning data-about-team="">
       <div className="cs-container">
         <BreadcrumbJsonLd
           items={[
-            { name: locale === "vi" ? "Trang chủ" : "Home", path: `/${locale}` },
-            { name: locale === "vi" ? "Đội ngũ" : "Team", path: `/${locale}/team` },
+            {
+              name: locale === "vi" ? "Trang chủ" : "Home",
+              path: `/${locale}`,
+            },
+            {
+              name: locale === "vi" ? "Đội ngũ" : "Team",
+              path: `/${locale}/team`,
+            },
           ]}
         />
         <TeamJsonLd team={team} locale={locale} />
-        
+
         <p className="cs-eyebrow">{dict.nav.team}</p>
         <h1>{locale === "vi" ? "Đội ngũ của chúng tôi" : "Our Team"}</h1>
+
+        {/* FR-CMS-006 §1.1: company story from content module */}
+        <div data-about-story="" style={{ maxWidth: "40rem", marginBottom: "var(--cs-space-xl)" }}>
+          <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
+            {localize(aboutStory.title, locale)}
+          </h2>
+          <p className="cs-section-lead">{localize(aboutStory.body, locale)}</p>
+        </div>
+
+        {/* FR-CMS-006 §1.1 culture */}
+        <div data-about-culture="" style={{ marginBottom: "var(--cs-space-xl)" }}>
+          <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
+            {localize(aboutCulture.title, locale)}
+          </h2>
+          <ul className="cs-service-outcomes" role="list">
+            {aboutCulture.points.map((p, i) => (
+              <li key={i}>{localize(p, locale)}</li>
+            ))}
+          </ul>
+        </div>
+
+        <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
+          {locale === "vi" ? "Con người" : "People"}
+        </h2>
         <p className="cs-section-lead">
           {locale === "vi"
-            ? "Đội ngũ kỹ sư dày dặn kinh nghiệm, trực tiếp chịu trách nhiệm và đồng hành cùng dự án của bạn."
-            : "Senior engineers who own the work end to end and stay with you from the first call to production."}
+            ? "Chỉ những thành viên đã đồng ý bằng văn bản mới xuất hiện ở đây."
+            : "Only people with recorded written consent appear here."}
         </p>
 
         {team.length === 0 ? (
-          <div className="cs-surface-light" style={{ padding: "var(--cs-space-xl)", textAlign: "center" }}>
-            <p>{locale === "vi" ? "Đội ngũ đang được cập nhật." : "Our team profiles are being updated."}</p>
+          <div
+            className="cs-surface-light"
+            style={{ padding: "var(--cs-space-xl)", textAlign: "center" }}
+            data-team-empty=""
+          >
+            <p>
+              {locale === "vi"
+                ? "Đội ngũ đang được cập nhật."
+                : "Our team profiles are being updated."}
+            </p>
           </div>
         ) : (
-          <div className="cs-grid" style={{ "--grid-cols": 3, gap: "var(--cs-space-xl)" } as React.CSSProperties}>
+          <div
+            className="cs-grid"
+            style={
+              {
+                "--grid-cols": 3,
+                gap: "var(--cs-space-xl)",
+              } as CSSProperties
+            }
+            data-team-grid=""
+          >
             {team.map((member) => (
-              <article key={member.id} className="cs-surface-light" style={{ padding: "var(--cs-space-lg)", display: "flex", flexDirection: "column", gap: "var(--cs-space-md)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "var(--cs-space-md)" }}>
+              <article
+                key={member.id}
+                className="cs-surface-light"
+                data-team-member={member.id}
+                data-consent-id={member.consentId}
+                style={{
+                  padding: "var(--cs-space-lg)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "var(--cs-space-md)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "var(--cs-space-md)",
+                  }}
+                >
                   <div
                     style={{
                       width: "64px",
@@ -68,33 +141,58 @@ export default async function TeamPage({ params }: { params: Promise<{ lang: str
                       <img
                         src={member.photoUrl}
                         alt={member.name}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
                         loading="lazy"
                       />
                     ) : (
-                      <span style={{ fontSize: "var(--cs-text-xl)", color: "var(--cs-color-text-dim)" }}>
+                      <span
+                        style={{
+                          fontSize: "var(--cs-text-xl)",
+                          color: "var(--cs-color-text-dim)",
+                        }}
+                      >
                         {member.name.charAt(0)}
                       </span>
                     )}
                   </div>
                   <div>
-                    <h2 style={{ fontSize: "var(--cs-text-lg)", margin: 0 }}>
+                    <h3 style={{ fontSize: "var(--cs-text-lg)", margin: 0 }}>
                       {member.profileUrl ? (
-                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={member.profileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           {member.name}
                         </a>
                       ) : (
                         member.name
                       )}
-                    </h2>
-                    <p className="cs-eyebrow" style={{ margin: 0 }}>{localize(member.role, locale)}</p>
+                    </h3>
+                    <p className="cs-eyebrow" style={{ margin: 0 }}>
+                      {localize(member.role, locale)}
+                    </p>
                   </div>
                 </div>
                 <p style={{ margin: 0 }}>{localize(member.bio, locale)}</p>
+                {member.quote ? (
+                  <blockquote data-field="quote" style={{ margin: 0 }}>
+                    {localize(member.quote, locale)}
+                  </blockquote>
+                ) : null}
               </article>
             ))}
           </div>
         )}
+
+        {/* FR-CMS-006 §1.5: recruiting surface without hardcoded job copy */}
+        <p style={{ marginTop: "var(--cs-space-xl)" }} data-careers-link="">
+          <a href={`/${locale}/careers`}>{dict.sections.careersCta}</a>
+        </p>
       </div>
     </section>
   );

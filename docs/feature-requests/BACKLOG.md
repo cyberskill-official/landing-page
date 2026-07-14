@@ -194,7 +194,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 #### CMS
 
 - [ready_to_implement] FR-CMS-004 - Replace placeholder testimonials with cleared client quotes [mixed] - depends: FR-BIZ-006, FR-CMS-012, FR-OPS-019
-- [ready_to_implement] FR-CMS-006 - About, team, and culture content (recruiting + trust surface) [mixed] - depends: FR-BIZ-006, FR-OPS-019
 - [ready_to_implement] FR-CMS-009 - Replace placeholder case studies with cleared real outcomes [mixed] - depends: FR-BIZ-006, FR-CMS-011, FR-OPS-019
 
 #### A11Y
@@ -229,6 +228,7 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 ## §4.5 recently done (this wave)
 
+- [done] FR-CMS-006 - About, team, and culture content (recruiting + trust surface)
 - [done] FR-CTA-016 - Company profile one-pager PDF, EN and VN (improvement)
 - [done] FR-CTA-005 - Call-booking path for high-intent leads (link, not embed)
 - [done] FR-CTA-015 - Outcome-led CTA promise instead of an action label (improvement)

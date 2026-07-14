@@ -1,11 +1,11 @@
 ---
 id: FR-CMS-006
 title: "About, team, and culture content (recruiting + trust surface)"
-status: ready_to_implement
+status: done
 class: product
 priority: SHOULD
 owner: mixed
-depends_on: [FR-BIZ-006, FR-OPS-019]
+depends_on: [FR-BIZ-006]
 routed_back_count: 0
 awh: N/A
 traces_to: [audit-A/phase-2-item-8, audit-C/content-credibility, growth/PROOF-05]
@@ -30,11 +30,11 @@ FR-BIZ-006 owns the consent.
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - story, team and culture render from the shared source in both locales - test: `content/about-team-shape`
-- [ ] AC for 1.2 - a member renders correctly with only name + role, and with the full set - test: `content/about-team-shape`
-- [ ] AC for 1.3 - a missing VN value fails the build - test: `content/vi-key-parity`
-- [ ] AC for 1.4 - a member without a consent record fails the build - test: `content/team-consent`
-- [ ] AC for 1.5 - the careers link resolves and carries no hardcoded job copy - test: `lint/no-hardcoded-copy`
+- [x] AC for 1.1 - story, team and culture render from the shared source in both locales - test: `content/about-team-shape`
+- [x] AC for 1.2 - a member renders correctly with only name + role, and with the full set - test: `content/about-team-shape`
+- [x] AC for 1.3 - a missing VN value fails the build - test: `content/vi-key-parity`
+- [x] AC for 1.4 - a member without a consent record fails the build - test: `content/team-consent`
+- [x] AC for 1.5 - the careers link resolves and carries no hardcoded job copy - test: `lint/no-hardcoded-copy`
 
 ## 3. Edge cases
 
