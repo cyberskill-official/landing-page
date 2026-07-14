@@ -43,6 +43,7 @@ export const leadSchema = z.object({
   locale: z.enum(["en", "vi"]),
   // Optional source tag (e.g. "hero", "footer", "genie").
   source: z.string().max(40).optional(),
+  url: z.string().trim().max(300).optional().or(z.literal("")),
   // FR-OPS-011: Optional UTM parameters for campaign attribution.
   utm_source: z.string().max(100).optional(),
   utm_medium: z.string().max(100).optional(),

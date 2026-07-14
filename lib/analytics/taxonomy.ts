@@ -19,7 +19,7 @@
 // ---------------------------------------------------------------------------
 
 export interface LeadSubmittedPayload {
-  source: "contact-form" | "lumi-chat" | "synthetic";
+  source: "contact-form" | "lumi-chat" | "synthetic" | "teardown";
   locale: string;
   utm?: UtmFields;
 }
@@ -54,6 +54,10 @@ export interface FormAbandonedPayload {
   lastField?: string; // name of last touched field (no value — no PII)
 }
 
+export interface TeardownDeliveredPayload {
+  leadId: string;
+}
+
 // ---------------------------------------------------------------------------
 // Allowlisted payload fields (FR-OPS-011 §1.4)
 // ---------------------------------------------------------------------------
@@ -61,7 +65,7 @@ export interface FormAbandonedPayload {
 /** Field names that are allowed in any event payload. Anything else is stripped. */
 export const ALLOWED_EVENT_FIELDS = new Set([
   "source", "locale", "utm", "location", "label", "placement",
-  "id", "chapter", "formId", "lastField",
+  "id", "chapter", "formId", "lastField", "leadId",
 ]);
 
 // ---------------------------------------------------------------------------
@@ -178,6 +182,7 @@ export type EventPayloadMap = {
   chapter_reached: ChapterReachedPayload;
   form_started: FormStartedPayload;
   form_abandoned: FormAbandonedPayload;
+  teardown_delivered: TeardownDeliveredPayload;
 };
 
 export type EventName = keyof EventPayloadMap;

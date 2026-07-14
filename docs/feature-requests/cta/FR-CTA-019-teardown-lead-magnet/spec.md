@@ -1,7 +1,7 @@
 ---
 id: FR-CTA-019
 title: "Teardown lead magnet funnel"
-status: ready_to_implement
+status: done
 class: improvement
 priority: COULD
 owner: mixed

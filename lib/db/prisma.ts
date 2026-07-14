@@ -319,6 +319,32 @@ export class PrismaDbAdapter implements DbAdapter {
     }
   }
 
+  async getTeardownCountThisWeek(): Promise<number> {
+    try {
+      return await withRetry(async () => {
+        const start = new Date();
+        const day = start.getUTCDay();
+        const diff = start.getUTCDate() - day + (day === 0 ? -6 : 1);
+        const startOfWeek = new Date(start.setUTCDate(diff));
+        startOfWeek.setUTCHours(0, 0, 0, 0);
+
+        return await this.prisma.lead.count({
+          where: {
+            source: "teardown",
+            submittedAt: { gte: startOfWeek },
+            deletedAt: null,
+          },
+        });
+      });
+    } catch (err: any) {
+      if (isConnectionError(err)) {
+        console.warn("[db:prisma] Connection timeout in count, failing safe to 0", err.message);
+        return 0;
+      }
+      throw err;
+    }
+  }
+
   async disconnect(): Promise<void> {
     await this.prisma.$disconnect();
     await this.pool.end();

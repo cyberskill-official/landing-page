@@ -12,6 +12,7 @@ import { SocialProof } from "@/components/sections/SocialProof";
 import { Faq } from "@/components/sections/Faq";
 import { Careers } from "@/components/sections/Careers";
 import { ContactCta } from "@/components/sections/ContactCta";
+import { TeardownCta } from "@/components/sections/TeardownCta";
 import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
@@ -43,6 +44,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <SocialProof locale={locale} dict={dict} />
       <Faq locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
       <Careers locale={locale} dict={dict} />
+      <TeardownCta locale={locale} dict={dict} />
       <ContactCta locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
       <HomeFaqJsonLd locale={locale} />
       <ServicesJsonLd locale={locale} />

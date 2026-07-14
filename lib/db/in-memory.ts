@@ -126,6 +126,19 @@ export class InMemoryAdapter implements DbAdapter {
     return transcriptsDb;
   }
 
+  async getTeardownCountThisWeek(): Promise<number> {
+    const start = new Date();
+    const day = start.getUTCDay();
+    const diff = start.getUTCDate() - day + (day === 0 ? -6 : 1);
+    const startOfWeek = new Date(start.setUTCDate(diff));
+    startOfWeek.setUTCHours(0, 0, 0, 0);
+    const startIso = startOfWeek.toISOString();
+
+    return Array.from(leadsDb.values()).filter(
+      (r) => !r.deletedAt && r.source === "teardown" && r.submittedAt >= startIso
+    ).length;
+  }
+
   clearAll(): void {
     leadsDb.clear();
     transcriptsDb.clear();

@@ -43,4 +43,5 @@ export interface DbAdapter {
   findTranscript(sessionId: string): Promise<TranscriptRecord | null>;
   deleteTranscript(id: string): Promise<void>;
   pruneExpired(): Promise<number>; // deletes records past retention date, returns count
+  getTeardownCountThisWeek(): Promise<number>;
 }

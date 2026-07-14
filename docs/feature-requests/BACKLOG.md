@@ -186,7 +186,6 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 - [ready_to_implement] FR-CTA-016 - Company profile one-pager PDF, EN and VN (improvement) [mixed] - depends: FR-BIZ-013
 - [ready_to_implement] FR-CTA-017 - Engagement models and price signals section (improvement) [mixed] - depends: FR-BIZ-013
 - [ready_to_implement] FR-CTA-018 - True capacity line near the contact heading (improvement) [mixed] - depends: FR-BIZ-013
-- [ready_to_implement] FR-CTA-019 - Teardown lead magnet funnel (improvement) [mixed] - depends: FR-CTA-014
 
 #### CMS
 
@@ -310,6 +309,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 - [done] FR-CTA-003 - Trust band credibility strip
 - [done] FR-CTA-007 - Real-time lead notification to Slack and email
 - [done] FR-CTA-009 - Track form-start and abandonment events
+- [done] FR-CTA-019 - Teardown lead magnet funnel (improvement) [mixed] - depends: FR-CTA-014
 
 ### CMS
 

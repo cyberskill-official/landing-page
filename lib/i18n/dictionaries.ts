@@ -122,6 +122,20 @@ export type Dictionary = {
     privacy: string;
     accessibility: string;
   };
+  teardown: {
+    title: string;
+    lead: string;
+    nameLabel: string;
+    emailLabel: string;
+    urlLabel: string;
+    messageLabel: string;
+    consentLabel: string;
+    submitLabel: string;
+    capFullTitle: string;
+    capFullBody: string;
+    successTitle: string;
+    successBody: string;
+  };
 };
 
 const en: Dictionary = {
@@ -240,6 +254,20 @@ const en: Dictionary = {
     privacy: "Privacy",
     accessibility: "Accessibility",
   },
+  teardown: {
+    title: "Get a free 15-point teardown",
+    lead: "We will review your website or internal application for speed, security, and accessibility. You get a detailed 15-point PDF report outlining exactly where you are losing users and how to fix it. 100% free, delivered in 3 business days.",
+    nameLabel: "Your Name",
+    emailLabel: "Work Email",
+    urlLabel: "Website or Product URL",
+    messageLabel: "What specific page, flow, or issue should we focus on? (optional)",
+    consentLabel: "I agree to have my website reviewed and to be contacted.",
+    submitLabel: "Request Teardown",
+    capFullTitle: "Weekly slots are full",
+    capFullBody: "Our weekly audit slots are currently full. We reopen next Monday! In the meantime, you can still write us a general note below.",
+    successTitle: "Teardown requested!",
+    successBody: "Thank you. We have saved your slot. Our engineering team will review your site and email the 15-point PDF report to your inbox within 3 business days.",
+  },
 };
 
 const vi: Dictionary = {
@@ -357,6 +385,20 @@ const vi: Dictionary = {
     duns: "DUNS",
     privacy: "Quyền riêng tư",
     accessibility: "Khả năng tiếp cận",
+  },
+  teardown: {
+    title: "Nhận đánh giá 15 điểm miễn phí",
+    lead: "Chúng tôi sẽ đánh giá trang web hoặc ứng dụng nội bộ của bạn về tốc độ, bảo mật và khả năng tiếp cận. Bạn sẽ nhận được báo cáo PDF 15 điểm chi tiết chỉ ra nơi bạn đang mất người dùng và cách khắc phục. Hoàn toàn miễn phí, bàn giao trong 3 ngày làm việc.",
+    nameLabel: "Tên của bạn",
+    emailLabel: "Email công việc",
+    urlLabel: "Đường dẫn website hoặc sản phẩm",
+    messageLabel: "Trang, luồng hoặc vấn đề cụ thể nào cần chúng tôi tập trung đánh giá? (không bắt buộc)",
+    consentLabel: "Tôi đồng ý để CyberSkill đánh giá website và liên hệ với tôi.",
+    submitLabel: "Yêu cầu đánh giá",
+    capFullTitle: "Các suất tuần này đã đầy",
+    capFullBody: "Các suất đánh giá miễn phí tuần này đã đầy. Chúng tôi mở lại vào thứ Hai tới! Trong lúc đó, bạn vẫn có thể gửi lời nhắn chung cho chúng tôi ở biểu mẫu liên hệ bên dưới.",
+    successTitle: "Đã gửi yêu cầu!",
+    successBody: "Cảm ơn bạn. Chúng tôi đã giữ suất cho bạn. Đội ngũ kỹ sư của chúng tôi sẽ đánh giá website và gửi báo cáo PDF 15 điểm đến hộp thư của bạn trong vòng 3 ngày làm việc.",
   },
 };
 

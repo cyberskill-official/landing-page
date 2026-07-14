@@ -39,6 +39,19 @@ export async function POST(req: Request) {
 
   const lead = parsed.data;
 
+  // 1.2 Cap check for teardown requests
+  if (lead.source === "teardown") {
+    const db = getDb();
+    const count = await db.getTeardownCountThisWeek();
+    const cap = parseInt(process.env.TEARDOWN_WEEKLY_CAP || "3", 10);
+    if (count >= cap) {
+      return NextResponse.json(
+        { ok: false, error: "cap_exceeded", message: "Weekly teardown cap exceeded" },
+        { status: 429 }
+      );
+    }
+  }
+
   // Validate production env keys (fail closed if required ones are absent)
   try {
     getRequiredEnv("RESEND_API_KEY", true);
@@ -60,6 +73,7 @@ export async function POST(req: Request) {
     message: lead.message || null,
     locale: lead.locale,
     source: lead.source || "unknown",
+    url: lead.url || null,
     // FR-OPS-011: UTM params forwarded to CRM if present
     utm: lead.utm_source || lead.utm_medium || lead.utm_campaign || lead.utm_term || lead.utm_content
       ? {
