@@ -19,6 +19,11 @@ describe("FR-OPS-017: CDN Cache-Control Headers", () => {
     expect(feedCache).toContain("stale-while-revalidate=3600");
 
     // 2. Dynamic sitemap via Next config headers configuration
+    // next.config.ts defines `headers` unconditionally, but its `NextConfig`
+    // type annotation widens the field to optional - guard (rather than a
+    // bare `!` assertion) so this test fails loudly and legibly if that ever
+    // stops being true.
+    if (!nextConfig.headers) throw new Error("next.config.ts no longer defines headers()");
     const configHeaders = await nextConfig.headers();
     const sitemapHeaderObj = configHeaders.find(h => h.source === "/sitemap.xml");
     expect(sitemapHeaderObj).toBeDefined();

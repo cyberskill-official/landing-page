@@ -5,6 +5,14 @@ on:
     branches: [main, "auto/**", "codex/**"]
   pull_request:
 
+# `npm install` now runs `prisma generate` via postinstall (lib/db/prisma.ts
+# needs the generated PrismaClient to typecheck). `generate` only reads the
+# schema and never opens a connection, but prisma.config.ts eagerly resolves
+# DATABASE_URL just to load, so every job that installs needs a syntactically
+# valid placeholder - not a real credential.
+env:
+  DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
+
 jobs:
   build:
     runs-on: ubuntu-latest
