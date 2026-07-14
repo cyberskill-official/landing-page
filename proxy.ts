@@ -19,8 +19,18 @@ export function proxy(req: NextRequest) {
   
   const isProduction = process.env.VERCEL_ENV === "production" || process.env.VITEST_FORCE_PROD === "true";
   const cspHeaderKey = isProduction ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only";
-  const styleSrc = isProduction ? `'self' 'nonce-${nonce}'` : `'self' 'unsafe-inline'`;
-  
+  // Always 'unsafe-inline', never a nonce here: per spec a nonce-source in the
+  // list makes browsers ignore 'unsafe-inline' entirely, and Chrome does not
+  // apply nonces to style ATTRIBUTES anyway (only to <style>/<link> tags) -
+  // confirmed live on production, where every JS-driven inline style write
+  // (LumiHotspot.tsx's per-frame el.style.transform, and similar in
+  // BlackHole.tsx/LumiMagic.tsx) was being blocked outright. Those values are
+  // computed fresh every animation frame, so hashing them is not viable.
+  // style-src XSS risk is materially lower than script-src (no code
+  // execution), so trading it for 'unsafe-inline' while keeping script-src
+  // strict is the standard mitigation here.
+  const styleSrc = `'self' 'unsafe-inline'`;
+
   // img-src needs `blob:` and script-src needs `'wasm-unsafe-eval'` for the
   // Lumi mascot's embedded glTF (components/canvas/GltfLumi.tsx): the loader
   // decodes bufferView images via URL.createObjectURL() (a blob: URL) and
@@ -29,7 +39,20 @@ export function proxy(req: NextRequest) {
   // report-only to enforcing in production - the model's base-color texture
   // failed closed to the glTF default (white), and on some loads the WASM
   // compile failure kept the mesh from rendering at all.
-  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
+  // connect-src also needs `blob:`: three.js's texture path here loads the
+  // same blob: URL via fetch(), not an <img> element, so img-src alone
+  // doesn't cover it - Chrome's own console confirmed this in production:
+  // "Connecting to 'blob:...' violates ... connect-src" / "Fetch API cannot
+  // load blob:... Refused to connect". Without this, the texture still 404s
+  // even with img-src fixed.
+  // https://vercel.live on script-src: the Vercel Live Feedback/Toolbar
+  // widget (_next-live/feedback/feedback.js) loads on production, not just
+  // previews, and was hitting the same "script-src-elem falls back to
+  // script-src" block seen live in the console. If the toolbar still can't
+  // open a live connection after this (it uses a websocket back to Vercel),
+  // that's connect-src, not script-src - not added here since nothing in the
+  // captured console output pointed at connect-src being the blocker for it.
+  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com https://vercel.live; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
 
   if (pathname === "/") {
     // An explicit switcher choice (cs-locale cookie) wins over header negotiation

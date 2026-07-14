@@ -23,8 +23,8 @@ export const routeMetadata: RouteMetadata[] = [
   {
     route: "/",
     title: {
-      en: "Software Development Company Vietnam | CyberSkill",
-      vi: "Công ty phát triển phần mềm Việt Nam | CyberSkill",
+      en: "CyberSkill - Turn Your Will Into Real",
+      vi: "CyberSkill - Hiện Thực Hoá Ý Chí",
     },
     description: {
       en: "CyberSkill is a software company in Ho Chi Minh City. Senior engineers own your project end to end, building web, mobile, and custom systems that last.",

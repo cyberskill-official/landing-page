@@ -30,9 +30,14 @@ describe("FR-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     expect(csp).toContain("default-src 'self'");
     expect(csp).toContain("script-src 'self'");
     expect(csp).toContain("style-src 'self'");
-    // Strict style-src in production MUST NOT have 'unsafe-inline'
-    expect(csp).not.toContain("style-src 'self' 'unsafe-inline'");
-    // Verify it contains 'nonce-'
+    // style-src carries 'unsafe-inline' in production too (not just
+    // report-only): nonces do not cover style ATTRIBUTES in Chrome, only
+    // <style>/<link> tags, and the app sets per-frame inline styles from JS
+    // (LumiHotspot.tsx's el.style.transform, etc.) whose values can't be
+    // hashed. Confirmed live: without this, every JS-driven inline style was
+    // silently blocked in production. script-src stays nonce-only and strict.
+    expect(csp).toContain("style-src 'self' 'unsafe-inline'");
+    // Verify script-src still carries its nonce
     expect(csp).toContain("'nonce-");
   });
 
@@ -100,7 +105,11 @@ describe("FR-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     // render at all once this header went from report-only to enforcing.
     expect(csp).toContain("img-src 'self' data: blob:");
     expect(csp).toContain("'wasm-unsafe-eval'");
-    expect(csp).toContain("connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com");
+    // Three.js loads the same glTF blob: texture via fetch() on this path,
+    // which connect-src governs, not img-src - both are needed.
+    expect(csp).toContain("connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com");
+    // Vercel Live Feedback/Toolbar script, confirmed loading in production.
+    expect(csp).toContain("https://vercel.live");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("base-uri 'self'");
     expect(csp).toContain("report-uri /api/csp-report");
