@@ -18,6 +18,15 @@ growth program. Live in production at https://cyberskill.world.
 > **Implementing agent: read `README.md` in this folder first.** It is the five-minute
 > brief on how the queue, the contract and the gates work here.
 
+## §0.5 draft (not yet ready_to_implement)
+
+CyberOS central-data wave (see `docs/architecture/cyberos-central-data-source.md`). Promote after audit.
+
+- [draft] FR-BIZ-016 - CyberOS central data platform for landing leads and content (improvement) [human]
+- [draft] FR-OPS-019 - Landing content read model from CyberOS (with git fallback) - depends: FR-BIZ-016
+- [draft] FR-OPS-020 - Lead dual-write to CyberOS and historical migration (improvement) [mixed] - depends: FR-BIZ-002, FR-OPS-005
+- [draft] FR-CMS-021 - Notes/blog authoring via CyberOS (deprecates notes.ts write SSOT) [mixed] - depends: FR-OPS-019, FR-CMS-010
+
 ## §0 How to read this backlog
 
 One row is one FR; one FR is one atomic, testable requirement. Rows are grouped by status, then
