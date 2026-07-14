@@ -1,18 +1,33 @@
 /**
  * FR-CTA-005: Call-booking path is a plain link, env-gated.
  * Never loads a third-party booking script.
+ *
+ * IMPORTANT (Next.js): client bundles only inline NEXT_PUBLIC_* when accessed
+ * as a *static* member expression (`process.env.NEXT_PUBLIC_BOOKING_URL`).
+ * Dynamic keys like `process.env[name]` are NOT replaced and resolve to
+ * undefined in the browser.
  */
 
-export const BOOKING_URL_ENV = "NEXT_PUBLIC_BOOKING_URL";
+export const BOOKING_URL_ENV = "NEXT_PUBLIC_BOOKING_URL" as const;
+
+/**
+ * Read the build-time booking URL via static env access (Next-safe).
+ * Optional `override` is for tests only.
+ */
+export function readBookingUrlEnv(override?: string | null): string | undefined {
+  if (override !== undefined) {
+    return override === null ? undefined : override;
+  }
+  // Static access — required for Next client inlining.
+  return process.env.NEXT_PUBLIC_BOOKING_URL;
+}
 
 /**
  * Returns a validated absolute booking URL, or null when unset/invalid.
  * Renders nothing when null (FR-CTA-005 §1.2).
  */
-export function getBookingUrl(
-  env: NodeJS.ProcessEnv = process.env,
-): string | null {
-  const raw = env[BOOKING_URL_ENV]?.trim();
+export function getBookingUrl(override?: string | null): string | null {
+  const raw = readBookingUrlEnv(override)?.trim();
   if (!raw) return null;
   try {
     const u = new URL(raw);
@@ -23,8 +38,6 @@ export function getBookingUrl(
   }
 }
 
-export function isBookingConfigured(
-  env: NodeJS.ProcessEnv = process.env,
-): boolean {
-  return getBookingUrl(env) !== null;
+export function isBookingConfigured(override?: string | null): boolean {
+  return getBookingUrl(override) !== null;
 }

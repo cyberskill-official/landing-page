@@ -12,9 +12,13 @@ import { MessagingChips } from "@/components/cta/MessagingChips";
 import { CapacityLine } from "@/components/sections/CapacityLine";
 import { CtaLink } from "@/components/cta/CtaLink";
 import { BookingLink } from "@/components/cta/BookingLink";
+import { getBookingUrl } from "@/lib/content/booking";
 import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
+  // Server component: resolve booking URL once so the client BookingLink does not
+  // depend on a dynamic env key in the browser bundle.
+  const bookingUrl = getBookingUrl();
   return (
     <section id="contact" className="cs-section cs-section-contact" aria-labelledby="contact-title" suppressHydrationWarning>
       <div className="cs-contact-bg" aria-hidden="true">
@@ -49,7 +53,7 @@ export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; di
           </p>
           {/* FR-CTA-005: booking link — env-gated, no embed/script */}
           <p className="cs-contact-booking" style={{ marginTop: "var(--cs-space-2)" }}>
-            <BookingLink locale={locale} location="contact-section" />
+            <BookingLink locale={locale} location="contact-section" url={bookingUrl} />
           </p>
           {/* Lumi-first contact (FR-CHAR-026): the conversation is the primary
               path; the classic form stays available below as the fallback. */}

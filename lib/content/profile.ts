@@ -1,3 +1,6 @@
+import { createRequire } from "node:module";
+import { join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
 import type { Locale } from "@/lib/i18n/config";
 import { company, services } from "@/lib/content/site";
 import { commercialPolicy } from "@/lib/content/policy";
@@ -6,6 +9,8 @@ import { localize } from "@/lib/i18n/types";
 /**
  * FR-CTA-016: company profile one-pager facts from the publishable content SSOT.
  * Every line must be traceable to lib/content (policy / site) — no invented claims.
+ *
+ * PDFs are built with PDFKit + embedded DejaVu Sans (Unicode / Vietnamese diacritics).
  */
 
 export type ProfileFact = {
@@ -92,7 +97,7 @@ export function getProfileFacts(locale: Locale): ProfileFact[] {
     facts.push({
       key: `service:${s.id}`,
       source: `lib/content/site.ts#services[${s.id}]`,
-      text: `${localize(s.title, locale)} — ${localize(s.summary, locale)}`,
+      text: `${localize(s.title, locale)} - ${localize(s.summary, locale)}`,
     });
   }
 
@@ -110,80 +115,101 @@ export function getProfileFacts(locale: Locale): ProfileFact[] {
 /** Profile document title for a locale. */
 export function getProfileTitle(locale: Locale): string {
   return locale === "vi"
-    ? `Hồ sơ công ty — ${company.shortName}`
-    : `Company profile — ${company.shortName}`;
+    ? `Hồ sơ công ty - ${company.shortName}`
+    : `Company profile - ${company.shortName}`;
+}
+
+export function resolveProfileFontPath(
+  cwd: string = process.cwd(),
+): string {
+  const candidates = [
+    join(cwd, "assets/fonts/DejaVuSans.ttf"),
+    join(cwd, "assets/fonts/NotoSans-Regular.ttf"),
+  ];
+  for (const p of candidates) {
+    if (existsSync(p)) return p;
+  }
+  throw new Error(
+    "Profile PDF font missing: place DejaVuSans.ttf under assets/fonts/ (Unicode/Vietnamese).",
+  );
 }
 
 /**
- * Build a minimal valid PDF-1.4 containing UTF-16BE text lines.
- * Facts are embedded as Unicode so parity tests can read the file bytes.
+ * Build a Unicode-capable PDF (embedded TTF) for the company profile.
+ * Server/Node only — used by the generate script and tests, not imported into client components.
  */
-export function buildProfilePdf(locale: Locale): Uint8Array {
+export async function buildProfilePdf(locale: Locale): Promise<Uint8Array> {
+  const require = createRequire(import.meta.url);
+  // pdfkit is CJS; under ESM interop the constructor may be on .default
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const pdfkitMod = require("pdfkit") as unknown;
+  type PdfDoc = {
+    on: (ev: string, cb: (...args: never[]) => void) => void;
+    registerFont: (name: string, path: string) => void;
+    font: (name: string) => PdfDoc;
+    fontSize: (n: number) => PdfDoc;
+    fillColor: (c: string) => PdfDoc;
+    text: (s: string, opts?: object) => PdfDoc;
+    moveDown: (n?: number) => PdfDoc;
+    end: () => void;
+  };
+  type PdfCtor = new (opts?: object) => PdfDoc;
+  const PDFDocument: PdfCtor =
+    typeof pdfkitMod === "function"
+      ? (pdfkitMod as PdfCtor)
+      : (pdfkitMod as { default: PdfCtor }).default;
+
   const title = getProfileTitle(locale);
   const facts = getProfileFacts(locale);
-  const lines = [title, "", ...facts.map((f) => f.text), "", company.url];
+  const fontPath = resolveProfileFontPath();
+  // Touch font so missing path fails early with a clear error
+  readFileSync(fontPath);
 
-  // PDF text objects as UTF-16BE hex strings (with BOM) so non-ASCII is retained.
-  const contentOps: string[] = ["BT", "/F1 11 Tf", "50 780 Td", "14 TL"];
-  lines.forEach((line, i) => {
-    const hex = utf16BeHex(line.slice(0, 200));
-    if (i === 0) {
-      contentOps.push(`/${"F1"} 14 Tf`);
-      contentOps.push(`(${escapePdfAscii(title.slice(0, 80))}) Tj`);
-      contentOps.push("/F1 10 Tf");
-      contentOps.push("0 -18 Td");
-    } else {
-      // Prefer hex string for full Unicode retention in the file
-      contentOps.push(`<${hex}> Tj`);
-      contentOps.push("0 -13 Td");
-    }
+  const doc = new PDFDocument({
+    size: "LETTER",
+    margin: 54,
+    info: {
+      Title: title,
+      Author: company.legalName,
+      Subject: "Company profile",
+      Creator: "CyberSkill landing page",
+    },
   });
-  contentOps.push("ET");
-  const stream = contentOps.join("\n");
 
-  const objects: string[] = [];
-  objects.push("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
-  objects.push(
-    "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
-  );
-  objects.push(
-    "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>\nendobj\n",
-  );
-  objects.push(
-    `4 0 obj\n<< /Length ${Buffer.byteLength(stream, "utf8")} >>\nstream\n${stream}\nendstream\nendobj\n`,
-  );
-  objects.push(
-    "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n",
-  );
+  const chunks: Buffer[] = [];
+  doc.on("data", (c: Buffer) => chunks.push(c));
 
-  let pdf = "%PDF-1.4\n";
-  const offsets: number[] = [0];
-  for (const obj of objects) {
-    offsets.push(Buffer.byteLength(pdf, "utf8"));
-    pdf += obj;
+  const done = new Promise<Uint8Array>((resolve, reject) => {
+    doc.on("end", () => resolve(new Uint8Array(Buffer.concat(chunks))));
+    doc.on("error", reject);
+  });
+
+  doc.registerFont("Profile", fontPath);
+  doc.font("Profile");
+
+  doc.fontSize(16).text(title, { align: "left" });
+  doc.moveDown(0.6);
+  doc.fontSize(10).fillColor("#333333");
+
+  for (const f of facts) {
+    doc.text(f.text, {
+      align: "left",
+      lineGap: 2,
+      width: 504,
+    });
+    doc.moveDown(0.35);
   }
-  const xrefStart = Buffer.byteLength(pdf, "utf8");
-  pdf += `xref\n0 ${objects.length + 1}\n`;
-  pdf += "0000000000 65535 f \n";
-  for (let i = 1; i <= objects.length; i++) {
-    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+
+  doc.moveDown(0.5);
+  doc.fontSize(9).fillColor("#666666").text(company.url);
+
+  doc.end();
+  const bytes = await done;
+
+  if (bytes.byteLength > 1024 * 1024) {
+    throw new Error(`Profile PDF for ${locale} exceeds 1 MB (${bytes.byteLength})`);
   }
-  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
-
-  return new Uint8Array(Buffer.from(pdf, "utf8"));
-}
-
-function utf16BeHex(s: string): string {
-  const bom = "FEFF";
-  let out = bom;
-  for (let i = 0; i < s.length; i++) {
-    out += s.charCodeAt(i).toString(16).toUpperCase().padStart(4, "0");
-  }
-  return out;
-}
-
-function escapePdfAscii(s: string): string {
-  return s.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+  return bytes;
 }
 
 export const PROFILE_PDF_PATHS = {

@@ -12,17 +12,23 @@ const LABELS = {
 /**
  * FR-CTA-005: env-gated booking action. Renders nothing without NEXT_PUBLIC_BOOKING_URL.
  * Opens in a new tab; emits booking_clicked; never loads a booking script.
+ *
+ * Prefer passing `url` from a server parent (static env inlined at build). When
+ * omitted, falls back to getBookingUrl() which uses static process.env access.
  */
 export function BookingLink({
   locale,
   location,
   className = "cs-btn cs-btn-secondary",
+  url: urlProp,
 }: {
   locale: Locale;
   location: string;
   className?: string;
+  /** Pre-resolved URL from a server component (preferred). */
+  url?: string | null;
 }) {
-  const url = getBookingUrl();
+  const url = urlProp !== undefined ? urlProp : getBookingUrl();
   if (!url) return null;
 
   const label = LABELS[locale];
