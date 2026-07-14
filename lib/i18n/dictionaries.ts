@@ -121,6 +121,7 @@ export type Dictionary = {
     duns: string;
     privacy: string;
     accessibility: string;
+    terms: string;
   };
   teardown: {
     title: string;
@@ -253,6 +254,7 @@ const en: Dictionary = {
     duns: "DUNS",
     privacy: "Privacy",
     accessibility: "Accessibility",
+    terms: "Terms",
   },
   teardown: {
     title: "Get a free 15-point teardown",
@@ -385,6 +387,7 @@ const vi: Dictionary = {
     duns: "DUNS",
     privacy: "Quyền riêng tư",
     accessibility: "Khả năng tiếp cận",
+    terms: "Điều khoản",
   },
   teardown: {
     title: "Nhận đánh giá 15 điểm miễn phí",

@@ -76,6 +76,7 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
             <a href={`/${locale}/notes`}>{dict.nav.notes}</a>
             <a href={`/${locale}/privacy`}>{dict.footer.privacy}</a>
             <a href={`/${locale}/accessibility`}>{dict.footer.accessibility}</a>
+            <a href={`/${locale}/terms`}>{dict.footer.terms}</a>
           </nav>
           <p>
             © {year} {company.shortName}. {dict.footer.rights}

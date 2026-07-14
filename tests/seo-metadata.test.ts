@@ -8,7 +8,7 @@ describe("SEO Metadata Registry (FR-SEO-011, FR-SEO-014)", () => {
     const routes = routeMetadata.map((m) => m.route);
     const uniqueRoutes = new Set(routes);
     expect(routes.length).toBe(uniqueRoutes.size);
-    expect(routes.length).toBe(21); // 7 static main routes + 3 service detail routes + 3 cyberos routes + 4 work detail routes + 4 notes/now routes
+    expect(routes.length).toBe(22); // 8 static main routes + 3 service detail routes + 3 cyberos routes + 4 work detail routes + 4 notes/now routes
   });
 
   it("applies length guidelines and locale-correctness (FR-SEO-011 §1.2-1.3)", () => {
@@ -68,12 +68,12 @@ describe("SEO Metadata Registry (FR-SEO-011, FR-SEO-014)", () => {
 describe("Sitemap Generation (FR-SEO-012)", () => {
   it("enumerates every indexable route and excludes /lite (FR-SEO-012 §1.1)", () => {
     const entries = sitemap();
-    // 21 routes * 2 locales = 42 entries
-    expect(entries.length).toBe(42);
+    // 22 routes * 2 locales = 44 entries
+    expect(entries.length).toBe(44);
 
     // Verify all URLs are unique and match en/vi alternates
     const urls = entries.map((e) => e.url);
-    expect(new Set(urls).size).toBe(42);
+    expect(new Set(urls).size).toBe(44);
 
     // Excludes /lite
     urls.forEach((url) => {
@@ -96,7 +96,7 @@ describe("Sitemap Generation (FR-SEO-012)", () => {
       // not a fake dynamic build-time date
       const isLaunchDate = lastModStr === "2025-01-15";
       const isUpdateDate = lastModStr === "2026-07-12";
-      const isToday = lastModStr === "2026-07-13";
+      const isToday = lastModStr === "2026-07-13" || lastModStr === "2026-07-14";
       expect(isLaunchDate || isUpdateDate || isToday).toBe(true);
     });
   });

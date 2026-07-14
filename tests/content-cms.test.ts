@@ -4,6 +4,7 @@ import path from "path";
 import { testimonials, clientLogos, work } from "@/lib/content/site";
 import { notes } from "@/lib/content/notes";
 import { changelog } from "@/lib/content/changelog";
+import { routeMetadata } from "@/lib/content/metadata";
 
 describe("CMS Content & Layout Integration", () => {
   it("nav/footer-parity: header and footer contain key route mappings in all languages", () => {
@@ -141,5 +142,41 @@ describe("CMS Content & Layout Integration", () => {
       expect(item.client.vi).toBeTruthy();
       expect(item.client.vi).not.toBe(item.client.en);
     });
+  });
+  it("routes/terms-page: /terms route exists in metadata, sitemap, and footer links", () => {
+    // 1. Centralised registry metadata contains route: "/terms"
+    const termsMeta = routeMetadata.find((m: any) => m.route === "/terms");
+    expect(termsMeta).toBeDefined();
+    expect(termsMeta.title.en).toContain("Terms of Service");
+    expect(termsMeta.title.vi).toContain("Điều khoản dịch vụ");
+
+    // 2. Footer contains Terms link
+    const footerFile = path.join(process.cwd(), "components/footer/SiteFooter.tsx");
+    const footerContent = fs.readFileSync(footerFile, "utf8");
+    expect(footerContent).toContain("/${locale}/terms");
+  });
+
+  it("content/terms-shape: /terms page contains all required legal clauses and last updated date in both locales", () => {
+    const termsFile = path.join(process.cwd(), "app/[lang]/terms/page.tsx");
+    expect(fs.existsSync(termsFile)).toBe(true);
+    const termsContent = fs.readFileSync(termsFile, "utf8");
+
+    // English assertions
+    expect(termsContent).toContain("Contracting Entity");
+    expect(termsContent).toContain("Website Usage");
+    expect(termsContent).toContain("Intellectual Property");
+    expect(termsContent).toContain("Lumi Chat Agent & Data Transfers");
+    expect(termsContent).toContain("Limitation of Liability");
+    expect(termsContent).toContain("Governing Law");
+    expect(termsContent).toContain("Last updated 14 July 2026.");
+
+    // Vietnamese assertions
+    expect(termsContent).toContain("Đơn vị hợp đồng");
+    expect(termsContent).toContain("Sử dụng website");
+    expect(termsContent).toContain("Sở hữu trí tuệ");
+    expect(termsContent).toContain("Trò chuyện với Lumi & Chuyển dữ liệu");
+    expect(termsContent).toContain("Giới hạn trách nhiệm");
+    expect(termsContent).toContain("Luật điều chỉnh");
+    expect(termsContent).toContain("Cập nhật lần cuối ngày 14 tháng 7 năm 2026.");
   });
 });

@@ -105,6 +105,18 @@ export const routeMetadata: RouteMetadata[] = [
     lastUpdated: SITE_LAUNCH,
   },
   {
+    route: "/terms",
+    title: {
+      en: "Terms of Service | CyberSkill",
+      vi: "Điều khoản dịch vụ | CyberSkill",
+    },
+    description: {
+      en: "Read the Terms of Service for CyberSkill. Review site use guidelines, intellectual property policies, and the terms governing our Lumi chat agent.",
+      vi: "Đọc Điều khoản dịch vụ của CyberSkill. Xem quy định sử dụng website, sở hữu trí tuệ và các điều khoản liên quan tới chatbot Lumi.",
+    },
+    lastUpdated: "2026-07-14",
+  },
+  {
     route: "/cyberos/privacy",
     title: {
       en: "CyberOS App Privacy Policy | CyberSkill",
