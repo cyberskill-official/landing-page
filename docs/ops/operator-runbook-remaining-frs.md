@@ -6,19 +6,23 @@
 
 ---
 
-## Operator summary
+## Operator summary (updated 2026-07-15)
 
 | Do next (order) | FR | You |
 |---|---|---|
-| 1. Wire lead secrets in Vercel | BIZ-001 | Set env vars below |
-| 2. Ship CyberOS lead API | BIZ-016 then BIZ-002 | Platform + webhook URL |
-| 3. Prove one production lead | BIZ-003 | Submit form on live site |
-| 4. Send client permission emails | BIZ-006 §1.2 | Use drafts in `docs/content/` |
-| 5. Paste cleared quotes / case studies | CMS-004 / CMS-009 | Into content + `permissions.ts` |
-| 6. Off-site presence | BIZ-004…015 | Google, directories, counsel |
-| 7. Manual a11y lab | A11Y-008 / 014 | Checklist at end |
+| 1. Finish lead e2e residual | BIZ-003 | Tick `docs/verification/fr-biz-003-lead-pipeline-e2e-2026-07-15.md` (/vi + Reply-To) |
+| 2. Social / messaging URLs | BIZ-007 | Paste live URLs → agent wires `lib/content/site.ts` |
+| 3. Google Business + NAP | BIZ-004 | Claim GBP; fill `docs/ops/nap-listings-register.md` |
+| 4. Search Console + Bing | BIZ-008 | Verify + sitemap; log `docs/ops/seo-monthly-log.md` |
+| 5. Directories / reviews | BIZ-005 | After GBP |
+| 6. Standing programs | BIZ-010 | After social |
+| 7. Manual a11y lab | A11Y-008 / 014 | `docs/verification/a11y-manual-checklist.md` |
+| Parked long external | BIZ-011, 014, 015 | Press / ISO / AI citation |
+| **Out of this wave** | BIZ-002/016, CMS-004/009 | CyberOS + real testimonials/case studies |
 
-**Agent already finished:** policy SSOT, booking CTA, profile PDFs, about/team, permission drafts, content read-model scaffold, dual-write helpers.
+**Already true in prod:** Resend + `RESEND_API_KEY`; CRM webhook optional until CyberOS; LinkedIn + GitHub in SSOT.
+
+**Agent already finished (code):** policy SSOT, booking CTA, profile PDFs, about/team, permission drafts, content read-model scaffold, dual-write helpers, Lumi scripted chat, Verify-us home dedupe.
 
 ---
 
