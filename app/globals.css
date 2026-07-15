@@ -176,11 +176,41 @@ a {
 }
 
 /* Layout helpers */
+html, body { overflow-x: clip; }
 .cs-container {
   width: 100%;
   max-width: var(--cs-container);
   margin-inline: auto;
   padding-inline: var(--cs-space-6);
+}
+/* Inner content pages: readable measure */
+.cs-prose,
+.cs-prose-page {
+  max-width: 48rem;
+}
+.cs-prose h1,
+.cs-prose-page h1 { margin-bottom: var(--cs-space-4); }
+.cs-prose h2,
+.cs-prose-page h2 {
+  margin-top: var(--cs-space-8);
+  margin-bottom: var(--cs-space-3);
+  font-size: var(--cs-text-xl);
+  line-height: 1.25;
+}
+.cs-prose p,
+.cs-prose li,
+.cs-prose-page p,
+.cs-prose-page li {
+  color: var(--cs-color-fg);
+  line-height: 1.65;
+}
+.cs-prose a { text-decoration: underline; text-underline-offset: 0.15em; }
+.cs-prose a:hover { color: var(--cs-color-accent); }
+/* Dark theme: form success panels need raised surface, not pure white paper */
+[data-theme="dark"] .cs-teardown-success {
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--cs-color-accent) 16%, transparent), transparent 55%),
+    #1a120c;
 }
 
 .cs-section {
@@ -614,7 +644,11 @@ html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
 .cs-wordmark-text { display: flex; flex-direction: column; }
 .cs-wordmark-name { font-family: var(--cs-font-display); font-weight: 700; font-size: var(--cs-text-lg); color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-wordmark-name { color: var(--cs-color-accent); }
-.cs-wordmark-slogan { font-size: var(--cs-text-xs); color: var(--cs-color-fg-muted); }
+.cs-wordmark-slogan { font-size: var(--cs-text-xs); color: var(--cs-color-fg-muted); max-width: 14rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 480px) {
+  .cs-wordmark-slogan { display: none; }
+  .cs-header-actions { gap: var(--cs-space-2); }
+}
 .cs-nav { display: none; gap: var(--cs-space-6); margin-inline: auto; }
 .cs-nav a { text-decoration: none; font-weight: 500; }
 /* Hover brightens the link. On the dark header the umber brand is near-invisible
@@ -897,12 +931,64 @@ main > .cs-section > .cs-container > h1 {
 .cs-field input, .cs-field select, .cs-field textarea {
   font: inherit; padding: var(--cs-space-3); border-radius: var(--cs-radius-sm);
   border: 1px solid var(--cs-color-line); background: var(--cs-color-paper-raised); color: var(--cs-color-fg);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
-[data-theme="dark"] .cs-field input, [data-theme="dark"] .cs-field select, [data-theme="dark"] .cs-field textarea { background: #1a120c; }
+.cs-field input::placeholder, .cs-field textarea::placeholder {
+  color: var(--cs-color-fg-muted);
+  opacity: 0.85;
+}
+[data-theme="dark"] .cs-field input,
+[data-theme="dark"] .cs-field select,
+[data-theme="dark"] .cs-field textarea {
+  background: #1a120c;
+  color: var(--cs-color-fg);
+  border-color: var(--cs-color-line);
+}
 .cs-field-check { grid-auto-flow: column; justify-content: start; align-items: center; gap: var(--cs-space-3); }
 .cs-field-check input { width: 1.15rem; height: 1.15rem; }
-.cs-field-error { color: #b42318; font-size: var(--cs-text-sm); }
+.cs-field-error { color: #c23b2e; font-size: var(--cs-text-sm); }
+[data-theme="dark"] .cs-field-error { color: #f0a39a; }
 .cs-form-success { padding: var(--cs-space-8); }
+
+/* Newsletter (footer + thank-you) — theme-safe, not hard-coded light glass */
+.cs-newsletter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-2);
+  max-width: 28rem;
+  position: relative;
+}
+.cs-newsletter-form input[type="email"] {
+  flex: 1 1 10rem;
+  min-width: 0;
+  font: inherit;
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-radius: var(--cs-radius-sm);
+  border: 1px solid var(--cs-color-line);
+  background: var(--cs-color-paper-raised);
+  color: var(--cs-color-fg);
+}
+.cs-newsletter-form input[type="email"]::placeholder {
+  color: var(--cs-color-fg-muted);
+  opacity: 0.9;
+}
+[data-theme="dark"] .cs-newsletter-form input[type="email"] {
+  background: #1a120c;
+  color: var(--cs-color-fg);
+}
+.cs-newsletter-promise {
+  font-size: var(--cs-text-xs);
+  color: var(--cs-color-fg-muted);
+  margin: var(--cs-space-2) 0 0;
+  line-height: 1.4;
+  max-width: 28rem;
+}
+.cs-newsletter-success {
+  color: var(--cs-color-accent);
+  padding: var(--cs-space-3) 0;
+}
 
 /* Teardown thank-you / cap panel (FR-CTA-019 + FR-CTA-010 style). */
 .cs-section-teardown .cs-teardown-panel {
@@ -993,11 +1079,12 @@ main > .cs-section > .cs-container > h1 {
 }
 
 /* Footer */
-.cs-footer { border-top: 1px solid var(--cs-color-line); background: var(--cs-color-surface); padding-block: var(--cs-space-16); margin-top: var(--cs-space-24); }
-.cs-footer-inner { display: grid; gap: var(--cs-space-8); }
-@media (min-width: 760px) { .cs-footer-inner { grid-template-columns: 2fr 1fr; align-items: end; } }
-.cs-footer-name { font-weight: 600; }
+.cs-footer { border-top: 1px solid var(--cs-color-line); background: var(--cs-color-surface); padding-block: var(--cs-space-12); margin-top: var(--cs-space-16); }
+.cs-footer-inner { display: grid; gap: var(--cs-space-8); align-items: start; }
+@media (min-width: 760px) { .cs-footer-inner { grid-template-columns: 1.4fr 1fr; align-items: start; } }
+.cs-footer-name { font-weight: 600; margin: 0 0 var(--cs-space-2); }
 .cs-footer-meta { font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); margin: 0 0 var(--cs-space-2); }
+.cs-footer-entity { font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); margin: 0 0 var(--cs-space-3); line-height: 1.45; max-width: 40rem; }
 .cs-footer-end { text-align: left; }
 @media (min-width: 760px) { .cs-footer-end { text-align: right; } }
 .cs-footer-slogan { font-family: var(--cs-font-display); color: var(--cs-color-brand); }
@@ -1056,16 +1143,31 @@ main > .cs-section > .cs-container > h1 {
     padding: var(--cs-space-3) max(var(--cs-space-4), env(safe-area-inset-right));
     padding-bottom: max(var(--cs-space-4), env(safe-area-inset-bottom));
     padding-left: max(var(--cs-space-4), env(safe-area-inset-left));
-    background: var(--cs-surface-standard);
+    background: color-mix(in srgb, var(--cs-color-surface) 92%, transparent);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid var(--cs-color-line);
     flex-direction: row;
     justify-content: stretch;
     border-radius: 0;
+    z-index: 55;
   } 
   .cs-persistent-cta .cs-btn-brand { display: none; }
-  .cs-persistent-cta .cs-btn { flex: 1; margin: 0; }
-  body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  .cs-persistent-cta .cs-btn {
+    flex: 1;
+    margin: 0;
+    min-height: 44px;
+    font-size: var(--cs-text-sm);
+    padding-inline: var(--cs-space-3);
+  }
+  .cs-persistent-cta .cs-cta-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .cs-footer { padding-bottom: calc(var(--cs-space-12) + 4.5rem); }
 }
 
 /* Tighter vertical rhythm on phones and tablets: the 6rem section padding that
@@ -1087,10 +1189,38 @@ main > .cs-section > .cs-container > h1 {
 .cs-storyboard-panel { display: flex; gap: var(--cs-space-4); padding: var(--cs-space-6); }
 .cs-storyboard-index { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-accent); min-width: 2ch; }
 
-/* Genie chat panel */
-.cs-genie { position: fixed; right: var(--cs-space-4); bottom: var(--cs-space-4); width: min(380px, calc(100vw - 2rem)); max-height: min(72vh, 640px); display: flex; flex-direction: column; z-index: 60; overflow: hidden; }
-.cs-genie-head { display: flex; align-items: center; justify-content: space-between; gap: var(--cs-space-2); padding: var(--cs-space-4); border-bottom: 1px solid var(--cs-glass-border); }
-.cs-genie-title { font-weight: 600; }
+/* Genie chat panel — flex children must shrink so chips/form stay visible */
+.cs-genie {
+  position: fixed;
+  right: var(--cs-space-4);
+  bottom: var(--cs-space-4);
+  width: min(400px, calc(100vw - 1.5rem));
+  max-height: min(78vh, 680px);
+  display: flex;
+  flex-direction: column;
+  z-index: 70;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  /* Clear persistent CTA bar on small screens */
+  .cs-genie {
+    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    right: var(--cs-space-3);
+    left: var(--cs-space-3);
+    width: auto;
+    max-height: min(70vh, 560px);
+  }
+}
+.cs-genie-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cs-space-2);
+  padding: var(--cs-space-3) var(--cs-space-4);
+  border-bottom: 1px solid var(--cs-glass-border);
+  flex-shrink: 0;
+}
+.cs-genie-title { font-weight: 600; font-size: var(--cs-text-sm); min-width: 0; }
 .cs-genie-head-actions { display: flex; align-items: center; gap: var(--cs-space-2); flex-shrink: 0; }
 .cs-genie-reset {
   font: inherit;
@@ -1105,11 +1235,26 @@ main > .cs-section > .cs-container > h1 {
 }
 .cs-genie-reset:hover:not(:disabled) { color: var(--cs-color-fg); border-color: var(--cs-color-accent); }
 .cs-genie-reset:disabled { opacity: 0.5; cursor: not-allowed; }
-.cs-genie-log { flex: 1; overflow-y: auto; padding: var(--cs-space-4); display: flex; flex-direction: column; gap: var(--cs-space-3); }
-.cs-genie-msg { padding: var(--cs-space-3) var(--cs-space-4); border-radius: var(--cs-radius-md); max-width: 85%; }
+.cs-genie-log {
+  flex: 1 1 auto;
+  min-height: 4.5rem;
+  max-height: 42%;
+  overflow-y: auto;
+  padding: var(--cs-space-3) var(--cs-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-3);
+}
+.cs-genie-msg { padding: var(--cs-space-3) var(--cs-space-4); border-radius: var(--cs-radius-md); max-width: 92%; font-size: var(--cs-text-sm); line-height: 1.45; }
 .cs-genie-msg-user { align-self: flex-end; background: var(--cs-color-brand); color: var(--cs-color-on-brand); }
 .cs-genie-msg-genie { align-self: flex-start; background: var(--cs-color-surface); border: 1px solid var(--cs-color-line); }
-.cs-genie-form { display: flex; gap: var(--cs-space-2); padding: var(--cs-space-4); border-top: 1px solid var(--cs-glass-border); }
+.cs-genie-form {
+  display: flex;
+  gap: var(--cs-space-2);
+  padding: var(--cs-space-3) var(--cs-space-4) var(--cs-space-4);
+  border-top: 1px solid var(--cs-glass-border);
+  flex-shrink: 0;
+}
 /* Dark-safe input: never paper-raised (white) + light fg (invisible typed text). */
 .cs-genie-form input {
   flex: 1;
@@ -1143,7 +1288,14 @@ main > .cs-section > .cs-container > h1 {
   /* Consent / decision steps: free-text row stays mounted for a11y but inert. */
   opacity: 0.55;
 }
-.cs-genie-consent { font-size: var(--cs-text-xs); color: var(--cs-color-fg-muted); padding: 0 var(--cs-space-4) var(--cs-space-3); }
+.cs-genie-consent {
+  font-size: var(--cs-text-xs);
+  color: var(--cs-color-fg-muted);
+  padding: var(--cs-space-2) var(--cs-space-4);
+  margin: 0;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
 .cs-genie-close { background: transparent; border: 0; cursor: pointer; font-size: 1.3rem; line-height: 1; color: var(--cs-color-fg-muted); }
 
 /* 3D layer + static poster fallback */
@@ -1271,8 +1423,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 
 /* Long-form prose for policy pages (privacy, accessibility). Inert class kept
    simple: comfortable measure and rhythm without overriding section defaults. */
-.cs-prose { max-width: 46rem; }
-.cs-prose p { color: var(--cs-color-fg-muted); }
+/* .cs-prose measure + type set earlier (readable legal body, not muted). */
 
 /* Route loading skeleton (FR-WEB-007). Calm shimmer, honours reduced motion. */
 .cs-skeleton-grid { display: grid; gap: var(--cs-space-4); margin-top: var(--cs-space-8); max-width: 46rem; }
@@ -2182,9 +2333,13 @@ main > .cs-section::before {
   display: flex;
   flex-wrap: wrap;
   gap: var(--cs-space-2);
-  padding: 0 var(--cs-space-4) var(--cs-space-2);
-  max-height: 7.5rem;
+  padding: var(--cs-space-2) var(--cs-space-4);
+  max-height: 11rem;
   overflow-y: auto;
+  flex-shrink: 0;
+  border-top: 1px solid color-mix(in srgb, var(--cs-glass-border) 70%, transparent);
+  background: color-mix(in srgb, var(--cs-color-surface) 55%, transparent);
+  -webkit-overflow-scrolling: touch;
 }
 .cs-genie-chips:empty { display: none; }
 .cs-genie-chip {

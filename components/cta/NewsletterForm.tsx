@@ -69,17 +69,17 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
 
   if (status === "success") {
     return (
-      <div className="cs-newsletter-success" role="alert" style={{ color: "var(--cs-color-gold)", padding: "var(--cs-space-4) 0" }}>
+      <div className="cs-newsletter-success" role="status" aria-live="polite">
         <p style={{ fontWeight: 600, margin: 0 }}>{labels.success}</p>
       </div>
     );
   }
 
   return (
-    <div className="cs-newsletter-container" style={{ margin: "var(--cs-space-4) 0" }}>
-      <form onSubmit={handleSubmit} className="cs-newsletter-form clarity-mask" data-clarity-mask="true" style={{ display: "flex", gap: "var(--cs-space-2)", maxWidth: "450px" }}>
+    <div className="cs-newsletter-container">
+      <form onSubmit={handleSubmit} className="cs-newsletter-form clarity-mask" data-clarity-mask="true">
         {/* Honeypot field */}
-        <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true">
+        <div className="cs-visually-hidden" aria-hidden="true">
           <input
             type="text"
             name="website"
@@ -98,36 +98,17 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
           required
           aria-label={labels.title}
           disabled={status === "loading"}
-          style={{
-            flex: 1,
-            padding: "var(--cs-space-3) var(--cs-space-4)",
-            borderRadius: "4px",
-            border: "1px solid var(--cs-color-border)",
-            background: "rgba(255, 255, 255, 0.05)",
-            color: "var(--cs-color-fg)",
-            outline: "none",
-          }}
+          autoComplete="email"
         />
-        <button
-          type="submit"
-          className="cs-btn cs-btn-primary"
-          disabled={status === "loading"}
-          style={{
-            padding: "0 var(--cs-space-6)",
-            borderRadius: "4px",
-            border: "none",
-            cursor: "pointer",
-            fontWeight: 600,
-          }}
-        >
+        <button type="submit" className="cs-btn cs-btn-primary" disabled={status === "loading"}>
           {status === "loading" ? labels.submitting : labels.submit}
         </button>
       </form>
-      <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", marginTop: "var(--cs-space-2)", lineHeight: 1.4, maxWidth: "450px" }}>
+      <p className="cs-newsletter-promise">
         {labels.promise}
       </p>
       {status === "error" && (
-        <p style={{ color: "#EA3C3C", fontSize: "var(--cs-text-sm)", marginTop: "var(--cs-space-2)", fontWeight: 600 }} role="alert">
+        <p className="cs-field-error" role="alert" style={{ marginTop: "var(--cs-space-2)", fontWeight: 600 }}>
           {errorMsg}
         </p>
       )}
