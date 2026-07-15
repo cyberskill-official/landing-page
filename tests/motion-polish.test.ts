@@ -10,12 +10,12 @@ import { Hero } from "@/components/sections/Hero";
 import { Marquee } from "@/components/sections/Marquee";
 import { IntroVeil } from "@/components/motion/IntroVeil";
 
-// Premium motion polish (FR-DS-012): the math helpers are pure, so their edge
+// Premium motion polish (TASK-DS-012): the math helpers are pure, so their edge
 // cases pin down here; the markup tests guarantee the kinetic headline never
 // costs the H1 its accessible name and that the decorative surfaces stay
 // hidden from assistive tech in both locales.
 
-describe("motion math helpers (FR-DS-012)", () => {
+describe("motion math helpers (TASK-DS-012)", () => {
   it("splits slogans into words across locales, diacritics intact", () => {
     expect(splitSloganWords(company.slogan.en)).toEqual(["Turn", "Your", "Will", "Into", "Real"]);
     // Brand-exact VN casing per DESIGN.md (title case).
@@ -30,7 +30,7 @@ describe("motion math helpers (FR-DS-012)", () => {
     expect(clamp(0.4, 0, 1)).toBe(0.4);
   });
 
-  it("digestEase devours near blocks first and everything by p=1 (FR-CHAR-032)", () => {
+  it("digestEase devours near blocks first and everything by p=1 (TASK-CHAR-032)", () => {
     expect(digestEase(0, 0)).toBe(0);
     expect(digestEase(0, 1)).toBe(0);
     expect(digestEase(1, 0)).toBe(1);
@@ -76,7 +76,7 @@ describe("motion math helpers (FR-DS-012)", () => {
   });
 });
 
-describe("kinetic hero markup stays accessible (FR-DS-012)", () => {
+describe("kinetic hero markup stays accessible (TASK-DS-012)", () => {
   for (const locale of ["en", "vi"] as const) {
     it(`keeps the full ${locale} slogan as the H1 accessible name with per-word masks`, () => {
       const html = renderToStaticMarkup(createElement(Hero, { locale, dict: getDictionary(locale) }));
@@ -90,7 +90,7 @@ describe("kinetic hero markup stays accessible (FR-DS-012)", () => {
   }
 });
 
-describe("decorative motion surfaces are hidden from assistive tech (FR-DS-012)", () => {
+describe("decorative motion surfaces are hidden from assistive tech (TASK-DS-012)", () => {
   it("marquee is aria-hidden and doubled for the seamless -50% loop", () => {
     const dict = getDictionary("en");
     const html = renderToStaticMarkup(createElement(Marquee, { dict }));

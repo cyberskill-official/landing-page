@@ -26,7 +26,7 @@ jobs:
         run: npm install --no-audit --no-fund
         env:
           DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
-      - name: FR spec gate (ADR-001)
+      - name: task spec gate (ADR-001)
         run: npm run check:frs
       - name: Static import check
         run: npm run verify
@@ -38,13 +38,13 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
-      - name: Asset + bundle size guard (FR-PERF-003)
+      - name: Asset + bundle size guard (TASK-PERF-003)
         run: npm run check:assets
       - name: Performance budget is well-formed (Phase-3 gate)
         run: |
           node -e "const b=require('./lighthouse/budget.json'); if(!Array.isArray(b)||!b[0]?.timings?.length){throw new Error('budget.json malformed')} const lcp=b[0].timings.find(t=>t.metric==='largest-contentful-paint'); if(!lcp||lcp.budget>2500){throw new Error('LCP budget must stay <=2500ms')}; console.log('perf budget ok: LCP<='+lcp.budget+'ms')"
 
-  # FR-PERF-002: run Lighthouse (mobile emulation, median of 3) against the built
+  # TASK-PERF-002: run Lighthouse (mobile emulation, median of 3) against the built
   # site and assert in lighthouserc.json. Required gate, but scoped to what is
   # stable on a shared runner: CLS and the resource-size/third-party budgets are
   # hard errors (deterministic build outputs + a now-stable CLS), while LCP, TTI,
@@ -76,7 +76,7 @@ jobs:
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
 
-  # FR-A11Y-003 (served-route gate): run axe-core against the real rendered
+  # TASK-A11Y-003 (served-route gate): run axe-core against the real rendered
   # routes (home en+vi, /work, /careers, a case study) on a served production
   # build, so page-level rules and real color-contrast - which the jsdom
   # component check in the build job cannot see - are exercised, failing on

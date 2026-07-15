@@ -1,7 +1,7 @@
 /**
- * FR-BIZ-006: permission / consent records for proof assets and team members.
+ * TASK-BIZ-006: permission / consent records for proof assets and team members.
  * No client name, logo, quote, photo, or metric ships without a record here
- * (or on the content entity once FR-OPS-019 / CyberOS meta lands).
+ * (or on the content entity once TASK-OPS-019 / CyberOS meta lands).
  */
 
 export type PermissionScope =
@@ -69,7 +69,7 @@ export const clientPermissions: PermissionRecord[] = [
 ];
 
 /**
- * Team publication consents (FR-BIZ-006 §1.4 / FR-CMS-006 §1.4).
+ * Team publication consents (TASK-BIZ-006 §1.4 / TASK-CMS-006 §1.4).
  * Founder public profile is self-consented for site publication.
  */
 export const teamConsents: PermissionRecord[] = [

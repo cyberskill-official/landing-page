@@ -1,4 +1,4 @@
-# Review request template (FR-BIZ-005 §1.3)
+# Review request template (TASK-BIZ-005 §1.3)
 
 Send to 3–5 past clients who already know the work. Prefer clients with permission track in `lib/content/permissions.ts` or a clear relationship.
 

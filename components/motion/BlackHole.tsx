@@ -11,7 +11,7 @@ import {
 import { useMotionStore } from "@/lib/a11y/motion-store";
 import { digestEase } from "@/lib/motion/kinetic";
 
-// The black-hole digest (FR-CHAR-032): press and HOLD the mouse on empty
+// The black-hole digest (TASK-CHAR-032): press and HOLD the mouse on empty
 // space and Lumi collapses into a gold-rimmed black hole that progressively
 // devours every content block of the page - each block spirals into the
 // genie's screen position, nearest first. Release, and digestion reverses:

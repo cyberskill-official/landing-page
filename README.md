@@ -16,7 +16,7 @@ recruiting.
 | P1 | HTML-first conversion core (SSR, lead form, EN/VN, SEO, a11y) | done |
 | P2 | Lumi chat via keyless `/api/genie` proxy (text-first) | done (needs API key at runtime) |
 | P3 | 3D scroll-storytelling scaffold + perf gate | done, with a procedural placeholder |
-| P3 | Commissioned golden-genie GLB | deferred (`FR-CHAR-021`, needs the art asset) |
+| P3 | Commissioned golden-genie GLB | deferred (`TASK-CHAR-021`, needs the art asset) |
 
 The Phase-1 base is the product: it ranks and converts even if the 3D and chat
 never load. Everything after Phase 1 is layered enhancement.
@@ -68,7 +68,7 @@ lib/
   i18n/                 locale config + EN/VN dictionaries
   genie/                persona + Zustand store
   lead/, scroll/
-docs/                   research doc, feature-requests (FR), NFRs, verification
+docs/                   research doc, tasks (task), NFRs, verification
 .cyberos-memory/        BRAIN decision records
 .awh/                   evidence-gate logs (promotion + evolution)
 ```
@@ -76,7 +76,7 @@ docs/                   research doc, feature-requests (FR), NFRs, verification
 ## CyberOS workflow
 
 This repo follows `AGENTS.md` (the CyberOS overlay). Work is tracked as feature
-requests in `docs/feature-requests/` (index: `BACKLOG.md`), constrained by
+requests in `docs/tasks/` (index: `BACKLOG.md`), constrained by
 `docs/non-functional-requirements/`, with decisions logged in
 `.cyberos-memory/decisions/` and the testing-to-done evidence gate in `.awh/`.
 This build ran on branch `auto/landing-page-cyberos`.
@@ -90,7 +90,7 @@ gets the static poster.
 
 ## Deferred (tracked)
 
-- `FR-CHAR-021`: commission/buy and optimise the golden-genie GLB (Draco+KTX2,
+- `TASK-CHAR-021`: commission/buy and optimise the golden-genie GLB (Draco+KTX2,
   Mixamo rig, ARKit visemes); swap it in behind the existing loader/gate.
 - Live Core Web Vitals + axe + VoiceOver/NVDA passes on a deployed build.
 - Confirm whether a private `@cyberskill/*` token package exists (Phase 0 open

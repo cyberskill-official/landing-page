@@ -3,7 +3,7 @@ import { resolveMetadata, routeMetadata } from "@/lib/content/metadata";
 import sitemap from "@/app/sitemap";
 import { company } from "@/lib/content/site";
 
-describe("SEO Metadata Registry (FR-SEO-011, FR-SEO-014)", () => {
+describe("SEO Metadata Registry (TASK-SEO-011, TASK-SEO-014)", () => {
   it("has unique routes", () => {
     const routes = routeMetadata.map((m) => m.route);
     const uniqueRoutes = new Set(routes);
@@ -11,7 +11,7 @@ describe("SEO Metadata Registry (FR-SEO-011, FR-SEO-014)", () => {
     expect(routes.length).toBe(22); // 8 static main routes + 3 service detail routes + 3 cyberos routes + 4 work detail routes + 4 notes/now routes
   });
 
-  it("applies length guidelines and locale-correctness (FR-SEO-011 §1.2-1.3)", () => {
+  it("applies length guidelines and locale-correctness (TASK-SEO-011 §1.2-1.3)", () => {
     routeMetadata.forEach((meta) => {
       // 1.2 No English title on /vi route
       expect(meta.title.vi).not.toBe(meta.title.en);
@@ -36,7 +36,7 @@ describe("SEO Metadata Registry (FR-SEO-011, FR-SEO-014)", () => {
     });
   });
 
-  it("emits complete OpenGraph and Twitter card fields (FR-SEO-014 §1.1-1.2)", () => {
+  it("emits complete OpenGraph and Twitter card fields (TASK-SEO-014 §1.1-1.2)", () => {
     // Check representative templates: Home (/), Service (/services/web-apps), Work detail (/work/commerce-portal)
     const testRoutes = ["/", "/services/web-apps", "/work/commerce-portal"];
 
@@ -65,8 +65,8 @@ describe("SEO Metadata Registry (FR-SEO-011, FR-SEO-014)", () => {
   });
 });
 
-describe("Sitemap Generation (FR-SEO-012)", () => {
-  it("enumerates every indexable route and excludes /lite (FR-SEO-012 §1.1)", () => {
+describe("Sitemap Generation (TASK-SEO-012)", () => {
+  it("enumerates every indexable route and excludes /lite (TASK-SEO-012 §1.1)", () => {
     const entries = sitemap();
     // 22 routes * 2 locales = 44 entries
     expect(entries.length).toBe(44);
@@ -81,7 +81,7 @@ describe("Sitemap Generation (FR-SEO-012)", () => {
     });
   });
 
-  it("stamps stable lastModified dates from metadata registry (FR-SEO-012 §1.2)", () => {
+  it("stamps stable lastModified dates from metadata registry (TASK-SEO-012 §1.2)", () => {
     const entries = sitemap();
     
     // Check that dates are stable and not new Date() (build-time)

@@ -36,6 +36,10 @@ const mockDict = {
   footer: {
     privacy: "Bảo mật",
   },
+  genie: {
+    open: "Trò chuyện với Lumi",
+    consent: "Cuộc trò chuyện có thể được lưu.",
+  },
   teardown: {
     title: "Nhận đánh giá 15 điểm miễn phí",
     lead: "Chúng tôi sẽ đánh giá ứng dụng của bạn...",
@@ -59,7 +63,7 @@ const mockDict = {
   },
 };
 
-describe("FR-CTA-019: Teardown lead magnet funnel", () => {
+describe("TASK-CTA-019: Teardown lead magnet funnel", () => {
   const originalEnv = process.env;
   let container: HTMLDivElement;
 
@@ -222,13 +226,14 @@ describe("FR-CTA-019: Teardown lead magnet funnel", () => {
 
       expect(container.textContent).toContain(mockDict.teardown.capFullTitle);
       expect(container.textContent).toContain(mockDict.teardown.capFullBody);
-      // The form fields should not render when cap is full
+      // Classic form removed; teardown CTA suppressed when slots are full
       expect(container.querySelector("form")).toBeNull();
-      // Lumi primary CTA is also suppressed when slots are full
       expect(container.textContent).not.toContain(mockDict.teardown.lumiCta);
+      // General Lumi contact still offered
+      expect(container.textContent).toContain(mockDict.genie.open);
     });
 
-    it("surfaces Lumi as primary CTA and form as details fallback", async () => {
+    it("surfaces a single Lumi CTA (no classic form, no duplicate buttons)", async () => {
       const root = createRoot(container);
       await act(async () => {
         root.render(createElement(TeardownCta, { locale: "vi", dict: mockDict as any }));
@@ -238,101 +243,42 @@ describe("FR-CTA-019: Teardown lead magnet funnel", () => {
       });
 
       expect(container.textContent).toContain(mockDict.teardown.lumiCta);
-      expect(container.textContent).toContain(mockDict.teardown.formFallback);
-      const details = container.querySelector("details.cs-contact-details");
-      expect(details).not.toBeNull();
-      expect(container.querySelector("form")).not.toBeNull();
+      expect(container.querySelector("details.cs-contact-details")).toBeNull();
+      expect(container.querySelector("form")).toBeNull();
+      const lumiBtns = Array.from(container.querySelectorAll("button")).filter((b) =>
+        b.textContent?.includes(mockDict.teardown.lumiCta),
+      );
+      expect(lumiBtns.length).toBe(1);
     });
   });
 
   // --- AC for 1.3: analytics/both-lead-paths ---
   describe("analytics/both-lead-paths", () => {
-    it("fires form_started on input interaction, and lead_submitted on success", async () => {
-      const emitSpy = vi.spyOn(analyticsTaxonomy, "emit");
-
-      global.fetch = vi.fn((url) => {
-        if (url === "/api/teardown/status") {
-          return Promise.resolve({
-            ok: true,
-            status: 200,
-            json: () => Promise.resolve({ capExceeded: false, cap: 2, count: 0 }),
-          } as Response);
-        }
-        return Promise.resolve({
-          ok: true,
-          status: 200,
-          json: () => Promise.resolve({ ok: true }),
-        } as Response);
-      });
-
+    it("teardown page uses Lumi CTAs; lead_submitted is covered by API lead path", async () => {
+      // Page-level classic form removed: lead capture is Lumi modal + /api/lead.
+      // API still accepts source=teardown (covered in schema + lead route tests above).
       const root = createRoot(container);
       await act(async () => {
         root.render(createElement(TeardownCta, { locale: "vi", dict: mockDict as any }));
       });
-
       await act(async () => {
         await new Promise((resolve) => setTimeout(resolve, 50));
       });
 
-      // Classic form lives under details (Lumi is primary). Open it for the form path.
-      const details = container.querySelector("details");
-      if (details) details.open = true;
-
-      const form = container.querySelector("form");
-      expect(form).not.toBeNull();
-
-      // Trigger start event by focusing an input inside the form
-      const nameInput = container.querySelector("#td-name") as HTMLInputElement;
-      await act(async () => {
-        nameInput?.focus();
-      });
-
-      expect(emitSpy).toHaveBeenCalledWith("form_started", { formId: "teardown" });
-
-      // Fill in all required fields to satisfy validation
-      const emailInput = container.querySelector("#td-email") as HTMLInputElement;
-      const urlInput = container.querySelector("#td-url") as HTMLInputElement;
-      const consentInput = container.querySelector("#td-consent") as HTMLInputElement;
-
-      const setInputValue = (input: HTMLInputElement, val: string) => {
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
-        setter?.call(input, val);
-        input.dispatchEvent(new Event("input", { bubbles: true }));
-        input.dispatchEvent(new Event("change", { bubbles: true }));
-      };
-
-      const setCheckboxValue = (input: HTMLInputElement, checked: boolean) => {
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "checked")?.set;
-        setter?.call(input, checked);
-        input.dispatchEvent(new Event("click", { bubbles: true }));
-        input.dispatchEvent(new Event("change", { bubbles: true }));
-      };
-
-      await act(async () => {
-        setInputValue(nameInput, "Jane");
-        setInputValue(emailInput, "jane@example.com");
-        setInputValue(urlInput, "https://jane.com");
-        setCheckboxValue(consentInput, true);
-      });
-
-      // Trigger submit success
-      const submitBtn = container.querySelector("button[type='submit']") as HTMLButtonElement;
-      await act(async () => {
-        submitBtn?.click();
-      });
-
-      // Give a tiny moment for fetch and emit to execute
-      await act(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      });
-
-
-
-      // Expect lead_submitted is triggered
-      expect(emitSpy).toHaveBeenCalledWith(
-        "lead_submitted",
-        expect.objectContaining({ source: "teardown", locale: "vi" })
-      );
+      expect(container.textContent).toContain(mockDict.teardown.lumiCta);
+      expect(container.querySelector("form")).toBeNull();
+      expect(leadSchema.safeParse({
+        name: "Jane",
+        email: "jane@example.com",
+        company: "https://jane.com",
+        url: "https://jane.com",
+        intent: "project",
+        message: "",
+        consent: true,
+        website: "",
+        locale: "vi",
+        source: "teardown",
+      }).success).toBe(true);
     });
 
     it("allows emitting teardown_delivered analytics event", () => {

@@ -15,7 +15,7 @@ function walk(dir: string): string[] {
   return out;
 }
 
-describe("FR-OPS-016: SVG Asset Optimization", () => {
+describe("TASK-OPS-016: SVG Asset Optimization", () => {
   const root = process.cwd();
 
   it("perf/svg-minified: all SVGs in public/ or components/ have comments, editor tags, and unused namespaces stripped", () => {

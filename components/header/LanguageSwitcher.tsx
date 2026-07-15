@@ -17,7 +17,7 @@ export function LanguageSwitcher({ current, label }: { current: Locale; label: s
   }
 
   // Remember the explicit choice so a later visit to the bare "/" honors it over
-  // Accept-Language negotiation (FR-WEB-004). One year, lax, site-wide.
+  // Accept-Language negotiation (TASK-WEB-004). One year, lax, site-wide.
   function rememberChoice(target: Locale): void {
     document.cookie = `cs-locale=${target}; path=/; max-age=31536000; samesite=lax`;
   }
@@ -29,6 +29,7 @@ export function LanguageSwitcher({ current, label }: { current: Locale; label: s
           key={loc}
           href={hrefFor(loc)}
           hrefLang={loc}
+          scroll={false}
           aria-current={loc === current ? "true" : undefined}
           className="cs-lang-link"
           data-active={loc === current}

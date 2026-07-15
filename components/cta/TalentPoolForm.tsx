@@ -254,7 +254,7 @@ export function TalentPoolForm({ locale }: TalentPoolFormProps) {
         )}
       </form>
 
-      {/* Bilingual retention & deletion statement (PDPL / FR-CTA-020 §1.2, §1.3) */}
+      {/* Bilingual retention & deletion statement (PDPL / TASK-CTA-020 §1.2, §1.3) */}
       <aside
         style={{
           marginTop: "var(--cs-space-lg)",

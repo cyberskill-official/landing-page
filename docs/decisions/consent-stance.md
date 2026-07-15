@@ -1,6 +1,6 @@
 # Consent Stance Decision Record
 
-**FR:** FR-OPS-013  
+**task:** TASK-OPS-013  
 **Date:** 2026-07-13  
 **Status:** Adopted  
 **Owner:** CyberSkill Engineering (review by operator required before any non-cookieless tag ships)
@@ -69,7 +69,7 @@ explicit acknowledgement).
 - **No banner today** is justified because no consent-requiring tag currently loads.
   Adding any such tag without shipping the banner first is a protocol violation.
 - **Cross-border transfer to Anthropic** is covered by the disclosure in the Lumi
-  chat UI (§1.4 of FR-OPS-013). The basis is the visitor's informed, per-session
+  chat UI (§1.4 of TASK-OPS-013). The basis is the visitor's informed, per-session
   acceptance of the chat terms presented before the first message.
 - **EU visitors (GDPR)** and **VN visitors (PDPL)** receive the same default (all
   optional tags denied). The gate is designed to support per-region overrides if
@@ -81,10 +81,10 @@ explicit acknowledgement).
 
 This record must be updated before any of the following ships:
 
-- Microsoft Clarity (FR-OPS-012) — requires consent banner.
-- Google Analytics 4 in non-consent-mode (FR-PERF-009) — requires consent banner.
+- Microsoft Clarity (TASK-OPS-012) — requires consent banner.
+- Google Analytics 4 in non-consent-mode (TASK-PERF-009) — requires consent banner.
 - Any retargeting or attribution pixel — requires consent banner.
-- The formal PDPL legal review (FR-BIZ-012) may supersede the basis described here.
+- The formal PDPL legal review (TASK-BIZ-012) may supersede the basis described here.
 
 ---
 

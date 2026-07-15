@@ -2,22 +2,36 @@
 
 import type { ReactNode } from "react";
 import { track } from "@/lib/analytics";
-import { useGenieStore } from "@/lib/genie/store";
+import { useGenieStore, type GenieFlowKind } from "@/lib/genie/store";
 
 export const GENIE_OPEN_EVENT = "cs:genie:open";
 
-// Dispatches a window event the GenieChat widget listens for. Lets any server
-// component (header, hero, persistent CTA) trigger the chat without prop drilling.
-// aria-haspopup + aria-expanded announce the launcher-to-dialog relationship and
-// the open state to assistive tech (FR-A11Y-004).
+export type GenieOpenDetail = {
+  flow?: GenieFlowKind;
+  seed?: string | null;
+};
+
+/** Open Lumi modal, optionally with a seeded lead flow. */
+export function openGenie(detail: GenieOpenDetail = {}): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT, { detail }));
+}
+
 export function GenieOpenButton({
   children,
   className = "cs-btn cs-btn-secondary",
+  flow = "default",
+  seed = null,
 }: {
   children: ReactNode;
   className?: string;
+  /** Lead funnel kind for this CTA */
+  flow?: GenieFlowKind;
+  seed?: string | null;
 }) {
   const open = useGenieStore((s) => s.open);
+  const openFlow = useGenieStore((s) => s.openFlow);
+
   return (
     <button
       type="button"
@@ -25,8 +39,9 @@ export function GenieOpenButton({
       aria-haspopup="dialog"
       aria-expanded={open}
       onClick={() => {
-        track("genie_open");
-        window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT));
+        track("genie_open", { flow });
+        openFlow(flow, seed);
+        openGenie({ flow, seed });
       }}
     >
       {children}

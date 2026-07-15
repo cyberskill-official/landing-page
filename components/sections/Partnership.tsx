@@ -6,16 +6,16 @@ import {
   getPublishablePartnershipOffer,
 } from "@/lib/content/policy";
 import { localize } from "@/lib/i18n/types";
-import { LeadForm } from "@/components/cta/LeadForm";
+import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { Icon } from "@/components/ui/Icon";
 
 /**
- * FR-CMS-019: Partnership offer for agencies and studios abroad.
- * Offer copy from commercial policy SSOT; enquiries use intent=partnership.
+ * TASK-CMS-019: Partnership offer for agencies and studios abroad.
+ * Offer copy from commercial policy SSOT; enquiries go through Lumi (intent=partnership).
  */
 export function Partnership({
   locale,
   dict,
-  hasNewsletter,
 }: {
   locale: Locale;
   dict: Dictionary;
@@ -24,8 +24,6 @@ export function Partnership({
   const offer = getPublishablePartnershipOffer();
   if (!offer) return null;
 
-  // FR-CMS-019: capacity bullet from commercial policy capacity SSOT (not a
-  // rehash of the partnership offer string). Omitted when capacity is stale.
   const capacity = getPublishableCapacity();
   const capacityLine = capacity
     ? locale === "vi"
@@ -50,8 +48,8 @@ export function Partnership({
 
   const howToStart =
     locale === "vi"
-      ? "Bắt đầu: gửi yêu cầu hợp tác bên dưới (intent partnership). Chúng tôi phản hồi trong một ngày làm việc."
-      : "How to start: send a partnership enquiry below. We reply within one business day.";
+      ? "Bắt đầu: mở chat Lumi với luồng hợp tác. Chúng tôi phản hồi trong một ngày làm việc."
+      : "How to start: open Lumi on the partnership flow. We reply within one business day.";
 
   return (
     <section
@@ -80,18 +78,11 @@ export function Partnership({
           </li>
           <li data-field="howToStart">{howToStart}</li>
         </ul>
-        <div
-          className="cs-contact-form cs-surface-light"
-          style={{ marginTop: "var(--cs-space-lg)", maxWidth: "32rem" }}
-        >
-          <LeadForm
-            locale={locale}
-            dict={dict}
-            source="partnership"
-            defaultIntent="partnership"
-            hasNewsletter={hasNewsletter}
-          />
-        </div>
+        <p className="cs-contact-lumi" style={{ marginTop: "var(--cs-space-lg)" }}>
+          <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi" flow="partnership">
+            <Icon name="sparkle" size="sm" /> {dict.genie.partnershipLumiCta}
+          </GenieOpenButton>
+        </p>
         <p className="cs-consent-note" style={{ marginTop: "var(--cs-space-sm)" }}>
           {dict.genie.consent}
         </p>

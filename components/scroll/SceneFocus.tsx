@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { requestBurst, requestGesture, setAttend } from "@/lib/scene/mascot";
 
-// Cinematic "rack focus" plus a directed scene hand-off (FR-SCENE-012 / -013).
+// Cinematic "rack focus" plus a directed scene hand-off (TASK-SCENE-012 / -013).
 //
 // Rack focus: as you scroll, the act nearest the viewport centre is in full
 // focus while its neighbours dim and settle back a touch - so the page reads as
@@ -40,6 +40,15 @@ export function SceneFocus() {
     let gestureN = 0;
     let first = true;
 
+    // Own a <style> tag instead of mutating section inline styles — writing
+    // el.style during/around hydration caused noisy React #418 mismatches.
+    let sheet = document.getElementById("cs-scene-vars") as HTMLStyleElement | null;
+    if (!sheet) {
+      sheet = document.createElement("style");
+      sheet.id = "cs-scene-vars";
+      document.head.appendChild(sheet);
+    }
+
     const run = () => {
       raf = 0;
       // Re-query live each frame: a cached list orphans if React regenerates the
@@ -50,6 +59,7 @@ export function SceneFocus() {
       const vc = window.innerHeight / 2;
       const reach = window.innerHeight * 0.7;
       let maxFocus = 0;
+      const rules: string[] = [];
 
       scenes.forEach((el, i) => {
         const r = el.getBoundingClientRect();
@@ -58,21 +68,21 @@ export function SceneFocus() {
         const inside = vc >= r.top && vc <= r.bottom;
         const dist = inside ? 0 : Math.min(Math.abs(r.top - vc), Math.abs(r.bottom - vc));
         const focus = 1 - Math.min(1, dist / reach);
-        el.style.setProperty("--scene", focus.toFixed(3));
+        if (el.id) rules.push(`#${CSS.escape(el.id)}{--scene:${focus.toFixed(3)}}`);
         if (focus > maxFocus) maxFocus = focus;
 
         // Directed hand-off on the rising edge into focus. The hero (#wish) is
         // skipped: Lumi is already performing there, and it sits centred at load.
-        const key = el.id || `scene-${i}`;
-        if (armed[key] === undefined) armed[key] = focus < 0.9;
+        const sceneKey = el.id || `scene-${i}`;
+        if (armed[sceneKey] === undefined) armed[sceneKey] = focus < 0.9;
         const isHero = el.id === "wish";
-        if (!first && !isHero && armed[key] && focus >= 0.9) {
-          armed[key] = false;
+        if (!first && !isHero && armed[sceneKey] && focus >= 0.9) {
+          armed[sceneKey] = false;
           el.setAttribute("data-enter", "");
-          const prevT = enterTimers.get(key);
+          const prevT = enterTimers.get(sceneKey);
           if (prevT) window.clearTimeout(prevT);
           enterTimers.set(
-            key,
+            sceneKey,
             window.setTimeout(() => el.removeAttribute("data-enter"), 900),
           );
           const now = performance.now();
@@ -95,7 +105,7 @@ export function SceneFocus() {
         }
         // Re-arm only once the act is well clear, so it can present again on a
         // later pass without flickering at the boundary.
-        if (focus <= 0.5) armed[key] = true;
+        if (focus <= 0.5) armed[sceneKey] = true;
       });
 
       // Tell the 3D rig how strongly to present: 0 until an act is genuinely
@@ -103,6 +113,8 @@ export function SceneFocus() {
       // turns toward the page only while holding an act and flies neutrally
       // between them. setAttend clamps and is a no-op when there is no scene.
       setAttend((maxFocus - 0.5) / 0.5);
+
+      if (sheet) sheet.textContent = rules.join("");
 
       first = false;
     };

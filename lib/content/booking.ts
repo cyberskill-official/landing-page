@@ -1,5 +1,5 @@
 /**
- * FR-CTA-005: Call-booking path is a plain link, env-gated.
+ * TASK-CTA-005: Call-booking path is a plain link, env-gated.
  * Never loads a third-party booking script.
  *
  * IMPORTANT (Next.js): client bundles only inline NEXT_PUBLIC_* when accessed
@@ -24,7 +24,7 @@ export function readBookingUrlEnv(override?: string | null): string | undefined 
 
 /**
  * Returns a validated absolute booking URL, or null when unset/invalid.
- * Renders nothing when null (FR-CTA-005 §1.2).
+ * Renders nothing when null (TASK-CTA-005 §1.2).
  */
 export function getBookingUrl(override?: string | null): string | null {
   const raw = readBookingUrlEnv(override)?.trim();

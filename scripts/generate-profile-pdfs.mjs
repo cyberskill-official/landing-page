@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * FR-CTA-016: write company profile PDFs under public/downloads/ from content SSOT.
+ * TASK-CTA-016: write company profile PDFs under public/downloads/ from content SSOT.
  * Run: npx tsx scripts/generate-profile-pdfs.mjs
  */
 import { mkdirSync, writeFileSync } from "node:fs";

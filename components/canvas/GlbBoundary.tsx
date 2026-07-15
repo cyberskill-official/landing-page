@@ -2,7 +2,7 @@
 
 import { Component, type ReactNode } from "react";
 
-// Error boundary for the optional GLB Lumi (FR-SCENE-010 / FR-CHAR-022 §4). The
+// Error boundary for the optional GLB Lumi (TASK-SCENE-010 / TASK-CHAR-022 §4). The
 // Suspense boundary in GenieScene handles the *loading* state, but a rejected
 // load (missing file, decode failure, bad URL) throws from useGLTF. Without a
 // boundary that error would propagate up and blank the canvas. This catches it

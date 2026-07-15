@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { emit } from "@/lib/analytics/taxonomy";
 
 /**
- * FR-CTA-015 §1.3: anchor that emits cta_clicked with location + label.
+ * TASK-CTA-015 §1.3: anchor that emits cta_clicked with location + label.
  */
 export function CtaLink({
   href,

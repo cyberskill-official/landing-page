@@ -1,6 +1,6 @@
-# FR-BIZ-013 decision history evidence (AC 1.4)
+# TASK-BIZ-013 decision history evidence (AC 1.4)
 
-**FR:** FR-BIZ-013 — Decide the commercial policy the site is allowed to publish  
+**task:** TASK-BIZ-013 — Decide the commercial policy the site is allowed to publish  
 **Recorded:** 2026-07-14  
 **Mechanism:** in-module append-only list `commercialPolicyHistory` in `lib/content/policy.ts`
 

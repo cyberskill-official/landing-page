@@ -1,7 +1,7 @@
 import { company } from "@/lib/content/site";
 
 // Emits BreadcrumbList structured data for sub-pages (research doc §E SEO/GEO:
-// give crawlers and AI answer engines explicit structure). FR-SEO-003.
+// give crawlers and AI answer engines explicit structure). TASK-SEO-003.
 export function BreadcrumbJsonLd({ items }: { items: { name: string; path: string }[] }) {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
   const data = {

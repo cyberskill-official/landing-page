@@ -5,7 +5,7 @@ import { GET as llmsFullGet } from "@/app/llms-full.txt/route";
 import { GET as pruneGet } from "@/app/api/cron/prune/route";
 import nextConfig from "../next.config";
 
-describe("FR-OPS-017: CDN Cache-Control Headers", () => {
+describe("TASK-OPS-017: CDN Cache-Control Headers", () => {
   it("perf/xml-cache-headers: GET dynamic sitemaps and dynamic feeds carry Cache-Control headers with s-maxage", async () => {
     // 1. RSS Feed XML
     const feedReq = new Request("https://cyberskill.world/en/feed.xml");
@@ -61,7 +61,7 @@ describe("FR-OPS-017: CDN Cache-Control Headers", () => {
   });
 });
 
-describe("FR-OPS-018: Prune Cron Endpoint Security", () => {
+describe("TASK-OPS-018: Prune Cron Endpoint Security", () => {
   const originalEnv = process.env;
 
   beforeEach(() => {

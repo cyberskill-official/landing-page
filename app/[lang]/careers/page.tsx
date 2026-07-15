@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { TalentPoolForm } from "@/components/cta/TalentPoolForm";
+import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { Icon } from "@/components/ui/Icon";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { resolveMetadata } from "@/lib/content/metadata";
 
@@ -28,7 +29,6 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : "en";
   const dict = getDictionary(locale);
-  const hasNewsletterKey = !!process.env.RESEND_API_KEY;
 
   const t = locale === "vi"
     ? {
@@ -75,7 +75,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
         <h1>{dict.sections.careersTitle}</h1>
         <p className="cs-section-lead">{dict.sections.careersLead}</p>
 
-        {/* Culture Card (FR-CMS-017 §1.2) */}
+        {/* Culture Card (TASK-CMS-017 §1.2) */}
         <div className="cs-surface-light cs-prose-card" style={{ maxWidth: "48rem", marginBottom: "var(--cs-space-12)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{t.cultureTitle}</h2>
           <p style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.7", color: "var(--cs-color-text-muted)" }}>{t.cultureBody}</p>
@@ -91,19 +91,19 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
           ))}
         </div>
 
-        {/* Seniority Section (FR-CMS-017 §1.2) */}
+        {/* Seniority Section (TASK-CMS-017 §1.2) */}
         <div className="cs-surface-light cs-prose-card" style={{ maxWidth: "48rem", marginBottom: "var(--cs-space-12)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{t.seniorityTitle}</h2>
           <p style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.7", color: "var(--cs-color-text-muted)" }}>{t.seniorityBody}</p>
         </div>
 
-        {/* Tooling/Gates Section (FR-CMS-017 §1.2) */}
+        {/* Tooling/Gates Section (TASK-CMS-017 §1.2) */}
         <div className="cs-surface-light cs-prose-card" style={{ maxWidth: "48rem", marginBottom: "var(--cs-space-12)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{t.toolingTitle}</h2>
           <p style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.7", color: "var(--cs-color-text-muted)" }}>{t.toolingBody}</p>
         </div>
 
-        {/* Recruitment Process (FR-CMS-017 §1.2) */}
+        {/* Recruitment Process (TASK-CMS-017 §1.2) */}
         <div className="cs-surface-light cs-prose-card" style={{ maxWidth: "48rem", marginBottom: "var(--cs-space-12)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{t.processTitle}</h2>
           <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", marginBottom: "var(--cs-space-md)" }}>{t.processBody}</p>
@@ -115,23 +115,25 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
           </ul>
         </div>
 
-        {/* Talent Pool & Form (FR-CTA-020) */}
+        {/* Talent pool via Lumi chat (lead intent=careers) */}
         <div className="cs-contact-form cs-surface-light" style={{ marginTop: "var(--cs-space-12)", maxWidth: "40rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
             {locale === "vi" ? "Gia nhập Kho tài năng của CyberSkill" : "Join the Talent Pool"}
           </h2>
           <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", marginBottom: "var(--cs-space-md)" }}>{t.noOpenings}</p>
-
-          {hasNewsletterKey ? (
-            <TalentPoolForm locale={locale} />
-          ) : (
-            /* Fallback when subscribe service not configured */
-            <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)" }}>
-              {locale === "vi"
-                ? "Vui lòng liên hệ trực tiếp qua email: hello@cyberskill.vn"
-                : "Please reach out directly: hello@cyberskill.vn"}
-            </p>
-          )}
+          <p className="cs-contact-lumi">
+            <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi" flow="careers">
+              <Icon name="sparkle" size="sm" /> {dict.genie.careersLumiCta}
+            </GenieOpenButton>
+          </p>
+          <p className="cs-consent-note" style={{ marginTop: "var(--cs-space-md)" }}>
+            {dict.genie.consent}
+          </p>
+          <p style={{ fontSize: "var(--cs-text-xs)", color: "var(--cs-color-text-muted)", marginTop: "var(--cs-space-sm)", lineHeight: 1.6 }}>
+            {locale === "vi"
+              ? "Thông tin talent pool được lưu tối đa 12 tháng. Yêu cầu xóa sớm: privacy@cyberskill.vn (tiêu đề “Yêu cầu xóa dữ liệu Talent Pool”)."
+              : "Talent pool details are held up to 12 months. Early deletion: privacy@cyberskill.vn (subject “Talent Pool Deletion Request”)."}
+          </p>
         </div>
       </div>
     </section>

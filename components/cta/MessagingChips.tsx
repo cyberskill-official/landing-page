@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * FR-CTA-012: Config-driven messaging app contact chips.
+ * TASK-CTA-012: Config-driven messaging app contact chips.
  *
  * Renders Zalo and WhatsApp one-tap contact links driven by company.contacts
  * config. Only configured channels are rendered. An unconfigured channel

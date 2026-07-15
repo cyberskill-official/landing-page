@@ -1,4 +1,4 @@
-# Operator runbook: remaining feature requests
+# Operator runbook: remaining tasks
 
 **Date:** 2026-07-14  
 **Audience:** owner (human steps) + agents  
@@ -8,7 +8,7 @@
 
 ## Operator summary (updated 2026-07-15)
 
-| Do next (order) | FR | You |
+| Do next (order) | task | You |
 |---|---|---|
 | 1. Finish lead e2e residual | BIZ-003 | Tick `docs/verification/fr-biz-003-lead-pipeline-e2e-2026-07-15.md` (/vi + Reply-To) |
 | 2. Social / messaging URLs | BIZ-007 | Paste live URLs → agent wires `lib/content/site.ts` |
@@ -26,40 +26,40 @@
 
 ---
 
-## 1. Triage: every ready + draft FR
+## 1. Triage: every ready + draft task
 
 Classification: **agent-doable** (done or scaffolded this wave) vs **human/blocked**.
 
-| FR | Class | Classification | Why / what remains |
+| task | Class | Classification | Why / what remains |
 |---|---|---|---|
-| FR-A11Y-008 | mixed | **human** | Manual VoiceOver + NVDA pass |
-| FR-A11Y-014 | mixed | **human** | On-device lab (phones, contrast) |
-| FR-BIZ-001 | human | **human** | Resend, Slack, CRM secrets in Vercel |
-| FR-BIZ-002 | human | **human** | Deploy CyberOS lead-intake; set `LEAD_CRM_*` |
-| FR-BIZ-003 | human | **human** | Live e2e lead visible in CyberOS |
-| FR-BIZ-004 | human | **human** | Google Business Profile + NAP |
-| FR-BIZ-005 | mixed | **human** | Directories + verified reviews (needs BIZ-004) |
-| FR-BIZ-006 | mixed | **human** (scaffold done) | §1.2: send ≥3 client requests; secure 1 named case study |
-| FR-BIZ-007 | human | **human** | Social / messaging profiles |
-| FR-BIZ-008 | human | **human** | Search Console + Bing + monthly review |
-| FR-BIZ-009 | mixed | **human** (blocked) | Needs BIZ-002 + OPS-020; interim sheet ready |
-| FR-BIZ-010 | mixed | **human** (blocked) | Needs BIZ-007 social |
-| FR-BIZ-011 | mixed | **human** (blocked) | Needs BIZ-005 mentions |
-| FR-BIZ-012 | human | **human** | PDPL counsel + CyberOS processor |
-| FR-BIZ-014 | human | **human** | ISO/SOC path decision |
-| FR-BIZ-015 | human | **human** | AI citation monitoring ritual |
-| FR-CMS-004 | mixed | **human** (blocked) | Needs BIZ-006 cleared quotes |
-| FR-CMS-009 | mixed | **human** (blocked) | Needs BIZ-006 cleared case studies |
-| FR-BIZ-016 | draft | **human** | CyberOS platform APIs |
-| FR-OPS-019 | draft | **agent-scaffolded** | Git read-model in `lib/content/read-model.ts`; CyberOS fetch later |
-| FR-OPS-020 | draft | **agent-scaffolded** | Dual-write helpers + tests; live migration after BIZ-002 |
-| FR-CMS-021 | draft | **human** (blocked) | Notes authoring after OPS-019 + BIZ-016 |
+| TASK-A11Y-008 | mixed | **human** | Manual VoiceOver + NVDA pass |
+| TASK-A11Y-014 | mixed | **human** | On-device lab (phones, contrast) |
+| TASK-BIZ-001 | human | **human** | Resend, Slack, CRM secrets in Vercel |
+| TASK-BIZ-002 | human | **human** | Deploy CyberOS lead-intake; set `LEAD_CRM_*` |
+| TASK-BIZ-003 | human | **human** | Live e2e lead visible in CyberOS |
+| TASK-BIZ-004 | human | **human** | Google Business Profile + NAP |
+| TASK-BIZ-005 | mixed | **human** | Directories + verified reviews (needs BIZ-004) |
+| TASK-BIZ-006 | mixed | **human** (scaffold done) | §1.2: send ≥3 client requests; secure 1 named case study |
+| TASK-BIZ-007 | human | **human** | Social / messaging profiles |
+| TASK-BIZ-008 | human | **human** | Search Console + Bing + monthly review |
+| TASK-BIZ-009 | mixed | **human** (blocked) | Needs BIZ-002 + OPS-020; interim sheet ready |
+| TASK-BIZ-010 | mixed | **human** (blocked) | Needs BIZ-007 social |
+| TASK-BIZ-011 | mixed | **human** (blocked) | Needs BIZ-005 mentions |
+| TASK-BIZ-012 | human | **human** | PDPL counsel + CyberOS processor |
+| TASK-BIZ-014 | human | **human** | ISO/SOC path decision |
+| TASK-BIZ-015 | human | **human** | AI citation monitoring ritual |
+| TASK-CMS-004 | mixed | **human** (blocked) | Needs BIZ-006 cleared quotes |
+| TASK-CMS-009 | mixed | **human** (blocked) | Needs BIZ-006 cleared case studies |
+| TASK-BIZ-016 | draft | **human** | CyberOS platform APIs |
+| TASK-OPS-019 | draft | **agent-scaffolded** | Git read-model in `lib/content/read-model.ts`; CyberOS fetch later |
+| TASK-OPS-020 | draft | **agent-scaffolded** | Dual-write helpers + tests; live migration after BIZ-002 |
+| TASK-CMS-021 | draft | **human** (blocked) | Notes authoring after OPS-019 + BIZ-016 |
 
 ---
 
 ## 2. Step-by-step: lead pipeline (do this first)
 
-### Step 2.1 — FR-BIZ-001: Configure lead sinks
+### Step 2.1 — TASK-BIZ-001: Configure lead sinks
 
 1. Open Vercel → project → Settings → Environment Variables (Production).  
 2. Set (names from `.env.example`):
@@ -78,20 +78,20 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 3. Redeploy production.  
 4. **Done when:** `GET /api/health` is 200; submit a test lead in preview/production and receive Slack and/or email (or see JSONL under `LEAD_STORE_DIR` / `.data/leads.jsonl` in non-serverless).
 
-### Step 2.2 — FR-BIZ-016 then FR-BIZ-002: CyberOS lead-intake
+### Step 2.2 — TASK-BIZ-016 then TASK-BIZ-002: CyberOS lead-intake
 
 1. In CyberOS, implement/deploy authenticated lead-intake (shared secret).  
 2. Put the public webhook URL in `LEAD_CRM_WEBHOOK_URL` and secret in `LEAD_CRM_TOKEN`.  
 3. Redeploy landing.  
 4. **Done when:** unauthenticated POST → 401/403; authenticated POST from landing → 2xx and row visible in CyberOS.
 
-### Step 2.3 — FR-BIZ-003: Production e2e
+### Step 2.3 — TASK-BIZ-003: Production e2e
 
 1. On https://cyberskill.world (or prod alias), submit the contact form with a real mailbox you control.  
 2. Confirm: thank-you UI, ack email (if Resend set), CyberOS row with intent/source/locale/utm.  
 3. **Done when:** evidence screenshot or export of CyberOS row + timestamp.
 
-### Step 2.4 — FR-BIZ-009 interim (until CyberOS)
+### Step 2.4 — TASK-BIZ-009 interim (until CyberOS)
 
 1. Copy columns from `docs/ops/lead-interim-sor-sheet.md` into a private sheet.  
 2. Paste each lead; set `status` + `next_action_at`.  
@@ -102,7 +102,7 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 
 ## 3. Step-by-step: client proof (unblocks CMS-004 / CMS-009)
 
-### Step 3.1 — FR-BIZ-006 §1.2 (you)
+### Step 3.1 — TASK-BIZ-006 §1.2 (you)
 
 1. Open `docs/content/permission-request-en.md` and `permission-request-vi.md`.  
 2. Send to **≥3** past clients (email is fine).  
@@ -121,13 +121,13 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 
 5. **Done when:** ≥3 sends documented; ≥1 grant with scopes; agent can wire CMS-004/009 without inventing data.
 
-### Step 3.2 — FR-CMS-004 testimonials (after grants)
+### Step 3.2 — TASK-CMS-004 testimonials (after grants)
 
 1. Add objects to `testimonials` in `lib/content/site.ts` with `permission` matching a `clientPermissions` id / fields.  
 2. Run `npm test` — `content/testimonial-permission` must pass.  
 3. **Done when:** quotes render with name/role/company; empty array still emits no fake quotes.
 
-### Step 3.3 — FR-CMS-009 case studies (after grants)
+### Step 3.3 — TASK-CMS-009 case studies (after grants)
 
 1. Replace anonymized entries in `work` / `caseStudyDetails` with cleared data + metric source notes.  
 2. Link `permission` on every logo/screenshot/quote.  
@@ -138,7 +138,7 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 
 ## 4. Step-by-step: off-site presence
 
-| Order | FR | Steps | Done when |
+| Order | task | Steps | Done when |
 |---|---|---|---|
 | 1 | BIZ-004 | Claim Google Business Profile; match NAP to `company.address` in `lib/content/site.ts` | GBP live; address identical everywhere |
 | 2 | BIZ-007 | Create LinkedIn company (done?), Zalo/FB/WhatsApp if wanted; add URLs to `company.profiles` / `contacts` | Only live URLs in config |
@@ -153,14 +153,14 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 
 ## 5. Step-by-step: manual accessibility
 
-### FR-A11Y-008 (VoiceOver + NVDA)
+### TASK-A11Y-008 (VoiceOver + NVDA)
 
 1. Mac Safari + VoiceOver: home EN/VI, contact form, Lumi chat open/close, team, services.  
 2. Windows Firefox/Chrome + NVDA: same.  
 3. Log issues in `docs/verification/a11y-sr-YYYY-MM-DD.md`.  
 4. **Done when:** no critical SR traps; form labels announced; chat live regions ok.
 
-### FR-A11Y-014 (device lab)
+### TASK-A11Y-014 (device lab)
 
 1. iPhone Safari + Android Chrome: home, form, persistent CTA, 44px targets.  
 2. Check contrast on gold buttons vs background.  
@@ -171,7 +171,7 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 
 ## 6. CyberOS content wave (after leads work)
 
-| Order | FR | Who | Done when |
+| Order | task | Who | Done when |
 |---|---|---|---|
 | 1 | BIZ-016 | human | Content + lead APIs documented and live |
 | 2 | OPS-019 | agent | Read-model fetches CyberOS; git fallback already in `lib/content/read-model.ts` |
@@ -202,4 +202,4 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 ## 8. Agent progress note (this goal)
 
 - **Implemented scaffolds:** content read-model (git), dual-write helpers + tests, interim SoR sheet, this runbook.  
-- **Not marked done:** pure human FRs; CMS-004/009; BIZ-006 §1.2; draft CyberOS platform FRs.  
+- **Not marked done:** pure human tasks; CMS-004/009; BIZ-006 §1.2; draft CyberOS platform tasks.  

@@ -11,8 +11,9 @@ import { GltfLumi } from "@/components/canvas/GltfLumi";
 import { GlbBoundary } from "@/components/canvas/GlbBoundary";
 import { getPageScroll, getScrollProgress } from "@/lib/scroll/progress";
 import {
-  CHAT_ANCHOR,
+  CHAT_CENTER,
   measureRoute,
+  sampleChatOrbit,
   sampleJourney,
   viewportToWorld,
   type JourneyStop,
@@ -26,6 +27,7 @@ import {
   getLumiWorld,
   getPointerNorm,
   requestBurst,
+  requestGesture,
   setLumiScreen,
   setLumiWorld,
   setPointerNorm,
@@ -33,7 +35,7 @@ import {
 } from "@/lib/scene/mascot";
 import { useGenieStore } from "@/lib/genie/store";
 
-// Optional commissioned GLB (FR-CHAR-022). When NEXT_PUBLIC_LUMI_GLB is set to a
+// Optional commissioned GLB (TASK-CHAR-022). When NEXT_PUBLIC_LUMI_GLB is set to a
 // model path (e.g. /models/lumi.glb), the scene renders it instead of the
 // procedural placeholder; preloading it here (SCENE-010) starts the fetch as
 // soon as the scene chunk loads, and the Suspense boundary keeps it from
@@ -44,7 +46,7 @@ import { useGenieStore } from "@/lib/genie/store";
 const LUMI_GLB = process.env.NEXT_PUBLIC_LUMI_GLB || "/models/lumi_anim.glb";
 if (LUMI_GLB) useGLTF.preload(LUMI_GLB);
 
-// Fixed camera contract (FR-CHAR-030): the mascot journey maps viewport
+// Fixed camera contract (TASK-CHAR-030): the mascot journey maps viewport
 // anchors to the z=0 plane assuming the camera sits at (0,0,CAM_Z) with
 // CAM_FOV. The rig only adds a small pointer parallax on top, so the mapping
 // stays honest and lib/scene/journey.ts stays unit-testable.
@@ -63,7 +65,7 @@ function CameraRig() {
   return null;
 }
 
-// Lumi's flight rig (FR-CHAR-030): eases the whole mascot (model + pixie
+// Lumi's flight rig (TASK-CHAR-030): eases the whole mascot (model + pixie
 // dust) along the measured page journey, banks into turns, attends the chat
 // panel when it is open, pops a magic burst at each section doorway, and
 // projects its screen position for the DOM hotspot that makes Lumi itself
@@ -75,11 +77,21 @@ function LumiRig({ children }: { children: React.ReactNode }) {
   const excitePrev = useRef(false);
   const digPrev = useRef(0);
   const chatPrev = useRef(false);
+  const castTimer = useRef(0);
+  /** Orbit phase clock — resets to 0 on open so Lumi starts on the right (sample A). */
+  const chatOrbitT = useRef(0);
   const pos = useRef(new THREE.Vector3(1.4, 0.2, 0));
   const scaleRef = useRef(1);
   const projected = useMemo(() => new THREE.Vector3(), []);
   const chatOpen = useGenieStore((s) => s.open);
   const size = useThree((s) => s.size);
+
+  // Raise the live canvas above the modal shell so the real 3D Lumi orbits
+  // around the cloud (canvas is pointer-events:none — chat stays clickable).
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-genie-open", chatOpen);
+    return () => document.documentElement.removeAttribute("data-genie-open");
+  }, [chatOpen]);
 
   // Measure the route on mount and whenever layout changes (fonts settling,
   // the hero pin's spacer, resizes). measureRoute is a cheap pure read.
@@ -117,9 +129,41 @@ function LumiRig({ children }: { children: React.ReactNode }) {
 
     let anchor: { vx: number; vy: number; scale: number };
     let bow = 0;
+    const chatJustOpened = chatOpen && !chatPrev.current;
+    if (chatOpen !== chatPrev.current) {
+      chatPrev.current = chatOpen;
+      requestBurst(1.8);
+      if (chatOpen) {
+        // Phase 0 = right side of ellipse (Option A sample composition)
+        chatOrbitT.current = 0;
+        castTimer.current = 0;
+        try {
+          requestGesture("Cast");
+        } catch {
+          /* */
+        }
+      } else {
+        chatOrbitT.current = 0;
+      }
+    }
+
     if (chatOpen) {
-      anchor = CHAT_ANCHOR;
+      // Continuous orbit around the cloud — local clock so open always starts right-side.
+      chatOrbitT.current += delta;
+      anchor = sampleChatOrbit(chatOrbitT.current);
+      castTimer.current += delta;
+      // Periodic cast + sparkle burst = energy shot into the cloud
+      if (castTimer.current > 1.35) {
+        castTimer.current = 0;
+        requestBurst(1.1);
+        try {
+          requestGesture("Cast");
+        } catch {
+          /* no-op when procedural Lumi */
+        }
+      }
     } else {
+      castTimer.current = 0;
       const s = sampleJourney(stops.current, getPageScroll().y);
       anchor = s;
       // Legs read as swoops, not straight lines.
@@ -129,16 +173,18 @@ function LumiRig({ children }: { children: React.ReactNode }) {
         requestBurst(1);
       }
     }
-    if (chatOpen !== chatPrev.current) {
-      chatPrev.current = chatOpen;
-      requestBurst(1.4);
-    }
 
     const world = viewportToWorld(anchor.vx, anchor.vy, CAM_Z, CAM_FOV, aspect);
     const idleBob = chatOpen ? 0 : Math.sin(state.clock.elapsedTime * 0.9) * 0.03;
+    // On chat open, snap to the orbit so big Lumi is immediately outside the cloud
+    // (no long lerp from the previous journey hold, which reads as "no mascot").
+    const follow = chatJustOpened ? 1 : chatOpen ? Math.min(1, delta * 5.5) : k;
     const prevX = pos.current.x;
-    pos.current.x += (world.x + bow * 0.4 - pos.current.x) * k;
-    pos.current.y += (world.y + idleBob - pos.current.y) * k;
+    pos.current.x += (world.x + bow * 0.4 - pos.current.x) * follow;
+    pos.current.y += (world.y + idleBob - pos.current.y) * follow;
+    if (chatJustOpened) {
+      scaleRef.current = anchor.scale;
+    }
     g.position.set(pos.current.x, pos.current.y, 0);
     setLumiWorld({ x: pos.current.x, y: pos.current.y, z: 0 });
 
@@ -147,39 +193,36 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     const velX = (pos.current.x - prevX) / Math.max(delta, 1e-4);
     g.rotation.z += (THREE.MathUtils.clamp(-velX * 0.08, -0.26, 0.26) - g.rotation.z) * Math.min(1, delta * 3);
 
-    // Present the act (FR-SCENE-014): while an act is held at screen centre
+    // Present the act (TASK-SCENE-014): while an act is held at screen centre
     // (attend high), turn Lumi a touch toward the page - inward from whichever
-    // gutter it is flying - and give a small forward nod, so it reads as the
-    // genie showing you the scene, then relax to neutral between acts. Amplitude
-    // is deliberately tiny (a lean, ~11deg, never a turn-around) so the base
-    // facing and the skeletal idle always stay clear on either side. Zeroed
-    // while the chat holds Lumi at its cloud.
+    // gutter it is flying - and give a small forward nod. While chat is open,
+    // face the cloud centre so casts read as refueling beams into the cloud.
     const attend = chatOpen ? 0 : getAttend();
     const inward = pos.current.x >= 0 ? -1 : 1;
     const ky = Math.min(1, delta * 2.2);
-    // Ambient awareness (FR-CHAR-034): when Lumi is not presenting an act
-    // (attend low) and not held by the chat, she turns a touch toward the
-    // pointer, so she reads as noticing you. The presenting lean takes over as
-    // attend rises (the pointer glance is weighted by 1 - attend), so the two
-    // never fight. Amplitudes stay small - a glance, not a spin - and touch
-    // devices leave the pointer at centre, so nothing moves there.
-    // Always turn toward the cursor, even mid-flight (FR-CHAR-034): a firm yaw
-    // and pitch that track the pointer so Lumi keeps eye contact wherever she
-    // is, with the act-presenting lean layered on top when an act is centred.
-    // Amplitude stays under a quarter-turn so she never shows her back.
     const p = getPointerNorm();
-    // While digesting she presents the hole, so square her to the viewer (yaw and
-    // pitch ease to 0) instead of tracking the pointer or leaning into an act.
     const presenting = getDigest() > 0.05;
-    const trackYaw = chatOpen || presenting ? 0 : p.x * 0.55;
-    const trackPitch = chatOpen || presenting ? 0 : -p.y * 0.28;
-    const targetYaw = presenting ? 0 : trackYaw + inward * 0.15 * attend;
-    const targetPitch = presenting ? 0 : trackPitch + 0.06 * attend;
+    let targetYaw: number;
+    let targetPitch: number;
+    if (chatOpen) {
+      const center = viewportToWorld(CHAT_CENTER.vx, CHAT_CENTER.vy, CAM_Z, CAM_FOV, aspect);
+      const dx = center.x - pos.current.x;
+      const dy = center.y - pos.current.y;
+      // Face inward toward cloud centre
+      targetYaw = THREE.MathUtils.clamp(dx * 0.55, -0.85, 0.85);
+      targetPitch = THREE.MathUtils.clamp(-dy * 0.35, -0.45, 0.45);
+    } else if (presenting) {
+      targetYaw = 0;
+      targetPitch = 0;
+    } else {
+      targetYaw = p.x * 0.55 + inward * 0.15 * attend;
+      targetPitch = -p.y * 0.28 + 0.06 * attend;
+    }
     g.rotation.y += (targetYaw - g.rotation.y) * ky;
     g.rotation.x += (targetPitch - g.rotation.x) * ky;
 
     // Hover excitement puffs Lumi and pops a burst on the rising edge; the
-    // black-hole digest swells the whole mascot as it feeds (FR-CHAR-032).
+    // black-hole digest swells the whole mascot as it feeds (TASK-CHAR-032).
     const excite = getLumiExcite();
     if (excite !== excitePrev.current) {
       excitePrev.current = excite;
@@ -200,17 +243,98 @@ function LumiRig({ children }: { children: React.ReactNode }) {
     // open so the panel underneath stays clickable).
     projected.copy(pos.current).project(state.camera);
     const pxPerUnit = size.height / (2 * Math.tan((CAM_FOV * Math.PI) / 360) * CAM_Z);
+    const sx = (projected.x * 0.5 + 0.5) * size.width;
+    const sy = (-projected.y * 0.5 + 0.5) * size.height;
+    const sr = Math.min(220, Math.max(34, 0.72 * scaleRef.current * pxPerUnit));
     setLumiScreen({
-      x: (projected.x * 0.5 + 0.5) * size.width,
-      y: (-projected.y * 0.5 + 0.5) * size.height,
+      x: sx,
+      y: sy,
       // Core-sized (not aura-sized) and capped, so the button never blankets
       // nearby text even when Lumi is hero-large.
-      r: Math.min(190, Math.max(34, 0.66 * scaleRef.current * pxPerUnit)),
+      r: sr,
       visible: !chatOpen,
     });
+    // Expose projected mascot position while chat is open so audits can prove
+    // the full-size scene Lumi is outside the cloud (hotspot is hidden then).
+    if (typeof document !== "undefined") {
+      const root = document.documentElement;
+      if (chatOpen) {
+        root.dataset.lumiChatX = String(Math.round(sx));
+        root.dataset.lumiChatY = String(Math.round(sy));
+        root.dataset.lumiChatR = String(Math.round(sr));
+      } else {
+        delete root.dataset.lumiChatX;
+        delete root.dataset.lumiChatY;
+        delete root.dataset.lumiChatR;
+      }
+    }
   });
 
   return <group ref={rig}>{children}</group>;
+}
+
+/** Dual golden energy beams from big Lumi into the chat-cloud centre while open. */
+function ChatEnergyBeam() {
+  const chatOpen = useGenieStore((s) => s.open);
+  const core = useRef<THREE.Mesh>(null);
+  const glow = useRef<THREE.Mesh>(null);
+  const coreMat = useRef<THREE.MeshBasicMaterial>(null);
+  const glowMat = useRef<THREE.MeshBasicMaterial>(null);
+  const size = useThree((s) => s.size);
+
+  useFrame((state) => {
+    const c = core.current;
+    const g = glow.current;
+    if (!c || !g) return;
+    c.visible = chatOpen;
+    g.visible = chatOpen;
+    if (!chatOpen) return;
+    const aspect = size.width / Math.max(1, size.height);
+    const center = viewportToWorld(CHAT_CENTER.vx, CHAT_CENTER.vy, CAM_Z, CAM_FOV, aspect);
+    const lumi = getLumiWorld();
+    const dx = center.x - lumi.x;
+    const dy = center.y - lumi.y;
+    const len = Math.hypot(dx, dy) || 0.001;
+    const mx = lumi.x + dx * 0.5;
+    const my = lumi.y + dy * 0.5;
+    const rot = Math.atan2(dy, dx) - Math.PI / 2;
+    const pulse = 0.5 + 0.5 * Math.sin(state.clock.elapsedTime * 9);
+    c.position.set(mx, my, 0.08);
+    c.scale.set(0.09, len, 1);
+    c.rotation.z = rot;
+    g.position.set(mx, my, 0.05);
+    g.scale.set(0.2, len * 1.04, 1);
+    g.rotation.z = rot;
+    if (coreMat.current) coreMat.current.opacity = 0.7 + 0.3 * pulse;
+    if (glowMat.current) glowMat.current.opacity = 0.35 + 0.3 * pulse;
+  });
+
+  return (
+    <group>
+      <mesh ref={glow} visible={false}>
+        <planeGeometry args={[1, 1]} />
+        <meshBasicMaterial
+          ref={glowMat}
+          color="#FFE066"
+          transparent
+          opacity={0.35}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+      <mesh ref={core} visible={false}>
+        <planeGeometry args={[1, 1]} />
+        <meshBasicMaterial
+          ref={coreMat}
+          color="#F4BA17"
+          transparent
+          opacity={0.85}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+    </group>
+  );
 }
 
 // Pooled magic bursts: gold sparks that erupt where Lumi is - at section
@@ -330,7 +454,7 @@ function AmbientMotes() {
   );
 }
 
-// The black hole Lumi holds while she digests the page (FR-CHAR-032). A dark
+// The black hole Lumi holds while she digests the page (TASK-CHAR-032). A dark
 // event-horizon core reads as a true hole against the gold-lit scene, ringed by
 // two hot accretion bands that bloom and swirl, with gold motes spiralling in.
 // It grows from nothing to full as getDigest() ramps and sits at her hand, so
@@ -467,7 +591,7 @@ function WishGrid() {
 // The single fixed full-viewport canvas that renders the whole story, so assets
 // load once (research doc §B). alpha:true keeps it transparent; when the live
 // scene mounts, CanvasMount raises the layer above the content (cs-canvas-live)
-// so Lumi can fly the entire page as a living mascot (FR-CHAR-030) - the
+// so Lumi can fly the entire page as a living mascot (TASK-CHAR-030) - the
 // mascot-scoped pixie dust and trail keep body text clean. Imported only by
 // CanvasMount, which dynamic()-loads it ssr:false on capable devices.
 export function GenieScene() {
@@ -477,7 +601,7 @@ export function GenieScene() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // FR-PERF-012: Pause R3F render loop when document hidden
+    // TASK-PERF-012: Pause R3F render loop when document hidden
     const onVisibility = () => {
       setVisible(!document.hidden);
     };
@@ -487,7 +611,7 @@ export function GenieScene() {
     // Initial check
     setVisible(!document.hidden);
 
-    // FR-PERF-012: Pause R3F render loop when canvas container leaves viewport
+    // TASK-PERF-012: Pause R3F render loop when canvas container leaves viewport
     const el = containerRef.current;
     let observer: IntersectionObserver | null = null;
     if (el) {
@@ -535,9 +659,11 @@ export function GenieScene() {
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         tabIndex={-1}
       >
-      <ambientLight intensity={0.45} />
-      <directionalLight position={[3, 4, 5]} intensity={0.6} color="#fff4d6" />
-      <pointLight position={[-4, -2, 1]} intensity={0.5} color="#F4BA17" distance={14} />
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[3, 4, 5]} intensity={0.85} color="#fff4d6" />
+      <pointLight position={[-4, -2, 1]} intensity={0.7} color="#F4BA17" distance={16} />
+      {/* Extra rim so the full-size orbiting mascot stays bright against the dark cloud shell */}
+      <pointLight position={[4, 2, 3]} intensity={0.55} color="#ffe9a0" distance={18} />
       {/* Self-contained IBL so the commissioned Lumi's metallic-gold PBR has
           something to reflect - a metalness=1 material renders black without an
           environment. Baked once (frames={1}), inline Lightformers so there is no
@@ -557,6 +683,7 @@ export function GenieScene() {
       <CameraRig />
       <WishGrid />
       <BurstField />
+      <ChatEnergyBeam />
       <DigestHole />
       {/* The comet trail tracks an anchor inside the rig but renders at scene
           level, so the rig's scale never distorts the ribbon. */}

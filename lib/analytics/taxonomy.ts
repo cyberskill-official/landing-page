@@ -1,12 +1,12 @@
 /**
- * FR-OPS-011: Typed event taxonomy for CyberSkill.
+ * TASK-OPS-011: Typed event taxonomy for CyberSkill.
  *
  * Every analytics event emitted on this site MUST come through this module.
  * An unknown event name fails TypeScript typecheck at compile time.
  *
  * Invariants:
  * - No event payload carries personal data beyond what the lead payload already
- *   contains (FR-OPS-011 §1.4).
+ *   contains (TASK-OPS-011 §1.4).
  * - Analytics stay cookieless (first-party, no cross-site identifiers).
  * - This module is safe to import in server and client contexts.
  *
@@ -19,7 +19,7 @@
 // ---------------------------------------------------------------------------
 
 export interface LeadSubmittedPayload {
-  source: "contact-form" | "lumi-chat" | "synthetic" | "teardown";
+  source: "contact-form" | "lumi-chat" | "synthetic" | "teardown" | "partnership" | "careers";
   locale: string;
   utm?: UtmFields;
 }
@@ -59,7 +59,7 @@ export interface TeardownDeliveredPayload {
 }
 
 // ---------------------------------------------------------------------------
-// Allowlisted payload fields (FR-OPS-011 §1.4)
+// Allowlisted payload fields (TASK-OPS-011 §1.4)
 // ---------------------------------------------------------------------------
 
 /** Field names that are allowed in any event payload. Anything else is stripped. */
@@ -69,7 +69,7 @@ export const ALLOWED_EVENT_FIELDS = new Set([
 ]);
 
 // ---------------------------------------------------------------------------
-// UTM standard (FR-OPS-011 §1.3)
+// UTM standard (TASK-OPS-011 §1.3)
 // ---------------------------------------------------------------------------
 
 export interface UtmFields {
@@ -137,7 +137,7 @@ export function readUtm(): UtmFields | undefined {
  * Emit a typed analytics event. Currently logs to the server-side event
  * collector endpoint if configured; falls back to a console.info in dev.
  *
- * FR-OPS-011 §1.4: no PII is accepted beyond the lead payload. Fields not in
+ * TASK-OPS-011 §1.4: no PII is accepted beyond the lead payload. Fields not in
  * ALLOWED_EVENT_FIELDS are stripped before sending.
  */
 export function emit<T extends EventName>(

@@ -1,7 +1,7 @@
 import type { LeadInput } from "./schema";
 
 /**
- * FR-CTA-006 §1.2: CRM Field-mapping table.
+ * TASK-CTA-006 §1.2: CRM Field-mapping table.
  * Defines how each Next.js form field maps to a CRM property,
  * along with default owner and status metadata.
  */

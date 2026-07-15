@@ -1,4 +1,4 @@
-// In-repo SVG icon set (FR-DS-010): no external icon-library dependency. Each
+// In-repo SVG icon set (TASK-DS-010): no external icon-library dependency. Each
 // icon is data - a viewBox plus a list of primitive elements - rendered through
 // the one <Icon> component. Line icons use currentColor stroke so they follow
 // the surrounding text token.

@@ -1,4 +1,4 @@
-# FR-BIZ-007 — Social profiles wired (partial) 2026-07-15
+# TASK-BIZ-007 — Social profiles wired (partial) 2026-07-15
 
 ## Live URLs in `lib/content/site.ts` → footer + Organization `sameAs`
 

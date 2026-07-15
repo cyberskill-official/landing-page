@@ -5,14 +5,16 @@ import { usePathname } from "next/navigation";
 import { clamp, magneticOffset, tiltFromPointer } from "@/lib/motion/kinetic";
 import { useMotionStore } from "@/lib/a11y/motion-store";
 
-// Premium pointer + scroll polish layer (FR-DS-012), mounted once in the locale
+// Premium pointer + scroll polish layer (TASK-DS-012), mounted once in the locale
 // layout. One component owns: the gold scroll-progress bar, the custom cursor
 // (dot + trailing ring + spotlight glow), magnetic CTAs, 3D card tilt, and the
 // masked heading reveals.
 //
 // Gating (hard requirements):
-// - Cursor, magnet, and tilt run ONLY on fine pointers that can hover, and
-//   never under prefers-reduced-motion; media-query changes attach/detach live.
+// - Cursor, magnet, and tilt run on fine pointers that can hover.
+// - Cursor stays ON even under prefers-reduced-motion / data-motion=reduce
+//   (same product decision as Lumi 3D always-on). Dust sparks still skip when
+//   reduce is true. Media-query changes attach/detach live for pointer/hover.
 // - The progress bar mirrors scroll 1:1 (position feedback, not autonomous
 //   animation), so it stays for touch and reduced-motion users.
 // - Every element here is aria-hidden + pointer-events:none, and all movement
@@ -103,10 +105,8 @@ export function MotionExtras() {
   }, []);
 
   // Masked heading reveals + line draws: flip [data-mask-reveal] /
-  // [data-line-reveal] to "shown" once in view. Same contract as Reveal.tsx -
-  // the observer only ever SHOWS content, and the reduced-motion /
-  // scripting:none CSS rules force-show as safety nets. Re-scans on route
-  // change so client navigations get their reveals too.
+  // [data-line-reveal] to "shown" once in view. Deferred until after hydration
+  // so we never mutate attributes React is still reconciling (console #418).
   useEffect(() => {
     const ATTRS = ["data-mask-reveal", "data-line-reveal", "data-pop"] as const;
     const show = (el: Element) => {
@@ -142,10 +142,17 @@ export function MotionExtras() {
     const scan = () => {
       for (const el of query()) io.observe(el);
     };
-    scan();
+    // Wait two frames after mount so React hydration of streamed sections
+    // finishes before we flip attributes.
+    let startTimer = 0;
+    const boot = () => {
+      scan();
+    };
+    startTimer = window.setTimeout(boot, 50);
     const timers = [window.setTimeout(scan, 1500), window.setTimeout(scan, 4000)];
     window.addEventListener("load", scan);
     return () => {
+      window.clearTimeout(startTimer);
       for (const t of timers) window.clearTimeout(t);
       window.removeEventListener("load", scan);
       io.disconnect();
@@ -164,7 +171,8 @@ export function MotionExtras() {
       window.matchMedia("(pointer: fine)"),
       window.matchMedia("(hover: hover)"),
     ];
-    const enabled = () => queries.every((q) => q.matches) && !reduce;
+    // Cursor/magnet/tilt: fine pointer only. NOT gated on reduce (Lumi always-on).
+    const enabled = () => queries.every((q) => q.matches);
 
     const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     const ringPos = { x: pos.x, y: pos.y };
@@ -178,13 +186,11 @@ export function MotionExtras() {
     let hoverEl: Element | null = null;
     let magnetEl: HTMLElement | null = null;
     let tiltEl: HTMLElement | null = null;
-    // Gold-dust trail: a spark drops each time the pointer travels ~30px, capped
-    // so fast flicks never flood the DOM. Genie-magic flourish; same fine-pointer
-    // + motion gating as the cursor, and never over text fields.
+    // Gold-dust trail: sparks skip when reduce is true (calmer under reduced motion).
     let liveSparks = 0;
     const sparkFrom = { x: pos.x, y: pos.y };
     const emitSpark = () => {
-      if (!dust || liveSparks >= 18 || overText) return;
+      if (reduce || !dust || liveSparks >= 18 || overText) return;
       const s = document.createElement("i");
       s.style.setProperty("--x", `${pos.x.toFixed(1)}px`);
       s.style.setProperty("--y", `${pos.y.toFixed(1)}px`);

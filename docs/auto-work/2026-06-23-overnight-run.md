@@ -3,7 +3,7 @@
 Branch: `auto/overnight-frs` (off `main` at 8467f0f). Not deployed to production;
 left for review and selective merge.
 
-Scope: only FRs buildable with no input from Stephen (no content, assets,
+Scope: only tasks buildable with no input from Stephen (no content, assets,
 secrets, datastores, or product decisions). Each increment is verified
 (tsc + vitest + lint + next build, in the sandbox build copy) before commit.
 
@@ -17,7 +17,7 @@ The previously-noted `@vercel/*` vs Vitest/Vite peer conflict no longer
 reproduces - a clean `npm install` succeeds with no `.npmrc`, and Vitest still
 runs (37 tests). So Speed Insights collects field CWV (LCP/CLS/INP) from real
 visitors in production; the data accrues in the Vercel dashboard with traffic.
-Flipped both FRs to shipped. No `.npmrc` needed; recorded that the conflict is gone.
+Flipped both tasks to shipped. No `.npmrc` needed; recorded that the conflict is gone.
 
 ### 2. CHAR-029 - genie proxy abuse hardening (substantial; stays planned)
 
@@ -28,7 +28,7 @@ stripping. `app/api/genie/route.ts` now uses it, adds a `Retry-After` header on
 prompt-injection-resistance rule; the system prompt stays a separate block from
 user turns. `tests/genie-validate.test.ts` (7 cases) is in the existing vitest
 job (44 tests total). Remaining for full acceptance: a durable cross-instance
-rate-limit store (Vercel KV / Upstash) - needs a datastore + secret, so the FR
+rate-limit store (Vercel KV / Upstash) - needs a datastore + secret, so the task
 stays planned. tsc/vitest/lint/build all green.
 
 ### 3. PERF-003 - asset + bundle size guard (shipped)
@@ -38,7 +38,7 @@ assets (per-image / per-GLB caps + total) and the built client JS total against
 declared ceilings, exiting non-zero on a breach. Wired as `npm run check:assets`
 and added to the CI build job after `next build`. Deterministic (file sizes), so
 no flake. Current: public 95KB, client JS 2286KB across 43 chunks - within
-budget. Flipped FR-PERF-003 to shipped; BACKLOG 50/1/42.
+budget. Flipped TASK-PERF-003 to shipped; BACKLOG 50/1/42.
 
 ### 4. A11Y-005 (shipped) + A11Y-004 down-payment (stays planned)
 
@@ -89,7 +89,7 @@ next build each increment; not deployed to production):
 - DS-006 - APCA contrast tooling (fixed dark muted text Lc 63->79).
 - DS-003 - the five UI primitives.
 
-Partial / down-payment (FR stays planned):
+Partial / down-payment (task stays planned):
 - CHAR-029 - validation + injection defence + fail-safe shipped; durable
   cross-instance rate store still needs a KV + secret (operator).
 - A11Y-004 - launcher dialog semantics added; needs a manual keyboard pass (A11Y-008).

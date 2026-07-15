@@ -2,7 +2,7 @@
 
 import { useId, type SelectHTMLAttributes, type ReactNode } from "react";
 
-// In-repo Select primitive (FR-DS-003): a native <select> in the `.cs-field`
+// In-repo Select primitive (TASK-DS-003): a native <select> in the `.cs-field`
 // grid with a linked label, optional marker, and error wiring. Native select
 // keeps full keyboard operability and platform a11y for free.
 export function Select({

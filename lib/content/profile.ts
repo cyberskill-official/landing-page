@@ -7,7 +7,7 @@ import { commercialPolicy } from "@/lib/content/policy";
 import { localize } from "@/lib/i18n/types";
 
 /**
- * FR-CTA-016: company profile one-pager facts from the publishable content SSOT.
+ * TASK-CTA-016: company profile one-pager facts from the publishable content SSOT.
  * Every line must be traceable to lib/content (policy / site) — no invented claims.
  *
  * PDFs are built with PDFKit + embedded DejaVu Sans (Unicode / Vietnamese diacritics).

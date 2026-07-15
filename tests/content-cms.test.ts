@@ -14,15 +14,21 @@ describe("CMS Content & Layout Integration", () => {
     const headerContent = fs.readFileSync(headerPath, "utf8");
     const footerContent = fs.readFileSync(footerPath, "utf8");
 
-    // Header nav links check
+    // Slim primary nav: Work · Process · Notes · Talk (Lumi)
+    expect(headerContent).toContain("/work");
     expect(headerContent).toContain("how-we-build");
     expect(headerContent).toContain("notes");
-    expect(headerContent).toContain("/team"); // points to subpage, not anchor
+    expect(headerContent).toContain("GenieOpenButton");
+    // Team/careers live in footer, not the primary bar (less fragmentation)
+    expect(headerContent).not.toContain("/team");
+    expect(headerContent).not.toContain("/careers");
 
-    // Footer nav links check
+    // Footer still reaches secondary destinations
     expect(footerContent).toContain("how-we-build");
     expect(footerContent).toContain("now");
     expect(footerContent).toContain("notes");
+    expect(footerContent).toContain("/team");
+    expect(footerContent).toContain("/careers");
   });
 
   it("content/gates-claims-parity: How-we-build page matches actual CI workflow gates", () => {

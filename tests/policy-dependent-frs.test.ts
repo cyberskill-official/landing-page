@@ -42,13 +42,14 @@ describe("content/cta-copy", () => {
     expect(enHero).toContain(commercialPolicy.ctaPromise.en);
     expect(viHero).toContain(commercialPolicy.ctaPromise.vi);
 
-    // Contact band also sources the same dictionary promise (FR-CTA-015 §1.1).
+    // Contact band: Lumi is the primary lead path; booking still on contact section.
     const contactSrc = fs.readFileSync(
       path.join(process.cwd(), "components/sections/ContactCta.tsx"),
       "utf8",
     );
-    expect(contactSrc).toContain("dict.hero.ctaPrimary");
+    expect(contactSrc).toContain('flow="contact"');
     expect(contactSrc).toContain('location="contact-section"');
+    expect(contactSrc).toContain("GenieOpenButton");
   });
 
   it("keeps previous CTA strings retrievable for one-commit rollback", () => {
@@ -151,7 +152,7 @@ describe("content/engagement-models", () => {
 });
 
 describe("content/verify-us-placement", () => {
-  it("is footer-adjacent and on how-we-build, not stacked twice on the home page", () => {
+  it("footer folds verify into Lumi; full block stays on how-we-build only", () => {
     const home = fs.readFileSync(
       path.join(process.cwd(), "app/[lang]/page.tsx"),
       "utf8",
@@ -164,10 +165,10 @@ describe("content/verify-us-placement", () => {
       path.join(process.cwd(), "app/[lang]/how-we-build/page.tsx"),
       "utf8",
     );
-    // FR-CMS-014: footer-adjacent + how-we-build — home must not add a third copy.
+    // Home must not mount VerifyUs; footer uses Lumi CTA; how-we-build keeps full block.
     expect(home).not.toMatch(/<VerifyUs\b/);
-    expect(footer).toMatch(/variant="compact"/);
-    expect(footer).toMatch(/<VerifyUs\b/);
+    expect(footer).not.toMatch(/<VerifyUs\b/);
+    expect(footer).toMatch(/Verify us with Lumi|LeadCta/);
     expect(how).toMatch(/<VerifyUs\b/);
     expect(how).not.toMatch(/variant="compact"/);
   });
@@ -294,7 +295,10 @@ describe("content/partnership-shape", () => {
       expect(html).toContain('data-field="timezone"');
       expect(html).toContain('data-field="ndaIp"');
       expect(html).toContain('data-field="howToStart"');
-      expect(html).toContain('value="partnership"');
+      // Partnership enquiries open Lumi with flow=partnership (no embedded form)
+      expect(html).toContain(dict.genie.partnershipLumiCta);
+      expect(html).toMatch(/aria-haspopup="dialog"/);
+      expect(html).not.toContain('value="partnership"');
     }
   });
 });
@@ -336,22 +340,20 @@ describe("analytics/both-lead-paths (cta_clicked location)", () => {
     vi.spyOn(taxonomy, "emit").mockImplementation(() => {});
   });
 
-  it("hero primary CTA click emits cta_clicked with location hero", () => {
+  it("hero primary CTA opens Lumi (no #contact navigation)", () => {
     const container = document.createElement("div");
     document.body.appendChild(container);
     const root = createRoot(container);
     act(() => {
       root.render(createElement(Hero, { locale: "en", dict: enDict }));
     });
-    const link = container.querySelector('a[href="/en#contact"]') as HTMLAnchorElement | null;
-    expect(link).toBeTruthy();
-    act(() => {
-      link!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-    expect(taxonomy.emit).toHaveBeenCalledWith(
-      "cta_clicked",
-      expect.objectContaining({ location: "hero" }),
+    // Conversion path is Lumi chat, not a #contact jump
+    expect(container.querySelector('a[href="/en#contact"]')).toBeNull();
+    const btn = Array.from(container.querySelectorAll("button")).find((b) =>
+      b.textContent?.includes(enDict.hero.ctaPrimary),
     );
+    expect(btn).toBeTruthy();
+    expect(btn?.getAttribute("aria-haspopup")).toBe("dialog");
     act(() => {
       root.unmount();
     });

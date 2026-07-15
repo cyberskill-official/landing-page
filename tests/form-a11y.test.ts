@@ -22,10 +22,10 @@ vi.mock("node:fs/promises", () => {
   };
 });
 
-describe("FR-CTA-013: Form Validation & Honeypot A11y", () => {
+describe("TASK-CTA-013: Form Validation & Honeypot A11y", () => {
   const dict = getDictionary("en");
 
-  it("cta/form-required-attrs: required fields carry required and aria-required (FR-CTA-013 §1.1)", () => {
+  it("cta/form-required-attrs: required fields carry required and aria-required (TASK-CTA-013 §1.1)", () => {
     const html = renderToStaticMarkup(
       createElement(LeadForm, { locale: "en", dict })
     );
@@ -48,7 +48,7 @@ describe("FR-CTA-013: Form Validation & Honeypot A11y", () => {
     expect(consent?.getAttribute("aria-required")).toBe("true");
   });
 
-  it("checks honeypot is hidden from assistive tech (FR-CTA-013 §1.3)", () => {
+  it("checks honeypot is hidden from assistive tech (TASK-CTA-013 §1.3)", () => {
     const html = renderToStaticMarkup(
       createElement(LeadForm, { locale: "en", dict })
     );
@@ -63,7 +63,7 @@ describe("FR-CTA-013: Form Validation & Honeypot A11y", () => {
     expect(honeypotInput?.getAttribute("tabindex")).toBe("-1");
   });
 
-  it("api/lead-validation: rejects payload missing email with 400 and validation_error (FR-CTA-013 §1.2)", async () => {
+  it("api/lead-validation: rejects payload missing email with 400 and validation_error (TASK-CTA-013 §1.2)", async () => {
     const req = new Request("https://cyberskill.world/api/lead", {
       method: "POST",
       body: JSON.stringify({
@@ -81,7 +81,7 @@ describe("FR-CTA-013: Form Validation & Honeypot A11y", () => {
     expect(data.issues.email).toBeDefined();
   });
 
-  it("api/lead-honeypot: honeypot-filled payload is discarded and reaches no sinks (FR-CTA-013 §1.4)", async () => {
+  it("api/lead-honeypot: honeypot-filled payload is discarded and reaches no sinks (TASK-CTA-013 §1.4)", async () => {
     // Set up environment to mock a working pipeline
     const originalEnv = process.env;
     process.env = { ...originalEnv, NODE_ENV: "production", RESEND_API_KEY: "test-key" };

@@ -1,4 +1,4 @@
-// Shared mascot state (FR-CHAR-030): plain module-level stores, in the same
+// Shared mascot state (TASK-CHAR-030): plain module-level stores, in the same
 // spirit as lib/scroll/progress.ts - written by the 3D scene each frame and
 // read by DOM components (and vice versa) with no React re-renders and no
 // three.js imports, so DOM consumers (LumiHotspot, LeadForm) never pull the
@@ -145,7 +145,7 @@ export const LUMI_GREET_EVENT = "cs:lumi:greet";
 export const LUMI_HOLD_START_EVENT = "cs:lumi:hold-start";
 export const LUMI_HOLD_END_EVENT = "cs:lumi:hold-end";
 
-// Black-hole digest progress (FR-CHAR-032): 0 = page intact, 1 = fully
+// Black-hole digest progress (TASK-CHAR-032): 0 = page intact, 1 = fully
 // devoured. Written by the DOM digest manager (press-and-hold), read by the
 // scene (Lumi darkens into a gold-rimmed hole) and by anything else that
 // wants to react.

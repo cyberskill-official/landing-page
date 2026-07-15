@@ -5,6 +5,7 @@ import type { LocalizedString } from "@/lib/i18n/types";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { VerifyUs } from "@/components/sections/VerifyUs";
+import { LeadCta } from "@/components/cta/LeadCta";
 
 // A plain-spoken "how we build" page: the method, the quality bar we hold
 // ourselves to, how we handle a client's data, and how an engagement runs.
@@ -74,15 +75,13 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
           eyebrow: "Cách chúng tôi xây",
           title: "Cách chúng tôi xây phần mềm",
           lead: "Một chuỗi bước đơn giản và tử tế, từ cuộc gọi đầu tiên đến bản phát hành cuối cùng, cùng những tiêu chuẩn chúng tôi tự giữ trên suốt chặng đường.",
-          cta: "Bắt đầu dự án",
-          back: "Về trang chủ",
+          cta: "Bắt đầu với Lumi",
         }
       : {
           eyebrow: "How we build",
           title: "How we build software",
           lead: "A simple, honest sequence from the first call to the last release, and the standards we hold ourselves to along the way.",
-          cta: "Start my project",
-          back: "Back home",
+          cta: "Start with Lumi",
         };
 
   return (
@@ -98,7 +97,7 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
         <h1>{t.title}</h1>
         <p className="cs-section-lead">{t.lead}</p>
 
-        {/* FR-CMS-014: verify-us on how-we-build */}
+        {/* TASK-CMS-014: verify-us on how-we-build */}
         <div style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
           <VerifyUs locale={locale} />
         </div>
@@ -125,7 +124,7 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
           ))}
         </div>
 
-        {/* Automated Quality Gates (FR-CMS-015 §1.2, 1.4) */}
+        {/* Automated Quality Gates (TASK-CMS-015 §1.2, 1.4) */}
         <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
             {locale === "vi" ? "Các cổng kiểm soát chất lượng tự động" : "Automated Quality Gates"}
@@ -137,7 +136,7 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
           </p>
           <ul className="cs-service-outcomes" role="list" style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.6" }}>
             <li>
-              <strong>{locale === "vi" ? "Cổng thông số tính năng (check:frs)" : "Feature Request Gate (check:frs)"}</strong>:{" "}
+              <strong>{locale === "vi" ? "Cổng thông số tính năng (check:frs)" : "Task Gate (check:frs)"}</strong>:{" "}
               {locale === "vi" 
                 ? "Đảm bảo mọi tính năng được định nghĩa rõ ràng, đầy đủ liên kết và truy vết."
                 : "Verifies every feature is fully specified and traced to business goals."}{" "}
@@ -229,13 +228,10 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
           </ul>
         </div>
 
-        <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
+        <div className="cs-page-cta" style={{ marginTop: "var(--cs-space-12)" }}>
+          <LeadCta className="cs-btn cs-btn-primary" flow="contact">
             {t.cta}
-          </a>
-          <a className="cs-btn" href={`/${locale}`}>
-            {t.back}
-          </a>
+          </LeadCta>
         </div>
       </div>
     </section>

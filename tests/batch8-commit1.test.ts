@@ -3,14 +3,14 @@ import { company, faqs } from "@/lib/content/site";
 import { ConsentGate } from "@/lib/analytics/consent";
 import nextConfig from "@/next.config";
 
-describe("Commit 1 tests — FR-PERF-010, FR-SEO-019, FR-SEO-020, FR-OPS-013", () => {
+describe("Commit 1 tests — TASK-PERF-010, TASK-SEO-019, TASK-SEO-020, TASK-OPS-013", () => {
   beforeEach(() => {
     // Reset consent gate state before each test
     // Cast to access internal reset
     (ConsentGate as any)._reset();
   });
 
-  // --- FR-PERF-010: Cache headers ---
+  // --- TASK-PERF-010: Cache headers ---
   it("headers/static-asset-cache: nextConfig contains correct immutable Cache-Control headers for brand, models, logo, favicon, and poster", async () => {
     expect(nextConfig.headers).toBeDefined();
     if (typeof nextConfig.headers === "function") {
@@ -38,7 +38,7 @@ describe("Commit 1 tests — FR-PERF-010, FR-SEO-019, FR-SEO-020, FR-OPS-013", (
     }
   });
 
-  // --- FR-SEO-019: Organization & LocalBusiness properties ---
+  // --- TASK-SEO-019: Organization & LocalBusiness properties ---
   it("seo/organization-jsonld: company configuration has required profiles, founder, geo, and openingHours", () => {
     expect(company.profiles).toBeDefined();
     expect(company.profiles.linkedin).toBe("https://www.linkedin.com/company/cyberskill-world");
@@ -57,7 +57,7 @@ describe("Commit 1 tests — FR-PERF-010, FR-SEO-019, FR-SEO-020, FR-OPS-013", (
     expect(company.openingHours).toContain("Mo-Fr 09:00-18:00");
   });
 
-  // --- FR-SEO-020: FAQ coverage ---
+  // --- TASK-SEO-020: FAQ coverage ---
   it("content/faq-coverage: visible FAQ covers all minimum required topics", () => {
     // 15-20 question/answer pairs per locale
     expect(faqs.length).toBeGreaterThanOrEqual(15);
@@ -100,7 +100,7 @@ describe("Commit 1 tests — FR-PERF-010, FR-SEO-019, FR-SEO-020, FR-OPS-013", (
     expect(hasTopic(["cookies", "tracking"])).toBe(true);
   });
 
-  // --- FR-OPS-013: Consent Gate API ---
+  // --- TASK-OPS-013: Consent Gate API ---
   it("analytics/consent-gate: defaults to denied for optional tags and allows functional", () => {
     expect(ConsentGate.canLoad("analytics")).toBe(false);
     expect(ConsentGate.canLoad("session-replay")).toBe(false);

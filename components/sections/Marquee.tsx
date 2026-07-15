@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { Icon } from "@/components/ui/Icon";
 
-// Kinetic keyword band (FR-DS-012): the practice keywords glide past between
+// Kinetic keyword band (TASK-DS-012): the practice keywords glide past between
 // the value props and the services grid. Purely decorative - the whole band is
 // aria-hidden because the Services section right below carries the same offer
 // as real, accessible content. The loop is CSS-only (translate3d on a
 // max-content track, two identical halves for a seamless -50% wrap), pauses on
 // hover, and freezes under prefers-reduced-motion.
 //
-// FR-PERF-012: The CSS animation is paused when the section is off-screen to
+// TASK-PERF-012: The CSS animation is paused when the section is off-screen to
 // conserve CPU and battery.
 export function Marquee({ dict }: { dict: Dictionary }) {
   const containerRef = useRef<HTMLDivElement>(null);

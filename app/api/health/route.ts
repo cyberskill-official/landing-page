@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 // Lightweight health/status endpoint for uptime checks and load balancers
-// (FR-WEB-010). No dependencies, no caching, always fresh. Returns 200 with a
+// (TASK-WEB-010). No dependencies, no caching, always fresh. Returns 200 with a
 // tiny JSON body so a monitor can assert on status and parse the timestamp.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 /**
- * FR-OPS-009: CSP violation reporting endpoint.
+ * TASK-OPS-009: CSP violation reporting endpoint.
  *
  * Receives and logs Content-Security-Policy violations to stdout/logs.
  * Always returns ok:true so client-side browsers aren't penalized or re-requested.

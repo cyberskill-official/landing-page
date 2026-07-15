@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// FR spec gate - the `draft -> ready_to_implement` check for this repo.
+// task spec gate - the `draft -> ready_to_implement` check for this repo.
 //
-// Why this exists (ADR-001): the CyberOS plugin's `feature-request-audit` skill runs
-// `audit_rubric@2.0`, which audits a DIFFERENT FR contract (`feature_request@1`) from the
-// one this repo's vendored `.cyberos/cuo/templates/FR-TEMPLATE.md` defines and the
-// `ship-feature-requests` workflow actually parses. Running that rubric here fails ~12
-// rules on all 168 FRs, including shipped ones - a template mismatch, not a quality signal.
+// Why this exists (ADR-001): the CyberOS plugin's `task-audit` skill runs
+// `audit_rubric@2.0`, which audits a DIFFERENT task contract (`task@1`) from the
+// one this repo's vendored `.cyberos/cuo/templates/TASK-TEMPLATE.md` defines and the
+// `ship-tasks` workflow actually parses. Running that rubric here fails ~12
+// rules on all 168 tasks, including shipped ones - a template mismatch, not a quality signal.
 // So the contract-agnostic rules that matter are enforced here instead, mechanically:
 //
 //   FM-001   frontmatter fences exist and parse
@@ -14,19 +14,19 @@
 //   TRACE-001 every numbered clause is cited by an acceptance criterion
 //   TRACE-002 every acceptance criterion names a verification (a test or evidence)
 //   + this repo's own: class/priority/owner enums, depends_on resolution, no dependency on
-//     a closed FR, unique ids, filename matches id, BACKLOG parity, plain-keyboard chars.
+//     a closed task, unique ids, filename matches id, BACKLOG parity, plain-keyboard chars.
 //
 // TRACE-003 (every named test resolves on disk) is deliberately NOT enforced here: for an
-// unimplemented FR the tests ARE the deliverable. It belongs to the coverage gate, from
+// unimplemented task the tests ARE the deliverable. It belongs to the coverage gate, from
 // `implementing` onward.
 //
-// Body rules apply only to FRs the build queue can pick up (`ready_to_implement`).
-// Archived (`done`), `on_hold` and `closed` FRs are checked for frontmatter validity only.
+// Body rules apply only to tasks the build queue can pick up (`ready_to_implement`).
+// Archived (`done`), `on_hold` and `closed` tasks are checked for frontmatter validity only.
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, basename, dirname } from "node:path";
 
-const ROOT = "docs/feature-requests";
+const ROOT = "docs/tasks";
 const STATUSES = ["draft", "ready_to_implement", "implementing", "ready_to_review", "reviewing", "ready_to_test", "testing", "done", "on_hold", "closed"];
 const CLASSES = ["product", "improvement"];
 const PRIORITIES = ["MUST", "SHOULD", "COULD", "MAY"];
@@ -72,7 +72,7 @@ for (const path of walk(ROOT).sort()) {
 
   const id = fm.id;
   if (!id) { errors.push(`${path} [FM-001] no id`); continue; }
-  if (frs.has(id)) errors.push(`${path} [FM-003] duplicate FR id ${id} (also ${frs.get(id).path})`);
+  if (frs.has(id)) errors.push(`${path} [FM-003] duplicate task id ${id} (also ${frs.get(id).path})`);
   const baseNameCheck = basename(path) === "spec.md" ? basename(dirname(path)) : basename(path);
   if (!baseNameCheck.startsWith(id)) err(id, "FM-001", `filename or folder does not start with the id (${baseNameCheck})`);
   if (!MODULES.includes(id.split("-")[1])) err(id, "FM-001", `unknown module '${id.split("-")[1]}'`);
@@ -92,8 +92,8 @@ for (const path of walk(ROOT).sort()) {
 // dependency integrity
 for (const fr of frs.values()) {
   for (const d of fr.deps) {
-    if (!frs.has(d)) err(fr.id, "DEP-001", `depends_on unknown FR ${d}`);
-    else if (frs.get(d).status === "closed") err(fr.id, "DEP-002", `depends on a closed FR (${d})`);
+    if (!frs.has(d)) err(fr.id, "DEP-001", `depends_on unknown task ${d}`);
+    else if (frs.get(d).status === "closed") err(fr.id, "DEP-002", `depends on a closed task (${d})`);
   }
 }
 
@@ -119,10 +119,10 @@ for (const id of frs.keys()) {
   }
 }
 
-// DEP-004: an agent-owned FR must never depend (transitively) on a human/mixed FR that is
+// DEP-004: an agent-owned task must never depend (transitively) on a human/mixed task that is
 // not done - that is a permanent stall: the queue would skip it forever with no signal.
 // The right shape is a mechanism that ships env/config-gated and degrades gracefully, with
-// the human input landing later. See docs/feature-requests/README.md §1.
+// the human input landing later. See docs/tasks/README.md §1.
 const humanBlockers = (id, seen = new Set()) => {
   const out = new Set();
   for (const d of frs.get(id)?.deps ?? []) {
@@ -141,7 +141,7 @@ for (const fr of frs.values()) {
   if (blockers.size) err(fr.id, "DEP-004", `agent-owned but permanently stalled behind human-owned ${[...blockers].sort().join(", ")} - re-scope so the mechanism ships gated, or change the owner`);
 }
 
-// body rules - only for FRs the queue can pick up
+// body rules - only for tasks the queue can pick up
 for (const fr of frs.values()) {
   if (fr.status !== "ready_to_implement") continue;
   const { id, body } = fr;
@@ -158,7 +158,7 @@ for (const fr of frs.values()) {
     if (!/\b(SHALL|MUST|SHOULD|MAY)\b/.test(c.t)) err(id, "TRACE-001", `clause 1.${c.n} carries no BCP-14 keyword - it is not normative`);
     const deferred = /\(deferred to /i.test(c.t);
     if (!cited.has(c.n) && !deferred) err(id, "TRACE-001", `clause 1.${c.n} is not cited by any acceptance criterion`);
-    if (deferred && !/\(deferred to FR-[A-Z0-9]+-\d+/i.test(c.t)) err(id, "TRACE-005", `clause 1.${c.n} is deferred but names no destination FR`);
+    if (deferred && !/\(deferred to FR-[A-Z0-9]+-\d+/i.test(c.t)) err(id, "TRACE-005", `clause 1.${c.n} is deferred but names no destination task`);
   }
   for (const a of acs) {
     if (!/test:\s*`[^`]+`|evidence:/.test(a)) err(id, "TRACE-002", `acceptance criterion names no verification: "${a.slice(0, 60)}..."`);
@@ -177,9 +177,9 @@ for (const fr of frs.values()) {
 const backlog = readFileSync(join(ROOT, "BACKLOG.md"), "utf8");
 const listed = new Set([...backlog.matchAll(/(FR-[A-Z0-9]+-\d+) -/g)].map(([, id]) => id));
 for (const id of frs.keys()) if (!listed.has(id)) err(id, "IDX-001", "no row in BACKLOG.md");
-for (const id of listed) if (!frs.has(id)) errors.push(`BACKLOG.md [IDX-001] row ${id} has no FR file`);
+for (const id of listed) if (!frs.has(id)) errors.push(`BACKLOG.md [IDX-001] row ${id} has no task file`);
 
-// the queue the ship-feature-requests workflow can actually pick up
+// the queue the ship-tasks workflow can actually pick up
 const done = (id) => frs.get(id)?.status === "done";
 const eligible = [...frs.values()].filter((f) => f.status === "ready_to_implement" && f.owner === "agent" && f.deps.every(done));
 const blocked = [...frs.values()].filter((f) => f.status === "ready_to_implement" && f.owner === "agent" && !f.deps.every(done));
@@ -188,7 +188,7 @@ const human = [...frs.values()].filter((f) => f.status === "ready_to_implement" 
 const counts = {};
 for (const f of frs.values()) counts[f.status] = (counts[f.status] ?? 0) + 1;
 
-console.log(`FR gate - ${frs.size} feature requests`);
+console.log(`task gate - ${frs.size} tasks`);
 console.log(Object.entries(counts).map(([k, v]) => `  ${k}: ${v}`).join("\n"));
 console.log(`\nqueue:`);
 console.log(`  agent-eligible now (deps done): ${eligible.length}`);
@@ -202,4 +202,4 @@ if (errors.length) {
   for (const e of errors) console.error("  " + e);
   process.exit(1);
 }
-console.log("\nPASS - every FR satisfies the contract in .cyberos/cuo/templates/FR-TEMPLATE.md (ADR-001).");
+console.log("\nPASS - every task satisfies the contract in .cyberos/cuo/templates/TASK-TEMPLATE.md (ADR-001).");

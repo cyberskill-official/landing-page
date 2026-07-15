@@ -25,8 +25,8 @@ const GenieScene = dynamic(
 function capable(): boolean {
   if (typeof window === "undefined") return false;
   // Motion is always on by product decision (2026-07-14: reverted the
-  // FR-A11Y-010 reduced-motion gate on the R3F scene - see git history for
-  // the FR itself, still in force for LumiMagic/DepthField/BlackHole/
+  // TASK-A11Y-010 reduced-motion gate on the R3F scene - see git history for
+  // the task itself, still in force for LumiMagic/DepthField/BlackHole/
   // MotionExtras). We still gate on device capability so mobile / low-end
   // get the static poster - that is a Core Web Vitals choice, not a motion
   // preference.
@@ -42,7 +42,7 @@ export function CanvasMount() {
   useEffect(() => {
     const live = capable();
     setMount(live);
-    // Signal the DOM that the living mascot is on stage (FR-CHAR-030): the
+    // Signal the DOM that the living mascot is on stage (TASK-CHAR-030): the
     // duplicate "Talk to Lumi" CTAs (.cs-lumi-alt) hide themselves, since
     // clicking Lumi itself opens the chat on these devices.
     if (live) document.documentElement.setAttribute("data-lumi-live", "true");
@@ -51,7 +51,7 @@ export function CanvasMount() {
 
   return (
     // The live scene rides ABOVE the content (cs-canvas-live raises z-index)
-    // so Lumi can fly the whole page as a mascot (FR-CHAR-030); the canvas
+    // so Lumi can fly the whole page as a mascot (TASK-CHAR-030); the canvas
     // stays pointer-events:none, so it can never block interaction (the DOM
     // LumiHotspot provides the clickable mascot). The static poster keeps the
     // original behind-the-hero layering on incapable devices.

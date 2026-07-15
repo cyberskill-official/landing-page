@@ -2,7 +2,7 @@
 import { expect, test, describe, vi, beforeEach, afterEach } from "vitest";
 
 /**
- * Batch 10 — FR-CTA-020 Careers talent-pool email capture
+ * Batch 10 — TASK-CTA-020 Careers talent-pool email capture
  *
  * Tests:
  *  api/subscribe-audience-tag   — POST with audienceTag="talent-pool" encodes tag in token and applies it on confirmation
@@ -28,7 +28,7 @@ function mockEnv(vars: Record<string, string | undefined>) {
 
 // ── tests ────────────────────────────────────────────────────────────────────
 
-describe("FR-CTA-020: api/subscribe-audience-tag", () => {
+describe("TASK-CTA-020: api/subscribe-audience-tag", () => {
   beforeEach(() => {
     vi.resetModules();
   });
@@ -173,7 +173,7 @@ describe("FR-CTA-020: api/subscribe-audience-tag", () => {
   });
 });
 
-describe("FR-CTA-020: content/careers-talent-pool — bilingual retention statement", () => {
+describe("TASK-CTA-020: content/careers-talent-pool — bilingual retention statement", () => {
   test("TalentPoolForm labels include retention period and deletion contact in EN", async () => {
     // Import the module and inspect exported labels
     // We test the content at the module level since the strings are constants
@@ -221,7 +221,7 @@ describe("FR-CTA-020: content/careers-talent-pool — bilingual retention statem
   });
 });
 
-describe("FR-CTA-020: api/subscribe-unsubscribe (deletion path)", () => {
+describe("TASK-CTA-020: api/subscribe-unsubscribe (deletion path)", () => {
   beforeEach(() => {
     vi.resetModules();
   });

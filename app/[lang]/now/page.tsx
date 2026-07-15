@@ -6,6 +6,7 @@ import { resolveMetadata } from "@/lib/content/metadata";
 import { changelog } from "@/lib/content/changelog";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { LeadCta } from "@/components/cta/LeadCta";
 
 export async function generateMetadata({
   params,
@@ -115,9 +116,7 @@ export default async function ChangelogPage({
         </div>
 
         <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
-            {dict.hero.ctaPrimary}
-          </a>
+          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{dict.hero.ctaPrimary}</LeadCta>
           <Link className="cs-btn" href={`/${locale}`}>
             {locale === "vi" ? "Quay lại" : "Back Home"}
           </Link>

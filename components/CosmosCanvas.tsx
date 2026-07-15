@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useMotionStore } from "@/lib/a11y/motion-store";
 
-// Light wrapper for the true-3D solar system behind the site (FR-CHAR-032). It
+// Light wrapper for the true-3D solar system behind the site (TASK-CHAR-032). It
 // carries NO three.js import itself - the heavy scene lives in ./CosmosScene and
 // is pulled in with next/dynamic (ssr:false) ONLY after the first digest begins.
 // That keeps ~350KB of three.js/R3F/postprocessing out of the initial page

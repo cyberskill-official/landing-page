@@ -1,4 +1,4 @@
-// A permanent cosmos behind the whole site (FR-CHAR-032). Rendered directly in
+// A permanent cosmos behind the whole site (TASK-CHAR-032). Rendered directly in
 // <body> by the root layout - a sibling of <main>, NOT a child of it - so it
 // sits at z-index 0, genuinely behind the content (z-index 1). Opaque sections
 // cover it in normal reading; it is revealed - already there, never fading in -

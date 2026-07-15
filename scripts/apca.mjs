@@ -1,5 +1,5 @@
 // APCA-W3 (0.1.9) lightness-contrast (Lc) core, plus sRGB helpers and alpha
-// compositing for the Liquid Glass state (FR-DS-006). Pure functions, exported
+// compositing for the Liquid Glass state (TASK-DS-006). Pure functions, exported
 // so both the CLI guard (check-apca.mjs) and the unit test use the same code.
 
 const mainTRC = 2.4;

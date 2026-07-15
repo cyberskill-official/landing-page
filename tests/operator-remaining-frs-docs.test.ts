@@ -3,9 +3,9 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * Structural gates for human-mixed FRs that are proved by repo docs
- * (FR-BIZ-003 evidence path, FR-BIZ-004 nap-register, FR-BIZ-008 seo-log).
- * Does not mark FRs done — only that artefacts exist and stay wired.
+ * Structural gates for human-mixed tasks that are proved by repo docs
+ * (TASK-BIZ-003 evidence path, TASK-BIZ-004 nap-register, TASK-BIZ-008 seo-log).
+ * Does not mark tasks done — only that artefacts exist and stay wired.
  */
 
 const root = process.cwd();
@@ -20,7 +20,7 @@ describe("docs/post-deploy-verification (BIZ-003 evidence path)", () => {
     const files = fs.readdirSync(dir).filter((f) => f.includes("biz-003") || f.includes("BIZ-003"));
     expect(files.length).toBeGreaterThan(0);
     const body = read(path.join("docs/verification", files[0]!));
-    expect(body).toMatch(/FR-BIZ-003|lead pipeline/i);
+    expect(body).toMatch(/TASK-BIZ-003|lead pipeline/i);
     expect(body).toMatch(/Resend|info@cyberskill\.world/i);
     // Configured sinks only — must not claim CyberOS row without BIZ-002
     expect(body.toLowerCase()).toMatch(/configured sink|resend-only|crm webhook/i);
@@ -55,7 +55,7 @@ describe("docs/a11y-manual (A11Y-008/014)", () => {
   it("ships operator checklists for screen reader and device labs", () => {
     const body = read("docs/verification/a11y-manual-checklist.md");
     expect(body).toMatch(/VoiceOver|NVDA/i);
-    expect(body).toMatch(/FR-A11Y-008|FR-A11Y-014/);
+    expect(body).toMatch(/TASK-A11Y-008|TASK-A11Y-014/);
     expect(body).toMatch(/prefers-reduced-motion|44px|contrast/i);
   });
 });

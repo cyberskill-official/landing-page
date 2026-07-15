@@ -8,8 +8,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 // @ts-ignore
 import { JSDOM } from "jsdom";
 
-describe("Batch 9 Commit 1 tests — FR-CMS-005, FR-PERF-011", () => {
-  // --- FR-CMS-005: Services Page Copy Shape & Hardcoded Literals ---
+describe("Batch 9 Commit 1 tests — TASK-CMS-005, TASK-PERF-011", () => {
+  // --- TASK-CMS-005: Services Page Copy Shape & Hardcoded Literals ---
   test("content/service-page-shape: renders all 5 required fields (summary, problem, approach, stack, cta) on the page", async () => {
     // Assert data model exists
     for (const slug of ["web-apps", "mobile-apps", "internal-systems"]) {
@@ -45,7 +45,7 @@ describe("Batch 9 Commit 1 tests — FR-CMS-005, FR-PERF-011", () => {
     expect(html).toContain(serviceDetails["web-apps"].cta.en);
   });
 
-  // --- FR-PERF-011: LCP Preload of StaticPoster ---
+  // --- TASK-PERF-011: LCP Preload of StaticPoster ---
   test("perf/lcp-preload: StaticPoster renders Next.js Image component with priority", () => {
     const poster = createElement(StaticPoster);
     const html = renderToStaticMarkup(poster);
@@ -62,7 +62,7 @@ describe("Batch 9 Commit 1 tests — FR-CMS-005, FR-PERF-011", () => {
     expect(img?.getAttribute("src")).toContain("lumi-poster.webp");
   });
 
-  // --- FR-PERF-011: Responsive Sizes on Image Call Sites ---
+  // --- TASK-PERF-011: Responsive Sizes on Image Call Sites ---
   test("lint/next-image-sizes: both StaticPoster and background image declare custom sizes", () => {
     const poster = createElement(StaticPoster);
     const html = renderToStaticMarkup(poster);

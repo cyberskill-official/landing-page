@@ -9,7 +9,7 @@ import { NewsletterForm } from "@/components/cta/NewsletterForm";
 import { GenieChatPanel } from "@/components/genie/GenieChatPanel";
 import { useGenieStore } from "@/lib/genie/store";
 
-describe("FR-OPS-012: Microsoft Clarity Session Replay", () => {
+describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
   const originalEnv = process.env;
   let container: HTMLDivElement;
 

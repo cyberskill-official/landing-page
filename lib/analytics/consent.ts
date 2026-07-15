@@ -1,5 +1,5 @@
 /**
- * FR-OPS-013: Typed consent gate.
+ * TASK-OPS-013: Typed consent gate.
  *
  * Every optional (non-cookieless) tag MUST call `ConsentGate.canLoad(tag)`
  * before initialising. The gate defaults to `denied` for all categories.

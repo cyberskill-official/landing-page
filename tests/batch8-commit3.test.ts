@@ -9,7 +9,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { JSDOM } from "jsdom";
 import { company } from "@/lib/content/site";
 
-describe("Commit 3 tests — FR-OPS-011, FR-CTA-011, FR-CTA-012", () => {
+describe("Commit 3 tests — TASK-OPS-011, TASK-CTA-011, TASK-CTA-012", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     if (typeof window !== "undefined") {
@@ -24,7 +24,7 @@ describe("Commit 3 tests — FR-OPS-011, FR-CTA-011, FR-CTA-012", () => {
     };
   });
 
-  // --- FR-OPS-011: UTM Tracking ---
+  // --- TASK-OPS-011: UTM Tracking ---
   test("utm/persistence: captureUtm saves query params to sessionStorage and readUtm loads them", () => {
     // Set query params in jsdom window
     delete (window as any).location;
@@ -53,22 +53,26 @@ describe("Commit 3 tests — FR-OPS-011, FR-CTA-011, FR-CTA-012", () => {
     expect(utm.utm_source).toBe("facebook");
   });
 
-  // --- FR-CTA-011: Transactional Acknowledgement Emails ---
+  // --- TASK-CTA-011: Transactional Acknowledgement Emails ---
   test("lead/acknowledgement: buildAckEmail generates correctly localized templates", () => {
     const enEmail = buildAckEmail({ name: "Stephen", locale: "en", bookingUrl: "https://calendly.com/cyberskill" });
     expect(enEmail.subject).toContain("Stephen");
     expect(enEmail.subject).toContain("CyberSkill");
     expect(enEmail.text).toContain("Stephen");
     expect(enEmail.text).toContain("https://calendly.com/cyberskill");
+    expect(enEmail.html).toContain("Stephen");
+    expect(enEmail.html).toContain("#f4ba17");
+    expect(enEmail.html).toContain("https://calendly.com/cyberskill");
 
     const viEmail = buildAckEmail({ name: "Stephen", locale: "vi" });
     expect(viEmail.subject).toContain("Stephen");
     expect(viEmail.subject).toContain("CyberSkill");
     expect(viEmail.text).toContain("Stephen");
-    expect(viEmail.text).not.toContain("https://calendly.com"); // default fallback should be absent or fallback
+    expect(viEmail.text).not.toContain("https://calendly.com");
+    expect(viEmail.html).toContain("Xin chào Stephen");
   });
 
-  // --- FR-CTA-012: Messaging Chips ---
+  // --- TASK-CTA-012: Messaging Chips ---
   test("analytics/chips-rendered: messaging chips render correctly in EN and VN", () => {
     const html = renderToStaticMarkup(
       createElement(MessagingChips, { locale: "en", location: "test-footer" })

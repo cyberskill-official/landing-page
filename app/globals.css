@@ -52,13 +52,12 @@
   --cs-depth-2: 0 4px 14px rgba(28, 19, 13, 0.08);
   --cs-depth-3: 0 12px 40px rgba(28, 19, 13, 0.12);
 
-  /* Type scale (1.250 major-third), fluid via clamp */
-  --cs-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  /* Display face = Space Grotesk via next/font (--font-display, FR-DS-008):
-     Vietnamese-complete, so VN diacritics no longer fall back per-glyph to a
-     second typeface. The fallback chain below only applies where the layout's
-     font variable is absent (tests, isolated renders). */
-  --cs-font-display: var(--font-display, ui-sans-serif, system-ui, "Segoe UI", sans-serif);
+  /* Type scale (1.250 major-third), fluid via clamp.
+     Body = Be Vietnam Pro (warm VI + Latin). Display = Space Grotesk (lamp craft).
+     Both Vietnamese-complete via next/font. Magical spirit: gold headlines, soft tracking. */
+  --cs-font-sans: var(--font-body, "Be Vietnam Pro"), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --cs-font-display: var(--font-display, "Space Grotesk"), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
   --cs-font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --cs-text-xs: 0.8rem;
   --cs-text-sm: 0.9rem;
@@ -86,7 +85,7 @@
   --cs-radius-md: 14px;
   --cs-radius-lg: 24px;
   --cs-radius-pill: 999px;
-  /* Motion tokens (FR-DS-009): one easing + duration scale shared by every CSS
+  /* Motion tokens (TASK-DS-009): one easing + duration scale shared by every CSS
      transition and read by the 3D scene, so nothing hardcodes its own timing.
      --cs-dur-scroll feeds the Lenis smooth-scroll duration; --cs-dur-shimmer the
      skeleton loop. Under prefers-reduced-motion the UI durations collapse (see
@@ -97,7 +96,7 @@
   --cs-dur-slow: 640ms;
   --cs-dur-scroll: 1100ms;
   --cs-dur-shimmer: 1400ms;
-  /* Icon sizing tokens (FR-DS-010): icons render at one of these via <Icon>. */
+  /* Icon sizing tokens (TASK-DS-010): icons render at one of these via <Icon>. */
   --cs-icon-sm: 16px;
   --cs-icon-md: 20px;
   --cs-icon-lg: 24px;
@@ -115,7 +114,7 @@
 [data-theme="dark"] {
   --cs-color-fg: #f4ece0;
   /* Lightened from #c3b6a5 to clear APCA Lc 75 for body text on the dark bg
-     (FR-DS-006 found the old value at Lc 63). */
+     (TASK-DS-006 found the old value at Lc 63). */
   --cs-color-fg-muted: #dcd2c3;
   --cs-color-bg: #1a120c;
   --cs-color-surface: #241811;
@@ -144,21 +143,33 @@ body {
   color: var(--cs-color-fg);
   font-family: var(--cs-font-sans);
   font-size: var(--cs-text-base);
-  line-height: 1.6;
+  line-height: 1.65;
+  font-weight: 400;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  /* Subtle gold ambient — “will into real” without heavy texture */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(244, 186, 23, 0.07), transparent 55%),
+    radial-gradient(ellipse 40% 30% at 100% 80%, rgba(244, 186, 23, 0.04), transparent 50%);
+  background-attachment: fixed;
 }
 
 h1, h2, h3 {
   font-family: var(--cs-font-display);
   line-height: 1.08;
-  /* Space Grotesk sets tighter than the old serif at display sizes. */
   letter-spacing: -0.02em;
   font-weight: 600;
   margin: 0 0 var(--cs-space-4);
 }
 
-h1 { font-size: var(--cs-text-4xl); font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; }
+h1 {
+  font-size: var(--cs-text-4xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  /* Magical gold edge on primary headlines */
+  text-shadow: 0 0 40px rgba(244, 186, 23, 0.12);
+}
 h2 { font-size: var(--cs-text-3xl); }
 h3 { font-size: var(--cs-text-xl); }
 p { margin: 0 0 var(--cs-space-4); }
@@ -312,7 +323,7 @@ html, body { overflow-x: clip; }
 }
 @media print {
   /* Print has no compositing layer; collapse glass to a plain solid surface so
-     content stays legible on paper (FR-DS-004). */
+     content stays legible on paper (TASK-DS-004). */
   .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
     background: var(--cs-color-surface);
     backdrop-filter: none;
@@ -322,7 +333,7 @@ html, body { overflow-x: clip; }
   }
 }
 @media (forced-colors: active) {
-  /* High-contrast / Windows forced-colors (FR-A11Y-007). The OS replaces author
+  /* High-contrast / Windows forced-colors (TASK-A11Y-007). The OS replaces author
      colors with a system palette, so we rely on system color keywords and make
      sure every interactive element keeps a visible border and focus ring. */
   .cs-glass-card, .cs-surface-whisper, .cs-surface-light, .cs-surface-standard, .cs-surface-heavy {
@@ -339,7 +350,7 @@ html, body { overflow-x: clip; }
 /* Interactive UI (Buttons & Forms)                                   */
 /* ------------------------------------------------------------------ */
 @media (max-width: 767px) {
-  /* FR-A11Y-011: 44px tap targets */
+  /* TASK-A11Y-011: 44px tap targets */
   .cs-theme-toggle::before,
   .cs-lang-link::before,
   .cs-wordmark::before,
@@ -422,7 +433,7 @@ html, body { overflow-x: clip; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cs-reveal { opacity: 1; transform: none; }
-  /* Collapse the token-driven UI transition durations to instant (FR-DS-009
+  /* Collapse the token-driven UI transition durations to instant (TASK-DS-009
      clause 3) so hovers, reveals, and the header settle with no movement. The
      scene's --cs-dur-scroll is intentionally left alone: the storytelling motion
      is an explicit always-on product decision, separate from these UI affordances. */
@@ -457,7 +468,7 @@ body { background: transparent; overflow-x: clip; }
 .cs-header, main, .cs-footer, .cs-persistent-cta { position: relative; z-index: 1; }
 
 /* ------------------------------------------------------------------ */
-/* Permanent cosmos backdrop (FR-CHAR-032): a fixed deep-space layer that
+/* Permanent cosmos backdrop (TASK-CHAR-032): a fixed deep-space layer that
    lives BEHIND the content (z-index 0 < content z-index 1), so opaque
    sections cover it while reading and it is revealed - already there, not
    fading in - the moment the black hole digests the page's top layer away.
@@ -617,12 +628,18 @@ html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
   .cs-cosmos-nebula, .cs-cosmos-stars, .cs-cosmos-sun, .cs-cosmos-corona, .cs-cosmos-orbit { animation: none; }
 }
 
-/* Header */
+/* Header — solid enough that page content never reads through it */
 .cs-header {
   position: sticky;
   top: 0;
   z-index: 50;
   border-bottom: 1px solid var(--cs-glass-border);
+  background: color-mix(in srgb, var(--cs-color-surface) 92%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+[data-theme="dark"] .cs-header {
+  background: color-mix(in srgb, #120c08 88%, transparent);
 }
 .cs-header-inner {
   display: flex;
@@ -909,7 +926,7 @@ main > .cs-section > .cs-container > h1 {
 
 /* Contact */
 .cs-section-contact { background: var(--cs-color-surface); position: relative; overflow: hidden; }
-/* Licensed Adobe Stock aurora backdrop behind the contact CTA (FR-WEB-009).
+/* Licensed Adobe Stock aurora backdrop behind the contact CTA (TASK-WEB-009).
    Shown only in dark theme, where the warm gold reads against the dark surface;
    hidden in light theme to avoid muddying it. Decorative, behind content. */
 .cs-contact-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity var(--cs-dur-slow) var(--cs-ease); }
@@ -990,11 +1007,69 @@ main > .cs-section > .cs-container > h1 {
   padding: var(--cs-space-3) 0;
 }
 
-/* Teardown thank-you / cap panel (FR-CTA-019 + FR-CTA-010 style). */
+/* Teardown lead magnet — single CTA card, no duplicate buttons */
+.cs-teardown-hero {
+  display: grid;
+  gap: var(--cs-space-10);
+  align-items: start;
+}
+@media (min-width: 860px) {
+  .cs-teardown-hero {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: var(--cs-space-12);
+  }
+}
+.cs-teardown-copy { max-width: 38rem; }
+.cs-teardown-card {
+  position: relative;
+  z-index: 1;
+  padding: var(--cs-space-8);
+  border-radius: var(--cs-radius-lg);
+  border: 1px solid color-mix(in srgb, var(--cs-color-accent) 35%, transparent);
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--cs-color-accent) 14%, transparent), transparent 55%),
+    color-mix(in srgb, var(--cs-color-surface) 94%, #1a120c);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  display: grid;
+  gap: var(--cs-space-3);
+  justify-items: start;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.cs-teardown-card-lead {
+  margin: 0;
+  font-size: var(--cs-text-sm);
+  line-height: 1.55;
+  color: var(--cs-color-fg);
+  max-width: 28rem;
+}
+.cs-teardown-cap-full {
+  display: grid;
+  gap: var(--cs-space-3);
+  justify-items: start;
+  width: 100%;
+}
 .cs-section-teardown .cs-teardown-panel {
   padding: var(--cs-space-8);
   border-radius: var(--cs-radius-lg);
   align-self: start;
+}
+.cs-contact-aside {
+  position: relative;
+  z-index: 1;
+  padding: var(--cs-space-8);
+  border-radius: var(--cs-radius-lg);
+  align-self: start;
+  /* Solid enough that the flying mascot never washes out contact copy */
+  background: color-mix(in srgb, var(--cs-color-surface) 92%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in srgb, var(--cs-color-accent) 28%, transparent);
+}
+.cs-section-contact .cs-contact-intro,
+.cs-section-teardown .cs-teardown-copy {
+  position: relative;
+  z-index: 3;
 }
 .cs-teardown-loading {
   display: flex;
@@ -1080,6 +1155,145 @@ main > .cs-section > .cs-container > h1 {
 
 /* Footer */
 .cs-footer { border-top: 1px solid var(--cs-color-line); background: var(--cs-color-surface); padding-block: var(--cs-space-12); margin-top: var(--cs-space-16); }
+.cs-footer-verify {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cs-space-3);
+  margin: var(--cs-space-5) 0 0;
+}
+.cs-footer-verify-btn {
+  font: inherit;
+  font-size: var(--cs-text-sm);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+  padding: 8px 14px;
+  border-radius: var(--cs-radius-pill);
+  border: 1px solid color-mix(in srgb, var(--cs-color-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--cs-color-accent) 12%, transparent);
+  color: var(--cs-color-fg);
+  cursor: pointer;
+}
+.cs-footer-verify-btn:hover {
+  border-color: var(--cs-color-accent);
+  background: color-mix(in srgb, var(--cs-color-accent) 20%, transparent);
+}
+.cs-footer-verify-link {
+  font-size: var(--cs-text-xs);
+  color: var(--cs-color-fg-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Inner pages: notes list/detail + shared CTA band */
+.cs-notes-wrap { max-width: 42rem; }
+.cs-notes-header { margin-bottom: var(--cs-space-10); }
+.cs-notes-header h1 { margin-bottom: var(--cs-space-3); }
+.cs-notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--cs-space-5);
+}
+.cs-note-card {
+  display: grid;
+  gap: var(--cs-space-2);
+  padding: var(--cs-space-6);
+  border-radius: var(--cs-radius-lg);
+  border: 1px solid var(--cs-color-line);
+  background: color-mix(in srgb, var(--cs-color-surface) 88%, transparent);
+  transition: border-color var(--cs-dur-fast) var(--cs-ease), box-shadow var(--cs-dur-fast) var(--cs-ease);
+}
+.cs-note-card:hover {
+  border-color: color-mix(in srgb, var(--cs-color-accent) 45%, transparent);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+.cs-note-card-date {
+  font-size: var(--cs-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--cs-color-accent);
+}
+.cs-note-card-title {
+  margin: 0;
+  font-size: var(--cs-text-xl);
+  line-height: 1.3;
+}
+.cs-note-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.cs-note-card-title a:hover { color: var(--cs-color-accent); }
+.cs-note-card-summary {
+  margin: 0;
+  font-size: var(--cs-text-sm);
+  line-height: 1.6;
+  color: var(--cs-color-fg-muted);
+}
+.cs-note-card-more {
+  font-size: var(--cs-text-sm);
+  font-weight: 700;
+  color: var(--cs-color-accent);
+  text-decoration: none;
+  width: fit-content;
+}
+.cs-note-card-more:hover { text-decoration: underline; }
+
+.cs-note-detail-header { margin-bottom: var(--cs-space-8); }
+.cs-note-detail-header h1 {
+  margin: var(--cs-space-3) 0 0;
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  line-height: 1.2;
+}
+.cs-note-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-2);
+  align-items: center;
+  font-size: var(--cs-text-xs);
+  color: var(--cs-color-fg-muted);
+}
+.cs-note-detail-lang {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--cs-color-accent);
+  text-decoration: none;
+}
+.cs-note-detail-lang:hover { text-decoration: underline; }
+.cs-note-tldr {
+  margin: 0 0 var(--cs-space-8);
+  padding: var(--cs-space-5) var(--cs-space-6);
+  border-radius: var(--cs-radius-md);
+  border-left: 3px solid var(--cs-color-accent);
+  background: color-mix(in srgb, var(--cs-color-accent) 10%, transparent);
+}
+.cs-note-tldr p { margin: 0; font-size: var(--cs-text-sm); line-height: 1.65; }
+.cs-note-tldr .cs-eyebrow { margin-bottom: var(--cs-space-2); }
+.cs-note-body {
+  font-size: var(--cs-text-md);
+  line-height: 1.75;
+  color: var(--cs-color-fg);
+}
+.cs-note-body p { margin: 0 0 var(--cs-space-5); }
+.cs-note-signed {
+  margin: var(--cs-space-10) 0 0;
+  padding-top: var(--cs-space-4);
+  border-top: 1px solid var(--cs-color-line);
+  font-size: var(--cs-text-xs);
+  color: var(--cs-color-fg-muted);
+}
+.cs-page-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-3);
+  align-items: center;
+  margin-top: var(--cs-space-12);
+  padding-top: var(--cs-space-8);
+  border-top: 1px solid color-mix(in srgb, var(--cs-color-line) 80%, transparent);
+}
 .cs-footer-inner { display: grid; gap: var(--cs-space-8); align-items: start; }
 @media (min-width: 760px) { .cs-footer-inner { grid-template-columns: 1.4fr 1fr; align-items: start; } }
 .cs-footer-name { font-weight: 600; margin: 0 0 var(--cs-space-2); }
@@ -1090,7 +1304,7 @@ main > .cs-section > .cs-container > h1 {
 .cs-footer-slogan { font-family: var(--cs-font-display); color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-footer-slogan { color: var(--cs-color-accent); }
 
-/* Modal Dialog primitive (FR-DS-003). Backdrop + centred tokenized panel. */
+/* Modal Dialog primitive (TASK-DS-003). Backdrop + centred tokenized panel. */
 .cs-dialog-backdrop {
   position: fixed;
   inset: 0;
@@ -1112,13 +1326,13 @@ main > .cs-section > .cs-container > h1 {
 .cs-footer-links a { color: var(--cs-color-fg-muted); text-decoration: none; }
 .cs-footer-links a:hover { color: var(--cs-color-fg); text-decoration: underline; }
 
-/* FR-SEO-019: Config-driven social profile row in footer. */
+/* TASK-SEO-019: Config-driven social profile row in footer. */
 .cs-footer-social { display: flex; flex-wrap: wrap; gap: var(--cs-space-4); margin: var(--cs-space-4) 0 0; }
 .cs-footer-social-link { display: inline-flex; align-items: center; gap: var(--cs-space-2); font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); text-decoration: none; font-weight: 500; transition: color 0.18s ease; }
 .cs-footer-social-link:hover { color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-footer-social-link:hover { color: var(--cs-color-accent); }
 
-/* FR-CTA-012: Messaging app contact chips. */
+/* TASK-CTA-012: Messaging app contact chips. */
 .cs-messaging-chips { display: flex; flex-wrap: wrap; gap: var(--cs-space-3); margin-block: var(--cs-space-4); }
 .cs-chip { display: inline-flex; align-items: center; gap: var(--cs-space-2); padding: var(--cs-space-2) var(--cs-space-4); border-radius: 999px; font-size: var(--cs-text-sm); font-weight: 600; text-decoration: none; transition: transform 0.18s ease, box-shadow 0.18s ease; }
 .cs-chip:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -1201,38 +1415,389 @@ main > .cs-section > .cs-container > h1 {
 .cs-storyboard-panel { display: flex; gap: var(--cs-space-4); padding: var(--cs-space-6); }
 .cs-storyboard-index { font-family: var(--cs-font-display); font-size: var(--cs-text-2xl); color: var(--cs-color-accent); min-width: 2ch; }
 
-/* Genie chat panel — flex children must shrink so chips/form stay visible */
-.cs-genie {
+/* ─── Lumi chat: centered cloud modal ─── */
+.cs-genie-root {
   position: fixed;
-  right: var(--cs-space-4);
-  bottom: var(--cs-space-4);
-  width: min(400px, calc(100vw - 1.5rem));
-  max-height: min(78vh, 680px);
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.5rem, 2vh, 1.25rem) clamp(0.5rem, 2vw, 1rem);
+  pointer-events: none;
+}
+.cs-genie-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  /* Lighter veil so 3D Lumi (z above) still reads clearly outside the cloud */
+  background:
+    radial-gradient(ellipse 50% 42% at 50% 45%, rgba(244, 186, 23, 0.1), transparent 55%),
+    radial-gradient(ellipse at 50% 42%, rgba(12, 8, 5, 0.48), rgba(4, 3, 2, 0.72));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: auto;
+  animation: cs-genie-fade-in 280ms var(--cs-ease);
+}
+/*
+ * Fixed cloud frame — stable on 14" / short laptops.
+ * Cloud uses object-fit: contain so the full silhouette is never cropped.
+ */
+html[data-genie-open],
+html[data-genie-open] body {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+.cs-genie-stage {
+  /* Tall enough for ~3 message bubbles + compact chips */
+  --cs-genie-shell-w: min(560px, calc(100vw - 1.1rem));
+  --cs-genie-shell-h: min(88vh, 780px);
+  --cs-genie-bubble-row: clamp(3.6rem, 6.2vh, 4.5rem); /* ~1 multi-line bubble */
+  position: relative;
+  width: var(--cs-genie-shell-w);
+  height: var(--cs-genie-shell-h);
+  min-height: var(--cs-genie-shell-h);
+  max-height: var(--cs-genie-shell-h);
   display: flex;
   flex-direction: column;
-  z-index: 70;
-  overflow: hidden;
+  pointer-events: none;
+  animation: cs-genie-cloud-in 600ms var(--cs-ease) both;
+  padding: clamp(0.7rem, 1.8vh, 1.15rem) clamp(0.75rem, 1.8vw, 1.25rem);
+  overflow: visible;
+  flex-shrink: 0;
+  z-index: 1; /* below live canvas (100) so orbiting Lumi can pass in front */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none;
 }
-@media (max-width: 767px) {
-  /* Same clearance as body padding — sits fully above the fixed CTA bar */
-  .cs-genie {
-    bottom: var(--cs-mobile-bottom-clearance);
-    right: var(--cs-space-3);
-    left: var(--cs-space-3);
-    width: auto;
-    max-height: min(70vh, 560px);
+/* Painted smoke only; wrap is fully transparent (no square glass plate) */
+.cs-genie-cloud-art-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  /* Layered organic masks (not a single ellipse/card) so plate edges dissolve */
+  -webkit-mask-image:
+    radial-gradient(ellipse 58% 52% at 48% 46%, #000 0%, #000 42%, transparent 76%),
+    radial-gradient(ellipse 48% 46% at 58% 54%, #000 0%, #000 38%, transparent 74%),
+    radial-gradient(ellipse 46% 44% at 42% 56%, #000 0%, #000 36%, transparent 72%),
+    radial-gradient(ellipse 40% 36% at 52% 38%, #000 0%, transparent 70%);
+  mask-image:
+    radial-gradient(ellipse 58% 52% at 48% 46%, #000 0%, #000 42%, transparent 76%),
+    radial-gradient(ellipse 48% 46% at 58% 54%, #000 0%, #000 38%, transparent 74%),
+    radial-gradient(ellipse 46% 44% at 42% 56%, #000 0%, #000 36%, transparent 72%),
+    radial-gradient(ellipse 40% 36% at 52% 38%, #000 0%, transparent 70%);
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+.cs-genie-cloud-art {
+  display: block;
+  width: 118%;
+  height: 118%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center center;
+  user-select: none;
+  background: transparent !important;
+  /* Gold bloom only (no hard rectangular drop-shadow) */
+  filter:
+    saturate(1.08) brightness(1.06) contrast(1.03)
+    drop-shadow(0 0 20px rgba(244, 186, 23, 0.18));
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+[data-theme="light"] .cs-genie-cloud-art {
+  filter: saturate(1.02) brightness(1.1) contrast(1.02) drop-shadow(0 0 16px rgba(244, 186, 23, 0.14));
+}
+.cs-genie {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  border-radius: 0;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none;
+  overscroll-behavior: contain;
+  touch-action: manipulation;
+}
+.cs-genie-cloud-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  -webkit-mask-image: none;
+  mask-image: none;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none;
+}
+[data-theme="light"] .cs-genie-cloud-inner {
+  background: transparent !important;
+}
+
+/*
+ * Energy: ambient gold wash + OPEN edge wisps only.
+ * Never a closed oval path (that always reads as a fake portal ring).
+ */
+/* Soft gold wash only, pure radial, never a frosted rectangle */
+.cs-genie-energy-ambient {
+  position: absolute;
+  inset: -8%;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 0;
+  background:
+    radial-gradient(ellipse 55% 50% at 48% 46%, rgba(244, 186, 23, 0.07), transparent 70%),
+    radial-gradient(ellipse 42% 40% at 58% 55%, rgba(244, 186, 23, 0.05), transparent 68%);
+  box-shadow: none;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: cs-energy-pulse 5s ease-in-out infinite;
+  opacity: 0.75;
+  /* Match organic cloud dissolve */
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 48%, #000 40%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 48%, #000 40%, transparent 78%);
+}
+.cs-genie-energy-svg {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  left: -4%;
+  top: -4%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+.cs-genie-energy-stroke {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: none;
+}
+/* Short open wisps — feathered tips via gradient stops in SVG */
+.cs-genie-energy-stroke-a {
+  stroke-width: 2.2;
+  animation: cs-energy-pulse 3.2s ease-in-out infinite;
+  opacity: 0.85;
+}
+.cs-genie-energy-stroke-b {
+  stroke-width: 2.2;
+  animation: cs-energy-pulse 3.6s ease-in-out infinite 0.5s;
+  opacity: 0.8;
+}
+.cs-genie-energy-stroke-c {
+  stroke-width: 1.8;
+  animation: cs-energy-pulse 3.4s ease-in-out infinite 0.2s;
+  opacity: 0.75;
+}
+.cs-genie-energy-stroke-d {
+  stroke-width: 1.8;
+  animation: cs-energy-pulse 3.8s ease-in-out infinite 0.9s;
+  opacity: 0.7;
+}
+.cs-genie-energy-spark {
+  position: absolute;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, #fffef0 0%, #ffe066 42%, transparent 72%);
+  box-shadow: 0 0 14px 4px rgba(244, 186, 23, 0.55);
+  animation: cs-energy-spark 2.8s ease-in-out infinite;
+}
+.cs-genie-energy-spark.s1 { top: 12%; left: 10%; animation-delay: 0s; }
+.cs-genie-energy-spark.s2 { top: 30%; right: 6%; animation-delay: 0.6s; }
+.cs-genie-energy-spark.s3 { bottom: 28%; left: 8%; animation-delay: 1.2s; }
+.cs-genie-energy-spark.s4 { bottom: 12%; right: 12%; animation-delay: 1.8s; }
+
+@keyframes cs-genie-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes cs-genie-cloud-in {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes cs-energy-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@keyframes cs-energy-spark {
+  0%, 100% { opacity: 0.3; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-genie-energy-stroke,
+  .cs-genie-energy-spark,
+  .cs-genie-backdrop,
+  .cs-genie-stage {
+    animation: none !important;
+  }
+  .cs-genie-energy-stroke-a,
+  .cs-genie-energy-stroke-b,
+  .cs-genie-energy-stroke-c,
+  .cs-genie-energy-stroke-d,
+  .cs-genie-energy-ambient {
+    opacity: 0.75;
+    animation: none !important;
   }
 }
+
+/* Short laptop / 14" class viewports (height-first) — still aim for ~3 bubble rows */
+@media (max-height: 900px) {
+  .cs-genie-stage {
+    --cs-genie-shell-h: min(86vh, 740px);
+  }
+  .cs-genie-cloud-art {
+    width: 120%;
+    height: 120%;
+  }
+}
+@media (max-height: 760px) {
+  .cs-genie-stage {
+    --cs-genie-shell-h: min(90vh, 680px);
+    padding: 0.55rem 0.8rem;
+  }
+  .cs-genie-log {
+    gap: 0.45rem;
+    padding: 0.25rem 0.85rem;
+    min-height: calc(var(--cs-genie-bubble-row) * 3);
+    flex-basis: calc(var(--cs-genie-bubble-row) * 3);
+  }
+  .cs-genie-chips { max-height: 6.5rem; min-height: calc(1.95rem * 3 + 10px); padding: 4px 0.85rem 6px; }
+  .cs-genie-msg { padding: 0.45rem 0.75rem; font-size: 0.8125rem; }
+}
+/* Phones & small tablets — touch-first chat chrome */
+@media (max-width: 767px) {
+  .cs-genie-root {
+    padding: max(0.35rem, env(safe-area-inset-top, 0px))
+      max(0.35rem, env(safe-area-inset-right, 0px))
+      max(0.35rem, env(safe-area-inset-bottom, 0px))
+      max(0.35rem, env(safe-area-inset-left, 0px));
+    align-items: flex-end; /* sit above home indicator / thumbs */
+  }
+  .cs-genie-stage {
+    --cs-genie-shell-w: min(100%, calc(100vw - 0.5rem));
+    --cs-genie-shell-h: min(88dvh, 760px);
+    width: var(--cs-genie-shell-w);
+    height: var(--cs-genie-shell-h);
+    min-height: var(--cs-genie-shell-h);
+    max-height: var(--cs-genie-shell-h);
+    padding: 0.55rem 0.7rem 0.75rem;
+  }
+  .cs-genie-cloud-art {
+    width: 122%;
+    height: 122%;
+  }
+  .cs-genie-head {
+    padding: 0.4rem 0.65rem 0.25rem;
+  }
+  .cs-genie-title {
+    font-size: 0.8rem;
+  }
+  .cs-genie-log {
+    gap: 0.45rem;
+    padding: 0.2rem 0.65rem;
+  }
+  .cs-genie-msg {
+    max-width: 96%;
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.7rem;
+  }
+  .cs-genie-chips {
+    max-height: 7rem;
+    min-height: calc(2.1rem * 3 + 12px);
+    gap: 6px;
+    padding: 6px 0.65rem 8px;
+  }
+  .cs-genie-chip {
+    font-size: 0.7rem;
+    padding: 8px 10px; /* ≥44px-ish with min-height */
+    min-height: 2.2rem;
+  }
+  .cs-genie-form {
+    gap: 0.4rem;
+    padding: 0.35rem 0.65rem max(0.65rem, env(safe-area-inset-bottom, 0.5rem));
+  }
+  .cs-genie-form input {
+    font-size: 16px; /* prevent iOS zoom on focus */
+    min-height: 2.75rem;
+    padding: 0.6rem 0.85rem;
+  }
+  .cs-genie-form .cs-btn {
+    min-height: 2.75rem;
+    min-width: 4.5rem;
+    padding-inline: 0.85rem;
+  }
+  .cs-genie-consent {
+    padding: 0.1rem 0.65rem 0.15rem;
+    font-size: 0.65rem;
+  }
+  .cs-genie-energy-stroke-a,
+  .cs-genie-energy-stroke-b { stroke-width: 2; }
+}
+@media (max-width: 380px) {
+  .cs-genie-stage {
+    --cs-genie-shell-h: min(86dvh, 640px);
+  }
+  .cs-genie-chip {
+    font-size: 0.65rem;
+    padding: 7px 9px;
+  }
+}
+
 .cs-genie-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--cs-space-2);
-  padding: var(--cs-space-3) var(--cs-space-4);
-  border-bottom: 1px solid var(--cs-glass-border);
+  padding: 0.55rem 1rem 0.35rem;
+  border-bottom: none;
   flex-shrink: 0;
 }
-.cs-genie-title { font-weight: 600; font-size: var(--cs-text-sm); min-width: 0; }
+.cs-genie-title {
+  font-weight: 600;
+  font-size: var(--cs-text-sm);
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-2);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
+}
 .cs-genie-head-actions { display: flex; align-items: center; gap: var(--cs-space-2); flex-shrink: 0; }
 .cs-genie-reset {
   font: inherit;
@@ -1240,43 +1805,106 @@ main > .cs-section > .cs-container > h1 {
   font-weight: 600;
   padding: 4px 10px;
   border-radius: var(--cs-radius-pill);
-  border: 1px solid var(--cs-color-line);
-  background: transparent;
-  color: var(--cs-color-fg-muted);
+  border: 1px solid rgba(244, 186, 23, 0.35);
+  background: rgba(18, 12, 6, 0.72);
+  color: rgba(255, 244, 220, 0.92);
   cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .cs-genie-reset:hover:not(:disabled) { color: var(--cs-color-fg); border-color: var(--cs-color-accent); }
 .cs-genie-reset:disabled { opacity: 0.5; cursor: not-allowed; }
 .cs-genie-log {
   flex: 1 1 auto;
-  min-height: 4.5rem;
-  max-height: 42%;
+  /* Reserve room for 3 stacked multi-line bubbles before chips steal height */
+  min-height: calc(var(--cs-genie-bubble-row, 4rem) * 3 + 1.4rem);
+  flex-basis: calc(var(--cs-genie-bubble-row, 4rem) * 3 + 1.4rem);
+  max-height: none;
   overflow-y: auto;
-  padding: var(--cs-space-3) var(--cs-space-4);
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.35rem 1rem 0.45rem;
   display: flex;
   flex-direction: column;
-  gap: var(--cs-space-3);
+  gap: 0.55rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 186, 23, 0.4) transparent;
+  background: transparent;
 }
-.cs-genie-msg { padding: var(--cs-space-3) var(--cs-space-4); border-radius: var(--cs-radius-md); max-width: 92%; font-size: var(--cs-text-sm); line-height: 1.45; }
-.cs-genie-msg-user { align-self: flex-end; background: var(--cs-color-brand); color: var(--cs-color-on-brand); }
-.cs-genie-msg-genie { align-self: flex-start; background: var(--cs-color-surface); border: 1px solid var(--cs-color-line); }
+.cs-genie-log::-webkit-scrollbar {
+  width: 8px;
+}
+.cs-genie-log::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+}
+.cs-genie-log::-webkit-scrollbar-thumb {
+  background: rgba(244, 186, 23, 0.45);
+  border-radius: 999px;
+}
+.cs-genie-log::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 186, 23, 0.65);
+}
+.cs-genie-msg {
+  padding: 0.55rem 0.85rem;
+  border-radius: 16px;
+  max-width: 94%;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.cs-genie-msg-user {
+  align-self: flex-end;
+  max-width: 78%;
+  background: color-mix(in srgb, var(--cs-color-brand) 82%, transparent);
+  color: var(--cs-color-on-brand);
+  border: 1px solid rgba(244, 186, 23, 0.3);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+/* Smoke-glass bubbles — compact + readable on the cloud */
+.cs-genie-msg-genie {
+  align-self: flex-start;
+  max-width: 92%;
+  background: rgba(14, 10, 6, 0.42);
+  border: 1px solid rgba(255, 220, 140, 0.1);
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(14px) saturate(1.05);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  color: rgba(255, 248, 235, 0.97);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+[data-theme="light"] .cs-genie-msg-genie {
+  background: rgba(255, 250, 235, 0.62);
+  border-color: rgba(180, 130, 20, 0.18);
+  color: var(--cs-color-fg);
+  text-shadow: none;
+}
 .cs-genie-form {
   display: flex;
-  gap: var(--cs-space-2);
-  padding: var(--cs-space-3) var(--cs-space-4) var(--cs-space-4);
-  border-top: 1px solid var(--cs-glass-border);
-  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem 0.75rem;
+  border-top: none;
+  flex-shrink: 0; /* stay pinned under chips; log takes remaining space */
+  background: transparent;
 }
-/* Dark-safe input: never paper-raised (white) + light fg (invisible typed text). */
+/* Dark-safe input blended into smoke */
 .cs-genie-form input {
   flex: 1;
   font: inherit;
-  padding: var(--cs-space-3);
-  border-radius: var(--cs-radius-sm);
-  border: 1px solid var(--cs-color-line);
-  background: var(--cs-color-surface);
+  font-size: 0.875rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 186, 23, 0.28);
+  background: rgba(16, 10, 6, 0.62);
   color: var(--cs-color-fg);
   caret-color: var(--cs-color-accent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
 }
 .cs-genie-form input::placeholder {
   color: var(--cs-color-fg-muted);
@@ -1292,27 +1920,62 @@ main > .cs-section > .cs-container > h1 {
   cursor: not-allowed;
 }
 [data-theme="dark"] .cs-genie-form input {
-  background: #1a120c;
+  background: rgba(16, 10, 6, 0.62);
   color: var(--cs-color-fg);
-  border-color: var(--cs-color-line);
+  border-color: rgba(244, 186, 23, 0.28);
 }
 .cs-genie-form-chip-only {
   /* Consent / decision steps: free-text row stays mounted for a11y but inert. */
   opacity: 0.55;
 }
-.cs-genie-consent {
-  font-size: var(--cs-text-xs);
-  color: var(--cs-color-fg-muted);
-  padding: var(--cs-space-2) var(--cs-space-4);
+.cs-genie-mode-hint {
+  flex-shrink: 0;
   margin: 0;
+  padding: 0.35rem 1rem 0.85rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: rgba(255, 244, 220, 0.78);
+  text-align: center;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+}
+.cs-genie-consent {
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: rgba(255, 244, 220, 0.88);
+  padding: 0.15rem 1rem 0.2rem;
+  margin: 0;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+  flex-shrink: 0;
+
   flex-shrink: 0;
   line-height: 1.4;
 }
-.cs-genie-close { background: transparent; border: 0; cursor: pointer; font-size: 1.3rem; line-height: 1; color: var(--cs-color-fg-muted); }
+.cs-genie-close {
+  background: rgba(18, 12, 6, 0.7);
+  border: 1px solid rgba(244, 186, 23, 0.25);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: rgba(255, 244, 220, 0.9);
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.cs-genie-close:hover { color: var(--cs-color-fg); border-color: var(--cs-color-accent); }
+.cs-genie-done-banner {
+  padding: var(--cs-space-md) var(--cs-space-5);
+  border-top: 1px solid var(--cs-color-border, var(--cs-glass-border));
+  flex-shrink: 0;
+}
 
 /* 3D layer + static poster fallback */
 .cs-canvas { width: 100%; height: 100%; display: block; }
-/* No-JS note describing the decorative scene (FR-A11Y-005). Only renders inside
+/* No-JS note describing the decorative scene (TASK-A11Y-005). Only renders inside
    <noscript>, i.e. when scripts are off, so it is unobtrusive otherwise. */
 .cs-scene-noscript {
   max-width: var(--cs-container);
@@ -1437,7 +2100,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
    simple: comfortable measure and rhythm without overriding section defaults. */
 /* .cs-prose measure + type set earlier (readable legal body, not muted). */
 
-/* Route loading skeleton (FR-WEB-007). Calm shimmer, honours reduced motion. */
+/* Route loading skeleton (TASK-WEB-007). Calm shimmer, honours reduced motion. */
 .cs-skeleton-grid { display: grid; gap: var(--cs-space-4); margin-top: var(--cs-space-8); max-width: 46rem; }
 .cs-skeleton {
   border-radius: var(--cs-radius-md);
@@ -1455,7 +2118,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   .cs-skeleton { animation: none; }
 }
 
-/* Decorative accents (FR-DS-010 sidecar). A gradient shimmer divider and a
+/* Decorative accents (TASK-DS-010 sidecar). A gradient shimmer divider and a
    gently pulsing sparkle, both inert and aria-hidden where used. */
 .cs-accent-divider {
   height: 2px;
@@ -1524,7 +2187,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 [data-theme="dark"] .cs-stretch:hover { color: var(--cs-color-accent); }
 
 /* ------------------------------------------------------------------ */
-/* Premium motion polish (FR-DS-012)                                    */
+/* Premium motion polish (TASK-DS-012)                                    */
 /* Aurora backdrop, kinetic masked headline + gold shimmer, custom      */
 /* cursor + spotlight, magnetic CTAs, card tilt, first-visit intro      */
 /* veil, keyword marquee, scroll progress, link underlines, button      */
@@ -1702,10 +2365,8 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   will-change: transform;
 }
 
-/* Custom cursor: 1:1 dot, lerped ring, and a soft spotlight glow. Mounted
-   always, VISIBLE only while MotionExtras sets [data-cs-cursor="on"] (fine
-   pointer + hover + motion allowed). The glow sits under the chrome (z 24);
-   dot/ring ride above everything so they stay visible in dialogs. */
+/* Magical lamp cursor: gold spark core, compass-point ring, soft will-glow.
+   Visible only while MotionExtras sets [data-cs-cursor="on"]. */
 .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow {
   position: fixed;
   top: 0;
@@ -1716,31 +2377,43 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 }
 .cs-cursor-dot {
   z-index: 320;
-  width: 7px;
-  height: 7px;
-  margin: -3.5px 0 0 -3.5px;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
   border-radius: 50%;
-  background: var(--cs-color-brand-ochre);
-  box-shadow: 0 0 10px rgba(244, 186, 23, 0.75);
+  background:
+    radial-gradient(circle at 35% 30%, #fffef5 0%, #ffe066 38%, var(--cs-color-brand-ochre) 72%, #c07008 100%);
+  box-shadow:
+    0 0 12px 3px rgba(244, 186, 23, 0.85),
+    0 0 28px 6px rgba(244, 186, 23, 0.35);
 }
 .cs-cursor-ring {
   z-index: 320;
-  width: 36px;
-  height: 36px;
-  margin: -18px 0 0 -18px;
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
   border-radius: 50%;
-  border: 1.5px solid rgba(244, 186, 23, 0.55);
+  border: 1.5px solid rgba(244, 186, 23, 0.72);
+  background: radial-gradient(circle, transparent 52%, rgba(244, 186, 23, 0.14) 70%, transparent 78%);
+  /* Four lamp sparks at cardinal points — “will” compass */
+  box-shadow:
+    0 0 0 1px rgba(255, 244, 200, 0.18),
+    0 -17px 0 -14px rgba(255, 236, 160, 0.9),
+    0 17px 0 -14px rgba(244, 186, 23, 0.8),
+    -17px 0 0 -14px rgba(244, 186, 23, 0.8),
+    17px 0 0 -14px rgba(244, 186, 23, 0.8),
+    0 0 20px rgba(244, 186, 23, 0.4);
 }
 .cs-cursor-glow {
   z-index: 24;
-  width: 520px;
-  height: 520px;
-  margin: -260px 0 0 -260px;
+  width: 560px;
+  height: 560px;
+  margin: -280px 0 0 -280px;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.09), rgba(244, 186, 23, 0) 70%);
+  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.11), rgba(244, 186, 23, 0.04) 42%, rgba(244, 186, 23, 0) 72%);
 }
 [data-theme="dark"] .cs-cursor-glow {
-  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.13), rgba(244, 186, 23, 0) 70%);
+  background: radial-gradient(closest-side, rgba(244, 186, 23, 0.16), rgba(244, 186, 23, 0.05) 40%, rgba(244, 186, 23, 0) 72%);
   mix-blend-mode: screen;
 }
 /* Gold-dust trail: sparse sparks the cursor drops as it moves. Under the
@@ -1838,7 +2511,11 @@ p[data-mask-reveal] { transition-delay: 140ms; }
   .cs-kinetic-inner { animation: none; transform: none; background-position: 0% 0; }
   [data-intro="play"] .cs-intro { display: none; }
   [data-mask-reveal] { clip-path: none; transform: none; transition: none; }
+  /* Dust sparks off under reduced motion; lamp cursor stays (Lumi always-on spirit). */
+  .cs-cursor-dust { display: none !important; }
 }
+/* Manual motion toggle uses data-motion=reduce the same way */
+html[data-motion="reduce"] .cs-cursor-dust { display: none !important; }
 @media (forced-colors: active) {
   .cs-cursor-dot, .cs-cursor-ring, .cs-cursor-glow, .cs-cursor-dust, .cs-progress, .cs-marquee, .cs-aurora, .cs-intro { display: none; }
   .cs-kinetic-inner { -webkit-text-fill-color: currentColor; background: none; animation: none; transform: none; }
@@ -1852,7 +2529,7 @@ p[data-mask-reveal] { transition-delay: 140ms; }
 }
 
 /* ------------------------------------------------------------------ */
-/* Futuristic art direction v2 (FR-DS-012)                             */
+/* Futuristic art direction v2 (TASK-DS-012)                             */
 /* Dark-first gold HUD language: blueprint grid, mono micro-meta,      */
 /* ghost section indices, orbiting card borders, a gold-lit final      */
 /* slogan word, tilted marquee, scrolled-header hairline, breathing    */
@@ -2005,13 +2682,23 @@ main > .cs-section::before {
 }
 
 /* ------------------------------------------------------------------ */
-/* Living mascot + deep-motion layer (FR-CHAR-030)                     */
+/* Living mascot + deep-motion layer (TASK-CHAR-030)                     */
 /* ------------------------------------------------------------------ */
 
 /* When the LIVE 3D scene mounts, its layer rides above the content so Lumi
    can fly the whole page. The static poster path keeps the original
    behind-the-hero z-0 layering. */
-.cs-canvas-live { z-index: 30; }
+/* Live 3D Lumi must fly above all page content (sections, footer).
+   Hotspot stays higher for hit-testing. Chat modal shell is z-index 80;
+   when chat is open, raise the canvas above the shell so the real Lumi
+   can orbit the cloud (pointer-events stay none — UI remains clickable). */
+.cs-canvas-live { z-index: 35; }
+/* Above genie root (80) + backdrop so orbiting Lumi is not dimmed by the scrim */
+html[data-genie-open] .cs-canvas-live {
+  z-index: 100;
+  filter: brightness(1.22) saturate(1.1) contrast(1.05);
+}
+html[data-genie-open] .cs-lumi-hotspot { display: none; }
 /* HARD guarantee that the decorative layer can never swallow input: r3f's
    event system gives its <canvas> element pointer-events of its own, which
    overrides the wrapper's pointer-events:none by inheritance - above the
@@ -2082,7 +2769,7 @@ main > .cs-section::before {
 }
 
 /* ------------------------------------------------------------------ */
-/* Depth field + velocity-reactive film + tactile polish (FR-DS-014)   */
+/* Depth field + velocity-reactive film + tactile polish (TASK-DS-014)   */
 /* MotionExtras publishes --cs-scroll (depth px) and --cs-scroll-v      */
 /* (0..1 scroll speed). Everything here is paint-only (transform/       */
 /* opacity), gated to no-preference, and hidden outright under reduced  */
@@ -2340,44 +3027,73 @@ main > .cs-section::before {
   to { opacity: 1; translate: 0 0; }
 }
 
-/* Chat: scripted discovery + wish-flow chips (keyless Lumi). */
+/* Chat chips — compact action row (fixed shell footer zone). */
 .cs-genie-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--cs-space-2);
-  padding: var(--cs-space-2) var(--cs-space-4);
-  max-height: 11rem;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 6px 1rem 8px;
+  /* ~3 chip rows visible (story titles + CTAs); scroll if more */
+  max-height: 7.25rem;
+  min-height: calc(2.05rem * 3 + 12px);
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
   flex-shrink: 0;
-  border-top: 1px solid color-mix(in srgb, var(--cs-glass-border) 70%, transparent);
-  background: color-mix(in srgb, var(--cs-color-surface) 55%, transparent);
+  border-top: none;
+  background: transparent;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 186, 23, 0.35) transparent;
 }
 .cs-genie-chips:empty { display: none; }
 .cs-genie-chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--cs-space-2);
+  justify-content: center;
+  gap: 5px;
   font: inherit;
-  font-size: var(--cs-text-sm);
+  font-size: 0.75rem;
   font-weight: 600;
-  padding: 6px 14px;
-  border-radius: var(--cs-radius-pill);
-  border: 1px solid var(--cs-color-line);
-  background: transparent;
-  color: var(--cs-color-fg);
+  line-height: 1.2;
+  padding: 7px 12px;
+  min-height: 2.05rem;
+  max-width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 186, 23, 0.28);
+  background: rgba(18, 12, 6, 0.55);
+  color: rgba(255, 246, 230, 0.96);
   cursor: pointer;
+  backdrop-filter: blur(12px) saturate(1.05);
+  -webkit-backdrop-filter: blur(12px) saturate(1.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  /* Prefer full labels; wrap long story titles instead of clipping to one ellipsis line */
+  white-space: normal;
+  text-align: center;
+  overflow: hidden;
   transition: border-color var(--cs-dur-fast) var(--cs-ease), background var(--cs-dur-fast) var(--cs-ease), transform var(--cs-dur-fast) var(--cs-ease);
 }
-.cs-genie-chip:hover:not(:disabled) { border-color: var(--cs-color-accent); transform: translateY(-1px); }
+.cs-genie-chip:hover:not(:disabled) {
+  border-color: var(--cs-color-accent);
+  transform: translateY(-1px);
+  background: rgba(28, 18, 10, 0.7);
+}
 .cs-genie-chip:disabled { opacity: 0.55; cursor: default; }
 .cs-genie-chip-gold {
-  border-color: rgba(244, 186, 23, 0.55);
-  background: rgba(244, 186, 23, 0.12);
+  border-color: rgba(244, 186, 23, 0.7);
+  background: rgba(244, 186, 23, 0.2);
+  color: rgba(255, 248, 230, 0.98);
+  order: -1; /* primary CTAs first in the row */
+}
+.cs-genie-chip-gold:hover:not(:disabled) { background: rgba(244, 186, 23, 0.3); }
+.cs-genie-chip .cs-sparkle, .cs-genie-chip svg { color: var(--cs-color-accent); flex-shrink: 0; }
+[data-theme="light"] .cs-genie-chip {
+  background: rgba(255, 250, 235, 0.9);
+  border-color: rgba(180, 130, 20, 0.35);
   color: var(--cs-color-fg);
 }
-.cs-genie-chip-gold:hover:not(:disabled) { background: rgba(244, 186, 23, 0.22); }
-.cs-genie-chip .cs-sparkle, .cs-genie-chip svg { color: var(--cs-color-accent); }
 
 /* Contact: the conversation leads; the classic form folds away as fallback. */
 .cs-contact-lumi { margin: 0 0 var(--cs-space-6); }
@@ -2414,7 +3130,7 @@ main > .cs-section::before {
 
 /* ------------------------------------------------------------------ */
 /* Round 5: the text itself moves, the chat becomes Lumi's cloud, and  */
-/* the black hole devours (FR-CHAR-032).                               */
+/* the black hole devours (TASK-CHAR-032).                               */
 /* ------------------------------------------------------------------ */
 
 /* Kinetic section headings: per-word masked rise, staggered, triggered by
@@ -2454,43 +3170,19 @@ main > .cs-section::before {
   p.cs-section-lead[data-mask-reveal="shown"] { background-position: 0% 0; }
 }
 
-/* The chat cloud (FR-CHAR-031 v2): with the living mascot on stage, the
-   panel becomes a floating thought-bubble centre-right - Lumi flies to its
-   dots and "speaks" it. Devices without the mascot keep the classic
-   bottom-right panel. */
+/* Lumi modal supersedes the old thought-bubble dock. When the 3D mascot is
+   live, reinforce the centered cloud (do not re-dock bottom-right). */
 [data-lumi-live] .cs-genie {
-  right: 4vw;
+  position: relative;
+  right: auto;
   bottom: auto;
-  top: 52%;
-  width: min(400px, 88vw);
-  max-height: min(62vh, 600px);
-  border-radius: 30px 34px 28px 34px;
-  border: 1px solid rgba(244, 186, 23, 0.4);
-  box-shadow: 0 0 46px rgba(244, 186, 23, 0.16), var(--cs-depth-3);
-  transform: translateY(-50%);
-  transform-origin: 72% -12%;
+  top: auto;
+  left: auto;
+  width: min(520px, calc(100vw - 2rem));
+  max-height: min(82vh, 720px);
+  transform: none;
   overflow: visible;
-  animation: cs-cloud-in 480ms var(--cs-ease), cs-cloud-float 7s ease-in-out 480ms infinite;
-}
-/* Thought dots gesturing up toward the genie at its chat anchor. */
-[data-lumi-live] .cs-genie::before,
-[data-lumi-live] .cs-genie::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: var(--cs-glass-tint-heavy);
-  border: 1px solid rgba(244, 186, 23, 0.4);
-  pointer-events: none;
-}
-[data-lumi-live] .cs-genie::after { top: -24px; left: 16%; width: 16px; height: 16px; }
-[data-lumi-live] .cs-genie::before { top: -46px; left: 11%; width: 9px; height: 9px; }
-@keyframes cs-cloud-in {
-  from { opacity: 0; transform: translateY(-50%) scale(0.8); }
-  to { opacity: 1; transform: translateY(-50%) scale(1); }
-}
-@keyframes cs-cloud-float {
-  0%, 100% { transform: translateY(-50%); }
-  50% { transform: translateY(calc(-50% - 9px)); }
+  margin: 0;
 }
 /* The log must clip its bubbles even though the cloud shows its dots. */
 [data-lumi-live] .cs-genie .cs-genie-log { overflow-y: auto; }
@@ -2503,7 +3195,7 @@ main > .cs-section::before {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Black-hole digest (FR-CHAR-032): while feeding, the page content is
+/* Black-hole digest (TASK-CHAR-032): while feeding, the page content is
    pointer-inert and unselectable until everything is restored. */
 [data-digesting] main,
 [data-digesting] .cs-footer {
@@ -2512,7 +3204,7 @@ main > .cs-section::before {
   -webkit-user-select: none;
 }
 
-/* The universe reveal (FR-CHAR-032): as the digest fills (--cs-digest 0 -> 1,
+/* The universe reveal (TASK-CHAR-032): as the digest fills (--cs-digest 0 -> 1,
    published each frame by BlackHole), the blocks first stretch and drag into the
    hole; then in the back half the whole page - header, content, footer, and the
    floating chrome - fades out, uncovering the 3D starfield, Lumi, and the black
@@ -2555,7 +3247,7 @@ main .cs-section { transition: background-color 0.9s ease; }
 [data-digesting] .cs-hero,
 [data-digesting] .cs-section-contact { overflow: visible; }
 
-/* Lumi's touch (FR-CHAR-033): when she brushes a card, LumiMagic sets
+/* Lumi's touch (TASK-CHAR-033): when she brushes a card, LumiMagic sets
    data-lumi-near / data-lumi-touch. The card lifts a touch, warms with a gold
    rim and glow, and a light sweeps across on a cast, then it settles. Runs
    whenever the live mascot is on stage - the same always-on-motion decision as
@@ -2690,7 +3382,7 @@ main .cs-section { transition: background-color 0.9s ease; }
 }
 
 /* ------------------------------------------------------------------ */
-/* Card icon system (FR-WEB-ART): a bespoke gold glyph tile atop every  */
+/* Card icon system (TASK-WEB-ART): a bespoke gold glyph tile atop every  */
 /* card, so Services / Process / Value / Commitments read as one art-   */
 /* directed visual system instead of five identical text grids.         */
 .cs-card-icon {
@@ -2741,7 +3433,7 @@ main .cs-section { transition: background-color 0.9s ease; }
   .cs-card-icon { transition: none; }
 }
 
-/* Selected Work mockups (FR-WEB-ART): stylised product screens so the portfolio */
+/* Selected Work mockups (TASK-WEB-ART): stylised product screens so the portfolio */
 /* reads as a portfolio. Swap for real screenshots when case studies are cleared. */
 .cs-work-thumb {
   display: block;
@@ -2770,7 +3462,7 @@ main .cs-section { transition: background-color 0.9s ease; }
   .cs-thumb-cta { transition: none; }
 }
 
-/* Make-a-wish hero widget + gold-dust burst (FR-CHAR-026). */
+/* Make-a-wish hero widget + gold-dust burst (TASK-CHAR-026). */
 .cs-wish {
   display: flex;
   align-items: center;
@@ -2831,7 +3523,7 @@ main .cs-section { transition: background-color 0.9s ease; }
   .cs-wish { transition: none; }
 }
 
-/* Guided-story chapter rail (FR-SCENE-011): a fixed film-chapter index down the
+/* Guided-story chapter rail (TASK-SCENE-011): a fixed film-chapter index down the
    right edge. Dots light up and a gold line fills to the current act. */
 .cs-rail { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 45; }
 @media (max-width: 960px) { .cs-rail { display: none; } }
@@ -2873,7 +3565,7 @@ main .cs-section { transition: background-color 0.9s ease; }
 .cs-rail a:focus-visible { outline: 2px solid var(--cs-color-brand-ochre); outline-offset: 4px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) { .cs-rail ol::after, .cs-rail-dot, .cs-rail-name { transition: none; } }
 
-/* Scene rack-focus (FR-SCENE-012): the act nearest the viewport centre is in
+/* Scene rack-focus (TASK-SCENE-012): the act nearest the viewport centre is in
    full focus while neighbours dim and settle back a touch, so the page reads as
    a sequence of shots. Driven by SceneFocus via --scene (0..1) on each section;
    applied to the inner container only (never the section box the Lumi journey
@@ -2886,7 +3578,7 @@ main .cs-section > .cs-container {
   will-change: opacity, transform;
 }
 
-/* Scene hand-off sweep (FR-SCENE-013): the first time an act crosses into focus,
+/* Scene hand-off sweep (TASK-SCENE-013): the first time an act crosses into focus,
    SceneFocus flags it with data-enter for ~900ms and one soft gold light passes
    across it - a directed cut between scenes, paired with Lumi's arrival sparkle.
    Pointer-inert and sits above the content so the light reads as passing over
@@ -2922,7 +3614,7 @@ main > .cs-section[data-enter]::after {
   );
 }
 
-/* Lumi's magic touches the act as she arrives (FR-CHAR-034): the section's cards
+/* Lumi's magic touches the act as she arrives (TASK-CHAR-034): the section's cards
    lift and glow gold for a beat, so her cast visibly ripples through the page
    components instead of only sparkling around her. No fill, so the card returns
    to its own hover/tilt transform when the pulse ends. */

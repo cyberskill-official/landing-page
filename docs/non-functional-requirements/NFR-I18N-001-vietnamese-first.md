@@ -15,10 +15,10 @@ alternates, and `<html lang>` matches the content being served.
 
 ## Verification
 
-`lib/i18n/dictionaries.ts` carries both locales for every key (FR-CMS-001).
+`lib/i18n/dictionaries.ts` carries both locales for every key (TASK-CMS-001).
 Middleware sets the per-locale `<html lang>` via the locale request header
-(FR-WEB-001). The sitemap and per-route metadata emit hreflang alternates
-(FR-SEO-001).
+(TASK-WEB-001). The sitemap and per-route metadata emit hreflang alternates
+(TASK-SEO-001).
 
 ## Current status
 

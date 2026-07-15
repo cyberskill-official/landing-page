@@ -38,13 +38,13 @@ choreography (turn + drift) and a light pointer-gaze automatically.
 ## Behaviour already handled
 
 - Preloaded (`useGLTF.preload`) and wrapped in Suspense, so it never blocks
-  first paint (FR-SCENE-010).
-- GPU resources are disposed on unmount (FR-SCENE-009); the model is cloned so
+  first paint (TASK-SCENE-010).
+- GPU resources are disposed on unmount (TASK-SCENE-009); the model is cloned so
   it does not mutate the shared cache.
 - It only mounts on capable desktops (the existing CanvasMount gate); mobile and
   low-GPU clients keep the static poster.
 
-## Later: named animation clips (FR-CHAR-023)
+## Later: named animation clips (TASK-CHAR-023)
 
 If the model ships with named clips (for example idle / greeting / thinking /
 speaking / point), they can be cross-faded from the genie store `status` the

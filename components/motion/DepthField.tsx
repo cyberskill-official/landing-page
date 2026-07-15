@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { useMotionStore } from "@/lib/a11y/motion-store";
 
-// Site-wide parallax depth field (FR-DS-014): a faint layer of gold embers that
+// Site-wide parallax depth field (TASK-DS-014): a faint layer of gold embers that
 // drift at several scroll rates, so the page reads with real z-depth instead of
 // one flat plane. Pure SSR markup - CSS does all the motion off the --cs-scroll
 // and --cs-scroll-v variables MotionExtras publishes, so this ships zero client

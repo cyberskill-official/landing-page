@@ -5,7 +5,7 @@ import { PrismaDbAdapter } from "./prisma";
 let globalAdapter: DbAdapter | null = null;
 
 /**
- * FR-OPS-005 / FR-OPS-014: Resolve the configured datastore or fallback safely.
+ * TASK-OPS-005 / TASK-OPS-014: Resolve the configured datastore or fallback safely.
  * When DATABASE_URL is present, we initialize and return the PrismaDbAdapter.
  * Otherwise, we utilize the InMemoryAdapter.
  */

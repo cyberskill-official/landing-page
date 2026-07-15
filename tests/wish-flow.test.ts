@@ -1,14 +1,18 @@
 import { describe, it, expect } from "vitest";
 import {
   advanceWishFlow,
+  canUndoWish,
   isOptionalStep,
   resolveConsent,
   startWishFlow,
   startTeardownWishFlow,
+  startPartnershipWishFlow,
+  startCareersWishFlow,
+  undoWishFlow,
   wishFlowPayload,
 } from "@/lib/genie/wishFlow";
 
-// Conversational lead capture (FR-CHAR-026): the flow is a pure state
+// Conversational lead capture (TASK-CHAR-026): the flow is a pure state
 // machine, so its contract pins down here - validation, optional skips,
 // explicit consent, and the exact /api/lead payload.
 
@@ -132,6 +136,51 @@ describe("wish flow", () => {
       name: "Stephen",
       email: "stephen@cyberskill.world",
       message: "I want a free 15-point teardown",
+    });
+  });
+
+  it("undo restores prior step so users can re-fill answers", () => {
+    let s = startWishFlow();
+    expect(canUndoWish(s)).toBe(false);
+    s = advanceWishFlow(s, "Stephen").state;
+    expect(s.step).toBe("email");
+    expect(canUndoWish(s)).toBe(true);
+    s = undoWishFlow(s);
+    expect(s.step).toBe("name");
+    expect(s.draft.name).toBeUndefined();
+    s = advanceWishFlow(s, "Anh").state;
+    s = advanceWishFlow(s, "anh@example.com").state;
+    s = undoWishFlow(s);
+    expect(s.step).toBe("email");
+    expect(s.draft.email).toBeUndefined();
+  });
+
+  it("partnership and careers flows set intent/source correctly", () => {
+    let p = startPartnershipWishFlow("Agency collab");
+    expect(p.kind).toBe("partnership");
+    p = advanceWishFlow(p, "Pat").state;
+    p = advanceWishFlow(p, "pat@agency.com").state;
+    p = advanceWishFlow(p, "Agency Co").state;
+    p = advanceWishFlow(p, "").state;
+    p = resolveConsent(p, true);
+    expect(wishFlowPayload(p, "en")).toMatchObject({
+      intent: "partnership",
+      source: "partnership",
+      message: "Agency collab",
+    });
+
+    let c = startCareersWishFlow();
+    expect(c.kind).toBe("careers");
+    // careers order: name → email → message → consent (no company)
+    c = advanceWishFlow(c, "Dev").state;
+    expect(c.step).toBe("email");
+    c = advanceWishFlow(c, "dev@example.com").state;
+    expect(c.step).toBe("message");
+    c = advanceWishFlow(c, "Senior engineer").state;
+    c = resolveConsent(c, true);
+    expect(wishFlowPayload(c, "en")).toMatchObject({
+      intent: "careers",
+      source: "careers",
     });
   });
 });

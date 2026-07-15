@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-// Bespoke gold line-art icon set (FR-WEB-ART). One consistent hand for every
+// Bespoke gold line-art icon set (TASK-WEB-ART). One consistent hand for every
 // card section so the middle of the page reads as an art-directed system, not a
 // stack of text grids. 24x24, stroke = currentColor (the card tints it gold),
 // round joins, no fill. Purely decorative -> aria-hidden.

@@ -1,4 +1,4 @@
-// Asset + bundle size guard (FR-PERF-003). Deterministic: walks public/ and the
+// Asset + bundle size guard (TASK-PERF-003). Deterministic: walks public/ and the
 // built client JS in .next/static/chunks and fails the build if anything exceeds
 // the budgets in scripts/asset-budget.json. Run after `next build`.
 import { readFileSync, statSync, readdirSync, existsSync } from "node:fs";
@@ -47,7 +47,7 @@ if (chunks.length === 0) failures.push("no built client JS found - run `next bui
 if (jsTotal > budget.maxClientJsTotalKB * KB) failures.push(`client JS total ${(jsTotal / KB) | 0}KB > maxClientJsTotalKB ${budget.maxClientJsTotalKB}KB`);
 note(`client JS: ${chunks.length} chunks, ${(jsTotal / KB) | 0}KB total`);
 
-// 3. First-load JS heuristic (FR-PERF-008). 
+// 3. First-load JS heuristic (TASK-PERF-008). 
 // Sums core shared chunks (main-app, framework, webpack) + route segment chunks (page, layout).
 const firstLoadChunks = chunks.filter(f => {
   const name = f.split('/').pop();
@@ -64,7 +64,7 @@ if (firstLoadJsTotal > budget.maxFirstLoadJsKB * KB) {
 note(`first-load JS: ${firstLoadChunks.length} core chunks, ${(firstLoadJsTotal / KB) | 0}KB total`);
 
 if (failures.length) {
-  console.error("\nAsset-size budget exceeded (FR-PERF-003):");
+  console.error("\nAsset-size budget exceeded (TASK-PERF-003):");
   for (const f of failures) console.error("  - " + f);
   process.exit(1);
 }

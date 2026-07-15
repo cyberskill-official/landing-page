@@ -4,6 +4,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { scenes, company } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
+import { LeadCta } from "@/components/cta/LeadCta";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -43,7 +44,7 @@ export default async function LitePage({ params }: { params: Promise<{ lang: str
           <p className="cs-lite-entity">{company.entity[locale]}</p>
         </div>
         <div className="cs-hero-actions">
-          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>{dict.hero.ctaPrimary}</a>
+          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{dict.hero.ctaPrimary}</LeadCta>
           <Link className="cs-btn cs-btn-secondary" href={`/${locale}`}>{dict.a11y.cinematicLink}</Link>
         </div>
       </div>

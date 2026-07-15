@@ -1,19 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useGenieStore } from "@/lib/genie/store";
-import { GENIE_OPEN_EVENT } from "@/components/genie/GenieOpenButton";
+import { openGenie } from "@/components/genie/GenieOpenButton";
 import { track } from "@/lib/analytics";
 import { Icon } from "@/components/ui/Icon";
 
-// The signature moment (FR-CHAR-026): type a wish, a puff of gold dust bursts
-// from the button, and Lumi's chat opens with the wish already in hand. It is
-// the brand promise ("Turn Your Will Into Real") made literal. Falls back to
-// simply opening the chat when motion is reduced.
+// The signature moment (TASK-CHAR-026): type a wish, a puff of gold dust bursts
+// from the button, and Lumi's chat opens with the wish already in hand.
 export function HeroWish({ placeholder, cta }: { placeholder: string; cta: string }) {
   const [value, setValue] = useState("");
   const btnRef = useRef<HTMLButtonElement>(null);
-  const setPendingWish = useGenieStore((s) => s.setPendingWish);
 
   function burst() {
     const btn = btnRef.current;
@@ -43,10 +39,7 @@ export function HeroWish({ placeholder, cta }: { placeholder: string; cta: strin
     const wish = value.trim();
     burst();
     track("hero_wish", wish ? { hasText: true } : { hasText: false });
-    // Seed the wish first so it is in the store before the panel mounts, then
-    // fire the same event GenieOpenButton uses to arm and open the chat.
-    if (wish) setPendingWish(wish);
-    window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT));
+    openGenie(wish ? { flow: "default", seed: wish } : { flow: "default" });
     setValue("");
   }
 

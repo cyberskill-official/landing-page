@@ -40,7 +40,7 @@ export function Services({ locale, dict }: { locale: Locale; dict: Dictionary })
             </Reveal>
           ))}
         </div>
-        {/* FR-CTA-017 §1.3: services surface links to engagement models */}
+        {/* TASK-CTA-017 §1.3: services surface links to engagement models */}
         <p className="cs-section-lead" style={{ marginTop: "var(--cs-space-lg)" }}>
           <a href={`/${locale}#engagement`} data-engagement-link="">
             {locale === "vi"

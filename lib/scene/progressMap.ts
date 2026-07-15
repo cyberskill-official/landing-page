@@ -1,8 +1,8 @@
-// One declarative map from story progress to scene state (FR-SCENE-007). Every
+// One declarative map from story progress to scene state (TASK-SCENE-007). Every
 // scene consumer - the camera rig, Lumi's choreography, and the lighting - reads
 // targets from here instead of computing its own, so there is a single source of
 // truth. Input is the normalized 0..1 progress from the shared scroll loop
-// (FR-SCENE-002); it is always clamped. With motion disabled the same map still
+// (TASK-SCENE-002); it is always clamped. With motion disabled the same map still
 // resolves to a stable static state (clause 4), which the non-WebGL StaticPoster
 // path mirrors.
 

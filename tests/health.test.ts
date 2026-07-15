@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { GET } from "@/app/api/health/route";
 
-describe("health route (FR-WEB-010)", () => {
+describe("health route (TASK-WEB-010)", () => {
   it("returns 200 with an ok status and a parseable timestamp", async () => {
     const res = await GET();
     expect(res.status).toBe(200);

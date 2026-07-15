@@ -1,4 +1,4 @@
-// FR-OPS-004 env and secret management helper.
+// TASK-OPS-004 env and secret management helper.
 // Ensures we fail closed when required production keys are absent.
 
 export function getRequiredEnv(key: string, requiredInProduction: boolean): string {

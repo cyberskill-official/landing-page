@@ -1,7 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/content/site";
 
-// First-visit branded intro veil (FR-DS-012): Lumi's orb + the slogan resolve
+// First-visit branded intro veil (TASK-DS-012): Lumi's orb + the slogan resolve
 // into the hero. The timeline is pure CSS, gated by the inline script in
 // app/layout.tsx which sets <html data-intro="play"> once per browser session
 // (sessionStorage) and never under prefers-reduced-motion - so crawlers, no-JS

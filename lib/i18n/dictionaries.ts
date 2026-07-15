@@ -3,7 +3,7 @@ import { commercialPolicy } from "@/lib/content/policy";
 
 // Chrome / UI strings. Structured content (services, work, scenes) lives in
 // lib/content/site.ts as LocalizedString pairs. This file is the UI shell.
-// FR-CTA-015: primary CTA promise is sourced from commercialPolicy (FR-BIZ-013).
+// TASK-CTA-015: primary CTA promise is sourced from commercialPolicy (TASK-BIZ-013).
 
 export type Dictionary = {
   nav: {
@@ -43,7 +43,7 @@ export type Dictionary = {
     storyTitle: string;
     storyLead: string;
   };
-  // Decorative keyword marquee (FR-DS-012). The band itself is aria-hidden;
+  // Decorative keyword marquee (TASK-DS-012). The band itself is aria-hidden;
   // these strings only need to read well visually in both locales.
   marquee: {
     items: string[];
@@ -82,7 +82,7 @@ export type Dictionary = {
     close: string;
     /** Clear conversation and restart discovery chips. */
     resetChat: string;
-    // One-time mascot hint (FR-CHAR-030) + the in-chat wish flow (FR-CHAR-026).
+    // One-time mascot hint (TASK-CHAR-030) + the in-chat wish flow (TASK-CHAR-026).
     hint: string;
     wishCta: string;
     wishAskName: string;
@@ -108,6 +108,14 @@ export type Dictionary = {
     contactFormFallback: string;
     wishSeedAck: string;
     wishTeardownSeedAck: string;
+    wishContactSeedAck: string;
+    wishPartnershipSeedAck: string;
+    wishCareersSeedAck: string;
+    /** Undo last answer during lead capture (re-fill). */
+    wishUndo: string;
+    wishUndoAck: string;
+    partnershipLumiCta: string;
+    careersLumiCta: string;
   };
   a11y: {
     themeToDark: string;
@@ -163,34 +171,34 @@ const en: Dictionary = {
     team: "Team",
     careers: "Careers",
     contact: "Contact",
-    howWeBuild: "How we build",
+    howWeBuild: "Process",
     notes: "Notes",
     skipToContent: "Skip to content",
   },
   hero: {
-    eyebrow: "A small studio in Saigon that turns wishes into working software. Since 2020.",
-    lead: "Lumi, our golden genie, turns a clear wish into working software: the kind your team actually runs on, built to ship and to last.",
-    // FR-CTA-015: outcome promise from commercial policy SSOT (not a free-form action label).
+    eyebrow: "A Saigon studio that turns will into working software. Since 2020.",
+    lead: "Lumi, our golden genie, takes a clear wish and helps the human team turn it into software your people actually run, built to ship, and built to last.",
+    // TASK-CTA-015: outcome promise from commercial policy SSOT (not a free-form action label).
     ctaPrimary: commercialPolicy.ctaPromise.en,
     ctaSecondary: "Talk to Lumi",
     scrollHint: "Scroll to follow the wish",
-    wishPlaceholder: "Make a wish... a faster checkout, an app, a tool",
+    wishPlaceholder: "Make a wish… a faster checkout, an app, a tool",
     wishCta: "Make a wish",
   },
   sections: {
-    valueTitle: "Why teams work with us",
+    valueTitle: "Why teams choose us",
     servicesTitle: "What we build",
     servicesLead: "Three focused practices. One team that answers for the result.",
     workTitle: "Selected work",
     workLead: "The kinds of wishes we are built to grant.",
     proofTitle: "What clients say",
     careersTitle: "Build with us",
-    careersLead: "We hire for craft and care. Senior, small, and honest about trade-offs.",
+    careersLead: "We hire for craft and care, senior, small, and honest about trade-offs.",
     careersCta: "See open roles",
     contactTitle: "Tell us your wish",
     contactLead: "Send a short note. We reply within one business day.",
     processTitle: "How we work",
-    processLead: "A simple, honest sequence that keeps you in the loop from the first call to the last release.",
+    processLead: "A simple, honest sequence that keeps you in the loop from first call to last release.",
     faqTitle: "Questions, answered",
     storyTitle: "The arc of a wish",
     storyLead: "Every project follows one arc: from a clear wish to software running in the real world.",
@@ -222,44 +230,54 @@ const en: Dictionary = {
   },
   genie: {
     open: "Talk to Lumi",
-    title: "Lumi, the CyberSkill genie",
+    title: "Lumi · CyberSkill’s golden genie",
     greeting:
-      "Hi, I am Lumi. Pick a topic below or type freely — I can help even without deep AI. Clear wishes go to the human team.",
-    placeholder: "Type your wish...",
+      "Hello, I’m Lumi. Think of me as a friendly guide: pick a topic below, and I’ll share plain advice before asking for anything. When a wish is clear, it goes to a real person on the team.",
+    placeholder: "Type your wish…",
     send: "Send",
     consent:
-      "Chats may be stored so our team can follow up. Do not share passwords or secrets.",
-    thinking: "Lumi is thinking...",
-    unavailable: "Lumi is resting right now. Please use the contact form and we will reply within one business day.",
+      "We may keep this chat so the team can follow up. Please don’t share passwords or secrets.",
+    thinking: "Lumi is thinking…",
+    unavailable:
+      "The lamp is resting for a moment. Try again shortly, or email info@cyberskill.world, we reply within one business day.",
     close: "Close chat",
     resetChat: "New chat",
     hint: "Click or hold me",
     wishCta: "Leave your wish for the team",
-    wishAskName: "Wonderful. What may I call you?",
-    wishAskEmail: "Nice to meet you, {name}. Where can the team reply to you? (work email)",
-    wishAskCompany: "Which company or team is this for? You can skip this.",
-    wishAskUrl: "Which website or product should we review? Paste the full URL.",
-    wishAskMessage: "Now the important part: tell me the wish in a sentence or two.",
-    wishAskTeardownFocus: "Anything specific we should focus on - a page, flow, or pain? You can skip this.",
+    wishAskName: "Lovely. What should I call you?",
+    wishAskEmail: "Good to meet you, {name}. Where should the team write back? (work email is perfect)",
+    wishAskCompany: "Which company or team is this for? Skip if you’d rather not say.",
+    wishAskUrl: "Which site or product should we review? Paste the full URL.",
+    wishAskMessage: "Here’s the heart of it, tell me the wish in a sentence or two.",
+    wishAskTeardownFocus: "Anything we should zero in on, a page, a flow, a pain? Optional.",
     wishAskConsent: "May the CyberSkill team contact you about this wish?",
-    wishAskTeardownConsent: "May we review that site and email you the free 15-point PDF report?",
+    wishAskTeardownConsent: "May we review that site and email you the free 15-point PDF?",
     wishAgree: "Yes, contact me",
     wishSkip: "Skip",
     wishCancel: "Not now",
-    wishCancelled: "No worries. The lamp stays warm - come back whenever the wish is ready.",
-    wishSending: "Sealing the wish...",
-    wishDone: "The wish is on its way to the team. A real person replies within one business day.",
+    wishCancelled: "Of course. The lamp stays warm, come back whenever the wish is ready.",
+    wishSending: "Sealing the wish…",
+    wishDone: "Your wish is on its way. A real person will reply within one business day.",
     wishDoneTeardown:
-      "Your teardown slot is saved. Our engineers will review the site and email the 15-point PDF to this inbox within 3 business days.",
-    wishFailed: "The lamp flickered - the wish did not go through. Try once more, or email info@cyberskill.world.",
-    wishErrorName: "Just a name so the team knows who to reply to.",
-    wishErrorEmail: "That email does not look right - one more try?",
-    wishErrorUrl: "I need a URL so the team knows what to review - full link please.",
+      "Your teardown slot is held. Our engineers will review the site and send the 15-point PDF to this inbox within three business days.",
+    wishFailed: "The lamp flickered, that didn’t go through. Try once more, or email info@cyberskill.world.",
+    wishErrorName: "Just a name so the team knows who to answer.",
+    wishErrorEmail: "That email doesn’t look quite right, one more try?",
+    wishErrorUrl: "I need a full URL so the team knows what to open.",
     contactLumiCta: "Grant it with Lumi",
     contactFormFallback: "Prefer a classic form?",
-    wishSeedAck: "A wish worth granting. Let me hand it to the team - first, what may I call you?",
+    wishSeedAck: "A wish worth granting. I’ll hand it to the team, first, what should I call you?",
     wishTeardownSeedAck:
-      "A free 15-point teardown - gladly. I will save your slot with the team. First, what may I call you?",
+      "A free 15-point teardown, gladly. I’ll hold a slot. First, what should I call you?",
+    wishContactSeedAck: "Happy to connect you with the team. First, what should I call you?",
+    wishPartnershipSeedAck:
+      "Noted, partnership interest. I’ll route this to our studio leads. First, what should I call you?",
+    wishCareersSeedAck:
+      "Glad you’re looking our way. I’ll add you to the talent path. First, what should I call you?",
+    wishUndo: "Undo last answer",
+    wishUndoAck: "No problem, let’s fix your {field}. Type the new value.",
+    partnershipLumiCta: "Start partnership with Lumi",
+    careersLumiCta: "Join the talent pool with Lumi",
   },
   a11y: {
     themeToDark: "Switch to dark mode",
@@ -315,40 +333,40 @@ const vi: Dictionary = {
     team: "Đội ngũ",
     careers: "Tuyển dụng",
     contact: "Liên hệ",
-    howWeBuild: "Cách chúng tôi xây",
+    howWeBuild: "Quy trình",
     notes: "Góc nhìn",
     skipToContent: "Tới nội dung chính",
   },
   hero: {
-    eyebrow: "Một studio nhỏ tại Sài Gòn chuyên biến điều ước thành phần mềm. Từ 2020.",
-    lead: "Lumi, vị thần đèn vàng của CyberSkill, biến một điều ước rõ ràng thành phần mềm chạy thật: thứ đội ngũ của bạn dùng mỗi ngày, được xây để bàn giao đúng hẹn và bền bỉ theo thời gian.",
-    // FR-CTA-015: outcome promise from commercial policy SSOT.
+    eyebrow: "Studio Sài Gòn. Biến ý chí thành phần mềm chạy thật. Từ năm 2020.",
+    lead: "Lumi, thần đèn vàng của CyberSkill, cùng đội ngũ biến điều ước rõ thành phần mềm đội bạn dùng mỗi ngày: bàn giao được, dùng lâu được.",
+    // TASK-CTA-015: outcome promise from commercial policy SSOT.
     ctaPrimary: commercialPolicy.ctaPromise.vi,
     ctaSecondary: "Trò chuyện với Lumi",
-    scrollHint: "Cuộn xuống để theo điều ước",
-    wishPlaceholder: "Ước một điều... thanh toán nhanh hơn, một ứng dụng, một công cụ",
+    scrollHint: "Cuộn xuống để theo hành trình điều ước",
+    wishPlaceholder: "Ước một điều… thanh toán nhanh hơn, một ứng dụng, một công cụ",
     wishCta: "Ước điều này",
   },
   sections: {
-    valueTitle: "Vì sao các đội ngũ chọn CyberSkill",
-    servicesTitle: "Chúng tôi xây dựng gì",
-    servicesLead: "Ba mảng chuyên sâu. Một đội ngũ chịu trách nhiệm đến kết quả cuối cùng.",
+    valueTitle: "Vì sao các đội chọn chúng tôi",
+    servicesTitle: "Chúng tôi xây dựng những gì",
+    servicesLead: "Ba mảng chuyên sâu. Một đội chịu trách nhiệm đến kết quả cuối cùng.",
     workTitle: "Dự án tiêu biểu",
     workLead: "Những điều ước chúng tôi sinh ra để thực hiện.",
     proofTitle: "Khách hàng nói gì",
     careersTitle: "Cùng chúng tôi kiến tạo",
-    careersLead: "Chúng tôi tuyển người vì tay nghề và sự tận tâm: đội ngũ tinh gọn, giàu kinh nghiệm, và thẳng thắn với mọi đánh đổi.",
-    careersCta: "Xem vị trí đang tuyển",
+    careersLead: "Tuyển người có tay nghề và chỉn chu. Đội gọn, kinh nghiệm, nói thẳng đánh đổi.",
+    careersCta: "Xem vị trí đang mở",
     contactTitle: "Kể chúng tôi nghe điều bạn ước",
-    contactLead: "Chỉ cần một lời nhắn ngắn. Chúng tôi phản hồi trong một ngày làm việc.",
+    contactLead: "Một lời nhắn ngắn là đủ. Chúng tôi phản hồi trong một ngày làm việc.",
     processTitle: "Cách chúng tôi làm việc",
-    processLead: "Một trình tự đơn giản và minh bạch: bạn nắm rõ mọi thứ, từ cuộc gọi đầu tiên đến lần phát hành cuối cùng.",
+    processLead: "Một trình tự gọn và minh bạch, giúp bạn nắm rõ từ cuộc gọi đầu đến lần bàn giao cuối.",
     faqTitle: "Giải đáp thắc mắc",
     storyTitle: "Hành trình của một điều ước",
-    storyLead: "Mỗi dự án đều đi qua một hành trình: từ một điều ước rõ ràng đến phần mềm chạy thật giữa đời thực.",
+    storyLead: "Mỗi dự án một hành trình: từ điều ước rõ đến phần mềm chạy giữa đời thật.",
   },
   marquee: {
-    items: ["Ứng dụng web", "Ứng dụng di động", "Hệ thống nội bộ", "Tự động hoá", "Hệ thống thiết kế", "Bền bỉ dài lâu"],
+    items: ["Ứng dụng web", "Ứng dụng di động", "Hệ thống nội bộ", "Tự động hóa", "Hệ thống thiết kế", "Bền bỉ lâu dài"],
   },
   form: {
     name: "Tên của bạn",
@@ -362,56 +380,66 @@ const vi: Dictionary = {
     message: "Bạn muốn chia sẻ thêm điều gì?",
     consent: "Tôi đồng ý được liên hệ về yêu cầu của mình.",
     submit: "Gửi",
-    submitting: "Đang gửi...",
+    submitting: "Đang gửi…",
     successTitle: "Đã nhận được lời nhắn.",
-    successBody: "Cảm ơn bạn. Đội ngũ kỹ sư của chúng tôi sẽ đọc lời nhắn và phản hồi bạn trong một ngày làm việc qua email từ địa chỉ info@cyberskill.world. Trong lúc chờ đợi, mời bạn xem qua các dự án chúng tôi đã bàn giao hoặc theo dõi chúng tôi trên mạng xã hội.",
-    trustLine: "Thông tin của bạn được gửi trực tiếp đến đội ngũ. Chúng tôi không bao giờ chia sẻ thông tin này.",
-    errorGeneric: "Đã có lỗi xảy ra. Vui lòng thử lại, hoặc gửi email tới info@cyberskill.world.",
-    required: "Trường này là bắt buộc.",
-    invalidEmail: "Vui lòng nhập email hợp lệ.",
+    successBody: "Cảm ơn bạn. Đội kỹ sư sẽ đọc tin nhắn và phản hồi trong một ngày làm việc qua email info@cyberskill.world. Trong lúc chờ, mời bạn xem các dự án đã bàn giao hoặc theo dõi chúng tôi trên mạng xã hội.",
+    trustLine: "Thông tin của bạn được gửi thẳng đến đội ngũ. Chúng tôi không chia sẻ cho bên thứ ba.",
+    errorGeneric: "Có lỗi xảy ra. Vui lòng thử lại, hoặc gửi email tới info@cyberskill.world.",
+    required: "Vui lòng điền mục này.",
+    invalidEmail: "Email chưa hợp lệ.",
     consentRequired: "Vui lòng đồng ý để chúng tôi có thể phản hồi.",
     optional: "không bắt buộc",
   },
   genie: {
     open: "Trò chuyện với Lumi",
-    title: "Lumi, vị thần đèn của CyberSkill",
+    title: "Lumi · thần đèn vàng CyberSkill",
     greeting:
-      "Chào bạn, mình là Lumi. Chọn chủ đề bên dưới hoặc gõ tự do — mình vẫn giúp được khi không bật AI sâu. Điều ước rõ sẽ đến đội ngũ người thật.",
-    placeholder: "Gõ điều ước của bạn...",
+      "Chào bạn, mình là Lumi. Chọn một chủ đề bên dưới nhé. Mình tư vấn trước; chỉ xin thông tin khi bạn muốn gửi điều ước. Điều ước rõ sẽ được chuyển cho người thật trong đội.",
+    placeholder: "Viết điều ước của bạn…",
     send: "Gửi",
     consent:
-      "Cuộc trò chuyện có thể được lưu để đội ngũ theo dõi. Xin đừng gửi mật khẩu hay thông tin mật.",
-    thinking: "Lumi đang suy nghĩ...",
-    unavailable: "Lumi đang tạm nghỉ. Bạn hãy dùng biểu mẫu liên hệ, chúng tôi sẽ phản hồi trong một ngày làm việc.",
-    close: "Đóng cửa sổ trò chuyện",
-    resetChat: "Chat mới",
-    hint: "Chạm hoặc giữ mình nhé",
+      "Cuộc trò chuyện có thể được lưu để đội theo dõi. Xin đừng gửi mật khẩu hay thông tin nhạy cảm.",
+    thinking: "Lumi đang suy nghĩ…",
+    unavailable:
+      "Lumi đang tạm nghỉ. Bạn thử lại sau, hoặc gửi email tới info@cyberskill.world. Chúng tôi phản hồi trong một ngày làm việc.",
+    close: "Đóng trò chuyện",
+    resetChat: "Bắt đầu lại",
+    hint: "Chạm hoặc giữ để gọi mình",
     wishCta: "Gửi điều ước cho đội ngũ",
-    wishAskName: "Tuyệt. Mình nên gọi bạn là gì?",
-    wishAskEmail: "Rất vui được gặp bạn, {name}. Đội ngũ có thể phản hồi bạn qua email nào? (email công việc)",
-    wishAskCompany: "Điều ước này dành cho công ty hay đội nhóm nào? Bạn có thể bỏ qua.",
-    wishAskUrl: "Website hoặc sản phẩm nào cần đánh giá? Dán full URL nhé.",
-    wishAskMessage: "Giờ đến phần quan trọng: kể mình nghe điều ước, một hai câu thôi.",
-    wishAskTeardownFocus: "Có trang, luồng hoặc vấn đề cụ thể nào cần tập trung không? Bạn có thể bỏ qua.",
-    wishAskConsent: "Đội ngũ CyberSkill có thể liên hệ bạn về điều ước này chứ?",
-    wishAskTeardownConsent: "Chúng tôi được phép đánh giá site đó và gửi báo cáo PDF 15 điểm miễn phí chứ?",
-    wishAgree: "Đồng ý, liên hệ mình",
+    wishAskName: "Rất vui được gặp bạn. Mình nên gọi bạn là gì?",
+    wishAskEmail: "Cảm ơn {name}. Đội có thể trả lời qua email nào? (nên dùng email công việc)",
+    wishAskCompany: "Điều ước này thuộc về công ty hay nhóm nào? Bỏ qua cũng được.",
+    wishAskUrl: "Website hoặc sản phẩm nào cần đánh giá? Hãy dán đầy đủ đường dẫn.",
+    wishAskMessage: "Phần quan trọng đây: kể điều ước trong một hai câu thôi.",
+    wishAskTeardownFocus: "Có trang, luồng hay vấn đề nào cần tập trung không? Không có cũng được.",
+    wishAskConsent: "Đội CyberSkill được phép liên hệ bạn về điều ước này chứ?",
+    wishAskTeardownConsent: "Chúng tôi được phép đánh giá site và gửi PDF 15 điểm miễn phí về email chứ?",
+    wishAgree: "Đồng ý, hãy liên hệ mình",
     wishSkip: "Bỏ qua",
     wishCancel: "Để sau",
-    wishCancelled: "Không sao. Cây đèn vẫn ấm - khi nào điều ước sẵn sàng, bạn quay lại nhé.",
-    wishSending: "Đang niêm phong điều ước...",
-    wishDone: "Điều ước đã lên đường đến đội ngũ. Một người thật sẽ phản hồi bạn trong một ngày làm việc.",
+    wishCancelled: "Không sao cả. Khi nào sẵn sàng, bạn quay lại nhé. Đèn vẫn còn ấm.",
+    wishSending: "Đang gửi điều ước…",
+    wishDone: "Điều ước đã được chuyển đi. Một người thật sẽ phản hồi trong một ngày làm việc.",
     wishDoneTeardown:
-      "Suất đánh giá của bạn đã được giữ. Đội kỹ sư sẽ rà site và gửi PDF 15 điểm về hộp thư này trong 3 ngày làm việc.",
-    wishFailed: "Cây đèn chớp tắt - điều ước chưa gửi được. Bạn thử lại lần nữa, hoặc email info@cyberskill.world nhé.",
-    wishErrorName: "Cho mình xin một cái tên để đội ngũ biết phản hồi ai nhé.",
-    wishErrorEmail: "Email này có vẻ chưa đúng - bạn thử lại nhé?",
-    wishErrorUrl: "Mình cần URL để đội ngũ biết đánh giá gì - full link nhé.",
+      "Suất đánh giá đã được giữ. Kỹ sư sẽ rà site và gửi PDF 15 điểm về hộp thư này trong ba ngày làm việc.",
+    wishFailed: "Gửi chưa thành công. Bạn thử lại, hoặc email info@cyberskill.world nhé.",
+    wishErrorName: "Cho mình một cái tên để đội biết cần trả lời ai.",
+    wishErrorEmail: "Email này có vẻ chưa đúng. Bạn kiểm tra lại giúp mình được không?",
+    wishErrorUrl: "Mình cần đường dẫn đầy đủ để đội biết cần mở trang nào.",
     contactLumiCta: "Nhờ Lumi thực hiện",
-    contactFormFallback: "Bạn thích dùng biểu mẫu quen thuộc?",
-    wishSeedAck: "Một điều ước đáng để thực hiện. Để mình chuyển đến đội ngũ nhé - trước tiên, mình nên gọi bạn là gì?",
+    contactFormFallback: "Bạn thích dùng biểu mẫu quen thuộc hơn?",
+    wishSeedAck: "Điều ước này đáng để làm. Mình sẽ chuyển cho đội. Trước hết, mình nên gọi bạn là gì?",
     wishTeardownSeedAck:
-      "Đánh giá 15 điểm miễn phí - sẵn sàng. Mình sẽ giữ suất với đội ngũ. Trước hết, mình nên gọi bạn là gì?",
+      "Đánh giá 15 điểm miễn phí, sẵn sàng. Mình sẽ giữ suất. Trước hết, mình nên gọi bạn là gì?",
+    wishContactSeedAck: "Mình sẽ nối bạn với đội ngũ. Trước hết, mình nên gọi bạn là gì?",
+    wishPartnershipSeedAck:
+      "Đã ghi nhận nhu cầu hợp tác. Mình chuyển cho phụ trách studio. Trước hết, mình nên gọi bạn là gì?",
+    wishCareersSeedAck:
+      "Cảm ơn bạn đã quan tâm CyberSkill. Mình sẽ đưa bạn vào danh sách ứng viên. Trước hết, mình nên gọi bạn là gì?",
+    wishUndo: "Hoàn tác câu vừa rồi",
+    wishUndoAck: "Được. Hãy sửa lại {field} và gõ giá trị mới.",
+    partnershipLumiCta: "Bắt đầu hợp tác với Lumi",
+    careersLumiCta: "Ứng tuyển qua Lumi",
   },
   a11y: {
     themeToDark: "Chuyển sang chế độ tối",
@@ -439,7 +467,7 @@ const vi: Dictionary = {
   },
   teardown: {
     title: "Nhận đánh giá 15 điểm miễn phí",
-    lead: "Chúng tôi sẽ đánh giá trang web hoặc ứng dụng nội bộ của bạn về tốc độ, bảo mật và khả năng tiếp cận. Bạn sẽ nhận được báo cáo PDF 15 điểm chi tiết chỉ ra nơi bạn đang mất người dùng và cách khắc phục. Hoàn toàn miễn phí, bàn giao trong 3 ngày làm việc.",
+    lead: "Chúng tôi rà website hoặc ứng dụng nội bộ của bạn về tốc độ, bảo mật và khả năng tiếp cận. Bạn nhận PDF 15 điểm, chỉ rõ chỗ đang mất người dùng và hướng xử lý. Miễn phí, gửi trong 3 ngày làm việc.",
     nameLabel: "Tên của bạn",
     emailLabel: "Email công việc",
     urlLabel: "Đường dẫn website hoặc sản phẩm",
@@ -450,7 +478,7 @@ const vi: Dictionary = {
     formFallback: "Thích biểu mẫu cổ điển?",
     lumiSeed: "Tôi muốn nhận đánh giá 15 điểm miễn phí cho website hoặc sản phẩm của mình.",
     capFullTitle: "Các suất tuần này đã đầy",
-    capFullBody: "Các suất đánh giá miễn phí tuần này đã đầy. Chúng tôi mở lại vào thứ Hai tới! Trong lúc đó, bạn vẫn có thể gửi lời nhắn chung cho chúng tôi ở biểu mẫu liên hệ bên dưới.",
+    capFullBody: "Suất đánh giá miễn phí tuần này đã đầy. Chúng tôi mở lại thứ Hai tới. Trong lúc chờ, bạn vẫn gửi lời nhắn chung qua form liên hệ bên dưới.",
     successTitle: "Đã nhận yêu cầu đánh giá",
     successBody: "Cảm ơn bạn. Suất của bạn đã được giữ. Chúng tôi gửi PDF 15 điểm từ info@cyberskill.world trong 3 ngày làm việc.",
     successNextLabel: "Bước tiếp theo",

@@ -1,4 +1,4 @@
-// FR-A11Y-003 (served-route gate): run axe-core against the real rendered
+// TASK-A11Y-003 (served-route gate): run axe-core against the real rendered
 // routes on a production build, so page-level rules the jsdom component check
 // cannot see - landmarks, single-main, bypass blocks, and real color-contrast -
 // are exercised. Fails on serious or critical violations and prints rule +
@@ -21,7 +21,7 @@ const axeSource = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
 const PORT = process.env.PORT || "4319";
 const ORIGIN = process.env.BASE_URL || `http://127.0.0.1:${PORT}`;
 
-// Routes from the FR: home in both locales, plus /work, /careers, and a case
+// Routes from the task: home in both locales, plus /work, /careers, and a case
 // study. Locale prefixes are required (middleware redirects "/" -> "/en").
 const ROUTES = [
   "/en",

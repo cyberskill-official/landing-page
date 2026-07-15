@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { apcaLc, rgbToY, lcHexOnRgb } from "../scripts/apca.mjs";
 
 // Validate the APCA-W3 (0.1.9) implementation against published reference values
-// so the FR-DS-006 contrast tooling is trustworthy.
-describe("APCA-W3 contrast core (FR-DS-006)", () => {
+// so the TASK-DS-006 contrast tooling is trustworthy.
+describe("APCA-W3 contrast core (TASK-DS-006)", () => {
   it("black on white is about Lc 106", () => {
     expect(apcaLc(rgbToY([0, 0, 0]), rgbToY([255, 255, 255]))).toBeCloseTo(106.04, 0);
   });

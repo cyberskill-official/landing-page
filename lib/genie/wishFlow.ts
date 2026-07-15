@@ -1,18 +1,16 @@
-import { leadSchema, type LeadInput } from "@/lib/lead/schema";
+import { leadSchema, type LeadInput, type LeadIntent } from "@/lib/lead/schema";
 import type { Locale } from "@/lib/i18n/config";
 import { readUtm } from "@/lib/analytics/taxonomy";
 
-// Conversational lead capture (FR-CHAR-026): a deterministic, keyless state
-// machine that lets Lumi collect a wish IN the chat - name, email, optional
-// company, the wish itself, then explicit consent - and submit it to the
-// existing /api/lead endpoint. No LLM involved, so it works even when the
-// AI proxy is unavailable; the panel wires it to bubbles and quick-reply
-// chips. Pure and DOM-free for unit testing (tests/wish-flow.test.ts).
-//
-// Teardown mode (FR-CTA-019): same conversation pattern, but requires a product
-// URL and posts with source "teardown" so weekly cap + Resend still apply.
+// Conversational lead capture (TASK-CHAR-026): deterministic keyless state machine.
+// Flow kinds map CTA entry points → intent/source for /api/lead.
 
-export type WishKind = "default" | "teardown";
+export type WishKind =
+  | "default"
+  | "contact"
+  | "teardown"
+  | "partnership"
+  | "careers";
 
 export type WishStep =
   | "name"
@@ -31,42 +29,66 @@ export type WishDraft = {
   message?: string;
 };
 
-export type WishState = { step: WishStep; draft: WishDraft; kind: WishKind };
+export type WishState = {
+  step: WishStep;
+  draft: WishDraft;
+  kind: WishKind;
+  /** Snapshot stack for Undo (previous states after each successful advance). */
+  history: Array<{ step: WishStep; draft: WishDraft }>;
+};
 
 export type WishError = "required" | "invalid_email";
 
 const DEFAULT_ORDER: WishStep[] = ["name", "email", "company", "message", "consent", "done"];
 const TEARDOWN_ORDER: WishStep[] = ["name", "email", "url", "message", "consent", "done"];
+const PARTNERSHIP_ORDER: WishStep[] = ["name", "email", "company", "message", "consent", "done"];
+const CAREERS_ORDER: WishStep[] = ["name", "email", "message", "consent", "done"];
 
 function orderFor(kind: WishKind): WishStep[] {
-  return kind === "teardown" ? TEARDOWN_ORDER : DEFAULT_ORDER;
+  switch (kind) {
+    case "teardown":
+      return TEARDOWN_ORDER;
+    case "partnership":
+      return PARTNERSHIP_ORDER;
+    case "careers":
+      return CAREERS_ORDER;
+    default:
+      return DEFAULT_ORDER;
+  }
 }
 
-export function startWishFlow(): WishState {
-  return { step: "name", draft: {}, kind: "default" };
+function baseState(kind: WishKind, draft: WishDraft = {}): WishState {
+  return { step: "name", draft, kind, history: [] };
 }
 
-// Seed the flow with a wish already captured (typed in the hero). The panel then
-// collects name/email and skips re-asking the message it already holds.
-export function startWishFlowWith(message: string): WishState {
+export function startWishFlow(kind: WishKind = "default"): WishState {
+  return baseState(kind);
+}
+
+export function startWishFlowWith(message: string, kind: WishKind = "default"): WishState {
   const trimmed = message.trim().slice(0, 2000);
-  return { step: "name", draft: trimmed ? { message: trimmed } : {}, kind: "default" };
+  return baseState(kind, trimmed ? { message: trimmed } : {});
 }
 
-/** Open Lumi into the free 15-point teardown funnel (source=teardown). */
 export function startTeardownWishFlow(seedMessage?: string): WishState {
-  const trimmed = seedMessage?.trim().slice(0, 2000) ?? "";
-  return {
-    step: "name",
-    draft: trimmed ? { message: trimmed } : {},
-    kind: "teardown",
-  };
+  return startWishFlowWith(seedMessage ?? "", "teardown");
 }
 
-// Which steps accept an empty answer ("skip").
+export function startPartnershipWishFlow(seedMessage?: string): WishState {
+  return startWishFlowWith(seedMessage ?? "", "partnership");
+}
+
+export function startCareersWishFlow(seedMessage?: string): WishState {
+  return startWishFlowWith(seedMessage ?? "", "careers");
+}
+
+export function startContactWishFlow(seedMessage?: string): WishState {
+  return startWishFlowWith(seedMessage ?? "", "contact");
+}
+
 export function isOptionalStep(step: WishStep, kind: WishKind = "default"): boolean {
   if (step === "message") return true;
-  if (step === "company" && kind === "default") return true;
+  if (step === "company" && kind !== "teardown") return true;
   return false;
 }
 
@@ -77,15 +99,35 @@ function next(kind: WishKind, step: WishStep): WishStep {
   return order[Math.min(i + 1, order.length - 1)];
 }
 
-// Feed one free-text answer into the flow. Returns the next state, or the
-// same state plus an error key when the answer is rejected. The consent and
-// done steps do not accept free text (consent is an explicit choice).
+function pushHistory(state: WishState): Array<{ step: WishStep; draft: WishDraft }> {
+  return [...state.history, { step: state.step, draft: { ...state.draft } }];
+}
+
+/** Undo last successful free-text advance (not consent). */
+export function undoWishFlow(state: WishState): WishState {
+  if (state.history.length === 0) return state;
+  const history = [...state.history];
+  const prev = history.pop()!;
+  return {
+    step: prev.step,
+    draft: { ...prev.draft },
+    kind: state.kind,
+    history,
+  };
+}
+
+export function canUndoWish(state: WishState | null): boolean {
+  return Boolean(state && state.history.length > 0 && state.step !== "done");
+}
+
 export function advanceWishFlow(
   state: WishState,
   input: string,
 ): { state: WishState; error?: WishError } {
   const value = input.trim();
   const kind = state.kind;
+  const hist = pushHistory(state);
+
   switch (state.step) {
     case "name": {
       if (!value) return { state, error: "required" };
@@ -94,6 +136,7 @@ export function advanceWishFlow(
           step: next(kind, "name"),
           draft: { ...state.draft, name: value.slice(0, 120) },
           kind,
+          history: hist,
         },
       };
     }
@@ -105,6 +148,7 @@ export function advanceWishFlow(
           step: next(kind, "email"),
           draft: { ...state.draft, email: parsed.data },
           kind,
+          history: hist,
         },
       };
     }
@@ -114,6 +158,7 @@ export function advanceWishFlow(
           step: next(kind, "company"),
           draft: { ...state.draft, company: value.slice(0, 160) },
           kind,
+          history: hist,
         },
       };
     }
@@ -123,8 +168,9 @@ export function advanceWishFlow(
       return {
         state: {
           step: next(kind, "url"),
-          draft: { ...state.draft, url, company: url },
+          draft: { ...state.draft, url, company: state.draft.company || url },
           kind,
+          history: hist,
         },
       };
     }
@@ -137,6 +183,7 @@ export function advanceWishFlow(
             message: value ? value.slice(0, 2000) : state.draft.message,
           },
           kind,
+          history: hist,
         },
       };
     }
@@ -145,15 +192,50 @@ export function advanceWishFlow(
   }
 }
 
-// Explicit consent resolution from the consent step's chips.
 export function resolveConsent(state: WishState, agreed: boolean): WishState {
   if (state.step !== "consent") return state;
-  return agreed ? { ...state, step: "done" } : state;
+  if (!agreed) return state;
+  return {
+    ...state,
+    step: "done",
+    history: pushHistory(state),
+  };
 }
 
-// Build the /api/lead payload once the flow reached "done". Returns null if
-// anything mandatory is missing (defensive - the flow cannot normally get
-// here without them).
+function intentFor(kind: WishKind): LeadIntent {
+  switch (kind) {
+    case "partnership":
+      return "partnership";
+    case "careers":
+      return "careers";
+    default:
+      return "project";
+  }
+}
+
+function sourceFor(kind: WishKind): LeadSubmittedSource {
+  switch (kind) {
+    case "teardown":
+      return "teardown";
+    case "partnership":
+      return "partnership";
+    case "careers":
+      return "careers";
+    case "contact":
+      return "lumi-chat";
+    default:
+      return "lumi-chat";
+  }
+}
+
+type LeadSubmittedSource =
+  | "contact-form"
+  | "lumi-chat"
+  | "synthetic"
+  | "teardown"
+  | "partnership"
+  | "careers";
+
 export function wishFlowPayload(state: WishState, locale: Locale): LeadInput | null {
   if (state.step !== "done" || !state.draft.name || !state.draft.email) return null;
   if (state.kind === "teardown" && !state.draft.url) return null;
@@ -163,12 +245,12 @@ export function wishFlowPayload(state: WishState, locale: Locale): LeadInput | n
     name: state.draft.name,
     email: state.draft.email,
     company: state.draft.company ?? state.draft.url ?? "",
-    intent: "project",
+    intent: intentFor(state.kind),
     message: state.draft.message ?? "",
     consent: true,
     website: "",
     locale,
-    source: state.kind === "teardown" ? "teardown" : "lumi-chat",
+    source: sourceFor(state.kind),
     url: state.draft.url ?? "",
     ...utm,
   };

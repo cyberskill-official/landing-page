@@ -1,4 +1,4 @@
-// Pure motion-math helpers for the premium polish layer (FR-DS-012).
+// Pure motion-math helpers for the premium polish layer (TASK-DS-012).
 // DOM-free on purpose so they unit-test directly (tests/motion-polish.test.ts):
 // the JS-driven affordances (magnetic CTAs, card tilt, kinetic headline) keep
 // their arithmetic here and their wiring in components/motion/MotionExtras.tsx.
@@ -32,7 +32,7 @@ export function magneticOffset(
   };
 }
 
-// Black-hole digest easing (FR-CHAR-032): how far a block has been devoured
+// Black-hole digest easing (TASK-CHAR-032): how far a block has been devoured
 // at global progress p, staggered by its normalized distance from Lumi
 // (0 = at the hole, 1 = farthest corner). Near blocks fall first; the whole
 // page is fully devoured at p = 1. Smoothstepped for the swallow feel.

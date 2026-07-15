@@ -3,9 +3,10 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { Aurora } from "@/components/motion/Aurora";
 import { KineticText } from "@/components/motion/KineticText";
+import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { Icon } from "@/components/ui/Icon";
 
-// Recruiting / employer-branding surface. The Genie can also route
-// careers-intent visitors here (research doc §E recruiting layer).
+// Recruiting / employer-branding surface. Talent-pool capture is Lumi (careers flow).
 export function Careers({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section id="careers" className="cs-section" aria-labelledby="careers-title" suppressHydrationWarning>
@@ -17,9 +18,14 @@ export function Careers({ locale, dict }: { locale: Locale; dict: Dictionary }) 
           </h2>
           <p className="cs-section-lead" data-mask-reveal="">{dict.sections.careersLead}</p>
         </div>
-        <Link className="cs-btn cs-btn-brand" href={`/${locale}/careers`}>
-          {dict.sections.careersCta}
-        </Link>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--cs-space-3)", alignItems: "center" }}>
+          <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi" flow="careers">
+            <Icon name="sparkle" size="sm" /> {dict.genie.careersLumiCta}
+          </GenieOpenButton>
+          <Link className="cs-btn cs-btn-brand" href={`/${locale}/careers`}>
+            {dict.sections.careersCta}
+          </Link>
+        </div>
       </div>
     </section>
   );

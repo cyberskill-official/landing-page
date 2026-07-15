@@ -57,7 +57,7 @@ export function TrustBand({ locale }: { locale: Locale }) {
           ))}
         </ul>
 
-        {/* Client Logos / Industries Served (FR-CMS-013) */}
+        {/* Client Logos / Industries Served (TASK-CMS-013) */}
         {clientLogos.length >= 3 ? (
           <div className="cs-logo-strip" style={{
             display: "flex",

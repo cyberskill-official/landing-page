@@ -1,4 +1,4 @@
-// Lumi's full-page flight plan (FR-CHAR-030). The pure math lives here so it
+// Lumi's full-page flight plan (TASK-CHAR-030). The pure math lives here so it
 // unit-tests without a DOM or WebGL (tests/journey.test.ts); the scene feeds
 // it real section positions at runtime.
 //
@@ -32,10 +32,28 @@ export const ROUTE: ReadonlyArray<{ selector: string; anchor: ViewportAnchor }> 
   { selector: "#contact", anchor: { vx: 0.47, vy: 0.42, scale: 0.36 } },
 ];
 
-// While the chat panel is open Lumi leaves the route and holds the chat
-// cloud: the cloud floats centre-right with its thought-dots pointing up
-// toward this anchor, so the genie reads as speaking the bubble.
-export const CHAT_ANCHOR: ViewportAnchor = { vx: 0.7, vy: 0.2, scale: 0.4 };
+// Chat cloud centre (viewport fractions) — Lumi orbits this point while
+// the genie panel is open, shooting energy into the cloud.
+// Scale is large so the full-size scene mascot reads clearly outside the shell.
+export const CHAT_CENTER: ViewportAnchor = { vx: 0.5, vy: 0.48, scale: 1.05 };
+/** @deprecated use CHAT_CENTER + orbit; kept for tests that import the name */
+export const CHAT_ANCHOR: ViewportAnchor = CHAT_CENTER;
+
+/**
+ * Orbit radius — keep Lumi outside the fixed cloud shell on 14" screens.
+ * Slightly wider horizontal so she doesn't sit under the dim scrim center.
+ */
+export const CHAT_ORBIT = { rx: 0.46, ry: 0.26, speed: 0.5 } as const;
+
+/** Sample Lumi's chat-open orbit at elapsed seconds (smooth ellipse around center). */
+export function sampleChatOrbit(elapsedSec: number): ViewportAnchor {
+  const a = elapsedSec * CHAT_ORBIT.speed;
+  return {
+    vx: CHAT_CENTER.vx + Math.cos(a) * CHAT_ORBIT.rx,
+    vy: CHAT_CENTER.vy + Math.sin(a) * CHAT_ORBIT.ry,
+    scale: CHAT_CENTER.scale,
+  };
+}
 
 export function clamp(value: number, min: number, max: number): number {
   return value < min ? min : value > max ? max : value;

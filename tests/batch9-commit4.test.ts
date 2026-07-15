@@ -3,7 +3,7 @@ import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { POST } from "@/app/api/lead/route";
 import { mapLeadToCrm, CRM_FIELD_MAPPING } from "@/lib/lead/crm-mapping";
 
-describe("Batch 9 Commit 4 tests — FR-CTA-006 & FR-CHAR-027 (CRM Webhook & Slack Transcript)", () => {
+describe("Batch 9 Commit 4 tests — TASK-CTA-006 & TASK-CHAR-027 (CRM Webhook & Slack Transcript)", () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe("Batch 9 Commit 4 tests — FR-CTA-006 & FR-CHAR-027 (CRM Webhook & Sla
     vi.restoreAllMocks();
   });
 
-  // --- FR-CTA-006: CRM Webhook Field Mapping ---
+  // --- TASK-CTA-006: CRM Webhook Field Mapping ---
   test("api/lead-crm-mapping: maps form input fields to CRM properties correctly", () => {
     const lead = {
       name: "John Doe",
@@ -72,7 +72,7 @@ describe("Batch 9 Commit 4 tests — FR-CTA-006 & FR-CHAR-027 (CRM Webhook & Sla
     expect(mapped[CRM_FIELD_MAPPING.transcript]).toContain("[Lumi]: Chào Alice! Tôi giúp gì được bạn?");
   });
 
-  // --- FR-CHAR-027: Transcript Notifications in Slack & Email ---
+  // --- TASK-CHAR-027: Transcript Notifications in Slack & Email ---
   test("genie/crm-handoff: appends chat transcript to Resend email and Slack notifications", async () => {
     process.env.RESEND_API_KEY = "mock-resend-key";
     process.env.LEAD_CRM_WEBHOOK_URL = "http://mock-crm/leads";
@@ -129,7 +129,7 @@ describe("Batch 9 Commit 4 tests — FR-CTA-006 & FR-CHAR-027 (CRM Webhook & Sla
     expect(emailBody.text).toContain("[Lumi]: Great, tell me your experience");
   });
 
-  // --- Error tracking (FR-OPS-010 check) ---
+  // --- Error tracking (TASK-OPS-010 check) ---
   test("lead/total-failure-alert: logs a pipeline failure error when all active sinks fail", async () => {
     process.env.VITEST_FORCE_PROD = "true";
     process.env.LEAD_STORE_DIR = "/read-only-or-invalid-dir/leads";

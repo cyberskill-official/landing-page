@@ -17,7 +17,7 @@ Increment A - Lumi GLB drop-in readiness (commit 2b12d68)
 - `components/canvas/LumiPlaceholder.tsx`: dispose the hand-built aura
   `ShaderMaterial` on unmount.
 - `docs/3d/lumi-glb-integration.md`: enable steps + Meshy export checklist.
-- FR outcome: FR-SCENE-010 shipped. FR-CHAR-022 and FR-SCENE-009 stay planned -
+- task outcome: TASK-SCENE-010 shipped. TASK-CHAR-022 and TASK-SCENE-009 stay planned -
   their drop-in wiring and GPU disposal are in place, but the real model
   (CHAR-022) and distance LOD (SCENE-009) remain. Default (no env) keeps the
   procedural Lumi unchanged.
@@ -33,7 +33,7 @@ Increment B - served-route accessibility gate (commit 631271b)
   and ran axe in jsdom per route - all clean on structural WCAG A/AA (20-25 rules
   each, zero serious/critical). color-contrast is covered by the CI Chrome job
   plus the APCA tooling.
-- FR outcome: FR-A11Y-003 stays planned until the job is observed green on x86_64
+- task outcome: TASK-A11Y-003 stays planned until the job is observed green on x86_64
   CI and flipped to required.
 
 Increment C - bundle analysis + code-split audit (commit f0db578)
@@ -44,7 +44,7 @@ Increment C - bundle analysis + code-split audit (commit f0db578)
 - Analyzer-proven: the first-load shared chunks carry no `three`/`@react-three`/
   `gsap`; the 3D stack (about 304 KB gzip) is split into async chunks loaded only
   when CanvasMount dynamically imports the scene. First Load JS stays 176 KB.
-- FR outcome: FR-PERF-004 shipped.
+- task outcome: TASK-PERF-004 shipped.
 
 ## Verification (each increment)
 
@@ -61,7 +61,7 @@ build for increment A); `check:assets` within budget. Sandbox build dir
 1. Push `auto/glb-perf-a11y`; confirm the build job is green and watch the new
    advisory `a11y` job's first run on x86_64 CI.
 2. Once the `a11y` job is green on CI, flip it to a required gate (remove
-   `continue-on-error`) and move FR-A11Y-003 to shipped.
+   `continue-on-error`) and move TASK-A11Y-003 to shipped.
 3. Lumi model: when the Meshy GLB is ready, drop it at `public/models/lumi.glb`,
-   set `NEXT_PUBLIC_LUMI_GLB`, redeploy; then FR-CHAR-022 can move to shipped and
-   FR-SCENE-009 LOD can be revisited against the real geometry.
+   set `NEXT_PUBLIC_LUMI_GLB`, redeploy; then TASK-CHAR-022 can move to shipped and
+   TASK-SCENE-009 LOD can be revisited against the real geometry.

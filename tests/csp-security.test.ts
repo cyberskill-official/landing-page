@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 import { proxy as middleware } from "../proxy";
 import { POST as cspReportPost } from "../app/api/csp-report/route";
 
-describe("FR-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
+describe("TASK-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
@@ -114,6 +114,7 @@ describe("FR-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     // violates ... font-src 'self'") - each was the next violation surfaced
     // once the prior one was fixed.
     expect(csp).toContain("https://vercel.live");
+    expect(csp).toContain("https://va.vercel-scripts.com");
     expect(csp).toContain("frame-src 'self' https://vercel.live");
     expect(csp).toContain("font-src 'self' https://vercel.live");
     expect(csp).toContain("frame-ancestors 'none'");

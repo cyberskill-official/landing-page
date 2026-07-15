@@ -37,13 +37,13 @@ export function LeadForm({
   locale: Locale;
   dict: Dictionary;
   source?: string;
-  /** FR-CMS-019: partnership section pre-selects intent=partnership */
+  /** TASK-CMS-019: partnership section pre-selects intent=partnership */
   defaultIntent?: LeadInput["intent"];
   hasNewsletter?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "ok" | "error">("idle");
 
-  // Funnel tracking (FR-CTA-009): form_start on first interaction, lead_abandoned
+  // Funnel tracking (TASK-CTA-009): form_start on first interaction, lead_abandoned
   // if the form was started but never submitted when the user leaves. Refs keep
   // these one-shot and out of render.
   const startedRef = useRef(false);
@@ -83,7 +83,7 @@ export function LeadForm({
   async function onSubmit(values: LeadInput) {
     setStatus("submitting");
     const utm = readUtm();
-    // FR-OPS-011: append UTM fields if captured from session
+    // TASK-OPS-011: append UTM fields if captured from session
     const payload = {
       ...values,
       ...utm,
@@ -111,7 +111,7 @@ export function LeadForm({
       <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite" style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", borderTop: "1px solid var(--cs-color-border)", textAlign: "center" }}>
         <h3 style={{ color: "var(--cs-color-primary)", marginBottom: "var(--cs-space-sm)" }}>{dict.form.successTitle}</h3>
         <p style={{ margin: 0, fontSize: "var(--cs-text-md)", marginBottom: "var(--cs-space-4)" }}>{dict.form.successBody}</p>
-        {/* FR-CTA-005 thank-you booking path + FR-CTA-016 profile PDF */}
+        {/* TASK-CTA-005 thank-you booking path + TASK-CTA-016 profile PDF */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--cs-space-2)", justifyContent: "center", marginBottom: "var(--cs-space-4)" }}>
           <BookingLink locale={locale} location="thank-you" />
           <ProfileDownloadLink locale={locale} location="thank-you" />
@@ -130,7 +130,7 @@ export function LeadForm({
 
   return (
     <form className="cs-form clarity-mask" data-clarity-mask="true" onSubmit={handleSubmit(onSubmit)} onFocus={markStarted} noValidate>
-      {/* Honeypot: hidden from people, tempting to bots (FR-CTA-013 §1.3). */}
+      {/* Honeypot: hidden from people, tempting to bots (TASK-CTA-013 §1.3). */}
       <div className="cs-visually-hidden" aria-hidden="true">
         <label htmlFor="website" aria-hidden="true">Leave this empty</label>
         <input id="website" type="text" tabIndex={-1} aria-hidden="true" autoComplete="off" {...register("website")} />

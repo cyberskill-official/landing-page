@@ -21,7 +21,7 @@ function mockEnv(vars: Record<string, string | undefined>) {
   };
 }
 
-describe("FR-CHAR-028: Transcript persistence & disclosures", () => {
+describe("TASK-CHAR-028: Transcript persistence & disclosures", () => {
   beforeEach(() => {
     vi.resetModules();
     resetDb();

@@ -8,16 +8,18 @@ import { ThemeToggle } from "@/components/header/ThemeToggle";
 import { SoundToggle } from "@/components/header/SoundToggle";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 
+/**
+ * Slim primary nav for a dual-purpose site:
+ * 1) Vision + process (Process page + home overview)
+ * 2) Work showcases + Notes articles
+ * Contact is Lumi, not a fragmented #anchor list.
+ */
 export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const base = `/${locale}`;
   return (
     <header className="cs-header cs-surface-light cs-no-print">
       <div className="cs-container cs-header-inner">
         <Link href={base} className="cs-wordmark" aria-label={dict.a11y.homeLabel}>
-          {/* Official mark. width/height reserve the box so it never shifts
-              layout; kept <= the header's 38px min-height so header geometry is
-              unchanged whether or not the SVG has painted (CLS-safe). Decorative
-              (alt=""): the visible name and the link's aria-label carry meaning. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="cs-wordmark-mark" src="/brand/logo.svg" alt={dict.a11y.logoAlt} width={34} height={34} />
           <span className="cs-wordmark-text">
@@ -27,21 +29,17 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
         </Link>
 
         <nav className="cs-nav" aria-label={dict.a11y.primaryNav}>
-          <a href={`${base}#services`}>{dict.nav.services}</a>
           <Link href={`${base}/work`}>{dict.nav.work}</Link>
-          <Link href={`${base}/team`}>{dict.nav.team}</Link>
           <Link href={`${base}/how-we-build`}>{dict.nav.howWeBuild}</Link>
           <Link href={`${base}/notes`}>{dict.nav.notes}</Link>
-          <Link href={`${base}/careers`}>{dict.nav.careers}</Link>
-          <a href={`${base}#contact`}>{dict.nav.contact}</a>
         </nav>
 
         <div className="cs-header-actions">
           <SoundToggle on={dict.a11y.soundOn} off={dict.a11y.soundOff} />
           <ThemeToggle toDark={dict.a11y.themeToDark} toLight={dict.a11y.themeToLight} />
           <LanguageSwitcher current={locale} label={dict.a11y.languageLabel} />
-          <GenieOpenButton className="cs-btn cs-btn-primary cs-header-cta cs-lumi-alt">
-            {dict.hero.ctaSecondary}
+          <GenieOpenButton className="cs-btn cs-btn-primary cs-header-cta" flow="contact">
+            {dict.genie.open}
           </GenieOpenButton>
         </div>
       </div>

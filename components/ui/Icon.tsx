@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { icons, type IconName } from "@/lib/icons";
 
-// One renderer for the in-repo icon set (FR-DS-010). Size comes from --cs-icon-*
+// One renderer for the in-repo icon set (TASK-DS-010). Size comes from --cs-icon-*
 // tokens (sm/md/lg) and color inherits currentColor. Decorative by default
 // (aria-hidden); pass `label` to expose a meaningful icon to assistive tech.
 export function Icon({

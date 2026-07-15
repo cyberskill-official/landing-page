@@ -3,7 +3,7 @@
 import { useGenieStore } from "@/lib/genie/store";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
-// DOM-text mirror of the canvas (FR-A11Y-005). Lumi and the 3D scene are
+// DOM-text mirror of the canvas (TASK-A11Y-005). Lumi and the 3D scene are
 // decorative (the canvas layer is aria-hidden), but Lumi's communicative
 // states - thinking while a request is in flight, responding while tokens
 // stream - are mirrored here as polite screen-reader announcements so a

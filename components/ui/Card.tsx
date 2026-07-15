@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from "react";
 
-// In-repo Card primitive (FR-DS-003): a surface that picks a named Liquid Glass
-// material (FR-DS-004) by token, never inventing its own blur. Emits the
+// In-repo Card primitive (TASK-DS-003): a surface that picks a named Liquid Glass
+// material (TASK-DS-004) by token, never inventing its own blur. Emits the
 // existing `.cs-glass-card` / `.cs-surface-*` markup, so it is a drop-in.
 type CardMaterial = "glass" | "whisper" | "light" | "standard" | "heavy" | "solid";
 

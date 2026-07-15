@@ -9,7 +9,7 @@ import LitePage from "@/app/[lang]/lite/page";
 import PrivacyPage from "@/app/[lang]/privacy/page";
 import { resolveMetadata } from "@/lib/content/metadata";
 
-describe("FR-SEO-018: Canonical Entity Sentence Single-Source & Reuse", () => {
+describe("TASK-SEO-018: Canonical Entity Sentence Single-Source & Reuse", () => {
   const locales = ["en", "vi"] as const;
 
   locales.forEach((locale) => {

@@ -1,3 +1,4 @@
+import { LeadCta } from "@/components/cta/LeadCta";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { isLocale, type Locale } from "@/lib/i18n/config";
@@ -65,7 +66,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
         <h1>{dict.sections.workTitle}</h1>
         <p className="cs-section-lead">{dict.sections.workLead}</p>
 
-        {/* Practice Areas (FR-CMS-017 §1.1) */}
+        {/* Practice Areas (TASK-CMS-017 §1.1) */}
         <div style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{t.practicesTitle}</h2>
           <p style={{ color: "var(--cs-color-text-muted)", marginBottom: "var(--cs-space-lg)" }}>{t.practicesLead}</p>
@@ -86,13 +87,13 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
           </div>
         </div>
 
-        {/* Lifecycle (FR-CMS-017 §1.1) */}
+        {/* Lifecycle (TASK-CMS-017 §1.1) */}
         <div className="cs-surface-light cs-prose-card" style={{ maxWidth: "48rem", marginBottom: "var(--cs-space-12)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{t.lifecycleTitle}</h2>
           <p style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.7", color: "var(--cs-color-text-muted)" }}>{t.lifecycleBody}</p>
         </div>
 
-        {/* Outcomes List (FR-CMS-017 §1.1) */}
+        {/* Outcomes List (TASK-CMS-017 §1.1) */}
         <div style={{ marginTop: "var(--cs-space-12)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{t.outcomesTitle}</h2>
           <p style={{ color: "var(--cs-color-text-muted)", marginBottom: "var(--cs-space-lg)" }}>{t.outcomesLead}</p>
@@ -120,9 +121,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
         </div>
 
         <p className="cs-section-more" style={{ marginTop: "var(--cs-space-12)" }}>
-          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
-            {dict.hero.ctaPrimary}
-          </a>
+          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{dict.hero.ctaPrimary}</LeadCta>
         </p>
       </div>
     </section>

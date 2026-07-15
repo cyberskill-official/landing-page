@@ -44,7 +44,7 @@ export const leadSchema = z.object({
   // Optional source tag (e.g. "hero", "footer", "genie").
   source: z.string().max(40).optional(),
   url: z.string().trim().max(300).optional().or(z.literal("")),
-  // FR-OPS-011: Optional UTM parameters for campaign attribution.
+  // TASK-OPS-011: Optional UTM parameters for campaign attribution.
   utm_source: z.string().max(100).optional(),
   utm_medium: z.string().max(100).optional(),
   utm_campaign: z.string().max(100).optional(),
@@ -53,7 +53,7 @@ export const leadSchema = z.object({
   // Attribution / Session details
   sessionId: z.string().max(100).optional(),
   roleInterest: z.string().max(100).optional(),
-  // FR-CHAR-027: Optional chat conversation transcript
+  // TASK-CHAR-027: Optional chat conversation transcript
   transcript: z
     .array(
       z.object({

@@ -1,6 +1,6 @@
 # Client proof permission request (English)
 
-**FR-BIZ-006 §1.1** — send this (or a short email that covers the same points) to past clients whose work you want to feature.
+**TASK-BIZ-006 §1.1** — send this (or a short email that covers the same points) to past clients whose work you want to feature.
 
 ---
 

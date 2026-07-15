@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { createHeroPin, type ScrollStoryHandle } from "@/lib/scroll/lenis-gsap";
 
-// Creates the pinned-hero ScrollTrigger (FR-SCENE-004) from INSIDE the page
+// Creates the pinned-hero ScrollTrigger (TASK-SCENE-004) from INSIDE the page
 // segment. GSAP's `pin: true` wraps .cs-hero in a div.pin-spacer - DOM surgery
 // React must never witness mid-hydration (it throws #418 and regenerates the
 // client tree, which strands every one-shot IntersectionObserver). A page

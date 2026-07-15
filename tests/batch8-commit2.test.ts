@@ -3,13 +3,13 @@ import { NextRequest } from "next/server";
 import { proxy as middleware } from "../proxy";
 import { displayFont } from "@/app/fonts";
 
-describe("Commit 2 tests — FR-PERF-005, FR-PERF-012, FR-OPS-009", () => {
-  // --- FR-PERF-005: Font Loading ---
+describe("Commit 2 tests — TASK-PERF-005, TASK-PERF-012, TASK-OPS-009", () => {
+  // --- TASK-PERF-005: Font Loading ---
   test("lint/font-single-source: displayFont configuration matches requirements", () => {
     expect(displayFont.variable).toBe("--font-display");
   });
 
-  // --- FR-OPS-009: CSP report-only header ---
+  // --- TASK-OPS-009: CSP report-only header ---
   test("headers/csp-present: middleware sets Content-Security-Policy-Report-Only with nonce", () => {
     const req = new NextRequest("https://cyberskill.world/en");
     const res = middleware(req);
@@ -23,7 +23,7 @@ describe("Commit 2 tests — FR-PERF-005, FR-PERF-012, FR-OPS-009", () => {
     expect(csp).toContain("nonce-");
     expect(csp).toContain("https://www.googletagmanager.com");
     expect(csp).toContain("style-src 'self' 'unsafe-inline'");
-    // connect-src carries blob: since the FR-OPS-015 CSP fix (Lumi's glTF
+    // connect-src carries blob: since the TASK-OPS-015 CSP fix (Lumi's glTF
     // texture loads via fetch() on a blob: URL) - see tests/csp-security.test.ts
     // for the full regression suite on this header.
     expect(csp).toContain("connect-src 'self' blob: https://*.google-analytics.com");

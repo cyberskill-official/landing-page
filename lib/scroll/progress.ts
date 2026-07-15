@@ -4,7 +4,7 @@
 //
 // Two views of the same scroll: the hero-scoped progress (0..1 over the first
 // viewport) drives Lumi's spin/glow choreography and the intro beats, while
-// the raw page scroll drives the full-page mascot journey (FR-CHAR-030).
+// the raw page scroll drives the full-page mascot journey (TASK-CHAR-030).
 
 let progress = 0;
 

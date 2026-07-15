@@ -25,9 +25,9 @@ export function useThemeMode(): "light" | "dark" {
   return mode;
 }
 
-// PLACEHOLDER for the commissioned golden-genie GLB (FR-CHAR-021), now a far
+// PLACEHOLDER for the commissioned golden-genie GLB (TASK-CHAR-021), now a far
 // richer procedural Lumi: a lit gold core, a custom-shader fresnel glow/shimmer
-// aura (FR-SCENE-006), an inner nucleus, and orbiting energy wisps. It keeps the
+// aura (TASK-SCENE-006), an inner nucleus, and orbiting energy wisps. It keeps the
 // real model's behaviours - gaze toward the pointer, chat-state-reactive
 // idle/think/speak energy, and scroll-tied choreography (Lumi turns, drifts,
 // and brightens through the story).
@@ -112,12 +112,12 @@ export function LumiPlaceholder() {
   );
 
   // Dispose the custom aura ShaderMaterial when it is replaced (theme flip) or
-  // on unmount, so the WebGL program/uniforms are freed (FR-SCENE-009). R3F
+  // on unmount, so the WebGL program/uniforms are freed (TASK-SCENE-009). R3F
   // disposes the built-in geometries/materials it owns automatically; this one
   // is created by hand, so we release it explicitly.
   useEffect(() => () => aura.dispose(), [aura]);
 
-  // Black-hole palette (FR-CHAR-032): while the visitor holds the mouse, the
+  // Black-hole palette (TASK-CHAR-032): while the visitor holds the mouse, the
   // digest progress darkens the core into a void while the rim stays gold -
   // an event horizon in brand colors. Colors preallocated per theme.
   const holePalette = useMemo(
@@ -148,7 +148,7 @@ export function LumiPlaceholder() {
     c.rotation.y += (targetY - c.rotation.y) * k;
     c.rotation.x += (targetX - c.rotation.x) * k;
 
-    // Chat reactivity (FR-CHAR-023): ease toward 1 while the chat is open. When
+    // Chat reactivity (TASK-CHAR-023): ease toward 1 while the chat is open. When
     // the panel opens or closes, dip the reveal so the dissolve shimmer replays -
     // Lumi disperses and reforms in greeting.
     if (open !== prevOpen.current) {
@@ -158,9 +158,9 @@ export function LumiPlaceholder() {
     chat.current += ((open ? 1 : 0) - chat.current) * Math.min(1, delta * 3);
     const ch = chat.current;
 
-    // Scroll choreography from the one declarative scene-progress map (FR-SCENE-007),
+    // Scroll choreography from the one declarative scene-progress map (TASK-SCENE-007),
     // smoothly eased - no bespoke math here. Chat leans Lumi toward the viewer.
-    // Placement across the page belongs to the mascot rig (FR-CHAR-030); this
+    // Placement across the page belongs to the mascot rig (TASK-CHAR-030); this
     // group only applies LOCAL drift on top of wherever the rig carries it.
     prog.current += (getScrollProgress() - prog.current) * Math.min(1, delta * 2.5);
     const scene = resolveSceneState(prog.current);

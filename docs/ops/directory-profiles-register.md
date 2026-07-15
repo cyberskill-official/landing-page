@@ -1,4 +1,4 @@
-# Directory profiles register (FR-BIZ-005 §1.1)
+# Directory profiles register (TASK-BIZ-005 §1.1)
 
 Populate when each profile is live. NAP must match `docs/ops/nap-listings-register.md`.
 
@@ -11,7 +11,7 @@ Populate when each profile is live. NAP must match `docs/ops/nap-listings-regist
 | ITviec (employer) | ☐ | no | | itviec UTM | |
 | TopDev (employer) | ☐ | no | | topdev UTM | |
 
-## Verified reviews (≥2 required for FR accept)
+## Verified reviews (≥2 required for task accept)
 
 | Source | URL | Date | Client (internal only) |
 |---|---|---|---|

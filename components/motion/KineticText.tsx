@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { splitSloganWords } from "@/lib/motion/kinetic";
 
-// Per-word masked text for section headings (FR-DS-013 v2): the words rise in
+// Per-word masked text for section headings (TASK-DS-013 v2): the words rise in
 // with a stagger when the carrying heading's [data-mask-reveal] flips to
 // "shown". Same accessibility contract as the hero H1 - the heading carries
 // the full string on aria-label, these spans are aria-hidden visuals, and the

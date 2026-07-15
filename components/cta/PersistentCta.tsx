@@ -2,29 +2,16 @@
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { LeadCta } from "@/components/cta/LeadCta";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
-import { Icon } from "@/components/ui/Icon";
-import { CtaLink } from "@/components/cta/CtaLink";
 
-// Always-available, low-friction conversion path that never depends on the 3D
-// scene finishing (research doc §E). Fixed bottom-right; hidden in print.
+// Always-available conversion path. Opens Lumi — never scrolls to #contact.
 export function PersistentCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
-    // The whole bar retires while the living mascot is on stage (operator
-    // decision: Lumi carries both intents there); it remains the conversion
-    // path on devices without the mascot.
     <aside className="cs-persistent-cta cs-no-print cs-lumi-alt" aria-label={dict.a11y.quickActions}>
-      <CtaLink
-        className="cs-btn cs-btn-primary"
-        href={`/${locale}#contact`}
-        location="persistent-cta"
-        label={dict.hero.ctaPrimary}
-      >
-        <span className="cs-cta-icon" aria-hidden="true"><Icon name="chat" size="sm" /></span>
+      <LeadCta className="cs-btn cs-btn-primary" flow="contact" showSparkle={false}>
         <span className="cs-cta-text">{dict.hero.ctaPrimary}</span>
-      </CtaLink>
-      {/* Hidden while the living mascot is on stage: Lumi itself opens the
-          chat there; this stays for devices without the mascot. */}
+      </LeadCta>
       <GenieOpenButton className="cs-btn cs-btn-brand cs-lumi-alt">
         <span className="cs-cta-text">{dict.hero.ctaSecondary}</span>
       </GenieOpenButton>

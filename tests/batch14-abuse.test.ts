@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { POST as geniePost } from "@/app/api/genie/route";
 
-describe("FR-CHAR-029: Abuse Hardening and Durable Rate Limiting", () => {
+describe("TASK-CHAR-029: Abuse Hardening and Durable Rate Limiting", () => {
   const originalEnv = process.env;
   let fetchSpy: any;
 

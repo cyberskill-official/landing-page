@@ -1,7 +1,7 @@
 # Commission brief - Lumi, the golden genie (GLB hero asset)
 
 For: a 3D character artist (Blender + Substance 3D Painter, or equivalent).
-Tracks: FR-CHAR-021. Replaces the procedural placeholder shipped in FR-CHAR-020.
+Tracks: TASK-CHAR-021. Replaces the procedural placeholder shipped in TASK-CHAR-020.
 Reference: research doc §C. CyberSkill owns all IP on delivery.
 
 ## 1. Who Lumi is

@@ -120,7 +120,7 @@ export async function POST(req: Request) {
   }
 
   // Shape, role, per-message + total size caps, and control-char stripping
-  // (FR-CHAR-029) live in the unit-tested parseChatRequest.
+  // (TASK-CHAR-029) live in the unit-tested parseChatRequest.
   const parsed = parseChatRequest(body);
   if (!parsed.ok) {
     return NextResponse.json({ error: "bad_request" }, { status: 400 });
@@ -192,7 +192,7 @@ export async function POST(req: Request) {
       } finally {
         controller.close();
         
-        // Asynchronously persist the transcript to datastore (FR-OPS-005 / FR-CHAR-028)
+        // Asynchronously persist the transcript to datastore (TASK-OPS-005 / TASK-CHAR-028)
         try {
           const db = getDb();
           const dbMessages = [

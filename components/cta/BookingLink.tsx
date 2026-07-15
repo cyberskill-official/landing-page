@@ -10,7 +10,7 @@ const LABELS = {
 } as const;
 
 /**
- * FR-CTA-005: env-gated booking action. Renders nothing without NEXT_PUBLIC_BOOKING_URL.
+ * TASK-CTA-005: env-gated booking action. Renders nothing without NEXT_PUBLIC_BOOKING_URL.
  * Opens in a new tab; emits booking_clicked; never loads a booking script.
  *
  * Prefer passing `url` from a server parent (static env inlined at build). When

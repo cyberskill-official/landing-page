@@ -1,9 +1,6 @@
 import { create } from "zustand";
+import type { WishKind } from "@/lib/genie/wishFlow";
 
-// Shared state machine for the Genie. The chat widget drives it; the Phase-3
-// 3D scene subscribes to `status` and cross-fades animation clips:
-//   idle -> listening (user typing) -> thinking (request in flight)
-//        -> speaking (streaming tokens) -> idle
 export type GenieStatus = "idle" | "listening" | "thinking" | "speaking";
 
 export type GenieMessage = {
@@ -20,23 +17,24 @@ export type CapturedLead = {
   budget_timeline?: string;
 };
 
-export type PendingWishKind = "default" | "teardown";
+/** Entry flow for CTAs → Lumi (alias WishKind). */
+export type GenieFlowKind = WishKind;
 
 type GenieState = {
   open: boolean;
   status: GenieStatus;
   messages: GenieMessage[];
-  // A wish typed in the hero (or teardown CTA), waiting for the chat panel to
-  // seed its flow on open (FR-CHAR-026 / FR-CTA-019). Cleared once consumed.
   pendingWish: string | null;
-  pendingWishKind: PendingWishKind;
+  pendingWishKind: GenieFlowKind;
   isLeadCaptured: boolean;
   capturedLead: CapturedLead | null;
   setOpen: (open: boolean) => void;
   setStatus: (status: GenieStatus) => void;
   addMessage: (message: GenieMessage) => void;
   appendToMessage: (id: string, chunk: string) => void;
-  setPendingWish: (wish: string | null, kind?: PendingWishKind) => void;
+  setPendingWish: (wish: string | null, kind?: GenieFlowKind) => void;
+  /** Open modal and optionally seed a lead flow. */
+  openFlow: (kind?: GenieFlowKind, seed?: string | null) => void;
   setLeadCaptured: (captured: boolean, leadData?: CapturedLead | null) => void;
   reset: () => void;
 };
@@ -58,6 +56,12 @@ export const useGenieStore = create<GenieState>((set) => ({
     })),
   setPendingWish: (pendingWish, kind = "default") =>
     set({ pendingWish, pendingWishKind: kind }),
+  openFlow: (kind = "default", seed = null) =>
+    set({
+      open: true,
+      pendingWishKind: kind,
+      pendingWish: seed,
+    }),
   setLeadCaptured: (isLeadCaptured, capturedLead = null) => set({ isLeadCaptured, capturedLead }),
   reset: () =>
     set({

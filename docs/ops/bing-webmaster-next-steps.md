@@ -1,4 +1,4 @@
-# Bing Webmaster — next steps (FR-BIZ-008 residual)
+# Bing Webmaster — next steps (TASK-BIZ-008 residual)
 
 Operator 2026-07-15 (later): residual steps **done** (Bing + sitemap with GSC).
 

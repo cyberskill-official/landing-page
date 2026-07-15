@@ -1,6 +1,6 @@
 import { isLocale, type Locale } from "@/lib/i18n/config";
 
-// Pure request validation for the /api/genie chat proxy (FR-CHAR-029). Kept
+// Pure request validation for the /api/genie chat proxy (TASK-CHAR-029). Kept
 // separate from the route handler so the abuse-hardening rules - shape, role,
 // per-message and total size caps, control-character stripping - are unit
 // tested. The route stays a thin transport wrapper around this.

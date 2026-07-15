@@ -1,13 +1,13 @@
-# FR-BIZ-003 — Production lead pipeline e2e evidence (2026-07-15)
+# TASK-BIZ-003 — Production lead pipeline e2e evidence (2026-07-15)
 
 **Status:** partial — configured sinks proved for Resend-only production; open items below.  
 **Configured sinks (production, 2026-07-15):** Resend email to `info@cyberskill.world` + visitor ack.  
-**Not configured (intentional):** Slack (`LEAD_SLACK_WEBHOOK_URL` unset), CyberOS CRM webhook (FR-BIZ-002 deferred).  
+**Not configured (intentional):** Slack (`LEAD_SLACK_WEBHOOK_URL` unset), CyberOS CRM webhook (TASK-BIZ-002 deferred).  
 **Code:** CRM webhook optional; fail-closed on `RESEND_API_KEY` only (`app/api/lead/route.ts`).
 
 ## Configured-sink interpretation
 
-FR §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, CyberOS) are **out of scope for this proof** until BIZ-002. BIZ-001 evidence: `docs/verification/fr-biz-001-lead-sinks-2026-07-15.md`.
+task §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, CyberOS) are **out of scope for this proof** until BIZ-002. BIZ-001 evidence: `docs/verification/fr-biz-001-lead-sinks-2026-07-15.md`.
 
 ## Submissions observed (operator screenshots / session)
 
@@ -42,7 +42,7 @@ FR §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, C
 1. [x] /vi lead — operator confirmed 2026-07-15.  
 2. [x] Reply-To / residual 1–5 — operator confirmed done 2026-07-15.  
 3. [ ] Optional: delete/test-label test leads so inbox stays clean.  
-4. [ ] HITL: operator may set FR-BIZ-003 → `done` when satisfied (agent must not).
+4. [ ] HITL: operator may set TASK-BIZ-003 → `done` when satisfied (agent must not).
 
 ## Notes for later CyberOS (excluded this goal)
 

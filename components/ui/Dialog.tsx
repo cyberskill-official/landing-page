@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-// In-repo modal Dialog primitive (FR-DS-003): role="dialog" aria-modal="true",
+// In-repo modal Dialog primitive (TASK-DS-003): role="dialog" aria-modal="true",
 // traps Tab focus within the panel, closes on Escape or backdrop click, and
 // restores focus to the opener on close. Tokenized surface (cs-surface-heavy),
 // no external dependency. (The Lumi chat is intentionally a separate non-modal

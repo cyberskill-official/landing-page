@@ -9,7 +9,7 @@ import { company, siteUrl } from "@/lib/content/site";
 import { CosmosBackdrop } from "@/components/CosmosBackdrop";
 import { CosmosCanvas } from "@/components/CosmosCanvas";
 import { CursorTrail } from "@/components/motion/CursorTrail";
-import { displayFont } from "@/app/fonts";
+import { bodyFont, displayFont } from "@/app/fonts";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 import { MotionPreferenceSync } from "@/components/a11y/MotionPreferenceSync";
 
@@ -75,12 +75,17 @@ export default async function RootLayout({
     // Dark is the default theme (operator decision 2026-07-02): the gold-on-
     // umber art direction is the brand-defining look. A stored "light"
     // preference still wins via the no-flash script below.
-    <html lang={bcp47[locale]} data-theme="dark" className={displayFont.variable} suppressHydrationWarning>
+    <html
+      lang={bcp47[locale]}
+      data-theme="dark"
+      className={`${displayFont.variable} ${bodyFont.variable}`}
+      suppressHydrationWarning
+    >
       <AnalyticsScripts nonce={nonce} />
       <body>
         <script
           // No-flash: apply the saved theme before paint, and arm the
-          // once-per-session intro veil (FR-DS-012) - skipped entirely under
+          // once-per-session intro veil (TASK-DS-012) - skipped entirely under
           // prefers-reduced-motion, and without JS the attribute is never set,
           // so the veil stays display:none for crawlers and no-JS visitors.
           //

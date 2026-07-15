@@ -5,5 +5,5 @@
   "maxPublicTotalKB": 4200,
   "maxClientJsTotalKB": 2800,
   "maxFirstLoadJsKB": 550,
-  "note": "Deterministic asset/bundle guard (FR-PERF-003). Sizes are uncompressed bytes from the built output - a relative regression guard, not a transfer-size target (Lighthouse budget.json covers per-page transfer). maxPublicTotalKB was raised from 600 to 4200 when the commissioned animated Lumi GLB landed (FR-CHAR-022, /models/lumi_anim.glb, ~3.6MB: meshopt-simplified + KHR_mesh_quantization + EXT_texture_webp, no draco so the stock GLTFLoader reads it). It stays under maxGlbKB 4096 and is desktop-only + lazy + ssr:false, so it never blocks first paint or ships to mobile."
+  "note": "Deterministic asset/bundle guard (TASK-PERF-003). Sizes are uncompressed bytes from the built output - a relative regression guard, not a transfer-size target (Lighthouse budget.json covers per-page transfer). maxPublicTotalKB was raised from 600 to 4200 when the commissioned animated Lumi GLB landed (TASK-CHAR-022, /models/lumi_anim.glb, ~3.6MB: meshopt-simplified + KHR_mesh_quantization + EXT_texture_webp, no draco so the stock GLTFLoader reads it). It stays under maxGlbKB 4096 and is desktop-only + lazy + ssr:false, so it never blocks first paint or ships to mobile."
 }

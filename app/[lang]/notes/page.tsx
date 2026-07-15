@@ -6,6 +6,7 @@ import { resolveMetadata } from "@/lib/content/metadata";
 import { notes } from "@/lib/content/notes";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { LeadCta } from "@/components/cta/LeadCta";
 
 export async function generateMetadata({
   params,
@@ -51,81 +52,47 @@ export default async function NotesListPage({
   const dict = getDictionary(locale);
 
   return (
-    <section className="cs-section" suppressHydrationWarning>
-      <div className="cs-container" style={{ maxWidth: "48rem" }}>
+    <section className="cs-section cs-notes-page" suppressHydrationWarning>
+      <div className="cs-container cs-notes-wrap">
         <BreadcrumbJsonLd
           items={[
             { name: locale === "vi" ? "Trang chủ" : "Home", path: `/${locale}` },
             { name: locale === "vi" ? "Góc nhìn" : "Notes", path: `/${locale}/notes` },
           ]}
         />
-        <p className="cs-eyebrow">{locale === "vi" ? "GÓC NHÌN & CHIA SẺ" : "ENGINEERING INSIGHTS"}</p>
-        <h1>{locale === "vi" ? "Ghi chép kỹ thuật" : "Engineering Notes"}</h1>
-        <p className="cs-section-lead" style={{ marginBottom: "var(--cs-space-12)" }}>
-          {locale === "vi"
-            ? "Chia sẻ kinh nghiệm thực tế về tối ưu hiệu năng, xây dựng tính năng tiếp cận và thiết lập kiến trúc CI tại studio."
-            : "Practical thoughts on automating build quality gates, preventing code regression, and accessibility standards."}
-        </p>
+        <header className="cs-notes-header">
+          <p className="cs-eyebrow">{locale === "vi" ? "Góc nhìn kỹ thuật" : "Engineering insights"}</p>
+          <h1>{locale === "vi" ? "Ghi chép kỹ thuật" : "Engineering Notes"}</h1>
+          <p className="cs-section-lead">
+            {locale === "vi"
+              ? "Chia sẻ thực tế về cổng chất lượng CI, Core Web Vitals và tiêu chuẩn tiếp cận tại studio."
+              : "Practical notes on CI quality gates, Core Web Vitals, and accessibility standards at the studio."}
+          </p>
+        </header>
 
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "var(--cs-space-lg)"
-        }}>
+        <ul className="cs-notes-list" role="list">
           {notes.map((post) => (
-            <article key={post.slug} className="cs-surface-light cs-prose-card" style={{
-              padding: "var(--cs-space-lg)",
-              borderRadius: "var(--cs-radius-md)",
-              border: "1px solid var(--cs-color-border)",
-            }}>
-              <time style={{
-                fontSize: "var(--cs-text-xs)",
-                color: "var(--cs-color-primary)",
-                fontWeight: "bold"
-              }}>
-                {post.publishedAt}
-              </time>
-              
-              <h2 style={{
-                fontSize: "var(--cs-text-lg)",
-                margin: "var(--cs-space-2xs) 0 var(--cs-space-sm) 0"
-              }}>
-                <Link href={`/${locale}/notes/${post.slug}`} style={{
-                  color: "var(--cs-color-text-primary)",
-                  textDecoration: "none"
-                }} className="cs-hover-link">
-                  {localize(post.title, locale)}
+            <li key={post.slug}>
+              <article className="cs-note-card">
+                <time className="cs-note-card-date" dateTime={post.publishedAt}>
+                  {post.publishedAt}
+                </time>
+                <h2 className="cs-note-card-title">
+                  <Link href={`/${locale}/notes/${post.slug}`}>{localize(post.title, locale)}</Link>
+                </h2>
+                <p className="cs-note-card-summary">{localize(post.summary, locale)}</p>
+                <Link className="cs-note-card-more" href={`/${locale}/notes/${post.slug}`}>
+                  {locale === "vi" ? "Đọc bài →" : "Read note →"}
                 </Link>
-              </h2>
-              
-              <p style={{
-                fontSize: "var(--cs-text-sm)",
-                lineHeight: "1.6",
-                color: "var(--cs-color-text-muted)",
-                margin: "0 0 var(--cs-space-md) 0"
-              }}>
-                {localize(post.summary, locale)}
-              </p>
-              
-              <Link href={`/${locale}/notes/${post.slug}`} style={{
-                fontSize: "var(--cs-text-sm)",
-                fontWeight: "bold",
-                color: "var(--cs-color-primary)",
-                textDecoration: "none"
-              }}>
-                {locale === "vi" ? "Đọc bài viết →" : "Read note →"}
-              </Link>
-            </article>
+              </article>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
+        <div className="cs-page-cta">
+          <LeadCta className="cs-btn cs-btn-primary" flow="contact">
             {dict.hero.ctaPrimary}
-          </a>
-          <Link className="cs-btn" href={`/${locale}`}>
-            {locale === "vi" ? "Quay lại" : "Back Home"}
-          </Link>
+          </LeadCta>
         </div>
       </div>
     </section>

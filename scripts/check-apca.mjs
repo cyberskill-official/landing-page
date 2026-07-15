@@ -1,4 +1,4 @@
-// APCA contrast guard (FR-DS-006). Computes APCA Lc for the key text-on-surface
+// APCA contrast guard (TASK-DS-006). Computes APCA Lc for the key text-on-surface
 // pairs - including the composited Liquid Glass state, not just the token colour
 // - and reports each, flagging body text below Lc 75 and interactive labels
 // below Lc 90. Run locally: `npm run check:apca`. Exits non-zero on a miss.
@@ -35,7 +35,7 @@ const checks = [
 ];
 
 let failed = 0;
-console.log("APCA Lc (FR-DS-006):");
+console.log("APCA Lc (TASK-DS-006):");
 for (const [label, text, bg, min] of checks) {
   const lc = lcHexOnRgb(text, bg);
   const ok = lc >= min;

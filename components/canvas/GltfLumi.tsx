@@ -19,17 +19,17 @@ import {
 } from "@/lib/scene/mascot";
 import { resolveSceneState } from "@/lib/scene/progressMap";
 
-// Commissioned GLB Lumi (FR-CHAR-022). Mounted only when NEXT_PUBLIC_LUMI_GLB is
+// Commissioned GLB Lumi (TASK-CHAR-022). Mounted only when NEXT_PUBLIC_LUMI_GLB is
 // set (see GenieScene), so the procedural placeholder stays the default until a
 // real model is dropped in. The model is skeleton-cloned (see below) so per-frame
-// transforms never mutate drei's shared cache (FR-SCENE-009), and it plays the
+// transforms never mutate drei's shared cache (TASK-SCENE-009), and it plays the
 // baked Idle clip. It reuses the same scroll choreography as the placeholder:
 // turn + drift from the scene map, with a light pointer-gaze.
 //
 // Tuning: a Meshy/Blender export rarely lands at the right size or origin for
 // this hero framing. Adjust BASE_SCALE / BASE_POSITION below (or re-export the
 // model centred at the origin, ~2 units tall) once you can see it on the page.
-// Placement across the page belongs to the mascot rig (FR-CHAR-030); these
+// Placement across the page belongs to the mascot rig (TASK-CHAR-030); these
 // offsets are LOCAL (model centring), not page position.
 const BASE_SCALE = 1;
 const BASE_POSITION: [number, number, number] = [0, -0.4, 0];
@@ -58,7 +58,7 @@ export function GltfLumi({ url }: { url: string }) {
   // leaves the copy bound to the source skeleton, so the baked animation would not
   // deform this instance. SkeletonUtils shares geometry/materials with drei's
   // cached original, so we do NOT dispose them here (that would corrupt the cache
-  // on remount); drei owns the cached source's lifecycle (FR-SCENE-009).
+  // on remount); drei owns the cached source's lifecycle (TASK-SCENE-009).
   const model = useMemo(() => {
     const clone = SkeletonUtils.clone(scene);
     // Premium material polish: clone the shared materials (so drei's cache stays
@@ -79,7 +79,7 @@ export function GltfLumi({ url }: { url: string }) {
     return clone;
   }, [scene]);
 
-  // Dispose cloned materials and geometries when the model unmounts or changes (FR-SCENE-009).
+  // Dispose cloned materials and geometries when the model unmounts or changes (TASK-SCENE-009).
   useEffect(() => {
     return () => {
       model.traverse((o) => {
@@ -124,7 +124,7 @@ export function GltfLumi({ url }: { url: string }) {
     };
   }, [actions]);
 
-  // Gesture player (FR-CHAR-034): crossfade Idle -> a one-shot clip -> Idle.
+  // Gesture player (TASK-CHAR-034): crossfade Idle -> a one-shot clip -> Idle.
   // Driven by the scene - SceneFocus queues Wave/Cast on each act arrival, a
   // granted wish casts, and hovering Lumi waves - so she performs instead of
   // gliding in Idle (the "ragdoll" fix). Guarded so overlapping requests never

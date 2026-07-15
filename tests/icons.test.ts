@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { icons, type IconName } from "@/lib/icons";
 
-describe("icon set (FR-DS-010)", () => {
+describe("icon set (TASK-DS-010)", () => {
   const names: IconName[] = [
     "close",
     "sun",

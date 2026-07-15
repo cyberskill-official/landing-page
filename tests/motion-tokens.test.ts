@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { parseDurationToSeconds } from "@/lib/motion/tokens";
 
-describe("parseDurationToSeconds (FR-DS-009)", () => {
+describe("parseDurationToSeconds (TASK-DS-009)", () => {
   it("parses milliseconds and seconds to seconds", () => {
     expect(parseDurationToSeconds("250ms", 1)).toBeCloseTo(0.25);
     expect(parseDurationToSeconds("1100ms", 1)).toBeCloseTo(1.1);

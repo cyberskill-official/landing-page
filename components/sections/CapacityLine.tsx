@@ -6,7 +6,7 @@ import {
 import { localize } from "@/lib/i18n/types";
 
 /**
- * FR-CTA-018: True capacity line near the contact heading.
+ * TASK-CTA-018: True capacity line near the contact heading.
  * Hidden entirely when capacity is unset or the commercial policy is stale.
  */
 export function CapacityLine({

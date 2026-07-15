@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { negotiateLocale } from "@/lib/i18n/negotiate";
 
-describe("negotiateLocale (FR-WEB-004)", () => {
+describe("negotiateLocale (TASK-WEB-004)", () => {
   it("falls back to the default locale when the header is missing or empty", () => {
     expect(negotiateLocale(null)).toBe("en");
     expect(negotiateLocale(undefined)).toBe("en");

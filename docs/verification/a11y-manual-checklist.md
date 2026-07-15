@@ -1,8 +1,8 @@
-# Manual a11y lab checklists (FR-A11Y-008 / FR-A11Y-014)
+# Manual a11y lab checklists (TASK-A11Y-008 / TASK-A11Y-014)
 
 Agent cannot run VoiceOver/NVDA or real devices for you. Use this sheet; log findings dated under `docs/verification/a11y-sr-YYYY-MM-DD.md` or `a11y-device-YYYY-MM-DD.md`.
 
-## FR-A11Y-008 — Screen readers
+## TASK-A11Y-008 — Screen readers
 
 | Check | VoiceOver (Safari macOS/iOS) | NVDA (Firefox Windows) |
 |---|---|---|
@@ -17,7 +17,7 @@ Agent cannot run VoiceOver/NVDA or real devices for you. Use this sheet; log fin
 **Pass rule:** no serious/critical barriers on home + contact + one service page.  
 **Date / operator:** ________
 
-## FR-A11Y-014 — Devices & contrast
+## TASK-A11Y-014 — Devices & contrast
 
 | Viewport | Home | Contact | Chat | Contrast issues |
 |---|---|---|---|---|

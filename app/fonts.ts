@@ -1,15 +1,23 @@
-import { Space_Grotesk } from "next/font/google";
+import { Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
 
 /**
- * FR-PERF-005: Centralised font loading strategy.
+ * Magical brand typography — Vietnamese-complete.
  *
- * Self-hosted display font (Space Grotesk) subset to Latin + Vietnamese ranges.
- * Declares display: "swap" and preload: true so it is preloaded on initial fetch.
- * Uses size-adjust metric matching (automatic in next/font) to eliminate layout shift.
+ * Display: Space Grotesk (geometric, lamp-modern; full VI diacritics).
+ * Body: Be Vietnam Pro (warm, highly readable Vietnamese + Latin).
+ * Both use display: "swap" + preload to avoid FOIT and layout shift.
  */
 export const displayFont = Space_Grotesk({
   subsets: ["latin", "vietnamese"],
   display: "swap",
   preload: true,
   variable: "--font-display",
+});
+
+export const bodyFont = Be_Vietnam_Pro({
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
+  variable: "--font-body",
 });

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { scrollToId } from "@/lib/scroll/lenis-gsap";
 
-// Guided-story chapter rail (FR-SCENE-011). A fixed side index that turns the
+// Guided-story chapter rail (TASK-SCENE-011). A fixed side index that turns the
 // home page into a directed story: a dot + label per act, lighting up and
 // filling as you scroll, clickable to jump. It reads which section is current
 // from the live layout (rAF-throttled), so it works with the Lenis smooth

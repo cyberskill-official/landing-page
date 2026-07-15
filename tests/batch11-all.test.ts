@@ -26,7 +26,7 @@ function mockEnv(vars: Record<string, string | undefined>) {
   };
 }
 
-describe("Batch 11 tests — FR-SEO-017, FR-SEO-006, FR-CMS-010, FR-OPS-005, FR-A11Y-004", () => {
+describe("Batch 11 tests — TASK-SEO-017, TASK-SEO-006, TASK-CMS-010, TASK-OPS-005, TASK-A11Y-004", () => {
   beforeEach(() => {
     vi.resetModules();
     resetDb();
@@ -36,8 +36,8 @@ describe("Batch 11 tests — FR-SEO-017, FR-SEO-006, FR-CMS-010, FR-OPS-005, FR-
     vi.restoreAllMocks();
   });
 
-  // 1. FR-SEO-017: llms.txt & llms-full.txt and robots stance
-  describe("FR-SEO-017 (llms.txt + robots.txt)", () => {
+  // 1. TASK-SEO-017: llms.txt & llms-full.txt and robots stance
+  describe("TASK-SEO-017 (llms.txt + robots.txt)", () => {
     test("llms.txt returns 200 text/plain and contains legal entity facts (DUNS, HCMC, 2020)", async () => {
       const res = await getLlms();
       expect(res.status).toBe(200);
@@ -73,8 +73,8 @@ describe("Batch 11 tests — FR-SEO-017, FR-SEO-006, FR-CMS-010, FR-OPS-005, FR-
     });
   });
 
-  // 2. FR-SEO-006: RSS/Atom feed
-  describe("FR-SEO-006 (RSS Feed)", () => {
+  // 2. TASK-SEO-006: RSS/Atom feed
+  describe("TASK-SEO-006 (RSS Feed)", () => {
     test("feed.xml returns well-formed RSS XML, locale-aware, excludes drafts, sorts newest-first", async () => {
       const req = new Request("http://localhost/en/feed.xml");
       const res = await getFeed(req, { params: Promise.resolve({ lang: "en" }) });
@@ -105,8 +105,8 @@ describe("Batch 11 tests — FR-SEO-017, FR-SEO-006, FR-CMS-010, FR-OPS-005, FR-
     });
   });
 
-  // 3. FR-CMS-010: Insights post template
-  describe("FR-CMS-010 (Post Template Schema)", () => {
+  // 3. TASK-CMS-010: Insights post template
+  describe("TASK-CMS-010 (Post Template Schema)", () => {
     test("NotePost interface requires title, summary, body, publishedAt, updatedAt, author, tldr", async () => {
       const notesDataPath = path.resolve(process.cwd(), "lib/content/notes.ts");
       const src = fs.readFileSync(notesDataPath, "utf8");
@@ -124,8 +124,8 @@ describe("Batch 11 tests — FR-SEO-017, FR-SEO-006, FR-CMS-010, FR-OPS-005, FR-
     });
   });
 
-  // 4. FR-OPS-005: Datastore
-  describe("FR-OPS-005 (Datastore Adapter)", () => {
+  // 4. TASK-OPS-005: Datastore
+  describe("TASK-OPS-005 (Datastore Adapter)", () => {
     test("InMemoryAdapter save, find, soft delete, and pruneExpired logic", async () => {
       const db = new InMemoryAdapter();
       db.clearAll();
@@ -173,8 +173,8 @@ describe("Batch 11 tests — FR-SEO-017, FR-SEO-006, FR-CMS-010, FR-OPS-005, FR-
     });
   });
 
-  // 5. FR-A11Y-004: Keyboard operability & visible focus
-  describe("FR-A11Y-004 (Keyboard A11Y)", () => {
+  // 5. TASK-A11Y-004: Keyboard operability & visible focus
+  describe("TASK-A11Y-004 (Keyboard A11Y)", () => {
     test("Canvas element is marked tabIndex=-1 in GenieScene.tsx", () => {
       const scenePath = path.resolve(process.cwd(), "components/canvas/GenieScene.tsx");
       const src = fs.readFileSync(scenePath, "utf8");

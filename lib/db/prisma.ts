@@ -72,7 +72,7 @@ export class PrismaDbAdapter implements DbAdapter {
 
     try {
       await withRetry(async () => {
-        // FR-OPS-014 §1.3: Run lead insert & transcript linking atomically inside a transaction
+        // TASK-OPS-014 §1.3: Run lead insert & transcript linking atomically inside a transaction
         await this.prisma.$transaction(async (tx) => {
           await tx.lead.create({
             data: {

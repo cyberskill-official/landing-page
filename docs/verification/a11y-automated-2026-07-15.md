@@ -1,4 +1,4 @@
-# A11y automated pass log (supports FR-A11Y-008 / 014)
+# A11y automated pass log (supports TASK-A11Y-008 / 014)
 
 ## Automated (agent 2026-07-15)
 

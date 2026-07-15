@@ -5,8 +5,8 @@ import { POST as geniePost } from "@/app/api/genie/route";
 import { POST as leadPost } from "@/app/api/lead/route";
 import { NextResponse } from "next/server";
 
-describe("FR-OPS-004: Env Example Parity", () => {
-  it("docs/env-vars maps every variable to its environments (FR-OPS-004 §1.3)", () => {
+describe("TASK-OPS-004: Env Example Parity", () => {
+  it("docs/env-vars maps every variable to its environments (TASK-OPS-004 §1.3)", () => {
     const docPath = path.join(process.cwd(), "docs/deploy/env-vars.md");
     expect(fs.existsSync(docPath)).toBe(true);
     const content = fs.readFileSync(docPath, "utf8");
@@ -25,7 +25,7 @@ describe("FR-OPS-004: Env Example Parity", () => {
     });
   });
 
-  it("checks .env.example contains placeholders only (FR-OPS-004 §1.2)", () => {
+  it("checks .env.example contains placeholders only (TASK-OPS-004 §1.2)", () => {
     const examplePath = path.join(process.cwd(), ".env.example");
     const content = fs.readFileSync(examplePath, "utf8");
     const lines = content.split("\n").map(l => l.trim()).filter(l => l && !l.startsWith("#"));
@@ -45,8 +45,8 @@ describe("FR-OPS-004: Env Example Parity", () => {
   });
 });
 
-describe("FR-OPS-004: Public Secrets Check", () => {
-  it("ci/no-public-secrets: no secret values committed in code (FR-OPS-004 §1.4)", () => {
+describe("TASK-OPS-004: Public Secrets Check", () => {
+  it("ci/no-public-secrets: no secret values committed in code (TASK-OPS-004 §1.4)", () => {
     const searchDirs = ["app", "lib", "components"];
     const secretPatterns = [
       /sk-ant-[a-zA-Z0-9_-]{32,}/g, // Anthropic API Key
@@ -82,7 +82,7 @@ describe("FR-OPS-004: Public Secrets Check", () => {
   });
 });
 
-describe("FR-OPS-004: Env Fail Closed", () => {
+describe("TASK-OPS-004: Env Fail Closed", () => {
   const originalEnv = process.env;
   const originalConsoleError = console.error;
 
@@ -96,7 +96,7 @@ describe("FR-OPS-004: Env Fail Closed", () => {
     console.error = originalConsoleError;
   });
 
-  it("ci/env-fail-closed: api/genie route fails closed when required key is missing (FR-OPS-004 §1.5)", async () => {
+  it("ci/env-fail-closed: api/genie route fails closed when required key is missing (TASK-OPS-004 §1.5)", async () => {
     delete process.env.ANTHROPIC_API_KEY;
 
     const req = new Request("https://cyberskill.world/api/genie", {
@@ -111,7 +111,7 @@ describe("FR-OPS-004: Env Fail Closed", () => {
     expect(data.message).toContain("MISSING_PRODUCTION_KEY_ANTHROPIC_API_KEY");
   });
 
-  it("ci/env-fail-closed: api/lead route fails closed when required key is missing (FR-OPS-004 §1.5)", async () => {
+  it("ci/env-fail-closed: api/lead route fails closed when required key is missing (TASK-OPS-004 §1.5)", async () => {
     delete process.env.RESEND_API_KEY;
     delete process.env.LEAD_CRM_WEBHOOK_URL;
 

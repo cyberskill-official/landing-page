@@ -27,7 +27,7 @@ tools; git commits ran against the real repo.
   (server). No `NEXT_PUBLIC_` secret exists. `.env.example` documents the split.
 - Bilingual coverage: `lib/i18n/dictionaries.ts` defines every UI key for both
   `en` and `vi`; structured content carries `{en, vi}` pairs.
-- CyberOS artifacts: 16 FRs + 5 NFRs authored; every BACKLOG link resolves;
+- CyberOS artifacts: 16 tasks + 5 NFRs authored; every BACKLOG link resolves;
   decision records and awh logs written.
 
 ## Build-verified (2026-06-22, sandbox copy)
@@ -80,6 +80,6 @@ Added after the first build-verified pass, then re-verified end to end:
 ## awh gate result
 
 Recorded in `.awh/promotion-log.jsonl`: 15 PROMOTE (Phases P0-P3 anchor slices,
-static gate passed) and 1 HOLD (`FR-CHAR-021`, the commissioned GLB, blocked on
+static gate passed) and 1 HOLD (`TASK-CHAR-021`, the commissioned GLB, blocked on
 the art asset). Net: the implemented slices pass the static gate; the build
 gate (items 1-6 above) is the operator's to run.

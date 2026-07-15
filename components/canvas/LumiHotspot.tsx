@@ -21,7 +21,7 @@ const INTERACTIVE_SELECTOR =
 // digest) rather than a tap (opens chat).
 const HOLD_MS = 320;
 
-// Lumi IS the chat entry (FR-CHAR-030): a real, focusable button that rides
+// Lumi IS the chat entry (TASK-CHAR-030): a real, focusable button that rides
 // on the mascot's projected screen position every frame, so activating the
 // flying genie opens the chat.
 //

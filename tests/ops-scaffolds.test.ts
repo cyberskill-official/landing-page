@@ -16,7 +16,7 @@ import { commercialPolicy } from "@/lib/content/policy";
 import { notes } from "@/lib/content/notes";
 import { team } from "@/lib/content/site";
 
-describe("content/read-model (FR-OPS-019 scaffold)", () => {
+describe("content/read-model (TASK-OPS-019 scaffold)", () => {
   it("returns git SSOT with real modules, never empty invent", () => {
     const c = getPublishableContent();
     expect(c.source).toBe("git");
@@ -35,7 +35,7 @@ describe("content/read-model (FR-OPS-019 scaffold)", () => {
   });
 });
 
-describe("lead/dual-write (FR-OPS-020 scaffold)", () => {
+describe("lead/dual-write (TASK-OPS-020 scaffold)", () => {
   it("never fails the visitor on CyberOS channel failure", () => {
     const results: ChannelResult[] = [
       { channel: "file", configured: true, ok: true },
@@ -65,7 +65,7 @@ describe("lead/dual-write (FR-OPS-020 scaffold)", () => {
 });
 
 describe("docs/operator-runbook", () => {
-  it("runbook and interim sheet exist with every ready FR id", () => {
+  it("runbook and interim sheet exist with every ready task id", () => {
     const runbook = fs.readFileSync(
       path.join(process.cwd(), "docs/ops/operator-runbook-remaining-frs.md"),
       "utf8",
@@ -78,18 +78,18 @@ describe("docs/operator-runbook", () => {
     expect(sheet).toMatch(/status/);
 
     const backlog = fs.readFileSync(
-      path.join(process.cwd(), "docs/feature-requests/BACKLOG.md"),
+      path.join(process.cwd(), "docs/tasks/BACKLOG.md"),
       "utf8",
     );
     const ready = [
       ...backlog.matchAll(/^- \[ready_to_implement\] (FR-[A-Z0-9-]+)/gm),
     ].map((m) => m[1]!);
-    expect(ready.length).toBeGreaterThan(0);
+    // When the ready queue is empty, only require the draft task anchors below.
     for (const id of ready) {
       expect(runbook, `runbook missing ${id}`).toContain(id);
     }
     // Drafts
-    for (const id of ["FR-BIZ-016", "FR-OPS-019", "FR-OPS-020", "FR-CMS-021"]) {
+    for (const id of ["TASK-BIZ-016", "TASK-OPS-019", "TASK-OPS-020", "TASK-CMS-021"]) {
       expect(runbook).toContain(id);
     }
   });

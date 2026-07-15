@@ -9,7 +9,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 // it under Play's UGC policy - and that policy requires an in-app report path, an in-app block, AND
 // a published content policy the app links to. This is the published policy.
 //
-// It is linked from the app in two places (FR-CHAT-269 §1 #19): Settings, and the report dialog
+// It is linked from the app in two places (TASK-CHAT-269 §1 #19): Settings, and the report dialog
 // itself, where it is most useful - the moment someone is deciding whether what they are looking at
 // crosses a line.
 //

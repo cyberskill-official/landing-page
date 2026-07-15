@@ -1,4 +1,4 @@
-# Bundle audit (FR-PERF-004)
+# Bundle audit (TASK-PERF-004)
 
 How chunk composition is inspected, and the current per-chunk sizes, so future
 regressions are comparable. The point of the audit is to keep the heavy 3D scene
@@ -50,7 +50,7 @@ chunks:
 | `chunks/691.*.js` | 17.3 KB | 4.9 KB | scene helpers |
 
 Deferred 3D payload: about 304 KB gzip, none of it on first load. The optional
-Lumi GLB (FR-CHAR-022/SCENE-010) is fetched only when `NEXT_PUBLIC_LUMI_GLB` is
+Lumi GLB (TASK-CHAR-022/SCENE-010) is fetched only when `NEXT_PUBLIC_LUMI_GLB` is
 set, behind the same gate and a Suspense boundary, so it never touches first
 load either.
 

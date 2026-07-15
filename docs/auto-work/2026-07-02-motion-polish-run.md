@@ -1,13 +1,13 @@
 # Auto-work run - 2026-07-02 - branch auto/motion-polish
 
-Branch off `origin/main` (f7e2ebb). One FR (FR-DS-011), built as a premium
+Branch off `origin/main` (f7e2ebb). One task (TASK-DS-011), built as a premium
 motion-polish pass over the existing structure and content - no redesign, no
 new dependencies. Not merged, not deployed; awaiting review (the only fork).
 
 ## Ledger
 
 DONE
-- FR-DS-011 premium motion-polish layer, all requested effects plus tasteful
+- TASK-DS-011 premium motion-polish layer, all requested effects plus tasteful
   extras:
   - Aurora backdrop (brand gold/umber) behind the hero and contact sections:
     `components/motion/Aurora.tsx` + pre-blurred radial blobs on transform
@@ -43,7 +43,7 @@ DONE
   - Skip-link tuck: top -3rem left a ~2px black sliver visible over the
     header (z-index 1000, pre-existing on prod in every screenshot); now
     -4rem, focus behaviour unchanged.
-- Docs: FR-DS-011 file, BACKLOG row + totals re-baselined against FR status
+- Docs: TASK-DS-011 file, BACKLOG row + totals re-baselined against task status
   fields (58 shipped / 1 hold / 35 planned = 94; the table had drifted from
   the prose), decision record 2026-07-02-motion-polish-layer, this ledger,
   awh promotion + evolution rows.
@@ -61,7 +61,7 @@ FOUND + FIXED IN-SESSION (screenshot round, before any push)
   just off-glyph at both ends); constraint documented in globals.css.
 
 DEFERRED
-- Lumi GLB untouched (FR-CHAR-021/022 hold - human-owned, per scope).
+- Lumi GLB untouched (TASK-CHAR-021/022 hold - human-owned, per scope).
 - Cursor/tilt on sub-pages work but mask-reveal attributes were scoped to the
   home sections; sub-page headings keep the existing Reveal behaviour.
 - Live Lighthouse run against a deployed preview (CI's lighthouse job covers
@@ -98,13 +98,13 @@ DEFERRED
 
 Operator review of round 1: VN font bugged, VN copy reads translated,
 default should be dark, and the design should push past a "$50k" bar -
-more creative, more futuristic. Round 2 ships FR-DS-008 + FR-DS-012 on
-top of FR-DS-011.
+more creative, more futuristic. Round 2 ships TASK-DS-008 + TASK-DS-012 on
+top of TASK-DS-011.
 
 ## Ledger
 
 DONE
-- FR-DS-008 Vietnamese-complete typography: Space Grotesk via
+- TASK-DS-008 Vietnamese-complete typography: Space Grotesk via
   next/font/google, `subsets: ["latin", "vietnamese"]` (build fails if the
   subset were absent - coverage is build-verified), self-hosted woff2,
   swap + size-adjusted fallback. Root cause of the reported bug: the old
@@ -114,7 +114,7 @@ DONE
   token.
 - Dark default (SSR data-theme="dark"); stored light preference still wins
   pre-paint. Decision record 2026-07-02-dark-default-futuristic-v2.
-- FR-DS-012 gold HUD language: blueprint grid behind the hero (radial
+- TASK-DS-012 gold HUD language: blueprint grid behind the hero (radial
   fade mask), monospace micro-meta row (coordinates, city, EN/VI), ghost
   section indices via CSS counters (`content: ... / ""` stays silent for
   AT), orbiting conic gold border on card hover (@property angle, static
@@ -129,7 +129,7 @@ DONE
   chúng tôi cam kết" (was a second "How we work").
 
 DEFERRED
-- FR-CMS-003 Vietnamese native review stays planned: this pass is
+- TASK-CMS-003 Vietnamese native review stays planned: this pass is
   agent-quality; a native speaker owns the final word.
 - Case-study detail body copy (work/[slug]) got only the shared card
   strings; deep body text untouched.
@@ -148,7 +148,7 @@ DEFERRED
 
 ---
 
-# Round 3 - 2026-07-02 - Lumi becomes a living mascot (FR-CHAR-030)
+# Round 3 - 2026-07-02 - Lumi becomes a living mascot (TASK-CHAR-030)
 
 Operator review of round 2: still not enough motion/3D, and "Lumi not a
 static chat popup button - a living mascot that can move/fly and
@@ -203,7 +203,7 @@ FOUND + FIXED IN-SESSION
   (NormalOrGLBufferAttributes vs THREE.Points default).
 
 DEFERRED
-- The commissioned GLB (FR-CHAR-021/022) still replaces the procedural
+- The commissioned GLB (TASK-CHAR-021/022) still replaces the procedural
   body when it lands - the rig carries whichever model renders.
 - GltfLumi's own idle offsets were left untouched (env-gated path, unused
   by default); re-check its local position when the real model arrives.
@@ -212,7 +212,7 @@ DEFERRED
 ---
 
 # Round 4 - 2026-07-02 - section signatures, Lumi-first conversion
-# (FR-DS-013 + FR-CHAR-031)
+# (TASK-DS-013 + TASK-CHAR-031)
 
 Operator review of round 3: sections still static ("each section needs a
 WOW"), the Talk-to-Lumi CTAs are redundant next to the clickable mascot,
@@ -221,13 +221,13 @@ and the contact form is "the old way - integrate it into Lumi".
 ## Ledger
 
 DONE
-- FR-DS-013 section signature motion: TrustBand stat pop + gold ignition,
+- TASK-DS-013 section signature motion: TrustBand stat pop + gold ignition,
   StoryArc node ignition riding the line draw, levitating ValueProp cards,
   Services reveal scan-band, Process gold circuit + sequential index
   charge, Work HUD viewfinder brackets on hover, SocialProof paper tilt,
   FAQ breathing answers + rotating marker, Careers aurora. One observer
   now serves data-mask-reveal / data-line-reveal / data-pop.
-- FR-CHAR-031 wish flow: pure keyless state machine (lib/genie/wishFlow.ts,
+- TASK-CHAR-031 wish flow: pure keyless state machine (lib/genie/wishFlow.ts,
   4 unit tests) collecting name -> email -> company? -> wish? -> explicit
   consent in the chat with quick-reply chips, validating via the shared
   leadSchema, POSTing the exact /api/lead payload (source lumi-chat),
@@ -245,7 +245,7 @@ DONE
   allowlist).
 
 HONESTY
-- FR-CHAR-026 (value-first, ICP-adaptive capture) stays planned: FR-CHAR-031
+- TASK-CHAR-026 (value-first, ICP-adaptive capture) stays planned: TASK-CHAR-031
   is its deterministic foundation; the adaptive layer needs the AI path and
   Stephen's qualification criteria (down-payment noted in its §3).
 
@@ -294,7 +294,7 @@ HONESTY
   model rides the rig correctly when it lands.
 
 # Round 5 - 2026-07-02 - kinetic type sitewide, chat cloud, black hole
-# (FR-DS-014 + FR-CHAR-032 + FR-CHAR-033)
+# (TASK-DS-014 + TASK-CHAR-032 + TASK-CHAR-033)
 
 Operator direction: sections still read static (the TEXT itself must move);
 migrate the remaining Start-my-project / Talk-to-Lumi CTAs to Lumi; centre
@@ -305,17 +305,17 @@ all comes back (scrubbed, resumable).
 
 ## Ledger
 
-- FR-DS-014 kinetic section type: KineticText splits every section h2 into
+- TASK-DS-014 kinetic section type: KineticText splits every section h2 into
   per-word overflow masks (55ms stagger via --kti, aria-label keeps the
   name); leads ink in left-to-right (background-clip within the 0-100%
   coverage law). CTA migration completed: header + hero + persistent bar
   all carry .cs-lumi-alt and hide under html[data-lumi-live]
-  (FR-CHAR-031 §4 amendment); the hint chip centres on Lumi.
-- FR-CHAR-033 chat cloud: CHAT_ANCHOR {vx:.7, vy:.2, scale:.4} so Lumi
+  (TASK-CHAR-031 §4 amendment); the hint chip centres on Lumi.
+- TASK-CHAR-033 chat cloud: CHAT_ANCHOR {vx:.7, vy:.2, scale:.4} so Lumi
   holds the bubble; [data-lumi-live] .cs-genie becomes a blob-radius cloud
   (gold rim + glow, thought dots, materialise-in, idle float, message pop).
   Same DOM, so every chat/a11y/wish contract is untouched.
-- FR-CHAR-032 black hole: BlackHole.tsx arms on a 350ms hold over
+- TASK-CHAR-032 black hole: BlackHole.tsx arms on a 350ms hold over
   non-interactive space; progress scrubs +dt/2.6s devour, -dt/1.1s restore;
   per-block translate-toward-Lumi + scale + spin + fade ordered by
   digestEase(p, normDist) (unit-tested); zero residue at p=0; page inert
@@ -329,7 +329,7 @@ all comes back (scrubbed, resumable).
   eye in shot 3, pinned by a next-dev hydration diff naming div.pin-spacer
   vs section.cs-hero). Fix: pin creation moved to <HeroPin/> INSIDE the
   page segment (its effect is provably post-hydration; createHeroPin in
-  lenis-gsap.ts), FR-SCENE-004 §4 addendum. Hardening: MotionExtras reveal
+  lenis-gsap.ts), TASK-SCENE-004 §4 addendum. Hardening: MotionExtras reveal
   observer self-heals (re-scans at +1.5s/+4s/load); harness gained
   REVEAL_PROBE + HYDRATION_PROBE so this class of bug can't pass silently.
 

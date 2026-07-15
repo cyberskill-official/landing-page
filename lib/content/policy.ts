@@ -1,9 +1,9 @@
 import type { LocalizedString } from "@/lib/i18n/types";
 
 /**
- * FR-BIZ-013: Single source of truth for commercial policy the site may publish.
+ * TASK-BIZ-013: Single source of truth for commercial policy the site may publish.
  *
- * Downstream FRs (CTA-015/017/018, CMS-014/019/020) MUST import from this module.
+ * Downstream tasks (CTA-015/017/018, CMS-014/019/020) MUST import from this module.
  * Never hard-code commercial promises, ranges, capacity, registration, partnership
  * copy, or hero audience wording in components.
  */
@@ -32,7 +32,7 @@ export const commercialPolicy: CommercialPolicy = {
   reviewCadence: "quarterly",
   ctaPromise: {
     en: "Get a production-ready application structure or clear strategy in 7 days",
-    vi: "Nhận cấu trúc ứng dụng sẵn sàng vận hành hoặc chiến lược rõ ràng trong 7 ngày",
+    vi: "Nhận cấu trúc ứng dụng sẵn sàng vận hành, hoặc chiến lược rõ ràng, trong 7 ngày",
   },
   engagementModels: [
     {
@@ -74,11 +74,11 @@ export const commercialPolicy: CommercialPolicy = {
   registrationNumber: "0316489568",
   partnershipOffer: {
     en: "Outsource development work to HCMC senior engineers with direct communication and timezone alignment",
-    vi: "Ủy thác phát triển phần mềm cho kỹ sư cấp cao tại TP.HCM với kết nối trực tiếp và phù hợp múi giờ",
+    vi: "Giao việc phát triển cho kỹ sư giàu kinh nghiệm tại TP.HCM, trao đổi trực tiếp và dễ khớp múi giờ",
   },
   heroAudience: {
     en: "fast-growing startups and scaling enterprises",
-    vi: "các startup tăng trưởng nhanh và doanh nghiệp đang mở rộng",
+    vi: "startup tăng trưởng nhanh và doanh nghiệp đang mở rộng quy mô",
   },
 };
 
@@ -181,7 +181,7 @@ export interface DecisionHistoryEntry {
 }
 
 /**
- * Append-only decision history for FR-BIZ-013 AC 1.4.
+ * Append-only decision history for TASK-BIZ-013 AC 1.4.
  * Initial owner approval seeds every field as active; later withdraw/change
  * events MUST be appended here rather than rewriting the published string
  * into a softer substitute.
@@ -250,7 +250,7 @@ export function isDecisionPublishable(
 }
 
 /**
- * Publishable capacity numbers for FR-CTA-018.
+ * Publishable capacity numbers for TASK-CTA-018.
  * Returns null when the policy is stale or capacity decision is withdrawn —
  * dependents MUST render nothing in that case.
  */
@@ -264,7 +264,7 @@ export function getPublishableCapacity(
 }
 
 /**
- * Publishable CTA promise for FR-CTA-015. Null when stale or withdrawn.
+ * Publishable CTA promise for TASK-CTA-015. Null when stale or withdrawn.
  */
 export function getPublishableCtaPromise(
   policy: CommercialPolicy = commercialPolicy,
@@ -276,7 +276,7 @@ export function getPublishableCtaPromise(
 }
 
 /**
- * Publishable engagement models for FR-CTA-017.
+ * Publishable engagement models for TASK-CTA-017.
  */
 export function getPublishableEngagementModels(
   policy: CommercialPolicy = commercialPolicy,
@@ -288,7 +288,7 @@ export function getPublishableEngagementModels(
 }
 
 /**
- * Publishable registration number for FR-CMS-014. Empty/unset → omit.
+ * Publishable registration number for TASK-CMS-014. Empty/unset → omit.
  */
 export function getPublishableRegistrationNumber(
   policy: CommercialPolicy = commercialPolicy,
@@ -301,7 +301,7 @@ export function getPublishableRegistrationNumber(
 }
 
 /**
- * Publishable partnership offer for FR-CMS-019.
+ * Publishable partnership offer for TASK-CMS-019.
  */
 export function getPublishablePartnershipOffer(
   policy: CommercialPolicy = commercialPolicy,
@@ -313,7 +313,7 @@ export function getPublishablePartnershipOffer(
 }
 
 /**
- * Publishable hero audience for FR-CMS-020.
+ * Publishable hero audience for TASK-CMS-020.
  */
 export function getPublishableHeroAudience(
   policy: CommercialPolicy = commercialPolicy,

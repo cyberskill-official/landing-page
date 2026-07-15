@@ -1,10 +1,10 @@
-# FR-BIZ-006 evidence — client permissions (2026-07-15)
+# TASK-BIZ-006 evidence — client permissions (2026-07-15)
 
 ## Operator attestation
 
 Operator confirmed (2026-07-15): **clients allowed all permissions** relevant to published proof on the site.
 
-Published case studies remain **industry / NDA-safe labels** (not legal entity names) per FR-CMS-011 §1.2 and existing content in `lib/content/site.ts` (`work` + `caseStudyDetails`). Full legal names stay off the public page unless the operator later opts in.
+Published case studies remain **industry / NDA-safe labels** (not legal entity names) per TASK-CMS-011 §1.2 and existing content in `lib/content/site.ts` (`work` + `caseStudyDetails`). Full legal names stay off the public page unless the operator later opts in.
 
 ## Permissions recorded in repo
 

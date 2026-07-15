@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "bad_json" }, { status: 400 });
   }
 
-  // Honeypot tripped -> pretend success, store nothing (FR-CTA-013 §1.4).
+  // Honeypot tripped -> pretend success, store nothing (TASK-CTA-013 §1.4).
   // Checked on raw body since Zod schema enforces max length 0 and would reject with 400.
   const rawWebsite = (body as any)?.website;
   if (rawWebsite && typeof rawWebsite === "string" && rawWebsite.length > 0) {
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 
   // Production fail-closed: email sink (Resend) is required.
   // CRM/CyberOS webhook is optional — forwardToCyberOs no-ops when unset
-  // (operator may run Resend-only until FR-BIZ-002 / CyberOS intake is live).
+  // (operator may run Resend-only until TASK-BIZ-002 / CyberOS intake is live).
   try {
     getRequiredEnv("RESEND_API_KEY", true);
   } catch (err: any) {
@@ -75,7 +75,7 @@ export async function POST(req: Request) {
     locale: lead.locale,
     source: lead.source || "unknown",
     url: lead.url || null,
-    // FR-OPS-011: UTM params forwarded to CRM if present
+    // TASK-OPS-011: UTM params forwarded to CRM if present
     utm: lead.utm_source || lead.utm_medium || lead.utm_campaign || lead.utm_term || lead.utm_content
       ? {
           utm_source: lead.utm_source || undefined,
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
   console.info("[lead]", JSON.stringify(record));
 
   // Fan out best-effort. A failed sink is logged but never fails the user's
-  // submission (FR-CTA-007). Every lead is saved durably: to a local JSONL file
+  // submission (TASK-CTA-007). Every lead is saved durably: to a local JSONL file
   // (works in dev and on any server with a writable disk) and, when configured,
   // to CyberOS via its lead-intake webhook - the system of record. Email and
   // Slack are the human notifications.
@@ -100,9 +100,9 @@ export async function POST(req: Request) {
     notifyEmail(record, lead.email, lead),
     notifySlack(record, lead),
     lead.source === "synthetic" ? Promise.resolve({ configured: false }) : forwardToCyberOs(record, lead),
-    // FR-CTA-011: Best-effort ack to the lead. Skipped for synthetic.
+    // TASK-CTA-011: Best-effort ack to the lead. Skipped for synthetic.
     lead.source === "synthetic" ? Promise.resolve({ configured: false }) : notifyLeadAck(lead.email, lead.name, lead.locale),
-    // FR-OPS-005: Save to datastore
+    // TASK-OPS-005: Save to datastore
     saveToDb(lead),
   ]);
   const channels = ["file", "email", "slack", "cyberos", "ack", "db"];
@@ -157,7 +157,7 @@ async function notifyEmail(record: Record<string, unknown>, replyTo: string, lea
     `${record.message ?? "(none)"}`,
   ];
 
-  // FR-CHAR-027: Append transcript if present
+  // TASK-CHAR-027: Append transcript if present
   if (lead.transcript && lead.transcript.length > 0) {
     lines.push("", "--- Chat Transcript ---");
     lead.transcript.forEach((msg) => {
@@ -198,7 +198,7 @@ async function notifySlack(record: Record<string, unknown>, lead: LeadInput): Pr
     record.company ? ` @ ${record.company}` : ""
   } [${record.locale}/${record.source}]`;
 
-  // FR-CHAR-027: Append transcript if present
+  // TASK-CHAR-027: Append transcript if present
   if (lead.transcript && lead.transcript.length > 0) {
     const transcriptText = lead.transcript.map((msg) => `• *${msg.sender}*: ${msg.text}`).join("\n");
     text += `\n\n*Chat Transcript:*\n${transcriptText}`;
@@ -218,7 +218,7 @@ async function forwardToCyberOs(record: Record<string, unknown>, lead: LeadInput
   if (!url) return { configured: false };
   const token = process.env.LEAD_CRM_TOKEN;
 
-  // FR-CTA-006: Map lead payload before forwarding to the CRM webhook
+  // TASK-CTA-006: Map lead payload before forwarding to the CRM webhook
   const mapped = mapLeadToCrm(lead);
 
   const res = await fetch(url, {
@@ -236,7 +236,7 @@ async function forwardToCyberOs(record: Record<string, unknown>, lead: LeadInput
   return { configured: true };
 }
 
-// FR-CTA-011: Auto-acknowledgement email to the lead.
+// TASK-CTA-011: Auto-acknowledgement email to the lead.
 async function notifyLeadAck(
   toEmail: string,
   name: string,
@@ -247,7 +247,7 @@ async function notifyLeadAck(
 
   const safeLocale = locale === "vi" ? "vi" : "en";
   const bookingUrl = process.env.LEAD_BOOKING_URL || undefined;
-  const { subject, text } = buildAckEmail({ name, locale: safeLocale, bookingUrl });
+  const { subject, text, html } = buildAckEmail({ name, locale: safeLocale, bookingUrl });
 
   // Prefer shared LEAD_EMAIL_FROM / LEAD_ACK_FROM. Do not invent a mailbox from
   // phoneContact ("Mr. Stephen" → mrstephen@…) — that address is not a real sender.
@@ -266,6 +266,7 @@ async function notifyLeadAck(
         reply_to: company.email,
         subject,
         text,
+        html,
       }),
     });
     if (!res.ok) {

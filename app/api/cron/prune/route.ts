@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * FR-CHAR-028 / FR-OPS-005 / FR-OPS-018: Daily cron endpoint to delete expired leads and transcripts
+ * TASK-CHAR-028 / TASK-OPS-005 / TASK-OPS-018: Daily cron endpoint to delete expired leads and transcripts
  * past their retention periods.
  * Gated by CRON_SECRET token validation and x-vercel-signature timestamp drift checks.
  */

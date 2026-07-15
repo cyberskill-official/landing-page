@@ -3,7 +3,7 @@ import { company, services } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 
 // OfferCatalog of CyberSkill services as structured, citable data for search and
-// AI answer engines (FR-SEO-007 GEO). Built from the same service facts the DOM
+// AI answer engines (TASK-SEO-007 GEO). Built from the same service facts the DOM
 // Services section renders, and provided by the Organization node emitted by
 // OrganizationJsonLd, so the structured and prose forms agree.
 export function ServicesJsonLd({ locale }: { locale: Locale }) {

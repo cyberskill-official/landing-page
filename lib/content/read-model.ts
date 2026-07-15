@@ -1,12 +1,12 @@
 /**
- * FR-OPS-019 (scaffold): publishable content read model.
+ * TASK-OPS-019 (scaffold): publishable content read model.
  *
  * Today: pure git SSOT from lib/content/* (no CyberOS network).
  * Tomorrow: when CYBEROS_CONTENT_URL (+ token) are set, a future adapter can
  * load published entities from CyberOS and fall back here on failure.
  *
  * Consumers should prefer this module over ad-hoc imports so a single swap
- * point exists when the CyberOS content API lands (FR-BIZ-016 / FR-OPS-019).
+ * point exists when the CyberOS content API lands (TASK-BIZ-016 / TASK-OPS-019).
  */
 
 import { notes, type NotePost } from "@/lib/content/notes";

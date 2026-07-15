@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { parseChatRequest, cleanContent, MAX_CONTENT, MAX_TOTAL } from "@/lib/genie/validate";
 
-describe("parseChatRequest (FR-CHAR-029 abuse hardening)", () => {
+describe("parseChatRequest (TASK-CHAR-029 abuse hardening)", () => {
   it("accepts a valid request and trims content", () => {
     const r = parseChatRequest({ messages: [{ role: "user", content: "  hello  " }], locale: "vi" });
     expect(r.ok).toBe(true);

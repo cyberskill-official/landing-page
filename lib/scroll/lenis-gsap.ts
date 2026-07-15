@@ -11,16 +11,45 @@ export type ScrollStoryHandle = { destroy: () => void };
 // We keep a handle to the live instance and expose a smooth jump that drives it
 // (falling back to native scrolling when Lenis is not running - reduced motion,
 // no JS on the link, or a load failure). Consumers keep a real href for no-JS.
-type LenisLike = { scrollTo: (target: string | HTMLElement | number, opts?: Record<string, unknown>) => void };
+type LenisLike = {
+  scrollTo: (target: string | HTMLElement | number, opts?: Record<string, unknown>) => void;
+  stop?: () => void;
+  start?: () => void;
+};
 let activeLenis: LenisLike | null = null;
+
+function getLenis(): LenisLike | null {
+  if (typeof window === "undefined") return null;
+  const g = (window as unknown as { __csLenis?: LenisLike }).__csLenis;
+  return activeLenis ?? g ?? null;
+}
 
 export function scrollToId(id: string, offset = -80): void {
   const el = document.getElementById(id);
   if (!el) return;
-  const g = typeof window !== "undefined" ? (window as unknown as { __csLenis?: LenisLike }).__csLenis : null;
-  const lenis = activeLenis ?? g ?? null;
+  const lenis = getLenis();
   if (lenis && typeof lenis.scrollTo === "function") lenis.scrollTo(el, { offset, duration: 1.1 });
   else el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/** Pause Lenis while a full-screen overlay (e.g. Lumi chat) owns wheel/touch. */
+export function stopPageScroll(): void {
+  const lenis = getLenis();
+  try {
+    lenis?.stop?.();
+  } catch {
+    /* native-only pages */
+  }
+}
+
+/** Resume Lenis after the overlay closes. */
+export function startPageScroll(): void {
+  const lenis = getLenis();
+  try {
+    lenis?.start?.();
+  } catch {
+    /* native-only pages */
+  }
 }
 
 export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
@@ -37,7 +66,7 @@ export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
 
     gsap.registerPlugin(ScrollTrigger as never);
 
-    // Smooth-scroll duration comes from the shared motion token (FR-DS-009), so
+    // Smooth-scroll duration comes from the shared motion token (TASK-DS-009), so
     // the scene's timing tracks the design scale rather than a magic number.
     const lenis = new Lenis({
       autoRaf: false,
@@ -53,7 +82,7 @@ export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
     activeLenis = lenis as unknown as LenisLike;
     (window as unknown as { __csLenis?: LenisLike }).__csLenis = activeLenis;
 
-    // NOTE: the pinned hero beat (FR-SCENE-004) is intentionally NOT created
+    // NOTE: the pinned hero beat (TASK-SCENE-004) is intentionally NOT created
     // here. `pin: true` wraps .cs-hero in a GSAP-owned div.pin-spacer - real
     // DOM surgery. This provider lives in the locale LAYOUT, so its effect can
     // run while the PAGE segment is still hydrating; when the async GSAP import
@@ -79,7 +108,7 @@ export async function initScrollStory(): Promise<ScrollStoryHandle | null> {
   }
 }
 
-// Pinned hero beat (FR-SCENE-004): hold the hero in place while the first
+// Pinned hero beat (TASK-SCENE-004): hold the hero in place while the first
 // stretch of scroll scrubs the scene intro, then release. scrub ties it to
 // scroll position so it reverses cleanly; pinSpacing keeps the layout gap-free.
 // Desktop + motion-allowed only - reduced motion or narrow viewports keep the

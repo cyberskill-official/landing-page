@@ -1,4 +1,4 @@
-# Directory profile pack (FR-BIZ-005 §1.2)
+# Directory profile pack (TASK-BIZ-005 §1.2)
 
 **SSOT:** copy only from this pack + `lib/content/site.ts` + `lib/content/policy.ts`.  
 **Do not invent** employee counts, rates, clients, or reviews.
@@ -19,7 +19,7 @@
 | Hours | Mon–Fri 09:00–18:00 (Asia/Ho_Chi_Minh) |
 | GBP public | https://share.google/JjXCbiMkb3mV2Jfb1 |
 
-## Entity sentence (FR-SEO-018)
+## Entity sentence (TASK-SEO-018)
 
 **EN:** CyberSkill is a software company in Ho Chi Minh City, Vietnam, founded in 2020, building web applications, mobile apps, and internal systems for businesses worldwide.
 
@@ -55,7 +55,7 @@ Suggested directory categories: Custom Software Development, Web Development, Mo
 | Brand pack | `public/brand/` |
 | Map / office | `public/brand/office-map.svg` |
 
-## Site links with UTM (FR-OPS-011 / BIZ-005 §1.4)
+## Site links with UTM (TASK-OPS-011 / BIZ-005 §1.4)
 
 Use these exact URLs when a directory asks for website:
 

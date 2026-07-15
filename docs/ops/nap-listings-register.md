@@ -1,4 +1,4 @@
-# NAP / external listings register (FR-BIZ-004 §1.3)
+# NAP / external listings register (TASK-BIZ-004 §1.3)
 
 **Canonical NAP (SSOT `lib/content/site.ts`):**
 

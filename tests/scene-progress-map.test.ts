@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { resolveSceneState, staticSceneState, clamp01 } from "@/lib/scene/progressMap";
 
-describe("scene progress map (FR-SCENE-007)", () => {
+describe("scene progress map (TASK-SCENE-007)", () => {
   it("clamps progress input to 0..1", () => {
     expect(clamp01(-2)).toBe(0);
     expect(clamp01(5)).toBe(1);

@@ -1,4 +1,4 @@
-// Brand-gold aurora backdrop (FR-DS-012): three pre-blurred radial-gradient
+// Brand-gold aurora backdrop (TASK-DS-012): three pre-blurred radial-gradient
 // blobs drifting on transform only. No filter/blur at paint time, so it is
 // cheap on every GPU; static (but still present) under reduced motion; clipped
 // by the host section. Decorative: aria-hidden, behind the section's content.

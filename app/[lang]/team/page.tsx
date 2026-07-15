@@ -26,7 +26,7 @@ export default async function TeamPage({
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : "en";
   const dict = getDictionary(locale);
-  // FR-OPS-019 scaffold: single read-model entry (git today, CyberOS later)
+  // TASK-OPS-019 scaffold: single read-model entry (git today, CyberOS later)
   const { team, aboutStory, aboutCulture } = getPublishableContent();
 
   return (
@@ -49,7 +49,7 @@ export default async function TeamPage({
         <p className="cs-eyebrow">{dict.nav.team}</p>
         <h1>{locale === "vi" ? "Đội ngũ của chúng tôi" : "Our Team"}</h1>
 
-        {/* FR-CMS-006 §1.1: company story from content module */}
+        {/* TASK-CMS-006 §1.1: company story from content module */}
         <div data-about-story="" style={{ maxWidth: "40rem", marginBottom: "var(--cs-space-xl)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
             {localize(aboutStory.title, locale)}
@@ -57,7 +57,7 @@ export default async function TeamPage({
           <p className="cs-section-lead">{localize(aboutStory.body, locale)}</p>
         </div>
 
-        {/* FR-CMS-006 §1.1 culture */}
+        {/* TASK-CMS-006 §1.1 culture */}
         <div data-about-culture="" style={{ marginBottom: "var(--cs-space-xl)" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
             {localize(aboutCulture.title, locale)}
@@ -187,7 +187,7 @@ export default async function TeamPage({
           </div>
         )}
 
-        {/* FR-CMS-006 §1.5: recruiting surface without hardcoded job copy */}
+        {/* TASK-CMS-006 §1.5: recruiting surface without hardcoded job copy */}
         <p style={{ marginTop: "var(--cs-space-xl)" }} data-careers-link="">
           <a href={`/${locale}/careers`}>{dict.sections.careersCta}</a>
         </p>

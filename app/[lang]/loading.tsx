@@ -1,4 +1,4 @@
-// Route-level loading fallback (FR-WEB-007). Language-neutral skeleton so it
+// Route-level loading fallback (TASK-WEB-007). Language-neutral skeleton so it
 // works for both locales without params. Announced politely to assistive tech.
 export default function Loading() {
   return (

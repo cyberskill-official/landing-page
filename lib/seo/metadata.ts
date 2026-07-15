@@ -5,7 +5,7 @@ import type { Locale } from "@/lib/i18n/config";
 // "/work", "/work/operations-platform", ...) it returns a consistent canonical,
 // a complete hreflang set (en, vi, x-default), and matching OpenGraph + Twitter
 // blocks. Keeping one shape here means every route declares the same alternates
-// (FR-SEO-009) and hreflang/canonical stay complete across the site (FR-SEO-005).
+// (TASK-SEO-009) and hreflang/canonical stay complete across the site (TASK-SEO-005).
 export function pageMetadata(opts: {
   locale: Locale;
   path: string;

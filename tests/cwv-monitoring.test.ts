@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { POST } from "@/app/api/analytics/route";
 
-describe("FR-PERF-013: CWV Monitoring and Alerting", () => {
+describe("TASK-PERF-013: CWV Monitoring and Alerting", () => {
   const originalConsoleError = console.error;
   const originalConsoleInfo = console.info;
 
@@ -20,7 +20,7 @@ describe("FR-PERF-013: CWV Monitoring and Alerting", () => {
     console.info = originalConsoleInfo;
   });
 
-  it("analytics/field-vitals-ingest: accepts cwv_metric events (FR-PERF-013 §1.3)", async () => {
+  it("analytics/field-vitals-ingest: accepts cwv_metric events (TASK-PERF-013 §1.3)", async () => {
     const req = new Request("https://cyberskill.world/api/analytics", {
       method: "POST",
       body: JSON.stringify({
@@ -43,7 +43,7 @@ describe("FR-PERF-013: CWV Monitoring and Alerting", () => {
     );
   });
 
-  it("analytics/cwv-alert: logs cwv p75 breach alert when thresholds are exceeded (FR-PERF-013 §1.4)", async () => {
+  it("analytics/cwv-alert: logs cwv p75 breach alert when thresholds are exceeded (TASK-PERF-013 §1.4)", async () => {
     // Post three good values and one bad value
     // Since p75 picks the 75th percentile, posting [2000, 2100, 2200, 3000] makes p75 = 3000, triggering breach.
     const values = [2000, 2100, 2200, 3000];

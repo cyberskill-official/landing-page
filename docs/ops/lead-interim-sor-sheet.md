@@ -1,6 +1,6 @@
 # Interim lead system of record (sheet)
 
-**FR-BIZ-009 §1.1** — use this until CyberOS e2e (FR-BIZ-002 / FR-BIZ-003) is green, then retire the sheet after dual-write migration (FR-OPS-020).
+**TASK-BIZ-009 §1.1** — use this until CyberOS e2e (TASK-BIZ-002 / TASK-BIZ-003) is green, then retire the sheet after dual-write migration (TASK-OPS-020).
 
 ## Columns (one row per lead)
 
@@ -20,7 +20,7 @@
 | notes | … | Free text |
 | utm_source / medium / campaign | | From payload when present |
 
-## Intent → track map (FR-BIZ-009 §1.2)
+## Intent → track map (TASK-BIZ-009 §1.2)
 
 | intent | track |
 |---|---|
@@ -29,7 +29,7 @@
 | careers | talent |
 | other | triage |
 
-## Weekly 15-minute review (FR-BIZ-009 §1.3)
+## Weekly 15-minute review (TASK-BIZ-009 §1.3)
 
 Log under `docs/ops/funnel-reviews/` (create as needed):
 
@@ -40,6 +40,6 @@ Log under `docs/ops/funnel-reviews/` (create as needed):
 
 ## Done when (retire sheet)
 
-- [ ] Production lead appears in CyberOS (FR-BIZ-003)  
-- [ ] Dual-write + migration dry-run complete (FR-OPS-020)  
+- [ ] Production lead appears in CyberOS (TASK-BIZ-003)  
+- [ ] Dual-write + migration dry-run complete (TASK-OPS-020)  
 - [ ] Sheet marked archived; CyberOS is sole SoR for status/next_action  

@@ -8,6 +8,7 @@ import { notes } from "@/lib/content/notes";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
+import { LeadCta } from "@/components/cta/LeadCta";
 
 export async function generateStaticParams() {
   const params: { lang: string; slug: string }[] = [];
@@ -77,9 +78,9 @@ export default async function NoteDetailPage({
   const altLocale = locale === "en" ? "vi" : "en";
 
   return (
-    <article className="cs-section" suppressHydrationWarning>
+    <article className="cs-section cs-note-detail" suppressHydrationWarning>
       <ArticleJsonLd post={post} locale={locale} />
-      <div className="cs-container" style={{ maxWidth: "42rem" }}>
+      <div className="cs-container cs-notes-wrap">
         <BreadcrumbJsonLd
           items={[
             { name: locale === "vi" ? "Trang chủ" : "Home", path: `/${locale}` },
@@ -87,110 +88,49 @@ export default async function NoteDetailPage({
             { name: titleText, path: `/${locale}/notes/${slug}` },
           ]}
         />
-        
-        <header style={{ marginBottom: "var(--cs-space-lg)" }}>
-          <div style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            fontSize: "var(--cs-text-xs)",
-            color: "var(--cs-color-text-muted)",
-            marginBottom: "var(--cs-space-sm)"
-          }}>
-            <div>
-              <time dateTime={post.publishedAt}>
-                {locale === "vi" ? "Đăng:" : "Published:"} {post.publishedAt}
-              </time>
-              {post.updatedAt !== post.publishedAt && (
-                <span style={{ marginLeft: "var(--cs-space-sm)" }}>
-                  ({locale === "vi" ? "Cập nhật:" : "Updated:"} {post.updatedAt})
-                </span>
-              )}
-            </div>
-            
-            {/* Cross-locale alternate link (FR-CMS-007) */}
-            <Link
-              href={`/${altLocale}/notes/${slug}`}
-              lang={altLocale}
-              style={{
-                color: "var(--cs-color-primary)",
-                textDecoration: "none",
-                fontWeight: "bold"
-              }}
-            >
-              {locale === "vi" ? "English version" : "Bản tiếng Việt"}
+
+        <header className="cs-note-detail-header">
+          <div className="cs-note-detail-meta">
+            <time dateTime={post.publishedAt}>
+              {locale === "vi" ? "Đăng" : "Published"} {post.publishedAt}
+            </time>
+            {post.updatedAt !== post.publishedAt && (
+              <span>
+                · {locale === "vi" ? "Cập nhật" : "Updated"} {post.updatedAt}
+              </span>
+            )}
+            <span className="cs-note-detail-author">
+              · {post.author.name}
+            </span>
+            <Link className="cs-note-detail-lang" href={`/${altLocale}/notes/${slug}`} lang={altLocale}>
+              {locale === "vi" ? "English" : "Tiếng Việt"}
             </Link>
           </div>
-          
-          <h1 style={{
-            fontSize: "var(--cs-text-2xl)",
-            lineHeight: "1.25",
-            margin: "0 0 var(--cs-space-sm) 0",
-            color: "var(--cs-color-text-primary)"
-          }}>
-            {titleText}
-          </h1>
-
-          <p style={{
-            fontSize: "var(--cs-text-xs)",
-            color: "var(--cs-color-text-muted)",
-            margin: 0
-          }}>
-            {locale === "vi" ? "Tác giả:" : "Author:"} {post.author.name}
-          </p>
+          <h1>{titleText}</h1>
         </header>
 
-        {/* TLDR block */}
-        <div style={{
-          background: "rgba(234, 160, 66, 0.08)",
-          borderLeft: "4px solid var(--cs-color-gold)",
-          padding: "var(--cs-space-sm) var(--cs-space-md)",
-          marginBottom: "var(--cs-space-lg)",
-          borderRadius: "0 var(--cs-radius-md) var(--cs-radius-md) 0",
-        }}>
-          <p style={{
-            margin: 0,
-            fontSize: "var(--cs-text-sm)",
-            lineHeight: "1.6",
-            fontStyle: "italic",
-            color: "var(--cs-color-fg)"
-          }}>
-            {tldrText}
-          </p>
-        </div>
+        <aside className="cs-note-tldr" aria-label="TL;DR">
+          <p className="cs-eyebrow">{locale === "vi" ? "Tóm tắt" : "TL;DR"}</p>
+          <p>{tldrText}</p>
+        </aside>
 
-        {/* Note Body with simple rendering */}
-        <div style={{
-          fontSize: "var(--cs-text-sm)",
-          lineHeight: "1.7",
-          color: "var(--cs-color-text-secondary)",
-        }}>
+        <div className="cs-note-body cs-prose">
           {bodyText.split("\n\n").map((para, i) => (
-            <p key={i} style={{ marginBottom: "var(--cs-space-md)" }}>
-              {para}
-            </p>
+            <p key={i}>{para}</p>
           ))}
         </div>
 
-        <footer style={{
-          marginTop: "var(--cs-space-xl)",
-          paddingTop: "var(--cs-space-md)",
-          borderTop: "1px solid var(--cs-color-border)",
-          fontSize: "var(--cs-text-xs)",
-          color: "var(--cs-color-text-muted)"
-        }}>
-          <p>
-            {locale === "vi" ? "Ký tên bởi:" : "Signed by:"} {post.permission.grantedBy} ({post.permission.reference})
-          </p>
-        </footer>
+        <p className="cs-note-signed">
+          {locale === "vi" ? "Ký bởi" : "Signed by"} {post.permission.grantedBy} ({post.permission.reference})
+        </p>
 
-        <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <Link className="cs-btn cs-btn-primary" href={`/${locale}/notes`}>
-            {locale === "vi" ? "← Xem tất cả ghi chép" : "← All Notes"}
+        <div className="cs-page-cta">
+          <Link className="cs-btn cs-btn-secondary" href={`/${locale}/notes`}>
+            {locale === "vi" ? "← Tất cả ghi chép" : "← All notes"}
           </Link>
-          <a className="cs-btn" href={`/${locale}#contact`}>
+          <LeadCta className="cs-btn cs-btn-primary" flow="contact">
             {dict.hero.ctaPrimary}
-          </a>
+          </LeadCta>
         </div>
       </div>
     </article>

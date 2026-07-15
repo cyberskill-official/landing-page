@@ -1,7 +1,7 @@
 import type { LocalizedString } from "@/lib/i18n/types";
 
 /**
- * FR-CTA-015 §1.4: previous CTA primary strings kept for one-commit rollback.
+ * TASK-CTA-015 §1.4: previous CTA primary strings kept for one-commit rollback.
  * Current live promise is commercialPolicy.ctaPromise (via dictionaries).
  */
 export const previousCtaPrimary: LocalizedString = {
@@ -17,6 +17,6 @@ export const ctaCopyHistory: {
   {
     supersededAt: "2026-07-14",
     primary: previousCtaPrimary,
-    note: "Replaced by owner-approved outcome promise (FR-BIZ-013 / FR-CTA-015)",
+    note: "Replaced by owner-approved outcome promise (TASK-BIZ-013 / TASK-CTA-015)",
   },
 ];

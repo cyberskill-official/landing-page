@@ -3,10 +3,10 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company } from "@/lib/content/site";
 import { MessagingChips } from "@/components/cta/MessagingChips";
 import { NewsletterForm } from "@/components/cta/NewsletterForm";
-import { VerifyUs } from "@/components/sections/VerifyUs";
 import { ProfileDownloadLink } from "@/components/cta/ProfileDownloadLink";
+import { LeadCta } from "@/components/cta/LeadCta";
 
-// FR-SEO-019: Label maps for social profile accessible names.
+// TASK-SEO-019: Label maps for social profile accessible names.
 const profileLabels: Record<string, Record<string, string>> = {
   linkedin: { en: "CyberSkill on LinkedIn", vi: "CyberSkill trên LinkedIn" },
   github: { en: "CyberSkill on GitHub", vi: "CyberSkill trên GitHub" },
@@ -20,15 +20,17 @@ const profileLabels: Record<string, Record<string, string>> = {
 export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   const year = new Date().getFullYear();
   const socialProfiles = Object.entries(company.profiles ?? {}).filter(([, url]) => Boolean(url));
+  const verifySeed =
+    locale === "vi"
+      ? "Tôi muốn xác minh CyberSkill: tên pháp lý, DUNS, địa chỉ, đăng ký kinh doanh và repo công khai."
+      : "I want to verify CyberSkill: legal name, DUNS, address, business registration, and public repo.";
 
   return (
     <footer className="cs-footer cs-no-print">
       <div className="cs-container cs-footer-inner">
         <div>
           <p className="cs-footer-name">{company.legalName}</p>
-          <p className="cs-footer-meta">
-            {company.address}
-          </p>
+          <p className="cs-footer-meta">{company.address}</p>
           <p className="cs-footer-entity" lang={locale}>
             {company.entity[locale]}
           </p>
@@ -40,8 +42,6 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
             </a>
           </p>
 
-          {/* FR-SEO-019 §1.3: Config-driven social profile row.
-              Hidden entirely when no profiles are configured. */}
           {socialProfiles.length > 0 && (
             <nav
               className="cs-footer-social"
@@ -62,13 +62,22 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
             </nav>
           )}
 
-          {/* FR-CTA-012: Messaging chips — rendered only when configured */}
           <MessagingChips locale={locale} location="footer" />
 
-          {/* FR-CMS-014: compact verify-us footer-adjacent (full block on /how-we-build) */}
-          <div style={{ marginTop: "var(--cs-space-md)" }}>
-            <VerifyUs locale={locale} variant="compact" />
-          </div>
+          {/* Verify-us folded into Lumi (full claims remain on /how-we-build) */}
+          <p className="cs-footer-verify">
+            <LeadCta
+              className="cs-footer-verify-btn"
+              flow="contact"
+              seed={verifySeed}
+              showSparkle
+            >
+              {locale === "vi" ? "Xác minh chúng tôi với Lumi" : "Verify us with Lumi"}
+            </LeadCta>
+            <a className="cs-footer-verify-link" href={`/${locale}/how-we-build`}>
+              {locale === "vi" ? "Chi tiết trên Cách chúng tôi xây" : "Details on How we build"}
+            </a>
+          </p>
         </div>
         <div className="cs-footer-end">
           {hasNewsletter && (
@@ -80,13 +89,15 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
             </div>
           )}
           <nav className="cs-footer-links" aria-label={locale === "vi" ? "Liên kết chân trang" : "Footer links"}>
+            <a href={`/${locale}/work`}>{dict.nav.work}</a>
             <a href={`/${locale}/how-we-build`}>{dict.nav.howWeBuild}</a>
-            <a href={`/${locale}/now`}>{locale === "vi" ? "Nhật ký" : "Changelog"}</a>
             <a href={`/${locale}/notes`}>{dict.nav.notes}</a>
+            <a href={`/${locale}/team`}>{dict.nav.team}</a>
+            <a href={`/${locale}/careers`}>{dict.nav.careers}</a>
+            <a href={`/${locale}/now`}>{locale === "vi" ? "Nhật ký" : "Changelog"}</a>
             <a href={`/${locale}/privacy`}>{dict.footer.privacy}</a>
             <a href={`/${locale}/accessibility`}>{dict.footer.accessibility}</a>
             <a href={`/${locale}/terms`}>{dict.footer.terms}</a>
-            {/* FR-CTA-016: company profile PDF */}
             <ProfileDownloadLink locale={locale} location="footer" className="" />
           </nav>
           <p>
@@ -100,4 +111,3 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
     </footer>
   );
 }
-

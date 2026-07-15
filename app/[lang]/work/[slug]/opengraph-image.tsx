@@ -7,7 +7,7 @@ export const alt = "CyberSkill case study";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Per-case-study social card (FR-SEO-008). The case title sits on the brand
+// Per-case-study social card (TASK-SEO-008). The case title sits on the brand
 // background so a shared link reads as that specific project, not the generic
 // site card. System fonts only, so it builds offline like the root OG image.
 export default async function CaseStudyOg({ params }: { params: Promise<{ lang: string; slug: string }> }) {

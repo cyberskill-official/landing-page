@@ -17,7 +17,7 @@ off mobile, so it can never push LCP past the budget.
 
 ## Verification
 
-The `lighthouse/budget.json` gate runs in CI (FR-OPS-001) and fails the build on
+The `lighthouse/budget.json` gate runs in CI (TASK-OPS-001) and fails the build on
 a regression past the LCP ceiling. Field and lab confirmation comes from
 Lighthouse and WebPageTest under mobile emulation.
 

@@ -11,8 +11,8 @@ import { splitSloganWords } from "@/lib/motion/kinetic";
 import { Aurora } from "@/components/motion/Aurora";
 import { HeroWish } from "@/components/genie/HeroWish";
 import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
+import { LeadCta } from "@/components/cta/LeadCta";
 import { Testimonial } from "@/components/ui/Testimonial";
-import { CtaLink } from "@/components/cta/CtaLink";
 
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const slogan = company.slogan[locale];
@@ -39,7 +39,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             </span>
           ))}
         </h1>
-        {/* FR-CMS-020: SSR subline naming the audience — not kinetic-only. */}
+        {/* TASK-CMS-020: SSR subline naming the audience — not kinetic-only. */}
         {subline ? (
           <p className="cs-hero-subline" data-hero-subline="">
             {subline}
@@ -55,14 +55,9 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             project intent (wish flow) and the conversation. These remain the
             conversion path on devices without the mascot. */}
         <div className="cs-hero-actions">
-          <CtaLink
-            className="cs-btn cs-btn-primary cs-lumi-alt"
-            href={`/${locale}#contact`}
-            location="hero"
-            label={dict.hero.ctaPrimary}
-          >
+          <LeadCta className="cs-btn cs-btn-primary cs-lumi-alt" flow="contact" showSparkle={false}>
             {dict.hero.ctaPrimary}
-          </CtaLink>
+          </LeadCta>
           <GenieOpenButton className="cs-btn cs-btn-secondary cs-lumi-alt">
             {dict.hero.ctaSecondary}
           </GenieOpenButton>

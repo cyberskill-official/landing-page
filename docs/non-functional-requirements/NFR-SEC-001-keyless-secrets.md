@@ -19,7 +19,7 @@ baseline of security headers.
 
 A grep confirms no `NEXT_PUBLIC_` name carries a secret. `/api/genie` reads keys
 from `process.env` at request time on the server. `.env.example` documents the
-split between server-only and public variables (FR-CHAR-010).
+split between server-only and public variables (TASK-CHAR-010).
 
 ## Current status
 

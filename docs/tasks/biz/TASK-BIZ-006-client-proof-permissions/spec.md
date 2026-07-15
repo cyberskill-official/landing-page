@@ -1,0 +1,56 @@
+---
+id: TASK-BIZ-006
+title: "Obtain the client permissions and proof assets: names, logos, metrics, quotes, photos"
+status: done
+class: improvement
+priority: MUST
+owner: mixed
+depends_on: []
+routed_back_count: 0
+awh: N/A
+traces_to: [audit-A/phase-1-item-1, audit-A/phase-1-item-2, audit-C/content-credibility, audit-C/phase-2, growth/PROOF-01, growth/PROOF-05]
+---
+
+# TASK-BIZ-006: Obtain the client permissions and proof assets: names, logos, metrics, quotes, photos
+
+## 0. Why (evidence)
+
+The single biggest gap in all three audits, and the one the agent cannot solve alone: every proof task in this backlog
+(TASK-CMS-011 case-study template, TASK-CMS-012 testimonials, TASK-CMS-013 logos, TASK-WEB-012 team page) is blocked on assets only
+the owner can obtain. Audit A: "a technically sophisticated buyer evaluating an offshore partner will ask 'who have you done
+this for, and what happened?' - and the site cannot answer."
+
+## 1. Description (normative)
+
+- 1.1 A written permission request SHALL be drafted (EN and VN) asking each chosen past client for: use of the company name and logo, 2-3 quantified outcomes with their source, a short quote with name/title/photo, and screenshot approval - with an easy opt-down to "industry only".
+- 1.2 Permission SHALL be sought from at least three past clients, and at least one full, named, quantified case study SHALL be secured.
+- 1.3 Every granted permission SHALL be recorded (who, what was permitted, when, by which named person) and referenced from the publishable content source - today the content module (TASK-CMS-012 clause 1.4); once TASK-OPS-019 ships, also as metadata on the CyberOS content entity so permissions travel with the asset.
+- 1.4 Team members SHALL likewise consent, in writing, to their name, role, photo and profile link appearing on the site (TASK-WEB-012).
+- 1.5 No asset SHALL enter the repository before its permission record exists.
+
+## 2. Acceptance criteria
+
+> **Closed 2026-07-15:** operator attested full client permissions; ledger + named case studies (EduSpark, Linn Decor) + NDA industry cases recorded. Evidence: `docs/verification/fr-biz-006-permissions-2026-07-15.md`.
+
+
+- [x] AC for 1.1 - the request drafts exist in both languages - test: `docs/permission-request-drafts`
+- [x] AC for 1.2 - >= 3 requests sent; >= 1 full named case study granted - evidence: permission records
+- [x] AC for 1.3 - every proof asset in the repo has a matching permission record - test: `content/testimonial-permission`
+- [x] AC for 1.4 - every named team member has a recorded consent - test: `content/team-consent`
+- [x] AC for 1.5 - no proof asset (logo, photo, quote, screenshot, metric) exists in the repo without a matching permission record - test: `content/testimonial-permission`
+
+## 3. Edge cases
+
+- An NDA client may permit industry + metrics but not the name - the template supports that (TASK-CMS-011 clause 1.2).
+- A permission later withdrawn must be removable in one commit, and the record updated.
+- Metrics must be the client's own measurement, not an estimate the agency invented.
+
+## 4. Out of scope / non-goals
+
+- Building the templates that display the proof (TASK-CMS-011/012/013, TASK-WEB-012).
+
+## 5. Protected invariants this task must not weaken
+
+- No client name, logo, quote, photo or metric is published without recorded written permission.
+- Nothing published may claim a fact, metric, credential or client the company cannot evidence.
+- Personal data (names, photos) is published only with explicit, recorded consent (PDPL).

@@ -31,7 +31,7 @@ export const useMotionStore = create<MotionState>((set) => ({
 }));
 
 function resolvePreference(): boolean {
-  // FR-A11Y-010: 1.3 The user-facing motion toggle SHALL be authoritative.
+  // TASK-A11Y-010: 1.3 The user-facing motion toggle SHALL be authoritative.
   const stored = window.localStorage.getItem("cs-motion-reduce");
   if (stored !== null) return stored === "true";
 
@@ -50,7 +50,7 @@ function updateHtmlAttr(reduce: boolean) {
 let synced = false;
 
 // Resolve the real motion preference, mirror it onto <html data-motion>, and
-// wire the live matchMedia change listener (FR-A11Y-010: 1.2). Idempotent and
+// wire the live matchMedia change listener (TASK-A11Y-010: 1.2). Idempotent and
 // safe to call from multiple mounts - only the first call after a page load
 // does anything. Must be called post-mount (useEffect), never at module scope.
 export function syncMotionPreference() {

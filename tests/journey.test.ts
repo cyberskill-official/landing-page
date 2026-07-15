@@ -2,13 +2,16 @@ import { describe, it, expect } from "vitest";
 import {
   buildStops,
   clamp,
+  CHAT_CENTER,
+  CHAT_ORBIT,
+  sampleChatOrbit,
   sampleJourney,
   smoothstep,
   viewportToWorld,
   type JourneyStop,
 } from "@/lib/scene/journey";
 
-// Lumi's flight-plan math (FR-CHAR-030). Pure functions - the scene only adds
+// Lumi's flight-plan math (TASK-CHAR-030). Pure functions - the scene only adds
 // easing and bursts on top, so pinning these down pins the mascot's behaviour.
 
 const stops: JourneyStop[] = [
@@ -103,5 +106,42 @@ describe("helpers", () => {
   it("clamp bounds values", () => {
     expect(clamp(5, 0, 2)).toBe(2);
     expect(clamp(-5, 0, 2)).toBe(0);
+  });
+});
+
+// Chat-open flight: big 3D Lumi orbits the cloud centre (not a fixed hold).
+describe("sampleChatOrbit", () => {
+  it("stays on an ellipse around CHAT_CENTER with the configured radii", () => {
+    const s = sampleChatOrbit(0);
+    // cos(0)=1, sin(0)=0 → rightmost point of the ellipse
+    expect(s.vx).toBeCloseTo(CHAT_CENTER.vx + CHAT_ORBIT.rx);
+    expect(s.vy).toBeCloseTo(CHAT_CENTER.vy);
+    expect(s.scale).toBe(CHAT_CENTER.scale);
+
+    const dx = s.vx - CHAT_CENTER.vx;
+    const dy = s.vy - CHAT_CENTER.vy;
+    // Ellipse: (dx/rx)^2 + (dy/ry)^2 === 1
+    expect((dx / CHAT_ORBIT.rx) ** 2 + (dy / CHAT_ORBIT.ry) ** 2).toBeCloseTo(1);
+  });
+
+  it("moves around the centre as elapsed time increases (not a fixed hold)", () => {
+    const samples = [0, 0.5, 1.2, 2.4, 4.0].map((t) => sampleChatOrbit(t));
+    // At least two distinct positions
+    const keys = new Set(samples.map((s) => `${s.vx.toFixed(4)},${s.vy.toFixed(4)}`));
+    expect(keys.size).toBeGreaterThanOrEqual(3);
+
+    // Never collapses to the single center hold
+    for (const s of samples) {
+      const dist = Math.hypot(s.vx - CHAT_CENTER.vx, s.vy - CHAT_CENTER.vy);
+      expect(dist).toBeGreaterThan(0.1);
+    }
+  });
+
+  it("returns to the same phase after a full 2π period", () => {
+    const period = (2 * Math.PI) / CHAT_ORBIT.speed;
+    const a = sampleChatOrbit(1.1);
+    const b = sampleChatOrbit(1.1 + period);
+    expect(b.vx).toBeCloseTo(a.vx, 5);
+    expect(b.vy).toBeCloseTo(a.vy, 5);
   });
 });

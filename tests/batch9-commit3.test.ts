@@ -2,7 +2,7 @@
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { POST, GET } from "@/app/api/subscribe/route";
 
-describe("Batch 9 Commit 3 tests — FR-CTA-014 (Newsletter Double Opt-in)", () => {
+describe("Batch 9 Commit 3 tests — TASK-CTA-014 (Newsletter Double Opt-in)", () => {
   const originalEnv = process.env;
 
   beforeEach(() => {

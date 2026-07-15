@@ -1,6 +1,6 @@
 # Yêu cầu cấp phép đăng tải bằng chứng khách hàng (Tiếng Việt)
 
-**FR-BIZ-006 §1.1** — gửi bản này (hoặc email ngắn đủ các điểm dưới) cho khách hàng cũ mà bạn muốn giới thiệu trên site.
+**TASK-BIZ-006 §1.1** — gửi bản này (hoặc email ngắn đủ các điểm dưới) cho khách hàng cũ mà bạn muốn giới thiệu trên site.
 
 ---
 

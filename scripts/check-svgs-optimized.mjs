@@ -32,7 +32,7 @@ for (const file of stagedFiles) {
                         original.includes("<!--");
 
   if (sizeDiff > 10 || hasEditorTags) {
-    console.error(`\nError: SVG file "${file}" is not optimized (FR-OPS-016).`);
+    console.error(`\nError: SVG file "${file}" is not optimized (TASK-OPS-016).`);
     if (hasEditorTags) console.error(`  - Contains editor namespaces, metadata, or comments.`);
     if (sizeDiff > 10) console.error(`  - Can be further compressed by ${sizeDiff} bytes (${percentDiff.toFixed(1)}%).`);
     console.error(`Please run: npx svgo "${file}" -o "${file}" and stage the changes.`);

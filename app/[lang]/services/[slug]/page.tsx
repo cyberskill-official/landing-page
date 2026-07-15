@@ -4,6 +4,7 @@ import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { services, work, company, siteUrl, testimonials, serviceDetails } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { LeadCta } from "@/components/cta/LeadCta";
 
 // One detail page per service (web-apps, mobile-apps, internal-systems), per
 // locale. The copy is honest and capability-level: no invented client names,
@@ -37,7 +38,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   // discovery (and honest proof that the practice is real).
   const related = work.filter((w) => w.tags.includes(slug));
 
-  // FR-SEO-015: Map rated testimonials to Review and AggregateRating entities
+  // TASK-SEO-015: Map rated testimonials to Review and AggregateRating entities
   const ratedTestimonials = testimonials.filter((t) => typeof t.rating === "number");
 
   const reviews = ratedTestimonials.map((t) => ({
@@ -82,7 +83,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     ...(aggregateRating ? { aggregateRating } : {}),
   };
 
-  // FR-SEO-016: Service-specific FAQPage JSON-LD schema
+  // TASK-SEO-016: Service-specific FAQPage JSON-LD schema
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -159,11 +160,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <p className="cs-section-lead">{localize(detail.lead, locale)}</p>
 
         <div className="cs-surface-light cs-prose-card" style={{ marginTop: "var(--cs-space-12)", maxWidth: "48rem" }}>
-          {/* FR-CMS-005: Summary */}
+          {/* TASK-CMS-005: Summary */}
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.summary}</h2>
           <p>{localize(detail.summary, locale)}</p>
 
-          {/* FR-CMS-005: Problem */}
+          {/* TASK-CMS-005: Problem */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.problem}</h2>
           <p>{localize(detail.problem, locale)}</p>
 
@@ -182,7 +183,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             ))}
           </ul>
 
-          {/* FR-CMS-005: Approach */}
+          {/* TASK-CMS-005: Approach */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.approach}</h2>
           <p>{localize(detail.approach, locale)}</p>
 
@@ -206,7 +207,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.timeline}</h2>
           <p>{localize(detail.timeline, locale)}</p>
 
-          {/* Engagement Models — ranges live on homepage FR-CTA-017 SSOT */}
+          {/* Engagement Models — ranges live on homepage TASK-CTA-017 SSOT */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.engagement}</h2>
           <p>{localize(detail.engagementIntro, locale)}</p>
           <p>
@@ -217,7 +218,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             </a>
           </p>
 
-          {/* FR-CMS-005: Call to Action Promise */}
+          {/* TASK-CMS-005: Call to Action Promise */}
           <h2 style={{ fontSize: "var(--cs-text-xl)", marginTop: "var(--cs-space-8)" }}>{labels.ctaNotice}</h2>
           <p>{localize(detail.cta, locale)}</p>
 
@@ -250,9 +251,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         ) : null}
 
         <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <a className="cs-btn cs-btn-primary" href={`/${locale}#contact`}>
-            {labels.cta}
-          </a>
+          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{labels.cta}</LeadCta>
           <a className="cs-btn" href={`/${locale}/how-we-build`}>
             {labels.how}
           </a>

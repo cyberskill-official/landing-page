@@ -19,7 +19,7 @@ for body text and at least 90 for interactive elements.
 
 An axe scan plus a manual VoiceOver and NVDA pass confirm the AA floor (deferred
 to the operator). The reduced-motion CSS path and the `/lite` mirror are present
-and statically verified (FR-A11Y-001).
+and statically verified (TASK-A11Y-001).
 
 ## Current status
 

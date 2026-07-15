@@ -4,7 +4,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import WorkDetailPage from "@/app/[lang]/work/[slug]/page";
 
-describe("FR-CMS-011: Case Study Proof Template", () => {
+describe("TASK-CMS-011: Case Study Proof Template", () => {
   it("content/case-study-template: fully populated case study renders every block (AC 1.1, 1.4)", async () => {
     const element = await WorkDetailPage({
       params: Promise.resolve({ lang: "en", slug: "operations-platform" }),

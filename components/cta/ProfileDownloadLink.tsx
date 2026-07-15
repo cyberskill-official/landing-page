@@ -14,7 +14,7 @@ const LABELS = {
 } as const;
 
 /**
- * FR-CTA-016: link to locale profile PDF; emits cta_clicked on download.
+ * TASK-CTA-016: link to locale profile PDF; emits cta_clicked on download.
  */
 export function ProfileDownloadLink({
   locale,

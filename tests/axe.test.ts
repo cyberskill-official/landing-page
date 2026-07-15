@@ -18,7 +18,7 @@ import { Faq } from "@/components/sections/Faq";
 import { Careers } from "@/components/sections/Careers";
 import { SiteFooter } from "@/components/footer/SiteFooter";
 
-// Automated axe checks (FR-A11Y-003). These run in the same vitest job the CI
+// Automated axe checks (TASK-A11Y-003). These run in the same vitest job the CI
 // workflow already executes, so a11y regressions in the page's server-rendered
 // sections fail the build. We render the SSR-safe sections into jsdom and run
 // axe-core over the combined markup, which also catches cross-section issues
@@ -59,13 +59,13 @@ async function seriousViolations(locale: Locale): Promise<string[]> {
   const html = renderToStaticMarkup(createElement("main", null, ...sections));
   document.body.innerHTML = html;
   const results = await axe.run(document.body, { rules: RULES_OFF });
-  // Only serious/critical fail the build (FR-A11Y-003 §1.2), reported with rule + count.
+  // Only serious/critical fail the build (TASK-A11Y-003 §1.2), reported with rule + count.
   return results.violations
     .filter((v) => v.impact === "serious" || v.impact === "critical")
     .map((v) => `${v.id} [${v.impact}]: ${v.nodes.length} node(s)`);
 }
 
-describe("axe accessibility checks on the page sections (FR-A11Y-003)", () => {
+describe("axe accessibility checks on the page sections (TASK-A11Y-003)", () => {
   it("English markup has no serious or critical axe violations", async () => {
     expect(await seriousViolations("en")).toEqual([]);
   });

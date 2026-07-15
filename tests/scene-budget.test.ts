@@ -20,12 +20,12 @@ vi.mock("@react-three/fiber", () => ({
   Canvas: ({ children }: any) => createElement("div", { "data-testid": "canvas" }, children),
 }));
 
-// FR-SCENE-009 requires that the scene disposes of WebGL resources on unmount
+// TASK-SCENE-009 requires that the scene disposes of WebGL resources on unmount
 // and stays under the draw call budget. Testing WebGL context in JSDOM is not
 // possible, so we verify that the component can render without throwing and
 // rely on manual profiling and Lighthouse budgets for the draw call count.
 
-describe("FR-SCENE-009: GPU Disposal and Draw-call Budget", () => {
+describe("TASK-SCENE-009: GPU Disposal and Draw-call Budget", () => {
   it("renders LumiPlaceholder without throwing", () => {
     // We expect a group with pointLight and meshes inside
     const html = renderToStaticMarkup(createElement(LumiPlaceholder));

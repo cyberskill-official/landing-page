@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { requestBurst } from "@/lib/scene/mascot";
 import { useMotionStore } from "@/lib/a11y/motion-store";
 
-// Lumi plays with the work as she flies (FR-CHAR-033). Two layers:
+// Lumi plays with the work as she flies (TASK-CHAR-033). Two layers:
 //
 //  1. PROXIMITY - continuously, the content card nearest Lumi gets
 //     [data-lumi-near]: it warms and lifts a little while she is beside it, and

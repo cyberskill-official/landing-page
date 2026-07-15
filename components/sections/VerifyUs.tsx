@@ -6,7 +6,7 @@ import {
 } from "@/lib/content/policy";
 
 /**
- * FR-CMS-014 §1.2–1.3: only claims the repo actually enforces in CI.
+ * TASK-CMS-014 §1.2–1.3: only claims the repo actually enforces in CI.
  * Each entry's `ciCommand` is the exact `run:` / script token that must appear
  * in `.github/workflows/ci.yml` (not a vague substring match).
  */
@@ -59,7 +59,7 @@ export const ENGINEERING_CLAIMS: EngineeringClaim[] = [
 ];
 
 /**
- * FR-CMS-014: Verify-us trust block — only configured, evidenced fields.
+ * TASK-CMS-014: Verify-us trust block — only configured, evidenced fields.
  * `full` (default): page sections e.g. /how-we-build.
  * `compact`: footer-adjacent — denser layout, no map illustration.
  */
@@ -133,7 +133,7 @@ export function VerifyUs({
               data-static-map-link=""
             >
               {!compact && (
-                // Static first-party map — no iframe (FR-CMS-014). Compact footer omits image.
+                // Static first-party map — no iframe (TASK-CMS-014). Compact footer omits image.
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   className="cs-verify-map"

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-// Abstract product mockups for Selected Work (FR-WEB-ART). No real screenshots
+// Abstract product mockups for Selected Work (TASK-WEB-ART). No real screenshots
 // yet, so each case study gets a stylised UI that reads as the kind of product
 // it is - a dashboard, a mobile app, a storefront - in the gold-on-dark house
 // style. Purely decorative -> aria-hidden. Swap for real screenshots when the

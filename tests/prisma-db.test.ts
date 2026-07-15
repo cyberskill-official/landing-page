@@ -85,7 +85,7 @@ vi.mock("pg", () => {
   return { Pool };
 });
 
-describe("FR-OPS-014: Prisma PostgreSQL integration", () => {
+describe("TASK-OPS-014: Prisma PostgreSQL integration", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     resetDb();

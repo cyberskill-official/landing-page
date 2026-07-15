@@ -8,7 +8,7 @@ import { createRoot } from "react-dom/client";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 import { ConsentGate } from "@/lib/analytics/consent";
 
-describe("Batch 9 Commit 2 tests — FR-PERF-009 (Consent-gated Analytics)", () => {
+describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", () => {
   let container: HTMLDivElement;
 
   beforeEach(() => {

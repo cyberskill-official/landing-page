@@ -2,7 +2,7 @@
 
 Owner: Stephen Cheng. Source spec: `../Research Foundations for the CyberSkill
 Interactive Storytelling Landing Page (PRD + SRS Basis).md`. These NFRs set the
-quality floors the feature requests are built against; each is enforced rather
+quality floors the tasks are built against; each is enforced rather
 than aspirational.
 
 | ID | Category | Summary |

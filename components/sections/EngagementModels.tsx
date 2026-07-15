@@ -4,7 +4,7 @@ import {
   getPublishableEngagementModels,
 } from "@/lib/content/policy";
 import { localize, type LocalizedString } from "@/lib/i18n/types";
-import { CtaLink } from "@/components/cta/CtaLink";
+import { LeadCta } from "@/components/cta/LeadCta";
 
 /** Non-price descriptive copy keyed by model English name (SSOT for ranges is policy). */
 const modelCopy: Record<
@@ -34,8 +34,8 @@ const modelCopy: Record<
 };
 
 /**
- * FR-CTA-017: Engagement models and price signals from commercial policy SSOT.
- * Owner approved two models (not three archetypes in the draft FR prose).
+ * TASK-CTA-017: Engagement models and price signals from commercial policy SSOT.
+ * Owner approved two models (not three archetypes in the draft task prose).
  */
 export function EngagementModels({ locale }: { locale: Locale }) {
   const models = getPublishableEngagementModels();
@@ -87,14 +87,9 @@ export function EngagementModels({ locale }: { locale: Locale }) {
                   <strong>{localize(m.range, locale)}</strong>
                 </p>
                 <p data-field="timeline">{localize(m.timeline, locale)}</p>
-                <CtaLink
-                  className="cs-btn cs-btn-secondary"
-                  href={`/${locale}#contact`}
-                  location="engagement-models"
-                  label={ctaLabel}
-                >
+                <LeadCta className="cs-btn cs-btn-secondary" flow="contact" showSparkle={false}>
                   {ctaLabel}
-                </CtaLink>
+                </LeadCta>
               </article>
             );
           })}

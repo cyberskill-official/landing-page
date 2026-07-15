@@ -1,5 +1,5 @@
 // Bilingual double opt-in confirmation email templates for CyberSkill newsletter.
-// FR-CTA-014 §1.3: Contains the named promise: "one email a month: what we shipped, one lesson, one teardown".
+// TASK-CTA-014 §1.3: Contains the named promise: "one email a month: what we shipped, one lesson, one teardown".
 
 export interface SubscribeEmailData {
   confirmUrl: string;

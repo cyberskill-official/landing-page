@@ -4,7 +4,7 @@ import { negotiateLocale } from "@/lib/i18n/negotiate";
 
 // Sends the active locale to the root layout (which owns <html lang>) via a
 // request header, and redirects the bare "/" to a locale chosen from the
-// visitor's Accept-Language header (FR-WEB-004), so every indexable page lives
+// visitor's Accept-Language header (TASK-WEB-004), so every indexable page lives
 // under /en or /vi and first-time visitors land in their own language.
 //
 // 2026-07-14: renamed from middleware.ts to proxy.ts (Next.js renamed the
@@ -14,7 +14,7 @@ import { negotiateLocale } from "@/lib/i18n/negotiate";
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // FR-OPS-009 / FR-OPS-015: Generate cryptographically secure base64 nonce for inline scripts.
+  // TASK-OPS-009 / TASK-OPS-015: Generate cryptographically secure base64 nonce for inline scripts.
   const nonce = crypto.randomUUID ? Buffer.from(crypto.randomUUID()).toString("base64") : "static-nonce-fallback";
   
   const isProduction = process.env.VERCEL_ENV === "production" || process.env.VITEST_FORCE_PROD === "true";
@@ -60,11 +60,13 @@ export function proxy(req: NextRequest) {
   // was the next violation surfaced once frame-src was fixed, same pattern
   // as script-src/frame-src before it (Vercel Live keeps needing one more
   // directive as each blocked resource type surfaces).
-  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com https://vercel.live; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self' https://vercel.live; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com; frame-src 'self' https://vercel.live; child-src 'self' https://vercel.live; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
+  // va.vercel-scripts.com: Vercel Analytics + Speed Insights inject scripts in
+  // preview/dev; without them the console floods CSP report-only violations.
+  const cspHeader = `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'wasm-unsafe-eval' https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com; style-src ${styleSrc}; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self' https://vercel.live; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com https://va.vercel-scripts.com https://vitals.vercel-insights.com; frame-src 'self' https://vercel.live; child-src 'self' https://vercel.live; frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
 
   if (pathname === "/") {
     // An explicit switcher choice (cs-locale cookie) wins over header negotiation
-    // so a returning reader is never re-routed against their selection (FR-WEB-004).
+    // so a returning reader is never re-routed against their selection (TASK-WEB-004).
     const chosen = req.cookies.get("cs-locale")?.value;
     const target = isLocale(chosen) ? chosen : negotiateLocale(req.headers.get("accept-language"));
     const url = req.nextUrl.clone();

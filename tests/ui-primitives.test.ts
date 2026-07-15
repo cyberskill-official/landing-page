@@ -9,7 +9,7 @@ import { Field } from "@/components/ui/Field";
 import { Select } from "@/components/ui/Select";
 import { Dialog } from "@/components/ui/Dialog";
 
-// FR-DS-003: the in-repo primitives emit token-styled markup, keep native
+// TASK-DS-003: the in-repo primitives emit token-styled markup, keep native
 // semantics, and pass axe with no external component dependency.
 const RULES_OFF = {
   region: { enabled: false },

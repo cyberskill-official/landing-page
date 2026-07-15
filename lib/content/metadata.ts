@@ -2,7 +2,7 @@ import type { LocalizedString } from "@/lib/i18n/types";
 import type { Locale } from "@/lib/i18n/config";
 import { company, siteUrl } from "@/lib/content/site";
 
-// FR-SEO-011 §1.1-1.4: Centralised per-route metadata registry.
+// TASK-SEO-011 §1.1-1.4: Centralised per-route metadata registry.
 // Every indexable route declares a unique (title, description) pair per locale.
 // Titles carry commercial intent terms; descriptions include one proof point.
 // The brand slogan stays in OG title but is NOT the whole <title>.
@@ -12,7 +12,7 @@ export interface RouteMetadata {
   route: string;
   title: LocalizedString;
   description: LocalizedString;
-  /** ISO date string for sitemap lastModified (FR-SEO-012 §1.2) */
+  /** ISO date string for sitemap lastModified (TASK-SEO-012 §1.2) */
   lastUpdated: string;
 }
 
@@ -35,48 +35,48 @@ export const routeMetadata: RouteMetadata[] = [
   {
     route: "/work",
     title: {
-      en: "Our Work — Software Projects & Case Studies | CyberSkill",
-      vi: "Dự án — Các dự án phần mềm & nghiên cứu tình huống | CyberSkill",
+      en: "Our Work | Software Projects & Case Studies | CyberSkill",
+      vi: "Dự án phần mềm & case study | CyberSkill",
     },
     description: {
       en: "See the web apps, mobile apps, and internal systems CyberSkill has shipped. Each case study shows the problem, approach, and measurable outcome.",
-      vi: "Xem các ứng dụng web, ứng dụng di động và hệ thống nội bộ CyberSkill đã bàn giao. Mỗi nghiên cứu tình huống nêu rõ bài toán, cách tiếp cận và kết quả.",
+      vi: "Xem ứng dụng web, di động và hệ thống nội bộ CyberSkill đã bàn giao. Mỗi case study nêu bài toán, cách làm và kết quả.",
     },
     lastUpdated: "2026-07-12",
   },
   {
     route: "/careers",
     title: {
-      en: "Careers at CyberSkill — Join a Software Team in Saigon",
-      vi: "Tuyển dụng tại CyberSkill — Gia nhập đội ngũ phần mềm tại Sài Gòn",
+      en: "Careers at CyberSkill | Join a Software Team in Saigon",
+      vi: "Tuyển dụng tại CyberSkill | Đội phần mềm Sài Gòn",
     },
     description: {
       en: "CyberSkill hires senior engineers in Ho Chi Minh City. Join our small team to build production software with real ownership and zero corporate busywork.",
-      vi: "CyberSkill tuyển kỹ sư cấp cao tại TP. Hồ Chí Minh. Gia nhập đội ngũ nhỏ để xây dựng phần mềm thực tế với quyền tự chủ cao và không họp hành vô ích.",
+      vi: "CyberSkill tuyển kỹ sư giàu kinh nghiệm tại TP. Hồ Chí Minh. Đội nhỏ, phần mềm chạy thật, tự chủ cao, ít họp vô bổ.",
     },
     lastUpdated: "2026-07-12",
   },
   {
     route: "/how-we-build",
     title: {
-      en: "How We Build Software — Engineering Process | CyberSkill",
-      vi: "Cách chúng tôi xây dựng phần mềm — Quy trình kỹ thuật | CyberSkill",
+      en: "How We Build Software | Engineering Process | CyberSkill",
+      vi: "Cách chúng tôi xây phần mềm | CyberSkill",
     },
     description: {
       en: "How CyberSkill builds reliable software: small releases, automated quality gates, and performance budgets in CI to prevent regressions on every change.",
-      vi: "Cách CyberSkill xây phần mềm tin cậy: phát hành nhỏ, các cổng chất lượng tự động, và budget hiệu năng trong CI giúp chặn lỗi hồi quy trên mỗi thay đổi.",
+      vi: "CyberSkill xây phần mềm tin cậy: phát hành nhỏ, cổng chất lượng tự động, ngân sách hiệu năng trong CI chặn lỗi cũ trên mỗi thay đổi.",
     },
     lastUpdated: "2026-07-12",
   },
   {
     route: "/team",
     title: {
-      en: "Our Team — Software Engineers in Ho Chi Minh City | CyberSkill",
-      vi: "Đội ngũ — Kỹ sư phần mềm tại TP. Hồ Chí Minh | CyberSkill",
+      en: "Our Team | Software Engineers in Ho Chi Minh City | CyberSkill",
+      vi: "Đội ngũ kỹ sư tại TP. Hồ Chí Minh | CyberSkill",
     },
     description: {
       en: "Meet the senior software engineers behind CyberSkill in Saigon. The exact same people partner with you from the first discovery call to production launch.",
-      vi: "Gặp gỡ các kỹ sư phần mềm cấp cao tại CyberSkill ở Sài Gòn. Cùng những con người đó đồng hành chặt chẽ với bạn từ cuộc gọi đầu tiên đến khi ra mắt.",
+      vi: "Gặp kỹ sư giàu kinh nghiệm của CyberSkill tại Sài Gòn. Cùng những người đó đồng hành từ cuộc gọi đầu đến khi sản phẩm ra mắt.",
     },
     lastUpdated: "2026-07-12",
   },
@@ -96,7 +96,7 @@ export const routeMetadata: RouteMetadata[] = [
     route: "/accessibility",
     title: {
       en: "Accessibility Statement | CyberSkill",
-      vi: "Tuyên bố hỗ trợ tiếp cận | CyberSkill",
+      vi: "Tuyên bố khả năng tiếp cận | CyberSkill",
     },
     description: {
       en: "CyberSkill's commitment to WCAG 2.2 AA accessibility standard. Read about our keyboard navigation, motion gating, screen reader support, and testing.",
@@ -239,8 +239,8 @@ export const routeMetadata: RouteMetadata[] = [
   {
     route: "/now",
     title: {
-      en: "What We Are Doing Now — Product Changelog | CyberSkill",
-      vi: "Nhật ký hoạt động — Cập nhật tiến độ sản phẩm | CyberSkill",
+      en: "What We Are Doing Now | Product Changelog | CyberSkill",
+      vi: "Nhật ký hoạt động | Cập nhật tiến độ sản phẩm | CyberSkill",
     },
     description: {
       en: "See what CyberSkill is building and shipping right now. Real-time timeline of our engineering updates, releases, and milestones in Saigon.",
@@ -289,14 +289,14 @@ export const routeMetadata: RouteMetadata[] = [
 /** Resolve metadata for a locale + route. Returns title, description, and OG fields. */
 export function resolveMetadata(locale: Locale, route: string) {
   const meta = routeMetadata.find((m) => m.route === route);
-  const title = meta?.title[locale] ?? `CyberSkill — ${company.slogan[locale]}`;
+  const title = meta?.title[locale] ?? `CyberSkill | ${company.slogan[locale]}`;
   const description = meta?.description[locale] ?? company.entity[locale];
 
   return {
     title,
     description,
     openGraph: {
-      title: `${company.shortName} — ${company.slogan[locale]}`,
+      title: `${company.shortName} | ${company.slogan[locale]}`,
       description,
       url: `${siteUrl}/${locale}${route === "/" ? "" : route}`,
       siteName: company.shortName,

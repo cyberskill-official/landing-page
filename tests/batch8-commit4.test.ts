@@ -8,8 +8,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 // @ts-ignore
 import { JSDOM } from "jsdom";
 
-describe("Commit 4 tests — FR-SEO-015, FR-SEO-016", () => {
-  // --- FR-SEO-016: Service Paths ---
+describe("Commit 4 tests — TASK-SEO-015, TASK-SEO-016", () => {
+  // --- TASK-SEO-016: Service Paths ---
   test("routing/service-paths: generateStaticParams returns paths for all services in both locales", () => {
     const paths = generateStaticParams();
     expect(paths).toContainEqual({ lang: "en", slug: "web-apps" });
@@ -20,7 +20,7 @@ describe("Commit 4 tests — FR-SEO-015, FR-SEO-016", () => {
     expect(paths).toContainEqual({ lang: "vi", slug: "internal-systems" });
   });
 
-  // --- FR-SEO-015: Service and review schema ---
+  // --- TASK-SEO-015: Service and review schema ---
   test("seo/service-ld-review: renders review and aggregateRating when rated testimonials are present", async () => {
     // Inject a mock rated testimonial
     testimonials.push({
@@ -79,7 +79,7 @@ describe("Commit 4 tests — FR-SEO-015, FR-SEO-016", () => {
     expect(ld.aggregateRating).toBeUndefined();
   });
 
-  // --- FR-SEO-016: FAQPage JSON-LD Schema ---
+  // --- TASK-SEO-016: FAQPage JSON-LD Schema ---
   test("seo/service-faq-jsonld: renders FAQPage schema correctly", async () => {
     const page = await ServiceDetailPage({ params: Promise.resolve({ lang: "en", slug: "web-apps" }) });
     const html = renderToStaticMarkup(page);
