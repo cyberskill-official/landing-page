@@ -2096,12 +2096,14 @@ main > .cs-section::before {
   to { opacity: 1; translate: 0 0; }
 }
 
-/* Chat: wish-flow quick chips (FR-CHAR-026). */
+/* Chat: scripted discovery + wish-flow chips (keyless Lumi). */
 .cs-genie-chips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--cs-space-2);
   padding: 0 var(--cs-space-4) var(--cs-space-2);
+  max-height: 7.5rem;
+  overflow-y: auto;
 }
 .cs-genie-chips:empty { display: none; }
 .cs-genie-chip {

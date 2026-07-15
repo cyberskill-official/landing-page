@@ -14,6 +14,13 @@ import {
   wishFlowPayload,
   type WishState,
 } from "@/lib/genie/wishFlow";
+import {
+  getOpeningChips,
+  matchScriptedFreeText,
+  offlineFallbackReply,
+  resolveScriptTopic,
+  type ScriptChip,
+} from "@/lib/genie/scriptedChat";
 import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
 import { emit, readUtm } from "@/lib/analytics/taxonomy";
 import { Icon } from "@/components/ui/Icon";
@@ -50,6 +57,8 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   // the deterministic wish flow instead of the AI proxy - keyless, so it
   // works even while Lumi's AI is resting.
   const [wish, setWish] = useState<WishState | null>(null);
+  // Scripted discovery chips (no LLM) — opening menu + topic follow-ups.
+  const [scriptChips, setScriptChips] = useState<ScriptChip[]>(() => getOpeningChips(locale));
   const [sending, setSending] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
@@ -124,8 +133,21 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     if (busy || wish) return;
     const state = startWishFlow();
     setWish(state);
+    setScriptChips([]);
     emit("form_started", { formId: "lumi-chat" });
     say(promptFor(state));
+    inputRef.current?.focus();
+  }
+
+  function startTeardownFromScript(seed?: string) {
+    if (busy || wish) return;
+    // User chip/line was already logged by the caller when applicable.
+    const message = seed?.trim() || dict.teardown.lumiSeed;
+    const state = startTeardownWishFlow(message);
+    setWish(state);
+    setScriptChips([]);
+    emit("form_started", { formId: "teardown" });
+    say(dict.genie.wishTeardownSeedAck);
     inputRef.current?.focus();
   }
 
@@ -134,6 +156,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     const state =
       kind === "teardown" ? startTeardownWishFlow(message) : startWishFlowWith(message);
     setWish(state);
+    setScriptChips([]);
     emit("form_started", { formId: formIdFor(kind) });
     addMessage({ id: uid(), role: "user", content: message });
     say(kind === "teardown" ? dict.genie.wishTeardownSeedAck : dict.genie.wishSeedAck);
@@ -142,7 +165,29 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
 
   function cancelWish() {
     setWish(null);
+    setScriptChips(getOpeningChips(locale));
     say(dict.genie.wishCancelled);
+  }
+
+  /** Keyless topic / chip path — works with or without the LLM. */
+  function runScriptChip(chip: ScriptChip) {
+    if (busy || wish) return;
+    addMessage({ id: uid(), role: "user", content: chip.label });
+    const reply = resolveScriptTopic(locale, chip.id);
+    applyScriptReply(reply);
+  }
+
+  function applyScriptReply(reply: ReturnType<typeof resolveScriptTopic>) {
+    if (reply.startWish) {
+      startWish();
+      return;
+    }
+    if (reply.startTeardown) {
+      startTeardownFromScript();
+      return;
+    }
+    say(reply.message);
+    setScriptChips(reply.chips ?? getOpeningChips(locale));
   }
 
   function feedWish(raw: string) {
@@ -194,12 +239,14 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
       if (res.ok) {
         emit("lead_submitted", { source: leadSource, locale, utm: readUtm() });
         setWish(null);
+        setScriptChips(getOpeningChips(locale));
         say(leadSource === "teardown" ? dict.genie.wishDoneTeardown : dict.genie.wishDone);
         // Lumi celebrates: the scene listens and bursts (FR-CHAR-030).
         window.dispatchEvent(new CustomEvent(WISH_GRANTED_EVENT));
       } else if (res.status === 429) {
         say(dict.teardown.capFullBody);
         setWish(null);
+        setScriptChips(getOpeningChips(locale));
       } else {
         say(dict.genie.wishFailed);
       }
@@ -219,7 +266,6 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     setInput("");
 
     // Wish flow captures the input while active (no AI round-trip).
-    // consent/done already returned above.
     if (wish) {
       feedWish(text);
       return;
@@ -227,11 +273,20 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
 
     const userMsg: GenieMessage = { id: uid(), role: "user", content: text };
     addMessage(userMsg);
+
+    // 1) Keyless scripted match — intentional, works offline.
+    const scripted = matchScriptedFreeText(locale, text);
+    if (scripted) {
+      applyScriptReply(scripted);
+      return;
+    }
+
+    // 2) Optional LLM when free text did not match a known case.
     const assistantId = uid();
     addMessage({ id: assistantId, role: "assistant", content: "" });
     setStatus("thinking");
+    setScriptChips([]);
 
-    // The visible greeting is UI-only; the API history starts with the user.
     const history = [...messages, userMsg].map((m) => ({ role: m.role, content: m.content }));
 
     try {
@@ -241,7 +296,9 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         body: JSON.stringify({ messages: history, locale, sessionId: getSessionId() }),
       });
       if (!res.ok || !res.body) {
-        appendToMessage(assistantId, dict.genie.unavailable);
+        const fallback = offlineFallbackReply(locale);
+        appendToMessage(assistantId, fallback.message);
+        setScriptChips(fallback.chips ?? getOpeningChips(locale));
         setStatus("idle");
         return;
       }
@@ -254,26 +311,26 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
         fullText += chunk;
-        
-        // We continuously append to the UI, but we'll hide the tag via regex on render.
         appendToMessage(assistantId, chunk);
       }
-      
+
       const captureMatch = fullText.match(/<LEAD_CAPTURED>([\s\S]*?)<\/LEAD_CAPTURED>/);
       if (captureMatch) {
         try {
           const leadData = JSON.parse(captureMatch[1]);
           useGenieStore.getState().setLeadCaptured(true, leadData);
           emit("lead_submitted", { source: "lumi-chat", locale, utm: readUtm() });
-        } catch (e) {
-          // If JSON parse fails, just set it to true
+        } catch {
           useGenieStore.getState().setLeadCaptured(true);
         }
       }
 
+      setScriptChips(getOpeningChips(locale));
       setStatus("idle");
     } catch {
-      appendToMessage(assistantId, dict.genie.unavailable);
+      const fallback = offlineFallbackReply(locale);
+      appendToMessage(assistantId, fallback.message);
+      setScriptChips(fallback.chips ?? getOpeningChips(locale));
       setStatus("idle");
     }
   }
@@ -321,14 +378,22 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         })}
       </div>
 
-      {/* Quick actions: start the wish flow, or drive its skip/consent steps. */}
+      {/* Scripted discovery chips (keyless) + wish-flow controls. */}
       {!isLeadCaptured && (
         <div className="cs-genie-chips">
-          {!wish && (
-            <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={startWish} disabled={busy}>
-              <Icon name="sparkle" size="sm" /> {dict.genie.wishCta}
-            </button>
-          )}
+          {!wish &&
+            scriptChips.map((chip) => (
+              <button
+                key={`${chip.id}-${chip.label}`}
+                type="button"
+                className={`cs-genie-chip${chip.id === "wish" || chip.id === "teardown_flow" || chip.id === "fortune" ? " cs-genie-chip-gold" : ""}`}
+                onClick={() => runScriptChip(chip)}
+                disabled={busy}
+              >
+                {(chip.id === "wish" || chip.id === "fortune") && <Icon name="sparkle" size="sm" />}
+                {chip.label}
+              </button>
+            ))}
           {wish && consentStep && (
             <button type="button" className="cs-genie-chip cs-genie-chip-gold" onClick={submitWish} disabled={busy}>
               {dict.genie.wishAgree}
