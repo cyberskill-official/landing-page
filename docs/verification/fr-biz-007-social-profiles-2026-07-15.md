@@ -13,6 +13,7 @@
 
 ## Residual
 
+- [x] Core profiles live: LinkedIn, GitHub, Facebook, X (operator 2026-07-15).
 - [ ] Confirm each profile uses canonical entity sentence + logo and links back to cyberskill.world (+ UTM).
 - [ ] Zalo / WhatsApp when created: set `profiles.zalo` / `contacts.whatsapp`.
 - [ ] HITL may close BIZ-007 when residuals done (agent does not set done).

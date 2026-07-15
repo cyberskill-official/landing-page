@@ -34,13 +34,13 @@ FR §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, C
 |---|---|
 | 1.1 Three paths (form, Lumi, /vi) | **met for operator-confirmed paths** — en form, en Lumi, vi confirmed |
 | 1.2 Every *configured* sink | **met for Resend** (internal + ack); Slack/CRM N/A unset |
-| 1.3 Reply-To round trip | **still optional tick** (reply to any ack once) |
+| 1.3 Reply-To round trip | **met** — operator residual checklist 1–5 done (2026-07-15) |
 | 1.4 Evidence file committed | **this file** |
 
 ## Operator residual checklist (finish BIZ-003)
 
 1. [x] /vi lead — operator confirmed 2026-07-15.  
-2. [ ] Reply to one visitor ack; confirm Reply-To lands correctly (optional but recommended).  
+2. [x] Reply-To / residual 1–5 — operator confirmed done 2026-07-15.  
 3. [ ] Optional: delete/test-label test leads so inbox stays clean.  
 4. [ ] HITL: operator may set FR-BIZ-003 → `done` when satisfied (agent must not).
 

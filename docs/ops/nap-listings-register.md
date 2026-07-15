@@ -22,7 +22,7 @@ Update the table below when a listing is checked or corrected. **Do not invent U
 | GitHub org | https://github.com/cyberskill-world | n/a org | 2026-07-15 | public code only |
 | Facebook page | https://www.facebook.com/cyberskill.world | ☐ check NAP | 2026-07-15 | operator live URL → SSOT |
 | X (Twitter) | https://x.com/cyberskillworld | ☐ check NAP | 2026-07-15 | operator live URL → SSOT |
-| Google Business Profile | operator live (dashboard) — prefer public maps/`g.page` URL when available | ☐ NAP | 2026-07-15 | dashboard: business.google.com (SSO); paste public profile URL when known |
+| Google Business Profile | https://share.google/JjXCbiMkb3mV2Jfb1 | ☐ confirm NAP on profile | 2026-07-15 | operator public share link |
 | Google Play developer | ☐ | ☐ | | fix Dakao → Tan Dinh; no personal email |
 | Zalo OA | ☐ | ☐ | | optional BIZ-007 |
 | Clutch | ☐ | ☐ | | BIZ-005 |

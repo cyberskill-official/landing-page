@@ -4,11 +4,11 @@
 
 | Step | Done? | Evidence |
 |---|---|---|
-| Google Search Console property `cyberskill.world` verified (DNS TXT preferred) | **yes** (operator 2026-07-15) | re-check property list |
-| Bing Webmaster Tools verified | **no** (operator 2026-07-15) | do next |
-| Sitemap submitted: `https://cyberskill.world/sitemap.xml` | **unsure** (operator) | open GSC → Sitemaps → submit if missing |
-| First indexing pass: /en + /vi reviewed | ☐ | note coverage errors |
-| Confirm `/lite` is noindex by design | ☐ | |
+| Google Search Console property `cyberskill.world` verified (DNS TXT preferred) | **yes** (operator 2026-07-15) | |
+| Bing Webmaster Tools verified | **yes** (operator residual 1–5 done) | import-from-GSC path |
+| Sitemap submitted: `https://cyberskill.world/sitemap.xml` | **yes** (operator residual 1–5 done) | confirm Success in both consoles periodically |
+| First indexing pass: /en + /vi reviewed | ☐ recommended | note coverage errors next monthly review |
+| Confirm `/lite` is noindex by design | ☐ recommended | |
 
 ## Monthly 15-minute review (template)
 
@@ -16,7 +16,7 @@ Copy a row each month:
 
 | Month | Owner | Top queries (en) | Top queries (vi) | Coverage errors | Notes / after which deploy |
 |---|---|---|---|---|---|
-| 2026-07 | | | | | template row — fill after first GSC login |
+| 2026-07 | Mr. Stephen | (fill next month) | (fill next month) | setup complete: GSC+Bing+sitemap | GBP share + social FB/X live |
 | | | | | | |
 
 ## Quarterly full re-audit
