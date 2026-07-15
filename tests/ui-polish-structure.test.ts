@@ -16,8 +16,20 @@ describe("ui polish structure", () => {
     expect(src).toMatch(/\.cs-genie-log\s*\{[^}]*min-height/s);
     expect(src).toMatch(/\.cs-genie-chips\s*\{[^}]*flex-shrink:\s*0/s);
     expect(src).toMatch(/\.cs-genie-form\s*\{[^}]*flex-shrink:\s*0/s);
-    // Mobile genie clears persistent CTA
-    expect(src).toMatch(/\.cs-genie[\s\S]{0,400}bottom:\s*calc\(4\.5rem/);
+  });
+
+  it("shares one mobile bottom clearance token for body, genie, and footer", () => {
+    const src = css();
+    // Token defined once
+    expect(src).toMatch(/--cs-mobile-bottom-clearance:\s*calc\(/);
+    expect(src).toMatch(/--cs-mobile-cta-height:\s*76px/);
+    expect(src).toMatch(/--cs-mobile-chrome-gap:\s*0\.5rem/);
+    // Body pad + genie bottom + footer pad all consume the same var (no divergent 4.5rem/76px)
+    expect(src).toMatch(/body\s*\{\s*padding-bottom:\s*var\(--cs-mobile-bottom-clearance\)/);
+    expect(src).toMatch(/\.cs-genie\s*\{[^}]*bottom:\s*var\(--cs-mobile-bottom-clearance\)/s);
+    expect(src).toMatch(/\.cs-footer\s*\{[^}]*var\(--cs-mobile-bottom-clearance\)/s);
+    // Old brittle offset must not reappear
+    expect(src).not.toMatch(/bottom:\s*calc\(4\.5rem/);
   });
 
   it("newsletter form uses theme tokens not hard-coded white glass", () => {
