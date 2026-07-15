@@ -52,10 +52,11 @@ export async function POST(req: Request) {
     }
   }
 
-  // Validate production env keys (fail closed if required ones are absent)
+  // Production fail-closed: email sink (Resend) is required.
+  // CRM/CyberOS webhook is optional — forwardToCyberOs no-ops when unset
+  // (operator may run Resend-only until FR-BIZ-002 / CyberOS intake is live).
   try {
     getRequiredEnv("RESEND_API_KEY", true);
-    getRequiredEnv("LEAD_CRM_WEBHOOK_URL", true);
   } catch (err: any) {
     console.error("[lead] configuration_error", err.message);
     return NextResponse.json(

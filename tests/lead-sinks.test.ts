@@ -21,7 +21,13 @@ describe("Lead Pipeline API", () => {
   const originalConsoleError = console.error;
 
   beforeEach(() => {
-    process.env = { ...originalEnv, NODE_ENV: "production" };
+    // FORCE_ENV_CHECK: getRequiredEnv skips production checks under Vitest unless set
+    // (see lib/ops/env.ts) — required for lead/resend-required fail-closed.
+    process.env = {
+      ...originalEnv,
+      NODE_ENV: "production",
+      FORCE_ENV_CHECK: "true",
+    };
     console.error = vi.fn();
     global.fetch = vi.fn(() => Promise.resolve({ ok: true } as Response));
   });
@@ -32,31 +38,67 @@ describe("Lead Pipeline API", () => {
     vi.clearAllMocks();
   });
 
-  it("lead/sink-accounting: skipped unconfigured sink is not a failure", async () => {
-    // Only file sink is configured (always true)
-    delete process.env.RESEND_API_KEY;
+  it("lead/resend-only: production succeeds without LEAD_CRM_WEBHOOK_URL", async () => {
+    process.env.RESEND_API_KEY = "re_test_key";
     delete process.env.LEAD_SLACK_WEBHOOK_URL;
     delete process.env.LEAD_CRM_WEBHOOK_URL;
-    
+    delete process.env.LEAD_CRM_TOKEN;
+
     const req = new Request("https://cyberskill.world/api/lead", {
       method: "POST",
       body: JSON.stringify(base),
     });
-    
+
     const res = await POST(req);
     expect((res as NextResponse).status).toBe(200);
-    // Since file sink succeeds, configured = 1, failed = 0.
-    // Ensure no error logged for pipeline failure
-    expect(console.error).not.toHaveBeenCalledWith(expect.stringContaining("pipeline failure"));
+    const data = await res.json();
+    expect(data.ok).toBe(true);
+    expect(data.error).not.toBe("configuration_error");
+    // Must not demand CyberOS in Resend-only production
+    expect(JSON.stringify(data)).not.toContain("LEAD_CRM_WEBHOOK_URL");
   });
 
-  it("lead/total-failure-alert: all non-ack sinks fail without api key, returns ok:true", async () => {
-    // With no RESEND_API_KEY, the ack sink is not configured.
-    delete process.env.RESEND_API_KEY;
+  it("lead/crm-optional: unconfigured CRM is skipped, not a hard failure", async () => {
+    process.env.RESEND_API_KEY = "re_test_key";
+    delete process.env.LEAD_CRM_WEBHOOK_URL;
 
-    // Mock fetch to reject
+    const req = new Request("https://cyberskill.world/api/lead", {
+      method: "POST",
+      body: JSON.stringify(base),
+    });
+
+    const res = await POST(req);
+    expect((res as NextResponse).status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true });
+    // CRM URL never called when unset
+    const fetchMock = global.fetch as ReturnType<typeof vi.fn>;
+    const crmCalls = fetchMock.mock.calls.filter(
+      (c) => typeof c[0] === "string" && String(c[0]).includes("crm"),
+    );
+    expect(crmCalls.length).toBe(0);
+  });
+
+  it("lead/resend-required: production fails closed without RESEND_API_KEY", async () => {
+    delete process.env.RESEND_API_KEY;
+    delete process.env.LEAD_CRM_WEBHOOK_URL;
+
+    const req = new Request("https://cyberskill.world/api/lead", {
+      method: "POST",
+      body: JSON.stringify(base),
+    });
+
+    const res = await POST(req);
+    expect((res as NextResponse).status).toBe(500);
+    const data = await res.json();
+    expect(data.error).toBe("configuration_error");
+    expect(data.message).toContain("MISSING_PRODUCTION_KEY_RESEND_API_KEY");
+    expect(data.message).not.toContain("LEAD_CRM");
+  });
+
+  it("lead/total-failure-alert: when Resend present but sinks fail, still ok:true", async () => {
+    process.env.RESEND_API_KEY = "re_test_key";
+    delete process.env.LEAD_CRM_WEBHOOK_URL;
     global.fetch = vi.fn(() => Promise.reject(new Error("network error")));
-    // Mock file sink to reject
     vi.spyOn(fs, "appendFile").mockRejectedValue(new Error("disk full"));
 
     const req = new Request("https://cyberskill.world/api/lead", {
@@ -65,48 +107,52 @@ describe("Lead Pipeline API", () => {
     });
 
     const res = await POST(req);
-    expect((res as NextResponse).status).toBe(200); // User still gets success
-
-    // With file rejecting and no other configured sinks (no env vars set),
-    // pipeline failure is logged.
+    expect((res as NextResponse).status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true });
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining("pipeline failure"),
-      expect.any(Object)
+      expect.any(Object),
     );
   });
 
-  it("lead/total-failure-alert: zero configured sinks in production triggers alert", async () => {
-    // Remove all config
-    delete process.env.RESEND_API_KEY;
-    delete process.env.LEAD_SLACK_WEBHOOK_URL;
-    delete process.env.LEAD_CRM_WEBHOOK_URL;
-    // Mock file sink to fail so configured sinks = 0
-    vi.spyOn(fs, "appendFile").mockRejectedValue(new Error("disk full"));
+  it("lead/crm-when-set: forwards to CyberOS webhook as best-effort", async () => {
+    process.env.RESEND_API_KEY = "re_test_key";
+    process.env.LEAD_CRM_WEBHOOK_URL = "https://crm.cyberskill.world/leads";
+    process.env.LEAD_CRM_TOKEN = "tok";
 
     const req = new Request("https://cyberskill.world/api/lead", {
       method: "POST",
       body: JSON.stringify(base),
     });
-    
+
     const res = await POST(req);
-    
-    expect(console.error).toHaveBeenCalledWith(
-      expect.stringContaining("pipeline failure"),
-      expect.any(Object)
+    expect((res as NextResponse).status).toBe(200);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://crm.cyberskill.world/leads",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          authorization: "Bearer tok",
+        }),
+      }),
     );
   });
 
   it("lead/synthetic-path: synthetic lead skips CRM forward", async () => {
+    process.env.RESEND_API_KEY = "re_test_key";
     process.env.LEAD_CRM_WEBHOOK_URL = "https://crm.cyberskill.world";
-    
+
     const req = new Request("https://cyberskill.world/api/lead", {
       method: "POST",
       body: JSON.stringify({ ...base, source: "synthetic" }),
     });
-    
+
     const res = await POST(req);
     expect((res as NextResponse).status).toBe(200);
-    
-    expect(global.fetch).not.toHaveBeenCalledWith("https://crm.cyberskill.world", expect.any(Object));
+
+    expect(global.fetch).not.toHaveBeenCalledWith(
+      "https://crm.cyberskill.world",
+      expect.any(Object),
+    );
   });
 });
