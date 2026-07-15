@@ -147,6 +147,7 @@ describe("CMS Content & Layout Integration", () => {
     // 1. Centralised registry metadata contains route: "/terms"
     const termsMeta = routeMetadata.find((m: any) => m.route === "/terms");
     expect(termsMeta).toBeDefined();
+    if (!termsMeta) throw new Error("expected /terms in routeMetadata");
     expect(termsMeta.title.en).toContain("Terms of Service");
     expect(termsMeta.title.vi).toContain("Điều khoản dịch vụ");
 

@@ -1029,7 +1029,39 @@ main > .cs-section > .cs-container > h1 {
 .cs-genie-msg-user { align-self: flex-end; background: var(--cs-color-brand); color: var(--cs-color-on-brand); }
 .cs-genie-msg-genie { align-self: flex-start; background: var(--cs-color-surface); border: 1px solid var(--cs-color-line); }
 .cs-genie-form { display: flex; gap: var(--cs-space-2); padding: var(--cs-space-4); border-top: 1px solid var(--cs-glass-border); }
-.cs-genie-form input { flex: 1; font: inherit; padding: var(--cs-space-3); border-radius: var(--cs-radius-sm); border: 1px solid var(--cs-color-line); background: var(--cs-color-paper-raised); color: var(--cs-color-fg); }
+/* Dark-safe input: never paper-raised (white) + light fg (invisible typed text). */
+.cs-genie-form input {
+  flex: 1;
+  font: inherit;
+  padding: var(--cs-space-3);
+  border-radius: var(--cs-radius-sm);
+  border: 1px solid var(--cs-color-line);
+  background: var(--cs-color-surface);
+  color: var(--cs-color-fg);
+  caret-color: var(--cs-color-accent);
+}
+.cs-genie-form input::placeholder {
+  color: var(--cs-color-fg-muted);
+  opacity: 0.9;
+}
+.cs-genie-form input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: color-mix(in srgb, var(--cs-color-surface) 80%, transparent);
+}
+.cs-genie-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+[data-theme="dark"] .cs-genie-form input {
+  background: #1a120c;
+  color: var(--cs-color-fg);
+  border-color: var(--cs-color-line);
+}
+.cs-genie-form-chip-only {
+  /* Consent / decision steps: free-text row stays mounted for a11y but inert. */
+  opacity: 0.55;
+}
 .cs-genie-consent { font-size: var(--cs-text-xs); color: var(--cs-color-fg-muted); padding: 0 var(--cs-space-4) var(--cs-space-3); }
 .cs-genie-close { background: transparent; border: 0; cursor: pointer; font-size: 1.3rem; line-height: 1; color: var(--cs-color-fg-muted); }
 

@@ -73,7 +73,7 @@ export function getPublishableContent(): PublishableContent {
 
 /** True when a CyberOS content endpoint is configured (not yet implemented). */
 export function isCyberOsContentConfigured(
-  env: NodeJS.ProcessEnv = process.env,
+  env: { CYBEROS_CONTENT_URL?: string | undefined } | NodeJS.ProcessEnv = process.env,
 ): boolean {
   return Boolean(env.CYBEROS_CONTENT_URL?.trim());
 }

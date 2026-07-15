@@ -249,8 +249,12 @@ async function notifyLeadAck(
   const bookingUrl = process.env.LEAD_BOOKING_URL || undefined;
   const { subject, text } = buildAckEmail({ name, locale: safeLocale, bookingUrl });
 
-  const domain = company.email.split("@")[1];
-  const from = process.env.LEAD_ACK_FROM || `${company.phoneContact} at ${company.shortName} <${company.phoneContact.toLowerCase().replace(/[^a-z]/g, "")}@${domain}>`;
+  // Prefer shared LEAD_EMAIL_FROM / LEAD_ACK_FROM. Do not invent a mailbox from
+  // phoneContact ("Mr. Stephen" → mrstephen@…) — that address is not a real sender.
+  const from =
+    process.env.LEAD_ACK_FROM ||
+    process.env.LEAD_EMAIL_FROM ||
+    `${company.shortName} <${company.email}>`;
 
   try {
     const res = await fetch("https://api.resend.com/emails", {

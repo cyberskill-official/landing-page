@@ -26,11 +26,11 @@ describe("content/read-model (FR-OPS-019 scaffold)", () => {
     );
     expect(c.team.length).toBe(team.length);
     expect(c.company.legalName.length).toBeGreaterThan(0);
-    expect(isCyberOsContentConfigured({} as NodeJS.ProcessEnv)).toBe(false);
+    expect(isCyberOsContentConfigured({})).toBe(false);
     expect(
       isCyberOsContentConfigured({
         CYBEROS_CONTENT_URL: "https://example.invalid/content",
-      } as NodeJS.ProcessEnv),
+      }),
     ).toBe(true);
   });
 });

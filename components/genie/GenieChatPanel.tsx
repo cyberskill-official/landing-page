@@ -212,12 +212,15 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
+    // Consent is chip-only — never submit free text here.
+    if (wish?.step === "consent" || wish?.step === "done") return;
     const text = input.trim();
-    if (!text || busy) return;
+    if (!text || busy || sending) return;
     setInput("");
 
     // Wish flow captures the input while active (no AI round-trip).
-    if (wish && wish.step !== "consent" && wish.step !== "done") {
+    // consent/done already returned above.
+    if (wish) {
       feedWish(text);
       return;
     }
@@ -276,6 +279,9 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   }
 
   const consentStep = wish?.step === "consent";
+  // Free-text is wrong on chip-only decisions (consent Yes/No) — keep chips primary.
+  const chipOnlyStep = Boolean(consentStep);
+  const inputDisabled = busy || chipOnlyStep || sending;
 
   return (
     <section
@@ -361,17 +367,32 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
             </a>
           </p>
 
-          <form className="cs-genie-form" onSubmit={send}>
+          <form
+            className={`cs-genie-form${chipOnlyStep ? " cs-genie-form-chip-only" : ""}`}
+            onSubmit={send}
+          >
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={dict.genie.placeholder}
+              placeholder={
+                chipOnlyStep
+                  ? locale === "vi"
+                    ? "Chọn một tuỳ chọn phía trên"
+                    : "Choose an option above"
+                  : dict.genie.placeholder
+              }
               aria-label={dict.genie.placeholder}
-              disabled={busy || consentStep}
+              disabled={inputDisabled}
               maxLength={4000}
+              autoComplete="off"
             />
-            <button className="cs-btn cs-btn-primary" type="submit" disabled={busy || consentStep || !input.trim()}>
+            <button
+              className="cs-btn cs-btn-primary"
+              type="submit"
+              disabled={inputDisabled || !input.trim()}
+              aria-disabled={inputDisabled || !input.trim()}
+            >
               {dict.genie.send}
             </button>
           </form>
