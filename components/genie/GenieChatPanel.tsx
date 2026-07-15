@@ -386,11 +386,20 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
               <button
                 key={`${chip.id}-${chip.label}`}
                 type="button"
-                className={`cs-genie-chip${chip.id === "wish" || chip.id === "teardown_flow" || chip.id === "fortune" ? " cs-genie-chip-gold" : ""}`}
+                className={`cs-genie-chip${
+                  chip.id === "wish" ||
+                  chip.id === "teardown_flow" ||
+                  chip.id === "fortune" ||
+                  chip.id === "quiz_start"
+                    ? " cs-genie-chip-gold"
+                    : ""
+                }`}
                 onClick={() => runScriptChip(chip)}
                 disabled={busy}
               >
-                {(chip.id === "wish" || chip.id === "fortune") && <Icon name="sparkle" size="sm" />}
+                {(chip.id === "wish" || chip.id === "fortune" || chip.id === "quiz_start") && (
+                  <Icon name="sparkle" size="sm" />
+                )}
                 {chip.label}
               </button>
             ))}
