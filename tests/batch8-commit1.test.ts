@@ -43,6 +43,8 @@ describe("Commit 1 tests — FR-PERF-010, FR-SEO-019, FR-SEO-020, FR-OPS-013", (
     expect(company.profiles).toBeDefined();
     expect(company.profiles.linkedin).toBe("https://www.linkedin.com/company/cyberskill-world");
     expect(company.profiles.github).toBe("https://github.com/cyberskill-world");
+    expect(company.profiles.facebook).toBe("https://www.facebook.com/cyberskill.world");
+    expect(company.profiles.x).toBe("https://x.com/cyberskillworld");
     
     expect(company.founder).toBeDefined();
     expect(company.founder.name).toContain("Stephen");

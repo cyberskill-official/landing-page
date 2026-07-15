@@ -13,8 +13,8 @@ FR §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, C
 
 | # | Path | Locale | Source tag | Internal email (`info@`) | Visitor ack | Timestamp (UTC) | Operator confirm |
 |---|---|---|---|---|---|---|---|
-| A | Teardown classic form | en | teardown | yes — “New lead: Stephen Cheng (project)” | yes — Resend ack | 2026-07-15T10:54:11.870Z | ☐ yes / ☐ redo |
-| B | Lumi wish flow | en | lumi-chat | yes — “New lead: Test user (project)” + transcript | yes — From CyberSkill / reply-to info@ | 2026-07-15T12:06:01.511Z | ☐ yes / ☐ redo |
+| A | Teardown classic form | en | teardown | yes — “New lead: Stephen Cheng (project)” | yes — Resend ack | 2026-07-15T10:54:11.870Z | **yes** (operator 2026-07-15) |
+| B | Lumi wish flow | en | lumi-chat | yes — “New lead: Test user (project)” + transcript | yes — From CyberSkill / reply-to info@ | 2026-07-15T12:06:01.511Z | **yes** (operator 2026-07-15) |
 | C | Contact form or teardown | vi | ? | ☐ pending | ☐ pending | | ☐ do now |
 
 ### A — Teardown (en)

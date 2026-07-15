@@ -12,6 +12,8 @@ const profileLabels: Record<string, Record<string, string>> = {
   github: { en: "CyberSkill on GitHub", vi: "CyberSkill trên GitHub" },
   zalo: { en: "CyberSkill on Zalo", vi: "CyberSkill trên Zalo" },
   facebook: { en: "CyberSkill on Facebook", vi: "CyberSkill trên Facebook" },
+  x: { en: "CyberSkill on X", vi: "CyberSkill trên X" },
+  twitter: { en: "CyberSkill on X", vi: "CyberSkill trên X" },
   clutch: { en: "CyberSkill on Clutch", vi: "CyberSkill trên Clutch" },
 };
 

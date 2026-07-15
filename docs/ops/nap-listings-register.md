@@ -18,12 +18,13 @@ Update the table below when a listing is checked or corrected. **Do not invent U
 | Listing | URL | NAP match? | Last checked | Notes |
 |---|---|---|---|---|
 | Site footer / Verify us | https://cyberskill.world | yes (SSOT) | 2026-07-15 | source of truth |
-| LinkedIn company | https://www.linkedin.com/company/cyberskill-world | ☐ | | BIZ-007 |
-| GitHub org | https://github.com/cyberskill-world | ☐ | | public code only |
+| LinkedIn company | https://www.linkedin.com/company/cyberskill-world | ☐ check NAP | 2026-07-15 | wired in site SSOT |
+| GitHub org | https://github.com/cyberskill-world | n/a org | 2026-07-15 | public code only |
+| Facebook page | https://www.facebook.com/cyberskill.world | ☐ check NAP | 2026-07-15 | operator live URL → SSOT |
+| X (Twitter) | https://x.com/cyberskillworld | ☐ check NAP | 2026-07-15 | operator live URL → SSOT |
 | Google Business Profile | ☐ paste when claimed | ☐ | | BIZ-004 §1.1 |
 | Google Play developer | ☐ | ☐ | | fix Dakao → Tan Dinh; no personal email |
-| Facebook page | ☐ | ☐ | | BIZ-007 |
-| Zalo OA | ☐ | ☐ | | BIZ-007 |
+| Zalo OA | ☐ | ☐ | | optional BIZ-007 |
 | Clutch | ☐ | ☐ | | BIZ-005 |
 | appsruntheworld | ☐ | known-stale risk | | scrape; request correction if wrong |
 | GoodFirms | ☐ | ☐ | | |

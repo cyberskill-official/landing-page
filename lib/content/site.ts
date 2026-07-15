@@ -37,8 +37,10 @@ export const company = {
   profiles: {
     linkedin: "https://www.linkedin.com/company/cyberskill-world",
     github: "https://github.com/cyberskill-world",
-    // zalo: "",   // Add Zalo OA URL when created (FR-BIZ-007)
-    // facebook: "", // Add Facebook page URL when created (FR-BIZ-007)
+    // FR-BIZ-007: operator-confirmed live profiles (2026-07-15)
+    facebook: "https://www.facebook.com/cyberskill.world",
+    x: "https://x.com/cyberskillworld",
+    // zalo: "",   // Add Zalo OA URL when created
     // clutch: "",  // Add Clutch profile URL when claimed (FR-BIZ-005)
   } as Record<string, string>,
 
