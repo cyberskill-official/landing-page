@@ -6,6 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { emit, readUtm } from "@/lib/analytics/taxonomy";
 import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
+import { useGenieStore } from "@/lib/genie/store";
+import { GENIE_OPEN_EVENT } from "@/components/genie/GenieOpenButton";
+import { Icon } from "@/components/ui/Icon";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -30,6 +33,8 @@ export function TeardownCta({
   const [status, setStatus] = useState<"idle" | "submitting" | "ok" | "error">("idle");
   const [capExceeded, setCapExceeded] = useState(false);
   const [loadingCap, setLoadingCap] = useState(true);
+  const setPendingWish = useGenieStore((s) => s.setPendingWish);
+  const genieOpen = useGenieStore((s) => s.open);
 
   const startedRef = useRef(false);
   const submittedRef = useRef(false);
@@ -40,6 +45,14 @@ export function TeardownCta({
       startedRef.current = true;
       emit("form_started", { formId: "teardown" });
     }
+  }
+
+  function openWithLumi() {
+    if (capExceeded || loadingCap) return;
+    setPendingWish(dict.teardown.lumiSeed, "teardown");
+    window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT));
+    emit("form_started", { formId: "teardown" });
+    startedRef.current = true;
   }
 
   useEffect(() => {
@@ -136,37 +149,81 @@ export function TeardownCta({
   }
 
   return (
-    <section id="teardown" className="cs-section" aria-labelledby="teardown-title" style={{ position: "relative" }}>
-      <div className="cs-container" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "var(--cs-space-xl)" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "var(--cs-space-lg)" }} className="cs-contact-grid">
-          <div className="cs-contact-intro">
-            <h2 id="teardown-title" className="cs-kt-h" style={{ fontSize: "var(--cs-text-3xl)", fontWeight: 800 }}>
-              {dict.teardown.title}
-            </h2>
-            <p className="cs-section-lead">{dict.teardown.lead}</p>
-          </div>
+    <section id="teardown" className="cs-section cs-section-teardown" aria-labelledby="teardown-title">
+      <div className="cs-container cs-contact-grid">
+        <div className="cs-contact-intro">
+          <h2 id="teardown-title" className="cs-kt-h" style={{ fontSize: "var(--cs-text-3xl)", fontWeight: 800 }}>
+            {dict.teardown.title}
+          </h2>
+          <p className="cs-section-lead">{dict.teardown.lead}</p>
 
-          <div className="cs-contact-form cs-surface-light" style={{ padding: "var(--cs-space-lg)", borderRadius: "8px", border: "1px solid var(--cs-color-border)" }}>
-            {loadingCap ? (
-              <div style={{ display: "flex", justifyContent: "center", padding: "var(--cs-space-lg)" }}>
-                <span className="cs-loader" />
+          {!loadingCap && !capExceeded && status !== "ok" && (
+            <p className="cs-contact-lumi">
+              <button
+                type="button"
+                className="cs-btn cs-btn-primary cs-btn-lumi"
+                aria-haspopup="dialog"
+                aria-expanded={genieOpen}
+                onClick={openWithLumi}
+              >
+                <Icon name="sparkle" size="sm" /> {dict.teardown.lumiCta}
+              </button>
+            </p>
+          )}
+        </div>
+
+        <div className="cs-contact-form cs-surface-light cs-teardown-panel">
+          {loadingCap ? (
+            <div className="cs-teardown-loading">
+              <span className="cs-loader" />
+            </div>
+          ) : capExceeded ? (
+            <div className="cs-teardown-success cs-teardown-cap-full" role="status" aria-live="polite">
+              <div className="cs-teardown-success-badge cs-teardown-success-badge-muted" aria-hidden="true">
+                <Icon name="sparkle" size="md" />
               </div>
-            ) : capExceeded ? (
-              <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite" style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", textAlign: "center" }}>
-                <h3 style={{ color: "var(--cs-color-gold)", marginBottom: "var(--cs-space-sm)" }}>{dict.teardown.capFullTitle}</h3>
-                <p style={{ margin: 0, fontSize: "var(--cs-text-md)" }}>{dict.teardown.capFullBody}</p>
+              <h3 className="cs-teardown-success-title">{dict.teardown.capFullTitle}</h3>
+              <p className="cs-teardown-success-body">{dict.teardown.capFullBody}</p>
+            </div>
+          ) : status === "ok" ? (
+            <div className="cs-teardown-success" role="status" aria-live="polite">
+              <div className="cs-teardown-success-badge" aria-hidden="true">
+                <Icon name="check" size="md" />
               </div>
-            ) : status === "ok" ? (
-              <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite" style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", textAlign: "center" }}>
-                <h3 style={{ color: "var(--cs-color-primary)", marginBottom: "var(--cs-space-sm)" }}>{dict.teardown.successTitle}</h3>
-                <p style={{ margin: 0, fontSize: "var(--cs-text-md)" }}>{dict.teardown.successBody}</p>
+              <h3 className="cs-teardown-success-title">{dict.teardown.successTitle}</h3>
+              <p className="cs-teardown-success-body">{dict.teardown.successBody}</p>
+              <div className="cs-teardown-success-next">
+                <p className="cs-teardown-success-next-label">{dict.teardown.successNextLabel}</p>
+                <ol className="cs-teardown-success-steps">
+                  <li>{dict.teardown.successStep1}</li>
+                  <li>{dict.teardown.successStep2}</li>
+                  <li>{dict.teardown.successStep3}</li>
+                </ol>
               </div>
-            ) : (
-              <form className="cs-form clarity-mask" data-clarity-mask="true" onSubmit={handleSubmit(onSubmit)} onFocus={markStarted} noValidate>
-                {/* Honeypot */}
+            </div>
+          ) : (
+            /* Classic form as secondary path (same pattern as ContactCta). */
+            <details className="cs-contact-details">
+              <summary>{dict.teardown.formFallback}</summary>
+              <form
+                className="cs-form clarity-mask"
+                data-clarity-mask="true"
+                onSubmit={handleSubmit(onSubmit)}
+                onFocus={markStarted}
+                noValidate
+              >
                 <div className="cs-visually-hidden" aria-hidden="true">
-                  <label htmlFor="website" aria-hidden="true">Leave this empty</label>
-                  <input id="website" type="text" tabIndex={-1} aria-hidden="true" autoComplete="off" {...register("website")} />
+                  <label htmlFor="website" aria-hidden="true">
+                    Leave this empty
+                  </label>
+                  <input
+                    id="website"
+                    type="text"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    autoComplete="off"
+                    {...register("website")}
+                  />
                 </div>
 
                 <div className="cs-field">
@@ -176,6 +233,7 @@ export function TeardownCta({
                     type="text"
                     required
                     aria-required="true"
+                    autoComplete="name"
                     aria-invalid={!!errors.name}
                     aria-describedby={errors.name ? "td-name-error" : undefined}
                     {...register("name")}
@@ -194,6 +252,7 @@ export function TeardownCta({
                     type="email"
                     required
                     aria-required="true"
+                    autoComplete="email"
                     aria-invalid={!!errors.email}
                     aria-describedby={errors.email ? "td-email-error" : undefined}
                     {...register("email")}
@@ -213,6 +272,8 @@ export function TeardownCta({
                     required
                     aria-required="true"
                     placeholder="https://example.com"
+                    inputMode="url"
+                    autoComplete="url"
                     aria-invalid={!!errors.url}
                     aria-describedby={errors.url ? "td-url-error" : undefined}
                     {...register("url")}
@@ -225,9 +286,7 @@ export function TeardownCta({
                 </div>
 
                 <div className="cs-field">
-                  <label htmlFor="td-message">
-                    {dict.teardown.messageLabel}
-                  </label>
+                  <label htmlFor="td-message">{dict.teardown.messageLabel}</label>
                   <textarea id="td-message" rows={3} {...register("message")} />
                   {errors.message && (
                     <span id="td-message-error" className="cs-field-error" role="alert">
@@ -260,7 +319,12 @@ export function TeardownCta({
                 )}
 
                 <div style={{ marginTop: "var(--cs-space-md)" }}>
-                  <button type="submit" className="cs-btn cs-btn-primary" disabled={status === "submitting"} style={{ width: "100%", marginBottom: "var(--cs-space-xs)" }}>
+                  <button
+                    type="submit"
+                    className="cs-btn cs-btn-primary"
+                    disabled={status === "submitting"}
+                    style={{ width: "100%", marginBottom: "var(--cs-space-xs)" }}
+                  >
                     {status === "submitting" ? dict.form.submitting : dict.teardown.submitLabel}
                   </button>
                 </div>
@@ -271,8 +335,8 @@ export function TeardownCta({
                   </p>
                 )}
               </form>
-            )}
-          </div>
+            </details>
+          )}
         </div>
       </div>
     </section>

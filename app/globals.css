@@ -837,6 +837,94 @@ main > .cs-section > .cs-container > h1 {
 .cs-field-error { color: #b42318; font-size: var(--cs-text-sm); }
 .cs-form-success { padding: var(--cs-space-8); }
 
+/* Teardown thank-you / cap panel (FR-CTA-019 + FR-CTA-010 style). */
+.cs-section-teardown .cs-teardown-panel {
+  padding: var(--cs-space-8);
+  border-radius: var(--cs-radius-lg);
+  align-self: start;
+}
+.cs-teardown-loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--cs-space-10);
+}
+.cs-teardown-success {
+  display: grid;
+  justify-items: center;
+  gap: var(--cs-space-3);
+  text-align: center;
+  padding: var(--cs-space-8) var(--cs-space-6);
+  border-radius: var(--cs-radius-lg);
+  border: 1px solid color-mix(in srgb, var(--cs-color-accent) 40%, transparent);
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--cs-color-accent) 18%, transparent), transparent 55%),
+    var(--cs-color-paper-raised, rgba(28, 19, 13, 0.45));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+.cs-teardown-success-badge {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  color: var(--cs-color-accent-ink, #1c130d);
+  background: var(--cs-color-accent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--cs-color-accent) 22%, transparent);
+  margin-bottom: var(--cs-space-1);
+}
+.cs-teardown-success-badge-muted {
+  color: var(--cs-color-fg);
+  background: color-mix(in srgb, var(--cs-color-accent) 28%, transparent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--cs-color-accent) 12%, transparent);
+}
+.cs-teardown-success-title {
+  margin: 0;
+  font-family: var(--cs-font-display);
+  font-size: var(--cs-text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--cs-color-accent);
+  line-height: 1.25;
+}
+.cs-teardown-success-body {
+  margin: 0;
+  max-width: 28rem;
+  font-size: var(--cs-text-md);
+  color: var(--cs-color-fg);
+  line-height: 1.55;
+}
+.cs-teardown-success-next {
+  width: 100%;
+  max-width: 28rem;
+  margin-top: var(--cs-space-4);
+  padding-top: var(--cs-space-4);
+  border-top: 1px dashed color-mix(in srgb, var(--cs-color-accent) 35%, transparent);
+  text-align: left;
+}
+.cs-teardown-success-next-label {
+  margin: 0 0 var(--cs-space-2);
+  font-size: var(--cs-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cs-color-fg-muted);
+}
+.cs-teardown-success-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: var(--cs-space-2);
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-fg);
+  line-height: 1.45;
+}
+.cs-teardown-success-steps li::marker {
+  color: var(--cs-color-accent);
+}
+.cs-teardown-cap-full .cs-teardown-success-title {
+  color: var(--cs-color-fg);
+}
+
 /* Footer */
 .cs-footer { border-top: 1px solid var(--cs-color-line); background: var(--cs-color-surface); padding-block: var(--cs-space-16); margin-top: var(--cs-space-24); }
 .cs-footer-inner { display: grid; gap: var(--cs-space-8); }

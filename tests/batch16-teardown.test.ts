@@ -45,10 +45,17 @@ const mockDict = {
     messageLabel: "Nội dung cần đánh giá",
     consentLabel: "Tôi đồng ý",
     submitLabel: "Yêu cầu đánh giá",
+    lumiCta: "Yêu cầu cùng Lumi",
+    formFallback: "Thích biểu mẫu cổ điển?",
+    lumiSeed: "Tôi muốn đánh giá 15 điểm miễn phí",
     capFullTitle: "Các suất tuần này đã đầy",
     capFullBody: "Vui lòng quay lại vào thứ Hai tuần sau.",
     successTitle: "Đã gửi yêu cầu thành công!",
     successBody: "Chúng tôi sẽ gửi báo cáo PDF trong 3 ngày.",
+    successNextLabel: "Bước tiếp theo",
+    successStep1: "Kỹ sư rà soát",
+    successStep2: "Nhận PDF",
+    successStep3: "Phản hồi nếu cần",
   },
 };
 
@@ -217,6 +224,24 @@ describe("FR-CTA-019: Teardown lead magnet funnel", () => {
       expect(container.textContent).toContain(mockDict.teardown.capFullBody);
       // The form fields should not render when cap is full
       expect(container.querySelector("form")).toBeNull();
+      // Lumi primary CTA is also suppressed when slots are full
+      expect(container.textContent).not.toContain(mockDict.teardown.lumiCta);
+    });
+
+    it("surfaces Lumi as primary CTA and form as details fallback", async () => {
+      const root = createRoot(container);
+      await act(async () => {
+        root.render(createElement(TeardownCta, { locale: "vi", dict: mockDict as any }));
+      });
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      });
+
+      expect(container.textContent).toContain(mockDict.teardown.lumiCta);
+      expect(container.textContent).toContain(mockDict.teardown.formFallback);
+      const details = container.querySelector("details.cs-contact-details");
+      expect(details).not.toBeNull();
+      expect(container.querySelector("form")).not.toBeNull();
     });
   });
 
@@ -248,6 +273,10 @@ describe("FR-CTA-019: Teardown lead magnet funnel", () => {
       await act(async () => {
         await new Promise((resolve) => setTimeout(resolve, 50));
       });
+
+      // Classic form lives under details (Lumi is primary). Open it for the form path.
+      const details = container.querySelector("details");
+      if (details) details.open = true;
 
       const form = container.querySelector("form");
       expect(form).not.toBeNull();

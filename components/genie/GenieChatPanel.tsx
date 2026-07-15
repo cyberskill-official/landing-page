@@ -10,6 +10,7 @@ import {
   resolveConsent,
   startWishFlow,
   startWishFlowWith,
+  startTeardownWishFlow,
   wishFlowPayload,
   type WishState,
 } from "@/lib/genie/wishFlow";
@@ -40,6 +41,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   const addMessage = useGenieStore((s) => s.addMessage);
   const appendToMessage = useGenieStore((s) => s.appendToMessage);
   const pendingWish = useGenieStore((s) => s.pendingWish);
+  const pendingWishKind = useGenieStore((s) => s.pendingWishKind);
   const setPendingWish = useGenieStore((s) => s.setPendingWish);
   const isLeadCaptured = useGenieStore((s) => s.isLeadCaptured);
 
@@ -77,15 +79,15 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     return () => window.removeEventListener("keydown", onKey);
   }, [setOpen]);
 
-  // A wish typed in the hero seeds the flow on open: echo it, then collect who
-  // to reply to (the message question is skipped since we already hold it).
+  // A wish typed in the hero (or teardown CTA) seeds the flow on open: echo it,
+  // then collect who to reply to (the message question is skipped when held).
   useEffect(() => {
     if (!open || !pendingWish || seededRef.current === pendingWish) return;
     seededRef.current = pendingWish;
-    seedWish(pendingWish);
+    seedWish(pendingWish, pendingWishKind);
     setPendingWish(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, pendingWish]);
+  }, [open, pendingWish, pendingWishKind]);
 
   if (!open) return null;
 
@@ -103,13 +105,19 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         return dict.genie.wishAskEmail.replace("{name}", state.draft.name ?? "");
       case "company":
         return dict.genie.wishAskCompany;
+      case "url":
+        return dict.genie.wishAskUrl;
       case "message":
-        return dict.genie.wishAskMessage;
+        return state.kind === "teardown" ? dict.genie.wishAskTeardownFocus : dict.genie.wishAskMessage;
       case "consent":
-        return dict.genie.wishAskConsent;
+        return state.kind === "teardown" ? dict.genie.wishAskTeardownConsent : dict.genie.wishAskConsent;
       default:
         return "";
     }
+  }
+
+  function formIdFor(kind: WishState["kind"]): "lumi-chat" | "teardown" {
+    return kind === "teardown" ? "teardown" : "lumi-chat";
   }
 
   function startWish() {
@@ -121,13 +129,14 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     inputRef.current?.focus();
   }
 
-  function seedWish(message: string) {
+  function seedWish(message: string, kind: WishState["kind"] = "default") {
     if (wish) return;
-    const state = startWishFlowWith(message);
+    const state =
+      kind === "teardown" ? startTeardownWishFlow(message) : startWishFlowWith(message);
     setWish(state);
-    emit("form_started", { formId: "lumi-chat" });
+    emit("form_started", { formId: formIdFor(kind) });
     addMessage({ id: uid(), role: "user", content: message });
-    say(dict.genie.wishSeedAck);
+    say(kind === "teardown" ? dict.genie.wishTeardownSeedAck : dict.genie.wishSeedAck);
     inputRef.current?.focus();
   }
 
@@ -142,12 +151,14 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     if (value) addMessage({ id: uid(), role: "user", content: value });
     const { state, error } = advanceWishFlow(wish, value);
     if (error) {
-      say(error === "invalid_email" ? dict.genie.wishErrorEmail : dict.genie.wishErrorName);
+      if (error === "invalid_email") say(dict.genie.wishErrorEmail);
+      else if (state.step === "url") say(dict.genie.wishErrorUrl);
+      else say(dict.genie.wishErrorName);
       return;
     }
-    // Hero-seeded wish already holds the message: skip re-asking it.
+    // Seeded wish already holds the message: skip re-asking it.
     if (state.step === "message" && state.draft.message) {
-      const skip: WishState = { step: "consent", draft: state.draft };
+      const skip: WishState = { step: "consent", draft: state.draft, kind: state.kind };
       setWish(skip);
       say(promptFor(skip));
       return;
@@ -171,6 +182,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         text: msg.content,
       })),
     };
+    const leadSource = basePayload.source === "teardown" ? "teardown" : "lumi-chat";
     setSending(true);
     say(dict.genie.wishSending);
     try {
@@ -180,11 +192,14 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
         body: JSON.stringify({ ...payload, sessionId: getSessionId() }),
       });
       if (res.ok) {
-        emit("lead_submitted", { source: "lumi-chat", locale, utm: readUtm() });
+        emit("lead_submitted", { source: leadSource, locale, utm: readUtm() });
         setWish(null);
-        say(dict.genie.wishDone);
+        say(leadSource === "teardown" ? dict.genie.wishDoneTeardown : dict.genie.wishDone);
         // Lumi celebrates: the scene listens and bursts (FR-CHAR-030).
         window.dispatchEvent(new CustomEvent(WISH_GRANTED_EVENT));
+      } else if (res.status === 429) {
+        say(dict.teardown.capFullBody);
+        setWish(null);
       } else {
         say(dict.genie.wishFailed);
       }
@@ -313,7 +328,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
               {dict.genie.wishAgree}
             </button>
           )}
-          {wish && !consentStep && isOptionalStep(wish.step) && (
+          {wish && !consentStep && isOptionalStep(wish.step, wish.kind) && (
             <button type="button" className="cs-genie-chip" onClick={() => feedWish("")} disabled={busy}>
               {dict.genie.wishSkip}
             </button>

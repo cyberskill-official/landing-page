@@ -4,6 +4,7 @@ import {
   isOptionalStep,
   resolveConsent,
   startWishFlow,
+  startTeardownWishFlow,
   wishFlowPayload,
 } from "@/lib/genie/wishFlow";
 
@@ -15,6 +16,7 @@ describe("wish flow", () => {
   it("walks the happy path to a valid lead payload", () => {
     let s = startWishFlow();
     expect(s.step).toBe("name");
+    expect(s.kind).toBe("default");
 
     let r = advanceWishFlow(s, "  Stephen  ");
     expect(r.error).toBeUndefined();
@@ -67,6 +69,7 @@ describe("wish flow", () => {
     expect(isOptionalStep("company")).toBe(true);
     expect(isOptionalStep("message")).toBe(true);
     expect(isOptionalStep("email")).toBe(false);
+    expect(isOptionalStep("url", "teardown")).toBe(false);
 
     let s = startWishFlow();
     s = advanceWishFlow(s, "Anh").state;
@@ -96,5 +99,39 @@ describe("wish flow", () => {
     // resolveConsent outside the consent step is inert.
     const fresh = startWishFlow();
     expect(resolveConsent(fresh, true).step).toBe("name");
+  });
+
+  it("teardown path requires URL and posts source=teardown", () => {
+    let s = startTeardownWishFlow("I want a free 15-point teardown");
+    expect(s.kind).toBe("teardown");
+    expect(s.draft.message).toContain("teardown");
+
+    s = advanceWishFlow(s, "Stephen").state;
+    expect(s.step).toBe("email");
+    s = advanceWishFlow(s, "stephen@cyberskill.world").state;
+    expect(s.step).toBe("url");
+
+    const missingUrl = advanceWishFlow(s, "  ");
+    expect(missingUrl.error).toBe("required");
+
+    s = advanceWishFlow(s, "https://cyberskill.world").state;
+    expect(s.step).toBe("message");
+    expect(s.draft.url).toBe("https://cyberskill.world");
+
+    // Seeded message: advancing empty keeps seed and goes to consent when panel skips;
+    // bare advance with empty preserves draft.message.
+    s = advanceWishFlow(s, "").state;
+    expect(s.step).toBe("consent");
+    s = resolveConsent(s, true);
+
+    const payload = wishFlowPayload(s, "en");
+    expect(payload).toMatchObject({
+      source: "teardown",
+      url: "https://cyberskill.world",
+      company: "https://cyberskill.world",
+      name: "Stephen",
+      email: "stephen@cyberskill.world",
+      message: "I want a free 15-point teardown",
+    });
   });
 });

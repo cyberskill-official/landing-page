@@ -86,20 +86,26 @@ export type Dictionary = {
     wishAskName: string;
     wishAskEmail: string;
     wishAskCompany: string;
+    wishAskUrl: string;
     wishAskMessage: string;
+    wishAskTeardownFocus: string;
     wishAskConsent: string;
+    wishAskTeardownConsent: string;
     wishAgree: string;
     wishSkip: string;
     wishCancel: string;
     wishCancelled: string;
     wishSending: string;
     wishDone: string;
+    wishDoneTeardown: string;
     wishFailed: string;
     wishErrorName: string;
     wishErrorEmail: string;
+    wishErrorUrl: string;
     contactLumiCta: string;
     contactFormFallback: string;
     wishSeedAck: string;
+    wishTeardownSeedAck: string;
   };
   a11y: {
     themeToDark: string;
@@ -134,10 +140,17 @@ export type Dictionary = {
     messageLabel: string;
     consentLabel: string;
     submitLabel: string;
+    lumiCta: string;
+    formFallback: string;
+    lumiSeed: string;
     capFullTitle: string;
     capFullBody: string;
     successTitle: string;
     successBody: string;
+    successNextLabel: string;
+    successStep1: string;
+    successStep2: string;
+    successStep3: string;
   };
 };
 
@@ -220,20 +233,28 @@ const en: Dictionary = {
     wishAskName: "Wonderful. What may I call you?",
     wishAskEmail: "Nice to meet you, {name}. Where can the team reply to you? (work email)",
     wishAskCompany: "Which company or team is this for? You can skip this.",
+    wishAskUrl: "Which website or product should we review? Paste the full URL.",
     wishAskMessage: "Now the important part: tell me the wish in a sentence or two.",
+    wishAskTeardownFocus: "Anything specific we should focus on - a page, flow, or pain? You can skip this.",
     wishAskConsent: "May the CyberSkill team contact you about this wish?",
+    wishAskTeardownConsent: "May we review that site and email you the free 15-point PDF report?",
     wishAgree: "Yes, contact me",
     wishSkip: "Skip",
     wishCancel: "Not now",
     wishCancelled: "No worries. The lamp stays warm - come back whenever the wish is ready.",
     wishSending: "Sealing the wish...",
     wishDone: "The wish is on its way to the team. A real person replies within one business day.",
+    wishDoneTeardown:
+      "Your teardown slot is saved. Our engineers will review the site and email the 15-point PDF to this inbox within 3 business days.",
     wishFailed: "The lamp flickered - the wish did not go through. Try once more, or email info@cyberskill.world.",
     wishErrorName: "Just a name so the team knows who to reply to.",
     wishErrorEmail: "That email does not look right - one more try?",
+    wishErrorUrl: "I need a URL so the team knows what to review - full link please.",
     contactLumiCta: "Grant it with Lumi",
     contactFormFallback: "Prefer a classic form?",
     wishSeedAck: "A wish worth granting. Let me hand it to the team - first, what may I call you?",
+    wishTeardownSeedAck:
+      "A free 15-point teardown - gladly. I will save your slot with the team. First, what may I call you?",
   },
   a11y: {
     themeToDark: "Switch to dark mode",
@@ -268,10 +289,17 @@ const en: Dictionary = {
     messageLabel: "What specific page, flow, or issue should we focus on? (optional)",
     consentLabel: "I agree to have my website reviewed and to be contacted.",
     submitLabel: "Request Teardown",
+    lumiCta: "Request with Lumi",
+    formFallback: "Prefer a classic form?",
+    lumiSeed: "I would like a free 15-point teardown of my website or product.",
     capFullTitle: "Weekly slots are full",
     capFullBody: "Our weekly audit slots are currently full. We reopen next Monday! In the meantime, you can still write us a general note below.",
-    successTitle: "Teardown requested!",
-    successBody: "Thank you. We have saved your slot. Our engineering team will review your site and email the 15-point PDF report to your inbox within 3 business days.",
+    successTitle: "Teardown requested",
+    successBody: "Thank you. Your slot is saved. We email the 15-point PDF from info@cyberskill.world within 3 business days.",
+    successNextLabel: "What happens next",
+    successStep1: "Engineers review speed, security, and accessibility.",
+    successStep2: "You receive a 15-point PDF in your inbox.",
+    successStep3: "Reply to the report if you want to dig deeper with the team.",
   },
 };
 
@@ -354,20 +382,28 @@ const vi: Dictionary = {
     wishAskName: "Tuyệt. Mình nên gọi bạn là gì?",
     wishAskEmail: "Rất vui được gặp bạn, {name}. Đội ngũ có thể phản hồi bạn qua email nào? (email công việc)",
     wishAskCompany: "Điều ước này dành cho công ty hay đội nhóm nào? Bạn có thể bỏ qua.",
+    wishAskUrl: "Website hoặc sản phẩm nào cần đánh giá? Dán full URL nhé.",
     wishAskMessage: "Giờ đến phần quan trọng: kể mình nghe điều ước, một hai câu thôi.",
+    wishAskTeardownFocus: "Có trang, luồng hoặc vấn đề cụ thể nào cần tập trung không? Bạn có thể bỏ qua.",
     wishAskConsent: "Đội ngũ CyberSkill có thể liên hệ bạn về điều ước này chứ?",
+    wishAskTeardownConsent: "Chúng tôi được phép đánh giá site đó và gửi báo cáo PDF 15 điểm miễn phí chứ?",
     wishAgree: "Đồng ý, liên hệ mình",
     wishSkip: "Bỏ qua",
     wishCancel: "Để sau",
     wishCancelled: "Không sao. Cây đèn vẫn ấm - khi nào điều ước sẵn sàng, bạn quay lại nhé.",
     wishSending: "Đang niêm phong điều ước...",
     wishDone: "Điều ước đã lên đường đến đội ngũ. Một người thật sẽ phản hồi bạn trong một ngày làm việc.",
+    wishDoneTeardown:
+      "Suất đánh giá của bạn đã được giữ. Đội kỹ sư sẽ rà site và gửi PDF 15 điểm về hộp thư này trong 3 ngày làm việc.",
     wishFailed: "Cây đèn chớp tắt - điều ước chưa gửi được. Bạn thử lại lần nữa, hoặc email info@cyberskill.world nhé.",
     wishErrorName: "Cho mình xin một cái tên để đội ngũ biết phản hồi ai nhé.",
     wishErrorEmail: "Email này có vẻ chưa đúng - bạn thử lại nhé?",
+    wishErrorUrl: "Mình cần URL để đội ngũ biết đánh giá gì - full link nhé.",
     contactLumiCta: "Nhờ Lumi thực hiện",
     contactFormFallback: "Bạn thích dùng biểu mẫu quen thuộc?",
     wishSeedAck: "Một điều ước đáng để thực hiện. Để mình chuyển đến đội ngũ nhé - trước tiên, mình nên gọi bạn là gì?",
+    wishTeardownSeedAck:
+      "Đánh giá 15 điểm miễn phí - sẵn sàng. Mình sẽ giữ suất với đội ngũ. Trước hết, mình nên gọi bạn là gì?",
   },
   a11y: {
     themeToDark: "Chuyển sang chế độ tối",
@@ -402,10 +438,17 @@ const vi: Dictionary = {
     messageLabel: "Trang, luồng hoặc vấn đề cụ thể nào cần chúng tôi tập trung đánh giá? (không bắt buộc)",
     consentLabel: "Tôi đồng ý để CyberSkill đánh giá website và liên hệ với tôi.",
     submitLabel: "Yêu cầu đánh giá",
+    lumiCta: "Yêu cầu cùng Lumi",
+    formFallback: "Thích biểu mẫu cổ điển?",
+    lumiSeed: "Tôi muốn nhận đánh giá 15 điểm miễn phí cho website hoặc sản phẩm của mình.",
     capFullTitle: "Các suất tuần này đã đầy",
     capFullBody: "Các suất đánh giá miễn phí tuần này đã đầy. Chúng tôi mở lại vào thứ Hai tới! Trong lúc đó, bạn vẫn có thể gửi lời nhắn chung cho chúng tôi ở biểu mẫu liên hệ bên dưới.",
-    successTitle: "Đã gửi yêu cầu!",
-    successBody: "Cảm ơn bạn. Chúng tôi đã giữ suất cho bạn. Đội ngũ kỹ sư của chúng tôi sẽ đánh giá website và gửi báo cáo PDF 15 điểm đến hộp thư của bạn trong vòng 3 ngày làm việc.",
+    successTitle: "Đã nhận yêu cầu đánh giá",
+    successBody: "Cảm ơn bạn. Suất của bạn đã được giữ. Chúng tôi gửi PDF 15 điểm từ info@cyberskill.world trong 3 ngày làm việc.",
+    successNextLabel: "Bước tiếp theo",
+    successStep1: "Kỹ sư rà tốc độ, bảo mật và khả năng tiếp cận.",
+    successStep2: "Bạn nhận PDF 15 điểm trong hộp thư.",
+    successStep3: "Trả lời email báo cáo nếu muốn đào sâu cùng đội ngũ.",
   },
 };
 
