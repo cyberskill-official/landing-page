@@ -205,12 +205,10 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 #### BIZ
 
-- [ready_to_implement] FR-BIZ-001 - Configure the lead sinks: Resend domain, API key, Slack webhook (improvement) [human]
 - [ready_to_implement] FR-BIZ-002 - Deploy the CyberOS lead-intake endpoint and wire the webhook (improvement) [human] - depends: FR-BIZ-001, FR-BIZ-016
 - [ready_to_implement] FR-BIZ-003 - Prove the lead pipeline end to end in production (improvement) [human] - depends: FR-BIZ-001
 - [ready_to_implement] FR-BIZ-004 - Claim the Google Business Profile and reconcile the NAP everywhere (improvement) [human]
 - [ready_to_implement] FR-BIZ-005 - Create the directory profiles and earn verified reviews (improvement) [mixed] - depends: FR-SEO-018, FR-BIZ-004
-- [ready_to_implement] FR-BIZ-006 - Obtain the client permissions and proof assets: names, logos, metrics, quotes, photos (improvement) [mixed]
 - [ready_to_implement] FR-BIZ-007 - Establish the social and messaging profiles the site can link to (improvement) [human]
 - [ready_to_implement] FR-BIZ-008 - Verify Search Console and Bing, submit the sitemap, and run the monthly review (improvement) [human]
 - [ready_to_implement] FR-BIZ-009 - Lead system of record, SLA ritual, and the weekly funnel review (improvement) [mixed] - depends: FR-BIZ-002, FR-OPS-011, FR-OPS-020
@@ -228,6 +226,8 @@ commercial decisions - most of them are in the `depends_on` of the FRs above.
 
 ## §4.5 recently done (this wave)
 
+- [done] FR-BIZ-001 - Configure the lead sinks: Resend domain, API key, Slack webhook (improvement)
+- [done] FR-BIZ-006 - Obtain the client permissions and proof assets: names, logos, metrics, quotes, photos (improvement)
 - [done] FR-CMS-006 - About, team, and culture content (recruiting + trust surface)
 - [done] FR-CTA-016 - Company profile one-pager PDF, EN and VN (improvement)
 - [done] FR-CTA-005 - Call-booking path for high-intent leads (link, not embed)

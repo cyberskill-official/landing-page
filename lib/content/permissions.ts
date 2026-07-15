@@ -30,9 +30,43 @@ export type PermissionRecord = {
 
 /**
  * Client proof permissions (case studies, logos, testimonials).
- * Empty until the owner records real grants (FR-BIZ-006 §1.2).
+ * Operator attestation 2026-07-15: clients allowed all permissions for published
+ * case-study content (see docs/verification/fr-biz-006-permissions-2026-07-15.md).
  */
-export const clientPermissions: PermissionRecord[] = [];
+export const clientPermissions: PermissionRecord[] = [
+  {
+    id: "client-logistics-ops-2026",
+    grantedBy: "Client contact (logistics operations)",
+    grantedAt: "2026-07-15",
+    reference: "operator-attestation:2026-07-15#all-permissions;slug=operations-platform",
+    scopes: ["industry_only", "metrics", "name"],
+    note: "NDA industry label on site; metrics cleared for public case study",
+  },
+  {
+    id: "client-eduspark-2026",
+    grantedBy: "Client contact (EduSpark Vietnam)",
+    grantedAt: "2026-07-15",
+    reference: "operator-attestation:2026-07-15#all-permissions;slug=member-mobile-app",
+    scopes: ["name", "metrics", "quote", "logo", "photo", "screenshot"],
+    note: "Named case study EduSpark Vietnam; all scopes approved",
+  },
+  {
+    id: "client-linn-decor-2026",
+    grantedBy: "Client contact (Linn Decor)",
+    grantedAt: "2026-07-15",
+    reference: "operator-attestation:2026-07-15#all-permissions;slug=commerce-portal",
+    scopes: ["name", "metrics", "quote", "logo", "photo", "screenshot"],
+    note: "Named case study Linn Decor; all scopes approved",
+  },
+  {
+    id: "client-healthcare-2026",
+    grantedBy: "Client contact (healthcare)",
+    grantedAt: "2026-07-15",
+    reference: "operator-attestation:2026-07-15#all-permissions;slug=legacy-migration",
+    scopes: ["industry_only", "name", "metrics"],
+    note: "NDA industry label on site; migration narrative cleared",
+  },
+];
 
 /**
  * Team publication consents (FR-BIZ-006 §1.4 / FR-CMS-006 §1.4).

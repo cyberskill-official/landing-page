@@ -344,6 +344,8 @@ export type WorkItem = {
   title: LocalizedString;
   result: LocalizedString;
   tags: string[];
+  /** FR-BIZ-006: permission ledger id in lib/content/permissions.ts */
+  permissionId?: string;
 };
 
 // Representative engagement types, written without invented client names,
@@ -357,20 +359,23 @@ export const work: WorkItem[] = [
     title: { en: "An operations platform that retires the spreadsheets", vi: "Nền tảng vận hành cho bảng tính nghỉ hưu" },
     result: { en: "One shared operations view the whole team works from, instead of reconciling files by hand.", vi: "Cả đội làm việc trên một màn hình vận hành dùng chung, thay vì ngồi đối chiếu từng file bằng tay." },
     tags: ["internal-systems", "web-apps"],
+    permissionId: "client-logistics-ops-2026",
   },
   {
     slug: "member-mobile-app",
-    client: { en: "Education", vi: "Giáo dục" },
+    client: { en: "EduSpark Vietnam", vi: "EduSpark Việt Nam" },
     title: { en: "A member mobile app with offline-first lessons", vi: "Ứng dụng học viên, học được cả khi mất mạng" },
     result: { en: "Lessons that work on the move, on the App Store and Google Play, with crash-free sessions tracked from launch.", vi: "Bài học chạy mượt trên đường đi, có mặt trên App Store và Google Play, với tỉ lệ phiên không lỗi được theo dõi từ ngày ra mắt." },
     tags: ["mobile-apps"],
+    permissionId: "client-eduspark-2026",
   },
   {
     slug: "commerce-portal",
-    client: { en: "Retail", vi: "Bán lẻ" },
+    client: { en: "Linn Decor", vi: "Linn Decor (bán lẻ)" },
     title: { en: "A commerce portal rebuilt for speed", vi: "Cổng thương mại được dựng lại vì tốc độ" },
     result: { en: "A shorter path to checkout, with Core Web Vitals kept as a target measured on every change.", vi: "Đường đến bước thanh toán ngắn hơn, với Core Web Vitals được giữ làm mục tiêu và đo trên từng thay đổi." },
     tags: ["web-apps"],
+    permissionId: "client-linn-decor-2026",
   },
   {
     slug: "legacy-migration",
@@ -378,6 +383,7 @@ export const work: WorkItem[] = [
     title: { en: "A legacy system migration to the cloud", vi: "Chuyển đổi hệ thống cũ lên đám mây" },
     result: { en: "Transitioned to modern cloud architecture without operational downtime.", vi: "Chuyển đổi sang kiến trúc đám mây hiện đại không có thời gian dừng vận hành." },
     tags: ["internal-systems"],
+    permissionId: "client-healthcare-2026",
   },
 ];
 
@@ -411,6 +417,8 @@ export type CaseStudyDetail = {
   metrics?: Metric[];
   quote?: ClientQuote;
   screenshots?: Screenshot[];
+  /** FR-BIZ-006: permission ledger id */
+  permissionId?: string;
 };
 
 export const caseStudyDetails: CaseStudyDetail[] = [
@@ -434,6 +442,7 @@ export const caseStudyDetails: CaseStudyDetail[] = [
       vi: "Đội vận hành làm việc trên một màn hình theo thời gian thực thay vì đối chiếu tệp bằng tay, nên một lần bàn giao chỉ là nhìn vào màn hình thay vì lục tìm trong hộp thư.",
     },
     techStack: ["React", "Next.js", "Node.js", "PostgreSQL"],
+    permissionId: "client-logistics-ops-2026",
     metrics: [
       {
         value: "99.9%",
@@ -451,6 +460,7 @@ export const caseStudyDetails: CaseStudyDetail[] = [
     slug: "member-mobile-app",
     isNda: false,
     clientName: "EduSpark Vietnam",
+    permissionId: "client-eduspark-2026",
     challenge: {
       en: "Learners needed their lessons on the move, including where the connection was unreliable. A web page alone could not give them a dependable, offline-friendly experience.",
       vi: "Học viên cần học mọi lúc di chuyển, kể cả nơi kết nối chập chữa. Chỉ một trang web không thể mang lại trải nghiệm ổn định và dùng được khi ngoại tuyến.",
@@ -481,6 +491,7 @@ export const caseStudyDetails: CaseStudyDetail[] = [
     slug: "commerce-portal",
     isNda: false,
     clientName: "Linn Decor",
+    permissionId: "client-linn-decor-2026",
     challenge: {
       en: "An aging storefront was slow to load and awkward to check out on, which quietly cost the brand visitors and orders. Speed and a cleaner path to purchase were the priorities.",
       vi: "Một cửa hàng trực tuyến cũ kỹ tải chậm và thanh toán rườm rà, âm thầm khiến thương hiệu mất khách và đơn hàng. Tốc độ và một luồng mua hàng gọn hơn là ưu tiên hàng đầu.",
@@ -510,6 +521,7 @@ export const caseStudyDetails: CaseStudyDetail[] = [
   {
     slug: "legacy-migration",
     isNda: true,
+    permissionId: "client-healthcare-2026",
     ndaMeta: {
       en: "Healthcare, 200+ staff, US",
       vi: "Y tế & Sức khỏe, 200+ nhân sự, Hoa Kỳ",

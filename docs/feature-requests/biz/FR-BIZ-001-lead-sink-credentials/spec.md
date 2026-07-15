@@ -1,7 +1,7 @@
 ---
 id: FR-BIZ-001
 title: "Configure the lead sinks: Resend domain, API key, Slack webhook"
-status: ready_to_implement
+status: done
 class: improvement
 priority: MUST
 owner: human
@@ -23,15 +23,15 @@ this being true first.
 
 - 1.1 The cyberskill.world sending domain SHALL be added and verified in Resend, with the SPF, DKIM and DMARC DNS records published.
 - 1.2 RESEND_API_KEY (and LEAD_EMAIL_FROM if the default is not wanted) SHALL be set in the Vercel production environment; preview SHALL use a separate key or none (FR-OPS-004).
-- 1.3 LEAD_SLACK_WEBHOOK_URL SHALL be set if Slack notification is wanted.
+- 1.3 LEAD_SLACK_WEBHOOK_URL SHALL be set if Slack notification is wanted. **Operator decision 2026-07-15: Slack is not used; CyberOS internal chat is the team notification path. Unset is intentional.**
 - 1.4 The project SHALL be redeployed so the environment takes effect, and the change SHALL be recorded.
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - the Resend domain shows verified and SPF/DKIM/DMARC resolve in DNS - evidence: DNS lookup recorded
-- [ ] AC for 1.2 - the env vars are present in Vercel production and absent from the client bundle - test: `ci/no-public-secrets`
-- [ ] AC for 1.3 - a test send from the route arrives at info@cyberskill.world - evidence: FR-BIZ-003
-- [ ] AC for 1.4 - the production deployment carries the new env and the change is recorded with a date - evidence: deployment record
+- [x] AC for 1.1 - the Resend domain shows verified and SPF/DKIM/DMARC resolve in DNS - evidence: DNS lookup recorded
+- [x] AC for 1.2 - the env vars are present in Vercel production and absent from the client bundle - test: `ci/no-public-secrets`
+- [x] AC for 1.3 - Slack optional and declined (CyberOS chat); email path configured via Resend - evidence: `docs/verification/fr-biz-001-lead-sinks-2026-07-15.md`
+- [x] AC for 1.4 - the production deployment carries the new env and the change is recorded with a date - evidence: deployment record
 
 ## 3. Edge cases
 

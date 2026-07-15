@@ -16,6 +16,8 @@ import {
   aboutCulture,
   testimonials,
   clientLogos,
+  work,
+  caseStudyDetails,
 } from "@/lib/content/site";
 import TeamPage from "@/app/[lang]/team/page";
 
@@ -81,8 +83,16 @@ describe("content/testimonial-permission", () => {
       expect(l.permission?.grantedAt).toBeTruthy();
       expect(l.permission?.reference).toBeTruthy();
     });
-    // Ledger for future client grants is present (may be empty until BIZ-006 §1.2)
-    expect(Array.isArray(clientPermissions)).toBe(true);
+    // Case studies / work items must resolve permissionId in the ledger
+    expect(clientPermissions.length).toBeGreaterThanOrEqual(3);
+    for (const w of work) {
+      expect(w.permissionId, `work ${w.slug}`).toBeTruthy();
+      expect(findPermission(w.permissionId!, clientPermissions)).toBeDefined();
+    }
+    for (const c of caseStudyDetails) {
+      expect(c.permissionId, `case ${c.slug}`).toBeTruthy();
+      expect(findPermission(c.permissionId!, clientPermissions)).toBeDefined();
+    }
   });
 });
 
