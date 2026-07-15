@@ -80,6 +80,8 @@ export type Dictionary = {
     thinking: string;
     unavailable: string;
     close: string;
+    /** Clear conversation and restart discovery chips. */
+    resetChat: string;
     // One-time mascot hint (FR-CHAR-030) + the in-chat wish flow (FR-CHAR-026).
     hint: string;
     wishCta: string;
@@ -221,13 +223,16 @@ const en: Dictionary = {
   genie: {
     open: "Talk to Lumi",
     title: "Lumi, the CyberSkill genie",
-    greeting: "Hi, I am Lumi. Chats are processed by Anthropic and stored so our team can follow up. Tell me what you want to build and I will point you the right way.",
+    greeting:
+      "Hi, I am Lumi. Pick a topic below or type freely — I can help even without deep AI. Clear wishes go to the human team.",
     placeholder: "Type your wish...",
     send: "Send",
-    consent: "Chats are processed by Anthropic and stored so our team can follow up. Do not share secrets.",
+    consent:
+      "Chats may be stored so our team can follow up. Do not share passwords or secrets.",
     thinking: "Lumi is thinking...",
     unavailable: "Lumi is resting right now. Please use the contact form and we will reply within one business day.",
     close: "Close chat",
+    resetChat: "New chat",
     hint: "Click or hold me",
     wishCta: "Leave your wish for the team",
     wishAskName: "Wonderful. What may I call you?",
@@ -370,13 +375,16 @@ const vi: Dictionary = {
   genie: {
     open: "Trò chuyện với Lumi",
     title: "Lumi, vị thần đèn của CyberSkill",
-    greeting: "Chào bạn, mình là Lumi. Cuộc trò chuyện được xử lý bởi Anthropic và lưu trữ để đội ngũ tiện theo dõi. Kể mình nghe điều bạn muốn xây dựng, mình sẽ chỉ bạn hướng đi phù hợp.",
+    greeting:
+      "Chào bạn, mình là Lumi. Chọn chủ đề bên dưới hoặc gõ tự do — mình vẫn giúp được khi không bật AI sâu. Điều ước rõ sẽ đến đội ngũ người thật.",
     placeholder: "Gõ điều ước của bạn...",
     send: "Gửi",
-    consent: "Cuộc trò chuyện được xử lý bởi Anthropic và lưu trữ để đội ngũ tiện theo dõi. Xin đừng chia sẻ thông tin mật.",
+    consent:
+      "Cuộc trò chuyện có thể được lưu để đội ngũ theo dõi. Xin đừng gửi mật khẩu hay thông tin mật.",
     thinking: "Lumi đang suy nghĩ...",
     unavailable: "Lumi đang tạm nghỉ. Bạn hãy dùng biểu mẫu liên hệ, chúng tôi sẽ phản hồi trong một ngày làm việc.",
     close: "Đóng cửa sổ trò chuyện",
+    resetChat: "Chat mới",
     hint: "Chạm hoặc giữ mình nhé",
     wishCta: "Gửi điều ước cho đội ngũ",
     wishAskName: "Tuyệt. Mình nên gọi bạn là gì?",

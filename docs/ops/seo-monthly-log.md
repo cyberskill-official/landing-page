@@ -4,9 +4,9 @@
 
 | Step | Done? | Evidence |
 |---|---|---|
-| Google Search Console property `cyberskill.world` verified (DNS TXT preferred) | ☐ | screenshot path / date |
-| Bing Webmaster Tools verified | ☐ | |
-| Sitemap submitted: `https://cyberskill.world/sitemap.xml` | ☐ | GSC “Success” date |
+| Google Search Console property `cyberskill.world` verified (DNS TXT preferred) | **yes** (operator 2026-07-15) | re-check property list |
+| Bing Webmaster Tools verified | **no** (operator 2026-07-15) | do next |
+| Sitemap submitted: `https://cyberskill.world/sitemap.xml` | **unsure** (operator) | open GSC → Sitemaps → submit if missing |
 | First indexing pass: /en + /vi reviewed | ☐ | note coverage errors |
 | Confirm `/lite` is noindex by design | ☐ | |
 

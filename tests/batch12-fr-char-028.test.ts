@@ -156,13 +156,22 @@ describe("FR-CHAR-028: Transcript persistence & disclosures", () => {
     restore();
   });
 
-  // 5. genie/transfer-disclosure: Disclosure renders before the first message (greeting contains Anthropic and store details)
-  test("genie/transfer-disclosure: greeting text contains Anthropic and store mentions in both EN and VI", () => {
+  // 5. genie/transfer-disclosure: chat UI discloses storage; AI vendor detail lives on Privacy when LLM is used
+  test("genie/transfer-disclosure: chat consent discloses storage; privacy names AI processor", () => {
     const dictsPath = path.resolve(process.cwd(), "lib/i18n/dictionaries.ts");
     const src = fs.readFileSync(dictsPath, "utf8");
-    
-    // Greeting disclosures
-    expect(src).toContain("processed by Anthropic and stored");
-    expect(src).toContain("xử lý bởi Anthropic và lưu trữ");
+    // Visible chat footer — storage + no secrets (no vendor brand required in the chip UI)
+    expect(src).toMatch(/may be stored so our team can follow up/i);
+    expect(src).toMatch(/có thể được lưu để đội ngũ theo dõi/i);
+    expect(src).toMatch(/Do not share passwords or secrets/i);
+    expect(src).toMatch(/mật khẩu|thông tin mật/i);
+
+    const privacy = fs.readFileSync(
+      path.resolve(process.cwd(), "app/[lang]/privacy/page.tsx"),
+      "utf8",
+    );
+    // Formal transfer disclosure for LLM path remains on Privacy
+    expect(privacy).toContain("Anthropic");
   });
 });
+

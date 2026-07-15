@@ -51,6 +51,7 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
   const pendingWishKind = useGenieStore((s) => s.pendingWishKind);
   const setPendingWish = useGenieStore((s) => s.setPendingWish);
   const isLeadCaptured = useGenieStore((s) => s.isLeadCaptured);
+  const resetStore = useGenieStore((s) => s.reset);
 
   const [input, setInput] = useState("");
   // Conversational lead capture (FR-CHAR-026): when active, the input feeds
@@ -167,6 +168,16 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     setWish(null);
     setScriptChips(getOpeningChips(locale));
     say(dict.genie.wishCancelled);
+  }
+
+  function resetConversation() {
+    if (busy || sending) return;
+    setWish(null);
+    setInput("");
+    seededRef.current = null;
+    resetStore();
+    setScriptChips(getOpeningChips(locale));
+    // Keep panel open; store.reset leaves open untouched.
   }
 
   /** Keyless topic / chip path — works with or without the LLM. */
@@ -350,9 +361,19 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
     >
       <div className="cs-genie-head">
         <span className="cs-genie-title">{dict.genie.title}</span>
-        <button className="cs-genie-close" type="button" aria-label={dict.genie.close} onClick={() => setOpen(false)}>
-          <Icon name="close" size="sm" strokeWidth={2} />
-        </button>
+        <div className="cs-genie-head-actions">
+          <button
+            className="cs-genie-reset"
+            type="button"
+            onClick={resetConversation}
+            disabled={busy || sending}
+          >
+            {dict.genie.resetChat}
+          </button>
+          <button className="cs-genie-close" type="button" aria-label={dict.genie.close} onClick={() => setOpen(false)}>
+            <Icon name="close" size="sm" strokeWidth={2} />
+          </button>
+        </div>
       </div>
 
       <div

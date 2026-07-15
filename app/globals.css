@@ -1022,8 +1022,22 @@ main > .cs-section > .cs-container > h1 {
 
 /* Genie chat panel */
 .cs-genie { position: fixed; right: var(--cs-space-4); bottom: var(--cs-space-4); width: min(380px, calc(100vw - 2rem)); max-height: min(72vh, 640px); display: flex; flex-direction: column; z-index: 60; overflow: hidden; }
-.cs-genie-head { display: flex; align-items: center; justify-content: space-between; padding: var(--cs-space-4); border-bottom: 1px solid var(--cs-glass-border); }
+.cs-genie-head { display: flex; align-items: center; justify-content: space-between; gap: var(--cs-space-2); padding: var(--cs-space-4); border-bottom: 1px solid var(--cs-glass-border); }
 .cs-genie-title { font-weight: 600; }
+.cs-genie-head-actions { display: flex; align-items: center; gap: var(--cs-space-2); flex-shrink: 0; }
+.cs-genie-reset {
+  font: inherit;
+  font-size: var(--cs-text-xs);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--cs-radius-pill);
+  border: 1px solid var(--cs-color-line);
+  background: transparent;
+  color: var(--cs-color-fg-muted);
+  cursor: pointer;
+}
+.cs-genie-reset:hover:not(:disabled) { color: var(--cs-color-fg); border-color: var(--cs-color-accent); }
+.cs-genie-reset:disabled { opacity: 0.5; cursor: not-allowed; }
 .cs-genie-log { flex: 1; overflow-y: auto; padding: var(--cs-space-4); display: flex; flex-direction: column; gap: var(--cs-space-3); }
 .cs-genie-msg { padding: var(--cs-space-3) var(--cs-space-4); border-radius: var(--cs-radius-md); max-width: 85%; }
 .cs-genie-msg-user { align-self: flex-end; background: var(--cs-color-brand); color: var(--cs-color-on-brand); }

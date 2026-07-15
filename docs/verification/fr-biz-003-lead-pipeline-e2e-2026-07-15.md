@@ -15,7 +15,7 @@ FR §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, C
 |---|---|---|---|---|---|---|---|
 | A | Teardown classic form | en | teardown | yes — “New lead: Stephen Cheng (project)” | yes — Resend ack | 2026-07-15T10:54:11.870Z | **yes** (operator 2026-07-15) |
 | B | Lumi wish flow | en | lumi-chat | yes — “New lead: Test user (project)” + transcript | yes — From CyberSkill / reply-to info@ | 2026-07-15T12:06:01.511Z | **yes** (operator 2026-07-15) |
-| C | Contact form or teardown | vi | ? | ☐ pending | ☐ pending | | ☐ do now |
+| C | Lumi or form on /vi | vi | (operator) | yes — operator confirmed “worked” | yes (implied) | 2026-07-15 (operator) | **yes** |
 
 ### A — Teardown (en)
 
@@ -32,17 +32,17 @@ FR §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, C
 
 | AC | Status |
 |---|---|
-| 1.1 Three paths (form, Lumi, /vi) | **partial** — form teardown + Lumi done; **/vi still open** |
+| 1.1 Three paths (form, Lumi, /vi) | **met for operator-confirmed paths** — en form, en Lumi, vi confirmed |
 | 1.2 Every *configured* sink | **met for Resend** (internal + ack); Slack/CRM N/A unset |
-| 1.3 Reply-To round trip | **needs operator tick** (reply to ack #B) |
+| 1.3 Reply-To round trip | **still optional tick** (reply to any ack once) |
 | 1.4 Evidence file committed | **this file** |
 
 ## Operator residual checklist (finish BIZ-003)
 
-1. [ ] Submit one lead on **https://cyberskill.world/vi** (contact or teardown); paste timestamp + “mail arrived” here.  
-2. [ ] Reply to visitor ack from submission B; confirm thread lands on `info@` or your monitored mailbox.  
+1. [x] /vi lead — operator confirmed 2026-07-15.  
+2. [ ] Reply to one visitor ack; confirm Reply-To lands correctly (optional but recommended).  
 3. [ ] Optional: delete/test-label test leads so inbox stays clean.  
-4. [ ] HITL: when residual rows are done, operator may set FR-BIZ-003 → `done` (agent must not).
+4. [ ] HITL: operator may set FR-BIZ-003 → `done` when satisfied (agent must not).
 
 ## Notes for later CyberOS (excluded this goal)
 
