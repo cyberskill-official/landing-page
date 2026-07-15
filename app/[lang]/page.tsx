@@ -15,7 +15,6 @@ import { ContactCta } from "@/components/sections/ContactCta";
 import { TeardownCta } from "@/components/sections/TeardownCta";
 import { EngagementModels } from "@/components/sections/EngagementModels";
 import { Partnership } from "@/components/sections/Partnership";
-import { VerifyUs } from "@/components/sections/VerifyUs";
 import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
 import { CanvasMount } from "@/components/canvas/CanvasMount";
@@ -51,9 +50,8 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <Careers locale={locale} dict={dict} />
       <TeardownCta locale={locale} dict={dict} />
       <ContactCta locale={locale} dict={dict} hasNewsletter={hasNewsletter} />
-      <div className="cs-container" style={{ paddingBottom: "var(--cs-space-12)" }}>
-        <VerifyUs locale={locale} />
-      </div>
+      {/* Verify-us lives footer-adjacent (SiteFooter) + /how-we-build (FR-CMS-014).
+          Do not mount a third copy on the home page — it stacked above the footer. */}
       <HomeFaqJsonLd locale={locale} />
       <ServicesJsonLd locale={locale} />
       {/* HeroPin is now part of HomeMotionBundle */}

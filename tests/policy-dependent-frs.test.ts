@@ -149,6 +149,27 @@ describe("content/engagement-models", () => {
   });
 });
 
+describe("content/verify-us-placement", () => {
+  it("is footer-adjacent and on how-we-build, not stacked twice on the home page", () => {
+    const home = fs.readFileSync(
+      path.join(process.cwd(), "app/[lang]/page.tsx"),
+      "utf8",
+    );
+    const footer = fs.readFileSync(
+      path.join(process.cwd(), "components/footer/SiteFooter.tsx"),
+      "utf8",
+    );
+    const how = fs.readFileSync(
+      path.join(process.cwd(), "app/[lang]/how-we-build/page.tsx"),
+      "utf8",
+    );
+    // FR-CMS-014: footer-adjacent + how-we-build — home must not add a third copy.
+    expect(home).not.toMatch(/<VerifyUs\b/);
+    expect(footer).toMatch(/<VerifyUs\b/);
+    expect(how).toMatch(/<VerifyUs\b/);
+  });
+});
+
 describe("content/verify-us-block", () => {
   it("renders every configured field in both locales", () => {
     for (const locale of ["en", "vi"] as const) {
