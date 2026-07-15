@@ -14,9 +14,9 @@
 | 2. Social / messaging URLs | BIZ-007 | Paste live URLs → agent wires `lib/content/site.ts` |
 | 3. Google Business + NAP | BIZ-004 | Claim GBP; fill `docs/ops/nap-listings-register.md` |
 | 4. Search Console + Bing | BIZ-008 | Verify + sitemap; log `docs/ops/seo-monthly-log.md` |
-| 5. Directories / reviews | BIZ-005 | After GBP |
-| 6. Standing programs | BIZ-010 | After social |
-| 7. Manual a11y lab | A11Y-008 / 014 | `docs/verification/a11y-manual-checklist.md` |
+| 5. Directories / reviews | BIZ-005 | Profile pack ready — create Clutch/GoodFirms/…; send review emails |
+| 6. Standing programs | BIZ-010 | After social cadence |
+| 7. Manual a11y lab | A11Y-008 / 014 | Automated axe green; finish VoiceOver ticks in checklist |
 | Parked long external | BIZ-011, 014, 015 | Press / ISO / AI citation |
 | **Out of this wave** | BIZ-002/016, CMS-004/009 | CyberOS + real testimonials/case studies |
 

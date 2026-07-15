@@ -59,3 +59,21 @@ describe("docs/a11y-manual (A11Y-008/014)", () => {
     expect(body).toMatch(/prefers-reduced-motion|44px|contrast/i);
   });
 });
+
+describe("docs/profile-pack (BIZ-005)", () => {
+  it("assembles directory profile pack from site SSOT", () => {
+    const pack = read("docs/content/directory-profile-pack.md");
+    const site = read("lib/content/site.ts");
+    const addr = site.match(/address:\s*"([^"]+)"/)?.[1];
+    expect(addr).toBeTruthy();
+    expect(pack).toContain(addr!);
+    expect(pack).toMatch(/utm_source=clutch|utm_source=goodfirms/i);
+    expect(pack).toContain("Tan Dinh");
+    expect(pack).toMatch(/Turn Your Will Into Real/);
+    // Must not invent review counts
+    expect(pack.toLowerCase()).not.toMatch(/we have \d+ reviews/);
+    const register = read("docs/ops/directory-profiles-register.md");
+    expect(register).toMatch(/Clutch|GoodFirms|DesignRush/i);
+    expect(register).toContain("share.google");
+  });
+});
