@@ -657,6 +657,10 @@ html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
   border-radius: 8px;
   max-width: 40rem;
 }
+.cs-verify-us-title {
+  font-size: var(--cs-text-xl);
+  margin: 0;
+}
 .cs-verify-us-list {
   display: grid;
   gap: var(--cs-space-3);
@@ -682,6 +686,69 @@ html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
   margin-bottom: var(--cs-space-2);
 }
 .cs-verify-address-text { display: block; }
+.cs-verify-us-claims-heading {
+  font-size: var(--cs-text-md);
+  margin-top: var(--cs-space-md);
+}
+
+/* Footer-adjacent compact: dense 2-col fields, no map art, folded CI list */
+.cs-verify-us--compact {
+  padding: var(--cs-space-4);
+  max-width: none;
+}
+.cs-verify-us--compact .cs-verify-us-title {
+  font-size: var(--cs-text-lg);
+  font-weight: 700;
+}
+.cs-verify-us--compact .cs-verify-us-list {
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cs-space-2) var(--cs-space-4);
+  margin-top: var(--cs-space-3);
+}
+.cs-verify-us--compact .cs-verify-us-list > [data-field="legalName"],
+.cs-verify-us--compact .cs-verify-us-list > [data-field="address"],
+.cs-verify-us--compact .cs-verify-us-list > [data-field="repository"] {
+  grid-column: 1 / -1;
+}
+.cs-verify-us--compact .cs-verify-us-list dd {
+  font-size: var(--cs-text-xs);
+  line-height: 1.4;
+}
+.cs-verify-us--compact .cs-verify-address-text {
+  display: inline;
+}
+.cs-verify-us-claims-fold {
+  margin-top: var(--cs-space-3);
+  font-size: var(--cs-text-xs);
+}
+.cs-verify-us-claims-fold > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--cs-color-fg-muted);
+  list-style: none;
+}
+.cs-verify-us-claims-fold > summary::-webkit-details-marker { display: none; }
+.cs-verify-us-claims-fold > summary::before {
+  content: "+ ";
+  color: var(--cs-color-accent);
+  font-weight: 700;
+}
+.cs-verify-us-claims-fold[open] > summary::before { content: "− "; }
+.cs-verify-us-claims {
+  margin: var(--cs-space-2) 0 0;
+  padding-left: 1.1rem;
+  font-size: var(--cs-text-xs);
+  line-height: 1.35;
+}
+.cs-verify-us-more {
+  margin: var(--cs-space-2) 0 0;
+  font-size: var(--cs-text-xs);
+}
+@media (max-width: 520px) {
+  .cs-verify-us--compact .cs-verify-us-list {
+    grid-template-columns: 1fr;
+  }
+}
 .cs-contact-promise { margin: var(--cs-space-3) 0; }
 .cs-hero-actions { display: flex; flex-wrap: wrap; gap: var(--cs-space-3); margin-top: var(--cs-space-6); }
 .cs-hero-hint { margin-top: var(--cs-space-12); font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); letter-spacing: 0.04em; }

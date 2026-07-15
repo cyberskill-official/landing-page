@@ -60,13 +60,17 @@ export const ENGINEERING_CLAIMS: EngineeringClaim[] = [
 
 /**
  * FR-CMS-014: Verify-us trust block — only configured, evidenced fields.
+ * `full` (default): page sections e.g. /how-we-build.
+ * `compact`: footer-adjacent — denser layout, no map illustration.
  */
 export function VerifyUs({
   locale,
   asOf,
+  variant = "full",
 }: {
   locale: Locale;
   asOf?: Date | string;
+  variant?: "full" | "compact";
 }) {
   const registration = getPublishableRegistrationNumber(
     commercialPolicy,
@@ -75,16 +79,25 @@ export function VerifyUs({
 
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`;
   const github = company.profiles?.github;
+  const compact = variant === "compact";
 
   const title = locale === "vi" ? "Xác minh chúng tôi" : "Verify us";
+  const claimsTitle = locale === "vi"
+    ? "Cam kết kỹ thuật (CI)"
+    : "CI-enforced commitments";
+  const howWeBuildHref = `/${locale}/how-we-build`;
 
   return (
     <aside
-      className="cs-verify-us cs-surface-light"
+      className={`cs-verify-us cs-surface-light${compact ? " cs-verify-us--compact" : ""}`}
       data-verify-us=""
-      aria-labelledby="verify-us-title"
+      data-variant={variant}
+      aria-labelledby={compact ? "verify-us-title-footer" : "verify-us-title"}
     >
-      <h2 id="verify-us-title" style={{ fontSize: "var(--cs-text-xl)" }}>
+      <h2
+        id={compact ? "verify-us-title-footer" : "verify-us-title"}
+        className="cs-verify-us-title"
+      >
         {title}
       </h2>
       <dl className="cs-verify-us-list">
@@ -119,21 +132,23 @@ export function VerifyUs({
               rel="noopener noreferrer"
               data-static-map-link=""
             >
-              {/* Static first-party map image — no iframe, no third-party script (FR-CMS-014 §1.1/1.3). */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="cs-verify-map"
-                src="/brand/office-map.svg"
-                alt={
-                  locale === "vi"
-                    ? `Bản đồ văn phòng: ${company.address}`
-                    : `Office map: ${company.address}`
-                }
-                width={320}
-                height={160}
-                loading="lazy"
-                decoding="async"
-              />
+              {!compact && (
+                // Static first-party map — no iframe (FR-CMS-014). Compact footer omits image.
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  className="cs-verify-map"
+                  src="/brand/office-map.svg"
+                  alt={
+                    locale === "vi"
+                      ? `Bản đồ văn phòng: ${company.address}`
+                      : `Office map: ${company.address}`
+                  }
+                  width={320}
+                  height={160}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
               <span className="cs-verify-address-text">{company.address}</span>
             </a>
           </dd>
@@ -149,19 +164,43 @@ export function VerifyUs({
           </div>
         ) : null}
       </dl>
-      <h3 style={{ fontSize: "var(--cs-text-md)", marginTop: "var(--cs-space-md)" }}>
-        {locale === "vi"
-          ? "Cam kết kỹ thuật có thể kiểm chứng trong CI"
-          : "Verifiable engineering commitments (CI-enforced)"}
-      </h3>
-      <ul className="cs-service-outcomes" role="list" data-engineering-claims="">
-        {ENGINEERING_CLAIMS.map((c) => (
-          <li key={c.gate} data-gate={c.gate} data-ci-command={c.ciCommand}>
-            {locale === "vi" ? c.vi : c.en}{" "}
-            <span className="cs-visually-hidden">({c.ciCommand})</span>
-          </li>
-        ))}
-      </ul>
+
+      {compact ? (
+        <details className="cs-verify-us-claims-fold">
+          <summary>
+            {claimsTitle} · {ENGINEERING_CLAIMS.length}
+          </summary>
+          <ul className="cs-service-outcomes cs-verify-us-claims" role="list" data-engineering-claims="">
+            {ENGINEERING_CLAIMS.map((c) => (
+              <li key={c.gate} data-gate={c.gate} data-ci-command={c.ciCommand}>
+                {locale === "vi" ? c.vi : c.en}{" "}
+                <span className="cs-visually-hidden">({c.ciCommand})</span>
+              </li>
+            ))}
+          </ul>
+          <p className="cs-verify-us-more">
+            <a href={howWeBuildHref}>
+              {locale === "vi" ? "Xem Cách chúng tôi xây" : "See How we build"}
+            </a>
+          </p>
+        </details>
+      ) : (
+        <>
+          <h3 className="cs-verify-us-claims-heading">
+            {locale === "vi"
+              ? "Cam kết kỹ thuật có thể kiểm chứng trong CI"
+              : "Verifiable engineering commitments (CI-enforced)"}
+          </h3>
+          <ul className="cs-service-outcomes" role="list" data-engineering-claims="">
+            {ENGINEERING_CLAIMS.map((c) => (
+              <li key={c.gate} data-gate={c.gate} data-ci-command={c.ciCommand}>
+                {locale === "vi" ? c.vi : c.en}{" "}
+                <span className="cs-visually-hidden">({c.ciCommand})</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </aside>
   );
 }

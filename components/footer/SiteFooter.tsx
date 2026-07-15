@@ -65,9 +65,9 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
           {/* FR-CTA-012: Messaging chips — rendered only when configured */}
           <MessagingChips locale={locale} location="footer" />
 
-          {/* FR-CMS-014: verify-us block footer-adjacent */}
-          <div style={{ marginTop: "var(--cs-space-lg)" }}>
-            <VerifyUs locale={locale} />
+          {/* FR-CMS-014: compact verify-us footer-adjacent (full block on /how-we-build) */}
+          <div style={{ marginTop: "var(--cs-space-md)" }}>
+            <VerifyUs locale={locale} variant="compact" />
           </div>
         </div>
         <div className="cs-footer-end">

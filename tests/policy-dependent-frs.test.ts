@@ -8,6 +8,7 @@ import path from "node:path";
 import fs from "node:fs";
 
 import { commercialPolicy, getPublishableCapacity, isPolicyStale } from "@/lib/content/policy";
+import { company } from "@/lib/content/site";
 import { previousCtaPrimary, ctaCopyHistory } from "@/lib/content/cta-history";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { CapacityLine } from "@/components/sections/CapacityLine";
@@ -165,8 +166,23 @@ describe("content/verify-us-placement", () => {
     );
     // FR-CMS-014: footer-adjacent + how-we-build — home must not add a third copy.
     expect(home).not.toMatch(/<VerifyUs\b/);
+    expect(footer).toMatch(/variant="compact"/);
     expect(footer).toMatch(/<VerifyUs\b/);
     expect(how).toMatch(/<VerifyUs\b/);
+    expect(how).not.toMatch(/variant="compact"/);
+  });
+
+  it("compact footer variant omits map art but keeps identity fields and CI claims", () => {
+    const html = renderToStaticMarkup(
+      createElement(VerifyUs, { locale: "en", variant: "compact" }),
+    );
+    expect(html).toContain('data-variant="compact"');
+    expect(html).toContain("cs-verify-us--compact");
+    expect(html).not.toContain("/brand/office-map.svg");
+    expect(html).toContain('data-static-map-link=""');
+    expect(html).toContain(company.legalName);
+    expect(html).toContain('data-engineering-claims=""');
+    expect(html).toContain("how-we-build");
   });
 });
 
