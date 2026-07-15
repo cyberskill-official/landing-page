@@ -98,7 +98,7 @@ describe("scripted Lumi chat (keyless)", () => {
       /quiz|pace|question/i,
     );
     expect(matchScriptedFreeText("en", "How much does a project cost?")?.message).toMatch(
-      /price|scoped|budget|quote/i,
+      /price|scoped|budget|quote|à-la-carte|scope/i,
     );
     expect(matchScriptedFreeText("vi", "Các bạn tuyển dụng không?")?.message).toMatch(
       /tuyển|Careers|đội/i,
@@ -118,10 +118,54 @@ describe("scripted Lumi chat (keyless)", () => {
     expect(matchScriptedFreeText("en", "asdf qwer")).toBeNull();
   });
 
-  it("nudges long build-intent free text toward a wish", () => {
-    const r = matchScriptedFreeText("en", "I want to build an operations app for my warehouse");
-    expect(r).not.toBeNull();
-    expect(r?.chips?.some((c) => c.id === "wish")).toBe(true);
+  it("matches Vietnamese keywords without ASCII word boundaries", () => {
+    // `\b` fails around "giá" / "ứng dụng web" / "xây gì" — must still resolve.
+    const price = matchScriptedFreeText("vi", "giá");
+    expect(price).not.toBeNull();
+    expect(price!.message).toMatch(/giá|ngân sách|báo giá|phạm vi|USD|scope/i);
+
+    const web = matchScriptedFreeText("vi", "ứng dụng web");
+    expect(web).not.toBeNull();
+    expect(web!.message.toLowerCase()).toMatch(/web|ứng dụng/);
+
+    const buildQ = matchScriptedFreeText("vi", "xây gì");
+    expect(buildQ).not.toBeNull();
+    expect(buildQ!.message).toMatch(/practice|web|mobile|nội bộ|internal|ứng dụng/i);
+    // not the process step dump
+    expect(buildQ!.message).not.toMatch(/\*\*01 /);
+  });
+
+  it("routes what-can-you-build and build-intent away from process", () => {
+    const what = matchScriptedFreeText("en", "What can you build?");
+    expect(what).not.toBeNull();
+    expect(what!.message.toLowerCase()).toMatch(/practice|web|mobile|internal/);
+    expect(what!.message).not.toMatch(/How a project runs/);
+    expect(what!.chips?.some((c) => c.id === "service_web" || c.id === "wish")).toBe(true);
+
+    const intent = matchScriptedFreeText(
+      "en",
+      "I want to build an operations app for my warehouse",
+    );
+    expect(intent).not.toBeNull();
+    // Soft wish-nudge copy (not process SSOT dump)
+    expect(intent!.message).toMatch(/wish forming/i);
+    expect(intent!.message).not.toMatch(/How a project runs/);
+    expect(intent!.chips?.some((c) => c.id === "wish")).toBe(true);
+    expect(intent!.chips?.some((c) => c.id === "quiz_start")).toBe(true);
+
+    const processOnly = matchScriptedFreeText("en", "process steps");
+    expect(processOnly!.message).toMatch(/How a project runs|Discover|01/);
+  });
+
+  it("matches genie house rules via free text", () => {
+    for (const q of ["house rules", "genie rules", "chat rules"]) {
+      const r = matchScriptedFreeText("en", q);
+      expect(r, q).not.toBeNull();
+      expect(r!.message.toLowerCase()).toMatch(/password|secret|privacy|human|house rules|stored/);
+    }
+    const vi = matchScriptedFreeText("vi", "nội quy");
+    expect(vi).not.toBeNull();
+    expect(vi!.message).toMatch(/mật khẩu|riêng tư|nội quy|chat/i);
   });
 
   it("offline fallback still offers chips including quiz", () => {

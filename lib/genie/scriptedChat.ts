@@ -804,148 +804,234 @@ export function resolveScriptTopic(locale: L, id: string): ScriptReply {
 }
 
 /**
+ * True if haystack contains any needle (case already lowercased).
+ * Prefer this for Vietnamese — JS `\b` is ASCII-word based and fails on "giá", "xây gì".
+ */
+function hasAny(text: string, needles: string[]): boolean {
+  return needles.some((n) => text.includes(n));
+}
+
+/**
  * Match free-text to a scripted topic (EN + VI keywords). Returns null if
  * nothing confident matches — caller may try the LLM or a soft fallback.
+ *
+ * Order matters: specific phrases before broad ones. Process must NOT steal
+ * "what can you build" / "I want to build …" (no bare discover|shape|build|support).
  */
 export function matchScriptedFreeText(locale: L, raw: string): ScriptReply | null {
   const text = raw.trim().toLowerCase();
   if (!text) return null;
 
-  const rules: { re: RegExp; id: string }[] = [
+  type Rule = { id: string; test: (t: string) => boolean };
+  // EN uses `\b` where tokens are Latin; VI uses substring needles (Unicode-safe).
+  const rules: Rule[] = [
     {
-      re: /\b(quiz|which (model|engagement)|engagement (model|fit)|mô hình nào|hợp tác nào)\b/i,
       id: "quiz_start",
+      test: (t) =>
+        /\b(quiz|which (model|engagement)|engagement (model|fit))\b/i.test(t) ||
+        hasAny(t, ["mô hình nào", "hợp tác nào"]),
     },
     {
-      re: /\b(engagement model|dedicated (senior )?team|fixed[- ]scope|mô hình hợp tác|đội senior|phạm vi cố định)\b/i,
       id: "engagement_models",
+      test: (t) =>
+        /\b(engagement model|dedicated (senior )?team|fixed[- ]scope)\b/i.test(t) ||
+        hasAny(t, ["mô hình hợp tác", "đội senior", "phạm vi cố định"]),
     },
     {
-      re: /\b(capacity|slots?|how many projects|năng lực|suất|bao nhiêu dự án)\b/i,
       id: "capacity",
+      test: (t) =>
+        /\b(capacity|slots?|how many projects)\b/i.test(t) ||
+        hasAny(t, ["năng lực", "suất", "bao nhiêu dự án"]),
     },
     {
-      re: /\b(7[- ]?day|seven day|promise|cam kết 7|7 ngày)\b/i,
       id: "promise_7day",
+      test: (t) =>
+        /\b(7[- ]?day|seven day)\b/i.test(t) ||
+        // "promise" alone is weak; pair with day language or VI
+        (/\bpromise\b/i.test(t) && /\b(7|seven|day)\b/i.test(t)) ||
+        hasAny(t, ["cam kết 7", "7 ngày"]),
     },
     {
-      re: /\b(price|pricing|budget|cost|quote|how much|giá|ngân sách|chi phí|báo giá)\b/i,
       id: "pricing",
+      test: (t) => {
+        if (/\b(price|pricing|budget|cost|quote|how much)\b/i.test(t)) return true;
+        if (hasAny(t, ["ngân sách", "chi phí", "báo giá"])) return true;
+        // "giá" alone is pricing; "giá trị" is values (handled later).
+        if (!t.includes("giá")) return false;
+        const withoutValues = t.replaceAll("giá trị", " ");
+        return withoutValues.includes("giá");
+      },
     },
     {
-      re: /\b(timeline|deadline|how long|when can|thời gian|bao lâu|kịp)\b/i,
       id: "timeline",
+      test: (t) =>
+        /\b(timeline|deadline|how long|when can)\b/i.test(t) ||
+        hasAny(t, ["thời gian", "bao lâu", "kịp"]),
     },
     {
-      re: /\b(teardown|audit|review my (site|app)|đánh giá|kiểm tra web|15.?point)\b/i,
       id: "teardown",
+      test: (t) =>
+        /\b(teardown|audit|review my (site|app)|15.?point)\b/i.test(t) ||
+        hasAny(t, ["đánh giá", "kiểm tra web"]),
     },
     {
-      re: /\b(career|job|hiring|join (the )?team|tuyển|việc làm|ứng tuyển)\b/i,
       id: "careers",
+      test: (t) =>
+        /\b(career|job|hiring|join (the )?team)\b/i.test(t) ||
+        hasAny(t, ["tuyển", "việc làm", "ứng tuyển"]),
     },
     {
-      re: /\b(who are you|what are you|your name|bạn là ai|mày là ai|\blumi\b)\b/i,
       id: "who_is_lumi",
+      test: (t) =>
+        /\b(who are you|what are you|your name|\blumi\b)\b/i.test(t) ||
+        hasAny(t, ["bạn là ai", "mày là ai"]),
     },
     {
-      re: /\b(saigon|sài gòn|ho chi minh|hcm|vietnam|việt nam|where are you|address|địa chỉ)\b/i,
       id: "saigon",
+      test: (t) =>
+        /\b(saigon|ho chi minh|\bhcm\b|vietnam|where are you|address)\b/i.test(t) ||
+        hasAny(t, ["sài gòn", "việt nam", "địa chỉ"]),
     },
     {
-      re: /\b(rescue|legacy|rewrite|broken|on fire|cứu|hệ thống cũ|sập|lỗi nặng|migration)\b/i,
       id: "rescue",
+      test: (t) =>
+        /\b(rescue|legacy|rewrite|broken|on fire|migration)\b/i.test(t) ||
+        hasAny(t, ["cứu", "hệ thống cũ", "sập", "lỗi nặng"]),
     },
     {
-      re: /\b(human|call me|meeting|talk to (a )?person|người thật|gặp|gọi điện)\b/i,
       id: "contact_human",
+      test: (t) =>
+        /\b(human|call me|meeting|talk to (a )?person)\b/i.test(t) ||
+        hasAny(t, ["người thật", "gặp", "gọi điện"]),
     },
     {
-      re: /\b(fortune|magic|rub|lamp|thần đèn|xoa đèn|bói)\b/i,
       id: "fortune",
+      test: (t) =>
+        /\b(fortune|magic|rub|lamp)\b/i.test(t) || hasAny(t, ["thần đèn", "xoa đèn", "bói"]),
     },
     {
-      re: /\b(three wishes|3 wishes|ba điều ước)\b/i,
       id: "three_wishes",
+      test: (t) =>
+        /\b(three wishes|3 wishes)\b/i.test(t) || hasAny(t, ["ba điều ước"]),
     },
     {
-      re: /\b(joke|funny|haha|đùa|cười)\b/i,
+      id: "genie_rules",
+      test: (t) =>
+        /\b(house rules|genie rules|chat rules)\b/i.test(t) ||
+        hasAny(t, ["nội quy", "nội quy thần đèn"]),
+    },
+    {
       id: "joke",
+      test: (t) => /\b(joke|funny|haha)\b/i.test(t) || hasAny(t, ["đùa", "cười"]),
     },
     {
-      re: /\b(partner|outsource|agency white.?label|hợp tác|ủy thác|outsource)\b/i,
       id: "partnership",
+      test: (t) =>
+        /\b(partner|outsource|agency white.?label)\b/i.test(t) ||
+        hasAny(t, ["hợp tác", "ủy thác", "outsource"]),
     },
     {
-      re: /\b(security|privacy|gdpr|pdpl|bảo mật|riêng tư|mật khẩu|password)\b/i,
       id: "security_privacy",
+      test: (t) =>
+        /\b(security|privacy|gdpr|pdpl|password)\b/i.test(t) ||
+        hasAny(t, ["bảo mật", "riêng tư", "mật khẩu"]),
     },
     {
-      re: /\b(a11y|accessibility|wcag|khả năng tiếp cận|tiếp cận)\b/i,
       id: "accessibility",
+      test: (t) =>
+        /\b(a11y|accessibility|wcag)\b/i.test(t) ||
+        hasAny(t, ["khả năng tiếp cận", "tiếp cận"]),
     },
     {
-      re: /\b(metric|kpi|measure|cwv|core web vitals|đo lường|chỉ số)\b/i,
       id: "metrics",
+      test: (t) =>
+        /\b(metric|kpi|measure|cwv|core web vitals)\b/i.test(t) ||
+        hasAny(t, ["đo lường", "chỉ số"]),
     },
+    // what_we_build BEFORE process — "what can you build" must not hit process.
     {
-      re: /\b(process|discover|shape|build|support|quy trình|khám phá|định hình)\b/i,
-      id: "process",
-    },
-    {
-      re: /\b(first week|week one|tuần đầu|tuần 1)\b/i,
-      id: "first_week",
-    },
-    {
-      re: /\b(case study|portfolio|your work|dự án|case study|work shelf|câu chuyện)\b/i,
-      id: "story_hub",
-    },
-    {
-      re: /\b(mobile app|ios|android|ứng dụng di động)\b/i,
-      id: "service_mobile",
-    },
-    {
-      re: /\b(internal (system|tool)|back.?office|ops platform|hệ thống nội bộ|nội bộ)\b/i,
-      id: "service_internal",
-    },
-    {
-      re: /\b(web app|website|dashboard|portal|ứng dụng web)\b/i,
-      id: "service_web",
-    },
-    {
-      re: /\b(what (do you|can you) build|services|xây gì|dịch vụ)\b/i,
       id: "what_we_build",
+      test: (t) =>
+        /\b(what (do you|can you) build|services)\b/i.test(t) ||
+        hasAny(t, ["xây gì", "dịch vụ", "các bạn xây"]),
+    },
+    // process: only explicit process language — never bare build|discover|shape|support.
+    {
+      id: "process",
+      test: (t) =>
+        /\b(process steps|how a project runs|the process)\b/i.test(t) ||
+        (/\bprocess\b/i.test(t) && !/\bbuild\b/i.test(t)) ||
+        hasAny(t, ["quy trình", "các bước quy trình"]),
     },
     {
-      re: /\b(how (do )?you work|cách (các bạn )?làm)\b/i,
+      id: "first_week",
+      test: (t) =>
+        /\b(first week|week one)\b/i.test(t) || hasAny(t, ["tuần đầu", "tuần 1"]),
+    },
+    {
+      id: "story_hub",
+      test: (t) =>
+        /\b(case study|portfolio|your work|work shelf)\b/i.test(t) ||
+        hasAny(t, ["dự án", "câu chuyện", "case study"]),
+    },
+    {
+      id: "service_mobile",
+      test: (t) =>
+        /\b(mobile app|ios|android)\b/i.test(t) || hasAny(t, ["ứng dụng di động"]),
+    },
+    {
+      id: "service_internal",
+      test: (t) =>
+        /\b(internal (system|tool)|back.?office|ops platform)\b/i.test(t) ||
+        hasAny(t, ["hệ thống nội bộ", "nội bộ"]),
+    },
+    {
+      id: "service_web",
+      test: (t) =>
+        /\b(web app|website|dashboard|portal)\b/i.test(t) || hasAny(t, ["ứng dụng web"]),
+    },
+    {
       id: "how_we_work",
+      test: (t) =>
+        /\b(how (do )?you work)\b/i.test(t) || hasAny(t, ["cách các bạn làm", "cách làm việc"]),
     },
     {
-      re: /\b(black.?box|agency myth|hộp đen)\b/i,
       id: "myth_agency",
+      test: (t) =>
+        /\b(black.?box|agency myth)\b/i.test(t) || hasAny(t, ["hộp đen"]),
     },
     {
-      re: /\b(values|what you stand|giá trị|đứng về)\b/i,
       id: "values",
+      test: (t) =>
+        /\b(values|what you stand)\b/i.test(t) || hasAny(t, ["giá trị", "đứng về"]),
     },
     {
-      re: /\b(just browsing|looking around|curious|xem chơi|cho vui|tham khảo)\b/i,
       id: "browse",
+      test: (t) =>
+        /\b(just browsing|looking around|curious)\b/i.test(t) ||
+        hasAny(t, ["xem chơi", "cho vui", "tham khảo"]),
     },
     {
-      re: /\b(hello|hi\b|hey|xin chào|chào|hola)\b/i,
       id: "browse",
+      test: (t) =>
+        /^(hello|hi|hey|hola)[\s!.,?]*$/i.test(t.trim()) ||
+        hasAny(t, ["xin chào"]) ||
+        /^chào[\s!.,?]*$/i.test(t.trim()),
     },
   ];
 
   for (const rule of rules) {
-    if (rule.re.test(text)) {
+    if (rule.test(text)) {
       return resolveScriptTopic(locale, rule.id);
     }
   }
 
-  // Soft “I heard a wish” — nudge into capture without LLM.
-  if (text.length >= 12 && /\b(want|need|build|fix|improve|muốn|cần|xây|sửa|cải)\b/i.test(text)) {
+  // Soft “I heard a wish” — after specific topics; process no longer steals "build".
+  const softIntent =
+    text.length >= 12 &&
+    (/\b(want|need|build|fix|improve)\b/i.test(text) ||
+      hasAny(text, ["muốn", "cần", "xây", "sửa", "cải"]));
+  if (softIntent) {
     return {
       message: t(
         locale,
