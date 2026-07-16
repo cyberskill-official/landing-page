@@ -26,7 +26,14 @@ describe("defer-hydration post-build (mobile Lantern LCP)", () => {
     expect(lib).toMatch(/setTimeout\(go,\s*12000\)/);
 
     const pkg = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8"));
-    expect(pkg.scripts.build).toMatch(/defer-hydration/);
+    // Build goes through run-next-build (HTML write-patch + defer post-pass)
+    expect(pkg.scripts.build).toMatch(/run-next-build/);
+    const runner = readFileSync(resolve(root, "scripts/run-next-build.mjs"), "utf8");
+    expect(runner).toContain("patch-html-writes");
+    expect(runner).toContain("defer-hydration.mjs");
+    const patch = readFileSync(resolve(root, "scripts/patch-html-writes.mjs"), "utf8");
+    expect(patch).toContain("deferScripts");
+    expect(patch).toContain(".next/server/app");
   });
 
   it("deferScripts() rewrites eager Next chunks and keeps theme boot", () => {

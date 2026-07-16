@@ -16,8 +16,8 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "next dev",
-    "build": "next build --webpack && node scripts/defer-hydration.mjs",
-    "analyze": "ANALYZE=true next build --webpack && node scripts/defer-hydration.mjs",
+    "build": "node scripts/run-next-build.mjs",
+    "analyze": "ANALYZE=true node scripts/run-next-build.mjs",
     "defer-hydration": "node scripts/defer-hydration.mjs",
     "start": "next start",
     "lint": "eslint .",
