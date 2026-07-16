@@ -10,6 +10,7 @@ import { DeferredFonts } from "@/components/DeferredFonts";
 import { DeferredPoster } from "@/components/DeferredPoster";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 import { MotionPreferenceSync } from "@/components/a11y/MotionPreferenceSync";
+import { CRITICAL_CSS, CRITICAL_STYLE_ID } from "@/lib/critical-css";
 
 // Vercel Analytics / Speed Insights inject /_vercel/*/script.js. Those routes
 // only exist on the Vercel edge — local `next start` 404s them, and Lighthouse
@@ -72,6 +73,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <head>
+        {/* First-paint CSS inside the prerender snapshot (Vercel freezes HTML
+            during next build; post-build Critters never reaches production). */}
+        <style
+          id={CRITICAL_STYLE_ID}
+          dangerouslySetInnerHTML={{ __html: CRITICAL_CSS }}
+        />
+      </head>
       <AnalyticsScripts />
       <body>
         <script

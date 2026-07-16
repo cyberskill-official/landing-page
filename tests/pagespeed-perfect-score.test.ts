@@ -153,5 +153,25 @@ describe("PageSpeed perfect-score contracts", () => {
     const brand = readFileSync(resolve(root, "public/fonts/brand-fonts.css"), "utf8");
     expect(brand).toMatch(/font-display:\s*optional/);
   });
+
+  it("root layout SSR-inlines critical first-paint CSS (id=cs-critical)", () => {
+    // Vercel freezes prerender HTML mid-build; critical CSS must be in the
+    // React tree so the snapshot includes it without post-build Critters.
+    const layout = readFileSync(resolve(root, "app/layout.tsx"), "utf8");
+    expect(layout).toContain("CRITICAL_CSS");
+    expect(layout).toContain("CRITICAL_STYLE_ID");
+    expect(layout).toMatch(/id=\{CRITICAL_STYLE_ID\}|id=\{?\s*CRITICAL_STYLE_ID/);
+    const crit = readFileSync(resolve(root, "lib/critical-css.ts"), "utf8");
+    expect(crit).toContain("export const CRITICAL_CSS");
+    expect(crit).toContain('CRITICAL_STYLE_ID = "cs-critical"');
+    // Enough surface for hero LCP + header + primary CTA
+    expect(crit).toMatch(/\.cs-hero-title/);
+    expect(crit).toMatch(/\.cs-btn-primary/);
+    expect(crit).toMatch(/\[data-theme=dark\]|data-theme=dark/);
+    // CRITICAL_CSS body must be substantial (not a stub)
+    const m = crit.match(/export const CRITICAL_CSS = `([\s\S]*?)`/);
+    expect(m?.[1]?.replace(/\s+/g, "").length ?? 0).toBeGreaterThan(800);
+  });
 });
+
 

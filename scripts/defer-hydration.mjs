@@ -21,8 +21,10 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import {
   LOADER_ID,
-  deferScripts,
+  transformPrerenderHtml,
   hasEagerNextScripts,
+  hasBlockingAppStylesheet,
+  hasCriticalCss,
 } from "./defer-hydration-lib.mjs";
 
 const require = createRequire(import.meta.url);
@@ -144,12 +146,33 @@ async function inlineCriticalCss(html) {
   }
 }
 
+function loadBuiltCss() {
+  if (!existsSync(staticCssDir)) return "";
+  try {
+    const files = readdirSync(staticCssDir).filter((f) => f.endsWith(".css"));
+    if (!files.length) return "";
+    let best = files[0];
+    let bestSize = 0;
+    for (const f of files) {
+      const st = statSync(join(staticCssDir, f));
+      if (st.size > bestSize) {
+        bestSize = st.size;
+        best = f;
+      }
+    }
+    return readFileSync(join(staticCssDir, best), "utf8");
+  } catch {
+    return "";
+  }
+}
+
 async function transformTree(rootDir) {
   const files = walkHtml(rootDir);
   if (files.length === 0) {
     return { rootDir, files: 0, transformed: 0, crittersOk: 0, crittersFail: 0, reasons: new Map() };
   }
 
+  const cssText = loadBuiltCss();
   let transformed = 0;
   let crittersOk = 0;
   let crittersFail = 0;
@@ -157,18 +180,26 @@ async function transformTree(rootDir) {
 
   for (const file of files) {
     const raw = readFileSync(file, "utf8");
-    // Skip non-document HTML (unlikely) without scripts
     if (!raw.includes("<html") && !raw.includes("<HTML")) continue;
 
-    const deferred = deferScripts(raw);
-    let html = deferred.html;
-
-    if (deferred.changed || deferred.already || html.includes(LOADER_ID)) {
-      const { html: next, inlined, reason } = await inlineCriticalCss(html);
-      html = next;
+    // Defer scripts + inline full app CSS (no late stylesheet CLS).
+    // Critters skipped: Vercel freezes HTML mid-build; write-patch + this pass
+    // ship SSR critical + full inline CSS instead.
+    const html = transformPrerenderHtml(raw, cssText).html;
+    if (cssText && html.includes("cs-full-inline")) {
+      reasons.set("inline-app-css", (reasons.get("inline-app-css") || 0) + 1);
+      crittersOk += 1;
+    } else if (hasCriticalCss(html)) {
+      reasons.set("ssr-critical-only", (reasons.get("ssr-critical-only") || 0) + 1);
+      crittersOk += 1;
+    } else {
+      const { html: next, inlined, reason } = await inlineCriticalCss(raw);
+      writeFileSync(file, transformPrerenderHtml(next, cssText).html);
       reasons.set(reason, (reasons.get(reason) || 0) + 1);
       if (inlined) crittersOk += 1;
       else crittersFail += 1;
+      transformed += 1;
+      continue;
     }
 
     if (html !== raw) {
@@ -211,6 +242,25 @@ function assertHomepageGate(rootDir) {
     }
     if (hasEagerNextScripts(html)) {
       return { ok: false, rootDir, home, reason: "eager /_next/static/chunks scripts remain" };
+    }
+    if (!hasCriticalCss(html)) {
+      return { ok: false, rootDir, home, reason: "missing #cs-critical first-paint CSS" };
+    }
+    if (hasBlockingAppStylesheet(html)) {
+      return {
+        ok: false,
+        rootDir,
+        home,
+        reason: "external /_next/static/css stylesheet still present (should be inlined)",
+      };
+    }
+    if (!html.includes("cs-full-inline") && !hasCriticalCss(html)) {
+      return {
+        ok: false,
+        rootDir,
+        home,
+        reason: "missing inlined app CSS (cs-full-inline) and critical CSS",
+      };
     }
   }
   return { ok: true, skipped: false, rootDir, homes: candidates };

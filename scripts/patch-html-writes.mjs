@@ -1,44 +1,77 @@
 /**
  * Preload hook for next build on Vercel.
  *
- * Vercel Next onBuildComplete runs during next build and snapshots prerender
- * HTML into the deploy artifact before any post-build script can rewrite
- * files under .next/server/app. Production then serves the un-deferred
- * snapshot even though the post-build gate passes on disk.
+ * Snapshots HTML during next build with:
+ *   - deferred Next chunk scripts
+ *   - app CSS inlined (no render-blocking external stylesheet, no late-CSS CLS)
  *
- * This module patches fs write APIs so every HTML write under
- * .next/server/app is deferred as it is written, so the snapshot already
- * has data-cs-defer-src plus the idle/interaction loader.
- *
- * Usage:
- *   node --import ./scripts/patch-html-writes.mjs node_modules/next/dist/bin/next build --webpack
+ * Critical first-paint CSS is also SSR-inlined via app/layout.tsx (#cs-critical).
  */
 import fs from "node:fs";
 import path from "node:path";
-import { deferScripts } from "./defer-hydration-lib.mjs";
+import { fileURLToPath } from "node:url";
+import {
+  transformPrerenderHtml,
+  hasEagerNextScripts,
+  hasBlockingAppStylesheet,
+} from "./defer-hydration-lib.mjs";
 
-function shouldTransform(filePath, data) {
+const projectRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const cssDir = path.join(projectRoot, ".next", "static", "css");
+
+let cachedCss = null;
+let cachedCssMtime = 0;
+
+function loadBuiltCss() {
+  try {
+    if (!fs.existsSync(cssDir)) return "";
+    const files = fs.readdirSync(cssDir).filter((f) => f.endsWith(".css"));
+    if (!files.length) return "";
+    // Prefer largest (main app bundle)
+    let best = files[0];
+    let bestSize = 0;
+    for (const f of files) {
+      const st = fs.statSync(path.join(cssDir, f));
+      if (st.size > bestSize) {
+        bestSize = st.size;
+        best = f;
+      }
+    }
+    const full = path.join(cssDir, best);
+    const st = fs.statSync(full);
+    if (cachedCss !== null && st.mtimeMs === cachedCssMtime) return cachedCss;
+    cachedCss = fs.readFileSync(full, "utf8");
+    cachedCssMtime = st.mtimeMs;
+    return cachedCss;
+  } catch {
+    return "";
+  }
+}
+
+function isAppHtmlPath(filePath) {
   if (typeof filePath !== "string") return false;
   if (!filePath.endsWith(".html")) return false;
-  // Match both absolute and relative Next output paths
   const norm = filePath.replace(/\\/g, "/");
-  if (!norm.includes("/.next/server/app/") && !norm.includes(".next/server/app/")) {
-    return false;
-  }
+  return norm.includes("/.next/server/app/") || norm.includes(".next/server/app/");
+}
+
+function shouldTransform(filePath, data) {
+  if (!isAppHtmlPath(filePath)) return false;
   if (typeof data !== "string") return false;
-  if (!data.includes("<script") && !data.includes("<SCRIPT")) return false;
-  // Already transformed
-  if (data.includes("cs-defer-hydration") || data.includes("data-cs-defer-src")) {
-    return false;
+  if (!data.includes("<html") && !data.includes("<HTML")) return false;
+  if (hasEagerNextScripts(data)) return true;
+  if (hasBlockingAppStylesheet(data)) return true;
+  if (data.includes("/_next/static/chunks/") && !data.includes("data-cs-defer-src")) {
+    return true;
   }
-  return true;
+  return false;
 }
 
 function transform(data) {
   try {
-    return deferScripts(data).html;
+    return transformPrerenderHtml(data, loadBuiltCss()).html;
   } catch (err) {
-    console.warn("[patch-html-writes] deferScripts failed:", err && err.message);
+    console.warn("[patch-html-writes] transform failed:", err && err.message);
     return data;
   }
 }
@@ -54,7 +87,6 @@ function wrapWriteSync(orig) {
 
 function wrapWriteAsync(orig) {
   return function patchedWriteFile(file, data, options, callback) {
-    // writeFile(path, data, cb) or writeFile(path, data, options, cb)
     if (typeof options === "function") {
       callback = options;
       options = undefined;
@@ -71,28 +103,26 @@ function wrapWriteAsync(orig) {
 
 function wrapPromisesWrite(orig) {
   return async function patchedPromisesWriteFile(file, data, options) {
-    if (shouldTransform(String(file), typeof data === "string" ? data : data?.toString?.())) {
-      if (typeof data === "string") data = transform(data);
-      else if (Buffer.isBuffer(data)) data = Buffer.from(transform(data.toString("utf8")), "utf8");
+    const asString =
+      typeof data === "string" ? data : Buffer.isBuffer(data) ? data.toString("utf8") : null;
+    if (asString !== null && shouldTransform(String(file), asString)) {
+      const next = transform(asString);
+      data = typeof data === "string" ? next : Buffer.from(next, "utf8");
     }
     return orig.call(this, file, data, options);
   };
 }
 
-// Sync
 fs.writeFileSync = wrapWriteSync(fs.writeFileSync.bind(fs));
-// Callback async
 fs.writeFile = wrapWriteAsync(fs.writeFile.bind(fs));
-// Promises API
 if (fs.promises?.writeFile) {
   fs.promises.writeFile = wrapPromisesWrite(fs.promises.writeFile.bind(fs.promises));
 }
 
-// Stream writes (some pipelines use createWriteStream + end(data))
 const origCreateWriteStream = fs.createWriteStream.bind(fs);
 fs.createWriteStream = function patchedCreateWriteStream(file, options) {
   const stream = origCreateWriteStream(file, options);
-  if (typeof file === "string" && file.endsWith(".html")) {
+  if (typeof file === "string" && file.endsWith(".html") && isAppHtmlPath(file)) {
     const origEnd = stream.end.bind(stream);
     const origWrite = stream.write.bind(stream);
     let buf = "";
@@ -100,7 +130,8 @@ fs.createWriteStream = function patchedCreateWriteStream(file, options) {
     stream.write = function (chunk, encoding, cb) {
       if (!intercept) return origWrite(chunk, encoding, cb);
       if (typeof chunk === "string") buf += chunk;
-      else if (Buffer.isBuffer(chunk)) buf += chunk.toString(typeof encoding === "string" ? encoding : "utf8");
+      else if (Buffer.isBuffer(chunk))
+        buf += chunk.toString(typeof encoding === "string" ? encoding : "utf8");
       else return origWrite(chunk, encoding, cb);
       if (typeof encoding === "function") encoding();
       else if (typeof cb === "function") cb();
@@ -121,4 +152,6 @@ fs.createWriteStream = function patchedCreateWriteStream(file, options) {
   return stream;
 };
 
-console.log("[patch-html-writes] active — deferring .next/server/app HTML on write");
+console.log(
+  "[patch-html-writes] active — defer scripts + inline app CSS on .next/server/app HTML writes",
+);
