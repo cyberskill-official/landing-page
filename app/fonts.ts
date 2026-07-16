@@ -9,6 +9,7 @@ import { Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
  */
 export const displayFont = Space_Grotesk({
   subsets: ["latin", "vietnamese"],
+  weight: ["600", "700"],
   display: "swap",
   preload: true,
   variable: "--font-display",
@@ -16,7 +17,8 @@ export const displayFont = Space_Grotesk({
 
 export const bodyFont = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
+  // Keep three weights under the Lighthouse font budget (120 KB).
+  weight: ["400", "600", "700"],
   display: "swap",
   preload: true,
   variable: "--font-body",

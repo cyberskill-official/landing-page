@@ -667,7 +667,7 @@ html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
   .cs-header-actions { gap: var(--cs-space-2); }
 }
 .cs-nav { display: none; gap: var(--cs-space-6); margin-inline: auto; }
-.cs-nav a { text-decoration: none; font-weight: 500; }
+.cs-nav a { text-decoration: none; font-weight: 600; }
 /* Hover brightens the link. On the dark header the umber brand is near-invisible
    (it dims the link), so dark theme hovers to the ochre accent instead. */
 .cs-nav a:hover { color: var(--cs-color-brand); }
@@ -1328,7 +1328,20 @@ main > .cs-section > .cs-container > h1 {
 
 /* TASK-SEO-019: Config-driven social profile row in footer. */
 .cs-footer-social { display: flex; flex-wrap: wrap; gap: var(--cs-space-4); margin: var(--cs-space-4) 0 0; }
-.cs-footer-social-link { display: inline-flex; align-items: center; gap: var(--cs-space-2); font-size: var(--cs-text-sm); color: var(--cs-color-fg-muted); text-decoration: none; font-weight: 500; transition: color 0.18s ease; }
+.cs-footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cs-space-2);
+  min-width: 24px;
+  min-height: 24px;
+  padding: var(--cs-space-2) var(--cs-space-3);
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-fg-muted);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.18s ease;
+}
 .cs-footer-social-link:hover { color: var(--cs-color-brand); }
 [data-theme="dark"] .cs-footer-social-link:hover { color: var(--cs-color-accent); }
 
