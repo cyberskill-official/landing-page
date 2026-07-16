@@ -333,11 +333,11 @@ const en: Dictionary = {
     successStep3: "Reply to the report if you want to dig deeper with the team.",
   },
   consentBanner: {
-    title: "Help us improve this site",
-    body: "We use Microsoft Clarity in cookieless mode to watch anonymous session replays. Form fields and chat are masked. Nothing loads until you accept.",
-    accept: "Accept",
-    decline: "Decline",
-    privacyLink: "Privacy details",
+    title: "See how people use this site?",
+    body: "Allow anonymous session recordings (Microsoft Clarity). Forms and chat stay masked. Nothing loads until you allow it.",
+    accept: "Allow",
+    decline: "No thanks",
+    privacyLink: "Privacy",
   },
 };
 
@@ -502,11 +502,11 @@ const vi: Dictionary = {
     successStep3: "Trả lời email báo cáo nếu muốn đào sâu cùng đội ngũ.",
   },
   consentBanner: {
-    title: "Giúp chúng tôi cải thiện site",
-    body: "Chúng tôi dùng Microsoft Clarity ở chế độ không cookie để xem lại phiên ẩn danh. Trường biểu mẫu và chat được che. Không gì tải cho đến khi bạn đồng ý.",
-    accept: "Đồng ý",
-    decline: "Từ chối",
-    privacyLink: "Chi tiết quyền riêng tư",
+    title: "Xem cách mọi người dùng site?",
+    body: "Cho phép ghi phiên ẩn danh (Microsoft Clarity). Biểu mẫu và chat được che. Không gì tải cho đến khi bạn cho phép.",
+    accept: "Cho phép",
+    decline: "Không",
+    privacyLink: "Riêng tư",
   },
 };
 

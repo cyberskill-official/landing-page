@@ -8,14 +8,13 @@ import { ConsentGate } from "@/lib/analytics/consent";
 import { Button } from "@/components/ui/Button";
 
 /**
- * Lightweight opt-in banner for session replay (Microsoft Clarity).
+ * Opt-in banner for session replay (Microsoft Clarity).
  *
- * Renders only when:
- * - NEXT_PUBLIC_CLARITY_ID is set (a gated tag exists), and
- * - the visitor has not yet decided (localStorage).
+ * Renders only when NEXT_PUBLIC_CLARITY_ID is set and the visitor has not
+ * decided yet. Short idle deferral so it never competes with LCP.
+ * Choice lives in first-party localStorage (not a tracking cookie).
  *
- * Deferred a short idle so it never competes with LCP. Choice is stored as a
- * first-party localStorage preference (not a tracking cookie).
+ * No auto-accept: Accept must be an explicit click (PDPL/GDPR + consent stance).
  */
 export function ConsentBanner({
   locale,
@@ -31,7 +30,6 @@ export function ConsentBanner({
     const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
     if (!clarityId) return;
 
-    // Restore prior choice before deciding whether to show the banner.
     ConsentGate.hydrate();
     if (ConsentGate.hasDecision()) return;
 
@@ -40,9 +38,9 @@ export function ConsentBanner({
     const show = () => setVisible(true);
 
     if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback(show, { timeout: 4000 });
+      idleId = window.requestIdleCallback(show, { timeout: 3500 });
     } else {
-      timeoutId = setTimeout(show, 2500);
+      timeoutId = setTimeout(show, 2000);
     }
 
     return () => {
@@ -66,14 +64,17 @@ export function ConsentBanner({
   };
 
   return (
-    <div
-      className="cs-consent-banner cs-surface-heavy cs-no-print"
+    <aside
+      className="cs-consent-banner cs-no-print"
       role="dialog"
       aria-modal="false"
       aria-labelledby="cs-consent-title"
       aria-describedby="cs-consent-desc"
     >
       <div className="cs-consent-banner-inner">
+        <div className="cs-consent-banner-lead" aria-hidden="true">
+          <span className="cs-consent-banner-mark" />
+        </div>
         <div className="cs-consent-banner-copy">
           <p id="cs-consent-title" className="cs-consent-banner-title">
             {copy.title}
@@ -94,6 +95,6 @@ export function ConsentBanner({
           </Button>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }
