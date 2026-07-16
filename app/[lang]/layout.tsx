@@ -7,6 +7,7 @@ import { SkipLink } from "@/components/a11y/SkipLink";
 import { SiteHeader } from "@/components/header/SiteHeader";
 import { SiteFooter } from "@/components/footer/SiteFooter";
 import { DeferredEnhancements } from "@/components/DeferredEnhancements";
+import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { HtmlLang } from "@/components/HtmlLang";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 
@@ -75,6 +76,9 @@ export default async function LocaleLayout({
         chapters={chapters}
         chapterLabel={lang === "vi" ? "Các chương" : "Chapters"}
       />
+      {/* Consent for session replay (Clarity). Own island — not behind the 20s
+          DeferredEnhancements gate so visitors can Accept before leaving. */}
+      <ConsentBanner locale={lang} dict={dict} />
       <div className="cs-grain" aria-hidden="true" />
       <OrganizationJsonLd locale={lang} />
     </>

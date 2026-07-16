@@ -33,7 +33,8 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         h: "Consent and Tracking Tags",
         body: [
           "No third-party tracking, marketing pixels, or analytics cookies are loaded by default. The site is cookieless-first.",
-          "Any optional tags (such as Google Analytics 4) will only load if you explicitly grant consent through our consent options. They are deferred until interaction and strictly opt-in.",
+          "Optional session replay: when configured, Microsoft Clarity may load only after you Accept on the consent banner. It runs in cookieless mode; form fields and chat content are masked so typed text is not recorded. You can Decline and continue using the site without it. Your Accept/Decline choice is stored only in your browser (localStorage) so we do not ask again.",
+          "Other optional tags (such as Google Analytics 4) will only load if you explicitly grant consent. They are deferred until interaction and strictly opt-in.",
         ],
       },
       {
@@ -76,7 +77,8 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         h: "Đồng ý và Thẻ theo dõi",
         body: [
           "Không có trình theo dõi của bên thứ ba, pixel tiếp thị, hoặc cookie phân tích nào được tải theo mặc định. Website này ưu tiên không sử dụng cookie.",
-          "Bất kỳ thẻ tùy chọn nào (như Google Analytics 4) sẽ chỉ tải nếu bạn đồng ý rõ ràng thông qua tùy chọn đồng ý của chúng tôi. Chúng tôi trì hoãn tải cho đến khi có tương tác và hoàn toàn dựa trên sự chọn lựa tự nguyện.",
+          "Ghi lại phiên tùy chọn: khi được cấu hình, Microsoft Clarity chỉ tải sau khi bạn bấm Đồng ý trên banner. Clarity chạy chế độ không cookie; trường biểu mẫu và nội dung chat được che nên chữ gõ không bị ghi. Bạn có thể Từ chối và vẫn dùng site bình thường. Lựa chọn Đồng ý/Từ chối chỉ lưu trong trình duyệt (localStorage) để chúng tôi không hỏi lại.",
+          "Các thẻ tùy chọn khác (như Google Analytics 4) chỉ tải nếu bạn đồng ý rõ ràng. Chúng tôi trì hoãn tải cho đến khi có tương tác và hoàn toàn dựa trên sự chọn lựa tự nguyện.",
         ],
       },
       {

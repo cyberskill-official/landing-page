@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { ConsentGate } from "@/lib/analytics/consent";
+import {
+  CONSENT_CHANGE_EVENT,
+  ConsentGate,
+} from "@/lib/analytics/consent";
 
 declare global {
   interface Window {
@@ -15,9 +18,15 @@ declare global {
  * Post-LCP analytics loaders. No inline <script> injection (static pages use
  * hash-based CSP without per-request nonces); gtag bootstrap runs in this
  * module which is already allowed via script-src 'self'.
+ *
+ * Reacts to ConsentBanner via `cs-consent-change` so Accept after first paint
+ * still loads Clarity without a full page reload.
  */
 export function AnalyticsScripts(_props: { nonce?: string } = {}) {
   useEffect(() => {
+    // Returning visitors: apply stored Accept before any load attempt.
+    ConsentGate.hydrate();
+
     let gaLoaded = false;
     const loadGa = () => {
       if (gaLoaded) return;
@@ -65,6 +74,7 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
       script.async = true;
       script.src = `https://www.clarity.ms/tag/${clarityId}`;
       document.head.appendChild(script);
+      // Cookieless Clarity: no analytics/ad storage cookies.
       w.clarity("consent", false);
     };
 
@@ -74,6 +84,13 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
       loadGa();
       loadClarity();
     };
+
+    // Consent may arrive after LCP (banner Accept). Always re-attempt loaders.
+    const onConsentChange = () => {
+      loadGa();
+      loadClarity();
+    };
+    window.addEventListener(CONSENT_CHANGE_EVENT, onConsentChange);
 
     const observer = new PerformanceObserver((list) => {
       if (list.getEntries().length > 0) {
@@ -94,39 +111,17 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
     };
     window.addEventListener("load", handleLoad);
 
-    const onInteraction = () => {
-      triggerLoadIfReady();
-      cleanup();
-    };
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     const interactionEvents = [
       "scroll",
       "click",
       "keydown",
       "mousemove",
       "touchstart",
-    ];
-    interactionEvents.forEach((event) => {
-      window.addEventListener(event, onInteraction, { passive: true });
-    });
+    ] as const;
 
-    let idleId: number | undefined;
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
-    if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback(
-        () => {
-          triggerLoadIfReady();
-          cleanup();
-        },
-        { timeout: 8000 },
-      );
-    } else {
-      timeoutId = setTimeout(() => {
-        triggerLoadIfReady();
-        cleanup();
-      }, 8000);
-    }
-
-    const cleanup = () => {
+    const cleanupInteraction = () => {
       window.removeEventListener("load", handleLoad);
       interactionEvents.forEach((event) => {
         window.removeEventListener(event, onInteraction);
@@ -138,7 +133,33 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
       observer.disconnect();
     };
 
-    return cleanup;
+    const onInteraction = () => {
+      triggerLoadIfReady();
+      cleanupInteraction();
+    };
+    interactionEvents.forEach((event) => {
+      window.addEventListener(event, onInteraction, { passive: true });
+    });
+
+    if ("requestIdleCallback" in window) {
+      idleId = window.requestIdleCallback(
+        () => {
+          triggerLoadIfReady();
+          cleanupInteraction();
+        },
+        { timeout: 8000 },
+      );
+    } else {
+      timeoutId = setTimeout(() => {
+        triggerLoadIfReady();
+        cleanupInteraction();
+      }, 8000);
+    }
+
+    return () => {
+      cleanupInteraction();
+      window.removeEventListener(CONSENT_CHANGE_EVENT, onConsentChange);
+    };
   }, []);
 
   return null;

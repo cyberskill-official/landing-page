@@ -1391,6 +1391,72 @@ main > .cs-section > .cs-container > h1 {
 .cs-chip-icon { font-size: 1em; }
 .cs-chip-label { line-height: 1; }
 
+/* Consent banner (session replay / Clarity opt-in). Sits above mobile CTA chrome. */
+.cs-consent-banner {
+  position: fixed;
+  left: var(--cs-space-4);
+  right: var(--cs-space-4);
+  bottom: var(--cs-space-4);
+  z-index: 70;
+  max-width: 36rem;
+  margin-inline: auto;
+  padding: var(--cs-space-4) var(--cs-space-5);
+  border-radius: var(--cs-radius-lg);
+  border: 1px solid var(--cs-color-line);
+  box-shadow: var(--cs-depth-3);
+}
+.cs-consent-banner-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-4);
+}
+.cs-consent-banner-title {
+  margin: 0 0 var(--cs-space-2);
+  font-size: var(--cs-text-base);
+  font-weight: 700;
+  color: var(--cs-color-fg);
+  line-height: 1.3;
+}
+.cs-consent-banner-body {
+  margin: 0;
+  font-size: var(--cs-text-sm);
+  color: var(--cs-color-fg-muted);
+  line-height: 1.45;
+}
+.cs-consent-banner-link {
+  color: var(--cs-color-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+[data-theme="dark"] .cs-consent-banner-link { color: var(--cs-color-accent); }
+.cs-consent-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-2);
+  justify-content: flex-end;
+}
+.cs-consent-banner-actions .cs-btn {
+  min-height: 44px;
+  font-size: var(--cs-text-sm);
+}
+@media (max-width: 767px) {
+  .cs-consent-banner {
+    left: 0;
+    right: 0;
+    bottom: var(--cs-mobile-bottom-clearance, 76px);
+    max-width: none;
+    margin: 0;
+    border-radius: var(--cs-radius-lg) var(--cs-radius-lg) 0 0;
+    padding-bottom: max(var(--cs-space-4), env(safe-area-inset-bottom, 0px));
+  }
+  .cs-consent-banner-actions {
+    justify-content: stretch;
+  }
+  .cs-consent-banner-actions .cs-btn {
+    flex: 1;
+  }
+}
+
 /* Persistent CTA */
 .cs-persistent-cta {
   position: fixed; right: var(--cs-space-4); bottom: var(--cs-space-4);

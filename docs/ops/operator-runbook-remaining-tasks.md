@@ -74,6 +74,7 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 | `DATABASE_URL` | Optional Prisma durability | yes |
 | `NEXT_PUBLIC_BOOKING_URL` | Optional Cal.com etc. (https only) | public |
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin | public |
+| `NEXT_PUBLIC_CLARITY_ID` | Microsoft Clarity project id (`xngfe1jaip`); Production only; leave unset on Preview | public |
 
 3. Redeploy production.  
 4. **Done when:** `GET /api/health` is 200; submit a test lead in preview/production and receive Slack and/or email (or see JSONL under `LEAD_STORE_DIR` / `.data/leads.jsonl` in non-serverless).

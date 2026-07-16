@@ -98,6 +98,15 @@ This document maps and explains each environment variable used in the CyberSkill
 - **Environments**: Dev, Preview, Production.
 - **What breaks**: Defaults to `https://cyberskill.world` if absent or Vercel preview host (to prevent drift).
 
+### `NEXT_PUBLIC_CLARITY_ID`
+- **Description**: Microsoft Clarity project ID for cookieless session replay (TASK-OPS-012). Safe to expose (public client id).
+- **Where Set**: Client/Server Environment (public). Current project: `xngfe1jaip`.
+- **Environments**:
+  - **Dev**: Optional (loader is production-gated; Clarity does not load outside production/test).
+  - **Preview**: Leave unset (preview must not record).
+  - **Production**: Set to enable the tag when consent allows `session-replay`.
+- **What breaks**: If absent, no Clarity script is requested. If set but `ConsentGate.canLoad("session-replay")` is false (default until a consent banner upgrades it), Clarity still does not load. Forms and chat are masked via `clarity-mask` / `data-clarity-mask`.
+
 ### `NEXT_PUBLIC_BOOKING_URL`
 - **Description**: Optional public booking calendar URL (https). When set, the “Book a 30-minute call” control renders on contact and thank-you (TASK-CTA-005). No third-party booking script is loaded.
 - **Where Set**: Client/Server Environment (public).

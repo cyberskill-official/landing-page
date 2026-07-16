@@ -162,6 +162,14 @@ export type Dictionary = {
     successStep2: string;
     successStep3: string;
   };
+  /** Opt-in banner for session replay (Microsoft Clarity). */
+  consentBanner: {
+    title: string;
+    body: string;
+    accept: string;
+    decline: string;
+    privacyLink: string;
+  };
 };
 
 const en: Dictionary = {
@@ -324,6 +332,13 @@ const en: Dictionary = {
     successStep2: "You receive a 15-point PDF in your inbox.",
     successStep3: "Reply to the report if you want to dig deeper with the team.",
   },
+  consentBanner: {
+    title: "Help us improve this site",
+    body: "We use Microsoft Clarity in cookieless mode to watch anonymous session replays. Form fields and chat are masked. Nothing loads until you accept.",
+    accept: "Accept",
+    decline: "Decline",
+    privacyLink: "Privacy details",
+  },
 };
 
 const vi: Dictionary = {
@@ -485,6 +500,13 @@ const vi: Dictionary = {
     successStep1: "Kỹ sư rà tốc độ, bảo mật và khả năng tiếp cận.",
     successStep2: "Bạn nhận PDF 15 điểm trong hộp thư.",
     successStep3: "Trả lời email báo cáo nếu muốn đào sâu cùng đội ngũ.",
+  },
+  consentBanner: {
+    title: "Giúp chúng tôi cải thiện site",
+    body: "Chúng tôi dùng Microsoft Clarity ở chế độ không cookie để xem lại phiên ẩn danh. Trường biểu mẫu và chat được che. Không gì tải cho đến khi bạn đồng ý.",
+    accept: "Đồng ý",
+    decline: "Từ chối",
+    privacyLink: "Chi tiết quyền riêng tư",
   },
 };
 

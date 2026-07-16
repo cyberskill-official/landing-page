@@ -54,8 +54,11 @@ Tags that do **not** require consent under this decision:
 
 Every optional (non-cookieless) analytics or tracking tag must call the typed
 `ConsentGate.canLoad(tag)` API before initialising. The gate defaults to
-`denied` for all categories. It can be upgraded by the visitor explicitly
-accepting a consent banner (not yet shipped — no such tags exist today).
+`denied` for all categories. It is upgraded when the visitor explicitly
+Accepts the consent banner (`components/consent/ConsentBanner.tsx`), which
+persists the choice in first-party `localStorage` (`cs-consent`) and emits
+`cs-consent-change` so deferred loaders (e.g. Microsoft Clarity) can start
+without a full reload.
 
 A TypeScript compile error is the enforcement mechanism: any tag that does not
 import and call `canLoad` fails the CI build via an ESLint rule (planned as
@@ -81,8 +84,11 @@ explicit acknowledgement).
 
 This record must be updated before any of the following ships:
 
-- Microsoft Clarity (TASK-OPS-012) — requires consent banner.
-- Google Analytics 4 in non-consent-mode (TASK-PERF-009) — requires consent banner.
+- ~~Microsoft Clarity (TASK-OPS-012) — requires consent banner.~~ **Shipped:**
+  cookieless Clarity loads only after Accept on the session-replay banner when
+  `NEXT_PUBLIC_CLARITY_ID` is set in production.
+- Google Analytics 4 in non-consent-mode (TASK-PERF-009) — requires consent banner
+  (analytics category; not yet offered in the banner).
 - Any retargeting or attribution pixel — requires consent banner.
 - The formal PDPL legal review (TASK-BIZ-012) may supersede the basis described here.
 
@@ -94,5 +100,6 @@ The privacy page at `/[lang]/privacy` must accurately reflect which tags can loa
 and under what condition. As of this decision:
 
 - **Cookieless first-party events** — always on, no consent needed.
-- **All other tags** — not currently loaded; will require consent if added.
+- **Microsoft Clarity (session replay)** — opt-in via banner; cookieless; forms/chat masked.
+- **GA4 / marketing tags** — not offered in the banner yet; stay denied by default.
 - **Anthropic API** — disclosed at point of use in the chat.

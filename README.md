@@ -47,6 +47,7 @@ when `ANTHROPIC_API_KEY` is unset, so the site is fully usable without it.
 - `GENIE_MODEL` (default `claude-haiku-4-5-20251001`), `GENIE_MAX_TOKENS`.
 - `LEAD_SLACK_WEBHOOK_URL`, `LEAD_CRM_WEBHOOK_URL` - optional lead routing.
 - `NEXT_PUBLIC_SITE_URL` - public canonical base (safe to expose).
+- `NEXT_PUBLIC_CLARITY_ID` - Microsoft Clarity project id (cookieless session replay; production + consent-gated).
 
 ## Structure
 
