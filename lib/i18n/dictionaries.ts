@@ -334,7 +334,7 @@ const en: Dictionary = {
   },
   consentBanner: {
     title: "See how people use this site?",
-    body: "Allow anonymous session recordings (Microsoft Clarity). Forms and chat stay masked. Nothing loads until you allow it.",
+    body: "Anonymous session recordings (Microsoft Clarity) help us fix rough edges. Forms and chat stay masked — nothing loads until you allow.",
     accept: "Allow",
     decline: "No thanks",
     privacyLink: "Privacy",
@@ -503,7 +503,7 @@ const vi: Dictionary = {
   },
   consentBanner: {
     title: "Xem cách mọi người dùng site?",
-    body: "Cho phép ghi phiên ẩn danh (Microsoft Clarity). Biểu mẫu và chat được che. Không gì tải cho đến khi bạn cho phép.",
+    body: "Ghi phiên ẩn danh (Microsoft Clarity) giúp chúng tôi sửa chỗ khó dùng. Biểu mẫu và chat được che — không gì tải cho đến khi bạn cho phép.",
     accept: "Cho phép",
     decline: "Không",
     privacyLink: "Riêng tư",

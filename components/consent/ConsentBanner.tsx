@@ -72,12 +72,10 @@ export function ConsentBanner({
       aria-describedby="cs-consent-desc"
     >
       <div className="cs-consent-banner-inner">
-        <div className="cs-consent-banner-lead" aria-hidden="true">
-          <span className="cs-consent-banner-mark" />
-        </div>
         <div className="cs-consent-banner-copy">
           <p id="cs-consent-title" className="cs-consent-banner-title">
-            {copy.title}
+            <span className="cs-consent-banner-mark" aria-hidden="true" />
+            <span>{copy.title}</span>
           </p>
           <p id="cs-consent-desc" className="cs-consent-banner-body">
             {copy.body}{" "}
