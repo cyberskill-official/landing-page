@@ -12,7 +12,7 @@ author: Stephen Cheng
 created: 2026-06-22
 shipped: 2026-06-23
 depends_on: [TASK-OPS-003]
-related_frs: [TASK-PERF-006]
+related_tasks: [TASK-PERF-006]
 blocks: []
 source_pages:
   - "research doc §L (Speed Insights), §F (build tooling)"

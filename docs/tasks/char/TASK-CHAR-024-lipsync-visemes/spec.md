@@ -12,7 +12,7 @@ author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [TASK-CHAR-022]
-related_frs: [TASK-CHAR-023]
+related_tasks: [TASK-CHAR-023]
 source_pages:
   - "research doc §L (Lumi visual identity), §I (conversational Genie)"
 routed_back_count: 0

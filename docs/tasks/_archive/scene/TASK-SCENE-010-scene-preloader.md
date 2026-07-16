@@ -12,7 +12,7 @@ author: Stephen Cheng
 created: 2026-06-22
 shipped: 2026-06-24
 depends_on: [TASK-SCENE-001]
-related_frs: [TASK-CHAR-022, TASK-SCENE-009]
+related_tasks: [TASK-CHAR-022, TASK-SCENE-009]
 source_pages:
   - "research doc §J (3D scene scaffold), §H (fallback + reduced motion)"
 routed_back_count: 0

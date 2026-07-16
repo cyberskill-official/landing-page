@@ -13,7 +13,7 @@ created: 2026-06-22
 shipped: null
 depends_on: []
 blocks: []
-related_frs: [TASK-SCENE-003, TASK-A11Y-001]
+related_tasks: [TASK-SCENE-003, TASK-A11Y-001]
 source_pages:
   - "research doc §H (WCAG 2.3.3 animation from interactions), §J (motion stance)"
 routed_back_count: 0

@@ -50,7 +50,7 @@ in order of weight:
 - The plugin's `task-audit` skill is **not** the gate for this repo. Do not run
   `audit_rubric@2.0` against these tasks and do not act on its FM-*/SEC-* failures - they are
   the mismatch, not defects.
-- The gate is instead `npm run check:tasks` (`scripts/check-frs.mjs`), which enforces the
+- The gate is instead `npm run check:tasks` (`scripts/check-tasks.mjs`), which enforces the
   vendored contract mechanically: frontmatter enums, status/class/owner/priority validity,
   `depends_on` resolution, BACKLOG parity, and - for every `ready_to_implement` task - the
   five required sections plus clause -> AC -> named-test traceability. It runs in CI.

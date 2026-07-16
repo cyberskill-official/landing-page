@@ -12,7 +12,7 @@ shipped: 2026-07-02
 owner: agent
 author: Stephen Cheng
 depends_on: [TASK-CHAR-030, TASK-CTA-001]
-related_frs: [TASK-CHAR-026, TASK-CHAR-027]
+related_tasks: [TASK-CHAR-026, TASK-CHAR-027]
 source_pages:
   - "operator direction 2026-07-02: the contact form is the old way - integrate it into the Lumi interaction; Talk-to-Lumi CTAs are redundant next to the clickable mascot"
 new_files:

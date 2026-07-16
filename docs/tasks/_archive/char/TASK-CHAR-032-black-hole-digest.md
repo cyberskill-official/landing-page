@@ -12,7 +12,7 @@ shipped: 2026-07-02
 owner: agent
 author: Stephen Cheng
 depends_on: [TASK-CHAR-030]
-related_frs: [TASK-DS-011, TASK-DS-013]
+related_tasks: [TASK-DS-011, TASK-DS-013]
 source_pages:
   - "operator direction 2026-07-02: when the user keeps holding the mouse, Lumi turns into a black hole and slowly digests all content of the website; on release the digest inverts and everything returns to its position (holding again continues the digest)"
 new_files:

@@ -1,6 +1,6 @@
 # Autonomous run - 2026-06-23
 
-Branch: `auto/overnight-frs` (off `main` at 8467f0f). Not deployed to production;
+Branch: `auto/overnight-tasks` (off `main` at 8467f0f). Not deployed to production;
 left for review and selective merge.
 
 Scope: only tasks buildable with no input from Stephen (no content, assets,
@@ -80,7 +80,7 @@ conversion-critical code unattended. BACKLOG 54/1/38.
 
 ## Run summary
 
-Shipped this run (all on `auto/overnight-frs`, verified tsc + vitest + lint +
+Shipped this run (all on `auto/overnight-tasks`, verified tsc + vitest + lint +
 next build each increment; not deployed to production):
 - OPS-007, PERF-006 - Speed Insights / field CWV (already wired; flipped).
 - PERF-003 - asset + bundle size CI guard.

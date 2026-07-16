@@ -67,7 +67,7 @@ describe("lead/dual-write (TASK-OPS-020 scaffold)", () => {
 describe("docs/operator-runbook", () => {
   it("runbook and interim sheet exist with every ready task id", () => {
     const runbook = fs.readFileSync(
-      path.join(process.cwd(), "docs/ops/operator-runbook-remaining-frs.md"),
+      path.join(process.cwd(), "docs/ops/operator-runbook-remaining-tasks.md"),
       "utf8",
     );
     const sheet = fs.readFileSync(

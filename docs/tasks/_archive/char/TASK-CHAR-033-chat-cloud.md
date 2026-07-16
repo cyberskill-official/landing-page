@@ -12,7 +12,7 @@ shipped: 2026-07-02
 owner: agent
 author: Stephen Cheng
 depends_on: [TASK-CHAR-012, TASK-CHAR-030]
-related_frs: [TASK-CHAR-031]
+related_tasks: [TASK-CHAR-031]
 source_pages:
   - "operator direction 2026-07-02: the chat still behaves like a static form at the bottom-right corner - make it a chat cloud that sticks with Lumi, with fancy magic effects when interacting"
 new_files: []

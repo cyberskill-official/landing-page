@@ -12,7 +12,7 @@ author: Stephen Cheng
 created: 2026-06-22
 shipped: 2026-06-23
 depends_on: [TASK-OPS-003]
-related_frs: [TASK-OPS-007]
+related_tasks: [TASK-OPS-007]
 blocks: []
 source_pages:
   - "research doc §B (field vs lab metrics), §L (monitoring)"

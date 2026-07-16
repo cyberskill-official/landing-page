@@ -12,7 +12,7 @@ author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [TASK-SCENE-001]
-related_frs: [TASK-SCENE-009]
+related_tasks: [TASK-SCENE-009]
 source_pages:
   - "research doc §J (3D scene scaffold), §M (renderer + performance)"
 routed_back_count: 0

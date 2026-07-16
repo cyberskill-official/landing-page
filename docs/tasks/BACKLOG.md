@@ -376,7 +376,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 
 ## §7 The gate
 
-`npm run check:tasks` (scripts/check-frs.mjs, wired into CI) enforces the task contract in
+`npm run check:tasks` (scripts/check-tasks.mjs, wired into CI) enforces the task contract in
 `.cyberos/cuo/templates/TASK-TEMPLATE.md`: frontmatter enums, `depends_on` resolution, no
 dependency on a closed task, BACKLOG parity, and - for every `ready_to_implement` task - the
 five required sections plus clause -> AC -> named-test traceability (TRACE-001/002).

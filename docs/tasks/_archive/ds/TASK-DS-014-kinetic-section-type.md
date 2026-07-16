@@ -12,7 +12,7 @@ shipped: 2026-07-02
 owner: agent
 author: Stephen Cheng
 depends_on: [TASK-DS-011, TASK-DS-013]
-related_frs: [TASK-CHAR-031]
+related_tasks: [TASK-CHAR-031]
 source_pages:
   - "operator direction 2026-07-02: each section still shows nothing WOW - the texts are still static; the remaining Start-my-project / Talk-to-Lumi CTAs should migrate to Lumi; the Click-Me hint should sit at Lumi's centre"
 new_files:

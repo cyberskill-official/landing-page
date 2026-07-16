@@ -12,7 +12,7 @@ author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [TASK-CHAR-021, TASK-SCENE-001]
-related_frs: [TASK-CHAR-020, TASK-CHAR-023]
+related_tasks: [TASK-CHAR-020, TASK-CHAR-023]
 source_pages:
   - "research doc §L (Lumi visual identity), §J (3D scene scaffold)"
 routed_back_count: 0

@@ -13,7 +13,7 @@ created: 2026-06-22
 shipped: 2026-06-22
 depends_on: [TASK-SCENE-001, TASK-SCENE-002]
 blocks: []
-related_frs: [TASK-A11Y-001, TASK-SCENE-001]
+related_tasks: [TASK-A11Y-001, TASK-SCENE-001]
 source_decisions:
   - .cyberos-memory/decisions/2026-06-22-always-motion-override.md
 source_pages:

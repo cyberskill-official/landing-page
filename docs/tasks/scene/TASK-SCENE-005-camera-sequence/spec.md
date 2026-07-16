@@ -12,7 +12,7 @@ author: Stephen Cheng
 created: 2026-06-22
 shipped: null
 depends_on: [TASK-SCENE-007]
-related_frs: [TASK-SCENE-002, TASK-SCENE-006]
+related_tasks: [TASK-SCENE-002, TASK-SCENE-006]
 source_pages:
   - "research doc §J (3D scene scaffold), §K (scrollytelling beats)"
 routed_back_count: 0
