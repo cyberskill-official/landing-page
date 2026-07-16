@@ -5,7 +5,7 @@
   "description": "CyberSkill interactive storytelling landing page (Lumi the Golden Genie). Built per the research-foundations PRD/SRS under the CyberOS workflow.",
   "type": "module",
   "engines": {
-    "node": ">=20.11"
+    "node": ">=24"
   },
   "scripts": {
     "postinstall": "prisma generate",
