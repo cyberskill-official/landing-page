@@ -69,7 +69,7 @@ repo cannot do (accounts, permissions, credentials, rituals, commercial policy).
 ## §2 The queue
 
 `ship-tasks` picks the first `ready_to_implement` task with `owner: agent` whose
-every `depends_on` is `done`. Run `npm run check:frs` to print this queue and to gate the
+every `depends_on` is `done`. Run `npm run check:tasks` to print this queue and to gate the
 contract (ADR-001). Counts: **40 agent-eligible now**, 13 agent-blocked on a
 dependency, 33 waiting on a human.
 
@@ -376,7 +376,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 
 ## §7 The gate
 
-`npm run check:frs` (scripts/check-frs.mjs, wired into CI) enforces the task contract in
+`npm run check:tasks` (scripts/check-frs.mjs, wired into CI) enforces the task contract in
 `.cyberos/cuo/templates/TASK-TEMPLATE.md`: frontmatter enums, `depends_on` resolution, no
 dependency on a closed task, BACKLOG parity, and - for every `ready_to_implement` task - the
 five required sections plus clause -> AC -> named-test traceability (TRACE-001/002).
@@ -389,7 +389,7 @@ contract and fails ~12 rules on every task here, including shipped ones. See ADR
 - `docs/audits/2026-07-11/B-lighthouse-benchmark.html` - live mobile Lighthouse benchmark against Nimble, Saigon Technology, Designveloper (10 Jul 2026). Score 76/100; mobile perf 47 vs desktop 97; CLS 0.431.
 - `docs/audits/2026-07-11/C-audit-and-remediation-plan.pdf` - live crawl + remediation plan (11 Jul 2026). Score 78/100.
 - `docs/growth/landing-audit-2026-07-06.md` - the lead-generation audit the migrated growth program came from.
-- Finding-to-FR traceability: `MIGRATION-MAP.md`. Every new task carries a `traces_to:` frontmatter field.
+- Finding-to-TASK traceability: `MIGRATION-MAP.md`. Every new task carries a `traces_to:` frontmatter field.
 
 ## §9 The critical path
 

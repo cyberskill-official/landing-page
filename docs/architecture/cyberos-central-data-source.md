@@ -155,5 +155,5 @@ Parallel, unblocked: TASK-A11Y-008/014, TASK-CTA-005 (when booking URL exists), 
 ## 7. Next operator actions
 
 1. Accept or edit the four **draft** tasks; promote to `ready_to_implement` after audit when CyberOS roadmap is clear.  
-2. Apply the **update** notes to TASK-BIZ-002/009/012, TASK-CMS-004/006/009, TASK-CTA-016, TASK-BIZ-006 (agent can patch §1 in a follow-up FR-authoring pass).  
+2. Apply the **update** notes to TASK-BIZ-002/009/012, TASK-CMS-004/006/009, TASK-CTA-016, TASK-BIZ-006 (agent can patch §1 in a follow-up TASK-authoring pass).  
 3. Continue shipping unblocked tasks (A11Y, booking, directories) without waiting for CMS centralization.

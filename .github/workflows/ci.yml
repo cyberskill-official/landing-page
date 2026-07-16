@@ -27,7 +27,7 @@ jobs:
         env:
           DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
       - name: task spec gate (ADR-001)
-        run: npm run check:frs
+        run: npm run check:tasks
       - name: Static import check
         run: npm run verify
       - name: Lint

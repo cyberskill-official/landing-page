@@ -21,7 +21,7 @@
     "check:a11y:routes": "node scripts/axe-routes.mjs",
     "test": "vitest run",
     "clean": "rm -rf .next",
-    "check:frs": "node scripts/check-frs.mjs"
+    "check:tasks": "node scripts/check-frs.mjs"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",

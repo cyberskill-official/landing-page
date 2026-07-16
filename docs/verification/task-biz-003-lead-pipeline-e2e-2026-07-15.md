@@ -7,7 +7,7 @@
 
 ## Configured-sink interpretation
 
-task §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, CyberOS) are **out of scope for this proof** until BIZ-002. BIZ-001 evidence: `docs/verification/fr-biz-001-lead-sinks-2026-07-15.md`.
+task §1.2 says “every configured sink.” Unconfigured optional sinks (Slack, CyberOS) are **out of scope for this proof** until BIZ-002. BIZ-001 evidence: `docs/verification/task-biz-001-lead-sinks-2026-07-15.md`.
 
 ## Submissions observed (operator screenshots / session)
 

@@ -40,7 +40,7 @@ describe("CMS Content & Layout Integration", () => {
 
     // Gates claimed on page
     const expectedGates = [
-      "check:frs",
+      "check:tasks",
       "verify",
       "lint",
       "typecheck",

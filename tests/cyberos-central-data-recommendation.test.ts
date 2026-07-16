@@ -16,7 +16,7 @@ function readyFrIds(): string[] {
   const text = fs.readFileSync(BACKLOG, "utf8");
   const ids: string[] = [];
   for (const line of text.split("\n")) {
-    const m = line.match(/^- \[ready_to_implement\] (FR-[A-Z0-9-]+)/);
+    const m = line.match(/^- \[ready_to_implement\] (TASK-[A-Z0-9-]+)/);
     if (m) ids.push(m[1]!);
   }
   return ids;
@@ -24,7 +24,7 @@ function readyFrIds(): string[] {
 
 function dispositions(rec: string): Map<string, string> {
   const map = new Map<string, string>();
-  const re = /\|\s*\*\*(FR-[A-Z0-9-]+)\*\*\s*\|\s*\*\*([^*]+)\*\*/g;
+  const re = /\|\s*\*\*(TASK-[A-Z0-9-]+)\*\*\s*\|\s*\*\*([^*]+)\*\*/g;
   let m: RegExpExecArray | null;
   while ((m = re.exec(rec))) {
     map.set(m[1]!, m[2]!.trim());
@@ -93,8 +93,8 @@ describe("docs/cyberos-central-data-recommendation", () => {
     for (const rel of drafts) {
       const text = fs.readFileSync(path.join(ROOT, rel), "utf8");
       expect(text).toMatch(/^status: draft$/m);
-      // Specs use TASK-* ids in this repo's task spine (not FR- prefixes).
-      expect(text).toMatch(/^id: (FR-|TASK-)/m);
+      // Specs use TASK-* ids in this repo's task spine (not TASK- prefixes).
+      expect(text).toMatch(/^id: (TASK-)/m);
     }
   });
 });

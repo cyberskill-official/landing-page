@@ -82,7 +82,7 @@ describe("docs/operator-runbook", () => {
       "utf8",
     );
     const ready = [
-      ...backlog.matchAll(/^- \[ready_to_implement\] (FR-[A-Z0-9-]+)/gm),
+      ...backlog.matchAll(/^- \[ready_to_implement\] (TASK-[A-Z0-9-]+)/gm),
     ].map((m) => m[1]!);
     // When the ready queue is empty, only require the draft task anchors below.
     for (const id of ready) {

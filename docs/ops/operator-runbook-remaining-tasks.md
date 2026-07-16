@@ -10,7 +10,7 @@
 
 | Do next (order) | task | You |
 |---|---|---|
-| 1. Finish lead e2e residual | BIZ-003 | Tick `docs/verification/fr-biz-003-lead-pipeline-e2e-2026-07-15.md` (/vi + Reply-To) |
+| 1. Finish lead e2e residual | BIZ-003 | Tick `docs/verification/task-biz-003-lead-pipeline-e2e-2026-07-15.md` (/vi + Reply-To) |
 | 2. Social / messaging URLs | BIZ-007 | Paste live URLs → agent wires `lib/content/site.ts` |
 | 3. Google Business + NAP | BIZ-004 | Claim GBP; fill `docs/ops/nap-listings-register.md` |
 | 4. Search Console + Bing | BIZ-008 | Verify + sitemap; log `docs/ops/seo-monthly-log.md` |

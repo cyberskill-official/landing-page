@@ -34,7 +34,7 @@ export function ContactCta({ locale, dict, hasNewsletter }: { locale: Locale; di
             <KineticText text={dict.sections.contactTitle} />
           </h2>
           <p className="cs-section-lead" data-mask-reveal="">{dict.sections.contactLead}</p>
-          {/* Lumi-first contact (FR-CHAR-026): the conversation is the primary
+          {/* Lumi-first contact (TASK-CHAR-026): the conversation is the primary
               path; the classic form stays available below as the fallback. */}
           <p className="cs-contact-lumi">
             <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi">

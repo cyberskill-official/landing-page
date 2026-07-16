@@ -9,7 +9,7 @@
 ## TASK-BIZ-014 — ISO 27001 / SOC 2 path
 
 **Parked until:** conscious decision.  
-**External next steps:** choose path (ISO vs SOC2 vs neither this year); optional consultant call; record decision in `docs/verification/fr-biz-014-decision-YYYY-MM-DD.md` when ready.
+**External next steps:** choose path (ISO vs SOC2 vs neither this year); optional consultant call; record decision in `docs/verification/task-biz-014-decision-YYYY-MM-DD.md` when ready.
 
 ## TASK-BIZ-015 — Monthly AI citation check
 

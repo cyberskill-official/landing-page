@@ -30,7 +30,7 @@ this being true first.
 
 - [x] AC for 1.1 - the Resend domain shows verified and SPF/DKIM/DMARC resolve in DNS - evidence: DNS lookup recorded
 - [x] AC for 1.2 - the env vars are present in Vercel production and absent from the client bundle - test: `ci/no-public-secrets`
-- [x] AC for 1.3 - Slack optional and declined (CyberOS chat); email path configured via Resend - evidence: `docs/verification/fr-biz-001-lead-sinks-2026-07-15.md`
+- [x] AC for 1.3 - Slack optional and declined (CyberOS chat); email path configured via Resend - evidence: `docs/verification/task-biz-001-lead-sinks-2026-07-15.md`
 - [x] AC for 1.4 - the production deployment carries the new env and the change is recorded with a date - evidence: deployment record
 
 ## 3. Edge cases

@@ -50,7 +50,7 @@ in order of weight:
 - The plugin's `task-audit` skill is **not** the gate for this repo. Do not run
   `audit_rubric@2.0` against these tasks and do not act on its FM-*/SEC-* failures - they are
   the mismatch, not defects.
-- The gate is instead `npm run check:frs` (`scripts/check-frs.mjs`), which enforces the
+- The gate is instead `npm run check:tasks` (`scripts/check-frs.mjs`), which enforces the
   vendored contract mechanically: frontmatter enums, status/class/owner/priority validity,
   `depends_on` resolution, BACKLOG parity, and - for every `ready_to_implement` task - the
   five required sections plus clause -> AC -> named-test traceability. It runs in CI.
@@ -67,7 +67,7 @@ in order of weight:
 ## Upstream follow-up (not this repo)
 
 The disagreement is a defect in the CyberOS distribution, not in this project: the pack
-ships a template that its own audit skill rejects. Every repo that runs `cyberos:init` and
+ships a template that its own audit skill rejects. Every repo that runs `cyberos:install` and
 then `/task-audit` will hit it. The fix belongs upstream - either the plugin's
 rubric learns the `TASK-TEMPLATE.md` shape, or the pack stops shipping a template its gate
 cannot read. File it against cyberos as an improvement task (`class: improvement`) referencing

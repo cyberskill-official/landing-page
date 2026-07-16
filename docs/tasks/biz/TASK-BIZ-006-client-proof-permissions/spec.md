@@ -30,7 +30,7 @@ this for, and what happened?' - and the site cannot answer."
 
 ## 2. Acceptance criteria
 
-> **Closed 2026-07-15:** operator attested full client permissions; ledger + named case studies (EduSpark, Linn Decor) + NDA industry cases recorded. Evidence: `docs/verification/fr-biz-006-permissions-2026-07-15.md`.
+> **Closed 2026-07-15:** operator attested full client permissions; ledger + named case studies (EduSpark, Linn Decor) + NDA industry cases recorded. Evidence: `docs/verification/task-biz-006-permissions-2026-07-15.md`.
 
 
 - [x] AC for 1.1 - the request drafts exist in both languages - test: `docs/permission-request-drafts`

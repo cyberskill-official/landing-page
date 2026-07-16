@@ -44,14 +44,14 @@ function walk(dir) {
     if (statSync(p).isDirectory()) return walk(p);
     if (p.endsWith(".md")) {
       const base = basename(p);
-      if (base.startsWith("FR-")) return [p];
-      if (base === "spec.md" && basename(dirname(p)).startsWith("FR-")) return [p];
+      if (base.startsWith("TASK-")) return [p];
+      if (base === "spec.md" && basename(dirname(p)).startsWith("TASK-")) return [p];
     }
     return [];
   });
 }
 
-const frs = new Map();
+const tasks = new Map();
 
 for (const path of walk(ROOT).sort()) {
   const src = readFileSync(path, "utf8");
@@ -72,7 +72,7 @@ for (const path of walk(ROOT).sort()) {
 
   const id = fm.id;
   if (!id) { errors.push(`${path} [FM-001] no id`); continue; }
-  if (frs.has(id)) errors.push(`${path} [FM-003] duplicate task id ${id} (also ${frs.get(id).path})`);
+  if (tasks.has(id)) errors.push(`${path} [FM-003] duplicate task id ${id} (also ${tasks.get(id).path})`);
   const baseNameCheck = basename(path) === "spec.md" ? basename(dirname(path)) : basename(path);
   if (!baseNameCheck.startsWith(id)) err(id, "FM-001", `filename or folder does not start with the id (${baseNameCheck})`);
   if (!MODULES.includes(id.split("-")[1])) err(id, "FM-001", `unknown module '${id.split("-")[1]}'`);
@@ -86,14 +86,14 @@ for (const path of walk(ROOT).sort()) {
   if (!archived && !fm.owner) err(id, "FM-106", "owner missing (agent | human | mixed)");
 
   const deps = (fm.depends_on ?? "[]").replace(/[[\]]/g, "").split(",").map((s) => s.trim()).filter(Boolean);
-  frs.set(id, { id, path, body, fm, deps, archived, status: fm.status, owner: fm.owner ?? "agent" });
+  tasks.set(id, { id, path, body, fm, deps, archived, status: fm.status, owner: fm.owner ?? "agent" });
 }
 
 // dependency integrity
-for (const fr of frs.values()) {
-  for (const d of fr.deps) {
-    if (!frs.has(d)) err(fr.id, "DEP-001", `depends_on unknown task ${d}`);
-    else if (frs.get(d).status === "closed") err(fr.id, "DEP-002", `depends on a closed task (${d})`);
+for (const task of tasks.values()) {
+  for (const d of task.deps) {
+    if (!tasks.has(d)) err(task.id, "DEP-001", `depends_on unknown task ${d}`);
+    else if (tasks.get(d).status === "closed") err(task.id, "DEP-002", `depends on a closed task (${d})`);
   }
 }
 
@@ -102,8 +102,8 @@ const CYCLE_MARK = new Map();
 const findCycle = (id, path = []) => {
   if (path.includes(id)) return [...path.slice(path.indexOf(id)), id];
   if (CYCLE_MARK.get(id) === "clean") return null;
-  for (const d of frs.get(id)?.deps ?? []) {
-    if (!frs.has(d)) continue;
+  for (const d of tasks.get(id)?.deps ?? []) {
+    if (!tasks.has(d)) continue;
     const c = findCycle(d, [...path, id]);
     if (c) return c;
   }
@@ -111,7 +111,7 @@ const findCycle = (id, path = []) => {
   return null;
 };
 const reported = new Set();
-for (const id of frs.keys()) {
+for (const id of tasks.keys()) {
   const c = findCycle(id);
   if (c) {
     const k = [...new Set(c)].sort().join(">");
@@ -125,26 +125,26 @@ for (const id of frs.keys()) {
 // the human input landing later. See docs/tasks/README.md §1.
 const humanBlockers = (id, seen = new Set()) => {
   const out = new Set();
-  for (const d of frs.get(id)?.deps ?? []) {
-    if (seen.has(d) || !frs.has(d)) continue;
+  for (const d of tasks.get(id)?.deps ?? []) {
+    if (seen.has(d) || !tasks.has(d)) continue;
     seen.add(d);
-    const dep = frs.get(d);
+    const dep = tasks.get(d);
     if (dep.status === "done") continue;
     if (dep.owner !== "agent") out.add(d);
     for (const x of humanBlockers(d, seen)) out.add(x);
   }
   return out;
 };
-for (const fr of frs.values()) {
-  if (fr.status !== "ready_to_implement" || fr.owner !== "agent") continue;
-  const blockers = humanBlockers(fr.id);
-  if (blockers.size) err(fr.id, "DEP-004", `agent-owned but permanently stalled behind human-owned ${[...blockers].sort().join(", ")} - re-scope so the mechanism ships gated, or change the owner`);
+for (const task of tasks.values()) {
+  if (task.status !== "ready_to_implement" || task.owner !== "agent") continue;
+  const blockers = humanBlockers(task.id);
+  if (blockers.size) err(task.id, "DEP-004", `agent-owned but permanently stalled behind human-owned ${[...blockers].sort().join(", ")} - re-scope so the mechanism ships gated, or change the owner`);
 }
 
 // body rules - only for tasks the queue can pick up
-for (const fr of frs.values()) {
-  if (fr.status !== "ready_to_implement") continue;
-  const { id, body } = fr;
+for (const task of tasks.values()) {
+  if (task.status !== "ready_to_implement") continue;
+  const { id, body } = task;
 
   for (const s of SECTIONS) if (!body.includes(s)) err(id, "SEC-001", `missing section '${s}'`);
 
@@ -158,7 +158,7 @@ for (const fr of frs.values()) {
     if (!/\b(SHALL|MUST|SHOULD|MAY)\b/.test(c.t)) err(id, "TRACE-001", `clause 1.${c.n} carries no BCP-14 keyword - it is not normative`);
     const deferred = /\(deferred to /i.test(c.t);
     if (!cited.has(c.n) && !deferred) err(id, "TRACE-001", `clause 1.${c.n} is not cited by any acceptance criterion`);
-    if (deferred && !/\(deferred to FR-[A-Z0-9]+-\d+/i.test(c.t)) err(id, "TRACE-005", `clause 1.${c.n} is deferred but names no destination task`);
+    if (deferred && !/\(deferred to TASK-[A-Z0-9]+-\d+/i.test(c.t)) err(id, "TRACE-005", `clause 1.${c.n} is deferred but names no destination task`);
   }
   for (const a of acs) {
     if (!/test:\s*`[^`]+`|evidence:/.test(a)) err(id, "TRACE-002", `acceptance criterion names no verification: "${a.slice(0, 60)}..."`);
@@ -175,20 +175,20 @@ for (const fr of frs.values()) {
 
 // BACKLOG parity
 const backlog = readFileSync(join(ROOT, "BACKLOG.md"), "utf8");
-const listed = new Set([...backlog.matchAll(/(FR-[A-Z0-9]+-\d+) -/g)].map(([, id]) => id));
-for (const id of frs.keys()) if (!listed.has(id)) err(id, "IDX-001", "no row in BACKLOG.md");
-for (const id of listed) if (!frs.has(id)) errors.push(`BACKLOG.md [IDX-001] row ${id} has no task file`);
+const listed = new Set([...backlog.matchAll(/(TASK-[A-Z0-9]+-\d+) -/g)].map(([, id]) => id));
+for (const id of tasks.keys()) if (!listed.has(id)) err(id, "IDX-001", "no row in BACKLOG.md");
+for (const id of listed) if (!tasks.has(id)) errors.push(`BACKLOG.md [IDX-001] row ${id} has no task file`);
 
 // the queue the ship-tasks workflow can actually pick up
-const done = (id) => frs.get(id)?.status === "done";
-const eligible = [...frs.values()].filter((f) => f.status === "ready_to_implement" && f.owner === "agent" && f.deps.every(done));
-const blocked = [...frs.values()].filter((f) => f.status === "ready_to_implement" && f.owner === "agent" && !f.deps.every(done));
-const human = [...frs.values()].filter((f) => f.status === "ready_to_implement" && f.owner !== "agent");
+const done = (id) => tasks.get(id)?.status === "done";
+const eligible = [...tasks.values()].filter((f) => f.status === "ready_to_implement" && f.owner === "agent" && f.deps.every(done));
+const blocked = [...tasks.values()].filter((f) => f.status === "ready_to_implement" && f.owner === "agent" && !f.deps.every(done));
+const human = [...tasks.values()].filter((f) => f.status === "ready_to_implement" && f.owner !== "agent");
 
 const counts = {};
-for (const f of frs.values()) counts[f.status] = (counts[f.status] ?? 0) + 1;
+for (const f of tasks.values()) counts[f.status] = (counts[f.status] ?? 0) + 1;
 
-console.log(`task gate - ${frs.size} tasks`);
+console.log(`task gate - ${tasks.size} tasks`);
 console.log(Object.entries(counts).map(([k, v]) => `  ${k}: ${v}`).join("\n"));
 console.log(`\nqueue:`);
 console.log(`  agent-eligible now (deps done): ${eligible.length}`);

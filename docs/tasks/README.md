@@ -7,7 +7,7 @@ repo have a few sharp edges that will otherwise cost you a wasted task.
 ## 1. Pick
 
 ```
-npm run check:frs      # prints the queue and gates the contract - run it first
+npm run check:tasks      # prints the queue and gates the contract - run it first
 ```
 
 It picks nothing for you; it tells you what is pickable. The workflow rule:
@@ -31,7 +31,7 @@ Three things follow, and all three are deliberate:
 
 ## 2. The contract
 
-`.cyberos/cuo/templates/TASK-TEMPLATE.md`, and `docs/adrs/ADR-001-fr-contract.md` explains
+`.cyberos/cuo/templates/TASK-TEMPLATE.md`, and `docs/adrs/ADR-001-task-contract.md` explains
 why it is that one and not the plugin rubric's `task@1`. Five sections:
 
 1. **Description (normative)** - numbered `1.N` clauses, each with a BCP-14 keyword.
@@ -46,7 +46,7 @@ why it is that one and not the plugin rubric's `task@1`. Five sections:
 
 **Do NOT run the CyberOS plugin's `/task-audit` against these tasks.** It
 audits a different contract and fails ~12 rules on every task here, including shipped
-ones. `npm run check:frs` is the gate.
+ones. `npm run check:tasks` is the gate.
 
 ## 3. Build
 
@@ -70,7 +70,7 @@ Repo conventions that are enforced, not suggested (`AGENTS.md` §4 is normative)
 ## 4. Verify
 
 ```
-bash .cyberos/cuo/gates/run-gates.sh     # build + verify + check:assets, lint + typecheck + check:frs, tests
+bash .cyberos/cuo/gates/run-gates.sh     # build + verify + check:assets, lint + typecheck + check:tasks, tests
 ```
 
 Tests are vitest, `tests/*.test.ts`, node environment. **An AC's `test:` name is a
@@ -89,7 +89,7 @@ npx lhci autorun            # asserts CLS <= 0.1 (this is the metric currently f
 
 ## 5. Ship
 
-- One task per branch: `auto/<fr-id-slug>`. Conventional commit with the task id in
+- One task per branch: `auto/<task-id-slug>`. Conventional commit with the task id in
   brackets: `feat(seo): restore word spacing in kinetic headings [TASK-SEO-010]`.
 - **Never merge to main.** Push the branch, open the PR, let the preview build.
 - **HITL is required and you do not cross it.** Two transitions need a recorded human

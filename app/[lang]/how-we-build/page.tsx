@@ -136,7 +136,7 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
           </p>
           <ul className="cs-service-outcomes" role="list" style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.6" }}>
             <li>
-              <strong>{locale === "vi" ? "Cổng thông số tính năng (check:frs)" : "Task Gate (check:frs)"}</strong>:{" "}
+              <strong>{locale === "vi" ? "Cổng thông số tính năng (check:tasks)" : "Task Gate (check:tasks)"}</strong>:{" "}
               {locale === "vi" 
                 ? "Đảm bảo mọi tính năng được định nghĩa rõ ràng, đầy đủ liên kết và truy vết."
                 : "Verifies every feature is fully specified and traced to business goals."}{" "}

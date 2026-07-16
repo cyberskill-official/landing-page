@@ -10,7 +10,7 @@
 |---|---|
 | Commercial policy SSOT | `lib/content/policy.ts` |
 | AC-named unit tests | `tests/commercial-policy.test.ts` |
-| Decision-history evidence (AC 1.4) | `docs/verification/fr-biz-013-decision-history.md` |
+| Decision-history evidence (AC 1.4) | `docs/verification/task-biz-013-decision-history.md` |
 | Spec / BACKLOG status | `ready_to_review` |
 
 **Explicit non-goals (unchanged):** no UI for TASK-CTA-015/017/018 or TASK-CMS-014/019/020.
@@ -22,7 +22,7 @@
 | 1.1 Record outcome promise, engagement models (name/range/timeline), capacity, registration, partnership offer, hero audience | AC 1.1 | `content/commercial-policy-record` — asserts every field on shipped `commercialPolicy` matches owner payload (EN+VI), `decidedOn: 2026-07-14`, `reviewCadence: quarterly`, registration `0316489568`, capacity `3` / Q4 2026 |
 | 1.2 Each decision has decided-on date + review cadence; dependents must read the record | AC 1.2 | `content/no-placeholders` — no TBD/TODO/placeholder/empty strings in the shipped record |
 | 1.3 No dependent may ship placeholder / agent-invented values; stale decisions block render | AC 1.3 | `content/capacity-line` — `isPolicyPublishable` / `isPolicyStale` on real helpers: within cadence → usable; past cadence → blocked |
-| 1.4 Cannot-keep decisions changed/withdrawn, never softened | AC 1.4 | `commercialPolicyHistory` + `isDecisionPublishable`; evidence `docs/verification/fr-biz-013-decision-history.md`; test proves withdrawn field is not publishable |
+| 1.4 Cannot-keep decisions changed/withdrawn, never softened | AC 1.4 | `commercialPolicyHistory` + `isDecisionPublishable`; evidence `docs/verification/task-biz-013-decision-history.md`; test proves withdrawn field is not publishable |
 
 ## Machine gates
 

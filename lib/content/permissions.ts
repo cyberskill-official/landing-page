@@ -31,7 +31,7 @@ export type PermissionRecord = {
 /**
  * Client proof permissions (case studies, logos, testimonials).
  * Operator attestation 2026-07-15: clients allowed all permissions for published
- * case-study content (see docs/verification/fr-biz-006-permissions-2026-07-15.md).
+ * case-study content (see docs/verification/task-biz-006-permissions-2026-07-15.md).
  */
 export const clientPermissions: PermissionRecord[] = [
   {
