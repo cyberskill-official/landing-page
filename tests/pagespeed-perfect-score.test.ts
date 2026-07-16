@@ -99,11 +99,17 @@ describe("PageSpeed perfect-score contracts", () => {
   it("brand webfonts are not on the critical path (deferred self-hosted only)", () => {
     const fonts = readFileSync(resolve(root, "app/fonts.ts"), "utf8");
     expect(fonts).not.toMatch(/next\/font\/google/);
-    expect(fonts).toContain("--font-display");
-    expect(fonts).toContain("--font-body");
     const deferred = readFileSync(resolve(root, "components/DeferredFonts.tsx"), "utf8");
     expect(deferred).toContain("/fonts/brand-fonts.css");
-    expect(deferred).toMatch(/setTimeout\(\s*load,\s*20000\s*\)/);
+    // Must not mutate CSS font variables after paint (field CLS root cause)
+    expect(deferred).not.toMatch(/setProperty\(\s*["']--font-/);
+    expect(deferred).toMatch(/requestIdleCallback|setTimeout\(\s*load/);
+    const css = readFileSync(resolve(root, "app/globals.css"), "utf8");
+    // Brand faces named in the stack from t=0; optional @font-face never swaps
+    expect(css).toMatch(/--cs-font-sans:\s*"Be Vietnam Pro"/);
+    expect(css).toMatch(/--cs-font-display:\s*"Space Grotesk"/);
+    const brand = readFileSync(resolve(root, "public/fonts/brand-fonts.css"), "utf8");
+    expect(brand).toMatch(/font-display:\s*optional/);
   });
 
   it("hero LCP text uses an explicit system font stack (no webfont wait)", () => {
@@ -128,4 +134,24 @@ describe("PageSpeed perfect-score contracts", () => {
       /main \.cs-section > \.cs-container\s*\{[^}]*opacity:\s*calc\(0\.55 \+/,
     );
   });
+
+  it("wordmark link uses visible text as accessible name (no aria-label override)", () => {
+    // Lighthouse label-content-name-mismatch: aria-label must contain visible text.
+    // Safer: no aria-label; logo is decorative; name comes from CyberSkill + slogan.
+    const header = readFileSync(resolve(root, "components/header/SiteHeader.tsx"), "utf8");
+    expect(header).toMatch(/className="cs-wordmark"/);
+    expect(header).not.toMatch(/cs-wordmark"[^>]*aria-label=/);
+    expect(header).toMatch(/alt=""/);
+    expect(header).toContain("cs-wordmark-name");
+    expect(header).toContain("cs-wordmark-slogan");
+  });
+
+  it("DeferredFonts never mutates font CSS variables after paint (field CLS)", () => {
+    const deferred = readFileSync(resolve(root, "components/DeferredFonts.tsx"), "utf8");
+    expect(deferred).not.toMatch(/setProperty\(\s*["']--font-/);
+    expect(deferred).toContain("/fonts/brand-fonts.css");
+    const brand = readFileSync(resolve(root, "public/fonts/brand-fonts.css"), "utf8");
+    expect(brand).toMatch(/font-display:\s*optional/);
+  });
 });
+

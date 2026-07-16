@@ -1,12 +1,18 @@
 import { expect, test, describe } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { NextRequest } from "next/server";
 import { proxy as middleware } from "../proxy";
-import { displayFont } from "@/app/fonts";
 
 describe("Commit 2 tests — TASK-PERF-005, TASK-PERF-012, TASK-OPS-009", () => {
-  // --- TASK-PERF-005: Font Loading ---
-  test("lint/font-single-source: displayFont configuration matches requirements", () => {
-    expect(displayFont.variable).toBe("--font-display");
+  // --- TASK-PERF-005: Font Loading (no post-paint family swap; optional faces) ---
+  test("lint/font-single-source: brand faces are CSS-stack + deferred optional, not next/font", () => {
+    const fonts = readFileSync(resolve(import.meta.dirname, "../app/fonts.ts"), "utf8");
+    expect(fonts).not.toMatch(/next\/font\/google/);
+    const css = readFileSync(resolve(import.meta.dirname, "../app/globals.css"), "utf8");
+    expect(css).toMatch(/--cs-font-display:\s*"Space Grotesk"/);
+    const brand = readFileSync(resolve(import.meta.dirname, "../public/fonts/brand-fonts.css"), "utf8");
+    expect(brand).toMatch(/font-display:\s*optional/);
   });
 
   // --- TASK-OPS-009: CSP report-only header (static-friendly, no nonce) ---

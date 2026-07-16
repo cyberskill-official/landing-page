@@ -54,11 +54,12 @@
 
   /* Type scale (1.250 major-third), fluid via clamp.
      Body = Be Vietnam Pro (warm VI + Latin). Display = Space Grotesk (lamp craft).
-     Both Vietnamese-complete via next/font. Magical spirit: gold headlines, soft tracking. */
-  /* System stack first for LCP; brand faces swap in after DeferredFonts loads. */
-  --cs-font-sans: var(--font-body, ui-sans-serif), system-ui, -apple-system, "Segoe UI",
+     Brand names sit first so optional @font-face can apply without a post-paint
+     CSS-variable mutation (that mutation was the field CLS ~0.33 root cause).
+     font-display:optional means late bytes never reflow mid-session. */
+  --cs-font-sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI",
     "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --cs-font-display: var(--font-display, ui-sans-serif), system-ui, "Segoe UI", sans-serif;
+  --cs-font-display: "Space Grotesk", system-ui, "Segoe UI", sans-serif;
   --cs-font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --cs-text-xs: 0.8rem;
   --cs-text-sm: 0.9rem;

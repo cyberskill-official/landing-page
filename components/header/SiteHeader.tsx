@@ -19,12 +19,13 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
   return (
     <header className="cs-header cs-surface-light cs-no-print">
       <div className="cs-container cs-header-inner">
-        <Link href={base} prefetch={false} className="cs-wordmark" aria-label={dict.a11y.homeLabel}>
+        {/* Accessible name = visible wordmark text (WCAG 2.5.3). Logo is decorative. */}
+        <Link href={base} prefetch={false} className="cs-wordmark">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="cs-wordmark-mark"
             src="/brand/logo.svg"
-            alt={dict.a11y.logoAlt}
+            alt=""
             width={34}
             height={34}
             decoding="async"

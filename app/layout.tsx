@@ -8,7 +8,6 @@ import { CosmosCanvas } from "@/components/CosmosCanvas";
 import { DeferredCursorTrail } from "@/components/motion/DeferredCursorTrail";
 import { DeferredFonts } from "@/components/DeferredFonts";
 import { DeferredPoster } from "@/components/DeferredPoster";
-import { bodyFont, displayFont } from "@/app/fonts";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 import { MotionPreferenceSync } from "@/components/a11y/MotionPreferenceSync";
 
@@ -72,12 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      data-theme="dark"
-      className={`${displayFont.variable} ${bodyFont.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <AnalyticsScripts />
       <body>
         <script

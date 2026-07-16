@@ -144,33 +144,34 @@ describe("ui polish structure", () => {
   });
 
   it("ships magical Vietnamese-capable fonts and lamp-style cursor", () => {
-    // Critical path: CSS variables only (no next/font Google request on LCP)
+    // Critical path: no next/font Google request on LCP
     const fonts = fs.readFileSync(path.join(process.cwd(), "app/fonts.ts"), "utf8");
-    expect(fonts).toMatch(/--font-body/);
-    expect(fonts).toMatch(/--font-display/);
     expect(fonts).not.toMatch(/next\/font\/google/);
 
-    // Brand faces load after interaction via DeferredFonts + self-hosted CSS
+    // Brand faces load after idle/interaction via DeferredFonts + self-hosted CSS
     const deferred = fs.readFileSync(path.join(process.cwd(), "components/DeferredFonts.tsx"), "utf8");
     expect(deferred).toMatch(/brand-fonts\.css/);
+    // Must never flip CSS font variables after paint (field CLS)
+    expect(deferred).not.toMatch(/setProperty\(\s*["']--font-/);
     const brandCss = fs.readFileSync(path.join(process.cwd(), "public/fonts/brand-fonts.css"), "utf8");
     expect(brandCss).toMatch(/Be Vietnam Pro/);
     expect(brandCss).toMatch(/Space Grotesk/);
+    expect(brandCss).toMatch(/font-display:\s*optional/);
     // Vietnamese glyph coverage lives in the self-hosted face files / CSS
     expect(brandCss + deferred).toMatch(/vietnam|vietnamese|Be Vietnam/i);
 
     const layout = fs.readFileSync(path.join(process.cwd(), "app/layout.tsx"), "utf8");
-    expect(layout).toMatch(/bodyFont/);
-    expect(layout).toMatch(/displayFont/);
     expect(layout).toMatch(/DeferredFonts/);
 
     const src = css();
-    expect(src).toMatch(/--cs-font-sans:\s*var\(--font-body/);
-    expect(src).toMatch(/--cs-font-display:\s*var\(--font-display/);
+    // Brand faces named in the stack from t=0 so optional faces never need a variable swap
+    expect(src).toMatch(/--cs-font-sans:\s*"Be Vietnam Pro"/);
+    expect(src).toMatch(/--cs-font-display:\s*"Space Grotesk"/);
     // Magical compass-point cursor ring
     expect(src).toMatch(/\.cs-cursor-dot\s*\{[^}]*radial-gradient/s);
     expect(src).toMatch(/\.cs-cursor-ring\s*\{[^}]*-17px\s+0\s+0\s+-14px/s);
     expect(src).toMatch(/data-cs-cursor="on"/);
   });
 });
+
 
