@@ -49,8 +49,8 @@ pnpm-debug.log*
 # vendored machine + local BRAIN store + render intermediates (regenerable via install; tenant data)
 .cyberos/
 # skill symlinks -> .cyberos/plugin/skills (regenerable via install)
-.claude/skills/ship-tasks
-.grok/skills/ship-tasks
+.claude/skills/
+.grok/skills/
 .commandcode/skills/ship-tasks
 .codex/skills/ship-tasks
 .opencode/skill/ship-tasks

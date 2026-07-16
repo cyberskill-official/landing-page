@@ -4,18 +4,50 @@
 // dependencies: unresolved `@/` path-alias imports and malformed JSON. It is a
 // fast pre-flight, NOT a substitute for `tsc --noEmit` and `next build`.
 
-import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, lstatSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
 const exts = [".ts", ".tsx", ".js", ".jsx", ".mjs"];
-const SKIP_DIRS = new Set(["node_modules", ".next", ".git", "docs", ".cyberos-memory", ".awh", "public"]);
+/** Product source only — agent harness / plugin trees are not app imports. */
+const SKIP_DIRS = new Set([
+  "node_modules",
+  ".next",
+  ".git",
+  "docs",
+  ".cyberos-memory",
+  ".awh",
+  "public",
+  ".claude",
+  ".grok",
+  ".agents",
+  ".codex",
+  ".commandcode",
+  ".opencode",
+  ".cyberos",
+]);
 
 function walk(dir, acc = []) {
   for (const entry of readdirSync(dir)) {
     if (SKIP_DIRS.has(entry)) continue;
     const p = join(dir, entry);
-    const s = statSync(p);
+    let s;
+    try {
+      // lstat first so broken symlinks do not throw ENOENT on stat()
+      const ls = lstatSync(p);
+      if (ls.isSymbolicLink()) {
+        // Skip dangling agent skill links (targets often live under ignored .cyberos/)
+        try {
+          s = statSync(p);
+        } catch {
+          continue;
+        }
+      } else {
+        s = ls;
+      }
+    } catch {
+      continue;
+    }
     if (s.isDirectory()) walk(p, acc);
     else if (/\.(tsx?|jsx?|mjs)$/.test(entry)) acc.push(p);
   }
