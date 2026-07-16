@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
+
+// Gold dust cursor trail — canvas + rAF only (no gsap). Was a static gsap import
+// from the root layout path, which pulled ~30–50 KB into first-load JS for a
+// decorative effect that never called gsap.
 
 export function CursorTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

@@ -15,7 +15,15 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // The 3D scene is a dynamically imported client-only enhancement. Keeping
   // strict typed routes off avoids friction while the route set is in flux.
-  experimental: {},
+  experimental: {
+    // Inline above-the-fold CSS (critters) so mobile lab FCP/LCP are not gated
+    // on a full ~19KB render-blocking stylesheet round-trip under slow-4G.
+    optimizeCss: true,
+  },
+  images: {
+    // StaticPoster uses q=70 for a tighter LCP image than the default 75.
+    qualities: [70, 75],
+  },
   async headers() {
     // TASK-PERF-010: content-stable public assets with immutable caching.
     // These files never change without a filename change (logo uses semantic

@@ -16,10 +16,23 @@ export function MotionBundle({ locale }: { locale: Locale }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // We defer rendering until after the initial hydration is complete.
-    // This moves all the heavy GSAP/Three.js code out of the critical rendering path.
-    const timer = setTimeout(() => setMounted(true), 10);
-    return () => clearTimeout(timer);
+    // Defer heavy GSAP/scroll/3D-adjacent work until the browser is idle (or a
+    // long timeout). A 10ms setTimeout still pulled gsap/lenis into the mobile
+    // lab LCP window and inflated simulated LCP via main-thread work.
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    const arm = () => setMounted(true);
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleId = window.requestIdleCallback(arm, { timeout: 4000 });
+    } else {
+      timeoutId = setTimeout(arm, 2000);
+    }
+    return () => {
+      if (idleId !== undefined && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+    };
   }, []);
 
   if (!mounted) return null;

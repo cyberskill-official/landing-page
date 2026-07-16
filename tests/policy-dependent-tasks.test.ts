@@ -340,23 +340,22 @@ describe("analytics/both-lead-paths (cta_clicked location)", () => {
     vi.spyOn(taxonomy, "emit").mockImplementation(() => {});
   });
 
-  it("hero primary CTA opens Lumi (no #contact navigation)", () => {
+  it("hero primary CTA is progressive-enhancement (SSR anchor to contact / Lumi after idle)", () => {
     const container = document.createElement("div");
     document.body.appendChild(container);
     const root = createRoot(container);
     act(() => {
       root.render(createElement(Hero, { locale: "en", dict: enDict }));
     });
-    // Conversion path is Lumi chat, not a #contact jump
-    expect(container.querySelector('a[href="/en#contact"]')).toBeNull();
-    const btn = Array.from(container.querySelectorAll("button")).find((b) =>
-      b.textContent?.includes(enDict.hero.ctaPrimary),
-    );
-    expect(btn).toBeTruthy();
-    expect(btn?.getAttribute("aria-haspopup")).toBe("dialog");
+    // Server HTML keeps conversion off the client LCP graph: anchor to contact.
+    // DeferredEnhancements upgrades to Lumi chat after interaction/idle.
+    const link = container.querySelector('a.cs-btn-primary[href="/en#contact"]');
+    expect(link).toBeTruthy();
+    expect(link?.textContent).toContain(enDict.hero.ctaPrimary);
     act(() => {
       root.unmount();
     });
     container.remove();
   });
 });
+

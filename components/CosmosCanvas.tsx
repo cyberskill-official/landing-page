@@ -36,11 +36,19 @@ export function CosmosCanvas() {
       setCapable(false);
       return;
     }
-    // Wide + enough cores. Deliberately NOT gated on pointer type: the digest
-    // only fires on desktop (holding Lumi), so on touch this canvas simply never
-    // reveals - and nothing loads until then anyway.
+    // Wide + enough cores + real WebGL. Headless Lighthouse has no WebGL;
+    // mounting three.js there floods Best Practices with console errors.
     const cores = navigator.hardwareConcurrency ?? 4;
     if (window.innerWidth < 1024 || cores < 4) return;
+    try {
+      const c = document.createElement("canvas");
+      const gl =
+        c.getContext("webgl2", { failIfMajorPerformanceCaveat: true }) ||
+        c.getContext("webgl", { failIfMajorPerformanceCaveat: true });
+      if (!gl) return;
+    } catch {
+      return;
+    }
     setCapable(true);
     const el = document.documentElement;
     const update = () => {

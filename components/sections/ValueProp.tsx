@@ -5,10 +5,11 @@ import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
 import { BrandIcon, type BrandIconName } from "@/components/ui/BrandIcon";
-import { AnimatedStat } from "@/components/motion/AnimatedNumber";
 
 const valueIcons: BrandIconName[] = ["since", "practices", "outcome"];
 
+// Stats render as plain text — AnimatedStat pulled gsap/ScrollTrigger into the
+// homepage first-load graph for a decorative count-up. Keep the numbers SSR.
 export function ValueProp({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section className="cs-section" aria-labelledby="value-title" suppressHydrationWarning>
@@ -20,7 +21,7 @@ export function ValueProp({ locale, dict }: { locale: Locale; dict: Dictionary }
           {valueProps.map((vp, i) => (
             <Reveal as="li" key={i} className="cs-value-item cs-surface-light" delayMs={i * 80}>
               <span className="cs-card-icon" aria-hidden="true"><BrandIcon name={valueIcons[i]} /></span>
-              <p className="cs-value-stat"><AnimatedStat text={localize(vp.stat, locale)} /></p>
+              <p className="cs-value-stat">{localize(vp.stat, locale)}</p>
               <p className="cs-value-label">{localize(vp.label, locale)}</p>
             </Reveal>
           ))}

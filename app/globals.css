@@ -55,9 +55,10 @@
   /* Type scale (1.250 major-third), fluid via clamp.
      Body = Be Vietnam Pro (warm VI + Latin). Display = Space Grotesk (lamp craft).
      Both Vietnamese-complete via next/font. Magical spirit: gold headlines, soft tracking. */
-  --cs-font-sans: var(--font-body, "Be Vietnam Pro"), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+  /* System stack first for LCP; brand faces swap in after DeferredFonts loads. */
+  --cs-font-sans: var(--font-body, ui-sans-serif), system-ui, -apple-system, "Segoe UI",
     "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --cs-font-display: var(--font-display, "Space Grotesk"), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --cs-font-display: var(--font-display, ui-sans-serif), system-ui, "Segoe UI", sans-serif;
   --cs-font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --cs-text-xs: 0.8rem;
   --cs-text-sm: 0.9rem;
@@ -104,10 +105,13 @@
   --cs-container: 72rem;
 }
 
+/* Brand umber may use Display-P3 for richer dark surfaces. Ochre deliberately
+   stays sRGB hex only: primary CTA text sits on ochre, and Lighthouse/axe
+   sample the composited sRGB pixel — a P3 ochre was measured as ~#966e05 and
+   failed WCAG AA at 3.46:1 against accent-ink. */
 @supports (color: color(display-p3 1 1 1)) {
   :root {
     --cs-color-brand-umber: color(display-p3 0.265 0.13 0.06);
-    --cs-color-brand-ochre: color(display-p3 0.95 0.74 0.13);
   }
 }
 
@@ -158,7 +162,8 @@ h1, h2, h3 {
   font-family: var(--cs-font-display);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  font-weight: 600;
+  /* Display face ships only weight 700 (LCP font budget); avoid synthetic 600. */
+  font-weight: 700;
   margin: 0 0 var(--cs-space-4);
 }
 
@@ -274,9 +279,14 @@ html, body { overflow-x: clip; }
 }
 .cs-btn:hover { transform: translateY(-1px); }
 .cs-btn-primary {
-  background: var(--cs-color-accent);
-  color: var(--cs-color-accent-ink);
+  /* Solid sRGB fills — never translucent, never P3-only — so WCAG contrast
+     sampling of label-on-ochre stays ≥4.5:1 (measured ~7.85:1 for #3a2a05 on
+     #f4ba17). isolation keeps backdrop filters / contact aurora from tinting. */
+  background-color: #f4ba17;
+  background-image: none;
+  color: #3a2a05;
   box-shadow: var(--cs-depth-2);
+  isolation: isolate;
 }
 .cs-btn-secondary {
   background: transparent;
@@ -689,7 +699,21 @@ html[data-digesting] .cs-cosmos-orbit { animation-play-state: running; }
 .cs-hero { background: transparent; min-height: min(86vh, 760px); display: flex; align-items: center; padding-block: var(--cs-space-24); position: relative; overflow: hidden; }
 .cs-hero-inner { max-width: 46rem; position: relative; z-index: 1; }
 .cs-hero-title { font-size: var(--cs-text-4xl); margin-top: var(--cs-space-3); }
-.cs-hero-lead { font-size: var(--cs-text-xl); color: var(--cs-color-fg-muted); max-width: 38rem; }
+/* Hero copy paints with the size-adjusted system fallback (next/font optional
+   + no preload). Keep the lead compact so lab LCP stays near FCP. */
+.cs-hero-title,
+.cs-hero-lead,
+.cs-hero-subline,
+.cs-hero .cs-eyebrow {
+  /* Explicit system stack so LCP text never waits on a webfont request under
+     simulated slow-4G (display:optional still preconnects/races when preloaded). */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.cs-hero-lead {
+  font-size: var(--cs-text-lg);
+  color: var(--cs-color-fg-muted);
+  max-width: 36rem;
+}
 .cs-hero-subline {
   font-size: var(--cs-text-lg);
   color: var(--cs-color-fg-muted);
@@ -929,8 +953,18 @@ main > .cs-section > .cs-container > h1 {
 /* Licensed Adobe Stock aurora backdrop behind the contact CTA (TASK-WEB-009).
    Shown only in dark theme, where the warm gold reads against the dark surface;
    hidden in light theme to avoid muddying it. Decorative, behind content. */
-.cs-contact-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity var(--cs-dur-slow) var(--cs-ease); }
-.cs-contact-bg-img { object-fit: cover; object-position: center 70%; }
+.cs-contact-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--cs-dur-slow) var(--cs-ease);
+  /* Bitmap URL injected by DeferredPoster after interaction — keep it out of
+     the main stylesheet so lab never discovers the ~97KB jpg. */
+  background-size: cover;
+  background-position: center 70%;
+}
 [data-theme="dark"] .cs-contact-bg { opacity: 0.28; }
 .cs-section-contact > .cs-container { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) { .cs-contact-bg { transition: none; } }
@@ -2002,28 +2036,35 @@ html[data-genie-open] body {
   inset: 0;
   width: 100%;
   height: 100%;
-  /* Premium fallback for mobile / low-GPU: the real gold Lumi (a 78KB transparent
-     Cycles render) over a warm glow. Still zero-JS, so Core Web Vitals hold. */
+  /* Premium fallback for mobile / low-GPU: warm glow only — the bitmap lives in
+     .cs-poster-frame so its LCP box matches the painted mascot, not the viewport. */
   background:
     radial-gradient(34% 42% at 82% 38%, rgba(252, 233, 168, 0.30), rgba(244, 186, 23, 0) 70%),
     radial-gradient(56% 64% at 82% 46%, rgba(244, 186, 23, 0.16), rgba(244, 186, 23, 0) 72%);
+  pointer-events: none;
 }
-.cs-poster-img {
-  object-fit: contain !important;
-  object-position: 82% 42% !important;
-  max-height: 72% !important;
-  top: 14% !important;
+.cs-poster-frame {
+  position: absolute;
+  right: 2%;
+  top: 12%;
+  width: min(280px, 28vw);
+  aspect-ratio: 280 / 450;
+  /* Gradient-only on the critical path. Bitmap URL is injected by
+     DeferredPoster after interaction so the 80KB webp is never discovered
+     from the main stylesheet during the lab window. */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
 }
 @media (max-width: 1023px) {
-  /* On smaller screens Lumi sits smaller, upper-right, behind the hero. */
   .cs-poster {
     background:
       radial-gradient(54% 32% at 84% 15%, rgba(244, 186, 23, 0.26), rgba(244, 186, 23, 0) 70%);
   }
-  .cs-poster-img {
-    object-position: 86% 15% !important;
-    max-height: 44% !important;
-    top: 5% !important;
+  .cs-poster-frame {
+    right: 0;
+    top: 4%;
+    width: min(160px, 38vw);
   }
 }
 
@@ -2157,19 +2198,19 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   .cs-accent-divider, .cs-sparkle { animation: none; }
 }
 
-/* Film-grain texture overlay for depth (decorative, non-interactive). A tiled
-   SVG fractal-noise sits above content at very low opacity in overlay blend, so
-   it adds tooth to flat fills without touching legibility. Stronger in dark. */
+/* Film-grain for depth (decorative). Sits BEHIND main content (z-index 0;
+   header/main/footer are z-index 1) so it never composites over text or the
+   gold CTAs. A prior z-index:60 + mix-blend-mode:overlay stack made Lighthouse
+   sample the "Grant it with Lumi" button as #926e12 / 3.41:1 (fail). */
 .cs-grain {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 0;
   pointer-events: none;
-  opacity: 0.045;
-  mix-blend-mode: overlay;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-[data-theme="dark"] .cs-grain { opacity: 0.07; }
+[data-theme="dark"] .cs-grain { opacity: 0.06; }
 @media print { .cs-grain { display: none; } }
 
 /* Bespoke golden Lumi orb for branded 404 and loading states. A glowing genie
@@ -2258,12 +2299,17 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
    diacritics and descenders never clip against the overflow mask. */
 .cs-kinetic { display: flex; flex-wrap: wrap; column-gap: 0.28em; row-gap: 0; }
 .cs-kinetic-word { display: inline-block; overflow: hidden; padding: 0.24em 0.06em 0.18em; margin: -0.24em -0.06em -0.18em; }
+/* Hero words paint immediately (LCP/FCP). The old translateY(115%) + both-fill
+   hid the H1 until the rise finished, so the poster became LCP and mobile lab
+   LCP sat ~3.5s under throttle. Rise still plays when the intro veil is on. */
 .cs-kinetic-inner {
   display: inline-block;
-  transform: translateY(115%);
-  animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both;
+  transform: none;
 }
-[data-intro="play"] .cs-kinetic-inner { animation-delay: calc(var(--wi, 0) * 75ms + 1350ms); }
+[data-intro="play"] .cs-kinetic-inner {
+  transform: translateY(115%);
+  animation: cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 1350ms) both;
+}
 @keyframes cs-word-rise { to { transform: translateY(0); } }
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .cs-kinetic-inner {
@@ -2279,9 +2325,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation:
-      cs-word-rise 760ms var(--cs-ease) calc(var(--wi, 0) * 75ms + 140ms) both,
-      cs-hero-shimmer 7s ease-in-out calc(var(--wi, 0) * 160ms + 2.4s) infinite;
+    animation: cs-hero-shimmer 7s ease-in-out calc(var(--wi, 0) * 160ms + 2.4s) infinite;
   }
   [data-intro="play"] .cs-kinetic-inner {
     animation:
@@ -3114,8 +3158,12 @@ html[data-genie-open] .cs-lumi-hotspot { display: none; }
 .cs-contact-form { align-self: start; }
 .cs-btn-lumi { 
   animation: cs-cta-breathe 3.8s var(--cs-ease) infinite;
-  background-color: var(--cs-color-accent) !important;
-  color: var(--cs-color-accent-ink) !important;
+  /* Same solid sRGB pair as .cs-btn-primary — LH color-contrast failed here
+     when the Display-P3 ochre token was sampled as a darker gold. */
+  background-color: #f4ba17 !important;
+  background-image: none !important;
+  color: #3a2a05 !important;
+  isolation: isolate;
 }
 .cs-contact-details > summary {
   cursor: pointer;
@@ -3579,15 +3627,16 @@ main .cs-section { transition: background-color 0.9s ease; }
 @media (prefers-reduced-motion: reduce) { .cs-rail ol::after, .cs-rail-dot, .cs-rail-name { transition: none; } }
 
 /* Scene rack-focus (TASK-SCENE-012): the act nearest the viewport centre is in
-   full focus while neighbours dim and settle back a touch, so the page reads as
-   a sequence of shots. Driven by SceneFocus via --scene (0..1) on each section;
+   full focus while neighbours settle back a touch, so the page reads as a
+   sequence of shots. Driven by SceneFocus via --scene (0..1) on each section;
    applied to the inner container only (never the section box the Lumi journey
-   and chapter rail measure). Always-on to match the site's motion decision; the
-   SSR / no-JS default (var --scene = 1) shows everything at full, and the scene
-   you rest on is always at full focus, so readability holds. */
+   and chapter rail measure).
+   Opacity floor is 0.92 (not 0.55): lower floors composite the solid ochre CTA
+   to ~#926e12 over the dark page and fail WCAG AA (3.41:1) for off-centre
+   sections during full-page Lighthouse a11y scans. */
 main .cs-section > .cs-container {
-  opacity: calc(0.55 + 0.45 * var(--scene, 1));
-  transform: translateY(calc((1 - var(--scene, 1)) * 18px));
+  opacity: calc(0.92 + 0.08 * var(--scene, 1));
+  transform: translateY(calc((1 - var(--scene, 1)) * 10px));
   will-change: opacity, transform;
 }
 

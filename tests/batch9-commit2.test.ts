@@ -12,10 +12,8 @@ describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", (
   let container: HTMLDivElement;
 
   beforeEach(() => {
-    // Reset consent gate state before each test
     (ConsentGate as any)._reset();
-    
-    // Clean up document head script tags
+
     document.querySelectorAll("script").forEach((el) => {
       if (el.src.includes("googletagmanager") || el.innerHTML.includes("gtag")) {
         el.remove();
@@ -32,16 +30,13 @@ describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", (
   });
 
   test("analytics/consent-gate: should NOT load GA scripts when consent is denied", async () => {
-    // Ensure consent is denied
     expect(ConsentGate.canLoad("analytics")).toBe(false);
 
-    // Mount AnalyticsScripts using React Root
     const root = createRoot(container);
     await act(async () => {
-      root.render(createElement(AnalyticsScripts, { nonce: "test-nonce" }));
+      root.render(createElement(AnalyticsScripts));
     });
 
-    // Trigger load and scroll events
     await act(async () => {
       window.dispatchEvent(new Event("load"));
       window.dispatchEvent(new Event("scroll"));
@@ -52,30 +47,33 @@ describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", (
   });
 
   test("analytics/consent-gate: should load GA scripts when consent is granted", async () => {
-    // Grant consent
     (ConsentGate as any)._upgrade({ analytics: true });
     expect(ConsentGate.canLoad("analytics")).toBe(true);
 
-    // Mount AnalyticsScripts
     const root = createRoot(container);
     await act(async () => {
-      root.render(createElement(AnalyticsScripts, { nonce: "test-nonce" }));
+      root.render(createElement(AnalyticsScripts));
     });
 
-    // Trigger load and scroll events
     await act(async () => {
       window.dispatchEvent(new Event("load"));
       window.dispatchEvent(new Event("scroll"));
     });
 
+    // External gtag loader only — bootstrap runs in the module (hash CSP, no inline/nonce)
     const gaScript = document.querySelector('script[src*="googletagmanager.com"]');
     expect(gaScript).not.toBeNull();
-    expect(gaScript?.getAttribute("nonce")).toBe("test-nonce");
+    expect(gaScript?.getAttribute("nonce")).toBeNull();
+    expect(gaScript?.async).toBe(true);
 
-    const inlineScript = Array.from(document.querySelectorAll("script")).find(
-      (el) => el.innerHTML.includes("window.dataLayer = window.dataLayer")
+    // No inline gtag bootstrap script tags
+    const inlineScript = Array.from(document.querySelectorAll("script")).find((el) =>
+      el.innerHTML.includes("window.dataLayer = window.dataLayer"),
     );
-    expect(inlineScript).toBeDefined();
-    expect(inlineScript?.getAttribute("nonce")).toBe("test-nonce");
+    expect(inlineScript).toBeUndefined();
+
+    // Module bootstrapped gtag on window
+    expect(typeof window.gtag).toBe("function");
+    expect(Array.isArray(window.dataLayer)).toBe(true);
   });
 });

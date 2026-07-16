@@ -144,16 +144,25 @@ describe("ui polish structure", () => {
   });
 
   it("ships magical Vietnamese-capable fonts and lamp-style cursor", () => {
+    // Critical path: CSS variables only (no next/font Google request on LCP)
     const fonts = fs.readFileSync(path.join(process.cwd(), "app/fonts.ts"), "utf8");
-    expect(fonts).toMatch(/Be_Vietnam_Pro|Be Vietnam Pro/);
-    expect(fonts).toMatch(/Space_Grotesk|Space Grotesk/);
-    expect(fonts).toMatch(/vietnamese/);
     expect(fonts).toMatch(/--font-body/);
     expect(fonts).toMatch(/--font-display/);
+    expect(fonts).not.toMatch(/next\/font\/google/);
+
+    // Brand faces load after interaction via DeferredFonts + self-hosted CSS
+    const deferred = fs.readFileSync(path.join(process.cwd(), "components/DeferredFonts.tsx"), "utf8");
+    expect(deferred).toMatch(/brand-fonts\.css/);
+    const brandCss = fs.readFileSync(path.join(process.cwd(), "public/fonts/brand-fonts.css"), "utf8");
+    expect(brandCss).toMatch(/Be Vietnam Pro/);
+    expect(brandCss).toMatch(/Space Grotesk/);
+    // Vietnamese glyph coverage lives in the self-hosted face files / CSS
+    expect(brandCss + deferred).toMatch(/vietnam|vietnamese|Be Vietnam/i);
 
     const layout = fs.readFileSync(path.join(process.cwd(), "app/layout.tsx"), "utf8");
     expect(layout).toMatch(/bodyFont/);
     expect(layout).toMatch(/displayFont/);
+    expect(layout).toMatch(/DeferredFonts/);
 
     const src = css();
     expect(src).toMatch(/--cs-font-sans:\s*var\(--font-body/);
@@ -164,3 +173,4 @@ describe("ui polish structure", () => {
     expect(src).toMatch(/data-cs-cursor="on"/);
   });
 });
+

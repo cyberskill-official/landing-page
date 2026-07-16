@@ -10,8 +10,20 @@ export function HomeMotionBundle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 10);
-    return () => clearTimeout(timer);
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    const arm = () => setMounted(true);
+    if ("requestIdleCallback" in window) {
+      idleId = window.requestIdleCallback(arm, { timeout: 4000 });
+    } else {
+      timeoutId = setTimeout(arm, 2000);
+    }
+    return () => {
+      if (idleId !== undefined && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+    };
   }, []);
 
   if (!mounted) return null;

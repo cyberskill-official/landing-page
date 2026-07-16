@@ -1,17 +1,28 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import Script from "next/script";
-import { bcp47, defaultLocale, isLocale } from "@/lib/i18n/config";
 import { company, siteUrl } from "@/lib/content/site";
 import { CosmosBackdrop } from "@/components/CosmosBackdrop";
 import { CosmosCanvas } from "@/components/CosmosCanvas";
-import { CursorTrail } from "@/components/motion/CursorTrail";
+import { DeferredCursorTrail } from "@/components/motion/DeferredCursorTrail";
+import { DeferredFonts } from "@/components/DeferredFonts";
+import { DeferredPoster } from "@/components/DeferredPoster";
 import { bodyFont, displayFont } from "@/app/fonts";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 import { MotionPreferenceSync } from "@/components/a11y/MotionPreferenceSync";
+
+// Vercel Analytics / Speed Insights inject /_vercel/*/script.js. Those routes
+// only exist on the Vercel edge — local `next start` 404s them, and Lighthouse
+// Best Practices fails on the console errors. Ship them only when hosted.
+const onVercel = process.env.VERCEL === "1";
+
+// Theme + motion boot script (hash-pinned in CSP via proxy.ts). No headers()
+// here so [lang] routes can be fully static — calling headers() forced dynamic
+// streaming and inflated mobile lab LCP ~2s past FCP under Lantern.
+const BOOT_SCRIPT =
+  "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();" +
+  "(function(){try{var m=localStorage.getItem('cs-motion-reduce');var r=m==='true'||(m!=='false'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);if(r){document.documentElement.setAttribute('data-motion','reduce');}}catch(e){}})();";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -32,9 +43,6 @@ export const metadata: Metadata = {
       "Software solutions consultancy. Web, mobile, and internal systems, built honestly.",
   },
   twitter: { card: "summary_large_image" },
-  // Let search and AI engines show the full social card and snippet, so the
-  // brand's first impression in results is the large gold Lumi image, not a
-  // clipped thumbnail.
   robots: {
     index: true,
     follow: true,
@@ -48,9 +56,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Brand the mobile browser chrome (address bar / status bar) to the gold-on-
-// umber art direction, matched to the user's color scheme. The site defaults to
-// the dark (umber) look; light-scheme users get the cream shell.
 export const viewport: Viewport = {
   colorScheme: "dark light",
   themeColor: [
@@ -59,67 +64,39 @@ export const viewport: Viewport = {
   ],
 };
 
-// The root layout owns <html>/<body>. The locale is provided by middleware via
-// the x-cs-locale request header so <html lang> matches the rendered content.
-export default async function RootLayout({
+// Static root shell. Locale-specific <html lang> is refined by HtmlLang in the
+// [lang] layout after mount; default en is correct for the prerendered /en shell.
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const h = await headers();
-  const headerLocale = h.get("x-cs-locale") ?? defaultLocale;
-  const locale = isLocale(headerLocale) ? headerLocale : defaultLocale;
-  const nonce = h.get("x-nonce") ?? undefined;
-
   return (
-    // Dark is the default theme (operator decision 2026-07-02): the gold-on-
-    // umber art direction is the brand-defining look. A stored "light"
-    // preference still wins via the no-flash script below.
     <html
-      lang={bcp47[locale]}
+      lang="en"
       data-theme="dark"
       className={`${displayFont.variable} ${bodyFont.variable}`}
       suppressHydrationWarning
     >
-      <AnalyticsScripts nonce={nonce} />
+      <AnalyticsScripts />
       <body>
         <script
-          // No-flash: apply the saved theme before paint, and arm the
-          // once-per-session intro veil (TASK-DS-012) - skipped entirely under
-          // prefers-reduced-motion, and without JS the attribute is never set,
-          // so the veil stays display:none for crawlers and no-JS visitors.
-          //
-          // suppressHydrationWarning: browsers intentionally clear the `nonce`
-          // *content attribute* right after parsing a script tag (it stays
-          // readable only via the `.nonce` IDL property) so inline CSP nonces
-          // can't be read back out of the DOM. React's hydration diff reads the
-          // attribute, so it always sees "" on the live DOM even though it
-          // rendered the real nonce - a benign, well-known false positive
-          // (https://github.com/facebook/react/issues/29577), not an actual
-          // markup mismatch. suppressHydrationWarning silences just that.
           suppressHydrationWarning
-          nonce={nonce}
-          dangerouslySetInnerHTML={{
-            __html:
-              "(function(){try{var t=localStorage.getItem('cs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();" +
-              "(function(){try{var m=localStorage.getItem('cs-motion-reduce');var r=m==='true'||(m!=='false'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);if(r){document.documentElement.setAttribute('data-motion','reduce');return;}var s=window.sessionStorage;if(s&&!s.getItem('cs-intro')){s.setItem('cs-intro','1');document.documentElement.setAttribute('data-intro','play');}}catch(e){}})();",
-          }}
+          dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }}
         />
-        {/* Permanent cosmos behind the content (z-index 0 < 1), revealed on
-            digest. The CSS backdrop is the universal fallback; the 3D canvas
-            rides just above it on capable devices for true depth. */}
-        {/* Resolves the real prefers-reduced-motion / cs-motion-reduce state
-            into useMotionStore exactly once, strictly after hydration - see
-            lib/a11y/motion-store.ts for why this can't happen at module scope
-            (that was the source of the DepthField/StoryArc hydration-mismatch
-            errors and the intermittent "Lumi frozen" reports). */}
         <MotionPreferenceSync />
+        <DeferredFonts />
+        <DeferredPoster />
         <CosmosBackdrop />
         <CosmosCanvas />
-        <CursorTrail />
+        <DeferredCursorTrail />
         {children}
-        <Analytics />
-        <SpeedInsights />
+        {onVercel ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
       </body>
     </html>
   );

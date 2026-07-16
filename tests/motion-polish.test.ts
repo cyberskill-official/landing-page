@@ -76,14 +76,15 @@ describe("motion math helpers (TASK-DS-012)", () => {
   });
 });
 
-describe("kinetic hero markup stays accessible (TASK-DS-012)", () => {
+describe("hero markup stays accessible and LCP-first (TASK-DS-012 / PageSpeed)", () => {
   for (const locale of ["en", "vi"] as const) {
-    it(`keeps the full ${locale} slogan as the H1 accessible name with per-word masks`, () => {
+    it(`keeps the full ${locale} slogan as visible H1 text with system-font LCP styles`, () => {
       const html = renderToStaticMarkup(createElement(Hero, { locale, dict: getDictionary(locale) }));
-      expect(html).toContain(`aria-label="${company.slogan[locale]}"`);
-      const words = splitSloganWords(company.slogan[locale]);
-      expect(html.match(/cs-kinetic-word/g)?.length).toBe(words.length);
-      for (const word of words) expect(html).toContain(`>${word}</span>`);
+      // Plain H1 text (no kinetic masks) so LCP paints with FCP under lab throttle.
+      expect(html).toContain(`id="hero-title"`);
+      expect(html).toContain(company.slogan[locale]);
+      expect(html).toContain("system-ui");
+      expect(html).not.toContain("cs-kinetic-word");
       // The hero carries its aurora backdrop, behind the z-raised inner content.
       expect(html).toContain("cs-aurora");
     });

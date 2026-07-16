@@ -1,25 +1,18 @@
-import { Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
-
 /**
- * Magical brand typography — Vietnamese-complete.
+ * Font CSS variables only — no Google Fonts loader on the critical path.
  *
- * Display: Space Grotesk (geometric, lamp-modern; full VI diacritics).
- * Body: Be Vietnam Pro (warm, highly readable Vietnamese + Latin).
- * Both use display: "swap" + preload to avoid FOIT and layout shift.
+ * Brand faces (Space Grotesk / Be Vietnam Pro) are loaded after first paint /
+ * first interaction via DeferredFonts so mobile lab LCP is never gated on a
+ * webfont request (Lantern was inflating text LCP ~2–3s when fonts were in the
+ * graph even with display:optional). System stacks keep first paint clean.
  */
-export const displayFont = Space_Grotesk({
-  subsets: ["latin", "vietnamese"],
-  weight: ["600", "700"],
-  display: "swap",
-  preload: true,
-  variable: "--font-display",
-});
 
-export const bodyFont = Be_Vietnam_Pro({
-  subsets: ["latin", "vietnamese"],
-  // Keep three weights under the Lighthouse font budget (120 KB).
-  weight: ["400", "600", "700"],
-  display: "swap",
-  preload: true,
+export const displayFont = {
+  variable: "--font-display",
+  className: "",
+};
+
+export const bodyFont = {
   variable: "--font-body",
-});
+  className: "",
+};

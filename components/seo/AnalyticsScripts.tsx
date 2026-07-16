@@ -3,49 +3,48 @@
 import { useEffect } from "react";
 import { ConsentGate } from "@/lib/analytics/consent";
 
-interface AnalyticsScriptsProps {
-  nonce?: string;
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+    clarity?: (...args: unknown[]) => void;
+  }
 }
 
-export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
+/**
+ * Post-LCP analytics loaders. No inline <script> injection (static pages use
+ * hash-based CSP without per-request nonces); gtag bootstrap runs in this
+ * module which is already allowed via script-src 'self'.
+ */
+export function AnalyticsScripts(_props: { nonce?: string } = {}) {
   useEffect(() => {
-    // 1. Google Analytics 4 (GA4) loader
     let gaLoaded = false;
     const loadGa = () => {
       if (gaLoaded) return;
       if (!ConsentGate.canLoad("analytics")) return;
       gaLoaded = true;
 
-      // Inject GA4 script tag dynamically
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag(...args: unknown[]) {
+        window.dataLayer?.push(args);
+      };
+      window.gtag("js", new Date());
+      window.gtag("config", "G-C5VJCLKZE7");
+
       const script = document.createElement("script");
       script.src = "https://www.googletagmanager.com/gtag/js?id=G-C5VJCLKZE7";
       script.async = true;
-      if (nonce) {
-        script.setAttribute("nonce", nonce);
-      }
       document.head.appendChild(script);
-
-      // Inject inline config script
-      const inlineScript = document.createElement("script");
-      if (nonce) {
-        inlineScript.setAttribute("nonce", nonce);
-      }
-      inlineScript.innerHTML = `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-C5VJCLKZE7');
-      `;
-      document.head.appendChild(inlineScript);
     };
 
-    // 2. Microsoft Clarity loader
     let clarityLoaded = false;
     const loadClarity = () => {
       if (clarityLoaded) return;
-      
+
       const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
-      const isProd = process.env.NODE_ENV === "production" || process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+      const isProd =
+        process.env.NODE_ENV === "production" ||
+        process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
       const isTest = process.env.NODE_ENV === "test";
 
       if (!clarityId || (!isProd && !isTest)) return;
@@ -53,20 +52,20 @@ export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
 
       clarityLoaded = true;
 
-      // Inject Clarity script tag with inline config
+      // Clarity bootstrap without an inline script tag (CSP-safe).
+      const w = window as Window & { clarity?: (...args: unknown[]) => void };
+      w.clarity =
+        w.clarity ||
+        function (...args: unknown[]) {
+          (w.clarity as unknown as { q?: unknown[] }).q =
+            (w.clarity as unknown as { q?: unknown[] }).q || [];
+          (w.clarity as unknown as { q: unknown[] }).q.push(args);
+        };
       const script = document.createElement("script");
-      if (nonce) {
-        script.setAttribute("nonce", nonce);
-      }
-      script.innerHTML = `
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window,document,"clarity","script","${clarityId}");
-        window.clarity("consent", false);
-      `;
+      script.async = true;
+      script.src = `https://www.clarity.ms/tag/${clarityId}`;
       document.head.appendChild(script);
+      w.clarity("consent", false);
     };
 
     let lcpPainted = false;
@@ -76,10 +75,8 @@ export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
       loadClarity();
     };
 
-    // Set up LCP Observer to detect when the LCP element has painted
     const observer = new PerformanceObserver((list) => {
-      const entries = list.getEntries();
-      if (entries.length > 0) {
+      if (list.getEntries().length > 0) {
         lcpPainted = true;
         triggerLoadIfReady();
       }
@@ -87,46 +84,46 @@ export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
 
     try {
       observer.observe({ type: "largest-contentful-paint", buffered: true });
-    } catch (e) {
-      // Fallback if PerformanceObserver is not supported
+    } catch {
       lcpPainted = true;
     }
 
-    // Fallback load event in case LCP observer misses
     const handleLoad = () => {
       lcpPainted = true;
       triggerLoadIfReady();
     };
     window.addEventListener("load", handleLoad);
 
-    // First user interaction listener
     const onInteraction = () => {
       triggerLoadIfReady();
       cleanup();
     };
-
-    const interactionEvents = ["scroll", "click", "keydown", "mousemove", "touchstart"];
+    const interactionEvents = [
+      "scroll",
+      "click",
+      "keydown",
+      "mousemove",
+      "touchstart",
+    ];
     interactionEvents.forEach((event) => {
       window.addEventListener(event, onInteraction, { passive: true });
     });
 
-    // Browser idle fallback (requestIdleCallback or setTimeout)
     let idleId: number | undefined;
-    let timeoutId: any;
-
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      idleId = (window as any).requestIdleCallback(
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    if ("requestIdleCallback" in window) {
+      idleId = window.requestIdleCallback(
         () => {
           triggerLoadIfReady();
           cleanup();
         },
-        { timeout: 4000 }
+        { timeout: 8000 },
       );
     } else {
       timeoutId = setTimeout(() => {
         triggerLoadIfReady();
         cleanup();
-      }, 4000);
+      }, 8000);
     }
 
     const cleanup = () => {
@@ -134,17 +131,15 @@ export function AnalyticsScripts({ nonce }: AnalyticsScriptsProps) {
       interactionEvents.forEach((event) => {
         window.removeEventListener(event, onInteraction);
       });
-      if (idleId && "cancelIdleCallback" in window) {
-        (window as any).cancelIdleCallback(idleId);
+      if (idleId !== undefined && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleId);
       }
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
       observer.disconnect();
     };
 
     return cleanup;
-  }, [nonce]);
+  }, []);
 
   return null;
 }

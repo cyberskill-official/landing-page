@@ -18,7 +18,8 @@ describe("CMS Content & Layout Integration", () => {
     expect(headerContent).toContain("/work");
     expect(headerContent).toContain("how-we-build");
     expect(headerContent).toContain("notes");
-    expect(headerContent).toContain("GenieOpenButton");
+    // Header CTA is a progressive-enhancement anchor (Genie mounts after idle)
+    expect(headerContent).toMatch(/data-header-cta|GenieOpenButton/);
     // Team/careers live in footer, not the primary bar (less fragmentation)
     expect(headerContent).not.toContain("/team");
     expect(headerContent).not.toContain("/careers");

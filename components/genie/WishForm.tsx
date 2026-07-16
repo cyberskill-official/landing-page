@@ -4,7 +4,9 @@ import { useState, useRef } from "react";
 import { track } from "@/lib/analytics";
 import { useGenieStore } from "@/lib/genie/store";
 import { GENIE_OPEN_EVENT } from "./GenieOpenButton";
-import gsap from "gsap";
+
+// CSS-only sparkles (no gsap) — keeps gsap out of any first-load path that
+// might import WishForm.
 
 export function WishForm({
   placeholder,
@@ -16,65 +18,44 @@ export function WishForm({
   const [wish, setWish] = useState("");
   const setPendingWish = useGenieStore((s) => s.setPendingWish);
   const formRef = useRef<HTMLFormElement>(null);
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const val = wish.trim();
     if (!val) return;
-    
-    // Sparkle effect
+
     if (formRef.current) {
       const rect = formRef.current.getBoundingClientRect();
       createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
-    
+
     setPendingWish(val);
     track("hero_wish", { length: val.length });
-    
-    // Slight delay so the user sees the sparkles before the chat pops up
+
     setTimeout(() => {
       window.dispatchEvent(new CustomEvent(GENIE_OPEN_EVENT));
       setWish("");
     }, 400);
   };
-  
+
   const createSparkles = (x: number, y: number) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    
-    for (let i = 0; i < 20; i++) {
-      const sparkle = document.createElement("div");
-      sparkle.className = "cs-sparkle";
-      document.body.appendChild(sparkle);
-      
-      const angle = Math.random() * Math.PI * 2;
-      const velocity = Math.random() * 80 + 20;
-      
-      gsap.fromTo(sparkle, 
-        { 
-          x, 
-          y, 
-          opacity: 1, 
-          scale: Math.random() * 1.5 + 0.5,
-          backgroundColor: "#f4ba17",
-          borderRadius: "50%",
-          width: "4px",
-          height: "4px",
-          position: "fixed",
-          pointerEvents: "none",
-          zIndex: 10000
-        },
-        {
-          x: x + Math.cos(angle) * velocity,
-          y: y + Math.sin(angle) * velocity + 50, // Slight gravity
-          opacity: 0,
-          duration: Math.random() * 0.5 + 0.5,
-          ease: "power2.out",
-          onComplete: () => {
-            sparkle.remove();
-          }
-        }
-      );
+    const layer = document.createElement("div");
+    layer.className = "cs-wish-dust";
+    layer.style.left = `${x}px`;
+    layer.style.top = `${y}px`;
+    for (let i = 0; i < 16; i++) {
+      const p = document.createElement("i");
+      const a = (Math.PI * 2 * i) / 16 + Math.random() * 0.4;
+      const d = 28 + Math.random() * 56;
+      p.style.setProperty("--dx", `${Math.cos(a) * d}px`);
+      p.style.setProperty("--dy", `${Math.sin(a) * d - 12}px`);
+      p.style.setProperty("--s", `${0.5 + Math.random() * 0.9}`);
+      p.style.animationDelay = `${Math.random() * 80}ms`;
+      layer.appendChild(p);
     }
+    document.body.appendChild(layer);
+    window.setTimeout(() => layer.remove(), 1100);
   };
 
   return (

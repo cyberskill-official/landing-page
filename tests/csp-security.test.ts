@@ -30,15 +30,12 @@ describe("TASK-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     expect(csp).toContain("default-src 'self'");
     expect(csp).toContain("script-src 'self'");
     expect(csp).toContain("style-src 'self'");
-    // style-src carries 'unsafe-inline' in production too (not just
-    // report-only): nonces do not cover style ATTRIBUTES in Chrome, only
-    // <style>/<link> tags, and the app sets per-frame inline styles from JS
-    // (LumiHotspot.tsx's el.style.transform, etc.) whose values can't be
-    // hashed. Confirmed live: without this, every JS-driven inline style was
-    // silently blocked in production. script-src stays nonce-only and strict.
+    // style-src carries 'unsafe-inline' so JS-driven style attributes work.
     expect(csp).toContain("style-src 'self' 'unsafe-inline'");
-    // Verify script-src still carries its nonce
-    expect(csp).toContain("'nonce-");
+    // Static pages: no per-request nonce (would force dynamic rendering).
+    // 'unsafe-inline' allows Next.js RSC flight scripts + the theme boot script.
+    expect(csp).toContain("'unsafe-inline'");
+    expect(csp).not.toContain("'nonce-");
   });
 
   it("security/csp-report-only: non-production headers carry Content-Security-Policy-Report-Only instead", () => {
@@ -96,7 +93,7 @@ describe("TASK-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     const csp = res.headers.get("Content-Security-Policy") || "";
 
     // Verify Google Analytics/GTM is whitelisted in script, connect, img
-    expect(csp).toContain("script-src 'self' 'nonce-");
+    expect(csp).toContain("script-src 'self' 'unsafe-inline'");
     expect(csp).toContain("https://www.googletagmanager.com");
     expect(csp).toContain("img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com");
     // blob: (glTF texture decode) and 'wasm-unsafe-eval' (glTF mesh

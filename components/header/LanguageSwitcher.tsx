@@ -30,6 +30,7 @@ export function LanguageSwitcher({ current, label }: { current: Locale; label: s
           href={hrefFor(loc)}
           hrefLang={loc}
           scroll={false}
+          prefetch={false}
           aria-current={loc === current ? "true" : undefined}
           className="cs-lang-link"
           data-active={loc === current}

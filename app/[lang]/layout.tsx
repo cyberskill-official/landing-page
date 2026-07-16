@@ -6,14 +6,8 @@ import { resolveMetadata } from "@/lib/content/metadata";
 import { SkipLink } from "@/components/a11y/SkipLink";
 import { SiteHeader } from "@/components/header/SiteHeader";
 import { SiteFooter } from "@/components/footer/SiteFooter";
-import { PersistentCta } from "@/components/cta/PersistentCta";
-import { GenieChat } from "@/components/genie/GenieChat";
-import { GenieStatusAnnouncer } from "@/components/genie/GenieStatusAnnouncer";
-import { LumiHotspot } from "@/components/canvas/LumiHotspot";
-import { MotionBundle } from "@/components/motion/MotionBundle";
-import { ScrollState } from "@/components/scroll/ScrollState";
-import { ChapterRail } from "@/components/scroll/ChapterRail";
-import { SceneFocus } from "@/components/scroll/SceneFocus";
+import { DeferredEnhancements } from "@/components/DeferredEnhancements";
+import { HtmlLang } from "@/components/HtmlLang";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 
 export function generateStaticParams() {
@@ -65,21 +59,22 @@ export default async function LocaleLayout({
 
   return (
     <>
+      <HtmlLang locale={lang} />
       <SkipLink label={dict.nav.skipToContent} />
-      <ScrollState />
       <noscript>
         <p className="cs-scene-noscript">{dict.a11y.sceneNoscript}</p>
       </noscript>
       <SiteHeader locale={lang} dict={dict} />
       <main id="main">{children}</main>
       <SiteFooter locale={lang} dict={dict} hasNewsletter={hasNewsletter} />
-      <PersistentCta locale={lang} dict={dict} />
-      <GenieChat locale={lang} dict={dict} />
-      <LumiHotspot label={dict.genie.open} hint={dict.genie.hint} />
-      <GenieStatusAnnouncer dict={dict} />
-      <SceneFocus />
-      <ChapterRail label={lang === "vi" ? "Các chương" : "Chapters"} chapters={chapters} />
-      <MotionBundle locale={lang} />
+      {/* Client enhancements (genie, motion, scroll, CTA) mount after idle so
+          their JS stays off the mobile LCP critical path. */}
+      <DeferredEnhancements
+        locale={lang}
+        dict={dict}
+        chapters={chapters}
+        chapterLabel={lang === "vi" ? "Các chương" : "Chapters"}
+      />
       <div className="cs-grain" aria-hidden="true" />
       <OrganizationJsonLd locale={lang} />
     </>

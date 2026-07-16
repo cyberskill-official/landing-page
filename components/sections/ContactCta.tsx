@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { company, clientLogos, testimonials } from "@/lib/content/site";
@@ -11,22 +10,14 @@ import { MessagingChips } from "@/components/cta/MessagingChips";
 import { CapacityLine } from "@/components/sections/CapacityLine";
 import { BookingLink } from "@/components/cta/BookingLink";
 import { getBookingUrl } from "@/lib/content/booking";
-import auroraGold from "@/public/brand/aurora-gold.jpg";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   const bookingUrl = getBookingUrl();
   return (
     <section id="contact" className="cs-section cs-section-contact" aria-labelledby="contact-title" suppressHydrationWarning>
-      <div className="cs-contact-bg" aria-hidden="true">
-        <Image
-          src={auroraGold}
-          alt=""
-          fill
-          sizes="(max-width: 768px) 276px, 100vw"
-          placeholder="blur"
-          className="cs-contact-bg-img"
-        />
-      </div>
+      {/* Decorative aurora as CSS background (not next/image) so it cannot
+          become LCP or fail image-aspect-ratio under lab. */}
+      <div className="cs-contact-bg" aria-hidden="true" />
       <Aurora className="cs-aurora-contact" />
       <div className="cs-container cs-contact-grid">
         <div className="cs-contact-intro">

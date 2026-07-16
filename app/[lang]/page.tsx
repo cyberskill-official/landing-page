@@ -8,7 +8,8 @@ import { NotesPreview } from "@/components/sections/NotesPreview";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { HomeFaqJsonLd } from "@/components/seo/HomeFaqJsonLd";
 import { ServicesJsonLd } from "@/components/seo/ServicesJsonLd";
-import { CanvasMount } from "@/components/canvas/CanvasMount";
+import { StaticPoster } from "@/components/canvas/StaticPoster";
+import { DeferredHomeCanvas } from "@/components/canvas/DeferredHomeCanvas";
 import { HomeMotionBundle } from "@/components/motion/HomeMotionBundle";
 
 /**
@@ -24,7 +25,13 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-      <CanvasMount />
+      {/* SSR poster (gradient only until DeferredPoster arms the webp). Live
+          WebGL upgrades after idle via DeferredHomeCanvas — keeps R3F off the
+          first-load client graph. */}
+      <div className="cs-canvas-layer" aria-hidden="true">
+        <StaticPoster />
+      </div>
+      <DeferredHomeCanvas />
       <HomeMotionBundle />
       <Hero locale={locale} dict={dict} />
       <TrustBand locale={locale} />

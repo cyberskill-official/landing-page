@@ -45,32 +45,26 @@ describe("Batch 9 Commit 1 tests — TASK-CMS-005, TASK-PERF-011", () => {
     expect(html).toContain(serviceDetails["web-apps"].cta.en);
   });
 
-  // --- TASK-PERF-011: LCP Preload of StaticPoster ---
-  test("perf/lcp-preload: StaticPoster renders Next.js Image component with priority", () => {
+  // --- TASK-PERF-011 (text-first LCP): StaticPoster is CSS-only decorative ---
+  test("perf/poster-off-critical-path: StaticPoster has no <img> (CSS background)", () => {
     const poster = createElement(StaticPoster);
     const html = renderToStaticMarkup(poster);
-    const dom = new JSDOM(html);
-    const doc = dom.window.document;
-
-    // Next.js Image with priority preloads via <link rel="preload" as="image">
-    expect(html).toContain('rel="preload"');
-    expect(html).toContain('as="image"');
-    expect(html).toContain("lumi-poster.webp");
-
-    const img = doc.querySelector("img");
-    expect(img).toBeTruthy();
-    expect(img?.getAttribute("src")).toContain("lumi-poster.webp");
+    expect(html).toContain("cs-poster");
+    expect(html).toContain("cs-poster-frame");
+    expect(html).not.toMatch(/<img\b/);
+    expect(html).not.toContain("/_next/image");
   });
 
-  // --- TASK-PERF-011: Responsive Sizes on Image Call Sites ---
-  test("lint/next-image-sizes: both StaticPoster and background image declare custom sizes", () => {
-    const poster = createElement(StaticPoster);
-    const html = renderToStaticMarkup(poster);
-    const dom = new JSDOM(html);
-    const doc = dom.window.document;
-
-    const img = doc.querySelector("img");
-    expect(img).toBeTruthy();
-    expect(img?.getAttribute("sizes")).toBe("(max-width: 1023px) 50vw, 33vw");
+  // --- TASK-PERF-011: frame geometry reserved via CSS aspect-ratio ---
+  test("lint/poster-frame-geometry: CSS reserves poster aspect-ratio for CLS", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const css = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
+    expect(css).toMatch(/\.cs-poster-frame\s*\{[^}]*aspect-ratio:\s*280\s*\/\s*450/s);
+    // Bitmap stays off critical CSS (DeferredPoster injects after interaction)
+    expect(css).not.toMatch(/lumi-poster\.webp/);
+    const deferred = readFileSync(resolve(process.cwd(), "components/DeferredPoster.tsx"), "utf8");
+    expect(deferred).toMatch(/lumi-poster\.webp/);
   });
 });
+

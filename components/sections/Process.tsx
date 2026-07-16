@@ -5,7 +5,7 @@ import { localize } from "@/lib/i18n/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { KineticText } from "@/components/motion/KineticText";
 import { BrandIcon, type BrandIconName } from "@/components/ui/BrandIcon";
-import { ProcessCircuit } from "@/components/motion/ProcessCircuit";
+import { DeferredProcessCircuit } from "@/components/motion/DeferredProcessCircuit";
 
 const stepIcons: BrandIconName[] = ["discover", "shape", "build", "support"];
 
@@ -18,7 +18,7 @@ export function Process({ locale, dict }: { locale: Locale; dict: Dictionary }) 
         </h2>
         <p className="cs-section-lead" data-mask-reveal="">{dict.sections.processLead}</p>
         <div className="cs-services-grid" style={{ position: "relative" }}>
-          <ProcessCircuit />
+          <DeferredProcessCircuit />
           {processSteps.map((step, i) => (
             <Reveal as="article" key={step.n} className="cs-service-card cs-surface-standard" delayMs={i * 80}>
               <span className="cs-card-icon" aria-hidden="true"><BrandIcon name={stepIcons[i]} /></span>

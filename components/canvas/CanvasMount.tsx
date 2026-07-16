@@ -22,6 +22,18 @@ const GenieScene = dynamic(
   { ssr: false },
 );
 
+function hasWebGL(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(
+      canvas.getContext("webgl2", { failIfMajorPerformanceCaveat: true }) ||
+      canvas.getContext("webgl", { failIfMajorPerformanceCaveat: true })
+    );
+  } catch {
+    return false;
+  }
+}
+
 function capable(): boolean {
   if (typeof window === "undefined") return false;
   // Motion is always on by product decision (2026-07-14: reverted the
@@ -29,24 +41,43 @@ function capable(): boolean {
   // the task itself, still in force for LumiMagic/DepthField/BlackHole/
   // MotionExtras). We still gate on device capability so mobile / low-end
   // get the static poster - that is a Core Web Vitals choice, not a motion
-  // preference.
+  // preference. WebGL probe avoids THREE.WebGLRenderer console errors in
+  // headless Lighthouse (Best Practices errors-in-console).
   const wide = window.matchMedia("(min-width: 1024px)").matches;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
   const cores = navigator.hardwareConcurrency ?? 4;
-  return wide && !coarse && cores >= 4;
+  return wide && !coarse && cores >= 4 && hasWebGL();
 }
 
 export function CanvasMount() {
   const [mount, setMount] = useState(false);
 
   useEffect(() => {
-    const live = capable();
-    setMount(live);
-    // Signal the DOM that the living mascot is on stage (TASK-CHAR-030): the
-    // duplicate "Talk to Lumi" CTAs (.cs-lumi-alt) hide themselves, since
-    // clicking Lumi itself opens the chat on these devices.
-    if (live) document.documentElement.setAttribute("data-lumi-live", "true");
-    return () => document.documentElement.removeAttribute("data-lumi-live");
+    if (!capable()) return;
+
+    // Defer the R3F/three bundle until after LCP / first paint. Immediate mount
+    // on capable desktops pulled ~250KB+ of unused JS into the lab window and
+    // competed with the poster for main-thread + bandwidth.
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    const arm = () => {
+      setMount(true);
+      document.documentElement.setAttribute("data-lumi-live", "true");
+    };
+
+    if ("requestIdleCallback" in window) {
+      idleId = window.requestIdleCallback(arm, { timeout: 3000 });
+    } else {
+      timeoutId = setTimeout(arm, 1500);
+    }
+
+    return () => {
+      if (idleId !== undefined && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+      document.documentElement.removeAttribute("data-lumi-live");
+    };
   }, []);
 
   return (
@@ -54,7 +85,8 @@ export function CanvasMount() {
     // so Lumi can fly the whole page as a mascot (TASK-CHAR-030); the canvas
     // stays pointer-events:none, so it can never block interaction (the DOM
     // LumiHotspot provides the clickable mascot). The static poster keeps the
-    // original behind-the-hero layering on incapable devices.
+    // original behind-the-hero layering on incapable devices and during the
+    // post-LCP idle window before the 3D upgrade.
     <div className={mount ? "cs-canvas-layer cs-canvas-live" : "cs-canvas-layer"} aria-hidden="true">
       {mount ? <GenieScene /> : <StaticPoster />}
     </div>

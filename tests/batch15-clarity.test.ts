@@ -35,12 +35,10 @@ describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
     const appendSpy = vi.spyOn(document.head, "appendChild").mockImplementation((node) => node);
 
     const root = createRoot(container);
-    root.render(createElement(AnalyticsScripts, { nonce: "test-nonce" }));
+    root.render(createElement(AnalyticsScripts));
     await new Promise((resolve) => setTimeout(resolve, 20));
 
-    // Simulate load event to bypass observer
     window.dispatchEvent(new Event("load"));
-    // Trigger scroll interaction
     window.dispatchEvent(new Event("scroll"));
 
     expect(appendSpy).not.toHaveBeenCalled();
@@ -53,15 +51,16 @@ describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
     const appendSpy = vi.spyOn(document.head, "appendChild").mockImplementation((node) => node);
 
     const root = createRoot(container);
-    root.render(createElement(AnalyticsScripts, { nonce: "test-nonce" }));
+    root.render(createElement(AnalyticsScripts));
     await new Promise((resolve) => setTimeout(resolve, 20));
 
     window.dispatchEvent(new Event("load"));
     window.dispatchEvent(new Event("scroll"));
 
-    // Verify no script tag with Clarity config was appended
+    // External Clarity tag uses src, not inline HTML
     const hasClarity = appendSpy.mock.calls.some(([node]) => {
-      return (node as HTMLScriptElement).innerHTML?.includes("clarity");
+      const el = node as HTMLScriptElement;
+      return el.src?.includes("clarity.ms") || el.innerHTML?.includes("clarity");
     });
     expect(hasClarity).toBe(false);
   });
@@ -73,29 +72,37 @@ describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
     const appendSpy = vi.spyOn(document.head, "appendChild").mockImplementation((node) => node);
 
     const root = createRoot(container);
-    root.render(createElement(AnalyticsScripts, { nonce: "test-nonce" }));
+    root.render(createElement(AnalyticsScripts));
     await new Promise((resolve) => setTimeout(resolve, 20));
 
     window.dispatchEvent(new Event("load"));
     window.dispatchEvent(new Event("scroll"));
 
-    // Find the Clarity script element
+    // Clarity loads as external script (hash CSP — no inline bootstrap / nonce)
     const clarityScriptCall = appendSpy.mock.calls.find(([node]) => {
-      return (node as HTMLScriptElement).innerHTML?.includes("clarity");
+      const el = node as HTMLScriptElement;
+      return el.src?.includes("clarity.ms/tag/mock-clarity-id");
     });
 
     expect(clarityScriptCall).toBeDefined();
     const scriptEl = clarityScriptCall?.[0] as HTMLScriptElement;
-    expect(scriptEl.getAttribute("nonce")).toBe("test-nonce");
-    expect(scriptEl.innerHTML).toContain("mock-clarity-id");
-    
-    // Cookieless enforcement verification
-    expect(scriptEl.innerHTML).toContain('window.clarity("consent", false);');
+    expect(scriptEl.getAttribute("nonce")).toBeNull();
+    expect(scriptEl.async).toBe(true);
+    expect(scriptEl.src).toContain("mock-clarity-id");
+
+    // Cookieless: consent(false) via module API, not inline script HTML
+    expect(window.clarity).toBeTypeOf("function");
+    // Queue should have received consent call
+    const q = (window.clarity as unknown as { q?: unknown[] }).q;
+    expect(q).toBeDefined();
+    expect(q?.some((args) => Array.isArray(args) && args[0] === "consent" && args[1] === false)).toBe(
+      true,
+    );
   });
 
   it("analytics/clarity-masking: form and chat markup carry masking properties", async () => {
     const root = createRoot(container);
-    
+
     // 1. LeadForm
     const leadFormDict = {
       form: {
@@ -115,18 +122,19 @@ describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
         errorBody: "Body",
         required: "Required",
         invalidEmail: "Invalid",
-        consentRequired: "Consent required"
+        consentRequired: "Consent required",
       },
       footer: {
-        privacy: "Privacy"
+        privacy: "Privacy",
       },
       genie: {
-        contactFormFallback: "Fallback"
-      }
+        contactFormFallback: "Fallback",
+      },
     };
-    root.render(createElement(LeadForm, { locale: "en", dict: leadFormDict as any, source: "contact" }));
-    
-    // Give time to render
+    root.render(
+      createElement(LeadForm, { locale: "en", dict: leadFormDict as any, source: "contact" }),
+    );
+
     await new Promise((resolve) => setTimeout(resolve, 50));
     const formEl = container.querySelector("form");
     expect(formEl).not.toBeNull();
@@ -136,7 +144,6 @@ describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
     // 2. NewsletterForm
     root.render(createElement(NewsletterForm, { locale: "en" }));
     await new Promise((resolve) => setTimeout(resolve, 50));
-    // Find the newsletter form (can query by class name since LeadForm is replaced)
     const newsletterFormEl = container.querySelector(".cs-newsletter-form");
     expect(newsletterFormEl).not.toBeNull();
     expect(newsletterFormEl?.classList.contains("clarity-mask")).toBe(true);
@@ -152,11 +159,11 @@ describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
         wishAgree: "Agree",
         wishSkip: "Skip",
         thinking: "Thinking...",
-        unavailable: "Unavailable"
+        unavailable: "Unavailable",
       },
       footer: {
-        privacy: "Privacy"
-      }
+        privacy: "Privacy",
+      },
     };
     useGenieStore.getState().setOpen(true);
     root.render(createElement(GenieChatPanel, { locale: "en", dict: chatDict as any }));
