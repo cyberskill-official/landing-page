@@ -67,8 +67,13 @@ describe("Batch 11 tests — TASK-SEO-017, TASK-SEO-006, TASK-CMS-010, TASK-OPS-
       expect(body).toContain("User-agent: ClaudeBot");
       expect(body).toContain("User-agent: PerplexityBot");
       expect(body).toContain("User-agent: Google-Extended");
-      expect(body).toContain("llms:");
-      expect(body).toContain("llms-full:");
+      // llms paths documented as comments only — `llms:` is not a robots.txt directive
+      // and GSC reports "Syntax not understood" for unknown fields.
+      expect(body).toContain("/llms.txt");
+      expect(body).toContain("/llms-full.txt");
+      expect(body).not.toMatch(/^llms:/m);
+      expect(body).not.toMatch(/^llms-full:/m);
+      expect(body).toContain("Sitemap:");
       expect(body).not.toContain("Host:");
     });
   });

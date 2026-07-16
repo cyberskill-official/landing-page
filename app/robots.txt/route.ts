@@ -19,9 +19,11 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-# LLM specifications
-llms: ${siteUrl}/llms.txt
-llms-full: ${siteUrl}/llms-full.txt
+# LLM context files (llmstxt.org) — well-known paths, not robots.txt directives.
+# Google/Bing validators flag unknown fields as "Syntax not understood".
+# https://llmstxt.org/
+# ${siteUrl}/llms.txt
+# ${siteUrl}/llms-full.txt
 
 Sitemap: ${siteUrl}/sitemap.xml
 `;

@@ -30,7 +30,8 @@ export const routeMetadata: RouteMetadata[] = [
       en: "CyberSkill is a software company in Ho Chi Minh City. Senior engineers own your project end to end, building web, mobile, and custom systems that last.",
       vi: "CyberSkill là công ty phần mềm tại TP.HCM. Kỹ sư cấp cao chịu trách nhiệm từ đầu đến cuối, xây dựng hệ thống web, di động và phần mềm chất lượng.",
     },
-    lastUpdated: "2026-07-12",
+    // 2026-07-15/16: Verify-us placement, teardown CTA, Lumi genie, social profiles
+    lastUpdated: "2026-07-16",
   },
   {
     route: "/work",
@@ -42,7 +43,8 @@ export const routeMetadata: RouteMetadata[] = [
       en: "See the web apps, mobile apps, and internal systems CyberSkill has shipped. Each case study shows the problem, approach, and measurable outcome.",
       vi: "Xem ứng dụng web, di động và hệ thống nội bộ CyberSkill đã bàn giao. Mỗi case study nêu bài toán, cách làm và kết quả.",
     },
-    lastUpdated: "2026-07-12",
+    // 2026-07-15/16: listing chrome + shared case-study shell polish
+    lastUpdated: "2026-07-16",
   },
   {
     route: "/careers",
@@ -54,7 +56,8 @@ export const routeMetadata: RouteMetadata[] = [
       en: "CyberSkill hires senior engineers in Ho Chi Minh City. Join our small team to build production software with real ownership and zero corporate busywork.",
       vi: "CyberSkill tuyển kỹ sư giàu kinh nghiệm tại TP. Hồ Chí Minh. Đội nhỏ, phần mềm chạy thật, tự chủ cao, ít họp vô bổ.",
     },
-    lastUpdated: "2026-07-12",
+    // 2026-07-15/16: form/CTA + mobile chrome polish
+    lastUpdated: "2026-07-16",
   },
   {
     route: "/how-we-build",
@@ -66,7 +69,8 @@ export const routeMetadata: RouteMetadata[] = [
       en: "How CyberSkill builds reliable software: small releases, automated quality gates, and performance budgets in CI to prevent regressions on every change.",
       vi: "CyberSkill xây phần mềm tin cậy: phát hành nhỏ, cổng chất lượng tự động, ngân sách hiệu năng trong CI chặn lỗi cũ trên mỗi thay đổi.",
     },
-    lastUpdated: "2026-07-12",
+    // 2026-07-15/16: Verify-us kept here; page shell updates
+    lastUpdated: "2026-07-16",
   },
   {
     route: "/team",
@@ -78,7 +82,8 @@ export const routeMetadata: RouteMetadata[] = [
       en: "Meet the senior software engineers behind CyberSkill in Saigon. The exact same people partner with you from the first discovery call to production launch.",
       vi: "Gặp kỹ sư giàu kinh nghiệm của CyberSkill tại Sài Gòn. Cùng những người đó đồng hành từ cuộc gọi đầu đến khi sản phẩm ra mắt.",
     },
-    lastUpdated: "2026-07-12",
+    // 2026-07-15/16: footer social row (FB/X) + page shell
+    lastUpdated: "2026-07-16",
   },
   {
     route: "/privacy",

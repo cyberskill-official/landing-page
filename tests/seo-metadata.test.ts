@@ -92,12 +92,16 @@ describe("Sitemap Generation (TASK-SEO-012)", () => {
       const lastModDate = e.lastModified instanceof Date ? e.lastModified : new Date(e.lastModified!);
       const lastModStr = lastModDate.toISOString().split("T")[0];
       
-      // Verification: lastModified is either the fixed launch date or the update date,
-      // not a fake dynamic build-time date
-      const isLaunchDate = lastModStr === "2025-01-15";
-      const isUpdateDate = lastModStr === "2026-07-12";
-      const isToday = lastModStr === "2026-07-13" || lastModStr === "2026-07-14";
-      expect(isLaunchDate || isUpdateDate || isToday).toBe(true);
+      // Verification: lastModified is a fixed registry date (TASK-SEO-012 §1.2),
+      // never new Date() at build time. Allowlist grows when we bump lastUpdated.
+      const allowed = new Set([
+        "2025-01-15", // SITE_LAUNCH
+        "2026-07-12",
+        "2026-07-13",
+        "2026-07-14",
+        "2026-07-16", // last-night marketing shell + entity surfaces
+      ]);
+      expect(allowed.has(lastModStr)).toBe(true);
     });
   });
 });
