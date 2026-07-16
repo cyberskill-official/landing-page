@@ -161,10 +161,10 @@ describe("TASK-CHAR-028: Transcript persistence & disclosures", () => {
     const dictsPath = path.resolve(process.cwd(), "lib/i18n/dictionaries.ts");
     const src = fs.readFileSync(dictsPath, "utf8");
     // Visible chat footer — storage + no secrets (no vendor brand required in the chip UI)
-    expect(src).toMatch(/may be stored so our team can follow up/i);
-    expect(src).toMatch(/có thể được lưu để đội ngũ theo dõi/i);
-    expect(src).toMatch(/Do not share passwords or secrets/i);
-    expect(src).toMatch(/mật khẩu|thông tin mật/i);
+    expect(src).toMatch(/keep this chat so the team can follow up/i);
+    expect(src).toMatch(/có thể được lưu để đội theo dõi/i);
+    expect(src).toMatch(/don.?t share passwords or secrets/i);
+    expect(src).toMatch(/mật khẩu|thông tin nhạy cảm/i);
 
     const privacy = fs.readFileSync(
       path.resolve(process.cwd(), "app/[lang]/privacy/page.tsx"),
