@@ -61,7 +61,9 @@ describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", (
     });
 
     // External gtag loader only — bootstrap runs in the module (hash CSP, no inline/nonce)
-    const gaScript = document.querySelector('script[src*="googletagmanager.com"]');
+    const gaScript = document.querySelector(
+      'script[src*="googletagmanager.com"]',
+    ) as HTMLScriptElement | null;
     expect(gaScript).not.toBeNull();
     expect(gaScript?.getAttribute("nonce")).toBeNull();
     expect(gaScript?.async).toBe(true);
