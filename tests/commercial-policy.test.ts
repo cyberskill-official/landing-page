@@ -58,7 +58,7 @@ describe("content/commercial-policy-record", () => {
       "Get a production-ready application structure or clear strategy in 7 days",
     );
     expect(policy.ctaPromise.vi).toBe(
-      "Nhận cấu trúc ứng dụng sẵn sàng vận hành hoặc chiến lược rõ ràng trong 7 ngày",
+      "Nhận cấu trúc ứng dụng sẵn sàng vận hành, hoặc chiến lược rõ ràng, trong 7 ngày",
     );
 
     expect(policy.engagementModels).toHaveLength(2);
@@ -103,14 +103,14 @@ describe("content/commercial-policy-record", () => {
       "Outsource development work to HCMC senior engineers with direct communication and timezone alignment",
     );
     expect(policy.partnershipOffer.vi).toBe(
-      "Ủy thác phát triển phần mềm cho kỹ sư cấp cao tại TP.HCM với kết nối trực tiếp và phù hợp múi giờ",
+      "Giao việc phát triển cho kỹ sư giàu kinh nghiệm tại TP.HCM, trao đổi trực tiếp và dễ khớp múi giờ",
     );
 
     expect(policy.heroAudience.en).toBe(
       "fast-growing startups and scaling enterprises",
     );
     expect(policy.heroAudience.vi).toBe(
-      "các startup tăng trưởng nhanh và doanh nghiệp đang mở rộng",
+      "startup tăng trưởng nhanh và doanh nghiệp đang mở rộng quy mô",
     );
   });
 

@@ -6,6 +6,11 @@ vi.mock("next/font/google", () => ({
     variable: "--font-display",
     style: { fontFamily: "mock-space-grotesk" },
   }),
+  Be_Vietnam_Pro: () => ({
+    className: "mock-be-vietnam-pro",
+    variable: "--font-body",
+    style: { fontFamily: "mock-be-vietnam-pro" },
+  }),
 }));
 
 if (typeof window !== 'undefined') {
