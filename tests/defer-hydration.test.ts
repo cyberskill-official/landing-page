@@ -15,6 +15,9 @@ describe("defer-hydration post-build (mobile Lantern LCP)", () => {
     expect(script).toContain("defer-hydration-lib");
     expect(script).toContain("critters");
     expect(script).toMatch(/homepage gate|FAIL/);
+    // Vercel onBuildComplete may package HTML before this script runs — must
+    // also rewrite /vercel/output so production does not serve eager scripts.
+    expect(script).toContain("/vercel/output");
 
     const lib = readFileSync(resolve(root, "scripts/defer-hydration-lib.mjs"), "utf8");
     expect(lib).toContain("data-cs-defer-src");
