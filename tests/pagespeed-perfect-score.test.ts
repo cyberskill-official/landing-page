@@ -94,6 +94,12 @@ describe("PageSpeed perfect-score contracts", () => {
     expect(deferred).toContain("requestIdleCallback");
     expect(deferred).toContain("GenieScene");
     expect(deferred).toContain("ssr: false");
+    expect(deferred).toContain("data-lumi-live");
+    // Live WebGL must hide the fixed static poster (no double Lumi top-right)
+    const css = readFileSync(resolve(root, "app/globals.css"), "utf8");
+    expect(css).toMatch(
+      /html\[data-lumi-live\]\s*\.cs-poster\s*\{[^}]*opacity:\s*0/s,
+    );
   });
 
   it("brand webfonts are not on the critical path (deferred self-hosted only)", () => {
