@@ -15,9 +15,7 @@ traces_to: [audit-B/finding-14-low, audit-B/phase-1]
 
 ## 0. Why (evidence)
 
-Audit B (axe + Lighthouse, mobile): eighteen interactive elements are smaller than 44x44 px - mostly header icons and
-the chapter-rail timeline dots - and the wordmark link's accessible name ("CyberSkill home") does not contain its visible
-text, which breaks WCAG 2.5.3 Label in Name and confuses voice control.
+Audit B (axe + Lighthouse, mobile): eighteen interactive elements are smaller than 44x44 px - mostly header icons and the chapter-rail timeline dots - and the wordmark link's accessible name ("CyberSkill home") does not contain its visible text, which breaks WCAG 2.5.3 Label in Name and confuses voice control.
 
 ## 1. Description (normative)
 

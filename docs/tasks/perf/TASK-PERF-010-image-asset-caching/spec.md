@@ -15,8 +15,7 @@ traces_to: [audit-B/finding-11-low, audit-B/phase-1]
 
 ## 0. Why (evidence)
 
-Audit B: static build assets carry immutable one-year caching, but logo.svg, lumi-poster.webp and favicon.svg are
-served with max-age 0, so they revalidate on every visit - repeat-visit round trips for assets that never change.
+Audit B: static build assets carry immutable one-year caching, but logo.svg, lumi-poster.webp and favicon.svg are served with max-age 0, so they revalidate on every visit - repeat-visit round trips for assets that never change.
 
 ## 1. Description (normative)
 

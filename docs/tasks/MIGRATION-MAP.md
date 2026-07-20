@@ -1,20 +1,12 @@
 # Migration map - 2026-07-11 task reset
 
-On 2026-07-11 the landing-page docs were collapsed onto the single CyberOS task
-workflow (`.cyberos/cuo/ship-tasks.md`). Three things happened:
+On 2026-07-11 the landing-page docs were collapsed onto the single CyberOS task workflow (`.cyberos/cuo/ship-tasks.md`). Three things happened:
 
-1. The 66 `shipped` tasks were retagged `done` and moved to `_archive/<module>/`.
-   They stay in the repo for the audit trail and stay listed in BACKLOG.md.
-2. The parallel growth program (`docs/tasks/improvement/` - BACKLOG,
-   LEDGER, tasks/01..09, 66 tasks with their own `LEAD-01` style ids and their
-   own status vocabulary) was migrated into tasks with `class: improvement` and the
-   folder was deleted. There is now one backlog, one id scheme, one lifecycle.
-3. The three audits delivered on 2026-07-10/11 (now in `docs/audits/2026-07-11/`)
-   were turned into tasks. Where an audit finding and a growth task were the same
-   work, they became one task carrying both traces.
+1. The 66 `shipped` tasks were retagged `done` and moved to `_archive/<module>/`. They stay in the repo for the audit trail and stay listed in BACKLOG.md.
+2. The parallel growth program (`docs/tasks/improvement/` - BACKLOG, LEDGER, tasks/01..09, 66 tasks with their own `LEAD-01` style ids and their own status vocabulary) was migrated into tasks with `class: improvement` and the folder was deleted. There is now one backlog, one id scheme, one lifecycle.
+3. The three audits delivered on 2026-07-10/11 (now in `docs/audits/2026-07-11/`) were turned into tasks. Where an audit finding and a growth task were the same work, they became one task carrying both traces.
 
-The source audit that the growth program came from
-(`docs/growth/landing-audit-2026-07-06.md`) is kept - it is evidence, not a plan.
+The source audit that the growth program came from (`docs/growth/landing-audit-2026-07-06.md`) is kept - it is evidence, not a plan.
 
 ## Status vocabulary migration
 
@@ -99,9 +91,7 @@ The source audit that the growth program came from
 
 ## Audit finding -> task
 
-`A` = `docs/audits/2026-07-11/A-deep-audit-dual-benchmark.md` (deep audit + dual benchmark)
-`B` = `docs/audits/2026-07-11/B-lighthouse-benchmark.html` (live Lighthouse benchmark, 10 Jul)
-`C` = `docs/audits/2026-07-11/C-audit-and-remediation-plan.pdf` (audit + remediation plan, 11 Jul)
+`A` = `docs/audits/2026-07-11/A-deep-audit-dual-benchmark.md` (deep audit + dual benchmark) `B` = `docs/audits/2026-07-11/B-lighthouse-benchmark.html` (live Lighthouse benchmark, 10 Jul) `C` = `docs/audits/2026-07-11/C-audit-and-remediation-plan.pdf` (audit + remediation plan, 11 Jul)
 
 | Finding | task |
 |---|---|
@@ -146,15 +136,7 @@ The source audit that the growth program came from
 
 ## Findings deliberately not turned into tasks
 
-- **B: "sitemap lists only the two homepages."** `app/sitemap.ts` in this repo already
-  emits services, work, careers and how-we-build, so the crawl saw a stale deploy or a
-  cached file. TASK-SEO-012 still ships, because /privacy and /accessibility *are* missing
-  and every `lastModified` is build-time - and because a post-deploy verification of the
-  live sitemap is the only way to know which of the two it was.
-- **A: "structured data likely missing."** Audit A could not fetch JSON-LD; audits B and C
-  both confirm it is present and richer than the competitors'. No task - the extension work
-  is TASK-SEO-015 and TASK-SEO-019.
-- **A: "robots.txt / sitemap could not be verified."** Both exist (`app/robots.ts`,
-  `app/sitemap.ts`). The real defects (the non-standard `Host` directive, no AI-crawler
-  stance) are in TASK-SEO-017.
+- **B: "sitemap lists only the two homepages."** `app/sitemap.ts` in this repo already emits services, work, careers and how-we-build, so the crawl saw a stale deploy or a cached file. TASK-SEO-012 still ships, because /privacy and /accessibility *are* missing and every `lastModified` is build-time - and because a post-deploy verification of the live sitemap is the only way to know which of the two it was.
+- **A: "structured data likely missing."** Audit A could not fetch JSON-LD; audits B and C both confirm it is present and richer than the competitors'. No task - the extension work is TASK-SEO-015 and TASK-SEO-019.
+- **A: "robots.txt / sitemap could not be verified."** Both exist (`app/robots.ts`, `app/sitemap.ts`). The real defects (the non-standard `Host` directive, no AI-crawler stance) are in TASK-SEO-017.
 - **NURT-10 (market the client portal).** Dropped: the portal is not real for a client yet.

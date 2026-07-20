@@ -15,10 +15,7 @@ traces_to: [audit-A/phase-1-item-1, audit-A/phase-1-item-2, audit-C/content-cred
 
 ## 0. Why (evidence)
 
-The single biggest gap in all three audits, and the one the agent cannot solve alone: every proof task in this backlog
-(TASK-CMS-011 case-study template, TASK-CMS-012 testimonials, TASK-CMS-013 logos, TASK-WEB-012 team page) is blocked on assets only
-the owner can obtain. Audit A: "a technically sophisticated buyer evaluating an offshore partner will ask 'who have you done
-this for, and what happened?' - and the site cannot answer."
+The single biggest gap in all three audits, and the one the agent cannot solve alone: every proof task in this backlog (TASK-CMS-011 case-study template, TASK-CMS-012 testimonials, TASK-CMS-013 logos, TASK-WEB-012 team page) is blocked on assets only the owner can obtain. Audit A: "a technically sophisticated buyer evaluating an offshore partner will ask 'who have you done this for, and what happened?' - and the site cannot answer."
 
 ## 1. Description (normative)
 

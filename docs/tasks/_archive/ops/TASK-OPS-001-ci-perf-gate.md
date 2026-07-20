@@ -27,15 +27,10 @@ awh: N/A
 
 CI MUST be the machine that enforces what humans cannot eyeball.
 
-1. CI MUST run the static verification script, a typecheck, and a build on every
-   push and pull request, and MUST fail the job if any step fails.
-2. CI MUST enforce a Lighthouse performance budget and MUST fail if the LCP
-   budget regresses past 2500 ms.
-3. `lighthouse/budget.json` MUST be the machine-checked performance contract
-   (script bundle, total bytes, and timing budgets), version-controlled so a
-   regression is a diff.
-4. `scripts/verify-static.mjs` MUST be runnable locally so the same checks gate
-   before a push.
+1. CI MUST run the static verification script, a typecheck, and a build on every push and pull request, and MUST fail the job if any step fails.
+2. CI MUST enforce a Lighthouse performance budget and MUST fail if the LCP budget regresses past 2500 ms.
+3. `lighthouse/budget.json` MUST be the machine-checked performance contract (script bundle, total bytes, and timing budgets), version-controlled so a regression is a diff.
+4. `scripts/verify-static.mjs` MUST be runnable locally so the same checks gate before a push.
 
 ## §2 Acceptance
 
@@ -45,6 +40,4 @@ CI MUST be the machine that enforces what humans cannot eyeball.
 
 ## §3 Evidence
 
-Static: `.github/workflows/ci.yml` runs verify + typecheck + build + budget;
-`lighthouse/budget.json` sets the LCP ceiling; `scripts/verify-static.mjs`
-present. Deferred: a live CI run on the operator's GitHub.
+Static: `.github/workflows/ci.yml` runs verify + typecheck + build + budget; `lighthouse/budget.json` sets the LCP ceiling; `scripts/verify-static.mjs` present. Deferred: a live CI run on the operator's GitHub.

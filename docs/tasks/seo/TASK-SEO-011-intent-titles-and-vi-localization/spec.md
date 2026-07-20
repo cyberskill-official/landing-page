@@ -15,11 +15,7 @@ traces_to: [audit-C/technical-seo-gaps, audit-C/phase-1, audit-A/section-1, grow
 
 ## 0. Why (evidence)
 
-Two independent findings: (a) the Vietnamese routes keep the English title tag ("Turn Your Will Into Real - CyberSkill")
-even though the H1 and description are translated - app/[lang]/layout.tsx returns one hardcoded title for both locales;
-(b) titles are slogan-only, so no page targets what buyers actually type ("software development company Vietnam",
-"offshore development Ho Chi Minh City", "công ty phát triển phần mềm TP.HCM"). Audit A shows competitors ranking on
-dozens of such pages.
+Two independent findings: (a) the Vietnamese routes keep the English title tag ("Turn Your Will Into Real - CyberSkill") even though the H1 and description are translated - app/[lang]/layout.tsx returns one hardcoded title for both locales; (b) titles are slogan-only, so no page targets what buyers actually type ("software development company Vietnam", "offshore development Ho Chi Minh City", "công ty phát triển phần mềm TP.HCM"). Audit A shows competitors ranking on dozens of such pages.
 
 ## 1. Description (normative)
 

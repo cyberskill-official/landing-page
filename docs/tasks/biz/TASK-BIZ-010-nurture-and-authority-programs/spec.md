@@ -15,9 +15,7 @@ traces_to: [growth/NURT-02, growth/NURT-06, growth/NURT-07, growth/PROOF-06, aud
 
 ## 0. Why (evidence)
 
-Audit A's Phase 5 is explicit that the compounding work is a cadence, not a project: one original technical article a month,
-refreshed case-study metrics, tracked AI share-of-voice. Audit C: thoughtbot's content-led credibility is replicable without an
-enterprise budget. None of this is code - it is a set of standing commitments with owners.
+Audit A's Phase 5 is explicit that the compounding work is a cadence, not a project: one original technical article a month, refreshed case-study metrics, tracked AI share-of-voice. Audit C: thoughtbot's content-led credibility is replicable without an enterprise budget. None of this is code - it is a set of standing commitments with owners.
 
 ## 1. Description (normative)
 

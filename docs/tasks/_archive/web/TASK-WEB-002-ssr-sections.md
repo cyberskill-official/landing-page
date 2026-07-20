@@ -33,28 +33,18 @@ awh: N/A
 
 ## §1 Requirement (BCP-14 normative)
 
-The home story MUST be server-rendered DOM, not painted by the canvas, so that
-every meaningful state is crawlable and survives with JavaScript disabled.
+The home story MUST be server-rendered DOM, not painted by the canvas, so that every meaningful state is crawlable and survives with JavaScript disabled.
 
-1. The home route MUST render hero, value proposition, services, work preview,
-   social proof, careers, and contact as server components reading copy from the
-   content source (TASK-CMS-001) for the active locale.
-2. The hero H1 MUST be the slogan "Turn Your Will Into Real" rendered in the SSR
-   DOM, and MUST be the LCP element. The 3D canvas MUST NOT own LCP and MUST NOT
-   be required for any text to be present.
-3. Reveal animations MUST be opacity-only (no layout shift) and MUST be motion-
-   safe: under `prefers-reduced-motion: reduce` the `Reveal` wrapper MUST render
-   its children fully visible with no transform.
+1. The home route MUST render hero, value proposition, services, work preview, social proof, careers, and contact as server components reading copy from the content source (TASK-CMS-001) for the active locale.
+2. The hero H1 MUST be the slogan "Turn Your Will Into Real" rendered in the SSR DOM, and MUST be the LCP element. The 3D canvas MUST NOT own LCP and MUST NOT be required for any text to be present.
+3. Reveal animations MUST be opacity-only (no layout shift) and MUST be motion- safe: under `prefers-reduced-motion: reduce` the `Reveal` wrapper MUST render its children fully visible with no transform.
 4. `/work` and `/careers` MUST exist as their own crawlable routes per locale.
 
 ## §2 Acceptance
 
-- View-source on `/en` and `/vi` shows the slogan H1 and all seven section
-  headings as text before any client script runs.
+- View-source on `/en` and `/vi` shows the slogan H1 and all seven section headings as text before any client script runs.
 - With motion reduced, content is visible immediately (no opacity:0 trap).
 
 ## §3 Evidence
 
-Static: seven section components + `Reveal` + three routes authored; copy is
-read from `lib/content/site.ts`; `Reveal` branches on reduced motion. Deferred:
-`next build` render and LCP-element confirmation on the operator machine.
+Static: seven section components + `Reveal` + three routes authored; copy is read from `lib/content/site.ts`; `Reveal` branches on reduced motion. Deferred: `next build` render and LCP-element confirmation on the operator machine.

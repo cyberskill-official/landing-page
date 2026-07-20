@@ -21,18 +21,12 @@ awh: N/A
 
 ## §1 Requirement (BCP-14 normative)
 
-CTA copy MUST be testable across variants with conversion attributed back to the
-variant that produced the lead.
+CTA copy MUST be testable across variants with conversion attributed back to the variant that produced the lead.
 
-1. The system MUST support at least two CTA copy variants (for example "Start my
-   project" versus "Talk to an engineer") and MUST assign a visitor to one
-   variant stably across the session.
-2. Each lead MUST record the variant it came from so conversion can be attributed
-   per variant.
-3. Variant assignment MUST NOT block first paint and MUST degrade to the default
-   copy if the assignment fails.
-4. Every variant MUST ship English and Vietnamese copy, and a variant present in
-   one locale MUST be present in the other.
+1. The system MUST support at least two CTA copy variants (for example "Start my project" versus "Talk to an engineer") and MUST assign a visitor to one variant stably across the session.
+2. Each lead MUST record the variant it came from so conversion can be attributed per variant.
+3. Variant assignment MUST NOT block first paint and MUST degrade to the default copy if the assignment fails.
+4. Every variant MUST ship English and Vietnamese copy, and a variant present in one locale MUST be present in the other.
 
 ## §2 Acceptance
 

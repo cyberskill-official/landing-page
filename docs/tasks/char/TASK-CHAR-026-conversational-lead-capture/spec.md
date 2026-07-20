@@ -17,10 +17,7 @@ traces_to: [research-doc/section-I, research-doc/section-O]
 
 Research doc §I (conversational Genie) and §O (lead capture + qualification).
 
-Down-payment already shipped (TASK-CHAR-031, 2026-07-02): a deterministic in-chat wish flow collects name, email, company,
-message and consent conversationally, tolerates skips, and submits to /api/lead. What is still missing is the part that
-makes it a *qualification*: value-first help before the ask, tolerance for free-form out-of-order answers, ICP-adaptive
-follow-ups, and a formal LEAD_CAPTURED state for the handoff in TASK-CHAR-027.
+Down-payment already shipped (TASK-CHAR-031, 2026-07-02): a deterministic in-chat wish flow collects name, email, company, message and consent conversationally, tolerates skips, and submits to /api/lead. What is still missing is the part that makes it a *qualification*: value-first help before the ask, tolerance for free-form out-of-order answers, ICP-adaptive follow-ups, and a formal LEAD_CAPTURED state for the handoff in TASK-CHAR-027.
 
 ## 1. Description (normative)
 

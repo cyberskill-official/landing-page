@@ -15,10 +15,7 @@ traces_to: [audit-C/phase-1, audit-C/limitations, audit-B/method, audit-A/sectio
 
 ## 0. Why (evidence)
 
-Audit C could not pull PageSpeed Insights (quota error) and the site has no CrUX field data, so real-user LCP, INP
-and CLS are unverified; audit A flags the same gap. The web-applications service page publicly promises "Core Web Vitals
-kept in the green", so measuring and holding them is a credibility matter, not only an engineering one. TASK-PERF-002 and
-TASK-PERF-006 shipped Lighthouse CI and Speed Insights; this task raises them to an asserted, regression-proof floor.
+Audit C could not pull PageSpeed Insights (quota error) and the site has no CrUX field data, so real-user LCP, INP and CLS are unverified; audit A flags the same gap. The web-applications service page publicly promises "Core Web Vitals kept in the green", so measuring and holding them is a credibility matter, not only an engineering one. TASK-PERF-002 and TASK-PERF-006 shipped Lighthouse CI and Speed Insights; this task raises them to an asserted, regression-proof floor.
 
 ## 1. Description (normative)
 

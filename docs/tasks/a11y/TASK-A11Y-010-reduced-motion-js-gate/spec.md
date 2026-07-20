@@ -15,10 +15,7 @@ traces_to: [audit-C/ui-ux-gaps, audit-C/phase-1, audit-A/section-5, audit-B/phas
 
 ## 0. Why (evidence)
 
-Audit C: despite 34 prefers-reduced-motion rules in the stylesheet, the JavaScript and WebGL genie and particle
-animations kept running while the test environment requested reduced motion. Audit A quotes the site's own accessibility
-statement admitting "some motion currently plays regardless of the operating-system reduced-motion setting" - a defect
-CyberSkill has self-identified and published but not fixed. This supersedes the closed TASK-A11Y-009.
+Audit C: despite 34 prefers-reduced-motion rules in the stylesheet, the JavaScript and WebGL genie and particle animations kept running while the test environment requested reduced motion. Audit A quotes the site's own accessibility statement admitting "some motion currently plays regardless of the operating-system reduced-motion setting" - a defect CyberSkill has self-identified and published but not fixed. This supersedes the closed TASK-A11Y-009.
 
 ## 1. Description (normative)
 

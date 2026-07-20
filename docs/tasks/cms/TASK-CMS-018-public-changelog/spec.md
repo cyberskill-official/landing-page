@@ -15,8 +15,7 @@ traces_to: [growth/NURT-05]
 
 ## 0. Why (evidence)
 
-Returning visitors and the newsletter need fresh, low-cost material, and the team ships constantly while none of it is
-visible. A changelog is the cheapest proof of momentum.
+Returning visitors and the newsletter need fresh, low-cost material, and the team ships constantly while none of it is visible. A changelog is the cheapest proof of momentum.
 
 ## 1. Description (normative)
 

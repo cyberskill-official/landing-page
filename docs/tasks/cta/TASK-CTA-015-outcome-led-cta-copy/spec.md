@@ -15,8 +15,7 @@ traces_to: [growth/CONV-01, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-"Start my project" names an action; a result ("Get a scoped build plan within 3 business days") converts better and is
-testable. Audit A rates the positioning as strong in voice but weak in evidence - a concrete, kept promise is evidence.
+"Start my project" names an action; a result ("Get a scoped build plan within 3 business days") converts better and is testable. Audit A rates the positioning as strong in voice but weak in evidence - a concrete, kept promise is evidence.
 
 ## 1. Description (normative)
 

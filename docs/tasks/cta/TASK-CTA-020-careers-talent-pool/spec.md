@@ -15,8 +15,7 @@ traces_to: [growth/COPY-04]
 
 ## 0. Why (evidence)
 
-Recruiting is one of the site's three stated goals, and /careers currently offers no way to stay in touch when no role is
-open.
+Recruiting is one of the site's three stated goals, and /careers currently offers no way to stay in touch when no role is open.
 
 ## 1. Description (normative)
 

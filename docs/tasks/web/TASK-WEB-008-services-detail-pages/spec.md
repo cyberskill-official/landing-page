@@ -23,21 +23,15 @@ closed_reason: superseded by TASK-SEO-016 (service-page depth); the /services/[s
 
 ## §1 Requirement (BCP-14 normative)
 
-Each service SHOULD have its own crawlable detail page per locale, so the offer
-can rank and be linked on its own URL.
+Each service SHOULD have its own crawlable detail page per locale, so the offer can rank and be linked on its own URL.
 
-1. The route `/[lang]/services/[slug]` MUST exist and MUST use
-   `generateStaticParams` to pre-render every service in both locales from the
-   content source (TASK-CMS-005).
-2. Each page MUST emit per-locale metadata and hreflang alternates (`en`, `vi`,
-   `x-default`), and an unknown slug MUST `notFound()`.
-3. Page copy MUST come from the shared content source for the active locale, not
-   be duplicated in the route.
+1. The route `/[lang]/services/[slug]` MUST exist and MUST use `generateStaticParams` to pre-render every service in both locales from the content source (TASK-CMS-005).
+2. Each page MUST emit per-locale metadata and hreflang alternates (`en`, `vi`, `x-default`), and an unknown slug MUST `notFound()`.
+3. Page copy MUST come from the shared content source for the active locale, not be duplicated in the route.
 
 ## §2 Acceptance
 
-- Every service resolves at `/en/services/[slug]` and `/vi/services/[slug]` with
-  correct hreflang links; an unknown slug returns 404.
+- Every service resolves at `/en/services/[slug]` and `/vi/services/[slug]` with correct hreflang links; an unknown slug returns 404.
 - View-source shows the service title and body as text per locale.
 
 ## §3 Evidence

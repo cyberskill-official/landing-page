@@ -15,12 +15,7 @@ traces_to: [audit-B/finding-1-critical, audit-B/phase-1, audit-C/performance]
 
 ## 0. Why (evidence)
 
-Live mobile Lighthouse on 10 July 2026 measured CLS 0.431 on the home page against 0.002 on desktop; Google's
-"good" threshold is 0.1. It is the worst layout shift in the four-site benchmark and the single reason the mobile
-performance score sits at 47 while desktop scores 97 - the page is already the lightest in the set (573 KB) and its
-blocking time is lower than both higher-scoring rivals. Audit B estimates this one metric is worth 20-25 performance
-points. Named causes: the hero mascot/poster loads without reserved space, the display font swaps without a matched
-fallback, and the rotating placeholder in the wish input resizes its container.
+Live mobile Lighthouse on 10 July 2026 measured CLS 0.431 on the home page against 0.002 on desktop; Google's "good" threshold is 0.1. It is the worst layout shift in the four-site benchmark and the single reason the mobile performance score sits at 47 while desktop scores 97 - the page is already the lightest in the set (573 KB) and its blocking time is lower than both higher-scoring rivals. Audit B estimates this one metric is worth 20-25 performance points. Named causes: the hero mascot/poster loads without reserved space, the display font swaps without a matched fallback, and the rotating placeholder in the wish input resizes its container.
 
 ## 1. Description (normative)
 

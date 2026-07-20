@@ -15,9 +15,7 @@ traces_to: [growth/SEO-07, growth/MEAS-05, audit-A/phase-5]
 
 ## 0. Why (evidence)
 
-Nothing in the SEO half of this backlog is measurable without Search Console: no query data, no coverage errors, no proof
-that the intent-title change (TASK-SEO-011) moved impressions. Audit A also prescribes a quarterly SEO/GEO review as a standing
-ritual.
+Nothing in the SEO half of this backlog is measurable without Search Console: no query data, no coverage errors, no proof that the intent-title change (TASK-SEO-011) moved impressions. Audit A also prescribes a quarterly SEO/GEO review as a standing ritual.
 
 ## 1. Description (normative)
 

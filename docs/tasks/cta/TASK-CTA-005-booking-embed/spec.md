@@ -15,9 +15,7 @@ traces_to: [growth/CONV-02, audit-A/section-9, audit-B/finding-2-high]
 
 ## 0. Why (evidence)
 
-Many buyers pick a time slot but never write a message. Scope corrected on 2026-07-11: this is a link, not an embed. A
-third-party booking iframe would cost page weight, a consent surface and a CSP allowance (TASK-OPS-009) on a page that is
-already fighting a mobile performance problem (audit B: 1,370 ms TBT, ~900 KB JS).
+Many buyers pick a time slot but never write a message. Scope corrected on 2026-07-11: this is a link, not an embed. A third-party booking iframe would cost page weight, a consent surface and a CSP allowance (TASK-OPS-009) on a page that is already fighting a mobile performance problem (audit B: 1,370 ms TBT, ~900 KB JS).
 
 ## 1. Description (normative)
 

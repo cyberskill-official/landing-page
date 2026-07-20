@@ -29,13 +29,9 @@ awh: N/A
 
 Speed Insights MUST be installable without breaking the test toolchain.
 
-1. The Vercel Speed Insights component MUST be mounted in the root layout so
-   field metrics are reported from every route.
-2. The install MUST resolve the known `@vercel/*` and Vitest Vite peer
-   conflict; a committed `.npmrc` with `legacy-peer-deps=true` MUST make the
-   install deterministic.
-3. The dependency note MUST be recorded so the next operator does not rediscover
-   the conflict by hitting it.
+1. The Vercel Speed Insights component MUST be mounted in the root layout so field metrics are reported from every route.
+2. The install MUST resolve the known `@vercel/*` and Vitest Vite peer conflict; a committed `.npmrc` with `legacy-peer-deps=true` MUST make the install deterministic.
+3. The dependency note MUST be recorded so the next operator does not rediscover the conflict by hitting it.
 
 ## §2 Acceptance
 
@@ -45,11 +41,4 @@ Speed Insights MUST be installable without breaking the test toolchain.
 
 ## §3 Evidence
 
-Shipped. `@vercel/speed-insights@^2` (and `@vercel/analytics@^2`) are in
-`package.json`, and `<SpeedInsights />` (+ `<Analytics />`) are mounted in
-`app/layout.tsx`, so field metrics report from every route. The peer conflict
-this task anticipated no longer reproduces: a clean `npm install` succeeds with no
-`.npmrc` (the dependency tree resolved cleanly once the packages landed via the
-Vercel install PRs), and Vitest still installs and runs alongside them (37
-tests pass). So no `.npmrc` was needed; the note for the next operator is simply
-that the conflict is gone. Verified: clean install + vitest + next build green.
+Shipped. `@vercel/speed-insights@^2` (and `@vercel/analytics@^2`) are in `package.json`, and `<SpeedInsights />` (+ `<Analytics />`) are mounted in `app/layout.tsx`, so field metrics report from every route. The peer conflict this task anticipated no longer reproduces: a clean `npm install` succeeds with no `.npmrc` (the dependency tree resolved cleanly once the packages landed via the Vercel install PRs), and Vitest still installs and runs alongside them (37 tests pass). So no `.npmrc` was needed; the note for the next operator is simply that the conflict is gone. Verified: clean install + vitest + next build green.

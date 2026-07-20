@@ -15,10 +15,7 @@ traces_to: [audit-A/phase-2-item-8, audit-C/content-credibility, growth/PROOF-05
 
 ## 0. Why (evidence)
 
-Audits A and C both call the missing team the biggest authenticity gap: the site promises "senior engineers own the work
-end to end" and "you always know who is building what", the nav offers a Team link, and it lands on a one-line company
-statement with no named people. This task owns the content; TASK-WEB-012 owns the route, the Person JSON-LD and the nav fix;
-TASK-BIZ-006 owns the consent.
+Audits A and C both call the missing team the biggest authenticity gap: the site promises "senior engineers own the work end to end" and "you always know who is building what", the nav offers a Team link, and it lands on a one-line company statement with no named people. This task owns the content; TASK-WEB-012 owns the route, the Person JSON-LD and the nav fix; TASK-BIZ-006 owns the consent.
 
 ## 1. Description (normative)
 

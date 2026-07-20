@@ -15,10 +15,7 @@ traces_to: [research-doc/section-J, audit-B/finding-1-critical, growth/PERF-02]
 
 ## 0. Why (evidence)
 
-Research doc §J, and now a named cause of the worst metric on the site: audit B attributes part of the 0.431 mobile CLS to
-the display font swapping without a matched fallback. app/layout.tsx already self-hosts Space Grotesk with the Vietnamese
-subset via next/font (keyless, size-adjusted fallback) - this task centralises and completes the strategy so TASK-PERF-007 can
-rely on it.
+Research doc §J, and now a named cause of the worst metric on the site: audit B attributes part of the 0.431 mobile CLS to the display font swapping without a matched fallback. app/layout.tsx already self-hosts Space Grotesk with the Vietnamese subset via next/font (keyless, size-adjusted fallback) - this task centralises and completes the strategy so TASK-PERF-007 can rely on it.
 
 ## 1. Description (normative)
 

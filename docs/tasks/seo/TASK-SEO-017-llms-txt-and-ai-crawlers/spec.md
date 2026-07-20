@@ -15,11 +15,7 @@ traces_to: [audit-A/phase-1-item-6, audit-C/geo, audit-B/finding-13-low, growth/
 
 ## 0. Why (evidence)
 
-All three audits confirm the /llms.txt probe returns 404. Audit C is honest that llms.txt is an emerging convention with
-roughly ten percent adoption that Google has said it will not support - it is low-cost insurance, not a ranking lever.
-The audits agree on the real value: a clean, curated entity map that also disambiguates CyberSkill from the unrelated
-Australian "Cyberskill" cybersecurity-training company (audit A §2), plus a deliberate, stated position on GPTBot,
-ClaudeBot, PerplexityBot and Google-Extended instead of the current silent allow-all.
+All three audits confirm the /llms.txt probe returns 404. Audit C is honest that llms.txt is an emerging convention with roughly ten percent adoption that Google has said it will not support - it is low-cost insurance, not a ranking lever. The audits agree on the real value: a clean, curated entity map that also disambiguates CyberSkill from the unrelated Australian "Cyberskill" cybersecurity-training company (audit A §2), plus a deliberate, stated position on GPTBot, ClaudeBot, PerplexityBot and Google-Extended instead of the current silent allow-all.
 
 ## 1. Description (normative)
 

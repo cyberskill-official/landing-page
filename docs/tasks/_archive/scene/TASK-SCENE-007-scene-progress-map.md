@@ -28,14 +28,10 @@ awh: N/A
 
 One map MUST turn section progress into scene state.
 
-1. Each narrative section MUST expose a normalized 0..1 progress value derived
-   from the shared scroll loop in TASK-SCENE-002.
-2. A single progress map MUST translate those values into camera moves, model
-   state, and lighting, so all scene consumers read one source of truth.
-3. The map MUST be declarative data (section to targets), not logic scattered
-   across components, and MUST clamp inputs to the 0..1 range.
-4. When motion is not allowed the map MUST resolve to static end-state values
-   so the scene still composes correctly without animation.
+1. Each narrative section MUST expose a normalized 0..1 progress value derived from the shared scroll loop in TASK-SCENE-002.
+2. A single progress map MUST translate those values into camera moves, model state, and lighting, so all scene consumers read one source of truth.
+3. The map MUST be declarative data (section to targets), not logic scattered across components, and MUST clamp inputs to the 0..1 range.
+4. When motion is not allowed the map MUST resolve to static end-state values so the scene still composes correctly without animation.
 
 ## §2 Acceptance
 
@@ -45,19 +41,6 @@ One map MUST turn section progress into scene state.
 
 ## §3 Evidence
 
-Shipped 2026-06-22. `lib/scene/progressMap.ts` is the single declarative map:
-keyframe stops (`at` -> camera/model/light targets) as data, with
-`resolveSceneState(progress)` lerping between the surrounding stops and
-`clamp01` clamping input to 0..1 (clauses 1, 3). Both scene consumers read from
-it and nothing computes its own choreography: the `CameraRig` in `GenieScene`
-eases the camera toward `resolveSceneState(p).camera`, and `LumiPlaceholder`
-drives its spin/drift/glow from `.model` and the point light from `.light`
-(clause 2). `staticSceneState()` returns the opening composition for the
-reduced-motion / non-WebGL path, which the StaticPoster mirrors (clause 4).
-`tests/scene-progress-map.test.ts` covers clamping, end-state resolution,
-monotonic interpolation, and the static state. Verified by tsc + lint + 36
-vitest tests + `next build` (rc=0).
+Shipped 2026-06-22. `lib/scene/progressMap.ts` is the single declarative map: keyframe stops (`at` -> camera/model/light targets) as data, with `resolveSceneState(progress)` lerping between the surrounding stops and `clamp01` clamping input to 0..1 (clauses 1, 3). Both scene consumers read from it and nothing computes its own choreography: the `CameraRig` in `GenieScene` eases the camera toward `resolveSceneState(p).camera`, and `LumiPlaceholder` drives its spin/drift/glow from `.model` and the point light from `.light` (clause 2). `staticSceneState()` returns the opening composition for the reduced-motion / non-WebGL path, which the StaticPoster mirrors (clause 4). `tests/scene-progress-map.test.ts` covers clamping, end-state resolution, monotonic interpolation, and the static state. Verified by tsc + lint + 36 vitest tests + `next build` (rc=0).
 
-Note on clause 1: progress is currently the global story timeline (the shared
-0..1 scroll loop); per-section sub-ranges can layer onto the same map when the
-pinned-section work (TASK-SCENE-004) lands.
+Note on clause 1: progress is currently the global story timeline (the shared 0..1 scroll loop); per-section sub-ranges can layer onto the same map when the pinned-section work (TASK-SCENE-004) lands.

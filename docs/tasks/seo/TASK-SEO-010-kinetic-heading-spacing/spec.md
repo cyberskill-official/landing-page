@@ -15,10 +15,7 @@ traces_to: [audit-C/on-page-seo, audit-C/phase-1, growth/SEO-09]
 
 ## 0. Why (evidence)
 
-components/motion/KineticText.tsx renders each word in its own aria-hidden <span> with no whitespace between spans, so
-the serialized DOM text of the big section headings reads "Thearcofawish" and "TurnYourWillIntoReal". Screen readers are
-fine (the heading carries aria-label), but crawlers, AI answer engines and text extractors that ignore ARIA see
-run-together strings on the site's most important headings. Audit C names this as a Phase 1, low-effort, high-priority fix.
+components/motion/KineticText.tsx renders each word in its own aria-hidden <span> with no whitespace between spans, so the serialized DOM text of the big section headings reads "Thearcofawish" and "TurnYourWillIntoReal". Screen readers are fine (the heading carries aria-label), but crawlers, AI answer engines and text extractors that ignore ARIA see run-together strings on the site's most important headings. Audit C names this as a Phase 1, low-effort, high-priority fix.
 
 ## 1. Description (normative)
 

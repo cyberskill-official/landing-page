@@ -15,8 +15,7 @@ traces_to: [growth/LEAD-02]
 
 ## 0. Why (evidence)
 
-CyberOS is the intended durable system of record for leads. Until it is live there is no queryable lead store, only email
-and Slack - which is where leads go to be forgotten.
+CyberOS is the intended durable system of record for leads. Until it is live there is no queryable lead store, only email and Slack - which is where leads go to be forgotten.
 
 ## 1. Description (normative)
 

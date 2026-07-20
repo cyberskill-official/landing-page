@@ -15,10 +15,7 @@ traces_to: [audit-B/finding-2-high, audit-B/phase-2, audit-C/performance]
 
 ## 0. Why (evidence)
 
-Audit B measured ~900 KB of first-party JavaScript across 19 chunks plus a 157 KB Google Tag Manager file; on a
-throttled phone this yields 1,370 ms total blocking time, 2.4 s of script start-up and 8.4 s of main-thread work, with
-~115 KB of the JavaScript unused on load. Audit C independently measured ~0.74 MB of decoded JS across 19 script files
-and at least one 197 ms long task. The site is the lightest page in the benchmark, so the cost is execution, not bytes.
+Audit B measured ~900 KB of first-party JavaScript across 19 chunks plus a 157 KB Google Tag Manager file; on a throttled phone this yields 1,370 ms total blocking time, 2.4 s of script start-up and 8.4 s of main-thread work, with ~115 KB of the JavaScript unused on load. Audit C independently measured ~0.74 MB of decoded JS across 19 script files and at least one 197 ms long task. The site is the lightest page in the benchmark, so the cost is execution, not bytes.
 
 ## 1. Description (normative)
 

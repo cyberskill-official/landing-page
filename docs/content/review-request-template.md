@@ -18,7 +18,7 @@ Takes ~5 minutes:
 1. **Google** (fastest): open our Business Profile and leave a review  
    https://share.google/JjXCbiMkb3mV2Jfb1  
 2. **Clutch** (optional, verified interview — only if you’re open to a short call):  
-   {paste Clutch review invite link when profile is live}
+{paste Clutch review invite link when profile is live}
 
 You can decline with no hard feelings. Thank you either way.
 
@@ -37,7 +37,7 @@ Khoảng 5 phút:
 1. **Google**: mở hồ sơ Business và để lại đánh giá  
    https://share.google/JjXCbiMkb3mV2Jfb1  
 2. **Clutch** (tuỳ chọn, có thể phỏng vấn ngắn):  
-   {dán link khi profile live}
+{dán link khi profile live}
 
 Bạn hoàn toàn có thể từ chối. Cảm ơn bạn dù sao.
 

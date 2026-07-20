@@ -15,10 +15,7 @@ traces_to: [growth/CONV-03, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-The moment after submit is the highest-attention moment in the funnel and today it is a bare success message. The
-one-business-day promise appears only before the form, and the visitor learns nothing about what happens next. Audit A
-rates the form itself as best-practice (3 required fields, honeypot, consent) and locates the throttle elsewhere - so the
-cheapest conversion gain is what surrounds it.
+The moment after submit is the highest-attention moment in the funnel and today it is a bare success message. The one-business-day promise appears only before the form, and the visitor learns nothing about what happens next. Audit A rates the form itself as best-practice (3 required fields, honeypot, consent) and locates the throttle elsewhere - so the cheapest conversion gain is what surrounds it.
 
 ## 1. Description (normative)
 

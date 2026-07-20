@@ -15,9 +15,7 @@ traces_to: [audit-A/phase-2-item-12, audit-A/threshold-triggers, audit-C/phase-3
 
 ## 0. Why (evidence)
 
-Audit A's benchmark is blunt: TMA and FPT carry CMMI L5 and ISO 27001/9001; Saigon Technology carries ISO; CyberSkill shows
-none. Audit C lists certifications as the trust element that unlocks enterprise and regulated deals, especially international
-ones. Audit A also gives the trigger: if Clutch reviews reach 10+ at 4.8 stars, prioritise ISO 27001 to move upmarket.
+Audit A's benchmark is blunt: TMA and FPT carry CMMI L5 and ISO 27001/9001; Saigon Technology carries ISO; CyberSkill shows none. Audit C lists certifications as the trust element that unlocks enterprise and regulated deals, especially international ones. Audit A also gives the trigger: if Clutch reviews reach 10+ at 4.8 stars, prioritise ISO 27001 to move upmarket.
 
 ## 1. Description (normative)
 

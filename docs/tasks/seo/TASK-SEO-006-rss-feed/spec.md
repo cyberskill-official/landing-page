@@ -15,8 +15,7 @@ traces_to: [research-doc/section-F, growth/SEO-03]
 
 ## 0. Why (evidence)
 
-Research doc §F (content syndication) and §E (discoverability). The feed is the cheapest distribution the insights hub gets,
-and it is what the newsletter (TASK-CTA-014) and the share workflow (TASK-BIZ-010) both reuse.
+Research doc §F (content syndication) and §E (discoverability). The feed is the cheapest distribution the insights hub gets, and it is what the newsletter (TASK-CTA-014) and the share workflow (TASK-BIZ-010) both reuse.
 
 ## 1. Description (normative)
 

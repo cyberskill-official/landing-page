@@ -1,19 +1,10 @@
 # CyberSkill landing page - task backlog
 
-Source of truth for task state = each task's frontmatter `status`. This file indexes them.
-ONE backlog for ALL work: net-new features (`class: product`) and hardening / audit-remediation
-(`class: improvement`) live here together. Improvement is not a separate track and never gets a
-second backlog file - the `docs/tasks/improvement/` folder was migrated into tasks and
-deleted on 2026-07-11 (see `MIGRATION-MAP.md`).
+Source of truth for task state = each task's frontmatter `status`. This file indexes them. ONE backlog for ALL work: net-new features (`class: product`) and hardening / audit-remediation (`class: improvement`) live here together. Improvement is not a separate track and never gets a second backlog file - the `docs/tasks/improvement/` folder was migrated into tasks and deleted on 2026-07-11 (see `MIGRATION-MAP.md`).
 
-Authoring protocol: `../../AGENTS.md` (project overlay) over `.cyberos/cuo/`. Lifecycle and the
-10-value status enum: `.cyberos/cuo/STATUS-REFERENCE.md`. The `ship-tasks` workflow
-reads this file, picks the first eligible task (`ready_to_implement` with every `depends_on` done),
-and drives it to `done`. HITL is required: the agent halts at review acceptance and at final
-acceptance for a recorded human verdict, and never sets `done` itself.
+Authoring protocol: `../../AGENTS.md` (project overlay) over `.cyberos/cuo/`. Lifecycle and the 10-value status enum: `.cyberos/cuo/STATUS-REFERENCE.md`. The `ship-tasks` workflow reads this file, picks the first eligible task (`ready_to_implement` with every `depends_on` done), and drives it to `done`. HITL is required: the agent halts at review acceptance and at final acceptance for a recorded human verdict, and never sets `done` itself.
 
-Last rebuilt: 2026-07-11, from the three audits in `docs/audits/2026-07-11/` plus the migrated
-growth program. Live in production at https://cyberskill.world.
+Last rebuilt: 2026-07-11, from the three audits in `docs/audits/2026-07-11/` plus the migrated growth program. Live in production at https://cyberskill.world.
 
 > **Implementing agent: read `README.md` in this folder first.** It is the five-minute
 > brief on how the queue, the contract and the gates work here.
@@ -29,18 +20,11 @@ CyberOS central-data wave (see `docs/architecture/cyberos-central-data-source.md
 
 ## §0 How to read this backlog
 
-One row is one task; one task is one atomic, testable requirement. Rows are grouped by status, then
-by module. `(improvement)` marks a hardening / audit-remediation task; untagged rows are product.
-`[human]` / `[mixed]` marks an task an agent cannot finish alone - it needs an account, a credential,
-a permission, or a commercial decision. Those live in the `BIZ` module and in `depends_on` of the
-tasks they block.
+One row is one task; one task is one atomic, testable requirement. Rows are grouped by status, then by module. `(improvement)` marks a hardening / audit-remediation task; untagged rows are product. `[human]` / `[mixed]` marks an task an agent cannot finish alone - it needs an account, a credential, a permission, or a commercial decision. Those live in the `BIZ` module and in `depends_on` of the tasks they block.
 
 Priority uses BCP-14: MUST (release blocker), SHOULD (release should-have), COULD (nice-to-have).
 
-Modules: `DS` design system - `WEB` foundation + routing - `SCENE` 3D + scroll - `CHAR` Lumi -
-`CTA` conversion + forms - `CMS` content + copy + i18n - `SEO` discoverability + GEO - `A11Y`
-accessibility - `PERF` performance - `OPS` build/CI/deploy/observability - `BIZ` off-site work the
-repo cannot do (accounts, permissions, credentials, rituals, commercial policy).
+Modules: `DS` design system - `WEB` foundation + routing - `SCENE` 3D + scroll - `CHAR` Lumi - `CTA` conversion + forms - `CMS` content + copy + i18n - `SEO` discoverability + GEO - `A11Y` accessibility - `PERF` performance - `OPS` build/CI/deploy/observability - `BIZ` off-site work the repo cannot do (accounts, permissions, credentials, rituals, commercial policy).
 
 ## §1 Totals
 
@@ -68,10 +52,7 @@ repo cannot do (accounts, permissions, credentials, rituals, commercial policy).
 
 ## §2 The queue
 
-`ship-tasks` picks the first `ready_to_implement` task with `owner: agent` whose
-every `depends_on` is `done`. Run `npm run check:tasks` to print this queue and to gate the
-contract (ADR-001). Counts: **40 agent-eligible now**, 13 agent-blocked on a
-dependency, 33 waiting on a human.
+`ship-tasks` picks the first `ready_to_implement` task with `owner: agent` whose every `depends_on` is `done`. Run `npm run check:tasks` to print this queue and to gate the contract (ADR-001). Counts: **40 agent-eligible now**, 13 agent-blocked on a dependency, 33 waiting on a human.
 
 ### §2.1 Agent-eligible now (no unmet dependency)
 
@@ -182,8 +163,7 @@ dependency, 33 waiting on a human.
 
 ### §2.3 Needs a human (owner human / mixed)
 
-These never enter the agent queue. They hold accounts, credentials, permissions and
-commercial decisions - most of them are in the `depends_on` of the tasks above.
+These never enter the agent queue. They hold accounts, credentials, permissions and commercial decisions - most of them are in the `depends_on` of the tasks above.
 
 
 #### CHAR
@@ -376,12 +356,7 @@ Shipped, verified and live. The specs live in `_archive/<module>/` for the audit
 
 ## §7 The gate
 
-`npm run check:tasks` (scripts/check-tasks.mjs, wired into CI) enforces the task contract in
-`.cyberos/cuo/templates/TASK-TEMPLATE.md`: frontmatter enums, `depends_on` resolution, no
-dependency on a closed task, BACKLOG parity, and - for every `ready_to_implement` task - the
-five required sections plus clause -> AC -> named-test traceability (TRACE-001/002).
-It does NOT run the CyberOS plugin's `audit_rubric@2.0`: that rubric audits a different task
-contract and fails ~12 rules on every task here, including shipped ones. See ADR-001.
+`npm run check:tasks` (scripts/check-tasks.mjs, wired into CI) enforces the task contract in `.cyberos/cuo/templates/TASK-TEMPLATE.md`: frontmatter enums, `depends_on` resolution, no dependency on a closed task, BACKLOG parity, and - for every `ready_to_implement` task - the five required sections plus clause -> AC -> named-test traceability (TRACE-001/002). It does NOT run the CyberOS plugin's `audit_rubric@2.0`: that rubric audits a different task contract and fails ~12 rules on every task here, including shipped ones. See ADR-001.
 
 ## §8 Where the work came from
 
@@ -395,13 +370,8 @@ contract and fails ~12 rules on every task here, including shipped ones. See ADR
 
 The three audits agree on the order, and it is not the order of the module list:
 
-1. **Prove the lead pipeline exists** (TASK-BIZ-001, TASK-BIZ-003, TASK-OPS-010). Every conversion task below
-   is worthless while a submitted lead lands in a Vercel log line.
-2. **Fix the mobile score** (TASK-PERF-007 CLS, TASK-PERF-008 JS, TASK-WEB-011 redirect). Audit B: the CLS fix
-   alone is worth 20-25 performance points and puts the site at the front of its peer set.
-3. **Get proof on the page** (TASK-BIZ-006 permissions -> TASK-CMS-011/012/013, TASK-WEB-012). The #1 gap in
-   all three audits; nothing else moves conversion as much.
-4. **Close the cheap search and answer-engine gaps** (TASK-SEO-010 heading spacing, TASK-SEO-011 VN titles,
-   TASK-SEO-012 sitemap, TASK-SEO-017 llms.txt, TASK-SEO-019 sameAs, TASK-BIZ-004/005 profiles and reviews).
+1. **Prove the lead pipeline exists** (TASK-BIZ-001, TASK-BIZ-003, TASK-OPS-010). Every conversion task below is worthless while a submitted lead lands in a Vercel log line.
+2. **Fix the mobile score** (TASK-PERF-007 CLS, TASK-PERF-008 JS, TASK-WEB-011 redirect). Audit B: the CLS fix alone is worth 20-25 performance points and puts the site at the front of its peer set.
+3. **Get proof on the page** (TASK-BIZ-006 permissions -> TASK-CMS-011/012/013, TASK-WEB-012). The #1 gap in all three audits; nothing else moves conversion as much.
+4. **Close the cheap search and answer-engine gaps** (TASK-SEO-010 heading spacing, TASK-SEO-011 VN titles, TASK-SEO-012 sitemap, TASK-SEO-017 llms.txt, TASK-SEO-019 sameAs, TASK-BIZ-004/005 profiles and reviews).
 5. **Then compound** (TASK-CMS-007 insights, TASK-SEO-016 service depth, TASK-BIZ-010/011 programs).
-

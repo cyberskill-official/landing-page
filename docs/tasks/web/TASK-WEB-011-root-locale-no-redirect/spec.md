@@ -15,9 +15,7 @@ traces_to: [audit-B/finding-3-high, audit-B/phase-1]
 
 ## 0. Why (evidence)
 
-Audit B: cyberskill.world/ returns a 307 to /en and Lighthouse measured ~0.84 s of mobile delay from that hop ahead of
-any content - a full round trip on every first visit. middleware.ts currently redirects "/" after negotiating the locale
-(TASK-WEB-004).
+Audit B: cyberskill.world/ returns a 307 to /en and Lighthouse measured ~0.84 s of mobile delay from that hop ahead of any content - a full round trip on every first visit. middleware.ts currently redirects "/" after negotiating the locale (TASK-WEB-004).
 
 ## 1. Description (normative)
 

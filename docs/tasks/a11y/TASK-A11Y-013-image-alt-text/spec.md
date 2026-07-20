@@ -15,9 +15,7 @@ traces_to: [audit-C/on-page-seo, audit-C/phase-1, audit-A/section-1]
 
 ## 0. Why (evidence)
 
-Audit C: only two image elements exist on the home page and both lack alt text. Most visuals are CSS or WebGL so the
-exposure is small, but the logo and any content image must carry meaningful alternatives - audit A adds that decorative
-Lumi/aurora images correctly declare themselves decorative but the brand and work images forfeit image-search value.
+Audit C: only two image elements exist on the home page and both lack alt text. Most visuals are CSS or WebGL so the exposure is small, but the logo and any content image must carry meaningful alternatives - audit A adds that decorative Lumi/aurora images correctly declare themselves decorative but the brand and work images forfeit image-search value.
 
 ## 1. Description (normative)
 

@@ -15,9 +15,7 @@ traces_to: [audit-A/phase-5-item-21, growth/GEO-05]
 
 ## 0. Why (evidence)
 
-The GEO half of this backlog is a hypothesis until it is measured: does ChatGPT, Perplexity or Gemini name CyberSkill when a
-buyer asks for software companies in Ho Chi Minh City, and which sources does it cite when it does? Audit A prescribes exactly
-this as a monthly ritual, and the cited sources are the map of where to invest next (usually Clutch and listicles).
+The GEO half of this backlog is a hypothesis until it is measured: does ChatGPT, Perplexity or Gemini name CyberSkill when a buyer asks for software companies in Ho Chi Minh City, and which sources does it cite when it does? Audit A prescribes exactly this as a monthly ritual, and the cited sources are the map of where to invest next (usually Clutch and listicles).
 
 ## 1. Description (normative)
 

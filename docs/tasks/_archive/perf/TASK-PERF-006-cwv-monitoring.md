@@ -27,12 +27,9 @@ awh: N/A
 
 Real-user metrics MUST be observed, not just lab scores.
 
-1. The app MUST collect field Core Web Vitals from real visitors through Vercel
-   Speed Insights, distinct from the synthetic Lighthouse runs.
-2. The collected metrics MUST be visible in the project dashboard so LCP, CLS,
-   and INP trends can be tracked over real traffic.
-3. The integration MUST follow the dependency note in TASK-OPS-007 so the
-   `@vercel/*` peer conflict does not break installs.
+1. The app MUST collect field Core Web Vitals from real visitors through Vercel Speed Insights, distinct from the synthetic Lighthouse runs.
+2. The collected metrics MUST be visible in the project dashboard so LCP, CLS, and INP trends can be tracked over real traffic.
+3. The integration MUST follow the dependency note in TASK-OPS-007 so the `@vercel/*` peer conflict does not break installs.
 
 ## §2 Acceptance
 
@@ -42,11 +39,4 @@ Real-user metrics MUST be observed, not just lab scores.
 
 ## §3 Evidence
 
-Shipped (integration). `<SpeedInsights />` from `@vercel/speed-insights` is
-mounted in `app/layout.tsx`, so real-user LCP, CLS, and INP are collected from
-every route, distinct from the synthetic Lighthouse-CI runs (TASK-PERF-002). This
-is live in production. The dashboard trend (§2 item 1-2) accrues with real
-traffic and is viewed in the Vercel project's Speed Insights tab - that part is
-data accumulation on Vercel's side, not a code deliverable. Install handling per
-TASK-OPS-007 (no `.npmrc` needed; the peer conflict no longer reproduces).
-Verified: build green with the component mounted.
+Shipped (integration). `<SpeedInsights />` from `@vercel/speed-insights` is mounted in `app/layout.tsx`, so real-user LCP, CLS, and INP are collected from every route, distinct from the synthetic Lighthouse-CI runs (TASK-PERF-002). This is live in production. The dashboard trend (§2 item 1-2) accrues with real traffic and is viewed in the Vercel project's Speed Insights tab - that part is data accumulation on Vercel's side, not a code deliverable. Install handling per TASK-OPS-007 (no `.npmrc` needed; the peer conflict no longer reproduces). Verified: build green with the component mounted.

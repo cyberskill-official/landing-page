@@ -15,9 +15,7 @@ traces_to: [growth/PROOF-11, growth/COPY-01, growth/COPY-02, audit-A/section-4]
 
 ## 0. Why (evidence)
 
-The repository enforces budgets, accessibility checks and CI regression gates that almost no competitor can show - real,
-verifiable proof that is currently invisible: /how-we-build is footer-only in EN and absent from the VN footer, and the
-Team nav item points at an anchor that does not match the section id (#team vs #proof).
+The repository enforces budgets, accessibility checks and CI regression gates that almost no competitor can show - real, verifiable proof that is currently invisible: /how-we-build is footer-only in EN and absent from the VN footer, and the Team nav item points at an anchor that does not match the section id (#team vs #proof).
 
 ## 1. Description (normative)
 

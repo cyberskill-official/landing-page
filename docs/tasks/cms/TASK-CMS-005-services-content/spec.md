@@ -15,8 +15,7 @@ traces_to: [research-doc/section-D, audit-C/on-page-seo]
 
 ## 0. Why (evidence)
 
-Research doc §D. The /services/[slug] routes exist and render short copy; audit C found some routes return thin extracted
-body text. This task owns the content module those pages read - TASK-SEO-016 owns the page shape and the depth target.
+Research doc §D. The /services/[slug] routes exist and render short copy; audit C found some routes return thin extracted body text. This task owns the content module those pages read - TASK-SEO-016 owns the page shape and the depth target.
 
 ## 1. Description (normative)
 

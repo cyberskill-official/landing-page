@@ -15,9 +15,7 @@ traces_to: [growth/MEAS-01, growth/MEAS-03, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-The Lumi chat panel already emits wish_flow_started and lead_submitted (source "lumi-chat"); the classic form emits
-nothing, so the main funnel is invisible and audit A's "form starts vs completions" review cannot be run. There is also no
-UTM standard, so the external profiles and directories the reports ask for (TASK-BIZ-005) would arrive unattributed.
+The Lumi chat panel already emits wish_flow_started and lead_submitted (source "lumi-chat"); the classic form emits nothing, so the main funnel is invisible and audit A's "form starts vs completions" review cannot be run. There is also no UTM standard, so the external profiles and directories the reports ask for (TASK-BIZ-005) would arrive unattributed.
 
 ## 1. Description (normative)
 

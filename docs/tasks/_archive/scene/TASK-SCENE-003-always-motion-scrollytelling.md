@@ -34,32 +34,19 @@ awh: N/A
 
 ## §1 Requirement (BCP-14 normative)
 
-On capable desktops the story MUST move; the device-capability gate MUST still
-protect weak devices. This overrides the reduced-motion gate from TASK-A11Y-001
-and TASK-SCENE-002 per the decision record above.
+On capable desktops the story MUST move; the device-capability gate MUST still protect weak devices. This overrides the reduced-motion gate from TASK-A11Y-001 and TASK-SCENE-002 per the decision record above.
 
-1. The reduced-motion gate MUST be removed so the 3D scene and Lenis smooth
-   scroll always run on capable desktops; the per-`<html>` motion toggle is
-   retired.
-2. Hero-scoped scroll progress MUST be published (0 at the top, 1 after one
-   viewport) via a module-level store that the render loop reads directly,
-   without triggering React re-renders.
+1. The reduced-motion gate MUST be removed so the 3D scene and Lenis smooth scroll always run on capable desktops; the per-`<html>` motion toggle is retired.
+2. Hero-scoped scroll progress MUST be published (0 at the top, 1 after one viewport) via a module-level store that the render loop reads directly, without triggering React re-renders.
 3. The orb MUST rotate, drift toward the camera, and brighten as progress rises.
-4. The device-capability gate MUST stay: mobile and low-end devices still get
-   the static poster instead of the live scene.
+4. The device-capability gate MUST stay: mobile and low-end devices still get the static poster instead of the live scene.
 
 ## §2 Acceptance
 
 - On a capable desktop, the scene and smooth scroll run with no motion toggle.
-- Scrolling the hero animates the orb (rotate, approach, brighten) tied to
-  progress, and the progress store updates without React re-renders.
+- Scrolling the hero animates the orb (rotate, approach, brighten) tied to progress, and the progress store updates without React re-renders.
 - A mobile or low-end profile renders the static poster, not the canvas.
 
 ## §3 Evidence
 
-Static: `lib/scroll/progress.ts` is a module-level store read in the render loop;
-`CanvasMount`/`ScrollStoryProvider`/`ScrollState` drop the reduced-motion gate
-and keep the capability gate; `LumiPlaceholder`/`GenieScene` map progress to
-rotation, drift, brightness, plus drei `Float` drift and golden `Sparkles`;
-`components/a11y/MotionToggle.tsx` removed. Deferred: scroll feel and frame rate
-on the operator machine.
+Static: `lib/scroll/progress.ts` is a module-level store read in the render loop; `CanvasMount`/`ScrollStoryProvider`/`ScrollState` drop the reduced-motion gate and keep the capability gate; `LumiPlaceholder`/`GenieScene` map progress to rotation, drift, brightness, plus drei `Float` drift and golden `Sparkles`; `components/a11y/MotionToggle.tsx` removed. Deferred: scroll feel and frame rate on the operator machine.

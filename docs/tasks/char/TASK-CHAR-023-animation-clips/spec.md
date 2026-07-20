@@ -23,15 +23,10 @@ awh: N/A
 
 Lumi's motion MUST be a small, named state machine.
 
-1. The model MUST expose named clips for idle, greeting, thinking, speaking, and
-   point, played through a Three.js `AnimationMixer`.
-2. Transitions between clips MUST cross-fade rather than cut, and idle MUST be
-   the resting state.
-3. The active clip MUST be selected from the genie store (TASK-CHAR-012) so chat
-   state drives the animation: thinking while awaiting a reply, speaking while
-   streaming, idle when done.
-4. When motion is not allowed the model MUST hold a single static pose and MUST
-   NOT advance the mixer.
+1. The model MUST expose named clips for idle, greeting, thinking, speaking, and point, played through a Three.js `AnimationMixer`.
+2. Transitions between clips MUST cross-fade rather than cut, and idle MUST be the resting state.
+3. The active clip MUST be selected from the genie store (TASK-CHAR-012) so chat state drives the animation: thinking while awaiting a reply, speaking while streaming, idle when done.
+4. When motion is not allowed the model MUST hold a single static pose and MUST NOT advance the mixer.
 
 ## §2 Acceptance
 
@@ -41,16 +36,6 @@ Lumi's motion MUST be a small, named state machine.
 
 ## §3 Evidence
 
-Partial (status stays planned). The placeholder Lumi now reacts to the genie
-store as a procedural pose machine: it leans toward the viewer and brightens when
-the chat opens, plays a dissolve-and-reform shimmer on open/close transitions,
-and varies energy by `status` (idle / thinking / speaking) - all eased so states
-cross-fade rather than cut, with idle the resting state, and the StaticPoster
-holding a single static frame on the reduced/non-WebGL path. This satisfies the
-intent of clauses 2-4 procedurally.
+Partial (status stays planned). The placeholder Lumi now reacts to the genie store as a procedural pose machine: it leans toward the viewer and brightens when the chat opens, plays a dissolve-and-reform shimmer on open/close transitions, and varies energy by `status` (idle / thinking / speaking) - all eased so states cross-fade rather than cut, with idle the resting state, and the StaticPoster holding a single static frame on the reduced/non-WebGL path. This satisfies the intent of clauses 2-4 procedurally.
 
-What still blocks a full ship: clause 1 requires *named animation clips played
-through a Three.js `AnimationMixer`*, which depends on the rigged GLB
-(TASK-CHAR-022, in turn the on-hold TASK-CHAR-021). Until the GLB lands there are no
-named clips to mix, so this stays planned; the procedural reactivity is the
-down-payment and the store wiring is already in place to drive real clips later.
+What still blocks a full ship: clause 1 requires *named animation clips played through a Three.js `AnimationMixer`*, which depends on the rigged GLB (TASK-CHAR-022, in turn the on-hold TASK-CHAR-021). Until the GLB lands there are no named clips to mix, so this stays planned; the procedural reactivity is the down-payment and the store wiring is already in place to drive real clips later.

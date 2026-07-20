@@ -15,11 +15,7 @@ traces_to: [audit-A/phase-1-item-3, audit-A/phase-2-item-10, audit-A/section-2, 
 
 ## 0. Why (evidence)
 
-This is the decisive GEO weakness in audit A: Ahrefs' study of 75,000 brands found branded web mentions were the strongest
-correlate of AI-Overview visibility (Spearman r = 0.664, versus 0.218 for backlinks), and CyberSkill has almost no branded
-mentions in authoritative third-party sources - one GoodFirms review, a Facebook page with zero reviews, sparse LinkedIn.
-Clutch verifies reviews via a client interview, which makes it the highest-trust B2B signal and exactly what both buyer
-shortlists and LLM retrieval consume.
+This is the decisive GEO weakness in audit A: Ahrefs' study of 75,000 brands found branded web mentions were the strongest correlate of AI-Overview visibility (Spearman r = 0.664, versus 0.218 for backlinks), and CyberSkill has almost no branded mentions in authoritative third-party sources - one GoodFirms review, a Facebook page with zero reviews, sparse LinkedIn. Clutch verifies reviews via a client interview, which makes it the highest-trust B2B signal and exactly what both buyer shortlists and LLM retrieval consume.
 
 ## 1. Description (normative)
 

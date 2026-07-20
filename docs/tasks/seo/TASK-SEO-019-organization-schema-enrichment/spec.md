@@ -15,10 +15,7 @@ traces_to: [audit-B/finding-7-medium, audit-A/phase-1-item-5, growth/PROOF-12, g
 
 ## 0. Why (evidence)
 
-Audit B: the Organization structured data has no sameAs property and the site links to nothing external except the phone
-number - no LinkedIn, GitHub, Clutch or Facebook - which are exactly the signals that connect a brand entity across the
-web and let an answer engine identify it. Audit A adds LocalBusiness (DUNS, geo, hours) to the same ask. The footer today
-has no social row at all, which reads as a red flag for a software company.
+Audit B: the Organization structured data has no sameAs property and the site links to nothing external except the phone number - no LinkedIn, GitHub, Clutch or Facebook - which are exactly the signals that connect a brand entity across the web and let an answer engine identify it. Audit A adds LocalBusiness (DUNS, geo, hours) to the same ask. The footer today has no social row at all, which reads as a red flag for a software company.
 
 ## 1. Description (normative)
 

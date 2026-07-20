@@ -22,7 +22,4 @@ Xin phản hồi những hạng mục anh/chị đồng ý (chọn một phần 
 
 Chúng tôi không đăng bất kỳ nội dung nào khi chưa có đồng ý bằng văn bản. Anh/chị có thể rút phép sau này và chúng tôi sẽ gỡ trong một lần cập nhật.
 
-Cảm ơn,
-[Tên bạn]
-CyberSkill — https://cyberskill.world
-info@cyberskill.world
+Cảm ơn, [Tên bạn] CyberSkill — https://cyberskill.world info@cyberskill.world

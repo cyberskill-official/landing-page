@@ -15,10 +15,7 @@ traces_to: [audit-C/ui-ux-gaps, audit-C/phase-1]
 
 ## 0. Why (evidence)
 
-Audit C: the classic contact form marks no fields as required in the markup - not name, email or message - so a no-JS or
-assistive-technology user gets no native constraint and incomplete submissions are only caught client-side by react-hook-form.
-Audit C also asks to confirm the leading input named `website` is a honeypot properly hidden from real users and from
-assistive technology (LeadForm.tsx renders it with a visible <label>Leave this empty</label> and tabIndex=-1).
+Audit C: the classic contact form marks no fields as required in the markup - not name, email or message - so a no-JS or assistive-technology user gets no native constraint and incomplete submissions are only caught client-side by react-hook-form. Audit C also asks to confirm the leading input named `website` is a honeypot properly hidden from real users and from assistive technology (LeadForm.tsx renders it with a visible <label>Leave this empty</label> and tabIndex=-1).
 
 ## 1. Description (normative)
 

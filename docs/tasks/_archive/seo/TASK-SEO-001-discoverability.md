@@ -27,16 +27,11 @@ awh: N/A
 
 ## §1 Requirement (BCP-14 normative)
 
-Because a canvas exposes no indexable text, the meaningful facts MUST live in the
-DOM and in structured data.
+Because a canvas exposes no indexable text, the meaningful facts MUST live in the DOM and in structured data.
 
-1. The app MUST emit a sitemap and a robots policy via `app/sitemap.ts` and
-   `app/robots.ts`, listing every meaningful URL for both locales.
-2. Each meaningful state MUST map to exactly one indexable URL; the home,
-   `/work`, and `/careers` routes MUST publish `en` and `vi` hreflang alternates
-   plus `x-default`.
-3. The home page MUST embed Organization JSON-LD (name, HCMC address, contact)
-   and FAQ JSON-LD whose answers match the on-page copy.
+1. The app MUST emit a sitemap and a robots policy via `app/sitemap.ts` and `app/robots.ts`, listing every meaningful URL for both locales.
+2. Each meaningful state MUST map to exactly one indexable URL; the home, `/work`, and `/careers` routes MUST publish `en` and `vi` hreflang alternates plus `x-default`.
+3. The home page MUST embed Organization JSON-LD (name, HCMC address, contact) and FAQ JSON-LD whose answers match the on-page copy.
 4. Each route MUST emit OpenGraph metadata and reference `public/favicon.svg`.
 
 ## §2 Acceptance
@@ -47,6 +42,4 @@ DOM and in structured data.
 
 ## §3 Evidence
 
-Static: sitemap/robots route handlers + both JSON-LD components + favicon
-authored; hreflang emitted from the locale metadata. Deferred: Rich Results and
-sitemap fetch validation on the operator machine after `next build`.
+Static: sitemap/robots route handlers + both JSON-LD components + favicon authored; hreflang emitted from the locale metadata. Deferred: Rich Results and sitemap fetch validation on the operator machine after `next build`.

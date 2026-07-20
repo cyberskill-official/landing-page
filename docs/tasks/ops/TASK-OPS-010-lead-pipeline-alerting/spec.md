@@ -15,10 +15,7 @@ traces_to: [growth/LEAD-03, growth/LEAD-04, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-app/api/lead/route.ts fans out best-effort to four sinks (JSONL file, Resend, Slack, CyberOS webhook) and always returns
-ok:true to the visitor. The file sink always fails on Vercel's read-only filesystem and the other three no-op until their
-env vars exist - so a fully dead lead pipeline is invisible today. Every conversion task in this backlog is worthless if the
-leads it wins land in a black hole.
+app/api/lead/route.ts fans out best-effort to four sinks (JSONL file, Resend, Slack, CyberOS webhook) and always returns ok:true to the visitor. The file sink always fails on Vercel's read-only filesystem and the other three no-op until their env vars exist - so a fully dead lead pipeline is invisible today. Every conversion task in this backlog is worthless if the leads it wins land in a black hole.
 
 ## 1. Description (normative)
 

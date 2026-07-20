@@ -27,12 +27,9 @@ awh: N/A
 
 The 3D scene MUST load after the page is usable, never before.
 
-1. The build MUST expose a bundle analysis (for example via the Next.js bundle
-   analyzer) so chunk composition is inspectable.
-2. The 3D scene and its libraries MUST be dynamically imported into a separate
-   chunk that is NOT part of the initial critical-path bundle.
-3. `docs/perf/bundle-audit.md` MUST record the audit findings and the
-   per-chunk sizes so future regressions are comparable.
+1. The build MUST expose a bundle analysis (for example via the Next.js bundle analyzer) so chunk composition is inspectable.
+2. The 3D scene and its libraries MUST be dynamically imported into a separate chunk that is NOT part of the initial critical-path bundle.
+3. `docs/perf/bundle-audit.md` MUST record the audit findings and the per-chunk sizes so future regressions are comparable.
 
 ## §2 Acceptance
 
@@ -44,18 +41,6 @@ The 3D scene MUST load after the page is usable, never before.
 
 Shipped 2026-06-24 on branch `auto/glb-perf-a11y`.
 
-- On-demand analyzer (criterion 1): `next.config.ts` wraps the config in
-  `@next/bundle-analyzer`, gated by `ANALYZE=true`; `npm run analyze` emits
-  `.next/analyze/{client,nodejs,edge}.html` per-chunk treemaps. Off by default,
-  so normal builds are unchanged. Verified: the three reports were generated.
-- 3D in its own chunk, absent from first load (criterion 2): the analyzer's
-  chunk data shows the two first-load shared chunks (`352-*` 116 KB gzip,
-  `4bd1b696-*` 53 KB gzip) contain no `three`, `@react-three/*`, or
-  `gsap`/`lenis`. The 3D stack is split into async chunks (about 304 KB gzip
-  total) fetched only when `CanvasMount` dynamically imports `GenieScene`
-  (`ssr:false`) on capable desktops. First Load JS shared by all routes stays
-  176 KB.
-- Audit doc with current chunk sizes (criterion 3): `docs/perf/bundle-audit.md`
-  records how to run the analyzer, the first-load and 3D async chunk tables with
-  parsed + gzip sizes, totals (about 2249 KB parsed / 666 KB gzip / 43 chunks),
-  and how to compare future regressions against the `check:assets` guard.
+- On-demand analyzer (criterion 1): `next.config.ts` wraps the config in `@next/bundle-analyzer`, gated by `ANALYZE=true`; `npm run analyze` emits `.next/analyze/{client,nodejs,edge}.html` per-chunk treemaps. Off by default, so normal builds are unchanged. Verified: the three reports were generated.
+- 3D in its own chunk, absent from first load (criterion 2): the analyzer's chunk data shows the two first-load shared chunks (`352-*` 116 KB gzip, `4bd1b696-*` 53 KB gzip) contain no `three`, `@react-three/*`, or `gsap`/`lenis`. The 3D stack is split into async chunks (about 304 KB gzip total) fetched only when `CanvasMount` dynamically imports `GenieScene` (`ssr:false`) on capable desktops. First Load JS shared by all routes stays 176 KB.
+- Audit doc with current chunk sizes (criterion 3): `docs/perf/bundle-audit.md` records how to run the analyzer, the first-load and 3D async chunk tables with parsed + gzip sizes, totals (about 2249 KB parsed / 666 KB gzip / 43 chunks), and how to compare future regressions against the `check:assets` guard.

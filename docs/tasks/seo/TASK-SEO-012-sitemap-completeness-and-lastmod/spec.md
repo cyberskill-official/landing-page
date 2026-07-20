@@ -15,10 +15,7 @@ traces_to: [audit-B/finding-6-medium, audit-B/phase-1, growth/SEO-04]
 
 ## 0. Why (evidence)
 
-Audit B's crawl of the deployed sitemap found only the two homepages. The repository's app/sitemap.ts does emit services,
-work, careers and how-we-build - so either the deploy lagged or the crawl hit a stale cache; either way the omission of
-/privacy and /accessibility is real, and every entry stamps `new Date()` at build time, which is fake freshness that
-teaches crawlers to ignore lastmod.
+Audit B's crawl of the deployed sitemap found only the two homepages. The repository's app/sitemap.ts does emit services, work, careers and how-we-build - so either the deploy lagged or the crawl hit a stale cache; either way the omission of /privacy and /accessibility is real, and every entry stamps `new Date()` at build time, which is fake freshness that teaches crawlers to ignore lastmod.
 
 ## 1. Description (normative)
 

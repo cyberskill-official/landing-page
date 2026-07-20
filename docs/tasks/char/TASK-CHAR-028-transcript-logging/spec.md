@@ -15,9 +15,7 @@ traces_to: [research-doc/section-I, research-doc/section-G, audit-A/section-8]
 
 ## 0. Why (evidence)
 
-Research doc §I + §G. Drop-off is the most valuable thing the chat can teach, and today nothing is stored: a conversation
-that ends before capture leaves no trace. Audit A adds the constraint that visitor-typed content sent to Anthropic is a
-cross-border transfer under PDPL - so what is stored, for how long, and on what basis is not a free choice.
+Research doc §I + §G. Drop-off is the most valuable thing the chat can teach, and today nothing is stored: a conversation that ends before capture leaves no trace. Audit A adds the constraint that visitor-typed content sent to Anthropic is a cross-border transfer under PDPL - so what is stored, for how long, and on what basis is not a free choice.
 
 ## 1. Description (normative)
 

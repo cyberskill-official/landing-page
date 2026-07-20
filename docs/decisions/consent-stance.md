@@ -9,20 +9,12 @@
 
 ## 1. Context
 
-The site is genuinely cookieless as of this writing. No third-party cookies,
-no cross-site pixels, no retargeting tags are loaded. The site currently uses:
+The site is genuinely cookieless as of this writing. No third-party cookies, no cross-site pixels, no retargeting tags are loaded. The site currently uses:
 
-- **First-party anonymous event collection** — page-view and click events stored
-  server-side only, no cookies, no cross-site tracking.
-- **Anthropic Claude API** — messages from the Lumi chat panel are forwarded to
-  Anthropic's API. This is a cross-border data transfer (Vietnam → US) and is
-  disclosed before the visitor's first message.
+- **First-party anonymous event collection** — page-view and click events stored server-side only, no cookies, no cross-site tracking.
+- **Anthropic Claude API** — messages from the Lumi chat panel are forwarded to Anthropic's API. This is a cross-border data transfer (Vietnam → US) and is disclosed before the visitor's first message.
 
-The Vietnamese Personal Data Protection Law (Law 91/2025/QH15, in force 1 Jan 2026)
-is consent-centric and imposes fines up to 5% of prior-year revenue for unlawful
-cross-border transfers. GDPR applies to any EU visitor. Any future addition of a
-non-cookieless tag (Google Analytics 4, Meta Pixel, a session replay tool) must
-clear this gate before shipping.
+The Vietnamese Personal Data Protection Law (Law 91/2025/QH15, in force 1 Jan 2026) is consent-centric and imposes fines up to 5% of prior-year revenue for unlawful cross-border transfers. GDPR applies to any EU visitor. Any future addition of a non-cookieless tag (Google Analytics 4, Meta Pixel, a session replay tool) must clear this gate before shipping.
 
 ---
 
@@ -52,31 +44,17 @@ Tags that do **not** require consent under this decision:
 
 **Default state: no optional tag loads.**
 
-Every optional (non-cookieless) analytics or tracking tag must call the typed
-`ConsentGate.canLoad(tag)` API before initialising. The gate defaults to
-`denied` for all categories. It is upgraded when the visitor explicitly
-Accepts the consent banner (`components/consent/ConsentBanner.tsx`), which
-persists the choice in first-party `localStorage` (`cs-consent`) and emits
-`cs-consent-change` so deferred loaders (e.g. Microsoft Clarity) can start
-without a full reload.
+Every optional (non-cookieless) analytics or tracking tag must call the typed `ConsentGate.canLoad(tag)` API before initialising. The gate defaults to `denied` for all categories. It is upgraded when the visitor explicitly Accepts the consent banner (`components/consent/ConsentBanner.tsx`), which persists the choice in first-party `localStorage` (`cs-consent`) and emits `cs-consent-change` so deferred loaders (e.g. Microsoft Clarity) can start without a full reload.
 
-A TypeScript compile error is the enforcement mechanism: any tag that does not
-import and call `canLoad` fails the CI build via an ESLint rule (planned as
-`no-unconsented-tag`; currently enforced by the gate's type signature requiring
-explicit acknowledgement).
+A TypeScript compile error is the enforcement mechanism: any tag that does not import and call `canLoad` fails the CI build via an ESLint rule (planned as `no-unconsented-tag`; currently enforced by the gate's type signature requiring explicit acknowledgement).
 
 ---
 
 ## 4. PDPL/GDPR reasoning
 
-- **No banner today** is justified because no consent-requiring tag currently loads.
-  Adding any such tag without shipping the banner first is a protocol violation.
-- **Cross-border transfer to Anthropic** is covered by the disclosure in the Lumi
-  chat UI (§1.4 of TASK-OPS-013). The basis is the visitor's informed, per-session
-  acceptance of the chat terms presented before the first message.
-- **EU visitors (GDPR)** and **VN visitors (PDPL)** receive the same default (all
-  optional tags denied). The gate is designed to support per-region overrides if
-  jurisdiction-specific prompting is added in the future.
+- **No banner today** is justified because no consent-requiring tag currently loads. Adding any such tag without shipping the banner first is a protocol violation.
+- **Cross-border transfer to Anthropic** is covered by the disclosure in the Lumi chat UI (§1.4 of TASK-OPS-013). The basis is the visitor's informed, per-session acceptance of the chat terms presented before the first message.
+- **EU visitors (GDPR)** and **VN visitors (PDPL)** receive the same default (all optional tags denied). The gate is designed to support per-region overrides if jurisdiction-specific prompting is added in the future.
 
 ---
 
@@ -84,11 +62,8 @@ explicit acknowledgement).
 
 This record must be updated before any of the following ships:
 
-- ~~Microsoft Clarity (TASK-OPS-012) — requires consent banner.~~ **Shipped:**
-  cookieless Clarity loads only after Accept on the session-replay banner when
-  `NEXT_PUBLIC_CLARITY_ID` is set in production.
-- Google Analytics 4 in non-consent-mode (TASK-PERF-009) — requires consent banner
-  (analytics category; not yet offered in the banner).
+- ~~Microsoft Clarity (TASK-OPS-012) — requires consent banner.~~ **Shipped:** cookieless Clarity loads only after Accept on the session-replay banner when `NEXT_PUBLIC_CLARITY_ID` is set in production.
+- Google Analytics 4 in non-consent-mode (TASK-PERF-009) — requires consent banner (analytics category; not yet offered in the banner).
 - Any retargeting or attribution pixel — requires consent banner.
 - The formal PDPL legal review (TASK-BIZ-012) may supersede the basis described here.
 
@@ -96,8 +71,7 @@ This record must be updated before any of the following ships:
 
 ## 6. Privacy page alignment
 
-The privacy page at `/[lang]/privacy` must accurately reflect which tags can load
-and under what condition. As of this decision:
+The privacy page at `/[lang]/privacy` must accurately reflect which tags can load and under what condition. As of this decision:
 
 - **Cookieless first-party events** — always on, no consent needed.
 - **Microsoft Clarity (session replay)** — opt-in via banner; cookieless; forms/chat masked.

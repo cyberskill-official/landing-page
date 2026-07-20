@@ -15,8 +15,7 @@ traces_to: [growth/COPY-03, audit-A/section-1]
 
 ## 0. Why (evidence)
 
-The hero is brand-poetic ("Turn Your Will Into Real", "the arc of a wish") and never says who it is for. Audit A rates the
-copy as excellent but search- and buyer-intent-poor; one subline naming the audience costs nothing and helps both.
+The hero is brand-poetic ("Turn Your Will Into Real", "the arc of a wish") and never says who it is for. Audit A rates the copy as excellent but search- and buyer-intent-poor; one subline naming the audience costs nothing and helps both.
 
 ## 1. Description (normative)
 

@@ -6,10 +6,7 @@
 
 ## Rule
 
-A decision the company cannot keep is recorded as **changed** or **withdrawn** in
-`commercialPolicyHistory`. It is never rewritten into vaguer public copy in
-`commercialPolicy`. Dependents must call `isDecisionPublishable(field)` (and
-`isPolicyPublishable(policy)`) before rendering commercial strings.
+A decision the company cannot keep is recorded as **changed** or **withdrawn** in `commercialPolicyHistory`. It is never rewritten into vaguer public copy in `commercialPolicy`. Dependents must call `isDecisionPublishable(field)` (and `isPolicyPublishable(policy)`) before rendering commercial strings.
 
 ## Initial owner approval (2026-07-14)
 
@@ -24,6 +21,4 @@ A decision the company cannot keep is recorded as **changed** or **withdrawn** i
 
 ## Subsequent changes
 
-*(none yet — append here and in `commercialPolicyHistory` when a decision is
-withdrawn or superseded; leave the prior value on the history entry, do not
-soften the live field into a placeholder.)*
+*(none yet — append here and in `commercialPolicyHistory` when a decision is withdrawn or superseded; leave the prior value on the history entry, do not soften the live field into a placeholder.)*

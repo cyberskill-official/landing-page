@@ -26,12 +26,9 @@ awh: N/A
 
 The performance budget MUST be a machine-checked contract, not a hope.
 
-1. `lighthouse/budget.json` MUST declare a timing budget with an LCP ceiling of
-   2500 ms and byte ceilings for the script bundle and the total transfer.
-2. CI MUST read that budget and MUST fail the job when any timing or byte
-   ceiling regresses past its declared value.
-3. The budget file MUST be version-controlled so every change to a ceiling lands
-   as a reviewable diff.
+1. `lighthouse/budget.json` MUST declare a timing budget with an LCP ceiling of 2500 ms and byte ceilings for the script bundle and the total transfer.
+2. CI MUST read that budget and MUST fail the job when any timing or byte ceiling regresses past its declared value.
+3. The budget file MUST be version-controlled so every change to a ceiling lands as a reviewable diff.
 
 ## §2 Acceptance
 

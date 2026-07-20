@@ -15,8 +15,7 @@ traces_to: [audit-B/finding-10-medium, audit-B/phase-1]
 
 ## 0. Why (evidence)
 
-Audit B: three service links use the bare text "Learn more". Lighthouse flags it and it is the reason the SEO score is 92
-rather than 100; it also weakens the link for screen-reader users navigating by link list.
+Audit B: three service links use the bare text "Learn more". Lighthouse flags it and it is the reason the SEO score is 92 rather than 100; it also weakens the link for screen-reader users navigating by link list.
 
 ## 1. Description (normative)
 

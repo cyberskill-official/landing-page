@@ -15,9 +15,7 @@ traces_to: [research-doc/section-O, research-doc/section-G, growth/LEAD-02]
 
 ## 0. Why (evidence)
 
-Research doc §O + §G. A qualified lead that never reaches a human is a lost lead, and the chat path is the one audit A
-rates as a genuine differentiator. The fan-out already exists in /api/lead; this task binds the chat's LEAD_CAPTURED state
-to it and adds the transcript so the team has the context that made the lead qualified.
+Research doc §O + §G. A qualified lead that never reaches a human is a lost lead, and the chat path is the one audit A rates as a genuine differentiator. The fan-out already exists in /api/lead; this task binds the chat's LEAD_CAPTURED state to it and adds the transcript so the team has the context that made the lead qualified.
 
 ## 1. Description (normative)
 

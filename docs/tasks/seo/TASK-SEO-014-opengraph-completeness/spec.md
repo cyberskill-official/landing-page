@@ -15,9 +15,7 @@ traces_to: [audit-B/finding-15-low, audit-B/phase-1]
 
 ## 0. Why (evidence)
 
-Audit B: og:title, og:description and a generated og:image are present, but og:url, og:type, og:site_name and twitter:site
-are missing, so shared links render less richly than they could. app/layout.tsx sets type/siteName at the root but the
-per-locale layout overrides openGraph without re-declaring url.
+Audit B: og:title, og:description and a generated og:image are present, but og:url, og:type, og:site_name and twitter:site are missing, so shared links render less richly than they could. app/layout.tsx sets type/siteName at the root but the per-locale layout overrides openGraph without re-declaring url.
 
 ## 1. Description (normative)
 

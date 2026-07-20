@@ -15,10 +15,7 @@ traces_to: [audit-A/section-8, growth/NURT-09, audit-C/ui-ux]
 
 ## 0. Why (evidence)
 
-The site is genuinely cookieless today, which is why it defensibly ships no banner - but it already loads Google Tag
-Manager, and audit A's PDPL analysis (Law 91/2025/QH15, effective 1 Jan 2026, consent-centric, fines to 5% of prior-year
-revenue for cross-border transfer breaches) means the stance must be deliberate and written down before any pixel,
-replay tool or retargeting tag is added.
+The site is genuinely cookieless today, which is why it defensibly ships no banner - but it already loads Google Tag Manager, and audit A's PDPL analysis (Law 91/2025/QH15, effective 1 Jan 2026, consent-centric, fines to 5% of prior-year revenue for cross-border transfer breaches) means the stance must be deliberate and written down before any pixel, replay tool or retargeting tag is added.
 
 ## 1. Description (normative)
 

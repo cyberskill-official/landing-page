@@ -28,12 +28,9 @@ awh: N/A
 
 Production MUST be reproducible from version control, not from memory.
 
-1. `vercel.json` MUST pin the build, output, and routing configuration so a
-   deploy is deterministic from the committed file.
-2. `docs/deploy/vercel-runbook.md` MUST document the deploy steps, the
-   environment the build expects, and the rollback path.
-3. The production site MUST be live at https://cyberskill.world and MUST serve
-   the App Router build behind that domain.
+1. `vercel.json` MUST pin the build, output, and routing configuration so a deploy is deterministic from the committed file.
+2. `docs/deploy/vercel-runbook.md` MUST document the deploy steps, the environment the build expects, and the rollback path.
+3. The production site MUST be live at https://cyberskill.world and MUST serve the App Router build behind that domain.
 
 ## §2 Acceptance
 

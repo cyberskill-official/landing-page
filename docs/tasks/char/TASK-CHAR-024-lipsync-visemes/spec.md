@@ -23,12 +23,9 @@ awh: N/A
 
 Lumi's mouth SHOULD move with speech when she speaks.
 
-1. The model MUST expose mouth blendshapes (visemes); lip-sync MUST set their
-   weights, driven either by audio amplitude or by a viseme stream.
-2. Lip-sync MUST be applied after the AnimationMixer update each frame so it
-   layers on top of the active clip rather than being overwritten.
-3. Lip-sync MUST run only while Lumi is in the speaking state and MUST relax
-   mouth weights to neutral when speech ends.
+1. The model MUST expose mouth blendshapes (visemes); lip-sync MUST set their weights, driven either by audio amplitude or by a viseme stream.
+2. Lip-sync MUST be applied after the AnimationMixer update each frame so it layers on top of the active clip rather than being overwritten.
+3. Lip-sync MUST run only while Lumi is in the speaking state and MUST relax mouth weights to neutral when speech ends.
 4. When motion or audio is not allowed, lip-sync MUST be skipped entirely.
 
 ## §2 Acceptance

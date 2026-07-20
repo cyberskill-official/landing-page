@@ -1,12 +1,8 @@
 # CyberSkill landing page
 
-An interactive storytelling landing page for CyberSkill, with Lumi the golden
-genie as the guide and a Claude-powered chat. Built fresh to the research doc
-(`docs/Research Foundations ... (PRD + SRS Basis).md`) under the CyberOS
-workflow.
+An interactive storytelling landing page for CyberSkill, with Lumi the golden genie as the guide and a Claude-powered chat. Built fresh to the research doc (`docs/Research Foundations ... (PRD + SRS Basis).md`) under the CyberOS workflow.
 
-Slogan: Turn Your Will Into Real. Goals, in order: lead generation, portfolio,
-recruiting.
+Slogan: Turn Your Will Into Real. Goals, in order: lead generation, portfolio, recruiting.
 
 ## Status
 
@@ -18,8 +14,7 @@ recruiting.
 | P3 | 3D scroll-storytelling scaffold + perf gate | done, with a procedural placeholder |
 | P3 | Commissioned golden-genie GLB | deferred (`TASK-CHAR-021`, needs the art asset) |
 
-The Phase-1 base is the product: it ranks and converts even if the 3D and chat
-never load. Everything after Phase 1 is layered enhancement.
+The Phase-1 base is the product: it ranks and converts even if the 3D and chat never load. Everything after Phase 1 is layered enhancement.
 
 ## Quick start
 
@@ -39,9 +34,7 @@ npm run build       # next build
 
 ## Environment
 
-All secrets are server-side only; never prefix a secret with `NEXT_PUBLIC_`.
-See `.env.example`. The chat returns a graceful "use the contact form" message
-when `ANTHROPIC_API_KEY` is unset, so the site is fully usable without it.
+All secrets are server-side only; never prefix a secret with `NEXT_PUBLIC_`. See `.env.example`. The chat returns a graceful "use the contact form" message when `ANTHROPIC_API_KEY` is unset, so the site is fully usable without it.
 
 - `ANTHROPIC_API_KEY` - enables the Genie. Server env only.
 - `GENIE_MODEL` (default `claude-haiku-4-5-20251001`), `GENIE_MAX_TOKENS`.
@@ -76,23 +69,14 @@ docs/                   research doc, tasks (task), NFRs, verification
 
 ## CyberOS workflow
 
-This repo follows `AGENTS.md` (the CyberOS overlay). Work is tracked as feature
-requests in `docs/tasks/` (index: `BACKLOG.md`), constrained by
-`docs/non-functional-requirements/`, with decisions logged in
-`.cyberos-memory/decisions/` and the testing-to-done evidence gate in `.awh/`.
-This build ran on branch `auto/landing-page-cyberos`.
+This repo follows `AGENTS.md` (the CyberOS overlay). Work is tracked as feature requests in `docs/tasks/` (index: `BACKLOG.md`), constrained by `docs/non-functional-requirements/`, with decisions logged in `.cyberos-memory/decisions/` and the testing-to-done evidence gate in `.awh/`. This build ran on branch `auto/landing-page-cyberos`.
 
 ## Deploy
 
-Vercel is the recommended host (native Next.js, Edge/Fluid streaming for the
-chat proxy, preview deploys, Speed Insights). Set the env vars above in the
-Vercel project. The 3D chunk is code-split and desktop/motion-gated, so mobile
-gets the static poster.
+Vercel is the recommended host (native Next.js, Edge/Fluid streaming for the chat proxy, preview deploys, Speed Insights). Set the env vars above in the Vercel project. The 3D chunk is code-split and desktop/motion-gated, so mobile gets the static poster.
 
 ## Deferred (tracked)
 
-- `TASK-CHAR-021`: commission/buy and optimise the golden-genie GLB (Draco+KTX2,
-  Mixamo rig, ARKit visemes); swap it in behind the existing loader/gate.
+- `TASK-CHAR-021`: commission/buy and optimise the golden-genie GLB (Draco+KTX2, Mixamo rig, ARKit visemes); swap it in behind the existing loader/gate.
 - Live Core Web Vitals + axe + VoiceOver/NVDA passes on a deployed build.
-- Confirm whether a private `@cyberskill/*` token package exists (Phase 0 open
-  question); if so, switch from hand-ported tokens to consuming it.
+- Confirm whether a private `@cyberskill/*` token package exists (Phase 0 open question); if so, switch from hand-ported tokens to consuming it.

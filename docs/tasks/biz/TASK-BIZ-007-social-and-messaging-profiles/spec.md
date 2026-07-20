@@ -15,9 +15,7 @@ traces_to: [audit-B/finding-7-medium, growth/PROOF-09, growth/CONV-05]
 
 ## 0. Why (evidence)
 
-Audit B: the site links to nothing external except the phone number - no LinkedIn, GitHub, Clutch or Facebook - and the
-Organization schema carries no sameAs. For a software company, no social presence at all reads as a red flag, and sameAs is
-how an answer engine binds the entity across the web. The code side (TASK-SEO-019, TASK-CTA-012) is blocked on the URLs.
+Audit B: the site links to nothing external except the phone number - no LinkedIn, GitHub, Clutch or Facebook - and the Organization schema carries no sameAs. For a software company, no social presence at all reads as a red flag, and sameAs is how an answer engine binds the entity across the web. The code side (TASK-SEO-019, TASK-CTA-012) is blocked on the URLs.
 
 ## 1. Description (normative)
 

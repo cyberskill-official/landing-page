@@ -22,21 +22,16 @@ awh: N/A
 
 ## §1 Requirement (BCP-14 normative)
 
-Content pages SHOULD refresh without a full redeploy, so editors can publish a
-change and have it appear within a bounded window.
+Content pages SHOULD refresh without a full redeploy, so editors can publish a change and have it appear within a bounded window.
 
-1. Content routes SHOULD set a `revalidate` interval so pages are regenerated in
-   the background after they go stale.
-2. The system SHOULD expose an on-demand revalidation route that re-renders a
-   given path or tag when triggered.
-3. The revalidation route MUST reject unauthenticated or unauthorized callers and
-   MUST NOT revalidate arbitrary paths without a valid secret.
+1. Content routes SHOULD set a `revalidate` interval so pages are regenerated in the background after they go stale.
+2. The system SHOULD expose an on-demand revalidation route that re-renders a given path or tag when triggered.
+3. The revalidation route MUST reject unauthenticated or unauthorized callers and MUST NOT revalidate arbitrary paths without a valid secret.
 
 ## §2 Acceptance
 
 - A content edit appears after the revalidate window without a redeploy.
-- Calling the revalidation route with a valid secret refreshes the target path;
-  an invalid secret is rejected.
+- Calling the revalidation route with a valid secret refreshes the target path; an invalid secret is rejected.
 
 ## §3 Evidence
 

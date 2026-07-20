@@ -1,24 +1,17 @@
 # Deploy runbook - Vercel
 
-The site is a standard Next.js 15 App Router app, so Vercel deploys it
-zero-config; `vercel.json` only pins the framework and commands. The chat proxy
-streams, so it runs as a Node function with `maxDuration = 60` (set in
-`app/api/genie/route.ts`).
+The site is a standard Next.js 15 App Router app, so Vercel deploys it zero-config; `vercel.json` only pins the framework and commands. The chat proxy streams, so it runs as a Node function with `maxDuration = 60` (set in `app/api/genie/route.ts`).
 
 ## First deploy
 
-1. Push the branch and import the repo at vercel.com/new (or run `vercel` from
-   the repo with the Vercel CLI). Framework preset: Next.js.
+1. Push the branch and import the repo at vercel.com/new (or run `vercel` from the repo with the Vercel CLI). Framework preset: Next.js.
 2. Set environment variables (below) for Production and Preview.
 3. Deploy. Vercel runs `npm install` then `npm run build`.
-4. Point the domain (`cyberskill.world`) at the project and set
-   `NEXT_PUBLIC_SITE_URL` to the final origin so canonical, hreflang, sitemap,
-   and robots URLs are correct.
+4. Point the domain (`cyberskill.world`) at the project and set `NEXT_PUBLIC_SITE_URL` to the final origin so canonical, hreflang, sitemap, and robots URLs are correct.
 
 ## Environment variables
 
-Set these in Project Settings -> Environment Variables. Secrets are server-side
-only; never add `NEXT_PUBLIC_` to a secret.
+Set these in Project Settings -> Environment Variables. Secrets are server-side only; never add `NEXT_PUBLIC_` to a secret.
 
 | Variable | Scope | Required | Notes |
 |---|---|---|---|
@@ -33,38 +26,26 @@ only; never add `NEXT_PUBLIC_` to a secret.
 | `NEXT_PUBLIC_SENTRY_RELEASE` | Production, Preview | no | Optional release tag for client events; server events already use `VERCEL_GIT_COMMIT_SHA`. |
 | `NEXT_PUBLIC_SITE_URL` | Production, Preview | yes | Public canonical origin (e.g. https://cyberskill.world). Safe to expose. |
 
-Use a separate, lower-limit `ANTHROPIC_API_KEY` for Preview so preview
-deployments cannot burn the production quota.
+Use a separate, lower-limit `ANTHROPIC_API_KEY` for Preview so preview deployments cannot burn the production quota.
 
-Note on `NEXT_PUBLIC_*`: these are inlined at build time, so adding or changing
-one only takes effect on the next deployment - redeploy after editing them.
-Runtime secrets (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`) are read per request but
-still need a redeploy to propagate a newly-added value to existing functions.
+Note on `NEXT_PUBLIC_*`: these are inlined at build time, so adding or changing one only takes effect on the next deployment - redeploy after editing them. Runtime secrets (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`) are read per request but still need a redeploy to propagate a newly-added value to existing functions.
 
 ## Streaming note
 
-`/api/genie` streams server-sent text. On Vercel this runs on the Node runtime
-(Fluid Compute, default up to 300s; we cap at 60s). If you ever move it to the
-Edge runtime, remember Edge must begin streaming within ~25s. The current
-setup needs no change.
+`/api/genie` streams server-sent text. On Vercel this runs on the Node runtime (Fluid Compute, default up to 300s; we cap at 60s). If you ever move it to the Edge runtime, remember Edge must begin streaming within ~25s. The current setup needs no change.
 
 ## Verify after deploy
 
 - `/` redirects to `/en`; `/vi` renders in Vietnamese; `<html lang>` matches.
 - `/robots.txt` and `/sitemap.xml` resolve; sitemap lists en + vi with alternates.
-- Lead form submits (check server logs / Slack) and an email arrives at
-  `info@cyberskill.world` (with `RESEND_API_KEY` set + a verified from domain).
-- Lumi replies and streams (with the key set and account credit); falls back
-  gracefully without it.
-- Sentry receives events (with `NEXT_PUBLIC_SENTRY_DSN` set after a redeploy):
-  trigger a test client error and confirm it lands in the Sentry dashboard with
-  release + environment tags.
+- Lead form submits (check server logs / Slack) and an email arrives at `info@cyberskill.world` (with `RESEND_API_KEY` set + a verified from domain).
+- Lumi replies and streams (with the key set and account credit); falls back gracefully without it.
+- Sentry receives events (with `NEXT_PUBLIC_SENTRY_DSN` set after a redeploy): trigger a test client error and confirm it lands in the Sentry dashboard with release + environment tags.
 - Run Vercel Speed Insights / Lighthouse on mobile against `lighthouse/budget.json`.
 
 ## Rollback
 
-Vercel keeps every deployment. Promote a previous deployment from the project's
-Deployments tab to roll back instantly; no rebuild needed.
+Vercel keeps every deployment. Promote a previous deployment from the project's Deployments tab to roll back instantly; no rebuild needed.
 
 ## Suggested add-ons
 

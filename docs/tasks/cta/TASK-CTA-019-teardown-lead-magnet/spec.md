@@ -15,8 +15,7 @@ traces_to: [growth/NURT-08]
 
 ## 0. Why (evidence)
 
-"A 15-point teardown of your website or internal tool, free, in 3 business days" converts qualified buyers and productizes
-work the team already does one-off - including the very audits this backlog is built from.
+"A 15-point teardown of your website or internal tool, free, in 3 business days" converts qualified buyers and productizes work the team already does one-off - including the very audits this backlog is built from.
 
 ## 1. Description (normative)
 

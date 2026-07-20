@@ -15,10 +15,7 @@ traces_to: [audit-C/responsiveness, audit-C/phase-2, audit-A/section-5]
 
 ## 0. Why (evidence)
 
-Audit C states plainly that its browser tool clamped the render viewport near 1406px, so true phone and tablet
-rendering was never exercised; audit A likewise could not pixel-test touch targets or 320px behaviour. Both name an
-on-device pass as the way to close the verification gap. Audit C also asks for a WCAG AA contrast check on the muted
-labels and the gold-on-dark micro-labels, which the automated APCA script may not cover.
+Audit C states plainly that its browser tool clamped the render viewport near 1406px, so true phone and tablet rendering was never exercised; audit A likewise could not pixel-test touch targets or 320px behaviour. Both name an on-device pass as the way to close the verification gap. Audit C also asks for a WCAG AA contrast check on the muted labels and the gold-on-dark micro-labels, which the automated APCA script may not cover.
 
 ## 1. Description (normative)
 

@@ -26,15 +26,10 @@ awh: N/A
 
 There MUST be one canonical scroll loop, and it MUST yield to reduced motion.
 
-1. Lenis MUST own smooth scrolling. GSAP's ticker MUST drive `lenis.raf` with
-   Lenis `autoRaf: false` and GSAP `lagSmoothing(0)`, so there is a single RAF
-   source.
-2. ScrollTrigger MUST update on the Lenis scroll event, keeping scene and
-   triggers in sync with the smoothed position.
-3. The scroll modules MUST be dynamically imported and MUST fail closed: a load
-   failure MUST leave native scrolling intact.
-4. Under reduced motion the provider MUST no-op, retaining the native scrollbar
-   and skipping Lenis and the GSAP loop entirely.
+1. Lenis MUST own smooth scrolling. GSAP's ticker MUST drive `lenis.raf` with Lenis `autoRaf: false` and GSAP `lagSmoothing(0)`, so there is a single RAF source.
+2. ScrollTrigger MUST update on the Lenis scroll event, keeping scene and triggers in sync with the smoothed position.
+3. The scroll modules MUST be dynamically imported and MUST fail closed: a load failure MUST leave native scrolling intact.
+4. Under reduced motion the provider MUST no-op, retaining the native scrollbar and skipping Lenis and the GSAP loop entirely.
 
 ## §2 Acceptance
 
@@ -44,6 +39,4 @@ There MUST be one canonical scroll loop, and it MUST yield to reduced motion.
 
 ## §3 Evidence
 
-Static: `lib/scroll/lenis-gsap.ts` wires the ticker with `autoRaf:false` and
-`lagSmoothing(0)`; `ScrollStoryProvider` no-ops under reduced motion and imports
-dynamically. Deferred: scroll feel and sync on the operator machine.
+Static: `lib/scroll/lenis-gsap.ts` wires the ticker with `autoRaf:false` and `lagSmoothing(0)`; `ScrollStoryProvider` no-ops under reduced motion and imports dynamically. Deferred: scroll feel and sync on the operator machine.

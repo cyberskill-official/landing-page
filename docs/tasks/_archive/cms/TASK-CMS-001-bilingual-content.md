@@ -24,16 +24,11 @@ awh: N/A
 
 ## §1 Requirement (BCP-14 normative)
 
-Content MUST be defined once and serve both the page and the Genie, so the two
-can never disagree on a fact.
+Content MUST be defined once and serve both the page and the Genie, so the two can never disagree on a fact.
 
-1. Every user-facing string MUST ship an English and a Vietnamese value; a key
-   present in one locale MUST be present in the other.
-2. Company facts (services, Ho Chi Minh City base, established 2020, contact
-   details, slogan) MUST live in one content module and MUST feed both the
-   rendered sections and the Genie persona grounding (TASK-CHAR-011).
-3. The content shape MUST be typed so a missing field is a build-time error, not
-   a runtime blank.
+1. Every user-facing string MUST ship an English and a Vietnamese value; a key present in one locale MUST be present in the other.
+2. Company facts (services, Ho Chi Minh City base, established 2020, contact details, slogan) MUST live in one content module and MUST feed both the rendered sections and the Genie persona grounding (TASK-CHAR-011).
+3. The content shape MUST be typed so a missing field is a build-time error, not a runtime blank.
 
 ## §2 Acceptance
 
@@ -42,6 +37,4 @@ can never disagree on a fact.
 
 ## §3 Evidence
 
-Static: `lib/content/site.ts` and `lib/i18n/dictionaries.ts` carry both locales;
-the persona imports the shared facts. Deferred: end-to-end copy review and
-native-Vietnamese proofread (operator / Stephen).
+Static: `lib/content/site.ts` and `lib/i18n/dictionaries.ts` carry both locales; the persona imports the shared facts. Deferred: end-to-end copy review and native-Vietnamese proofread (operator / Stephen).

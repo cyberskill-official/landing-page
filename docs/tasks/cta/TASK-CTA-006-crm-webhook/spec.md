@@ -15,9 +15,7 @@ traces_to: [research-doc/section-O, growth/LEAD-02]
 
 ## 0. Why (evidence)
 
-Research doc §O. app/api/lead/route.ts already fans out to a CRM webhook URL, but there is no documented field mapping and
-no test that the mapping survives the hop - so a schema change on either side would break the pipeline silently. TASK-BIZ-002
-provides the endpoint; TASK-OPS-010 provides the alert when the hop fails.
+Research doc §O. app/api/lead/route.ts already fans out to a CRM webhook URL, but there is no documented field mapping and no test that the mapping survives the hop - so a schema change on either side would break the pipeline silently. TASK-BIZ-002 provides the endpoint; TASK-OPS-010 provides the alert when the hop fails.
 
 ## 1. Description (normative)
 

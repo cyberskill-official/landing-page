@@ -15,8 +15,7 @@ traces_to: [growth/NURT-01, audit-A/phase-3]
 
 ## 0. Why (evidence)
 
-The site has no way to keep a warm list. A build-notes newsletter is the cheapest nurture channel and the natural home for
-the insights the reports ask the company to publish (TASK-CMS-007).
+The site has no way to keep a warm list. A build-notes newsletter is the cheapest nurture channel and the natural home for the insights the reports ask the company to publish (TASK-CMS-007).
 
 ## 1. Description (normative)
 

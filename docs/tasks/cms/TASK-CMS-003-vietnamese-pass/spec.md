@@ -17,13 +17,11 @@ traces_to: [research-doc/section-D, audit-A/section-6, audit-C/technical-seo-gap
 
 Research doc §D, plus three concrete defects the 2026-07-11 audits found:
 
-- The `/vi` routes serve the English `<title>` ("Turn Your Will Into Real - CyberSkill") while the H1 and description are
-  translated. The title mechanism is TASK-SEO-011; this task owns the Vietnamese copy it uses.
+- The `/vi` routes serve the English `<title>` ("Turn Your Will Into Real - CyberSkill") while the H1 and description are translated. The title mechanism is TASK-SEO-011; this task owns the Vietnamese copy it uses.
 - The VN stat-badge labels differ from the EN ones and are reordered.
 - The case-study category tags ("Logistics operations", "Education", "Retail") stay in English on the VN pages.
 
-Vietnamese-first is a stated non-negotiable (AGENTS.md §4.5), and Vietnam is the home market: a half-translated VN site is
-worse than an English-only one.
+Vietnamese-first is a stated non-negotiable (AGENTS.md §4.5), and Vietnam is the home market: a half-translated VN site is worse than an English-only one.
 
 ## 1. Description (normative)
 

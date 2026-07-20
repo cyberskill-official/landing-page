@@ -28,20 +28,14 @@ awh: N/A
 
 The home page MUST signal credibility honestly, with nothing invented.
 
-1. A credibility strip MUST render near the top of the home page and MUST NOT
-   use invented logos or metrics.
-2. The strip MUST present bilingual items drawn only from true facts: since
-   2020, three practices, EN and VN bilingual delivery, and a one-business-day
-   reply.
+1. A credibility strip MUST render near the top of the home page and MUST NOT use invented logos or metrics.
+2. The strip MUST present bilingual items drawn only from true facts: since 2020, three practices, EN and VN bilingual delivery, and a one-business-day reply.
 
 ## §2 Acceptance
 
-- The strip appears near the top of `/[lang]` and carries only the four honest
-  items, with no placeholder client logos or made-up numbers.
+- The strip appears near the top of `/[lang]` and carries only the four honest items, with no placeholder client logos or made-up numbers.
 - Each item reads correctly in both `/en` and `/vi`.
 
 ## §3 Evidence
 
-Static: `components/sections/TrustBand.tsx` renders the four honest items from the
-dictionary and is mounted in `app/[lang]/page.tsx`; styling in `app/globals.css`.
-Deferred: visual placement check on the operator machine.
+Static: `components/sections/TrustBand.tsx` renders the four honest items from the dictionary and is mounted in `app/[lang]/page.tsx`; styling in `app/globals.css`. Deferred: visual placement check on the operator machine.

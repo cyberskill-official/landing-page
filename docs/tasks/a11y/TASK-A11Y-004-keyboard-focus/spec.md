@@ -17,15 +17,9 @@ traces_to: [research-doc/section-H, audit-B/finding-14-low]
 
 Research doc §H (WCAG 2.1.1 keyboard, 2.4.7 focus visible). Substantially in place already, and this task closes the rest.
 
-Already true (2026-06): the site is HTML-first with native controls, a global 3px `:focus-visible` outline, a skip link,
-and the 3D canvas marked decorative (`aria-hidden`, `pointer-events:none`) so it is never a tab stop. The chat is a
-correctly-modelled non-modal `role="dialog"` (`aria-modal="false"`): focus moves to the input on open, returns to the
-launcher on close, Escape closes it, and the launchers carry `aria-haspopup="dialog"` + `aria-expanded`. Per the WAI-ARIA
-APG a non-modal dialog does not trap focus, so there is no trap.
+Already true (2026-06): the site is HTML-first with native controls, a global 3px `:focus-visible` outline, a skip link, and the 3D canvas marked decorative (`aria-hidden`, `pointer-events:none`) so it is never a tab stop. The chat is a correctly-modelled non-modal `role="dialog"` (`aria-modal="false"`): focus moves to the input on open, returns to the launcher on close, Escape closes it, and the launchers carry `aria-haspopup="dialog"` + `aria-expanded`. Per the WAI-ARIA APG a non-modal dialog does not trap focus, so there is no trap.
 
-Open: a real Tab / Shift+Tab pass across every route with no pointer, confirming order and the contrast of each focus
-indicator - and the 18 sub-44px controls audit B found (TASK-A11Y-011), which are the same header icons and rail dots this
-task must be able to reach.
+Open: a real Tab / Shift+Tab pass across every route with no pointer, confirming order and the contrast of each focus indicator - and the 18 sub-44px controls audit B found (TASK-A11Y-011), which are the same header icons and rail dots this task must be able to reach.
 
 ## 1. Description (normative)
 

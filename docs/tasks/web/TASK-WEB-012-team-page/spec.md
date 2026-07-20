@@ -15,10 +15,7 @@ traces_to: [audit-A/section-4, audit-A/phase-2-item-8, audit-C/content-credibili
 
 ## 0. Why (evidence)
 
-All three audits land on the same contradiction: the site's pitch is "senior engineers own the work end to end" and
-"you always know who is building what", the nav offers a Team link - and it jumps to a one-line company statement with no
-named people, photos or credentials. Audit A calls a real Team/About page the biggest authenticity gap; audit C lists it
-as a Phase 2 high-priority item. The growth backlog also flags the #team vs #proof anchor mismatch.
+All three audits land on the same contradiction: the site's pitch is "senior engineers own the work end to end" and "you always know who is building what", the nav offers a Team link - and it jumps to a one-line company statement with no named people, photos or credentials. Audit A calls a real Team/About page the biggest authenticity gap; audit C lists it as a Phase 2 high-priority item. The growth backlog also flags the #team vs #proof anchor mismatch.
 
 ## 1. Description (normative)
 

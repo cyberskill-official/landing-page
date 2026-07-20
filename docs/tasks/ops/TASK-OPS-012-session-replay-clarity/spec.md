@@ -15,8 +15,7 @@ traces_to: [growth/MEAS-02]
 
 ## 0. Why (evidence)
 
-Ten session replays teach more about where a cinematic scroll page loses people than a month of aggregates. The growth
-backlog scoped Clarity in cookieless mode, env-gated so it is inert without a project id.
+Ten session replays teach more about where a cinematic scroll page loses people than a month of aggregates. The growth backlog scoped Clarity in cookieless mode, env-gated so it is inert without a project id.
 
 ## 1. Description (normative)
 

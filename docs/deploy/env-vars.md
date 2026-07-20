@@ -15,9 +15,9 @@ This document maps and explains each environment variable used in the CyberSkill
 - **Description**: The secret key for the Anthropic Messages API.
 - **Where Set**: Server Environment (Vercel project environment variables).
 - **Environments**:
-  - **Dev**: Optional (Genie proxy falls back to a 503 if missing).
-  - **Preview**: Required (isolated test key).
-  - **Production**: Required (production-only key).
+- **Dev**: Optional (Genie proxy falls back to a 503 if missing).
+- **Preview**: Required (isolated test key).
+- **Production**: Required (production-only key).
 - **What breaks**: If missing in production, the `/api/genie` endpoint fails closed with a 500 configuration error. If missing in dev, the chat fallback indicates the Genie is currently resting and directs the user to the contact form.
 
 ### `GENIE_MODEL`
@@ -40,9 +40,9 @@ This document maps and explains each environment variable used in the CyberSkill
 - **Description**: API key for sending email notifications to the company inbox via Resend.
 - **Where Set**: Server Environment.
 - **Environments**:
-  - **Dev**: Optional (sends are skipped).
-  - **Preview**: Required (test key).
-  - **Production**: Required (production-only key).
+- **Dev**: Optional (sends are skipped).
+- **Preview**: Required (test key).
+- **Production**: Required (production-only key).
 - **What breaks**: If absent in production, lead submission fails closed with a 500 configuration error.
 
 ### `LEAD_EMAIL_FROM`
@@ -67,9 +67,9 @@ This document maps and explains each environment variable used in the CyberSkill
 - **Description**: CyberOS lead intake webhook URL (system of record).
 - **Where Set**: Server Environment.
 - **Environments**:
-  - **Dev**: Optional (skipped).
-  - **Preview**: Required (pointing to staging or test instance).
-  - **Production**: Required (pointing to production intake).
+- **Dev**: Optional (skipped).
+- **Preview**: Required (pointing to staging or test instance).
+- **Production**: Required (pointing to production intake).
 - **What breaks**: If absent in production, lead submission fails closed with a 500 configuration error.
 
 ### `LEAD_CRM_TOKEN`
@@ -102,9 +102,9 @@ This document maps and explains each environment variable used in the CyberSkill
 - **Description**: Microsoft Clarity project ID for cookieless session replay (TASK-OPS-012). Safe to expose (public client id).
 - **Where Set**: Client/Server Environment (public). Current project: `xngfe1jaip`.
 - **Environments**:
-  - **Dev**: Optional (loader is production-gated; Clarity does not load outside production/test).
-  - **Preview**: Leave unset (preview must not record).
-  - **Production**: Set to enable the tag when consent allows `session-replay`.
+- **Dev**: Optional (loader is production-gated; Clarity does not load outside production/test).
+- **Preview**: Leave unset (preview must not record).
+- **Production**: Set to enable the tag when consent allows `session-replay`.
 - **What breaks**: If absent, no Clarity script is requested. If set but `ConsentGate.canLoad("session-replay")` is false (default until a consent banner upgrades it), Clarity still does not load. Forms and chat are masked via `clarity-mask` / `data-clarity-mask`.
 
 ### `NEXT_PUBLIC_BOOKING_URL`

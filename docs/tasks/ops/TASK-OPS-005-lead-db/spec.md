@@ -15,10 +15,7 @@ traces_to: [research-doc/section-O, growth/LEAD-02, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-Research doc §O. Today a lead exists as an email and a Slack ping; a chat transcript exists nowhere. Audit A's conversion
-review ("form starts vs completions") and TASK-BIZ-009's SLA ritual both need a queryable store. CyberOS is the intended
-system of record (TASK-BIZ-002) - this task is the repo-side persistence contract, whether the store is CyberOS or a managed
-database.
+Research doc §O. Today a lead exists as an email and a Slack ping; a chat transcript exists nowhere. Audit A's conversion review ("form starts vs completions") and TASK-BIZ-009's SLA ritual both need a queryable store. CyberOS is the intended system of record (TASK-BIZ-002) - this task is the repo-side persistence contract, whether the store is CyberOS or a managed database.
 
 ## 1. Description (normative)
 

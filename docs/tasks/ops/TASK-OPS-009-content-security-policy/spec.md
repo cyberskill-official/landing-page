@@ -15,9 +15,7 @@ traces_to: [audit-B/finding-9-medium, audit-A/phase-2-item-11, growth/PERF-05]
 
 ## 0. Why (evidence)
 
-Audit B measured the header set: HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy are
-all set correctly; the one missing header is a Content-Security-Policy. Audit A lists header hardening as an enterprise
-procurement checklist item. next.config.ts confirms CSP is absent.
+Audit B measured the header set: HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy are all set correctly; the one missing header is a Content-Security-Policy. Audit A lists header hardening as an enterprise procurement checklist item. next.config.ts confirms CSP is absent.
 
 ## 1. Description (normative)
 

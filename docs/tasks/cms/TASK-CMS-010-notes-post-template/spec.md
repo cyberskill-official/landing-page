@@ -15,8 +15,7 @@ traces_to: [audit-C/geo, audit-C/phase-2, growth/GEO-04]
 
 ## 0. Why (evidence)
 
-Answer engines prefer pages with visible authorship, freshness and an extractable summary; audit C asks for quotable,
-statistic-rich, cited content. The insights collection (TASK-CMS-007) must not be able to ship a post that lacks those.
+Answer engines prefer pages with visible authorship, freshness and an extractable summary; audit C asks for quotable, statistic-rich, cited content. The insights collection (TASK-CMS-007) must not be able to ship a post that lacks those.
 
 ## 1. Description (normative)
 

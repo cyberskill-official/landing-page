@@ -25,14 +25,10 @@ awh: N/A
 
 A procedural stand-in MUST hold Lumi's place until the commissioned GLB lands.
 
-1. A procedural golden orb MUST stand in for the commissioned GLB and MUST be
-   clearly labelled as a placeholder, not the final character.
-2. The orb MUST gaze toward the pointer, lerping toward the normalised pointer
-   position each frame rather than snapping.
-3. The orb MUST react to chat state from the Zustand store (TASK-CHAR-012) with
-   distinct idle, thinking, and speaking behaviours.
-4. The placeholder MUST mount only inside the gated scene (TASK-SCENE-001) and MUST
-   NOT appear when the scene is unavailable.
+1. A procedural golden orb MUST stand in for the commissioned GLB and MUST be clearly labelled as a placeholder, not the final character.
+2. The orb MUST gaze toward the pointer, lerping toward the normalised pointer position each frame rather than snapping.
+3. The orb MUST react to chat state from the Zustand store (TASK-CHAR-012) with distinct idle, thinking, and speaking behaviours.
+4. The placeholder MUST mount only inside the gated scene (TASK-SCENE-001) and MUST NOT appear when the scene is unavailable.
 
 ## §2 Acceptance
 
@@ -42,6 +38,4 @@ A procedural stand-in MUST hold Lumi's place until the commissioned GLB lands.
 
 ## §3 Evidence
 
-Static: `LumiPlaceholder` lerps to the normalised pointer per frame and reads
-chat state from the store; labelled as a placeholder. Deferred: motion feel and
-state transitions observed on the operator machine.
+Static: `LumiPlaceholder` lerps to the normalised pointer per frame and reads chat state from the store; labelled as a placeholder. Deferred: motion feel and state transitions observed on the operator machine.

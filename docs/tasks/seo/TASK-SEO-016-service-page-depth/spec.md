@@ -15,9 +15,7 @@ traces_to: [audit-A/phase-3-item-14, audit-C/phase-2, audit-B/finding-16-low, gr
 
 ## 0. Why (evidence)
 
-Audit A: no pages target high-intent commercial queries; competitors rank on dozens. Audit C: some routes return thin
-extracted body text. Audit B: /work and /careers carry roughly 200 words each. The three service pages are the site's best
-ranking assets and are currently short and generic. Supersedes the closed TASK-WEB-008 (the routes already exist).
+Audit A: no pages target high-intent commercial queries; competitors rank on dozens. Audit C: some routes return thin extracted body text. Audit B: /work and /careers carry roughly 200 words each. The three service pages are the site's best ranking assets and are currently short and generic. Supersedes the closed TASK-WEB-008 (the routes already exist).
 
 ## 1. Description (normative)
 

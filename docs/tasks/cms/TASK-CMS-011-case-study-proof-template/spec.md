@@ -15,11 +15,7 @@ traces_to: [audit-A/phase-1-item-1, audit-B/finding-8-medium, audit-C/content-cr
 
 ## 0. Why (evidence)
 
-This is the #1 gap in all three audits. Case studies are anonymized ("a logistics client"), three short paragraphs each,
-with no company name, no numbers, no screenshots, no quote. Audit A: best-in-class reads "reduced time-to-deploy from six
-weeks to two days for a major global retailer"; CyberSkill reads "the operations team works from one live view". Audit C
-calls named case studies with measurable results table stakes and the highest-impact conversion asset. The template must
-exist before the content can land.
+This is the #1 gap in all three audits. Case studies are anonymized ("a logistics client"), three short paragraphs each, with no company name, no numbers, no screenshots, no quote. Audit A: best-in-class reads "reduced time-to-deploy from six weeks to two days for a major global retailer"; CyberSkill reads "the operations team works from one live view". Audit C calls named case studies with measurable results table stakes and the highest-impact conversion asset. The template must exist before the content can land.
 
 ## 1. Description (normative)
 

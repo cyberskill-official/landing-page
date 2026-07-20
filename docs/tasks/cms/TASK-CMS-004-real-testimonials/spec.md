@@ -15,9 +15,7 @@ traces_to: [audit-A/phase-1-item-2, audit-C/trust-table, growth/PROOF-01]
 
 ## 0. Why (evidence)
 
-All three audits rate the absence of testimonials as a top-three conversion gap; audit A cites a ~34% lift (SalesHive) and
-the pattern of placing social proof next to the ask. components/sections/SocialProof.tsx already reads a `testimonials`
-array and falls back to first-person commitments when it is empty - so the component is not the gap. The quotes are.
+All three audits rate the absence of testimonials as a top-three conversion gap; audit A cites a ~34% lift (SalesHive) and the pattern of placing social proof next to the ask. components/sections/SocialProof.tsx already reads a `testimonials` array and falls back to first-person commitments when it is empty - so the component is not the gap. The quotes are.
 
 ## 1. Description (normative)
 

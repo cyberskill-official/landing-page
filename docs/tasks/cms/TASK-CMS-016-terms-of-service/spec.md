@@ -15,8 +15,7 @@ traces_to: [audit-A/section-8]
 
 ## 0. Why (evidence)
 
-Audit A: only Privacy and Accessibility appear in the footer; a Terms of Service is absent, and it is an enterprise
-procurement checklist item.
+Audit A: only Privacy and Accessibility appear in the footer; a Terms of Service is absent, and it is an enterprise procurement checklist item.
 
 ## 1. Description (normative)
 

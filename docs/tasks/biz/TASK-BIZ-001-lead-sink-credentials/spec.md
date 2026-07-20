@@ -15,9 +15,7 @@ traces_to: [growth/LEAD-01, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-app/api/lead/route.ts fans out to Resend, Slack and a CRM webhook, all of which no-op until their env vars exist - so in
-production a lead exists only as a console line in the Vercel function logs. Every conversion task in this backlog depends on
-this being true first.
+app/api/lead/route.ts fans out to Resend, Slack and a CRM webhook, all of which no-op until their env vars exist - so in production a lead exists only as a console line in the Vercel function logs. Every conversion task in this backlog depends on this being true first.
 
 ## 1. Description (normative)
 

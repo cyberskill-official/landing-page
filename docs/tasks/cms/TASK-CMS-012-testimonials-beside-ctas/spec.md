@@ -15,10 +15,7 @@ traces_to: [audit-A/phase-1-item-2, audit-A/section-9, audit-C/trust-table, grow
 
 ## 0. Why (evidence)
 
-Audit A: testimonials can lift landing-page conversions by up to ~34% (SalesHive) and the high-converting pattern places
-social proof next to the ask, not in the footer - CyberSkill has none to place. components/sections/SocialProof.tsx already
-reads a `testimonials` array and falls back to first-person commitments when it is empty, so the component exists; what is
-missing is real quotes and their placement beside the CTAs.
+Audit A: testimonials can lift landing-page conversions by up to ~34% (SalesHive) and the high-converting pattern places social proof next to the ask, not in the footer - CyberSkill has none to place. components/sections/SocialProof.tsx already reads a `testimonials` array and falls back to first-person commitments when it is empty, so the component exists; what is missing is real quotes and their placement beside the CTAs.
 
 ## 1. Description (normative)
 

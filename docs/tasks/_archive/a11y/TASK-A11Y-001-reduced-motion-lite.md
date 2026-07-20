@@ -27,15 +27,10 @@ awh: N/A
 
 The site MUST clear a WCAG 2.2 AA floor and MUST give users control over motion.
 
-1. The app MUST honour `prefers-reduced-motion: reduce` and MUST also offer a
-   manual motion toggle whose choice is persisted in `localStorage` and applied
-   before animations start.
-2. A `/lite` route per locale MUST mirror the full story as static DOM text,
-   serving as the WCAG 2.3.3 alternative to the animated experience.
-3. A skip link MUST be the first focusable element and MUST move focus to the
-   main content target.
-4. Reduced motion MUST disable scene mounting and reveal transforms, not merely
-   shorten them.
+1. The app MUST honour `prefers-reduced-motion: reduce` and MUST also offer a manual motion toggle whose choice is persisted in `localStorage` and applied before animations start.
+2. A `/lite` route per locale MUST mirror the full story as static DOM text, serving as the WCAG 2.3.3 alternative to the animated experience.
+3. A skip link MUST be the first focusable element and MUST move focus to the main content target.
+4. Reduced motion MUST disable scene mounting and reveal transforms, not merely shorten them.
 
 ## §2 Acceptance
 
@@ -45,6 +40,4 @@ The site MUST clear a WCAG 2.2 AA floor and MUST give users control over motion.
 
 ## §3 Evidence
 
-Static: `/lite` route + `SkipLink` + `MotionToggle` authored; toggle reads/writes
-`localStorage`; reduced-motion branch gates motion. Deferred: axe scan and
-VoiceOver/NVDA pass on the operator machine.
+Static: `/lite` route + `SkipLink` + `MotionToggle` authored; toggle reads/writes `localStorage`; reduced-motion branch gates motion. Deferred: axe scan and VoiceOver/NVDA pass on the operator machine.

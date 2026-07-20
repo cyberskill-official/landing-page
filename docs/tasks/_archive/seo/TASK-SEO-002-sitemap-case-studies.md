@@ -25,8 +25,7 @@ awh: N/A
 
 Every case study MUST be discoverable from the sitemap.
 
-1. `app/sitemap.ts` MUST include every `/[lang]/work/[slug]` URL, each with
-   `en` and `vi` alternates, so case studies are indexable.
+1. `app/sitemap.ts` MUST include every `/[lang]/work/[slug]` URL, each with `en` and `vi` alternates, so case studies are indexable.
 
 ## §2 Acceptance
 
@@ -35,6 +34,4 @@ Every case study MUST be discoverable from the sitemap.
 
 ## §3 Evidence
 
-Static: `app/sitemap.ts` maps over the work slugs and locales to emit each
-`/[lang]/work/[slug]` URL with `en`/`vi` alternates. Deferred: sitemap fetch and
-validation on the operator machine.
+Static: `app/sitemap.ts` maps over the work slugs and locales to emit each `/[lang]/work/[slug]` URL with `en`/`vi` alternates. Deferred: sitemap fetch and validation on the operator machine.

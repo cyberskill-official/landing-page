@@ -15,11 +15,7 @@ traces_to: [audit-A/phase-1-item-3, audit-A/phase-1-item-4, audit-A/section-1]
 
 ## 0. Why (evidence)
 
-Audit A found no confirmed Google Business Profile, and the external citations diverge from the site's own (correct) NAP:
-the Google Play developer listing still shows the OLD ward ("Dakao ward, district 1") and an individual's email address
-(thai-anh.trinh@cyberskill.world); appsruntheworld lists the address as "x, Ho Chi Minh, 700000"; GoodFirms carries its own
-figures. The Dakao -> Tan Dinh renaming is a real administrative change, and inconsistent citations suppress local SEO and
-teach AI engines the wrong facts about the entity.
+Audit A found no confirmed Google Business Profile, and the external citations diverge from the site's own (correct) NAP: the Google Play developer listing still shows the OLD ward ("Dakao ward, district 1") and an individual's email address (thai-anh.trinh@cyberskill.world); appsruntheworld lists the address as "x, Ho Chi Minh, 700000"; GoodFirms carries its own figures. The Dakao -> Tan Dinh renaming is a real administrative change, and inconsistent citations suppress local SEO and teach AI engines the wrong facts about the entity.
 
 ## 1. Description (normative)
 

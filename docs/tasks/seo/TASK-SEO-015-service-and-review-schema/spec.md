@@ -15,10 +15,7 @@ traces_to: [audit-C/phase-2, audit-B/strength-3, audit-A/phase-1-item-5]
 
 ## 0. Why (evidence)
 
-All three audits rate the existing structured data (Organization, WebSite, FAQPage, OfferCatalog) as richer than the
-competitors' and ask for the same extension: Service schema on each /services/[slug], BreadcrumbList on every sub-page
-(TASK-SEO-003 shipped it - this task re-verifies it on the service and work templates), Article schema when the notes hub
-launches (TASK-SEO-004), and Review/AggregateRating once real, attributable testimonials exist.
+All three audits rate the existing structured data (Organization, WebSite, FAQPage, OfferCatalog) as richer than the competitors' and ask for the same extension: Service schema on each /services/[slug], BreadcrumbList on every sub-page (TASK-SEO-003 shipped it - this task re-verifies it on the service and work templates), Article schema when the notes hub launches (TASK-SEO-004), and Review/AggregateRating once real, attributable testimonials exist.
 
 ## 1. Description (normative)
 

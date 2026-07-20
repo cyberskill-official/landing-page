@@ -15,9 +15,7 @@ traces_to: [audit-A/phase-2-item-9, audit-C/content-credibility, audit-C/phase-2
 
 ## 0. Why (evidence)
 
-All three audits name the same missing page: there is no stated engagement model or pricing signal. Audit C: strong
-boutiques publish engagement types, a typical project size or a rate range to pre-qualify leads and reduce friction; audit A
-notes buyers shortlist on this and competitors show it. Price is the question every visitor has and never asks.
+All three audits name the same missing page: there is no stated engagement model or pricing signal. Audit C: strong boutiques publish engagement types, a typical project size or a rate range to pre-qualify leads and reduce friction; audit A notes buyers shortlist on this and competitors show it. Price is the question every visitor has and never asks.
 
 ## 1. Description (normative)
 

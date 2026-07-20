@@ -23,14 +23,10 @@ awh: N/A
 
 Lumi SHOULD answer from grounded facts, not memory alone.
 
-1. The proxy MUST retrieve relevant snippets from a curated company and
-   portfolio knowledge base and pass them as context to the model.
-2. Retrieved facts MUST come from a maintained source of truth (services,
-   process, case studies), not from arbitrary web content.
-3. Answers MUST stay grounded: when retrieval returns nothing relevant, Lumi
-   MUST decline to invent specifics and MUST steer to a human or the form.
-4. Grounding MUST extend the persona system prompt (TASK-CHAR-011) without
-   exposing raw retrieval internals to the client.
+1. The proxy MUST retrieve relevant snippets from a curated company and portfolio knowledge base and pass them as context to the model.
+2. Retrieved facts MUST come from a maintained source of truth (services, process, case studies), not from arbitrary web content.
+3. Answers MUST stay grounded: when retrieval returns nothing relevant, Lumi MUST decline to invent specifics and MUST steer to a human or the form.
+4. Grounding MUST extend the persona system prompt (TASK-CHAR-011) without exposing raw retrieval internals to the client.
 
 ## §2 Acceptance
 

@@ -15,10 +15,7 @@ traces_to: [audit-B/finding-12-low, audit-B/phase-2, audit-A/section-8]
 
 ## 0. Why (evidence)
 
-Audit B: Google Tag Manager (157 KB) loads on first paint with no consent gate and no deferral, adding third-party
-weight and execution before the visitor has done anything. app/layout.tsx loads gtag with `strategy="lazyOnload"` plus
-Vercel Analytics and Speed Insights. The site's own privacy page claims cookieless, first-party-only analytics, so a
-Google tag on every page is also a consistency problem for the PDPL posture described in audit A §8.
+Audit B: Google Tag Manager (157 KB) loads on first paint with no consent gate and no deferral, adding third-party weight and execution before the visitor has done anything. app/layout.tsx loads gtag with `strategy="lazyOnload"` plus Vercel Analytics and Speed Insights. The site's own privacy page claims cookieless, first-party-only analytics, so a Google tag on every page is also a consistency problem for the PDPL posture described in audit A §8.
 
 ## 1. Description (normative)
 

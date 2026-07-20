@@ -15,8 +15,7 @@ traces_to: [audit-A/phase-1-item-2, audit-B/finding-8-medium, audit-C/trust-tabl
 
 ## 0. Why (evidence)
 
-Every audit lists client logos as table stakes and finds none. The honest interim, available today without any permission,
-is a line naming the industries served ("Teams in logistics, education and retail run on software we built").
+Every audit lists client logos as table stakes and finds none. The honest interim, available today without any permission, is a line naming the industries served ("Teams in logistics, education and retail run on software we built").
 
 ## 1. Description (normative)
 

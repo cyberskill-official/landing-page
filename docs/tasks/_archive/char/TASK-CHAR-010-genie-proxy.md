@@ -25,16 +25,11 @@ awh: N/A
 
 The browser MUST never see the Anthropic key; it talks only to our proxy.
 
-1. `ANTHROPIC_API_KEY` MUST be read server-side only. The client MUST call
-   `/api/genie` and MUST NOT call the Anthropic API directly.
-2. The handler MUST call the Messages API with `stream: true` and MUST re-stream
-   the model output to the browser as plain text chunks.
-3. The handler MUST apply a per-IP, in-memory rate limit (best-effort) and MUST
-   validate the request body before calling upstream.
-4. When no key is configured the handler MUST return HTTP 503 so the client can
-   fall back to the contact form.
-5. The model id and max tokens MUST come from environment variables
-   (`GENIE_MODEL`, token budget), not hardcoded.
+1. `ANTHROPIC_API_KEY` MUST be read server-side only. The client MUST call `/api/genie` and MUST NOT call the Anthropic API directly.
+2. The handler MUST call the Messages API with `stream: true` and MUST re-stream the model output to the browser as plain text chunks.
+3. The handler MUST apply a per-IP, in-memory rate limit (best-effort) and MUST validate the request body before calling upstream.
+4. When no key is configured the handler MUST return HTTP 503 so the client can fall back to the contact form.
+5. The model id and max tokens MUST come from environment variables (`GENIE_MODEL`, token budget), not hardcoded.
 
 ## §2 Acceptance
 
@@ -44,6 +39,4 @@ The browser MUST never see the Anthropic key; it talks only to our proxy.
 
 ## §3 Evidence
 
-Static: `app/api/genie/route.ts` reads `process.env`, streams text, validates
-input, returns 503 when keyless, and rate-limits per IP. Deferred: live stream
-and throttle behaviour on the operator machine with a real key.
+Static: `app/api/genie/route.ts` reads `process.env`, streams text, validates input, returns 503 when keyless, and rate-limits per IP. Deferred: live stream and throttle behaviour on the operator machine with a real key.

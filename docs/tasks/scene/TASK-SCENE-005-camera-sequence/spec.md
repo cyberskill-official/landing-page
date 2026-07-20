@@ -23,14 +23,10 @@ awh: N/A
 
 The camera SHOULD follow an authored shot list, one shot per scene.
 
-1. Camera motion MUST come from an authored keyframe sequence (Theatre.js or a
-   baked animation clip), not from ad hoc per-frame math.
-2. There MUST be one named shot per narrative section, indexed by that section's
-   normalized progress from TASK-SCENE-007.
-3. Camera updates MUST be driven by the scene progress map each frame, and MUST
-   interpolate smoothly between adjacent shots.
-4. When motion is not allowed the camera MUST hold a single authored default
-   pose and MUST NOT animate.
+1. Camera motion MUST come from an authored keyframe sequence (Theatre.js or a baked animation clip), not from ad hoc per-frame math.
+2. There MUST be one named shot per narrative section, indexed by that section's normalized progress from TASK-SCENE-007.
+3. Camera updates MUST be driven by the scene progress map each frame, and MUST interpolate smoothly between adjacent shots.
+4. When motion is not allowed the camera MUST hold a single authored default pose and MUST NOT animate.
 
 ## §2 Acceptance
 

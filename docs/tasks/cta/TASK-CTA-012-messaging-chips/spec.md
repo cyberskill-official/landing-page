@@ -15,8 +15,7 @@ traces_to: [growth/CONV-05]
 
 ## 0. Why (evidence)
 
-Vietnamese buyers reach for Zalo and international buyers for WhatsApp; both beat a form on a phone. The site offers
-neither, and audit A notes minimal social presence overall.
+Vietnamese buyers reach for Zalo and international buyers for WhatsApp; both beat a form on a phone. The site offers neither, and audit A notes minimal social presence overall.
 
 ## 1. Description (normative)
 

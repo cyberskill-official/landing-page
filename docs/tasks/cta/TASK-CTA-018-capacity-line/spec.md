@@ -15,8 +15,7 @@ traces_to: [growth/CONV-09]
 
 ## 0. Why (evidence)
 
-Honest scarcity ("we start at most N new projects per quarter; next open slot: <month>") nudges a decision without pressure
-tactics - and only works if it is true.
+Honest scarcity ("we start at most N new projects per quarter; next open slot: <month>") nudges a decision without pressure tactics - and only works if it is true.
 
 ## 1. Description (normative)
 

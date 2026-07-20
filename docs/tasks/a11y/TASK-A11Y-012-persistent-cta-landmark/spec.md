@@ -15,9 +15,7 @@ traces_to: [audit-B/finding-5-medium, audit-B/phase-1, growth/CONV-08]
 
 ## 0. Why (evidence)
 
-Audit B: the floating "Start my project" / "Talk to Lumi" bar covers body text on most mobile sections, and axe flags
-it as content not contained by a landmark region. The growth backlog independently asked for a mobile CTA audit across
-every chapter, including the 11,808px-tall home page and the /vi routes.
+Audit B: the floating "Start my project" / "Talk to Lumi" bar covers body text on most mobile sections, and axe flags it as content not contained by a landmark region. The growth backlog independently asked for a mobile CTA audit across every chapter, including the 11,808px-tall home page and the /vi routes.
 
 ## 1. Description (normative)
 

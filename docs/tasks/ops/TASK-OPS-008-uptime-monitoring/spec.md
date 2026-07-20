@@ -25,12 +25,9 @@ awh: N/A
 
 An outage MUST page a human rather than wait for a visitor to report it.
 
-1. An external uptime monitor MUST probe the production site on a schedule and
-   MUST treat a failed probe or a non-healthy response as down.
-2. A failed probe MUST raise an alert through a channel the operator actually
-   watches, with no manual polling required.
-3. `docs/deploy/monitoring.md` MUST document the probe target, the cadence, and
-   who the alert reaches.
+1. An external uptime monitor MUST probe the production site on a schedule and MUST treat a failed probe or a non-healthy response as down.
+2. A failed probe MUST raise an alert through a channel the operator actually watches, with no manual polling required.
+3. `docs/deploy/monitoring.md` MUST document the probe target, the cadence, and who the alert reaches.
 
 ## §2 Acceptance
 

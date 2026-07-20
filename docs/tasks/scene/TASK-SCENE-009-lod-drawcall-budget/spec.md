@@ -17,14 +17,10 @@ traces_to: [research-doc/section-K, audit-C/performance, audit-B/finding-2-high]
 
 Research doc §K. Partially done (2026-06-24, branch auto/glb-perf-a11y):
 
-- GPU disposal on unmount is in place: components/canvas/GltfLumi.tsx disposes geometries and materials on unmount, and
-  LumiPlaceholder.tsx disposes the hand-built aura ShaderMaterial that R3F does not own.
-- The asset/budget guard holds: `npm run check:assets` keeps the gated-desktop client JS and public assets under budget,
-  and the poster path carries no GLB cost.
+- GPU disposal on unmount is in place: components/canvas/GltfLumi.tsx disposes geometries and materials on unmount, and LumiPlaceholder.tsx disposes the hand-built aura ShaderMaterial that R3F does not own.
+- The asset/budget guard holds: `npm run check:assets` keeps the gated-desktop client JS and public assets under budget, and the poster path carries no GLB cost.
 
-Open: a measured steady-state draw-call count. Distance LOD is only meaningful once a real multi-resolution GLB exists, so
-it is deferred to TASK-CHAR-021 (on hold). Audit C independently flags the always-on scene as the main INP risk, which
-TASK-PERF-012 addresses.
+Open: a measured steady-state draw-call count. Distance LOD is only meaningful once a real multi-resolution GLB exists, so it is deferred to TASK-CHAR-021 (on hold). Audit C independently flags the always-on scene as the main INP risk, which TASK-PERF-012 addresses.
 
 ## 1. Description (normative)
 

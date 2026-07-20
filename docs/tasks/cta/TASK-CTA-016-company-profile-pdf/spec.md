@@ -15,8 +15,7 @@ traces_to: [growth/CONV-07]
 
 ## 0. Why (evidence)
 
-Procurement and directors get forwarded a PDF, not a scroll story. The site already holds every fact the one-pager needs
-(entity sentence, services, process, proof, contact, DUNS).
+Procurement and directors get forwarded a PDF, not a scroll story. The site already holds every fact the one-pager needs (entity sentence, services, process, proof, contact, DUNS).
 
 ## 1. Description (normative)
 

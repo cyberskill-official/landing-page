@@ -15,9 +15,7 @@ traces_to: [audit-A/section-2, audit-C/geo, audit-C/phase-2, growth/GEO-01]
 
 ## 0. Why (evidence)
 
-Structured Q&A pairs are the highest-yield asset for AI answer engines, and all three audits name the FAQ as a strength
-worth extending: it has five entries today. Audit C asks for quotable, statistic-rich, citable blocks; audit A notes that
-LLMs preferentially cite specific facts.
+Structured Q&A pairs are the highest-yield asset for AI answer engines, and all three audits name the FAQ as a strength worth extending: it has five entries today. Audit C asks for quotable, statistic-rich, citable blocks; audit A notes that LLMs preferentially cite specific facts.
 
 ## 1. Description (normative)
 

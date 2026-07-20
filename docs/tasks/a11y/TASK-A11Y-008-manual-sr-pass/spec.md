@@ -15,8 +15,7 @@ traces_to: [research-doc/section-H, audit-C/responsiveness]
 
 ## 0. Why (evidence)
 
-Research doc §H. Automated checks (axe, Lighthouse) cannot hear what a screen reader says. Audit C independently notes
-that its browser tool clamped the viewport and could not exercise real assistive technology, and recommends the pass.
+Research doc §H. Automated checks (axe, Lighthouse) cannot hear what a screen reader says. Audit C independently notes that its browser tool clamped the viewport and could not exercise real assistive technology, and recommends the pass.
 
 ## 1. Description (normative)
 

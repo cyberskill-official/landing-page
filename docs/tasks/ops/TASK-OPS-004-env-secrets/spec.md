@@ -15,9 +15,7 @@ traces_to: [research-doc/section-G, growth/LEAD-01, audit-A/section-8]
 
 ## 0. Why (evidence)
 
-Research doc §G. Every task that touches a lead sink, a datastore, a KV or an AI key depends on this being right, and the
-2026-07-11 audits add the stakes: PDPL fines reach 5% of prior-year revenue for a cross-border transfer breach, and a
-leaked preview key that can write production data is exactly that class of incident. Raised to MUST.
+Research doc §G. Every task that touches a lead sink, a datastore, a KV or an AI key depends on this being right, and the 2026-07-11 audits add the stakes: PDPL fines reach 5% of prior-year revenue for a cross-border transfer breach, and a leaked preview key that can write production data is exactly that class of incident. Raised to MUST.
 
 ## 1. Description (normative)
 

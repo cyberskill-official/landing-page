@@ -15,9 +15,7 @@ traces_to: [audit-A/section-2, growth/GEO-03]
 
 ## 0. Why (evidence)
 
-Audit A: answer engines resolve entities by repetition of one consistent description, and CyberSkill's is contaminated by
-an unrelated Australian company of the same name and by its own sub-projects (ccaf., cyberos-wiki.). The sub-sites already
-carry a crisp sentence LLMs can lift verbatim; the main site has no single source for it.
+Audit A: answer engines resolve entities by repetition of one consistent description, and CyberSkill's is contaminated by an unrelated Australian company of the same name and by its own sub-projects (ccaf., cyberos-wiki.). The sub-sites already carry a crisp sentence LLMs can lift verbatim; the main site has no single source for it.
 
 ## 1. Description (normative)
 

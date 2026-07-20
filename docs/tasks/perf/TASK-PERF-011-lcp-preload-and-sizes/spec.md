@@ -15,9 +15,7 @@ traces_to: [audit-B/phase-2, growth/PERF-01, growth/PERF-02]
 
 ## 0. Why (evidence)
 
-Audit B phase 2 asks to preload the hero poster and display font and to prioritise the largest element. The growth
-backlog additionally found the aurora background image requested at width 3840 on the contact section, so phones pull a
-desktop-sized variant.
+Audit B phase 2 asks to preload the hero poster and display font and to prioritise the largest element. The growth backlog additionally found the aurora background image requested at width 3840 on the contact section, so phones pull a desktop-sized variant.
 
 ## 1. Description (normative)
 

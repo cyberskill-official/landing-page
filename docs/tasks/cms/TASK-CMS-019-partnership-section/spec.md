@@ -15,9 +15,7 @@ traces_to: [growth/COPY-05, audit-C/closing-note]
 
 ## 0. Why (evidence)
 
-The stated business goal is scaling globally and building relationships with new clients and partners; the site speaks only
-to direct clients. Agencies and studios abroad are a distinct buyer with a distinct ask (capacity, senior engineers, NDA
-comfort, time-zone overlap).
+The stated business goal is scaling globally and building relationships with new clients and partners; the site speaks only to direct clients. Agencies and studios abroad are a distinct buyer with a distinct ask (capacity, senior engineers, NDA comfort, time-zone overlap).
 
 ## 1. Description (normative)
 

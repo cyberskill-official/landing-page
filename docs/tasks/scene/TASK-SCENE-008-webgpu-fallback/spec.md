@@ -23,14 +23,10 @@ awh: N/A
 
 The scene SHOULD prefer WebGPU but MUST never depend on it.
 
-1. The renderer MUST attempt `WebGPURenderer` first when the browser reports
-   WebGPU support.
-2. On any WebGPU init failure or absence, the renderer MUST fall back to the
-   WebGL renderer automatically, with no user-visible error.
-3. The chosen backend MUST NOT change scene authoring: the same scene graph and
-   materials MUST render on either path.
-4. Backend selection MUST happen behind the existing CanvasMount gate so the
-   poster fallback still owns the failure-closed path.
+1. The renderer MUST attempt `WebGPURenderer` first when the browser reports WebGPU support.
+2. On any WebGPU init failure or absence, the renderer MUST fall back to the WebGL renderer automatically, with no user-visible error.
+3. The chosen backend MUST NOT change scene authoring: the same scene graph and materials MUST render on either path.
+4. Backend selection MUST happen behind the existing CanvasMount gate so the poster fallback still owns the failure-closed path.
 
 ## §2 Acceptance
 

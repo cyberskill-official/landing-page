@@ -15,8 +15,7 @@ traces_to: [audit-B/finding-16-low, audit-C/on-page-seo, audit-A/section-6]
 
 ## 0. Why (evidence)
 
-Audit B: /en/work and /en/careers carry roughly 200 words each - light for pages meant to convert a client or a candidate.
-Audit A adds that there is no dedicated about/company-story page and no culture/process depth for recruiting.
+Audit B: /en/work and /en/careers carry roughly 200 words each - light for pages meant to convert a client or a candidate. Audit A adds that there is no dedicated about/company-story page and no culture/process depth for recruiting.
 
 ## 1. Description (normative)
 

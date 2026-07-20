@@ -15,8 +15,7 @@ traces_to: [growth/CONV-04, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-An instant confirmation sets the reply expectation, proves deliverability of the sending domain, and opens the nurture
-path. app/api/lead/route.ts today emails the company, never the lead.
+An instant confirmation sets the reply expectation, proves deliverability of the sending domain, and opens the nurture path. app/api/lead/route.ts today emails the company, never the lead.
 
 ## 1. Description (normative)
 

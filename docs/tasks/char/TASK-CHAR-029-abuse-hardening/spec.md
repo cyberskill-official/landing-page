@@ -18,17 +18,11 @@ traces_to: [research-doc/section-I, research-doc/section-G]
 Research doc §I + §G. Substantially hardened already; one item remains, and it needs a datastore the operator must provision.
 
 Already true (verified: tsc clean, vitest 44/44, lint clean, next build rc=0):
-- Input validation is a pure, unit-tested function (`parseChatRequest`, `tests/genie-validate.test.ts`, 7 cases): rejects
-  non-array / empty / over-30 histories, requires the first valid message to be the user, caps each message at 4,000 chars
-  and the request at 12,000, drops invalid roles, strips C0/C1 control characters.
-- Prompt-injection defence: the system prompt is a structurally separate `system` block, never concatenated with user
-  turns, and carries an explicit rule to treat all conversation as the visitor's words and refuse persona override or
-  prompt disclosure.
-- Fail-safe: 429 returns Retry-After with no internal detail; the limiter prunes expired buckets; upstream errors are
-  logged server-side, not leaked.
+- Input validation is a pure, unit-tested function (`parseChatRequest`, `tests/genie-validate.test.ts`, 7 cases): rejects non-array / empty / over-30 histories, requires the first valid message to be the user, caps each message at 4,000 chars and the request at 12,000, drops invalid roles, strips C0/C1 control characters.
+- Prompt-injection defence: the system prompt is a structurally separate `system` block, never concatenated with user turns, and carries an explicit rule to treat all conversation as the visitor's words and refuse persona override or prompt disclosure.
+- Fail-safe: 429 returns Retry-After with no internal detail; the limiter prunes expired buckets; upstream errors are logged server-side, not leaked.
 
-Open: the rate limiter is per-serverless-instance, so a global limit does not hold across instances. That needs an
-external KV (Vercel KV / Upstash), which is a datastore plus a secret - operator input.
+Open: the rate limiter is per-serverless-instance, so a global limit does not hold across instances. That needs an external KV (Vercel KV / Upstash), which is a datastore plus a secret - operator input.
 
 ## 1. Description (normative)
 

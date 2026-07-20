@@ -81,9 +81,9 @@ Note on the source: `motionsites.ai` is itself a **paid library of AI prompts an
 
 ### Performance, accessibility, mobile
 - **Optimize the model aggressively** with **glTF-Transform** (`gltf-transform optimize model.glb out.glb --compress draco --texture-compress ktx2`):
-  - **Draco** geometry compression (`KHR_draco_mesh_compression`) — typically 60–90% vertex-data reduction (a 20MB GLB → ~3–5MB); decoder runs in a Web Worker. **Or Meshopt** (`EXT_meshopt_compression`) — similar/better ratios, faster pure-WASM decode, also compresses morph targets and keyframe animation. A GLB can carry Draco *or* Meshopt, not both.
-  - **KTX2 / Basis Universal textures** (`KHR_texture_basisu`) — stay GPU-compressed, ~4–8× less VRAM than PNG/JPEG (a 200KB PNG can occupy 20MB+ VRAM). Use UASTC for normal/hero maps, ETC1S for diffuse/secondary.
-  - Resize textures (e.g. 1024² desktop / 512² mobile); target **<100 draw calls/frame**; dispose GPU resources; use `<Lod>` for distance-based detail.
+- **Draco** geometry compression (`KHR_draco_mesh_compression`) — typically 60–90% vertex-data reduction (a 20MB GLB → ~3–5MB); decoder runs in a Web Worker. **Or Meshopt** (`EXT_meshopt_compression`) — similar/better ratios, faster pure-WASM decode, also compresses morph targets and keyframe animation. A GLB can carry Draco *or* Meshopt, not both.
+- **KTX2 / Basis Universal textures** (`KHR_texture_basisu`) — stay GPU-compressed, ~4–8× less VRAM than PNG/JPEG (a 200KB PNG can occupy 20MB+ VRAM). Use UASTC for normal/hero maps, ETC1S for diffuse/secondary.
+- Resize textures (e.g. 1024² desktop / 512² mobile); target **<100 draw calls/frame**; dispose GPU resources; use `<Lod>` for distance-based detail.
 - **Lazy-load the 3D scene** (dynamic import the canvas, `Suspense` boundary, preloader for the GLB) so it never blocks first paint.
 - **Mobile fallback:** ship a **static hero image / poster** of the Genie on mobile and low-end GPUs (detect via `devicePixelRatio`/width), skipping the live WebGL scene — this protects Core Web Vitals where the majority of B2B research traffic is mobile.
 - **Accessibility:** honor `prefers-reduced-motion` (freeze/replace scene with a static state); provide a `<noscript>` and DOM-level text equivalent of anything the canvas communicates; keyboard-operable controls; never trap focus in the canvas.

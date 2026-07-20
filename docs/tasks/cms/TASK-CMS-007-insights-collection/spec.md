@@ -15,11 +15,7 @@ traces_to: [audit-A/phase-3-item-13, audit-C/content-credibility, growth/SEO-03]
 
 ## 0. Why (evidence)
 
-All three audits name the same missing asset: there is no blog or insights section, so there is no authority content to
-rank for, to be cited by AI answer engines, or to demonstrate expertise. Audit A: one original technical piece per month
-compounds into authority no design spend can buy. Audit C: thoughtbot's content-led credibility is replicable without an
-enterprise budget. Raised from COULD to SHOULD - this is the compounding channel, and TASK-SEO-006, TASK-CMS-010 and
-TASK-BIZ-010 all depend on it.
+All three audits name the same missing asset: there is no blog or insights section, so there is no authority content to rank for, to be cited by AI answer engines, or to demonstrate expertise. Audit A: one original technical piece per month compounds into authority no design spend can buy. Audit C: thoughtbot's content-led credibility is replicable without an enterprise budget. Raised from COULD to SHOULD - this is the compounding channel, and TASK-SEO-006, TASK-CMS-010 and TASK-BIZ-010 all depend on it.
 
 ## 1. Description (normative)
 

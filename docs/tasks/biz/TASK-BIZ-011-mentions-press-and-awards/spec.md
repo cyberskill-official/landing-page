@@ -15,10 +15,7 @@ traces_to: [audit-A/phase-3-item-15, audit-A/phase-4-item-18, growth/SEO-08]
 
 ## 0. Why (evidence)
 
-Branded mentions in authoritative sources are the strongest correlate of AI-Overview inclusion (Ahrefs, r = 0.664) and
-CyberSkill has effectively none: no earned media, no guest posts, no high-authority referring domains. Audit A also judges the
-craft good enough to plausibly earn an Awwwards Honourable Mention or a CSSDA feature once there is showcased work behind it -
-which is earned media and a trust flywheel, not vanity.
+Branded mentions in authoritative sources are the strongest correlate of AI-Overview inclusion (Ahrefs, r = 0.664) and CyberSkill has effectively none: no earned media, no guest posts, no high-authority referring domains. Audit A also judges the craft good enough to plausibly earn an Awwwards Honourable Mention or a CSSDA feature once there is showcased work behind it - which is earned media and a trust flywheel, not vanity.
 
 ## 1. Description (normative)
 

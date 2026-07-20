@@ -27,16 +27,11 @@ awh: N/A
 
 There MUST be one fixed canvas that fails closed and never owns LCP.
 
-1. The app MUST mount a single fixed, full-viewport R3F canvas so 3D assets load
-   once and persist across scroll.
-2. The scene MUST be a dynamic import with `ssr: false` that fails closed: any
-   load or capability failure MUST leave the static poster in place.
-3. The canvas MUST mount only when all hold: desktop, fine pointer, at least four
-   logical cores, and motion allowed. Otherwise it MUST NOT mount.
-4. A static CSS poster MUST be the SSR and initial paint, and the mobile / low-
-   GPU / reduced-motion fallback.
-5. The canvas MUST use an alpha (transparent) background so the SSR hero shows
-   through, and MUST NOT become the LCP element.
+1. The app MUST mount a single fixed, full-viewport R3F canvas so 3D assets load once and persist across scroll.
+2. The scene MUST be a dynamic import with `ssr: false` that fails closed: any load or capability failure MUST leave the static poster in place.
+3. The canvas MUST mount only when all hold: desktop, fine pointer, at least four logical cores, and motion allowed. Otherwise it MUST NOT mount.
+4. A static CSS poster MUST be the SSR and initial paint, and the mobile / low- GPU / reduced-motion fallback.
+5. The canvas MUST use an alpha (transparent) background so the SSR hero shows through, and MUST NOT become the LCP element.
 
 ## §2 Acceptance
 
@@ -46,6 +41,4 @@ There MUST be one fixed canvas that fails closed and never owns LCP.
 
 ## §3 Evidence
 
-Static: `CanvasMount` gates on pointer/cores/motion/desktop and dynamically
-imports `GenieScene` with `ssr:false`; `StaticPoster` is the fallback; canvas is
-alpha. Deferred: GPU behaviour and LCP confirmation on the operator machine.
+Static: `CanvasMount` gates on pointer/cores/motion/desktop and dynamically imports `GenieScene` with `ssr:false`; `StaticPoster` is the fallback; canvas is alpha. Deferred: GPU behaviour and LCP confirmation on the operator machine.

@@ -27,16 +27,11 @@ awh: N/A
 
 The chat MUST cost nothing at first paint and MUST be operable by keyboard.
 
-1. The chat panel MUST be lazily loaded with `ssr: false` so it never adds to the
-   initial render or first paint.
-2. The widget MUST read the `/api/genie` response stream token-by-token and
-   append text as it arrives.
-3. State MUST run through a Zustand store as an `idle -> listening -> thinking ->
-   speaking` machine.
-4. The panel MUST be an ARIA dialog: Escape MUST close it and focus MUST be
-   managed on open and close.
-5. A consent line MUST be shown. The opening greeting MUST be UI-only so the API
-   conversation history starts with the user's first turn.
+1. The chat panel MUST be lazily loaded with `ssr: false` so it never adds to the initial render or first paint.
+2. The widget MUST read the `/api/genie` response stream token-by-token and append text as it arrives.
+3. State MUST run through a Zustand store as an `idle -> listening -> thinking -> speaking` machine.
+4. The panel MUST be an ARIA dialog: Escape MUST close it and focus MUST be managed on open and close.
+5. A consent line MUST be shown. The opening greeting MUST be UI-only so the API conversation history starts with the user's first turn.
 
 ## §2 Acceptance
 
@@ -46,6 +41,4 @@ The chat MUST cost nothing at first paint and MUST be operable by keyboard.
 
 ## §3 Evidence
 
-Static: dynamic `ssr:false` panel, streaming reader, Zustand state machine, ARIA
-dialog + Escape + focus handling, consent line, UI-only greeting all authored.
-Deferred: live streaming and focus-trap testing on the operator machine.
+Static: dynamic `ssr:false` panel, streaming reader, Zustand state machine, ARIA dialog + Escape + focus handling, consent line, UI-only greeting all authored. Deferred: live streaming and focus-trap testing on the operator machine.

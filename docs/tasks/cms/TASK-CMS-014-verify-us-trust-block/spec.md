@@ -15,9 +15,7 @@ traces_to: [audit-A/phase-2-item-12, audit-C/trust-table, growth/PROOF-10]
 
 ## 0. Why (evidence)
 
-Audit A recommends an explicit trust/credential row even before certifications exist: the company is registered, has a
-DUNS, a real address and a public engineering practice. Audit C lists third-party proof and certifications as the trust
-elements buyers look for. Everything in this block is already true and simply unpublished.
+Audit A recommends an explicit trust/credential row even before certifications exist: the company is registered, has a DUNS, a real address and a public engineering practice. Audit C lists third-party proof and certifications as the trust elements buyers look for. Everything in this block is already true and simply unpublished.
 
 ## 1. Description (normative)
 

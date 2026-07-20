@@ -15,10 +15,7 @@ traces_to: [audit-C/performance, audit-C/phase-2, audit-A/section-3]
 
 ## 0. Why (evidence)
 
-Audit C: the home page runs a continuous WebGL genie and particle system that animate constantly, with at least one
-197 ms long main-thread task observed; INP (which replaced FID in March 2024) now reflects every interaction in a visit,
-so always-on motion is the main responsiveness risk, and the target markets are phone-heavy. Audit A raises the same
-concern for battery and CPU on lower-end phones.
+Audit C: the home page runs a continuous WebGL genie and particle system that animate constantly, with at least one 197 ms long main-thread task observed; INP (which replaced FID in March 2024) now reflects every interaction in a visit, so always-on motion is the main responsiveness risk, and the target markets are phone-heavy. Audit A raises the same concern for battery and CPU on lower-end phones.
 
 ## 1. Description (normative)
 

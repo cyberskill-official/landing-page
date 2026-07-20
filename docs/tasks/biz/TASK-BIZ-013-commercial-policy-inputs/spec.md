@@ -15,10 +15,7 @@ traces_to: [audit-A/phase-2-item-9, audit-C/content-credibility, growth/CONV-01,
 
 ## 0. Why (evidence)
 
-Six tasks in this backlog are blocked on decisions only the owner can make, and each of them becomes a public commitment the
-moment it ships: the CTA promise (TASK-CTA-015), the engagement models and starting ranges (TASK-CTA-017), the capacity line
-(TASK-CTA-018), the verify-us registration number (TASK-CMS-014), the partnership offer (TASK-CMS-019), and the hero audience line
-(TASK-CMS-020). This task is the single place those decisions are recorded, so no agent ever invents one.
+Six tasks in this backlog are blocked on decisions only the owner can make, and each of them becomes a public commitment the moment it ships: the CTA promise (TASK-CTA-015), the engagement models and starting ranges (TASK-CTA-017), the capacity line (TASK-CTA-018), the verify-us registration number (TASK-CMS-014), the partnership offer (TASK-CMS-019), and the hero audience line (TASK-CMS-020). This task is the single place those decisions are recorded, so no agent ever invents one.
 
 ## 1. Description (normative)
 

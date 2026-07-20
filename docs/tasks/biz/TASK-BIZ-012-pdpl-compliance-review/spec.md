@@ -15,13 +15,7 @@ traces_to: [audit-A/section-8, audit-A/phase-3-item-16]
 
 ## 0. Why (evidence)
 
-Vietnam's Personal Data Protection Law (Law 91/2025/QH15) took effect on 1 January 2026 and its guiding Decree 356/2025/ND-CP
-was issued 31 December 2025, replacing Decree 13/2023. It is consent-centric and requires explicit, granular, informed consent.
-The Lumi chat sends visitor-typed content to Anthropic, which is a cross-border transfer potentially requiring a Transfer Impact
-Assessment. The stakes are named plainly by audit A: fines up to 5% of prior-year annual revenue for cross-border transfer
-breaches, and 72-hour breach notification. Article 38 gives small enterprises and start-ups a right to choose on certain
-provisions (reported as a five-year grace period), which likely covers CyberSkill today - but "likely" is not a position a
-company scaling globally should hold without a review.
+Vietnam's Personal Data Protection Law (Law 91/2025/QH15) took effect on 1 January 2026 and its guiding Decree 356/2025/ND-CP was issued 31 December 2025, replacing Decree 13/2023. It is consent-centric and requires explicit, granular, informed consent. The Lumi chat sends visitor-typed content to Anthropic, which is a cross-border transfer potentially requiring a Transfer Impact Assessment. The stakes are named plainly by audit A: fines up to 5% of prior-year annual revenue for cross-border transfer breaches, and 72-hour breach notification. Article 38 gives small enterprises and start-ups a right to choose on certain provisions (reported as a five-year grace period), which likely covers CyberSkill today - but "likely" is not a position a company scaling globally should hold without a review.
 
 ## 1. Description (normative)
 

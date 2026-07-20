@@ -15,9 +15,7 @@ traces_to: [growth/NURT-04, growth/MEAS-04, growth/NURT-03, audit-A/section-9]
 
 ## 0. Why (evidence)
 
-The site promises a reply within one business day. That promise is currently unmeasured and unowned. Audit A's conversion
-review ("form starts vs completions") needs a weekly rhythm and a system of record, or the instrumentation in TASK-OPS-011
-produces numbers nobody reads.
+The site promises a reply within one business day. That promise is currently unmeasured and unowned. Audit A's conversion review ("form starts vs completions") needs a weekly rhythm and a system of record, or the instrumentation in TASK-OPS-011 produces numbers nobody reads.
 
 ## 1. Description (normative)
 
