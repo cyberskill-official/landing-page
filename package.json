@@ -31,6 +31,7 @@
     "check:tasks": "node scripts/check-tasks.mjs"
   },
   "dependencies": {
+    "@cyberskill/design": "1.0.0",
     "@gsap/react": "2.1.2",
     "@hookform/resolvers": "5.4.0",
     "@next/third-parties": "16.2.10",

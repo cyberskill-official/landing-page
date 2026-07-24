@@ -1,3 +1,5 @@
+// Package styles first; app/globals.css bridges + keeps storytelling overrides.
+import "@cyberskill/design/styles.css";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
@@ -71,8 +73,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Lumi identity — locked row in @cyberskill/design docs/products.md
+  // (data-cs-element="hoa" data-cs-variant="plasma").
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html
+      lang="en"
+      data-theme="dark"
+      data-cs-element="hoa"
+      data-cs-variant="plasma"
+      suppressHydrationWarning
+    >
       <head>
         {/* First-paint CSS inside the prerender snapshot (Vercel freezes HTML
             during next build; post-build Critters never reaches production). */}

@@ -1,8 +1,12 @@
 /*
- * CyberSkill design tokens, hand-ported from the design-system doctrine
- * (DESIGN.md v1.3.0). The implementation packages (@cyberskill/tokens,
- * @cyberskill/react) were not confirmed published, so per Phase 0 of the
- * research doc we inherit the *rules and tokens* and implement surfaces here.
+ * CyberSkill design tokens — storytelling layer for this landing.
+ *
+ * First-slice adoption (Jul 2026): `@cyberskill/design@1.0.0` styles.css is
+ * imported in app/layout.tsx (package tokens, `.cs-button`, element packs).
+ * This file keeps the hand-ported storytelling names (`--cs-color-fg`,
+ * `--cs-btn`, glass, scene) and bridges them so both layers stay coherent.
+ * Full replacement of this file by package tokens alone is deferred — see
+ * docs/decisions/2026-07-24-cyberskill-design-package.md.
  *
  * Anchor immutables (do not change without a v2.0.0 RFC):
  *   Umber  #45210E  oklch(0.265 0.073 44.3)
@@ -10,6 +14,10 @@
  * Contrast intent: APCA Lc >= 75 body, Lc >= 90 interactive (measured at the
  * rendered translucent state for glass surfaces). Colours below are chosen to
  * meet WCAG 2.2 AA as the explicit floor.
+ *
+ * Product identity (Lumi): data-cs-element="hoa" data-cs-variant="plasma" on
+ * <html>. Package `--cs-accent-*` drive DS components; storytelling CTAs still
+ * use `--cs-color-accent` (ochre) until a later migration.
  */
 
 :root {
@@ -104,6 +112,18 @@
   --cs-icon-lg: 24px;
 
   --cs-container: 72rem;
+
+  /* Bridge: package token names → storytelling names (package components +
+     landing surfaces share one palette while globals still owns the page). */
+  --cs-color-text-primary: var(--cs-color-fg);
+  --cs-color-text-muted: var(--cs-color-fg-muted);
+  --cs-color-text-inverse: var(--cs-color-on-brand);
+  --cs-color-surface-page: var(--cs-color-bg);
+  --cs-color-surface-panel: var(--cs-color-surface);
+  --cs-color-surface-raised: var(--cs-color-paper-raised);
+  --cs-color-border-default: var(--cs-color-line);
+  --cs-font-family-ui: var(--cs-font-sans);
+  --cs-font-family-mono: var(--cs-font-mono);
 }
 
 /* Brand umber may use Display-P3 for richer dark surfaces. Ochre deliberately
@@ -131,6 +151,15 @@
   --cs-glass-tint-heavy: rgba(36, 24, 17, 0.8);
   --cs-glass-border: rgba(244, 186, 23, 0.16);
   --cs-color-focus: var(--cs-color-brand-ochre);
+
+  /* Keep package surface/text tokens aligned with storytelling dark. */
+  --cs-color-text-primary: var(--cs-color-fg);
+  --cs-color-text-muted: var(--cs-color-fg-muted);
+  --cs-color-text-inverse: var(--cs-color-bg);
+  --cs-color-surface-page: var(--cs-color-bg);
+  --cs-color-surface-panel: var(--cs-color-surface);
+  --cs-color-surface-raised: var(--cs-color-surface);
+  --cs-color-border-default: var(--cs-color-line);
 }
 
 * {
@@ -1469,14 +1498,16 @@ main > .cs-section > .cs-container > h1 {
   gap: var(--cs-space-2);
   flex: 0 0 auto;
 }
-.cs-consent-banner-actions .cs-btn {
+.cs-consent-banner-actions .cs-btn,
+.cs-consent-banner-actions .cs-button {
   min-height: 44px;
   min-width: 6.75rem;
   padding-inline: var(--cs-space-5);
   font-size: var(--cs-text-sm);
   font-weight: 700;
 }
-.cs-consent-banner-actions .cs-btn-secondary {
+.cs-consent-banner-actions .cs-btn-secondary,
+.cs-consent-banner-actions .cs-button--secondary {
   background: transparent;
   border-color: color-mix(in srgb, var(--cs-color-fg) 28%, transparent);
 }
@@ -1497,7 +1528,8 @@ main > .cs-section > .cs-container > h1 {
   .cs-consent-banner-actions {
     width: 100%;
   }
-  .cs-consent-banner-actions .cs-btn {
+  .cs-consent-banner-actions .cs-btn,
+  .cs-consent-banner-actions .cs-button {
     flex: 1;
   }
 }

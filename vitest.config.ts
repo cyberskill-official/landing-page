@@ -12,6 +12,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./", import.meta.url)),
+      "@cyberskill/design/button": fileURLToPath(
+        new URL("./node_modules/@cyberskill/design/components/button/Button.jsx", import.meta.url),
+      ),
     },
   },
 });

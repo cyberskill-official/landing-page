@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 
@@ -10,15 +11,36 @@ const withBundleAnalyzer = bundleAnalyzer({
   openAnalyzer: false,
 });
 
+// Package exports only expose `_esm/cs.mjs` (browser UMD bridge) for JS — not
+// SSR-safe here. Alias the published Button.jsx from the same tarball.
+const designSystemButton = path.join(
+  process.cwd(),
+  "node_modules/@cyberskill/design/components/button/Button.jsx",
+);
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Transpile the design-system JSX source we alias in (package is ESM/"raw").
+  transpilePackages: ["@cyberskill/design"],
   // The 3D scene is a dynamically imported client-only enhancement. Keeping
   // strict typed routes off avoids friction while the route set is in flux.
   experimental: {
     // Inline above-the-fold CSS (critters) so mobile lab FCP/LCP are not gated
     // on a full ~19KB render-blocking stylesheet round-trip under slow-4G.
     optimizeCss: true,
+  },
+  turbopack: {
+    resolveAlias: {
+      "@cyberskill/design/button": designSystemButton,
+    },
+  },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@cyberskill/design/button": designSystemButton,
+    };
+    return config;
   },
   images: {
     // StaticPoster uses q=70 for a tighter LCP image than the default 75.

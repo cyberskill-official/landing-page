@@ -9,12 +9,26 @@ Slogan: Turn Your Will Into Real. Goals, in order: lead generation, portfolio, r
 | Phase | What | State |
 |---|---|---|
 | P0 | Design-system tokens hand-ported to `--cs-*` | done |
+| P0 | `@cyberskill/design@1.0.0` first-slice install (styles + Lumi identity + live Button) | done — see below |
 | P1 | HTML-first conversion core (SSR, lead form, EN/VN, SEO, a11y) | done |
 | P2 | Lumi chat via keyless `/api/genie` proxy (text-first) | done (needs API key at runtime) |
 | P3 | 3D scroll-storytelling scaffold + perf gate | done, with a procedural placeholder |
 | P3 | Commissioned golden-genie GLB | deferred (`TASK-CHAR-021`, needs the art asset) |
 
 The Phase-1 base is the product: it ranks and converts even if the 3D and chat never load. Everything after Phase 1 is layered enhancement.
+
+## Design system (`@cyberskill/design@1.0.0`)
+
+Lumi consumes the published CyberSkill design package (portfolio grant; package remains UNLICENSED).
+
+| | |
+|---|---|
+| **Identity** | `data-cs-element="hoa" data-cs-variant="plasma"` on `<html>` (locked in design-system `docs/products.md`) |
+| **Styles** | `@cyberskill/design/styles.css` then `app/globals.css` (storytelling bridge + overrides) |
+| **Live component** | Package `Button` on the consent banner (`lib/design-system/button.tsx`) |
+| **Decision** | `docs/decisions/2026-07-24-cyberskill-design-package.md` |
+
+**Deferred:** full token replacement of `globals.css`, migrating the rest of the in-repo `.cs-btn` primitives, and a bundler-native package React entry (today’s main export is a browser UMD bridge).
 
 ## Quick start
 
