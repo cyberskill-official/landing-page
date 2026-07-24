@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { ConsentGate } from "@/lib/analytics/consent";
-import { Button } from "@/components/ui/Button";
+import { DesignSystemButton } from "@/lib/design-system/button";
 
 /**
  * Opt-in banner for session replay (Microsoft Clarity).
@@ -85,12 +85,12 @@ export function ConsentBanner({
           </p>
         </div>
         <div className="cs-consent-banner-actions">
-          <Button type="button" variant="secondary" onClick={decline}>
+          <DesignSystemButton type="button" variant="secondary" onClick={decline}>
             {copy.decline}
-          </Button>
-          <Button type="button" variant="primary" onClick={accept}>
+          </DesignSystemButton>
+          <DesignSystemButton type="button" variant="primary" onClick={accept}>
             {copy.accept}
-          </Button>
+          </DesignSystemButton>
         </div>
       </div>
     </aside>
