@@ -1,0 +1,42 @@
+/*
+ * @cyberskill/design package styles — tokens + base, WITHOUT fonts.css.
+ *
+ * Package styles.css pulls in tokens/fonts.css with font-display:swap, which
+ * would double-load Be Vietnam Pro against DeferredFonts + /fonts/brand-fonts.css
+ * (font-display:optional) and risk swap CLS. Lumi keeps DeferredFonts / Space
+ * Grotesk display as the webfont strategy; see
+ * docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md.
+ *
+ * Relative node_modules paths: package exports expose ./tokens/* and
+ * ./styles.css only — not ./base/*. Deep imports via the package name fail
+ * under exports; these paths are intentional until a tokens-only / no-fonts
+ * package entry ships.
+ */
+
+/* 1 — Design tokens (SoT for semantic --cs-* roles) */
+@import "../node_modules/@cyberskill/design/tokens/colors.css";
+@import "../node_modules/@cyberskill/design/tokens/typography.css";
+@import "../node_modules/@cyberskill/design/tokens/spacing.css";
+@import "../node_modules/@cyberskill/design/tokens/elevation.css";
+@import "../node_modules/@cyberskill/design/tokens/motion.css";
+@import "../node_modules/@cyberskill/design/tokens/component-tokens.css";
+@import "../node_modules/@cyberskill/design/tokens/elements.css";
+
+/* 2 — Base: reset, type utilities, component classes, Liquid Glass surfaces */
+@import "../node_modules/@cyberskill/design/base/reset.css";
+@import "../node_modules/@cyberskill/design/base/typography.css";
+@import "../node_modules/@cyberskill/design/base/components.css";
+@import "../node_modules/@cyberskill/design/base/forms.css";
+@import "../node_modules/@cyberskill/design/base/feedback.css";
+@import "../node_modules/@cyberskill/design/base/data.css";
+@import "../node_modules/@cyberskill/design/base/navigation.css";
+@import "../node_modules/@cyberskill/design/base/ai.css";
+@import "../node_modules/@cyberskill/design/base/controls.css";
+@import "../node_modules/@cyberskill/design/base/collections.css";
+@import "../node_modules/@cyberskill/design/base/shell.css";
+@import "../node_modules/@cyberskill/design/base/glass.css";
+@import "../node_modules/@cyberskill/design/base/interaction.css";
+
+/* 3 — Accessibility + responsive */
+@import "../node_modules/@cyberskill/design/base/a11y.css";
+@import "../node_modules/@cyberskill/design/base/responsive.css";

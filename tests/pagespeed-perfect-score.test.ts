@@ -116,6 +116,13 @@ describe("PageSpeed perfect-score contracts", () => {
     expect(css).toMatch(/--cs-font-display:\s*"Space Grotesk"/);
     const brand = readFileSync(resolve(root, "public/fonts/brand-fonts.css"), "utf8");
     expect(brand).toMatch(/font-display:\s*optional/);
+    // Phase 1: package styles without fonts.css (no swap double-load)
+    const layout = readFileSync(resolve(root, "app/layout.tsx"), "utf8");
+    expect(layout).toContain('import "./cs-package.css"');
+    expect(layout).not.toMatch(/@cyberskill\/design\/styles\.css/);
+    const pkg = readFileSync(resolve(root, "app/cs-package.css"), "utf8");
+    expect(pkg).not.toMatch(/@import\b[^;]*fonts\.css/);
+    expect(pkg).toMatch(/tokens\/colors\.css/);
   });
 
   it("hero LCP text uses an explicit system font stack (no webfont wait)", () => {
