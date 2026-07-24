@@ -3,8 +3,10 @@
  * prerender snapshot includes it (post-build Critters never reaches deploy).
  *
  * Scope: dark default theme (html data-theme=dark), header, hero LCP text,
- * primary CTAs, container. Full design system still loads via globals.css
- * (made non-blocking at HTML write time).
+ * primary CTAs, container. Full design system loads via cs-package.css
+ * (package token SoT, no fonts.css) + globals.css storytelling layer.
+ * Values here mirror package semantics + Lumi dark APCA muted override;
+ * regenerate if package colour/spacing contracts change.
  */
 export const CRITICAL_CSS = `
 *{box-sizing:border-box}
@@ -12,26 +14,33 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 html,body{overflow-x:clip}
 :root{
   --cs-color-brand-umber:#45210e;--cs-color-brand-ochre:#f4ba17;
-  --cs-color-ink:#1c130d;--cs-color-ink-soft:#4a3b30;--cs-color-paper:#fbf7f1;
-  --cs-color-paper-raised:#fff;--cs-color-line:#e7ddcf;
-  --cs-color-fg:var(--cs-color-ink);--cs-color-fg-muted:var(--cs-color-ink-soft);
-  --cs-color-bg:var(--cs-color-paper);--cs-color-surface:var(--cs-color-paper-raised);
+  --cs-color-text-primary:#45210e;--cs-color-text-muted:#6e5a4c;
+  --cs-color-surface-page:#fffdf8;--cs-color-surface-panel:#fff;
+  --cs-color-border-default:#e7d9c6;--cs-color-semantic-info:#1d4ed8;
+  --cs-color-fg:var(--cs-color-text-primary);--cs-color-fg-muted:var(--cs-color-text-muted);
+  --cs-color-bg:var(--cs-color-surface-page);--cs-color-surface:var(--cs-color-surface-panel);
+  --cs-color-line:var(--cs-color-border-default);
   --cs-color-accent:var(--cs-color-brand-ochre);--cs-color-accent-ink:#3a2a05;
   --cs-color-brand:var(--cs-color-brand-umber);--cs-color-on-brand:#fdf4e1;
-  --cs-color-focus:#1d4ed8;--cs-glass-border:rgba(69,33,14,.12);
-  --cs-depth-3:0 12px 40px rgba(28,19,13,.12);
-  --cs-font-sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --cs-color-focus:var(--cs-color-semantic-info);--cs-glass-border:rgba(69,33,14,.12);
+  --cs-box-shadow-3:0 12px 40px rgba(28,19,13,.12);
+  --cs-font-sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI","Helvetica Neue",arial,sans-serif;
   --cs-font-display:"Space Grotesk",system-ui,"Segoe UI",sans-serif;
   --cs-text-xs:.8rem;--cs-text-sm:.9rem;--cs-text-base:1rem;--cs-text-lg:1.2rem;
   --cs-text-xl:clamp(1.35rem,1.1rem + 1vw,1.6rem);
   --cs-text-4xl:clamp(2.9rem,1.9rem + 5.4vw,5.6rem);
   --cs-space-2:.5rem;--cs-space-3:.75rem;--cs-space-4:1rem;--cs-space-6:1.5rem;
   --cs-space-12:3rem;--cs-space-16:4rem;--cs-space-24:6rem;
-  --cs-radius-pill:999px;--cs-container:72rem;--cs-ease:cubic-bezier(.22,1,.36,1)
+  --cs-radius-full:999px;--cs-radius-pill:var(--cs-radius-full);
+  --cs-container:72rem;--cs-ease:cubic-bezier(.22,1,.36,1)
 }
 [data-theme=dark]{
-  --cs-color-fg:#f4ece0;--cs-color-fg-muted:#dcd2c3;--cs-color-bg:#1a120c;
-  --cs-color-surface:#241811;--cs-color-line:#3a2a1d;--cs-color-on-brand:#fdf4e1;
+  --cs-color-text-primary:#f5ead9;--cs-color-text-muted:#c9b7a3;
+  --cs-color-surface-page:#1a1108;--cs-color-surface-panel:#221710;
+  --cs-color-border-default:#4a3a2c;
+  --cs-color-fg:var(--cs-color-text-primary);--cs-color-fg-muted:#dcd2c3;
+  --cs-color-bg:var(--cs-color-surface-page);--cs-color-surface:var(--cs-color-surface-panel);
+  --cs-color-line:var(--cs-color-border-default);--cs-color-on-brand:#fdf4e1;
   --cs-glass-border:rgba(244,186,23,.16);--cs-color-focus:var(--cs-color-brand-ochre)
 }
 body{
@@ -69,7 +78,7 @@ a{color:inherit;text-underline-offset:.18em}
 .cs-hero-inner{max-width:46rem;position:relative;z-index:1}
 .cs-eyebrow{font-size:var(--cs-text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cs-color-accent);margin:0}
 .cs-hero-title,.cs-hero-lead,.cs-hero-subline,.cs-hero .cs-eyebrow{
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",arial,sans-serif
 }
 .cs-hero-title{font-size:var(--cs-text-4xl);margin-top:var(--cs-space-3);font-weight:700;line-height:1.05;letter-spacing:-.03em;color:#f4ece0;max-width:20ch}
 .cs-hero-lead{font-size:var(--cs-text-lg);color:var(--cs-color-fg-muted);max-width:36rem}

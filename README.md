@@ -24,11 +24,12 @@ Lumi consumes the published CyberSkill design package (portfolio grant; package 
 | | |
 |---|---|
 | **Identity** | `data-cs-element="hoa" data-cs-variant="plasma"` on `<html>` (locked in design-system `docs/products.md`) |
-| **Styles** | `@cyberskill/design/styles.css` then `app/globals.css` (storytelling bridge + overrides) |
+| **Styles** | `app/cs-package.css` (package tokens + base, **no** `fonts.css`) then `app/globals.css` (storytelling aliases + cosmos/genie/motion/scene) |
+| **Fonts** | `DeferredFonts` + `/fonts/brand-fonts.css` (`font-display: optional`); Space Grotesk display |
 | **Live component** | Package `Button` on the consent banner (`lib/design-system/button.tsx`) |
-| **Decision** | `docs/decisions/2026-07-24-cyberskill-design-package.md` |
+| **Decisions** | First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1 fonts/tokens: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` |
 
-**Deferred:** full token replacement of `globals.css`, migrating the rest of the in-repo `.cs-btn` primitives, and a bundler-native package React entry (today’s main export is a browser UMD bridge).
+**Deferred:** migrating the rest of the in-repo `.cs-btn` primitives (Phase 2), forms/tags/cards (Phase 3), and a bundler-native package React entry (design-system Phase 0; today’s main export is a browser UMD bridge).
 
 ## Quick start
 
