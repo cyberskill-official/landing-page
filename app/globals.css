@@ -1,50 +1,41 @@
 /*
- * CyberSkill design tokens — storytelling layer for this landing.
+ * CyberSkill storytelling layer for Lumi (cosmos / genie / motion / scene).
  *
- * First-slice adoption (Jul 2026): `@cyberskill/design@1.0.0` styles.css is
- * imported in app/layout.tsx (package tokens, `.cs-button`, element packs).
- * This file keeps the hand-ported storytelling names (`--cs-color-fg`,
- * `--cs-btn`, glass, scene) and bridges them so both layers stay coherent.
- * Full replacement of this file by package tokens alone is deferred — see
- * docs/decisions/2026-07-24-cyberskill-design-package.md.
+ * Phase 1 (Jul 2026): `@cyberskill/design` owns semantic token SoT via
+ * app/cs-package.css (tokens + base, no fonts.css). This file aliases
+ * storytelling names onto package roles and keeps locals that are not in the
+ * package contract. Do NOT redefine package semantics
+ * (`--cs-color-text-primary`, `--cs-color-surface-page`, `--cs-space-*`, …).
  *
- * Anchor immutables (do not change without a v2.0.0 RFC):
+ * Fonts: DeferredFonts + /fonts/brand-fonts.css (font-display: optional);
+ * Space Grotesk remains the Lumi display face. Identity: hoa · plasma on <html>.
+ * Decision: docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md
+ *
+ * Anchor immutables (package SoT; do not change without a v2.0.0 RFC):
  *   Umber  #45210E  oklch(0.265 0.073 44.3)
  *   Ochre  #F4BA17  oklch(0.811 0.162 83.7)
- * Contrast intent: APCA Lc >= 75 body, Lc >= 90 interactive (measured at the
- * rendered translucent state for glass surfaces). Colours below are chosen to
- * meet WCAG 2.2 AA as the explicit floor.
- *
- * Product identity (Lumi): data-cs-element="hoa" data-cs-variant="plasma" on
- * <html>. Package `--cs-accent-*` drive DS components; storytelling CTAs still
- * use `--cs-color-accent` (ochre) until a later migration.
  */
 
 :root {
-  /* Brand anchors (P3 with hex fallback) */
-  --cs-color-brand-umber: #45210e;
-  --cs-color-brand-ochre: #f4ba17;
-
-  /* Neutrals (warm, tuned to the umber base) */
-  --cs-color-ink: #1c130d;
-  --cs-color-ink-soft: #4a3b30;
-  --cs-color-paper: #fbf7f1;
-  --cs-color-paper-raised: #ffffff;
-  --cs-color-line: #e7ddcf;
-
-  /* Semantic */
-  --cs-color-fg: var(--cs-color-ink);
-  --cs-color-fg-muted: var(--cs-color-ink-soft);
-  --cs-color-bg: var(--cs-color-paper);
-  --cs-color-surface: var(--cs-color-paper-raised);
+  /* ---- Storytelling aliases → package semantic SoT ---- */
+  --cs-color-fg: var(--cs-color-text-primary);
+  --cs-color-fg-muted: var(--cs-color-text-muted);
+  --cs-color-bg: var(--cs-color-surface-page);
+  --cs-color-surface: var(--cs-color-surface-panel);
+  --cs-color-line: var(--cs-color-border-default);
   --cs-color-accent: var(--cs-color-brand-ochre);
-  --cs-color-accent-ink: #3a2a05; /* readable text on ochre, AA */
   --cs-color-brand: var(--cs-color-brand-umber);
+  --cs-color-focus: var(--cs-color-semantic-info);
+  /* CTA ink on ochre / cream on umber — not package inverse (theme-flipped). */
+  --cs-color-accent-ink: #3a2a05;
   --cs-color-on-brand: #fdf4e1;
-  --cs-color-focus: #1d4ed8;
+  /* Legacy storytelling neutrals still referenced in a few rules. */
+  --cs-color-ink: var(--cs-color-text-primary);
+  --cs-color-paper-raised: var(--cs-color-surface-raised);
 
-  /* Liquid Glass materials (Part 21). Opt-in via .cs-surface-* classes.
-     Five materials: whisper / light / standard / heavy / solid. */
+  /* ---- Local: Liquid Glass storytelling materials (.cs-surface-*) ----
+     Package glass uses --cs-glass-*-blur / .cs-glass-*; keep these names for
+     existing landing surfaces until Phase 3 card migration. */
   --cs-glass-blur-whisper: 4px;
   --cs-glass-blur-light: 8px;
   --cs-glass-blur-standard: 14px;
@@ -55,20 +46,18 @@
   --cs-glass-tint-heavy: rgba(255, 255, 255, 0.78);
   --cs-glass-border: rgba(69, 33, 14, 0.12);
 
-  /* Depth (shadow ramp) */
+  /* ---- Local: box-shadow ramp (package --cs-depth-* are z-index roles) ---- */
   --cs-depth-1: 0 1px 2px rgba(28, 19, 13, 0.06);
   --cs-depth-2: 0 4px 14px rgba(28, 19, 13, 0.08);
   --cs-depth-3: 0 12px 40px rgba(28, 19, 13, 0.12);
 
-  /* Type scale (1.250 major-third), fluid via clamp.
-     Body = Be Vietnam Pro (warm VI + Latin). Display = Space Grotesk (lamp craft).
+  /* ---- Local: type stacks + fluid display ramp (Space Grotesk display) ----
      Brand names sit first so optional @font-face can apply without a post-paint
-     CSS-variable mutation (that mutation was the field CLS ~0.33 root cause).
-     font-display:optional means late bytes never reflow mid-session. */
+     CSS-variable mutation (field CLS ~0.33 root cause). */
   --cs-font-sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI",
     "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   --cs-font-display: "Space Grotesk", system-ui, "Segoe UI", sans-serif;
-  --cs-font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --cs-font-mono: var(--cs-font-family-mono);
   --cs-text-xs: 0.8rem;
   --cs-text-sm: 0.9rem;
   --cs-text-base: 1rem;
@@ -78,52 +67,18 @@
   --cs-text-3xl: clamp(2.2rem, 1.6rem + 3.4vw, 3.6rem);
   --cs-text-4xl: clamp(2.9rem, 1.9rem + 5.4vw, 5.6rem);
 
-  /* Spacing scale */
-  --cs-space-1: 0.25rem;
-  --cs-space-2: 0.5rem;
-  --cs-space-3: 0.75rem;
-  --cs-space-4: 1rem;
-  --cs-space-6: 1.5rem;
-  --cs-space-8: 2rem;
-  --cs-space-12: 3rem;
-  --cs-space-16: 4rem;
-  --cs-space-24: 6rem;
+  /* ---- Local extras not in package spacing scale ---- */
   --cs-space-32: 8rem;
+  --cs-radius-pill: var(--cs-radius-full);
+  --cs-container: 72rem;
 
-  /* Radius + motion */
-  --cs-radius-sm: 8px;
-  --cs-radius-md: 14px;
-  --cs-radius-lg: 24px;
-  --cs-radius-pill: 999px;
-  /* Motion tokens (TASK-DS-009): one easing + duration scale shared by every CSS
-     transition and read by the 3D scene, so nothing hardcodes its own timing.
-     --cs-dur-scroll feeds the Lenis smooth-scroll duration; --cs-dur-shimmer the
-     skeleton loop. Under prefers-reduced-motion the UI durations collapse (see
-     the reduced-motion override below), while the always-on scene keeps its feel. */
+  /* ---- Local: storytelling motion (scene / skeleton; package uses --cs-duration-*) ---- */
   --cs-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --cs-dur-fast: 160ms;
   --cs-dur: 320ms;
   --cs-dur-slow: 640ms;
   --cs-dur-scroll: 1100ms;
   --cs-dur-shimmer: 1400ms;
-  /* Icon sizing tokens (TASK-DS-010): icons render at one of these via <Icon>. */
-  --cs-icon-sm: 16px;
-  --cs-icon-md: 20px;
-  --cs-icon-lg: 24px;
-
-  --cs-container: 72rem;
-
-  /* Bridge: package token names → storytelling names (package components +
-     landing surfaces share one palette while globals still owns the page). */
-  --cs-color-text-primary: var(--cs-color-fg);
-  --cs-color-text-muted: var(--cs-color-fg-muted);
-  --cs-color-text-inverse: var(--cs-color-on-brand);
-  --cs-color-surface-page: var(--cs-color-bg);
-  --cs-color-surface-panel: var(--cs-color-surface);
-  --cs-color-surface-raised: var(--cs-color-paper-raised);
-  --cs-color-border-default: var(--cs-color-line);
-  --cs-font-family-ui: var(--cs-font-sans);
-  --cs-font-family-mono: var(--cs-font-mono);
 }
 
 /* Brand umber may use Display-P3 for richer dark surfaces. Ochre deliberately
@@ -137,29 +92,20 @@
 }
 
 [data-theme="dark"] {
-  --cs-color-fg: #f4ece0;
-  /* Lightened from #c3b6a5 to clear APCA Lc 75 for body text on the dark bg
-     (TASK-DS-006 found the old value at Lc 63). */
+  /* Storytelling aliases still point at package dark semantics. */
+  --cs-color-fg: var(--cs-color-text-primary);
+  /* APCA Lc ≥ 75 body muted on dark page (TASK-DS-006); package muted is darker. */
   --cs-color-fg-muted: #dcd2c3;
-  --cs-color-bg: #1a120c;
-  --cs-color-surface: #241811;
-  --cs-color-line: #3a2a1d;
+  --cs-color-bg: var(--cs-color-surface-page);
+  --cs-color-surface: var(--cs-color-surface-panel);
+  --cs-color-line: var(--cs-color-border-default);
   --cs-color-on-brand: #fdf4e1;
+  --cs-color-focus: var(--cs-color-brand-ochre);
   --cs-glass-tint-whisper: rgba(36, 24, 17, 0.34);
   --cs-glass-tint-light: rgba(36, 24, 17, 0.5);
   --cs-glass-tint-standard: rgba(36, 24, 17, 0.66);
   --cs-glass-tint-heavy: rgba(36, 24, 17, 0.8);
   --cs-glass-border: rgba(244, 186, 23, 0.16);
-  --cs-color-focus: var(--cs-color-brand-ochre);
-
-  /* Keep package surface/text tokens aligned with storytelling dark. */
-  --cs-color-text-primary: var(--cs-color-fg);
-  --cs-color-text-muted: var(--cs-color-fg-muted);
-  --cs-color-text-inverse: var(--cs-color-bg);
-  --cs-color-surface-page: var(--cs-color-bg);
-  --cs-color-surface-panel: var(--cs-color-surface);
-  --cs-color-surface-raised: var(--cs-color-surface);
-  --cs-color-border-default: var(--cs-color-line);
 }
 
 * {

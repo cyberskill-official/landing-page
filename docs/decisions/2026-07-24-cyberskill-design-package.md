@@ -35,10 +35,10 @@ Registry install succeeded from the public npm registry under this project’s c
 
 ## 5. Deferred (follow-up)
 
-- Replace hand-ported storytelling tokens in `globals.css` with package tokens as the single source (keep scene/glass/motion locals).
-- Migrate remaining in-repo UI primitives (`.cs-btn`, Field, Dialog, …) to package components where APIs match.
-- Reconcile package `fonts.css` (`font-display: swap`) with this app’s DeferredFonts / `font-display: optional` LCP/CLS strategy (may move to tokens-only CSS import).
-- Prefer a future package export for React/Next over the Button.jsx alias.
+- ~~Replace hand-ported storytelling tokens in `globals.css` with package tokens as the single source (keep scene/glass/motion locals).~~ → **Done in Phase 1** — see `2026-07-25-lumi-ds-phase1-fonts-tokens.md`.
+- Migrate remaining in-repo UI primitives (`.cs-btn`, Field, Dialog, …) to package components where APIs match. (Phase 2+)
+- ~~Reconcile package `fonts.css` (`font-display: swap`) with this app’s DeferredFonts / `font-display: optional` LCP/CLS strategy (may move to tokens-only CSS import).~~ → **Done in Phase 1** (`app/cs-package.css` omits `fonts.css`).
+- Prefer a future package export for React/Next over the Button.jsx alias. (Design-system Phase 0)
 - Do **not** invent product → element mappings; Status Hub and others stay on their locked rows.
 
 ## 6. Related

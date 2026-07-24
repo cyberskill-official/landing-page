@@ -7,7 +7,7 @@
  *
  * Webpack/Turbopack alias `@cyberskill/design/button` → the published
  * `components/button/Button.jsx` (same tarball). Styles come from
- * `@cyberskill/design/styles.css`.
+ * `app/cs-package.css` (package tokens + base; fonts stay on DeferredFonts).
  */
 export { Button as DesignSystemButton } from "@cyberskill/design/button";
 export type { ButtonProps as DesignSystemButtonProps } from "@cyberskill/design/button";

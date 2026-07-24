@@ -1,5 +1,6 @@
-// Package styles first; app/globals.css bridges + keeps storytelling overrides.
-import "@cyberskill/design/styles.css";
+// Package tokens + base (no fonts.css); globals bridges storytelling locals.
+// DeferredFonts + /fonts/brand-fonts.css own webfonts (font-display: optional).
+import "./cs-package.css";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
