@@ -2284,7 +2284,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   animation: cs-accent-slide 4s ease-in-out infinite;
 }
 .cs-sparkle { color: var(--cs-color-accent); animation: cs-sparkle-pulse 3.2s ease-in-out infinite; transform-origin: center; }
-.cs-button--primary .cs-sparkle { color: currentColor; }
+.cs-button--primary .cs-sparkle { color: currentcolor; }
 @keyframes cs-accent-slide {
   0%, 100% { background-position: 0% 0; }
   50% { background-position: 100% 0; }
