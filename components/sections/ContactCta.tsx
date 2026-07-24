@@ -28,8 +28,13 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary;
           <p className="cs-section-lead" data-mask-reveal="">{dict.sections.contactLead}</p>
 
           <p className="cs-contact-lumi">
-            <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi" flow="contact">
-              <Icon name="sparkle" size="sm" /> {dict.genie.contactLumiCta}
+            <GenieOpenButton
+              variant="primary"
+              className="cs-cta-lumi"
+              icon={<Icon name="sparkle" size="sm" />}
+              flow="contact"
+            >
+              {dict.genie.contactLumiCta}
             </GenieOpenButton>
           </p>
           <p className="cs-consent-note" style={{ marginTop: "var(--cs-space-sm)" }}>

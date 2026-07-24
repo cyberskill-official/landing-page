@@ -251,11 +251,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         ) : null}
 
         <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{labels.cta}</LeadCta>
-          <a className="cs-btn" href={`/${locale}/how-we-build`}>
+          <LeadCta flow="contact">{labels.cta}</LeadCta>
+          <a className="cs-button cs-button--ghost" href={`/${locale}/how-we-build`}>
             {labels.how}
           </a>
-          <a className="cs-btn" href={`/${locale}#services`}>
+          <a className="cs-button cs-button--ghost" href={`/${locale}#services`}>
             {labels.back}
           </a>
         </div>

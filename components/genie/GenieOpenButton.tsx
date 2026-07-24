@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { track } from "@/lib/analytics";
 import { useGenieStore, type GenieFlowKind } from "@/lib/genie/store";
+import { DesignSystemButton, type DesignSystemButtonProps } from "@/lib/design-system/button";
 
 export const GENIE_OPEN_EVENT = "cs:genie:open";
 
@@ -19,11 +20,18 @@ export function openGenie(detail: GenieOpenDetail = {}): void {
 
 export function GenieOpenButton({
   children,
-  className = "cs-btn cs-btn-secondary",
+  variant = "secondary",
+  size,
+  icon,
+  className,
   flow = "default",
   seed = null,
 }: {
   children: ReactNode;
+  variant?: DesignSystemButtonProps["variant"];
+  size?: DesignSystemButtonProps["size"];
+  icon?: ReactNode;
+  /** Lumi-local modifiers layered on the design-system button root. */
   className?: string;
   /** Lead funnel kind for this CTA */
   flow?: GenieFlowKind;
@@ -33,8 +41,10 @@ export function GenieOpenButton({
   const openFlow = useGenieStore((s) => s.openFlow);
 
   return (
-    <button
-      type="button"
+    <DesignSystemButton
+      variant={variant}
+      size={size}
+      icon={icon}
       className={className}
       aria-haspopup="dialog"
       aria-expanded={open}
@@ -45,6 +55,6 @@ export function GenieOpenButton({
       }}
     >
       {children}
-    </button>
+    </DesignSystemButton>
   );
 }

@@ -19,7 +19,7 @@ const LABELS = {
 export function BookingLink({
   locale,
   location,
-  className = "cs-btn cs-btn-secondary",
+  className = "cs-button cs-button--secondary",
   url: urlProp,
 }: {
   locale: Locale;

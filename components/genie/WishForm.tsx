@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { track } from "@/lib/analytics";
 import { useGenieStore } from "@/lib/genie/store";
 import { GENIE_OPEN_EVENT } from "./GenieOpenButton";
+import { DesignSystemButton } from "@/lib/design-system/button";
 
 // CSS-only sparkles (no gsap) — keeps gsap out of any first-load path that
 // might import WishForm.
@@ -80,13 +81,14 @@ export function WishForm({
         onFocus={(e) => (e.target.style.borderColor = "rgba(244,186,23,0.8)")}
         onBlur={(e) => (e.target.style.borderColor = "rgba(244,186,23,0.3)")}
       />
-      <button
+      <DesignSystemButton
         type="submit"
-        className="cs-btn cs-btn-primary cs-lumi-alt"
+        variant="primary"
+        className="cs-lumi-alt"
         style={{ borderRadius: "24px", padding: "0 24px" }}
       >
         {ctaText}
-      </button>
+      </DesignSystemButton>
     </form>
   );
 }

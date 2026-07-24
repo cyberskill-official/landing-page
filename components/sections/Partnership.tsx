@@ -79,8 +79,13 @@ export function Partnership({
           <li data-field="howToStart">{howToStart}</li>
         </ul>
         <p className="cs-contact-lumi" style={{ marginTop: "var(--cs-space-lg)" }}>
-          <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi" flow="partnership">
-            <Icon name="sparkle" size="sm" /> {dict.genie.partnershipLumiCta}
+          <GenieOpenButton
+            variant="primary"
+            className="cs-cta-lumi"
+            icon={<Icon name="sparkle" size="sm" />}
+            flow="partnership"
+          >
+            {dict.genie.partnershipLumiCta}
           </GenieOpenButton>
         </p>
         <p className="cs-consent-note" style={{ marginTop: "var(--cs-space-sm)" }}>

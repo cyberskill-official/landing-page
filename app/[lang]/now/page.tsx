@@ -116,8 +116,8 @@ export default async function ChangelogPage({
         </div>
 
         <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{dict.hero.ctaPrimary}</LeadCta>
-          <Link className="cs-btn" href={`/${locale}`}>
+          <LeadCta flow="contact">{dict.hero.ctaPrimary}</LeadCta>
+          <Link className="cs-button cs-button--ghost" href={`/${locale}`}>
             {locale === "vi" ? "Quay lại" : "Back Home"}
           </Link>
         </div>

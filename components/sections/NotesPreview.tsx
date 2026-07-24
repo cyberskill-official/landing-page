@@ -39,7 +39,7 @@ export function NotesPreview({ locale, dict }: { locale: Locale; dict: Dictionar
           ))}
         </ul>
         <p className="cs-section-more">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}/notes`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}/notes`}>
             {dict.nav.notes}
           </Link>
         </p>

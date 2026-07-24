@@ -238,41 +238,38 @@ html, body { overflow-x: clip; }
   top: var(--cs-space-4);
 }
 
-/* Buttons */
-.cs-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--cs-space-2);
-  font: inherit;
-  font-weight: 600;
-  padding: var(--cs-space-3) var(--cs-space-6);
-  border-radius: var(--cs-radius-pill);
-  border: 1px solid transparent;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform var(--cs-dur-fast) var(--cs-ease), box-shadow var(--cs-dur-fast) var(--cs-ease), background var(--cs-dur-fast) var(--cs-ease);
+/* Buttons — the package owns `.cs-button` (base, variants, sizes, focus ring,
+   disabled/loading, coarse-pointer targets). Only two Lumi-specific deviations
+   live here, both expressed through package component tokens rather than by
+   overriding `.cs-button` rules:
+
+   1. Pill radius. The pill is Lumi's button silhouette; the package default is
+      an 8px rounded rect.
+   2. Ochre CTA in both themes. Inside an element scope the package remaps the
+      primary CTA to the element accent (Hoả · plasma → crimson #A91A43 in dark,
+      Umber #45210E in light). Lumi's CTA is gold, and its solid sRGB pair is
+      pinned by a Lighthouse contrast contract (#3a2a05 on #f4ba17 ≈ 7.85:1) —
+      see tests/pagespeed-perfect-score.test.ts. Solid, never translucent and
+      never P3-only, so WCAG sampling cannot drift. */
+:root {
+  --cs-component-button-radius: var(--cs-radius-pill);
 }
-.cs-btn:hover { transform: translateY(-1px); }
-.cs-btn-primary {
-  /* Solid sRGB fills — never translucent, never P3-only — so WCAG contrast
-     sampling of label-on-ochre stays ≥4.5:1 (measured ~7.85:1 for #3a2a05 on
-     #f4ba17). isolation keeps backdrop filters / contact aurora from tinting. */
-  background-color: #f4ba17;
+:root[data-cs-element="hoa"],
+:root[data-cs-element="hoa"][data-theme="dark"] {
+  --cs-component-button-primary-bg: #f4ba17;
+  --cs-component-button-primary-fg: #3a2a05;
+}
+/* isolation keeps backdrop filters / the contact aurora from tinting the fill. */
+.cs-button--primary {
   background-image: none;
-  color: #3a2a05;
   box-shadow: var(--cs-box-shadow-2);
   isolation: isolate;
 }
-.cs-btn-secondary {
-  background: transparent;
-  color: var(--cs-color-fg);
-  border-color: var(--cs-color-line);
-}
-.cs-btn-brand {
-  background: var(--cs-color-brand);
-  color: var(--cs-color-on-brand);
-}
+/* Lumi's buttons lift on hover; the package only shifts brightness. */
+.cs-button { transition: transform var(--cs-dur-fast) var(--cs-ease), box-shadow var(--cs-dur-fast) var(--cs-ease), background var(--cs-dur-fast) var(--cs-ease), filter var(--cs-dur-fast) var(--cs-ease); }
+.cs-button:hover { transform: translateY(-1px); }
+/* Anchors and Link render the button roles too, so kill the underline. */
+a.cs-button { text-decoration: none; }
 
 /* Liquid Glass surfaces */
 .cs-glass-card,
@@ -360,11 +357,11 @@ html, body { overflow-x: clip; }
 }
 
   /* Buttons lose their author background; a border keeps them legible as controls. */
-  .cs-btn, .cs-btn-primary, .cs-btn-secondary, .cs-genie-close, .cs-theme-toggle {
+  .cs-button, .cs-genie-close, .cs-theme-toggle {
     border: 1px solid ButtonText;
     forced-color-adjust: none;
   }
-  .cs-btn-primary {
+  .cs-button--primary {
     background: ButtonFace;
     color: ButtonText;
   }
@@ -1444,7 +1441,6 @@ main > .cs-section > .cs-container > h1 {
   gap: var(--cs-space-2);
   flex: 0 0 auto;
 }
-.cs-consent-banner-actions .cs-btn,
 .cs-consent-banner-actions .cs-button {
   min-height: 44px;
   min-width: 6.75rem;
@@ -1452,7 +1448,6 @@ main > .cs-section > .cs-container > h1 {
   font-size: var(--cs-text-sm);
   font-weight: 700;
 }
-.cs-consent-banner-actions .cs-btn-secondary,
 .cs-consent-banner-actions .cs-button--secondary {
   background: transparent;
   border-color: color-mix(in srgb, var(--cs-color-fg) 28%, transparent);
@@ -1474,7 +1469,6 @@ main > .cs-section > .cs-container > h1 {
   .cs-consent-banner-actions {
     width: 100%;
   }
-  .cs-consent-banner-actions .cs-btn,
   .cs-consent-banner-actions .cs-button {
     flex: 1;
   }
@@ -1486,7 +1480,7 @@ main > .cs-section > .cs-container > h1 {
   display: flex; flex-direction: column; gap: var(--cs-space-2); z-index: 40;
 }
 .cs-persistent-cta .cs-cta-icon { display: none; }
-.cs-persistent-cta .cs-btn { box-shadow: var(--cs-box-shadow-3); }
+.cs-persistent-cta .cs-button { box-shadow: var(--cs-box-shadow-3); }
 
 /* Mobile bottom chrome: ONE clearance token for body pad, genie float, footer pad.
    CTA bar ~76px content + safe-area; +0.5rem gap so genie never sits under the bar. */
@@ -1515,8 +1509,8 @@ main > .cs-section > .cs-container > h1 {
     min-height: var(--cs-mobile-cta-height);
     box-sizing: border-box;
   }
-  .cs-persistent-cta .cs-btn-brand { display: none; }
-  .cs-persistent-cta .cs-btn {
+  .cs-persistent-cta .cs-button--tertiary { display: none; }
+  .cs-persistent-cta .cs-button {
     flex: 1;
     margin: 0;
     min-height: 44px;
@@ -1895,7 +1889,7 @@ html[data-genie-open] body {
     min-height: 2.75rem;
     padding: 0.6rem 0.85rem;
   }
-  .cs-genie-form .cs-btn {
+  .cs-genie-form .cs-button {
     min-height: 2.75rem;
     min-width: 4.5rem;
     padding-inline: 0.85rem;
@@ -2290,7 +2284,7 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   animation: cs-accent-slide 4s ease-in-out infinite;
 }
 .cs-sparkle { color: var(--cs-color-accent); animation: cs-sparkle-pulse 3.2s ease-in-out infinite; transform-origin: center; }
-.cs-btn-primary .cs-sparkle { color: currentColor; }
+.cs-button--primary .cs-sparkle { color: currentColor; }
 @keyframes cs-accent-slide {
   0%, 100% { background-position: 0% 0; }
   50% { background-position: 100% 0; }
@@ -2633,8 +2627,8 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
 
 /* Button hover shine: a skewed light band sweeps across once per hover.
    Transform/opacity only; removed entirely under reduced motion. */
-.cs-btn { position: relative; overflow: hidden; }
-.cs-btn::after {
+.cs-button { position: relative; overflow: hidden; }
+.cs-button::after {
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
@@ -2644,8 +2638,8 @@ a.cs-work-card { text-decoration: none; color: inherit; display: block; }
   opacity: 0;
   pointer-events: none;
 }
-.cs-btn:hover::after, .cs-btn:focus-visible::after { animation: cs-btn-shine 780ms var(--cs-ease); }
-@keyframes cs-btn-shine {
+.cs-button:hover::after, .cs-button:focus-visible::after { animation: cs-button-shine 780ms var(--cs-ease); }
+@keyframes cs-button-shine {
   0% { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
   25% { opacity: 1; }
   100% { transform: translateX(320%) skewX(-18deg); opacity: 0; }
@@ -2669,7 +2663,7 @@ p[data-mask-reveal] { transition-delay: 140ms; }
 /* --- Polish-layer guards (kept last so they win the cascade) --- */
 @media (prefers-reduced-motion: reduce) {
   .cs-aurora-blob, .cs-marquee-track, .cs-hero-hint::after { animation: none; }
-  .cs-btn::after { display: none; }
+  .cs-button::after { display: none; }
   .cs-kinetic-inner { animation: none; transform: none; background-position: 0% 0; }
   [data-intro="play"] .cs-intro { display: none; }
   [data-mask-reveal] { clip-path: none; transform: none; transition: none; }
@@ -2837,7 +2831,7 @@ main > .cs-section::before {
 }
 
 /* The hero's primary CTA breathes a soft gold halo. */
-.cs-hero-actions .cs-btn-primary { animation: cs-cta-breathe 3.8s var(--cs-ease) infinite; }
+.cs-hero-actions .cs-button--primary { animation: cs-cta-breathe 3.8s var(--cs-ease) infinite; }
 @keyframes cs-cta-breathe {
   0%, 100% { box-shadow: var(--cs-box-shadow-2); }
   50% { box-shadow: var(--cs-box-shadow-2), 0 0 24px 2px rgba(244, 186, 23, 0.38); }
@@ -3013,13 +3007,13 @@ html[data-genie-open] .cs-lumi-hotspot { display: none; }
 
 /* Buttons get a short spring press (fine-pointer magnet inline-transform wins
    where it is active; this covers touch and no-magnet cases). */
-.cs-btn:active { transform: translateY(0) scale(0.97); }
+.cs-button:active { transform: translateY(0) scale(0.97); }
 
 @media (prefers-reduced-motion: reduce) {
   .cs-depth { display: none; }
   .cs-depth-ember { animation: none; }
   .cs-nav a::after { transition: none; }
-  .cs-btn:active { transform: none; }
+  .cs-button:active { transform: none; }
 }
 @media (forced-colors: active) { .cs-depth { display: none; } }
 @media print { .cs-depth { display: none; } }
@@ -3261,13 +3255,10 @@ html[data-genie-open] .cs-lumi-hotspot { display: none; }
 .cs-contact-lumi { margin: 0 0 var(--cs-space-6); }
 /* Folded, the card hugs its summary instead of stretching to the row. */
 .cs-contact-form { align-self: start; }
-.cs-btn-lumi { 
+/* Lumi's own CTA accent: a breathing gold halo on a design-system button root.
+   Motion only — the ochre fill comes from the component-token pin above. */
+.cs-cta-lumi {
   animation: cs-cta-breathe 3.8s var(--cs-ease) infinite;
-  /* Same solid sRGB pair as .cs-btn-primary — LH color-contrast failed here
-     when the Display-P3 ochre token was sampled as a darker gold. */
-  background-color: #f4ba17 !important;
-  background-image: none !important;
-  color: #3a2a05 !important;
   isolation: isolate;
 }
 .cs-contact-details > summary {
@@ -3516,7 +3507,7 @@ main .cs-section { transition: background-color 0.9s ease; }
   #process .cs-services-grid::before { transform: scaleX(1); transition: none; }
   .cs-faq-item details[open] > p { animation: none; }
   .cs-contact-details[open] > .cs-form { animation: none; }
-  .cs-btn-lumi { animation: none; }
+  .cs-cta-lumi { animation: none; }
   .cs-lumi-hint { animation: none; opacity: 1; }
 }
 @media (scripting: none) {
@@ -3533,7 +3524,7 @@ main .cs-section { transition: background-color 0.9s ease; }
 
 /* --- v2 guards (cascade-last) --- */
 @media (prefers-reduced-motion: reduce) {
-  .cs-hero-actions .cs-btn-primary { animation: none; }
+  .cs-hero-actions .cs-button--primary { animation: none; }
   .cs-service-card:hover::after, .cs-work-card:hover::after, .cs-proof-card:hover::after { animation: none; }
   .cs-kinetic-word:last-child .cs-kinetic-inner { animation: none; transform: none; }
   .cs-story-arc::before { transform: none; transition: none; }

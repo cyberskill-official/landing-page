@@ -23,6 +23,7 @@ html,body{overflow-x:clip}
   --cs-color-accent:var(--cs-color-brand-ochre);--cs-color-accent-ink:#3a2a05;
   --cs-color-brand:var(--cs-color-brand-umber);--cs-color-on-brand:#fdf4e1;
   --cs-color-focus:var(--cs-color-semantic-info);--cs-glass-border:rgba(69,33,14,.12);
+  --cs-button-secondary-ink:var(--cs-color-brand-umber);
   --cs-box-shadow-3:0 12px 40px rgba(28,19,13,.12);
   --cs-font-sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI","Helvetica Neue",arial,sans-serif;
   --cs-font-display:"Space Grotesk",system-ui,"Segoe UI",sans-serif;
@@ -41,7 +42,8 @@ html,body{overflow-x:clip}
   --cs-color-fg:var(--cs-color-text-primary);--cs-color-fg-muted:#dcd2c3;
   --cs-color-bg:var(--cs-color-surface-page);--cs-color-surface:var(--cs-color-surface-panel);
   --cs-color-line:var(--cs-color-border-default);--cs-color-on-brand:#fdf4e1;
-  --cs-glass-border:rgba(244,186,23,.16);--cs-color-focus:var(--cs-color-brand-ochre)
+  --cs-glass-border:rgba(244,186,23,.16);--cs-color-focus:var(--cs-color-brand-ochre);
+  --cs-button-secondary-ink:var(--cs-color-brand-ochre)
 }
 body{
   margin:0;background:var(--cs-color-bg);color:var(--cs-color-fg);
@@ -84,14 +86,15 @@ a{color:inherit;text-underline-offset:.18em}
 .cs-hero-lead{font-size:var(--cs-text-lg);color:var(--cs-color-fg-muted);max-width:36rem}
 .cs-hero-subline{font-size:var(--cs-text-lg);color:var(--cs-color-fg-muted);max-width:36rem;margin:0 0 var(--cs-space-3);line-height:1.45}
 .cs-hero-actions{display:flex;flex-wrap:wrap;gap:var(--cs-space-3);margin-top:var(--cs-space-6)}
-.cs-btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  min-height:44px;padding:.65rem 1.15rem;border-radius:var(--cs-radius-pill);
-  font:inherit;font-weight:700;font-size:var(--cs-text-sm);text-decoration:none;border:1px solid transparent;cursor:pointer
+.cs-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.2;
+  min-height:44px;min-width:44px;padding:12px 20px;border-radius:var(--cs-radius-pill);
+  font:inherit;font-weight:700;text-decoration:none;border:1px solid transparent;cursor:pointer
 }
-.cs-btn-primary{background-color:#f4ba17;color:#3a2a05;border-color:#f4ba17}
-.cs-btn-secondary{background:transparent;color:var(--cs-color-fg);border-color:var(--cs-color-line)}
-.cs-btn-brand{background:var(--cs-color-brand);color:var(--cs-color-on-brand)}
+.cs-button--primary{background-color:#f4ba17;color:#3a2a05;border-color:#f4ba17}
+.cs-button--secondary{background:var(--cs-color-surface);color:var(--cs-button-secondary-ink);border-color:var(--cs-button-secondary-ink)}
+.cs-button--tertiary{background:var(--cs-color-brand);color:var(--cs-color-on-brand)}
+.cs-button--ghost{background:transparent;color:var(--cs-color-fg)}
 .cs-canvas-layer,.cs-header,main,.cs-footer{position:relative;z-index:1}
 .cs-section{padding-block:var(--cs-space-24)}
 @media (max-width:760px){.cs-hero{padding-block:var(--cs-space-16);min-height:min(80vh,640px)}.cs-section{padding-block:var(--cs-space-16)}}

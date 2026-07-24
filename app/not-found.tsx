@@ -13,10 +13,10 @@ export default function NotFound() {
           <span lang="vi">Lumi không thể tìm thấy trang này.</span> / Lumi couldn&apos;t find this page in the lamp.
         </p>
         <div className="cs-hero-actions" style={{ justifyContent: "center" }}>
-          <Link className="cs-btn cs-btn-primary" href="/en">
+          <Link className="cs-button cs-button--primary" href="/en">
             English home
           </Link>
-          <Link className="cs-btn cs-btn-secondary" href="/vi" hrefLang="vi" lang="vi">
+          <Link className="cs-button cs-button--secondary" href="/vi" hrefLang="vi" lang="vi">
             Trang tiếng Việt
           </Link>
         </div>

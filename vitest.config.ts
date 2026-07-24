@@ -8,13 +8,13 @@ export default defineConfig({
     environment: "node",
     include: ["tests/**/*.test.ts"],
     setupFiles: ["./vitest.setup.ts"],
+    // The package ships untranspiled `.jsx`, so it must go through the React
+    // plugin rather than being externalised as a prebuilt dependency.
+    server: { deps: { inline: [/@cyberskill\/design/] } },
   },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./", import.meta.url)),
-      "@cyberskill/design/button": fileURLToPath(
-        new URL("./node_modules/@cyberskill/design/components/button/Button.jsx", import.meta.url),
-      ),
     },
   },
 });

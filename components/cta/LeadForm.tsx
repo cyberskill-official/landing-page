@@ -12,6 +12,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { NewsletterForm } from "@/components/cta/NewsletterForm";
 import { BookingLink } from "@/components/cta/BookingLink";
 import { ProfileDownloadLink } from "@/components/cta/ProfileDownloadLink";
+import { DesignSystemButton } from "@/lib/design-system/button";
 
 // Maps zod error codes to localised messages.
 function messageFor(code: string | undefined, dict: Dictionary): string | undefined {
@@ -222,9 +223,15 @@ export function LeadForm({
       )}
 
       <div style={{ marginTop: "var(--cs-space-md)" }}>
-        <button type="submit" className="cs-btn cs-btn-primary" disabled={status === "submitting"} style={{ width: "100%", marginBottom: "var(--cs-space-xs)" }}>
+        <DesignSystemButton
+          type="submit"
+          variant="primary"
+          fullWidth
+          disabled={status === "submitting"}
+          style={{ marginBottom: "var(--cs-space-xs)" }}
+        >
           {status === "submitting" ? dict.form.submitting : dict.form.submit}
-        </button>
+        </DesignSystemButton>
         <p style={{ textAlign: "center", fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", margin: 0 }}>
           {dict.form.trustLine}
         </p>

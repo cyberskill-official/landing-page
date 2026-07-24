@@ -44,8 +44,8 @@ export default async function LitePage({ params }: { params: Promise<{ lang: str
           <p className="cs-lite-entity">{company.entity[locale]}</p>
         </div>
         <div className="cs-hero-actions">
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{dict.hero.ctaPrimary}</LeadCta>
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}`}>{dict.a11y.cinematicLink}</Link>
+          <LeadCta flow="contact">{dict.hero.ctaPrimary}</LeadCta>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}`}>{dict.a11y.cinematicLink}</Link>
         </div>
       </div>
     </section>

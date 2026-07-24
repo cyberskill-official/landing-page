@@ -32,7 +32,7 @@ export function WorkPreview({ locale, dict }: { locale: Locale; dict: Dictionary
           ))}
         </div>
         <p className="cs-section-more">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}/work`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}/work`}>
             {dict.nav.work}
           </Link>
         </p>

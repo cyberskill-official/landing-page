@@ -229,7 +229,7 @@ export default async function HowWeBuildPage({ params }: { params: Promise<{ lan
         </div>
 
         <div className="cs-page-cta" style={{ marginTop: "var(--cs-space-12)" }}>
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">
+          <LeadCta flow="contact">
             {t.cta}
           </LeadCta>
         </div>

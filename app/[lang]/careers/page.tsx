@@ -122,8 +122,13 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
           </h2>
           <p style={{ fontSize: "var(--cs-text-sm)", color: "var(--cs-color-text-muted)", marginBottom: "var(--cs-space-md)" }}>{t.noOpenings}</p>
           <p className="cs-contact-lumi">
-            <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi" flow="careers">
-              <Icon name="sparkle" size="sm" /> {dict.genie.careersLumiCta}
+            <GenieOpenButton
+              variant="primary"
+              className="cs-cta-lumi"
+              icon={<Icon name="sparkle" size="sm" />}
+              flow="careers"
+            >
+              {dict.genie.careersLumiCta}
             </GenieOpenButton>
           </p>
           <p className="cs-consent-note" style={{ marginTop: "var(--cs-space-md)" }}>

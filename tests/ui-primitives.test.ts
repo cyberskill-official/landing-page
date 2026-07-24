@@ -3,14 +3,15 @@ import { describe, it, expect } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import axe from "axe-core";
-import { Button } from "@/components/ui/Button";
+import { DesignSystemButton as Button } from "@/lib/design-system/button";
 import { Card } from "@/components/ui/Card";
 import { Field } from "@/components/ui/Field";
 import { Select } from "@/components/ui/Select";
 import { Dialog } from "@/components/ui/Dialog";
 
-// TASK-DS-003: the in-repo primitives emit token-styled markup, keep native
-// semantics, and pass axe with no external component dependency.
+// TASK-DS-003: the remaining in-repo primitives emit token-styled markup and
+// keep native semantics; Button now comes from `@cyberskill/design` (Phase 2).
+// All of them must pass axe.
 const RULES_OFF = {
   region: { enabled: false },
   "landmark-one-main": { enabled: false },
@@ -22,9 +23,9 @@ const RULES_OFF = {
 } as const;
 
 describe("DS-003 component primitives", () => {
-  it("Button renders the token button markup", () => {
+  it("Button renders the design-system button markup", () => {
     const html = renderToStaticMarkup(createElement(Button, { variant: "primary" }, "Go"));
-    expect(html).toContain('class="cs-btn cs-btn-primary"');
+    expect(html).toContain("cs-button cs-button--primary");
     expect(html).toContain('type="button"');
   });
 

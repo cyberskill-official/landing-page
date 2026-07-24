@@ -144,7 +144,7 @@ export default async function CyberOsDeleteAccountPage({ params }: { params: Pro
         ))}
         <p className="cs-footer-meta">{c.updated}</p>
         <p className="cs-section-more">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}/cyberos/privacy`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}/cyberos/privacy`}>
             {c.back}
           </Link>
         </p>

@@ -26,7 +26,7 @@ Phase 0 (bundler-native React export) is tracked separately; this Phase 1 does *
 
 ## 3. Out of scope (later phases)
 
-- Button / CTA sweep (`.cs-btn` → package `Button` / `Link`) — waits on DS React export publish where needed.
+- ~~Button / CTA sweep (`.cs-btn` → package `Button` / `Link`).~~ → **Done in Phase 2** — see [`2026-07-25-lumi-ds-phase2-buttons.md`](./2026-07-25-lumi-ds-phase2-buttons.md).
 - Forms, tags, cards, icons migration.
 - Grep/CI proof of “100%” and README keep-local inventory (Phase 4).
 

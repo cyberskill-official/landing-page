@@ -19,10 +19,15 @@ export function Careers({ locale, dict }: { locale: Locale; dict: Dictionary }) 
           <p className="cs-section-lead" data-mask-reveal="">{dict.sections.careersLead}</p>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--cs-space-3)", alignItems: "center" }}>
-          <GenieOpenButton className="cs-btn cs-btn-primary cs-btn-lumi" flow="careers">
-            <Icon name="sparkle" size="sm" /> {dict.genie.careersLumiCta}
+          <GenieOpenButton
+            variant="primary"
+            className="cs-cta-lumi"
+            icon={<Icon name="sparkle" size="sm" />}
+            flow="careers"
+          >
+            {dict.genie.careersLumiCta}
           </GenieOpenButton>
-          <Link className="cs-btn cs-btn-brand" href={`/${locale}/careers`}>
+          <Link className="cs-button cs-button--tertiary" href={`/${locale}/careers`}>
             {dict.sections.careersCta}
           </Link>
         </div>

@@ -109,7 +109,7 @@ export default async function AccessibilityPage({ params }: { params: Promise<{ 
         </p>
         <p className="cs-footer-meta">{c.reviewed}</p>
         <p className="cs-section-more">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}`}>
             {locale === "vi" ? "Về trang chủ" : "Back home"}
           </Link>
         </p>

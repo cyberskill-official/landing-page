@@ -121,7 +121,7 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
         </div>
 
         <p className="cs-section-more" style={{ marginTop: "var(--cs-space-12)" }}>
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{dict.hero.ctaPrimary}</LeadCta>
+          <LeadCta flow="contact">{dict.hero.ctaPrimary}</LeadCta>
         </p>
       </div>
     </section>
