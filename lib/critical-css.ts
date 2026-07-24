@@ -23,8 +23,8 @@ html,body{overflow-x:clip}
   --cs-color-accent:var(--cs-color-brand-ochre);--cs-color-accent-ink:#3a2a05;
   --cs-color-brand:var(--cs-color-brand-umber);--cs-color-on-brand:#fdf4e1;
   --cs-color-focus:var(--cs-color-semantic-info);--cs-glass-border:rgba(69,33,14,.12);
-  --cs-depth-3:0 12px 40px rgba(28,19,13,.12);
-  --cs-font-sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --cs-box-shadow-3:0 12px 40px rgba(28,19,13,.12);
+  --cs-font-sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI","Helvetica Neue",arial,sans-serif;
   --cs-font-display:"Space Grotesk",system-ui,"Segoe UI",sans-serif;
   --cs-text-xs:.8rem;--cs-text-sm:.9rem;--cs-text-base:1rem;--cs-text-lg:1.2rem;
   --cs-text-xl:clamp(1.35rem,1.1rem + 1vw,1.6rem);
@@ -78,7 +78,7 @@ a{color:inherit;text-underline-offset:.18em}
 .cs-hero-inner{max-width:46rem;position:relative;z-index:1}
 .cs-eyebrow{font-size:var(--cs-text-sm);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cs-color-accent);margin:0}
 .cs-hero-title,.cs-hero-lead,.cs-hero-subline,.cs-hero .cs-eyebrow{
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",arial,sans-serif
 }
 .cs-hero-title{font-size:var(--cs-text-4xl);margin-top:var(--cs-space-3);font-weight:700;line-height:1.05;letter-spacing:-.03em;color:#f4ece0;max-width:20ch}
 .cs-hero-lead{font-size:var(--cs-text-lg);color:var(--cs-color-fg-muted);max-width:36rem}

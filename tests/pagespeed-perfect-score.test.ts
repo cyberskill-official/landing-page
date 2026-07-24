@@ -121,7 +121,7 @@ describe("PageSpeed perfect-score contracts", () => {
     expect(layout).toContain('import "./cs-package.css"');
     expect(layout).not.toMatch(/@cyberskill\/design\/styles\.css/);
     const pkg = readFileSync(resolve(root, "app/cs-package.css"), "utf8");
-    expect(pkg).not.toMatch(/@import\s+["'][^"']*fonts\.css["']/);
+    expect(pkg).not.toMatch(/@import\b[^;]*fonts\.css/);
     expect(pkg).toMatch(/tokens\/colors\.css/);
   });
 

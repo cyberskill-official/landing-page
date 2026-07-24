@@ -46,16 +46,16 @@
   --cs-glass-tint-heavy: rgba(255, 255, 255, 0.78);
   --cs-glass-border: rgba(69, 33, 14, 0.12);
 
-  /* ---- Local: box-shadow ramp (package --cs-depth-* are z-index roles) ---- */
-  --cs-depth-1: 0 1px 2px rgba(28, 19, 13, 0.06);
-  --cs-depth-2: 0 4px 14px rgba(28, 19, 13, 0.08);
-  --cs-depth-3: 0 12px 40px rgba(28, 19, 13, 0.12);
+  /* ---- Local: box-shadow ramp (do not reuse package --cs-depth-* z-index names) ---- */
+  --cs-box-shadow-1: 0 1px 2px rgba(28, 19, 13, 0.06);
+  --cs-box-shadow-2: 0 4px 14px rgba(28, 19, 13, 0.08);
+  --cs-box-shadow-3: 0 12px 40px rgba(28, 19, 13, 0.12);
 
   /* ---- Local: type stacks + fluid display ramp (Space Grotesk display) ----
      Brand names sit first so optional @font-face can apply without a post-paint
      CSS-variable mutation (field CLS ~0.33 root cause). */
   --cs-font-sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI",
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    "Helvetica Neue", arial, "Noto Sans", sans-serif;
   --cs-font-display: "Space Grotesk", system-ui, "Segoe UI", sans-serif;
   --cs-font-mono: var(--cs-font-family-mono);
   --cs-text-xs: 0.8rem;
@@ -261,7 +261,7 @@ html, body { overflow-x: clip; }
   background-color: #f4ba17;
   background-image: none;
   color: #3a2a05;
-  box-shadow: var(--cs-depth-2);
+  box-shadow: var(--cs-box-shadow-2);
   isolation: isolate;
 }
 .cs-btn-secondary {
@@ -282,7 +282,7 @@ html, body { overflow-x: clip; }
 .cs-surface-heavy {
   border: 1px solid var(--cs-glass-border);
   border-radius: var(--cs-radius-lg);
-  box-shadow: var(--cs-depth-2);
+  box-shadow: var(--cs-box-shadow-2);
   background: var(--cs-glass-tint-standard);
   backdrop-filter: blur(var(--cs-glass-blur-standard)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--cs-glass-blur-standard)) saturate(140%);
@@ -290,7 +290,7 @@ html, body { overflow-x: clip; }
 .cs-surface-whisper { background: var(--cs-glass-tint-whisper); backdrop-filter: blur(var(--cs-glass-blur-whisper)); -webkit-backdrop-filter: blur(var(--cs-glass-blur-whisper)); }
 .cs-surface-light { background: var(--cs-glass-tint-light); backdrop-filter: blur(var(--cs-glass-blur-light)); -webkit-backdrop-filter: blur(var(--cs-glass-blur-light)); }
 .cs-surface-heavy { background: var(--cs-glass-tint-heavy); backdrop-filter: blur(var(--cs-glass-blur-heavy)); -webkit-backdrop-filter: blur(var(--cs-glass-blur-heavy)); }
-.cs-surface-solid { background: var(--cs-color-surface); border: 1px solid var(--cs-color-line); border-radius: var(--cs-radius-lg); box-shadow: var(--cs-depth-1); }
+.cs-surface-solid { background: var(--cs-color-surface); border: 1px solid var(--cs-color-line); border-radius: var(--cs-radius-lg); box-shadow: var(--cs-box-shadow-1); }
 
 /* Glass collapses to solid where translucency is unwanted or unsupported */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -1486,7 +1486,7 @@ main > .cs-section > .cs-container > h1 {
   display: flex; flex-direction: column; gap: var(--cs-space-2); z-index: 40;
 }
 .cs-persistent-cta .cs-cta-icon { display: none; }
-.cs-persistent-cta .cs-btn { box-shadow: var(--cs-depth-3); }
+.cs-persistent-cta .cs-btn { box-shadow: var(--cs-box-shadow-3); }
 
 /* Mobile bottom chrome: ONE clearance token for body pad, genie float, footer pad.
    CTA bar ~76px content + safe-area; +0.5rem gap so genie never sits under the bar. */
@@ -2195,7 +2195,7 @@ html[data-lumi-live] .cs-poster {
 
 /* Header solidifies once scrolled */
 .cs-header { transition: box-shadow var(--cs-dur) var(--cs-ease), border-color var(--cs-dur) var(--cs-ease); }
-[data-scrolled] .cs-header { box-shadow: var(--cs-depth-2); border-bottom-color: var(--cs-color-line); }
+[data-scrolled] .cs-header { box-shadow: var(--cs-box-shadow-2); border-bottom-color: var(--cs-color-line); }
 
 /* Card hover lift */
 .cs-service-card, .cs-work-card, .cs-value-item, .cs-proof-card {
@@ -2203,7 +2203,7 @@ html[data-lumi-live] .cs-poster {
 }
 .cs-service-card:hover, .cs-work-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--cs-depth-3);
+  box-shadow: var(--cs-box-shadow-3);
 }
 /* Work cards are links: keep them readable */
 a.cs-work-card { text-decoration: none; color: inherit; display: block; }
@@ -2800,7 +2800,7 @@ main > .cs-section::before {
 }
 @keyframes cs-orbit-spin { to { --cs-orbit: 360deg; } }
 [data-theme="dark"] .cs-service-card:hover, [data-theme="dark"] .cs-work-card:hover {
-  box-shadow: var(--cs-depth-3), 0 0 30px rgba(244, 186, 23, 0.1);
+  box-shadow: var(--cs-box-shadow-3), 0 0 30px rgba(244, 186, 23, 0.1);
 }
 
 /* The final slogan word carries the gold: a static gilded gradient instead
@@ -2839,8 +2839,8 @@ main > .cs-section::before {
 /* The hero's primary CTA breathes a soft gold halo. */
 .cs-hero-actions .cs-btn-primary { animation: cs-cta-breathe 3.8s var(--cs-ease) infinite; }
 @keyframes cs-cta-breathe {
-  0%, 100% { box-shadow: var(--cs-depth-2); }
-  50% { box-shadow: var(--cs-depth-2), 0 0 24px 2px rgba(244, 186, 23, 0.38); }
+  0%, 100% { box-shadow: var(--cs-box-shadow-2); }
+  50% { box-shadow: var(--cs-box-shadow-2), 0 0 24px 2px rgba(244, 186, 23, 0.38); }
 }
 
 /* ------------------------------------------------------------------ */

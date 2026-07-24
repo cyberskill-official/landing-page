@@ -14,8 +14,21 @@ describe("Phase 1: fonts + package token SoT", () => {
     expect(layout).toMatch(/data-cs-element="hoa"/);
     expect(layout).toMatch(/data-cs-variant="plasma"/);
 
+    const deferred = readFileSync(resolve(root, "components/DeferredFonts.tsx"), "utf8");
+    expect(deferred).toMatch(/href\s*=\s*["']\/fonts\/brand-fonts\.css["']/);
+    // Sole webfont stylesheet path — no alternate .css hrefs
+    const stylesheetHrefs = [...deferred.matchAll(/\.href\s*=\s*["']([^"']+)["']/g)].map(
+      (m) => m[1],
+    );
+    expect(stylesheetHrefs).toEqual(["/fonts/brand-fonts.css"]);
+
+    const brand = readFileSync(resolve(root, "public/fonts/brand-fonts.css"), "utf8");
+    expect(brand).toMatch(/@font-face/i);
+    expect(brand).toMatch(/font-display:\s*optional/);
+    expect(brand).not.toMatch(/font-display:\s*(swap|block|fallback|auto)\b/i);
+
     const pkg = readFileSync(resolve(root, "app/cs-package.css"), "utf8");
-    expect(pkg).not.toMatch(/@import\s+["'][^"']*fonts\.css["']/);
+    expect(pkg).not.toMatch(/@import\b[^;]*fonts\.css/);
     expect(pkg).toMatch(/tokens\/colors\.css/);
     expect(pkg).toMatch(/tokens\/typography\.css/);
     expect(pkg).toMatch(/base\/components\.css/);
