@@ -42,7 +42,7 @@ describe("ui polish structure", () => {
   it("newsletter form uses theme tokens not hard-coded white glass", () => {
     const html = renderToStaticMarkup(createElement(NewsletterForm, { locale: "en" }));
     expect(html).toContain("cs-newsletter-form");
-    expect(html).toContain("cs-field");
+    expect(html).toContain("cs-field__control");
     expect(html).not.toMatch(/rgba\(255,\s*255,\s*255/);
     expect(html).toContain('type="email"');
     const src = css();

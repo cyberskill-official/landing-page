@@ -28,6 +28,12 @@ const FORM_FILES = [
   "components/cta/TalentPoolForm.tsx",
 ];
 
+const EXPECTED_FORM_CONTROLS = new Map([
+  [FORM_FILES[0], ["TextField", "Select", "Textarea", "Checkbox"]],
+  [FORM_FILES[1], ["TextField"]],
+  [FORM_FILES[2], ["TextField", "Select"]],
+]);
+
 const TAG_PAGES = [
   "app/[lang]/work/page.tsx",
   "app/[lang]/work/[slug]/page.tsx",
@@ -46,17 +52,13 @@ describe("Phase 3: forms, tags, cards, icons from @cyberskill/design", () => {
     for (const rel of FORM_FILES) {
       const text = readFileSync(resolve(root, rel), "utf8");
       expect(text, rel).toMatch(/from "@\/lib\/design-system\/forms"/);
-      expect(text, rel).toMatch(/\bTextField\b/);
+      for (const control of EXPECTED_FORM_CONTROLS.get(rel) ?? []) {
+        expect(text, `${rel} renders ${control}`).toMatch(new RegExp(`<${control}[\\s>]`));
+      }
       // No hand-rolled .cs-field wrappers left in the form bodies.
       expect(text, rel).not.toMatch(/className="cs-field"/);
       expect(text, rel).not.toMatch(/className="cs-field /);
     }
-    const lead = readFileSync(resolve(root, FORM_FILES[0]), "utf8");
-    expect(lead).toMatch(/\bSelect\b/);
-    expect(lead).toMatch(/\bTextarea\b/);
-    expect(lead).toMatch(/\bCheckbox\b/);
-    const talent = readFileSync(resolve(root, FORM_FILES[2]), "utf8");
-    expect(talent).toMatch(/\bSelect\b/);
   });
 
   it("work/services keyword chips use the package Tag", () => {

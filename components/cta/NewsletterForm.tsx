@@ -19,6 +19,7 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
       ? {
           title: "Bản tin CyberSkill",
           promise: "Lời hứa: Mỗi tháng một email duy nhất bao gồm: những gì đã bàn giao, một bài học kinh nghiệm, và một phân tích chi tiết.",
+          emailLabel: "Địa chỉ email",
           placeholder: "Nhập email của bạn...",
           submit: "Đăng ký",
           submitting: "Đang gửi...",
@@ -29,6 +30,7 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
       : {
           title: "CyberSkill Newsletter",
           promise: "Our promise: One email a month, containing: what we shipped, one lesson, and one teardown. No spam.",
+          emailLabel: "Email address",
           placeholder: "Enter your email address...",
           submit: "Subscribe",
           submitting: "Submitting...",
@@ -94,7 +96,7 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
 
         <TextField
           className="cs-newsletter-field"
-          label={labels.title}
+          label={labels.emailLabel}
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

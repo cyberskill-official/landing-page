@@ -12,7 +12,7 @@ import puppeteer from "puppeteer";
 const BASE = process.argv[2] || "http://localhost:3000";
 
 const PATHS = [
-  { path: "", expect: { field: false, tag: false, card: true } }, // home contact Card aside
+  { path: "", expect: { field: true, tag: false, card: true } }, // footer Newsletter TextField + home contact Card aside
   { path: "/work", expect: { field: false, tag: true, card: false } },
   { path: "/work/operations-platform", expect: { field: false, tag: true, card: false } },
   { path: "/services/mobile-apps", expect: { field: false, tag: true, card: false } },
