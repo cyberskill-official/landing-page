@@ -1,5 +1,7 @@
 # Decision: Lumi Phase 3 — forms, tags, cards, icons from the design system
 
+> **Migration summary (Phases 0–4):** see [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md). This note remains the Phase 3 record.
+
 **Date:** 2026-07-25
 **Status:** Adopted (Phase 3 of Lumi → 100% design-system migration)
 **Supersedes (in part):** deferred Field/Select/Card/Dialog notes in [`2026-07-25-lumi-ds-phase2-buttons.md`](./2026-07-25-lumi-ds-phase2-buttons.md)
@@ -35,13 +37,13 @@ After Phase 2, every button was a package button. Forms, keyword chips, generic 
 
 - `tests/ds-phase3-forms-polish.test.ts` — whole-tree gates: dead ui primitives gone; forms import package fields; tag pages use `Tag`; Icon re-export; globals do not redefine `.cs-field` / `.cs-tag`; genie stays local; decision + README pointers.
 - `tests/ui-primitives.test.ts` — package Card / TextField / Select / Tag / Icon + axe.
-- `scripts/probe-ds-phase3.mjs` — computed-style presence of `.cs-field` / `.cs-tag` / `.cs-card` on contact, careers, work (EN·VI × dark·light × 390/1440).
+- `scripts/probe-ds-phase3.mjs` — computed-style presence of `.cs-tag` / `.cs-card` on work / careers / home (EN·VI × dark·light × 390/1440). Home `.cs-field` is asserted only when `PROBE_EXPECT_NEWSLETTER=1` after an SSG build with `RESEND_API_KEY` (newsletter is env-gated).
 - `npm test`, `tsc --noEmit`, `next build`, `npm run check:ds:buttons` stay green.
 
-## 5. Out of scope (Phase 4)
+## 5. Out of scope (later)
 
-- Full “100%” grep/CI proof sweep and keep-local inventory polish
-- Inventing DS variants for genie chrome or brand icons
+- ~~Full “100%” grep/CI proof sweep and keep-local inventory polish~~ → **Done in Phase 4** — [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md), [`docs/ds-keep-local-inventory.md`](../ds-keep-local-inventory.md)
+- Inventing DS variants for genie chrome or brand icons (still a non-goal)
 
 ## 6. Related
 

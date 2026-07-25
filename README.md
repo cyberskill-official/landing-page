@@ -8,8 +8,8 @@ Slogan: Turn Your Will Into Real. Goals, in order: lead generation, portfolio, r
 
 | Phase | What | State |
 |---|---|---|
-| P0 | Design-system tokens hand-ported to `--cs-*` | done |
-| P0 | `@cyberskill/design@1.0.0` first-slice install (styles + Lumi identity + live Button) | done — see below |
+| P0 | Design-system tokens via `@cyberskill/design` (storytelling aliases in globals) | done — Phases 1–4 |
+| P0 | `@cyberskill/design` first-slice → full mapped-primitive adoption | done — see “How Lumi consumes” |
 | P1 | HTML-first conversion core (SSR, lead form, EN/VN, SEO, a11y) | done |
 | P2 | Lumi chat via keyless `/api/genie` proxy (text-first) | done (needs API key at runtime) |
 | P3 | 3D scroll-storytelling scaffold + perf gate | done, with a procedural placeholder |
@@ -17,9 +17,9 @@ Slogan: Turn Your Will Into Real. Goals, in order: lead generation, portfolio, r
 
 The Phase-1 base is the product: it ranks and converts even if the 3D and chat never load. Everything after Phase 1 is layered enhancement.
 
-## Design system (`@cyberskill/design@1.0.0`)
+## How Lumi consumes the design system
 
-Lumi consumes the published CyberSkill design package (portfolio grant; package remains UNLICENSED).
+Lumi uses `@cyberskill/design` for **every UI primitive that maps** (tokens, Button, form fields, Tag, mappable Card, line Icon). Storytelling layers stay local by doctrine — not as DS gaps. Portfolio grant; package remains UNLICENSED. Claim + numbers: [`docs/ds-coverage-report.md`](docs/ds-coverage-report.md). File-level boundary: [`docs/ds-keep-local-inventory.md`](docs/ds-keep-local-inventory.md).
 
 | | |
 |---|---|
@@ -28,14 +28,13 @@ Lumi consumes the published CyberSkill design package (portfolio grant; package 
 | **Fonts** | `DeferredFonts` + `/fonts/brand-fonts.css` (`font-display: optional`); Space Grotesk display |
 | **Buttons** | Every button is a package button — the `Button` component on real `<button>`s, `.cs-button--*` classes on anchors/`Link`. Lumi's pill and gold CTA come from `--cs-component-button-*` tokens, not from restyling `.cs-button` |
 | **Forms / tags / cards / icons** | Package `TextField`/`Select`/`Textarea`/`Checkbox`, `Tag`, `Card` (+ surface classes), and `Icon` via `lib/design-system/*`. Analytics wrappers stay on the CTA forms. Genie cloud chrome stays local |
-| **Import path** | `lib/design-system/button.tsx` (and forms/tag/card/icon) re-export from `@cyberskill/design` (bundler-native `_esm/react.mjs`, React as a peer dep) |
-| **Decisions** | First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1 fonts/tokens: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` · Phase 2 buttons: `docs/decisions/2026-07-25-lumi-ds-phase2-buttons.md` · Phase 3 forms/tags/cards/icons: `docs/decisions/2026-07-25-lumi-ds-phase3-forms-polish.md` |
+| **Import path** | `lib/design-system/*` re-exports from `@cyberskill/design` only (bundler-native `_esm/react.mjs`, React as a peer dep). No Next alias to a raw `.jsx` file |
+| **Token SoT gate** | `npm run check:ds:tokens` — globals must not redefine package semantics beyond the documented allowlist |
+| **Decisions** | Summary: [`docs/decisions/2026-07-25-lumi-ds-migration-complete.md`](docs/decisions/2026-07-25-lumi-ds-migration-complete.md) · First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` · Phase 2: `docs/decisions/2026-07-25-lumi-ds-phase2-buttons.md` · Phase 3: `docs/decisions/2026-07-25-lumi-ds-phase3-forms-polish.md` |
 
-The dependency is pinned to a design-system **commit** rather than `1.0.0`: the published `1.0.0` tarball predates the React entry, and npm versions are immutable, so it can never be republished with one. Revisit at LAUNCH — see the Phase 2 decision note.
+The dependency is pinned to a design-system **commit** rather than npm `1.0.0`: the published `1.0.0` tarball predates the React entry, and npm versions are immutable. **LAUNCH revisit:** swap the git pin for a published semver when the design system ships a version that includes `_esm/react.mjs` on the registry.
 
-**Kept local (storytelling, not design-system gaps):** the R3F/3D scene, cosmos CSS, scroll/motion choreography, genie cloud chrome (message rows + prompt), Space Grotesk as display face, button motion modifiers (`cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn`), and layout-specific glass surfaces (work/service cards, header).
-
-**Deferred:** the “100%” proof sweep (Phase 4).
+**Kept local (storytelling, not design-system gaps):** R3F/3D scene, cosmos CSS, scroll/motion choreography, genie cloud chrome (message rows + prompt), Space Grotesk as display face, allowlisted button motion modifiers (`cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn`), messaging chips / BrandIcon / wish field, and layout-specific glass surfaces (work/service cards, header). See the keep-local inventory for the full cite list.
 
 ## Quick start
 
@@ -100,4 +99,4 @@ Vercel is the recommended host (native Next.js, Edge/Fluid streaming for the cha
 
 - `TASK-CHAR-021`: commission/buy and optimise the golden-genie GLB (Draco+KTX2, Mixamo rig, ARKit visemes); swap it in behind the existing loader/gate.
 - Live Core Web Vitals + axe + VoiceOver/NVDA passes on a deployed build.
-- Confirm whether a private `@cyberskill/*` token package exists (Phase 0 open question); if so, switch from hand-ported tokens to consuming it.
+- **LAUNCH:** swap the `@cyberskill/design` git SHA pin for a published npm version once the registry ships a release that includes `_esm/react.mjs` (see [`docs/ds-coverage-report.md`](docs/ds-coverage-report.md)).

@@ -1,5 +1,7 @@
 # Decision: Lumi Phase 2 — buttons come from the design system
 
+> **Migration summary (Phases 0–4):** see [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md). This note remains the Phase 2 record.
+
 **Date:** 2026-07-25
 **Status:** Adopted (Phase 2 of Lumi → 100% design-system migration)
 **Supersedes (in part):** the alias-based Button in [`2026-07-24-cyberskill-design-package.md`](./2026-07-24-cyberskill-design-package.md)
@@ -58,8 +60,8 @@ Motion and layout only — never a colour role the package owns. Allowlisted and
 
 ## 7. Out of scope (later phases)
 
-- Forms, tags, cards, icons → package components (Phase 3)
-- The “100%” proof sweep and keep-local inventory (Phase 4)
+- ~~Forms, tags, cards, icons → package components (Phase 3)~~ → **Done** — [`2026-07-25-lumi-ds-phase3-forms-polish.md`](./2026-07-25-lumi-ds-phase3-forms-polish.md)
+- ~~The “100%” proof sweep and keep-local inventory (Phase 4)~~ → **Done** — [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md)
 
 ## 8. Related
 

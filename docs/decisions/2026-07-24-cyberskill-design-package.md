@@ -1,5 +1,7 @@
 # Decision: adopt `@cyberskill/design@1.0.0` (first slice)
 
+> **Migration summary (Phases 0–4):** see [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md). This note remains the first-slice record.
+
 **task:** TASK-DS-005  
 **Date:** 2026-07-24  
 **Status:** Adopted (first slice)  
