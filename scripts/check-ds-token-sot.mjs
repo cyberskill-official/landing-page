@@ -29,6 +29,11 @@ const ALLOWLIST = new Set([
   "--cs-component-button-primary-fg",
 ]);
 
+/** Strip block comments so commented-out `--cs-*` cannot satisfy allowlist/collision checks. */
+function stripCssComments(css) {
+  return css.replace(/\/\*[\s\S]*?\*\//g, "");
+}
+
 function packageTokenNames() {
   const names = new Set();
   const walk = (dir) => {
@@ -41,7 +46,7 @@ function packageTokenNames() {
         continue;
       }
       if (!entry.endsWith(".css")) continue;
-      const text = readFileSync(full, "utf8");
+      const text = stripCssComments(readFileSync(full, "utf8"));
       for (const m of text.matchAll(/--cs-[a-z0-9-]+/g)) names.add(m[0]);
     }
   };
@@ -51,8 +56,9 @@ function packageTokenNames() {
 
 function globalsAssignments(css) {
   const assigned = new Set();
+  const active = stripCssComments(css);
   // Match `--cs-*: …` declarations (not `var(--cs-*)` references).
-  for (const m of css.matchAll(/(?:^|[{\s;])(--cs-[a-z0-9-]+)\s*:/gm)) {
+  for (const m of active.matchAll(/(?:^|[{\s;])(--cs-[a-z0-9-]+)\s*:/gm)) {
     assigned.add(m[1]);
   }
   return assigned;

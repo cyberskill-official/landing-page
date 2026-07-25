@@ -147,9 +147,25 @@ describe("Phase 4: 100% DS adoption for what maps", () => {
   });
 
   it("dead in-repo UI primitives stay deleted", () => {
+    const exts = [".tsx", ".ts", ".jsx", ".js"];
     for (const name of ["Button", "Field", "Select", "Dialog", "Card"]) {
-      expect(existsSync(resolve(root, `components/ui/${name}.tsx`)), name).toBe(false);
+      for (const ext of exts) {
+        expect(
+          existsSync(resolve(root, `components/ui/${name}${ext}`)),
+          `${name}${ext}`,
+        ).toBe(false);
+      }
     }
-    expect(existsSync(resolve(root, "lib/icons/index.ts"))).toBe(false);
+    // Directory or bare module — do not assume a single extension.
+    expect(existsSync(resolve(root, "lib/icons"))).toBe(false);
+    for (const ext of exts) {
+      expect(existsSync(resolve(root, `lib/icons${ext}`)), `lib/icons${ext}`).toBe(
+        false,
+      );
+      expect(
+        existsSync(resolve(root, `lib/icons/index${ext}`)),
+        `lib/icons/index${ext}`,
+      ).toBe(false);
+    }
   });
 });
