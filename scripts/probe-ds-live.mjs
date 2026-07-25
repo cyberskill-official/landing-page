@@ -29,11 +29,23 @@ const BASE = (process.argv[2] || process.env.BASE_URL || "https://cyberskill.wor
   /\/$/,
   "",
 );
+let baseHostname;
+try {
+  baseHostname = new URL(BASE).hostname;
+} catch {
+  console.error(
+    `Invalid base URL: ${JSON.stringify(BASE)}\n` +
+      `Usage: node scripts/probe-ds-live.mjs <absolute-url>\n` +
+      `Example: node scripts/probe-ds-live.mjs http://127.0.0.1:3000\n` +
+      `Bare hosts are invalid — include a scheme (http:// or https://).`,
+  );
+  process.exit(2);
+}
 // Newsletter footer is SSG-gated on RESEND_API_KEY. Production cyberskill.world
 // currently mounts it; override with PROBE_EXPECT_NEWSLETTER=0|1.
 const expectNewsletter =
   process.env.PROBE_EXPECT_NEWSLETTER === "1" ||
-  (process.env.PROBE_EXPECT_NEWSLETTER !== "0" && /cyberskill\.world$/i.test(new URL(BASE).hostname));
+  (process.env.PROBE_EXPECT_NEWSLETTER !== "0" && /cyberskill\.world$/i.test(baseHostname));
 const skipAxe = process.env.PROBE_SKIP_AXE === "1";
 
 const LANGS = ["en", "vi"];
@@ -43,6 +55,12 @@ const AXE_WIDTHS = (process.env.PROBE_AXE_WIDTHS || WIDTHS.join(","))
   .split(",")
   .map((s) => Number(s.trim()))
   .filter((n) => WIDTHS.includes(n));
+if (!skipAxe && AXE_WIDTHS.length === 0) {
+  console.error(
+    `PROBE_AXE_WIDTHS must select from ${WIDTHS.join(",")} (got ${JSON.stringify(process.env.PROBE_AXE_WIDTHS)})`,
+  );
+  process.exit(2);
+}
 
 /** Static + dynamic public routes (whole set, not a sample). */
 const ROUTE_SPECS = [
@@ -91,14 +109,6 @@ const buttonProbe = () => {
     if (rgba[3] >= 1) return rgba.slice(0, 3);
     return overRgba(rgba, [...fallbackRgb, 1]).slice(0, 3);
   };
-  const compositeSolidLayers = (layersNearToFar, fallbackRgb = [255, 255, 255]) => {
-    let acc = [0, 0, 0, 0];
-    for (const layer of layersNearToFar) {
-      if (layer[3] > 0) acc = overRgba(acc, layer);
-      if (acc[3] >= 1) break;
-    }
-    return flattenOpaque(acc, fallbackRgb);
-  };
   const relativeLuminance = (rgb) => {
     const [r, g, b] = rgb.map((v) => {
       const c = v / 255;
@@ -124,20 +134,16 @@ const buttonProbe = () => {
     return [d[0], d[1], d[2], d[3] / 255];
   };
   const backdrop = (el) => {
-    const layers = [];
     let sawImage = false;
+    let acc = [0, 0, 0, 0];
     for (let n = el; n; n = n.parentElement) {
       const cs = getComputedStyle(n);
       if (cs.backgroundImage && cs.backgroundImage !== "none") sawImage = true;
       const c = srgb(cs.backgroundColor);
-      if (c[3] > 0) layers.push(c);
-      let acc = [0, 0, 0, 0];
-      for (const layer of layers) {
-        acc = overRgba(acc, layer);
-        if (acc[3] >= 1) return { rgb: acc.slice(0, 3), approximate: false };
-      }
+      if (c[3] > 0) acc = overRgba(acc, c);
+      if (acc[3] >= 1) return { rgb: acc.slice(0, 3), approximate: sawImage };
     }
-    return { rgb: compositeSolidLayers(layers), approximate: sawImage };
+    return { rgb: flattenOpaque(acc), approximate: sawImage };
   };
 
   const rows = [];
@@ -298,11 +304,6 @@ async function probeConsent(page, where, failures) {
 async function probeGenie(page, where, failures) {
   // Prefer persistent CTA / GenieOpenButton (aria-haspopup=dialog).
   const opened = await page.evaluate(() => {
-    window.__dsLiveGenieOpens = 0;
-    const onOpen = () => {
-      window.__dsLiveGenieOpens += 1;
-    };
-    window.addEventListener("cs:genie:open", onOpen, { once: true });
     const btn =
       document.querySelector(".cs-persistent-cta button.cs-button[aria-haspopup='dialog']") ||
       document.querySelector("button.cs-button[aria-haspopup='dialog']");
@@ -404,77 +405,79 @@ console.log(
     ` = ${ROUTE_SPECS.length * LANGS.length * THEMES.length * WIDTHS.length} cells`,
 );
 
-for (const width of WIDTHS) {
-  await page.setViewport({ width, height: 900, deviceScaleFactor: 1 });
-  for (const lang of LANGS) {
-    for (const spec of ROUTE_SPECS) {
-      const url = `${BASE}/${lang}${spec.path}`;
-      let status = 0;
-      try {
-        const res = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 });
-        status = res?.status() ?? 0;
-      } catch (err) {
-        failures.push({ where: `${width}px ${url}`, kind: "navigation error", error: String(err) });
-        continue;
-      }
-      if (status >= 400) {
-        failures.push({ where: `${width}px ${url}`, kind: `HTTP ${status}` });
-        continue;
-      }
-
-      await armClient(page);
-
-      for (const theme of THEMES) {
-        const where = `${width}px ${theme} ${url}`;
-        await settle(page, theme);
-
-        const surface = await page.evaluate(surfaceProbe, spec.expect);
-        surfaceChecks += 1;
-        if (surface.element !== "hoa" || surface.variant !== "plasma") {
-          failures.push({ where, kind: "identity not hoa/plasma", ...surface });
+try {
+  for (const width of WIDTHS) {
+    await page.setViewport({ width, height: 900, deviceScaleFactor: 1 });
+    for (const lang of LANGS) {
+      for (const spec of ROUTE_SPECS) {
+        const url = `${BASE}/${lang}${spec.path}`;
+        let status = 0;
+        try {
+          const res = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 });
+          status = res?.status() ?? 0;
+        } catch (err) {
+          failures.push({ where: `${width}px ${url}`, kind: "navigation error", error: String(err) });
+          continue;
         }
-        if (!surface.okField) failures.push({ where, kind: "expected .cs-field", ...surface });
-        if (!surface.okTag) failures.push({ where, kind: "expected .cs-tag", ...surface });
-        if (!surface.okCard) failures.push({ where, kind: "expected .cs-card", ...surface });
-        if (surface.legacyFieldWrappers > 0) {
-          failures.push({ where, kind: "legacy div.cs-field wrappers", ...surface });
+        if (status >= 400) {
+          failures.push({ where: `${width}px ${url}`, kind: `HTTP ${status}` });
+          continue;
         }
 
-        const buttons = await page.evaluate(buttonProbe);
-        buttonStates += buttons.rows.length;
-        if (buttons.legacy > 0) failures.push({ where, kind: "legacy .cs-btn present", count: buttons.legacy });
-        if (buttons.unlabelled > 0) {
-          failures.push({ where, kind: "button with no accessible name", count: buttons.unlabelled });
-        }
-        for (const r of buttons.rows) {
-          if (r.contrast < 4.5) failures.push({ where, kind: "contrast < 4.5:1", ...r });
-          if (r.height < 44) failures.push({ where, kind: "touch target < 44px", ...r });
-          if (r.radius !== "999px") failures.push({ where, kind: "not a pill", ...r });
-          if (r.overflowsViewport) failures.push({ where, kind: "overflows viewport", ...r });
-        }
+        await armClient(page);
 
-        if (!skipAxe && AXE_WIDTHS.includes(width)) {
-          axeRuns += 1;
-          await runAxe(page, where, failures);
-        }
-
-        // Consent + genie: once per lang×theme on the home route at each width
-        // (whole-set for those interactive surfaces without exploding cell count).
-        if (spec.consent && spec.path === "") {
-          consentRuns += 1;
-          await probeConsent(page, `${where} [consent]`, failures);
+        for (const theme of THEMES) {
+          const where = `${width}px ${theme} ${url}`;
           await settle(page, theme);
-        }
-        if (spec.genie && (spec.path === "" || spec.path === "/careers")) {
-          genieRuns += 1;
-          await probeGenie(page, `${where} [genie]`, failures);
+
+          const surface = await page.evaluate(surfaceProbe, spec.expect);
+          surfaceChecks += 1;
+          if (surface.element !== "hoa" || surface.variant !== "plasma") {
+            failures.push({ where, kind: "identity not hoa/plasma", ...surface });
+          }
+          if (!surface.okField) failures.push({ where, kind: "expected .cs-field", ...surface });
+          if (!surface.okTag) failures.push({ where, kind: "expected .cs-tag", ...surface });
+          if (!surface.okCard) failures.push({ where, kind: "expected .cs-card", ...surface });
+          if (surface.legacyFieldWrappers > 0) {
+            failures.push({ where, kind: "legacy div.cs-field wrappers", ...surface });
+          }
+
+          const buttons = await page.evaluate(buttonProbe);
+          buttonStates += buttons.rows.length;
+          if (buttons.legacy > 0) failures.push({ where, kind: "legacy .cs-btn present", count: buttons.legacy });
+          if (buttons.unlabelled > 0) {
+            failures.push({ where, kind: "button with no accessible name", count: buttons.unlabelled });
+          }
+          for (const r of buttons.rows) {
+            if (r.contrast < 4.5) failures.push({ where, kind: "contrast < 4.5:1", ...r });
+            if (r.height < 44) failures.push({ where, kind: "touch target < 44px", ...r });
+            if (r.radius !== "999px") failures.push({ where, kind: "not a pill", ...r });
+            if (r.overflowsViewport) failures.push({ where, kind: "overflows viewport", ...r });
+          }
+
+          if (!skipAxe && AXE_WIDTHS.includes(width)) {
+            axeRuns += 1;
+            await runAxe(page, where, failures);
+          }
+
+          // Consent + genie: once per lang×theme on the home route at each width
+          // (whole-set for those interactive surfaces without exploding cell count).
+          if (spec.consent && spec.path === "") {
+            consentRuns += 1;
+            await probeConsent(page, `${where} [consent]`, failures);
+            await settle(page, theme);
+          }
+          if (spec.genie && (spec.path === "" || spec.path === "/careers")) {
+            genieRuns += 1;
+            await probeGenie(page, `${where} [genie]`, failures);
+          }
         }
       }
     }
   }
+} finally {
+  await browser.close();
 }
-
-await browser.close();
 
 const elapsedSec = ((Date.now() - started) / 1000).toFixed(1);
 console.log("---");

@@ -65,6 +65,6 @@ Production will stay red on notes light until this PR deploys; re-run `npm run c
 
 ## Genie → ChatMessage / PromptInput (task 3)
 
-**Stopped — does not map.** Decision: [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](./decisions/2026-07-25-lumi-genie-chat-keep-local.md).
+**Stopped — does not map.** Decision: [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](../decisions/2026-07-25-lumi-genie-chat-keep-local.md).
 
 Package `ChatMessage` always renders avatar + name columns; `PromptInput` is a multi-line ask box with disclosure bar and no `inputMode`. Cloud chrome needs compact `.cs-genie-msg` bubbles + single-line wish-step input with scene-orbit Lumi. No invented DS variants. hoa/plasma unchanged. Hold: LAUNCH, Code Connect. Status Hub out of scope.
