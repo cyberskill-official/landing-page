@@ -25,17 +25,17 @@ Lumi uses `@cyberskill/design` for **every UI primitive that maps** (tokens, But
 |---|---|
 | **Identity** | `data-cs-element="hoa" data-cs-variant="plasma"` on `<html>` (locked in design-system `docs/products.md`) |
 | **Styles** | `app/cs-package.css` (package tokens + base, **no** `fonts.css`) then `app/globals.css` (storytelling aliases + cosmos/genie/motion/scene) |
-| **Fonts** | `DeferredFonts` + `/fonts/brand-fonts.css` (`font-display: optional`); Space Grotesk display |
+| **Fonts** | `DeferredFonts` + synced `/fonts/brand-fonts.css` (`font-display: optional` rewrite of package faces); `--cs-font-family-display` + `.cs-display-face` |
 | **Buttons** | Every button is a package button — the `Button` component on real `<button>`s, `.cs-button--*` classes on anchors/`Link`. Lumi's pill and gold CTA come from `--cs-component-button-*` tokens, not from restyling `.cs-button` |
 | **Forms / tags / cards / icons** | Package `TextField`/`Select`/`Textarea`/`Checkbox`, `Tag`, `Card` (+ surface classes), and `Icon` via `lib/design-system/*`. Analytics wrappers stay on the CTA forms. Genie cloud chrome stays local |
 | **Import path** | `lib/design-system/*` re-exports from `@cyberskill/design` only (bundler-native `_esm/react.mjs`, React as a peer dep). No Next alias to a raw `.jsx` file |
 | **Token SoT gate** | `npm run check:ds:tokens` — globals must not redefine package semantics beyond the documented allowlist |
-| **Decisions** | Summary: [`docs/decisions/2026-07-25-lumi-ds-migration-complete.md`](docs/decisions/2026-07-25-lumi-ds-migration-complete.md) · First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` · Phase 2: `docs/decisions/2026-07-25-lumi-ds-phase2-buttons.md` · Phase 3: `docs/decisions/2026-07-25-lumi-ds-phase3-forms-polish.md` · Genie keep-local: [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md) |
+| **Decisions** | Summary: [`docs/decisions/2026-07-25-lumi-ds-migration-complete.md`](docs/decisions/2026-07-25-lumi-ds-migration-complete.md) · First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` · Phase 2: `docs/decisions/2026-07-25-lumi-ds-phase2-buttons.md` · Phase 3: `docs/decisions/2026-07-25-lumi-ds-phase3-forms-polish.md` · Genie keep-local: [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md) · Display face: [`docs/decisions/2026-07-25-lumi-ds-display-face.md`](docs/decisions/2026-07-25-lumi-ds-display-face.md) |
 | **Live gate** | `npm run check:ds:live` — whole-set production/baseURL probe (EN·VI × light·dark × 390/768/1440; consent + genie + axe) |
 
 The dependency is pinned to a design-system **commit** rather than npm `1.0.0`: the published `1.0.0` tarball predates the React entry, and npm versions are immutable. **LAUNCH revisit:** swap the git pin for a published semver when the design system ships a version that includes `_esm/react.mjs` on the registry.
 
-**Kept local (storytelling, not design-system gaps):** R3F/3D scene, cosmos CSS, scroll/motion choreography, genie cloud chrome (message rows + prompt), Space Grotesk as display face, allowlisted button motion modifiers (`cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn`), messaging chips / BrandIcon / wish field, and layout-specific glass surfaces (work/service cards, header). See the keep-local inventory for the full cite list.
+**Kept local (storytelling, not design-system gaps):** R3F/3D scene, cosmos CSS, scroll/motion choreography, genie cloud chrome (message rows + prompt), DeferredFonts optional-loading adapter (CLS — faces still from the package), allowlisted button motion modifiers (`cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn`), messaging chips / BrandIcon / wish field, and layout-specific glass surfaces (work/service cards, header). See the keep-local inventory for the full cite list.
 
 ## Quick start
 

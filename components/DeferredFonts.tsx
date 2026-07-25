@@ -3,16 +3,18 @@
 import { useEffect } from "react";
 
 /**
- * Loads self-hosted brand webfonts after first paint / first interaction.
+ * Loads package brand webfonts after first paint / first interaction.
  *
  * Critical: do NOT mutate --font-body / --font-display after paint. Swapping
  * the font-family CSS variables mid-session was the field CLS ~0.33 culprit
  * (CrUX origin p75): users scroll → stylesheet loads → variables flip → every
  * text block reflows.
  *
- * Brand faces are already in the CSS stack (globals.css) with system fallbacks.
- * @font-face uses font-display: optional, so late downloads never swap glyphs
- * for the rest of the page lifetime. This loader only discovers the bytes.
+ * Family *roles* come from `@cyberskill/design` (`--cs-font-family-ui` /
+ * `--cs-font-family-display` + `.cs-display-face`). Bytes are the package
+ * faces synced by `scripts/sync-ds-fonts.mjs` into `/fonts/brand-fonts.css`
+ * with font-display: optional so late downloads never swap glyphs. This
+ * loader only discovers those bytes.
  */
 export function DeferredFonts() {
   useEffect(() => {

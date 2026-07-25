@@ -2,10 +2,11 @@
  * @cyberskill/design package styles — tokens + base, WITHOUT fonts.css.
  *
  * Package styles.css pulls in tokens/fonts.css with font-display:swap, which
- * would double-load Be Vietnam Pro against DeferredFonts + /fonts/brand-fonts.css
- * (font-display:optional) and risk swap CLS. Lumi keeps DeferredFonts / Space
- * Grotesk display as the webfont strategy; see
- * docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md.
+ * would race DeferredFonts + /fonts/brand-fonts.css (font-display:optional) and
+ * risk swap CLS. Faces + display role still come from the package: sync script
+ * mirrors tokens/fonts.css into public/fonts (optional rewrite); typography
+ * tokens expose --cs-font-family-display; html uses .cs-display-face.
+ * See docs/decisions/2026-07-25-lumi-ds-display-face.md.
  *
  * Relative node_modules paths: package exports expose ./tokens/* and
  * ./styles.css only — not ./base/*. Deep imports via the package name fail

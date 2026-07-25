@@ -103,7 +103,8 @@ describe("Phase 4: 100% DS adoption for what maps", () => {
     }
     expect(inventory).toMatch(/cs-genie-/);
     expect(inventory).toMatch(/ChatMessage|PromptInput/);
-    expect(inventory).toMatch(/Space Grotesk/);
+    expect(inventory).toMatch(/cs-font-family-display|cs-display-face|sync-ds-fonts/);
+    expect(inventory).not.toMatch(/Space Grotesk display \| Not in DS/);
     expect(inventory).toMatch(/components\/canvas/);
     expect(inventory).toMatch(/LAUNCH/);
 

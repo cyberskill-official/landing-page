@@ -20,6 +20,7 @@ This inventory is the locked boundary. Surfaces listed under **Keep local** are 
 | Tag | Package `Tag` | `lib/design-system/tag.tsx`, work/services pages |
 | Card (mappable panels) | Package `Card` + `.cs-surface-*` | `lib/design-system/card.tsx`, lead/talent success, contact aside, careers shell |
 | Line icons (9 names) | Package `Icon` | `lib/design-system/icon.tsx`, `components/ui/Icon.tsx` |
+| Display / UI / mono families | Package `--cs-font-family-*` tokens; `.cs-display-face` on `<html>`; bytes via DeferredFonts + synced optional `brand-fonts.css` | `app/layout.tsx`, `scripts/sync-ds-fonts.mjs`, [`2026-07-25-lumi-ds-display-face.md`](./decisions/2026-07-25-lumi-ds-display-face.md) |
 
 **Import rule:** only the official package export (`exports["."]` → `_esm/react.mjs`). No Next/tsconfig alias to a raw `Button.jsx`. Thin re-exports live under `lib/design-system/*`.
 
@@ -55,7 +56,7 @@ Documented local exception (alias, not a package name): dark `--cs-color-fg-mute
 | Genie cloud chrome | Painted cloud + orbit Lumi; package `ChatMessage` / `PromptInput` fight the layout (avatar/name columns + multi-line ask box). **Do not migrate** — [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](./decisions/2026-07-25-lumi-genie-chat-keep-local.md) | `components/genie/GenieChatPanel.tsx` (`.cs-genie-msg*`, `.cs-genie-form`) |
 | Wish field / hero wish | Scene-wired single-line wish UX | `components/genie/{WishForm,HeroWish,HeroWishStatic}.tsx` |
 | Messaging chips (WhatsApp / Zalo) + `BrandIcon` | Product/channel chrome, not DS icons | `components/cta/MessagingChips.tsx`, `components/ui/BrandIcon.tsx` |
-| Space Grotesk display | Not in DS 1.0.0 typography; Lumi display face | `DeferredFonts`, `public/fonts/brand-fonts.css`, `--cs-font-display` |
+| DeferredFonts / optional face loading | CLS perf strategy (rewrites package `fonts.css` swap → optional); not a second display SoT | `components/DeferredFonts.tsx`, `scripts/sync-ds-fonts.mjs`, `public/fonts/brand-fonts.css` |
 | Button motion / layout modifiers on DS roots | Allowlisted only: `cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn` | `app/globals.css`, `tests/ds-phase2-buttons.test.ts` |
 | Layout glass without forcing `.cs-card` | Work/service cards, header, metric tiles, lite panels | `components/sections/*`, `components/header/SiteHeader.tsx`, work/services pages |
 | Dark `.cs-field__control` fill `#1a120c` | Contrast on dark raised controls; package owns field layout | `app/globals.css` |

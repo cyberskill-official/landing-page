@@ -117,8 +117,8 @@ describe("PageSpeed perfect-score contracts", () => {
     expect(deferred).toMatch(/requestIdleCallback|setTimeout\(\s*load/);
     const css = readFileSync(resolve(root, "app/globals.css"), "utf8");
     // Brand faces named in the stack from t=0; optional @font-face never swaps
-    expect(css).toMatch(/--cs-font-sans:\s*"Be Vietnam Pro"/);
-    expect(css).toMatch(/--cs-font-display:\s*"Space Grotesk"/);
+    expect(css).toMatch(/--cs-font-sans:\s*var\(--cs-font-family-ui\)/);
+    expect(css).toMatch(/--cs-font-display:\s*var\(--cs-font-family-display\)/);
     const brand = readFileSync(resolve(root, "public/fonts/brand-fonts.css"), "utf8");
     expect(brand).toMatch(/font-display:\s*optional/);
     // Phase 1: package styles without fonts.css (no swap double-load)
