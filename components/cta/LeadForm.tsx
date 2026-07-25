@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { leadSchema, type LeadInput } from "@/lib/lead/schema";
 import { emit, readUtm } from "@/lib/analytics/taxonomy";
@@ -13,6 +13,8 @@ import { NewsletterForm } from "@/components/cta/NewsletterForm";
 import { BookingLink } from "@/components/cta/BookingLink";
 import { ProfileDownloadLink } from "@/components/cta/ProfileDownloadLink";
 import { DesignSystemButton } from "@/lib/design-system/button";
+import { TextField, Textarea, Select, Checkbox } from "@/lib/design-system/forms";
+import { Card } from "@/lib/design-system/card";
 
 // Maps zod error codes to localised messages.
 function messageFor(code: string | undefined, dict: Dictionary): string | undefined {
@@ -74,6 +76,7 @@ export function LeadForm({
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<LeadInput>({
@@ -109,7 +112,16 @@ export function LeadForm({
 
   if (status === "ok") {
     return (
-      <div className="cs-form-success cs-surface-standard" role="status" aria-live="polite" style={{ padding: "var(--cs-space-md) var(--cs-space-lg)", borderTop: "1px solid var(--cs-color-border)", textAlign: "center" }}>
+      <Card
+        className="cs-form-success cs-surface-standard"
+        role="status"
+        aria-live="polite"
+        style={{
+          padding: "var(--cs-space-md) var(--cs-space-lg)",
+          borderTop: "1px solid var(--cs-color-border)",
+          textAlign: "center",
+        }}
+      >
         <h3 style={{ color: "var(--cs-color-primary)", marginBottom: "var(--cs-space-sm)" }}>{dict.form.successTitle}</h3>
         <p style={{ margin: 0, fontSize: "var(--cs-text-md)", marginBottom: "var(--cs-space-4)" }}>{dict.form.successBody}</p>
         {/* TASK-CTA-005 thank-you booking path + TASK-CTA-016 profile PDF */}
@@ -125,7 +137,7 @@ export function LeadForm({
             <NewsletterForm locale={locale} />
           </div>
         )}
-      </div>
+      </Card>
     );
   }
 
@@ -137,87 +149,135 @@ export function LeadForm({
         <input id="website" type="text" tabIndex={-1} aria-hidden="true" autoComplete="off" {...register("website")} />
       </div>
 
-      <div className="cs-field">
-        <label htmlFor="name">{dict.form.name}</label>
-        <input
-          id="name"
-          type="text"
-          required
-          aria-required="true"
-          autoComplete="name"
-          aria-invalid={!!errors.name}
-          aria-describedby={errors.name ? "name-error" : undefined}
-          {...register("name")}
-        />
-        {errors.name && (
-          <span id="name-error" className="cs-field-error" role="alert">
-            {messageFor(errors.name.message, dict)}
-          </span>
+      <Controller
+        name="name"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            id="name"
+            label={dict.form.name}
+            type="text"
+            required
+            aria-required="true"
+            autoComplete="name"
+            error={errors.name ? messageFor(errors.name.message, dict) : undefined}
+            name={field.name}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
         )}
-      </div>
+      />
 
-      <div className="cs-field">
-        <label htmlFor="email">{dict.form.email}</label>
-        <input
-          id="email"
-          type="email"
-          required
-          aria-required="true"
-          autoComplete="email"
-          aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "email-error" : undefined}
-          {...register("email")}
-        />
-        {errors.email && (
-          <span id="email-error" className="cs-field-error" role="alert">
-            {messageFor(errors.email.message, dict)}
-          </span>
+      <Controller
+        name="email"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            id="email"
+            label={dict.form.email}
+            type="email"
+            required
+            aria-required="true"
+            autoComplete="email"
+            error={errors.email ? messageFor(errors.email.message, dict) : undefined}
+            name={field.name}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
         )}
-      </div>
+      />
 
-      <div className="cs-field">
-        <label htmlFor="company">
-          {dict.form.company} <span className="cs-field-optional">({dict.form.optional})</span>
-        </label>
-        <input id="company" type="text" autoComplete="organization" {...register("company")} />
-      </div>
+      <Controller
+        name="company"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            id="company"
+            label={
+              <>
+                {dict.form.company} <span className="cs-field-optional">({dict.form.optional})</span>
+              </>
+            }
+            type="text"
+            autoComplete="organization"
+            name={field.name}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
+      />
 
-      <div className="cs-field">
-        <label htmlFor="intent">{dict.form.intent}</label>
-        <select id="intent" {...register("intent")}>
-          <option value="project">{dict.form.intentProject}</option>
-          <option value="partnership">{dict.form.intentPartnership}</option>
-          <option value="careers">{dict.form.intentCareers}</option>
-          <option value="other">{dict.form.intentOther}</option>
-        </select>
-      </div>
+      <Controller
+        name="intent"
+        control={control}
+        render={({ field }) => (
+          <Select
+            id="intent"
+            label={dict.form.intent}
+            name={field.name}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            options={[
+              { value: "project", label: dict.form.intentProject },
+              { value: "partnership", label: dict.form.intentPartnership },
+              { value: "careers", label: dict.form.intentCareers },
+              { value: "other", label: dict.form.intentOther },
+            ]}
+          />
+        )}
+      />
 
-      <div className="cs-field">
-        <label htmlFor="message">
-          {dict.form.message} <span className="cs-field-optional">({dict.form.optional})</span>
-        </label>
-        <textarea id="message" rows={3} {...register("message")} />
-      </div>
+      <Controller
+        name="message"
+        control={control}
+        render={({ field }) => (
+          <Textarea
+            id="message"
+            label={
+              <>
+                {dict.form.message} <span className="cs-field-optional">({dict.form.optional})</span>
+              </>
+            }
+            rows={3}
+            name={field.name}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
+      />
 
-      <div className="cs-field cs-field-check">
-        <input
-          id="consent"
-          type="checkbox"
-          required
-          aria-required="true"
-          aria-invalid={!!errors.consent}
-          aria-describedby={errors.consent ? "consent-error" : undefined}
-          {...register("consent")}
-        />
-        <label htmlFor="consent">
-          {dict.form.consent}{" "}
-          <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
-            {dict.footer.privacy}
-          </a>
-        </label>
-      </div>
+      <Controller
+        name="consent"
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            id="consent"
+            label={
+              <>
+                {dict.form.consent}{" "}
+                <a href={`/${locale}/privacy`} target="_blank" rel="noopener noreferrer">
+                  {dict.footer.privacy}
+                </a>
+              </>
+            }
+            required
+            aria-required="true"
+            aria-invalid={errors.consent ? true : undefined}
+            aria-describedby={errors.consent ? "consent-error" : undefined}
+            name={field.name}
+            checked={!!field.value}
+            onChange={(e) => field.onChange(e.target.checked)}
+            onBlur={field.onBlur}
+          />
+        )}
+      />
       {errors.consent && (
-        <span id="consent-error" className="cs-field-error" role="alert">
+        <span id="consent-error" className="cs-field__error" role="alert">
           {messageFor(errors.consent.message, dict)}
         </span>
       )}
@@ -238,7 +298,7 @@ export function LeadForm({
       </div>
 
       {status === "error" && (
-        <p className="cs-field-error" role="alert" style={{ marginTop: "var(--cs-space-sm)" }}>
+        <p className="cs-field__error" role="alert" style={{ marginTop: "var(--cs-space-sm)" }}>
           {dict.form.errorGeneric}
         </p>
       )}

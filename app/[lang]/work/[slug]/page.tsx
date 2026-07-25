@@ -5,6 +5,8 @@ import { work, caseStudyDetails, company, siteUrl } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { LeadCta } from "@/components/cta/LeadCta";
+import { Tag } from "@/lib/design-system/tag";
+import { resolveMetadata } from "@/lib/content/metadata";
 
 // One detail page per work item per locale. The narrative below is deliberately
 // generic and honest: no invented client names, exact percentages, or logos.
@@ -13,8 +15,6 @@ import { LeadCta } from "@/components/cta/LeadCta";
 export function generateStaticParams() {
   return locales.flatMap((lang) => work.map((item) => ({ lang, slug: item.slug })));
 }
-
-import { resolveMetadata } from "@/lib/content/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
   const { lang, slug } = await params;
@@ -107,8 +107,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
         {/* Category tags localized (TASK-CMS-011 §1.5) */}
         <ul className="cs-tag-row" role="list">
           {item.tags.map((t) => (
-            <li key={t} className="cs-tag">
-              {tagTranslations[t]?.[locale] ?? t}
+            <li key={t}>
+              <Tag>{tagTranslations[t]?.[locale] ?? t}</Tag>
             </li>
           ))}
         </ul>
@@ -143,7 +143,9 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
                 <h3 style={{ fontSize: "var(--cs-text-md)", color: "var(--cs-text-muted)", marginBottom: "0.5rem" }}>{labels.techStack}</h3>
                 <ul className="cs-tag-row" role="list">
                   {study.techStack.map((tech) => (
-                    <li key={tech} className="cs-tag cs-tag-tech" style={{ background: "var(--cs-surface-light)", border: "1px solid var(--cs-border)" }}>{tech}</li>
+                    <li key={tech}>
+                      <Tag className="cs-tag-tech">{tech}</Tag>
+                    </li>
                   ))}
                 </ul>
               </div>

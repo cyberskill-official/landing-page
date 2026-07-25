@@ -42,10 +42,11 @@ describe("ui polish structure", () => {
   it("newsletter form uses theme tokens not hard-coded white glass", () => {
     const html = renderToStaticMarkup(createElement(NewsletterForm, { locale: "en" }));
     expect(html).toContain("cs-newsletter-form");
+    expect(html).toContain("cs-field__control");
     expect(html).not.toMatch(/rgba\(255,\s*255,\s*255/);
     expect(html).toContain('type="email"');
     const src = css();
-    expect(src).toMatch(/\[data-theme="dark"\]\s*\.cs-newsletter-form input/);
+    expect(src).toMatch(/\[data-theme="dark"\]\s*\.cs-field__control/);
   });
 
   it("footer compact verify-us remains compact without map", () => {
@@ -67,7 +68,7 @@ describe("ui polish structure", () => {
 
   it("dark form fields and genie inputs use dark raised surfaces", () => {
     const src = css();
-    expect(src).toMatch(/\[data-theme="dark"\][^{]*\.cs-field input[^{]*\{[^}]*#1a120c/s);
+    expect(src).toMatch(/\[data-theme="dark"\][^{]*\.cs-field__control[^{]*\{[^}]*#1a120c/s);
     // Genie input is smoke-glass (rgba) so it blends into the painted cloud shell
     expect(src).toMatch(
       /\[data-theme="dark"\][^{]*\.cs-genie-form input[^{]*\{[^}]*(#1a120c|rgba\(\s*16\s*,\s*10\s*,\s*6)/s,

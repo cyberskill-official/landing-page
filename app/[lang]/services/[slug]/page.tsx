@@ -5,6 +5,8 @@ import { services, work, company, siteUrl, testimonials, serviceDetails } from "
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { LeadCta } from "@/components/cta/LeadCta";
+import { Tag } from "@/lib/design-system/tag";
+import { resolveMetadata } from "@/lib/content/metadata";
 
 // One detail page per service (web-apps, mobile-apps, internal-systems), per
 // locale. The copy is honest and capability-level: no invented client names,
@@ -15,8 +17,6 @@ import { LeadCta } from "@/components/cta/LeadCta";
 export function generateStaticParams() {
   return locales.flatMap((lang) => services.map((s) => ({ lang, slug: s.id })));
 }
-
-import { resolveMetadata } from "@/lib/content/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
   const { lang, slug } = await params;
@@ -242,8 +242,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <h2 style={{ fontSize: "var(--cs-text-xl)" }}>{labels.related}</h2>
             <ul className="cs-tag-row" role="list">
               {related.map((w) => (
-                <li key={w.slug} className="cs-tag">
-                  <a href={`/${locale}/work/${w.slug}`}>{localize(w.title, locale)}</a>
+                <li key={w.slug}>
+                  <Tag>
+                    <a href={`/${locale}/work/${w.slug}`}>{localize(w.title, locale)}</a>
+                  </Tag>
                 </li>
               ))}
             </ul>

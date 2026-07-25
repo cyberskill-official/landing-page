@@ -27,6 +27,7 @@
     "check:apca": "node scripts/check-apca.mjs",
     "check:a11y:routes": "node scripts/axe-routes.mjs",
     "check:ds:buttons": "node scripts/probe-ds-buttons.mjs",
+    "check:ds:phase3": "node scripts/probe-ds-phase3.mjs",
     "test": "vitest run",
     "clean": "rm -rf .next",
     "check:tasks": "node scripts/check-tasks.mjs"

@@ -5,6 +5,7 @@ import { GenieOpenButton } from "@/components/genie/GenieOpenButton";
 import { Icon } from "@/components/ui/Icon";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { resolveMetadata } from "@/lib/content/metadata";
+import { Card } from "@/lib/design-system/card";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -116,7 +117,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
         </div>
 
         {/* Talent pool via Lumi chat (lead intent=careers) */}
-        <div className="cs-contact-form cs-surface-light" style={{ marginTop: "var(--cs-space-12)", maxWidth: "40rem" }}>
+        <Card className="cs-contact-form cs-surface-light" style={{ marginTop: "var(--cs-space-12)", maxWidth: "40rem" }}>
           <h2 style={{ fontSize: "var(--cs-text-xl)" }}>
             {locale === "vi" ? "Gia nhập Kho tài năng của CyberSkill" : "Join the Talent Pool"}
           </h2>
@@ -139,7 +140,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
               ? "Thông tin talent pool được lưu tối đa 12 tháng. Yêu cầu xóa sớm: privacy@cyberskill.vn (tiêu đề “Yêu cầu xóa dữ liệu Talent Pool”)."
               : "Talent pool details are held up to 12 months. Early deletion: privacy@cyberskill.vn (subject “Talent Pool Deletion Request”)."}
           </p>
-        </div>
+        </Card>
       </div>
     </section>
   );

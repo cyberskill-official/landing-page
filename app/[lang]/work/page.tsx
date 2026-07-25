@@ -7,6 +7,7 @@ import { work } from "@/lib/content/site";
 import { localize } from "@/lib/i18n/types";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { resolveMetadata } from "@/lib/content/metadata";
+import { Tag } from "@/lib/design-system/tag";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -110,8 +111,8 @@ export default async function WorkPage({ params }: { params: Promise<{ lang: str
                 <p style={{ fontSize: "var(--cs-text-sm)", lineHeight: "1.6" }}>{localize(item.result, locale)}</p>
                 <ul className="cs-tag-row" role="list" style={{ marginTop: "auto" }}>
                   {item.tags.map((t) => (
-                    <li key={t} className="cs-tag">
-                      {tagTranslations[t]?.[locale] ?? t}
+                    <li key={t}>
+                      <Tag>{tagTranslations[t]?.[locale] ?? t}</Tag>
                     </li>
                   ))}
                 </ul>
