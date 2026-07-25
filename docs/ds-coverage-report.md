@@ -30,7 +30,7 @@ Approximate share of *all UI chrome including storytelling surfaces*: majority l
 | Mappable cards | DS | Package `Card` on lead/talent success, contact aside, careers shell |
 | Line icons (9) | DS | Package `Icon`; local `lib/icons` deleted |
 | Semantic tokens | Package SoT | `app/cs-package.css` + `scripts/check-ds-token-sot.mjs` |
-| Display / UI / mono type roles | Package SoT | `--cs-font-family-*` + `.cs-display-face`; optional bytes via `sync-ds-fonts` |
+| Display / UI / mono type roles | Package SoT | `--cs-font-family-*` + `.cs-display-face`; optional Be Vietnam Pro + Space Grotesk bytes via `sync-ds-fonts` (mono token-only) |
 
 ---
 

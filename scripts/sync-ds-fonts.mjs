@@ -15,6 +15,7 @@
  */
 import {
   copyFileSync,
+  existsSync,
   mkdirSync,
   readFileSync,
   readdirSync,
@@ -43,7 +44,15 @@ function keepFace(block) {
   return w === 400 || w === 500 || w === 600 || w === 700;
 }
 
-const src = readFileSync(fontsCssPath, "utf8");
+let src;
+try {
+  src = readFileSync(fontsCssPath, "utf8");
+} catch {
+  console.error(
+    "FAIL — `@cyberskill/design` not installed (missing tokens/fonts.css)",
+  );
+  process.exit(1);
+}
 if (!src.includes("@font-face") || !src.includes("Space Grotesk")) {
   console.error("FAIL — package tokens/fonts.css missing expected faces");
   process.exit(1);
@@ -56,11 +65,6 @@ if (kept.length < 10) {
   process.exit(1);
 }
 
-mkdirSync(outDir, { recursive: true });
-for (const name of readdirSync(outDir)) {
-  rmSync(join(outDir, name), { force: true });
-}
-
 const needed = new Set();
 for (const block of kept) {
   for (const m of block.matchAll(/url\("\.\.\/fonts\/([^"]+)"\)/g)) {
@@ -70,6 +74,18 @@ for (const block of kept) {
 if (!needed.size) {
   console.error("FAIL — no ../fonts/*.woff2 urls in kept faces");
   process.exit(1);
+}
+
+for (const file of needed) {
+  if (!existsSync(join(pkgFontsDir, file))) {
+    console.error(`FAIL — package font asset missing: ${file}`);
+    process.exit(1);
+  }
+}
+
+mkdirSync(outDir, { recursive: true });
+for (const name of readdirSync(outDir)) {
+  rmSync(join(outDir, name), { force: true, recursive: true });
 }
 
 for (const file of needed) {

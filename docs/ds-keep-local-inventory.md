@@ -20,7 +20,7 @@ This inventory is the locked boundary. Surfaces listed under **Keep local** are 
 | Tag | Package `Tag` | `lib/design-system/tag.tsx`, work/services pages |
 | Card (mappable panels) | Package `Card` + `.cs-surface-*` | `lib/design-system/card.tsx`, lead/talent success, contact aside, careers shell |
 | Line icons (9 names) | Package `Icon` | `lib/design-system/icon.tsx`, `components/ui/Icon.tsx` |
-| Display / UI / mono families | Package `--cs-font-family-*` tokens; `.cs-display-face` on `<html>`; bytes via DeferredFonts + synced optional `brand-fonts.css` | `app/layout.tsx`, `scripts/sync-ds-fonts.mjs`, [`2026-07-25-lumi-ds-display-face.md`](./decisions/2026-07-25-lumi-ds-display-face.md) |
+| Display / UI / mono families | Package `--cs-font-family-*` tokens; `.cs-display-face` on `<html>`; Be Vietnam Pro + Space Grotesk bytes via DeferredFonts + synced optional `brand-fonts.css` (mono token-only, system fallback) | `app/layout.tsx`, `scripts/sync-ds-fonts.mjs`, [`2026-07-25-lumi-ds-display-face.md`](./decisions/2026-07-25-lumi-ds-display-face.md) |
 
 **Import rule:** only the official package export (`exports["."]` → `_esm/react.mjs`). No Next/tsconfig alias to a raw `Button.jsx`. Thin re-exports live under `lib/design-system/*`.
 
