@@ -29,6 +29,7 @@ import { WISH_GRANTED_EVENT } from "@/lib/scene/mascot";
 import { emit, readUtm } from "@/lib/analytics/taxonomy";
 import { stopPageScroll, startPageScroll } from "@/lib/scroll/lenis-gsap";
 import { Icon } from "@/components/ui/Icon";
+import { DesignSystemButton } from "@/lib/design-system/button";
 
 function uid(): string {
   return Math.random().toString(36).slice(2);
@@ -709,14 +710,14 @@ export function GenieChatPanel({ locale, dict }: { locale: Locale; dict: Diction
                             : "text"
                       }
                     />
-                    <button
-                      className="cs-btn cs-btn-primary"
+                    <DesignSystemButton
+                      variant="primary"
                       type="submit"
                       disabled={inputDisabled || !input.trim()}
                       aria-disabled={inputDisabled || !input.trim()}
                     >
                       {dict.genie.send}
-                    </button>
+                    </DesignSystemButton>
                   </form>
                 )}
               </>

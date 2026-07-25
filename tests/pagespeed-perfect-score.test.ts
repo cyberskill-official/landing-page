@@ -37,7 +37,7 @@ function wcagContrast(fg: string, bg: string): number {
 
 describe("PageSpeed perfect-score contracts", () => {
   it("primary CTA sRGB pair meets WCAG AA (≥4.5:1) — the Lighthouse color-contrast floor", () => {
-    // Must match the solid hex pair forced on .cs-btn-primary / .cs-btn-lumi.
+    // Must match the solid hex pair pinned onto the design-system primary CTA.
     // Lighthouse uses WCAG 2.x contrast (4.5:1 normal text), not APCA.
     const ink = "#3a2a05";
     const ochre = "#f4ba17";
@@ -52,10 +52,15 @@ describe("PageSpeed perfect-score contracts", () => {
     expect(lc).toBeGreaterThan(60);
   });
 
-  it("globals.css forces solid sRGB ochre on primary/Lumi buttons (no P3-only fill)", () => {
+  it("globals.css pins solid sRGB ochre on the DS primary CTA token (no P3-only fill)", () => {
     const css = readFileSync(resolve(root, "app/globals.css"), "utf8");
-    expect(css).toMatch(/\.cs-btn-primary\s*\{[^}]*background-color:\s*#f4ba17/s);
-    expect(css).toMatch(/\.cs-btn-lumi\s*\{[^}]*background-color:\s*#f4ba17\s*!important/s);
+    // The pin must survive the package's element-scope CTA remap, which is
+    // why the dark selector is spelled out alongside the light one.
+    const pin = css.match(
+      /:root\[data-cs-element="hoa"\],\s*:root\[data-cs-element="hoa"\]\[data-theme="dark"\]\s*\{[^}]*\}/s,
+    );
+    expect(pin?.[0] ?? "").toMatch(/--cs-component-button-primary-bg:\s*#f4ba17/);
+    expect(pin?.[0] ?? "").toMatch(/--cs-component-button-primary-fg:\s*#3a2a05/);
     // Ochre must not be reassigned to display-p3 (that was the 3.46:1 failure)
     const p3Block = css.match(/@supports \(color: color\(display-p3[\s\S]*?\n\}/);
     expect(p3Block?.[0] ?? "").not.toMatch(/brand-ochre/);
@@ -179,7 +184,7 @@ describe("PageSpeed perfect-score contracts", () => {
     expect(crit).toContain('CRITICAL_STYLE_ID = "cs-critical"');
     // Enough surface for hero LCP + header + primary CTA
     expect(crit).toMatch(/\.cs-hero-title/);
-    expect(crit).toMatch(/\.cs-btn-primary/);
+    expect(crit).toMatch(/\.cs-button--primary/);
     expect(crit).toMatch(/\[data-theme=dark\]|data-theme=dark/);
     // CRITICAL_CSS body must be substantial (not a stub)
     const m = crit.match(/export const CRITICAL_CSS = `([\s\S]*?)`/);

@@ -20,7 +20,7 @@ import { useMotionStore } from "@/lib/a11y/motion-store";
 // - Every element here is aria-hidden + pointer-events:none, and all movement
 //   is transform/opacity only, so nothing shifts layout (CLS-safe).
 
-const MAGNET_SELECTOR = ".cs-btn, .cs-theme-toggle";
+const MAGNET_SELECTOR = ".cs-button, .cs-theme-toggle";
 const TILT_SELECTOR = ".cs-service-card, .cs-work-card, .cs-proof-card";
 const HOVER_SELECTOR = "a, button, [role='button'], summary, label, select";
 const TEXT_SELECTOR = "input, textarea";

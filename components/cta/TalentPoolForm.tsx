@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DesignSystemButton } from "@/lib/design-system/button";
 
 type Locale = "en" | "vi";
 
@@ -226,23 +227,15 @@ export function TalentPoolForm({ locale }: TalentPoolFormProps) {
           </select>
         </div>
 
-        <button
+        <DesignSystemButton
           type="submit"
           id="talent-pool-submit"
-          className="cs-btn cs-btn-primary"
+          variant="primary"
           disabled={status === "loading"}
-          style={{
-            padding: "var(--cs-space-3) var(--cs-space-6)",
-            borderRadius: "4px",
-            border: "none",
-            cursor: "pointer",
-            fontWeight: 600,
-            marginTop: "var(--cs-space-xs)",
-            alignSelf: "flex-start",
-          }}
+          style={{ marginTop: "var(--cs-space-xs)", alignSelf: "flex-start" }}
         >
           {status === "loading" ? t.submitting : t.submit}
-        </button>
+        </DesignSystemButton>
 
         {status === "error" && (
           <p

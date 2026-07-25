@@ -99,10 +99,10 @@ async function main() {
           }
         });
         
-        // Filter out false positives (cs-btn-lumi contrast miscalculated by Axe over the aurora image)
+        // Filter out false positives (cs-cta-lumi contrast miscalculated by Axe over the aurora image)
         runResults.violations.forEach(v => {
           if (v.id === "color-contrast") {
-            v.nodes = v.nodes.filter(n => !n.target.some(t => t.includes(".cs-btn-lumi")));
+            v.nodes = v.nodes.filter(n => !n.target.some(t => t.includes(".cs-cta-lumi")));
           }
         });
         runResults.violations = runResults.violations.filter(v => v.nodes.length > 0);

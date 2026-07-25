@@ -197,8 +197,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ lan
         ) : null}
 
         <div className="cs-hero-actions" style={{ marginTop: "var(--cs-space-12)" }}>
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">{labels.cta}</LeadCta>
-          <a className="cs-btn" href={`/${locale}/work`}>
+          <LeadCta flow="contact">{labels.cta}</LeadCta>
+          <a className="cs-button cs-button--ghost" href={`/${locale}/work`}>
             {labels.back}
           </a>
         </div>

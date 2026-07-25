@@ -67,6 +67,7 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
           {/* Verify-us folded into Lumi (full claims remain on /how-we-build) */}
           <p className="cs-footer-verify">
             <LeadCta
+              variant="ghost"
               className="cs-footer-verify-btn"
               flow="contact"
               seed={verifySeed}

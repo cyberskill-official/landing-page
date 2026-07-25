@@ -90,7 +90,7 @@ export default async function NotesListPage({
         </ul>
 
         <div className="cs-page-cta">
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">
+          <LeadCta flow="contact">
             {dict.hero.ctaPrimary}
           </LeadCta>
         </div>

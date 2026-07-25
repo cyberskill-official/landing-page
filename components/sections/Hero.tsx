@@ -72,10 +72,10 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
         {/* Plain anchors: no zustand/client graph on the LCP critical path.
             DeferredEnhancements upgrades these to GenieOpenButton / LeadCta. */}
         <div className="cs-hero-actions" data-hero-actions="">
-          <a className="cs-btn cs-btn-primary cs-lumi-alt" href={contactHref}>
+          <a className="cs-button cs-button--primary cs-lumi-alt" href={contactHref}>
             {dict.hero.ctaPrimary}
           </a>
-          <a className="cs-btn cs-btn-secondary cs-lumi-alt" href={contactHref}>
+          <a className="cs-button cs-button--secondary cs-lumi-alt" href={contactHref}>
             {dict.hero.ctaSecondary}
           </a>
         </div>

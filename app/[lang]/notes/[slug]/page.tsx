@@ -125,10 +125,10 @@ export default async function NoteDetailPage({
         </p>
 
         <div className="cs-page-cta">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}/notes`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}/notes`}>
             {locale === "vi" ? "← Tất cả ghi chép" : "← All notes"}
           </Link>
-          <LeadCta className="cs-btn cs-btn-primary" flow="contact">
+          <LeadCta flow="contact">
             {dict.hero.ctaPrimary}
           </LeadCta>
         </div>

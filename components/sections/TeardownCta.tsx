@@ -56,8 +56,8 @@ export function TeardownCta({
                 </div>
                 <h3 className="cs-teardown-success-title">{dict.teardown.capFullTitle}</h3>
                 <p className="cs-teardown-success-body">{dict.teardown.capFullBody}</p>
-                <GenieOpenButton className="cs-btn cs-btn-secondary" flow="contact">
-                  <Icon name="sparkle" size="sm" /> {dict.genie.open}
+                <GenieOpenButton icon={<Icon name="sparkle" size="sm" />} flow="contact">
+                  {dict.genie.open}
                 </GenieOpenButton>
               </div>
             ) : (
@@ -76,11 +76,13 @@ export function TeardownCta({
                   <li>{dict.teardown.successStep3}</li>
                 </ol>
                 <GenieOpenButton
-                  className="cs-btn cs-btn-primary cs-btn-lumi"
+                  variant="primary"
+                  className="cs-cta-lumi"
+                  icon={<Icon name="sparkle" size="sm" />}
                   flow="teardown"
                   seed={dict.teardown.lumiSeed}
                 >
-                  <Icon name="sparkle" size="sm" /> {dict.teardown.lumiCta}
+                  {dict.teardown.lumiCta}
                 </GenieOpenButton>
                 <p className="cs-consent-note" style={{ marginTop: "var(--cs-space-md)", marginBottom: 0 }}>
                   {dict.genie.consent}

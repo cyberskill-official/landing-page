@@ -26,9 +26,6 @@
     "paths": {
       "@/*": [
         "./*"
-      ],
-      "@cyberskill/design/button": [
-        "./node_modules/@cyberskill/design/components/button/Button.d.ts"
       ]
     }
   },

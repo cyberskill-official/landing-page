@@ -1,5 +1,7 @@
 "use client";
 
+import { DesignSystemButton } from "@/lib/design-system/button";
+
 // Root error boundary. Keeps the page recoverable instead of a blank crash.
 export default function Error({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
@@ -10,9 +12,9 @@ export default function Error({ reset }: { error: Error & { digest?: string }; r
           An unexpected error occurred. You can try again, or email info@cyberskill.world.
         </p>
         <div className="cs-hero-actions" style={{ justifyContent: "center" }}>
-          <button type="button" className="cs-btn cs-btn-primary" onClick={() => reset()}>
+          <DesignSystemButton variant="primary" onClick={() => reset()}>
             Try again
-          </button>
+          </DesignSystemButton>
         </div>
       </div>
     </main>

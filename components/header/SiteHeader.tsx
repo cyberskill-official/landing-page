@@ -49,7 +49,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
           <ThemeToggle toDark={dict.a11y.themeToDark} toLight={dict.a11y.themeToLight} />
           <LanguageSwitcher current={locale} label={dict.a11y.languageLabel} />
           <a
-            className="cs-btn cs-btn-primary cs-header-cta"
+            className="cs-button cs-button--primary cs-header-cta"
             href={`${base}#contact`}
             data-header-cta=""
           >

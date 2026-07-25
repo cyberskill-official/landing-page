@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DesignSystemButton } from "@/lib/design-system/button";
 
 interface NewsletterFormProps {
   locale: "en" | "vi";
@@ -100,9 +101,9 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
           disabled={status === "loading"}
           autoComplete="email"
         />
-        <button type="submit" className="cs-btn cs-btn-primary" disabled={status === "loading"}>
+        <DesignSystemButton type="submit" variant="primary" disabled={status === "loading"}>
           {status === "loading" ? labels.submitting : labels.submit}
-        </button>
+        </DesignSystemButton>
       </form>
       <p className="cs-newsletter-promise">
         {labels.promise}

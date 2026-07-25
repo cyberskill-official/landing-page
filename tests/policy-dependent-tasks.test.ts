@@ -349,7 +349,7 @@ describe("analytics/both-lead-paths (cta_clicked location)", () => {
     });
     // Server HTML keeps conversion off the client LCP graph: anchor to contact.
     // DeferredEnhancements upgrades to Lumi chat after interaction/idle.
-    const link = container.querySelector('a.cs-btn-primary[href="/en#contact"]');
+    const link = container.querySelector('a.cs-button--primary[href="/en#contact"]');
     expect(link).toBeTruthy();
     expect(link?.textContent).toContain(enDict.hero.ctaPrimary);
     act(() => {

@@ -1,3 +1,5 @@
+import { DesignSystemButton } from "@/lib/design-system/button";
+
 /**
  * Server-rendered wish field. Progressive enhancement: without JS this is a
  * plain GET to the contact band. Matches .cs-wish styles used by HeroWish.
@@ -26,9 +28,9 @@ export function HeroWishStatic({
         enterKeyHint="go"
         maxLength={200}
       />
-      <button type="submit" className="cs-btn cs-btn-primary cs-wish-go">
+      <DesignSystemButton type="submit" variant="primary" className="cs-wish-go">
         {cta}
-      </button>
+      </DesignSystemButton>
     </form>
   );
 }

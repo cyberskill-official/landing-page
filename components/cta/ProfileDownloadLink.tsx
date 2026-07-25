@@ -19,7 +19,7 @@ const LABELS = {
 export function ProfileDownloadLink({
   locale,
   location,
-  className = "cs-btn cs-btn-secondary",
+  className = "cs-button cs-button--secondary",
 }: {
   locale: Locale;
   location: string;

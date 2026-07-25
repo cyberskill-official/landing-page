@@ -219,7 +219,7 @@ export default async function CyberOsPrivacyPage({ params }: { params: Promise<{
         ))}
         <p className="cs-footer-meta">{c.updated}</p>
         <p className="cs-section-more">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}/cyberos/delete-account`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}/cyberos/delete-account`}>
             {c.back}
           </Link>
         </p>

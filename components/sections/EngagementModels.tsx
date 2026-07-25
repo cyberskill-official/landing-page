@@ -87,7 +87,7 @@ export function EngagementModels({ locale }: { locale: Locale }) {
                   <strong>{localize(m.range, locale)}</strong>
                 </p>
                 <p data-field="timeline">{localize(m.timeline, locale)}</p>
-                <LeadCta className="cs-btn cs-btn-secondary" flow="contact" showSparkle={false}>
+                <LeadCta variant="secondary" flow="contact" showSparkle={false}>
                   {ctaLabel}
                 </LeadCta>
               </article>

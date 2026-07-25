@@ -26,12 +26,13 @@
     "check:assets": "node scripts/check-asset-size.mjs",
     "check:apca": "node scripts/check-apca.mjs",
     "check:a11y:routes": "node scripts/axe-routes.mjs",
+    "check:ds:buttons": "node scripts/probe-ds-buttons.mjs",
     "test": "vitest run",
     "clean": "rm -rf .next",
     "check:tasks": "node scripts/check-tasks.mjs"
   },
   "dependencies": {
-    "@cyberskill/design": "1.0.0",
+    "@cyberskill/design": "github:cyberskill-official/design-system#49b7a4f7ca0c5b5c3e4778600e3f94be4fbd182d",
     "@gsap/react": "2.1.2",
     "@hookform/resolvers": "5.4.0",
     "@next/third-parties": "16.2.10",

@@ -139,7 +139,7 @@ export default async function TermsPage({ params }: { params: Promise<{ lang: st
         ))}
         <p className="cs-footer-meta">{c.updated}</p>
         <p className="cs-section-more">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}`}>
             {locale === "vi" ? "Quay lại trang chủ" : "Back home"}
           </Link>
         </p>

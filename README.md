@@ -26,10 +26,15 @@ Lumi consumes the published CyberSkill design package (portfolio grant; package 
 | **Identity** | `data-cs-element="hoa" data-cs-variant="plasma"` on `<html>` (locked in design-system `docs/products.md`) |
 | **Styles** | `app/cs-package.css` (package tokens + base, **no** `fonts.css`) then `app/globals.css` (storytelling aliases + cosmos/genie/motion/scene) |
 | **Fonts** | `DeferredFonts` + `/fonts/brand-fonts.css` (`font-display: optional`); Space Grotesk display |
-| **Live component** | Package `Button` on the consent banner (`lib/design-system/button.tsx`) |
-| **Decisions** | First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1 fonts/tokens: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` |
+| **Buttons** | Every button is a package button — the `Button` component on real `<button>`s, `.cs-button--*` classes on anchors/`Link`. Lumi's pill and gold CTA come from `--cs-component-button-*` tokens, not from restyling `.cs-button` |
+| **Import path** | `lib/design-system/button.tsx` re-exports from `@cyberskill/design` (bundler-native `_esm/react.mjs`, React as a peer dep) |
+| **Decisions** | First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1 fonts/tokens: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` · Phase 2 buttons: `docs/decisions/2026-07-25-lumi-ds-phase2-buttons.md` |
 
-**Deferred:** migrating the rest of the in-repo `.cs-btn` primitives (Phase 2), forms/tags/cards (Phase 3), and a bundler-native package React entry (design-system Phase 0; today’s main export is a browser UMD bridge).
+The dependency is pinned to a design-system **commit** rather than `1.0.0`: the published `1.0.0` tarball predates the React entry, and npm versions are immutable, so it can never be republished with one. Revisit at LAUNCH — see the Phase 2 decision note.
+
+**Kept local (storytelling, not design-system gaps):** the R3F/3D scene, cosmos CSS, scroll/motion choreography, genie cloud chrome, Space Grotesk as display face, and the button motion modifiers (`cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn`).
+
+**Deferred:** forms/tags/cards/icons (Phase 3) and the “100%” proof sweep (Phase 4).
 
 ## Quick start
 

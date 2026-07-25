@@ -29,16 +29,22 @@ npm view @cyberskill/design@1.0.0 name version license
 
 Registry install succeeded from the public npm registry under this project’s credentials. No private registry is required for the monolith package.
 
-## 4. Why not the package main JS export yet
+## 4. Package main JS export (Phase 2 resolution)
 
-`exports["."]` → `_esm/cs.mjs` injects React 18 from unpkg and side-loads `_ds_bundle.js`. That is the documented static/browser path (see design-system `examples/npm-hello/`), not an SSR-safe Next 16 / React 19 module. Until the package ships a bundler-friendly React entry, this app aliases the tarball’s `Button.jsx` through Next `transpilePackages` + resolve alias `@cyberskill/design/button`.
+> **Resolved in Phase 2** — see `2026-07-25-lumi-ds-phase2-buttons.md`.
+
+The design system ships a bundler-native React entry (`_esm/react.mjs`) behind `exports["."]` / `exports["./react"]`, with React as a peer dependency. This app imports `Button` from `@cyberskill/design` directly (via `lib/design-system/button.tsx`). There is no Next/tsconfig alias and no deep import into a raw `Button.jsx`.
+
+**Historical (pre-Phase 2):** `exports["."]` pointed at `_esm/cs.mjs`, which injected React 18 from unpkg and side-loaded `_ds_bundle.js` (the static/browser path in design-system `examples/npm-hello/`). That entry was not SSR-safe for Next 16 / React 19, so the first slice temporarily aliased the tarball’s `Button.jsx` through `transpilePackages` + `@cyberskill/design/button`. That alias is gone.
+
+**Dependency pin:** `@cyberskill/design` is a git commit pin (`github:cyberskill-official/design-system#…`) until LAUNCH republishes a semver that includes the React entry. npm `1.0.0` remains the pre-Phase-0 tarball.
 
 ## 5. Deferred (follow-up)
 
 - ~~Replace hand-ported storytelling tokens in `globals.css` with package tokens as the single source (keep scene/glass/motion locals).~~ → **Done in Phase 1** — see `2026-07-25-lumi-ds-phase1-fonts-tokens.md`.
-- Migrate remaining in-repo UI primitives (`.cs-btn`, Field, Dialog, …) to package components where APIs match. (Phase 2+)
+- ~~Migrate the in-repo `.cs-btn` primitives to package components.~~ → **Done in Phase 2** — see `2026-07-25-lumi-ds-phase2-buttons.md`. Field / Select / Dialog / Card remain (Phase 3).
 - ~~Reconcile package `fonts.css` (`font-display: swap`) with this app’s DeferredFonts / `font-display: optional` LCP/CLS strategy (may move to tokens-only CSS import).~~ → **Done in Phase 1** (`app/cs-package.css` omits `fonts.css`).
-- Prefer a future package export for React/Next over the Button.jsx alias. (Design-system Phase 0)
+- ~~Prefer a future package export for React/Next over the Button.jsx alias.~~ → **Done in Phase 2** (design-system #33 shipped `_esm/react.mjs`).
 - Do **not** invent product → element mappings; Status Hub and others stay on their locked rows.
 
 ## 6. Related

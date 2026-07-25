@@ -129,7 +129,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
         ))}
         <p className="cs-footer-meta">{c.updated}</p>
         <p className="cs-section-more">
-          <Link className="cs-btn cs-btn-secondary" href={`/${locale}`}>
+          <Link className="cs-button cs-button--secondary" href={`/${locale}`}>
             {locale === "vi" ? "Về trang chủ" : "Back home"}
           </Link>
         </p>
