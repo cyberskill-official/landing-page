@@ -30,6 +30,7 @@
     "check:ds:phase3": "node scripts/probe-ds-phase3.mjs",
     "check:ds:tokens": "node scripts/check-ds-token-sot.mjs",
     "check:ds:phase4": "node scripts/check-ds-token-sot.mjs",
+    "check:ds:live": "node scripts/probe-ds-live.mjs",
 
     "test": "vitest run",
     "clean": "rm -rf .next",

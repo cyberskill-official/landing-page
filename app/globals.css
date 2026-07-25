@@ -1206,6 +1206,10 @@ main > .cs-section > .cs-container > h1 {
   font-size: var(--cs-text-xs);
   font-weight: 700;
   letter-spacing: 0.04em;
+  /* Umber on light glass — ochre accent fails AA on white panels (DS mid-tone rule). */
+  color: var(--cs-color-brand);
+}
+[data-theme="dark"] .cs-note-card-date {
   color: var(--cs-color-accent);
 }
 .cs-note-card-title {
@@ -1217,7 +1221,8 @@ main > .cs-section > .cs-container > h1 {
   color: inherit;
   text-decoration: none;
 }
-.cs-note-card-title a:hover { color: var(--cs-color-accent); }
+.cs-note-card-title a:hover { color: var(--cs-color-brand); }
+[data-theme="dark"] .cs-note-card-title a:hover { color: var(--cs-color-accent); }
 .cs-note-card-summary {
   margin: 0;
   font-size: var(--cs-text-sm);
@@ -1227,9 +1232,12 @@ main > .cs-section > .cs-container > h1 {
 .cs-note-card-more {
   font-size: var(--cs-text-sm);
   font-weight: 700;
-  color: var(--cs-color-accent);
+  color: var(--cs-color-brand);
   text-decoration: none;
   width: fit-content;
+}
+[data-theme="dark"] .cs-note-card-more {
+  color: var(--cs-color-accent);
 }
 .cs-note-card-more:hover { text-decoration: underline; }
 
@@ -1250,8 +1258,11 @@ main > .cs-section > .cs-container > h1 {
 .cs-note-detail-lang {
   margin-left: auto;
   font-weight: 700;
-  color: var(--cs-color-accent);
+  color: var(--cs-color-brand);
   text-decoration: none;
+}
+[data-theme="dark"] .cs-note-detail-lang {
+  color: var(--cs-color-accent);
 }
 .cs-note-detail-lang:hover { text-decoration: underline; }
 .cs-note-tldr {

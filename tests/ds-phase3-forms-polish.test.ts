@@ -93,8 +93,18 @@ describe("Phase 3: forms, tags, cards, icons from @cyberskill/design", () => {
     const panel = readFileSync(resolve(root, "components/genie/GenieChatPanel.tsx"), "utf8");
     expect(panel).toMatch(/cs-genie-msg/);
     expect(panel).toMatch(/cs-genie-form/);
+    expect(panel).toMatch(/inputMode/);
     expect(panel).not.toMatch(/ChatMessage/);
     expect(panel).not.toMatch(/PromptInput/);
+    expect(panel).not.toMatch(/cs-chat-msg|cs-prompt/);
+
+    const keep = readFileSync(
+      resolve(root, "docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md"),
+      "utf8",
+    );
+    expect(keep).toMatch(/do \*\*not\*\* migrate|Do not migrate/i);
+    expect(keep).toMatch(/avatar/);
+    expect(keep).toMatch(/inputMode/);
   });
 
   it("ships a Phase 3 decision note and README pointer", () => {

@@ -52,7 +52,7 @@ Documented local exception (alias, not a package name): dark `--cs-color-fg-mute
 | R3F / 3D canvas, GLB Lumi, poster | Product scene; not a DS primitive | `components/canvas/*` |
 | Cosmos / scene / chapter CSS | Scroll-story atmosphere | `app/globals.css` (cosmos/scene sections), `components/scroll/*` |
 | Motion choreography (GSAP, kinetic type, aurora, black hole, …) | Storytelling motion; selectors target `.cs-button` where needed | `components/motion/*` |
-| Genie cloud chrome | Painted cloud + orbit Lumi; package `ChatMessage` / `PromptInput` fight the layout | `components/genie/GenieChatPanel.tsx` (`.cs-genie-msg*`, `.cs-genie-form`) |
+| Genie cloud chrome | Painted cloud + orbit Lumi; package `ChatMessage` / `PromptInput` fight the layout (avatar/name columns + multi-line ask box). **Do not migrate** — [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](./decisions/2026-07-25-lumi-genie-chat-keep-local.md) | `components/genie/GenieChatPanel.tsx` (`.cs-genie-msg*`, `.cs-genie-form`) |
 | Wish field / hero wish | Scene-wired single-line wish UX | `components/genie/{WishForm,HeroWish,HeroWishStatic}.tsx` |
 | Messaging chips (WhatsApp / Zalo) + `BrandIcon` | Product/channel chrome, not DS icons | `components/cta/MessagingChips.tsx`, `components/ui/BrandIcon.tsx` |
 | Space Grotesk display | Not in DS 1.0.0 typography; Lumi display face | `DeferredFonts`, `public/fonts/brand-fonts.css`, `--cs-font-display` |

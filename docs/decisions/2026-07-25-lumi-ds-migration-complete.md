@@ -26,6 +26,7 @@ This note **summarizes** the per-phase decisions. It does **not** delete or rewr
 | **2** | Every button is a package button; drop `Button.jsx` alias; git SHA pin | [`2026-07-25-lumi-ds-phase2-buttons.md`](./2026-07-25-lumi-ds-phase2-buttons.md) |
 | **3** | Forms, tags, cards, icons; genie stays local | [`2026-07-25-lumi-ds-phase3-forms-polish.md`](./2026-07-25-lumi-ds-phase3-forms-polish.md) |
 | **4** | Grep/CI proof, keep-local inventory, coverage report, this summary | This file + inventory + coverage report |
+| **Post-4** | Confirmed Genie ↛ `ChatMessage`/`PromptInput`; live whole-set gate | [`2026-07-25-lumi-genie-chat-keep-local.md`](./2026-07-25-lumi-genie-chat-keep-local.md) + `check:ds:live` |
 
 ---
 
