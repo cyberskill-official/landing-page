@@ -39,7 +39,7 @@ Full file-level list: [`docs/ds-keep-local-inventory.md`](./ds-keep-local-invent
 
 Highlights:
 
-- **Genie message rows + prompt** — package `ChatMessage` / `PromptInput` do not map to cloud chrome (`components/genie/GenieChatPanel.tsx`)
+- **Genie message rows + prompt** — package `ChatMessage` / `PromptInput` do not map to cloud chrome (`components/genie/GenieChatPanel.tsx`); decision: [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](./decisions/2026-07-25-lumi-genie-chat-keep-local.md)
 - **3D / cosmos / scroll / motion** — storytelling product (`components/canvas`, `scroll`, `motion`)
 - **Space Grotesk** — display face outside DS 1.0.0 typography
 - **Messaging chips / BrandIcon / wish field** — channel + scene chrome
@@ -69,5 +69,6 @@ Do **not** try to republish `1.0.0` — npm versions are immutable. Design-syste
 | `tests/ds-phase{1,2,3}-*.test.ts` | Prior phase contracts remain green |
 | `npm run check:ds:buttons` | Runtime button contrast/target probe (all routes × lang × theme × breakpoint) |
 | `npm run check:ds:phase3` | Runtime field/tag/card presence probe |
+| `npm run check:ds:live` | Whole-set live/production probe (identity, buttons, tags/cards, consent, genie keep-local, axe) — report: [`docs/verification/2026-07-25-ds-live-report.md`](./verification/2026-07-25-ds-live-report.md) |
 | `npm test`, `typecheck`, `lint`, `next build` | Repo CI floor |
 | `check:a11y:routes` + Lighthouse CI | Served a11y + perf budget (CI jobs) |

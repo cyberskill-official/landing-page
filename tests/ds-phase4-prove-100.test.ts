@@ -87,6 +87,8 @@ describe("Phase 4: 100% DS adoption for what maps", () => {
     expect(pkg.scripts["check:ds:buttons"]).toMatch(/probe-ds-buttons/);
     expect(pkg.scripts["check:ds:phase3"]).toMatch(/probe-ds-phase3/);
     expect(pkg.scripts["check:ds:phase4"]).toMatch(/check-ds-token-sot/);
+    expect(pkg.scripts["check:ds:live"]).toMatch(/probe-ds-live/);
+    expect(existsSync(resolve(root, "scripts/probe-ds-live.mjs"))).toBe(true);
   });
 
   it("ships keep-local inventory, coverage report, and migration summary", () => {
@@ -100,14 +102,25 @@ describe("Phase 4: 100% DS adoption for what maps", () => {
       expect(inventory, `${mod} undocumented`).toContain(mod);
     }
     expect(inventory).toMatch(/cs-genie-/);
+    expect(inventory).toMatch(/ChatMessage|PromptInput/);
     expect(inventory).toMatch(/Space Grotesk/);
     expect(inventory).toMatch(/components\/canvas/);
     expect(inventory).toMatch(/LAUNCH/);
+
+    const genieKeep = readFileSync(
+      resolve(root, "docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md"),
+      "utf8",
+    );
+    expect(genieKeep).toMatch(/do \*\*not\*\* migrate|Do not migrate/i);
+    expect(genieKeep).toMatch(/ChatMessage/);
+    expect(genieKeep).toMatch(/PromptInput/);
+    expect(genieKeep).toMatch(/inputMode/);
 
     const coverage = readFileSync(resolve(root, "docs/ds-coverage-report.md"), "utf8");
     expect(coverage).toMatch(/100%/);
     expect(coverage).toMatch(/git.?pin|github:cyberskill-official/i);
     expect(coverage).toMatch(/LAUNCH/);
+    expect(coverage).toMatch(/check:ds:live/);
 
     const summary = readFileSync(
       resolve(root, "docs/decisions/2026-07-25-lumi-ds-migration-complete.md"),
