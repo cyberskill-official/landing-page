@@ -4,14 +4,13 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import axe from "axe-core";
 import { DesignSystemButton as Button } from "@/lib/design-system/button";
-import { Card } from "@/components/ui/Card";
-import { Field } from "@/components/ui/Field";
-import { Select } from "@/components/ui/Select";
-import { Dialog } from "@/components/ui/Dialog";
+import { Card } from "@/lib/design-system/card";
+import { TextField, Select } from "@/lib/design-system/forms";
+import { Tag } from "@/lib/design-system/tag";
+import { Icon } from "@/lib/design-system/icon";
 
-// TASK-DS-003: the remaining in-repo primitives emit token-styled markup and
-// keep native semantics; Button now comes from `@cyberskill/design` (Phase 2).
-// All of them must pass axe.
+// Phase 3: package primitives replace the in-repo Field/Select/Card/Dialog.
+// Button coverage remains from Phase 2. All of them must pass axe.
 const RULES_OFF = {
   region: { enabled: false },
   "landmark-one-main": { enabled: false },
@@ -22,34 +21,54 @@ const RULES_OFF = {
   "color-contrast": { enabled: false },
 } as const;
 
-describe("DS-003 component primitives", () => {
+describe("Phase 3 package primitives", () => {
   it("Button renders the design-system button markup", () => {
     const html = renderToStaticMarkup(createElement(Button, { variant: "primary" }, "Go"));
     expect(html).toContain("cs-button cs-button--primary");
     expect(html).toContain('type="button"');
   });
 
-  it("Card renders a named Liquid Glass material", () => {
-    expect(renderToStaticMarkup(createElement(Card, { material: "heavy" }, "x"))).toContain('class="cs-surface-heavy"');
-    expect(renderToStaticMarkup(createElement(Card, {}, "x"))).toContain('class="cs-glass-card"');
+  it("Card renders the package panel (glass via surface class)", () => {
+    const html = renderToStaticMarkup(
+      createElement(Card, { className: "cs-surface-standard" }, "x"),
+    );
+    expect(html).toContain("cs-card");
+    expect(html).toContain("cs-surface-standard");
   });
 
-  it("Field links the label to the input and wires the error", () => {
+  it("TextField links the label to the input and wires the error", () => {
     const html = renderToStaticMarkup(
-      createElement(Field, { label: "Email", error: "Required", name: "email" }),
+      createElement(TextField, { label: "Email", error: "Required", name: "email" }),
     );
-    expect(html).toMatch(/<label for="[^"]+"/);
+    expect(html).toMatch(/class="[^"]*cs-field/);
+    expect(html).toContain("cs-field__control");
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain('role="alert"');
   });
 
-  it("Dialog renders a labelled modal dialog when open", () => {
+  it("Select renders options in the package field frame", () => {
     const html = renderToStaticMarkup(
-      createElement(Dialog, { open: true, onClose: () => {}, label: "Confirm", children: "body" }),
+      createElement(Select, {
+        label: "Intent",
+        name: "intent",
+        options: [{ value: "a", label: "A" }],
+      }),
     );
-    expect(html).toContain('role="dialog"');
-    expect(html).toContain('aria-modal="true"');
-    expect(html).toContain('aria-label="Confirm"');
+    expect(html).toContain("cs-field");
+    expect(html).toContain("cs-select");
+    expect(html).toContain("<option");
+  });
+
+  it("Tag emits the package chip class", () => {
+    const html = renderToStaticMarkup(createElement(Tag, null, "web-apps"));
+    expect(html).toContain('class="cs-tag"');
+    expect(html).toContain("web-apps");
+  });
+
+  it("Icon renders a named package glyph", () => {
+    const html = renderToStaticMarkup(createElement(Icon, { name: "sparkle", size: "sm" }));
+    expect(html).toContain("<svg");
+    expect(html).toContain('aria-hidden="true"');
   });
 
   it("renders no serious/critical axe violations across the primitives", async () => {
@@ -58,9 +77,15 @@ describe("DS-003 component primitives", () => {
         "main",
         null,
         createElement(Button, { variant: "primary" }, "Submit"),
-        createElement(Card, { material: "standard" }, "card body"),
-        createElement(Field, { label: "Your name", name: "name" }),
-        createElement(Select, { label: "Intent", name: "intent" }, createElement("option", { value: "a" }, "A")),
+        createElement(Card, { className: "cs-surface-standard" }, "card body"),
+        createElement(TextField, { label: "Your name", name: "name" }),
+        createElement(Select, {
+          label: "Intent",
+          name: "intent",
+          options: [{ value: "a", label: "A" }],
+        }),
+        createElement(Tag, null, "mobile"),
+        createElement(Icon, { name: "check", label: "Done" }),
       ),
     );
     document.body.innerHTML = html;

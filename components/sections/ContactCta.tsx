@@ -10,6 +10,7 @@ import { MessagingChips } from "@/components/cta/MessagingChips";
 import { CapacityLine } from "@/components/sections/CapacityLine";
 import { BookingLink } from "@/components/cta/BookingLink";
 import { getBookingUrl } from "@/lib/content/booking";
+import { Card } from "@/lib/design-system/card";
 
 export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary; hasNewsletter?: boolean }) {
   const bookingUrl = getBookingUrl();
@@ -48,7 +49,7 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary;
           )}
         </div>
 
-        <div className="cs-contact-aside cs-surface-light">
+        <Card className="cs-contact-aside cs-surface-light">
           <p className="cs-eyebrow" style={{ color: "var(--cs-color-primary)", marginTop: 0 }}>
             {locale === "vi" ? "Liên hệ trực tiếp" : "Reach us directly"}
           </p>
@@ -95,7 +96,7 @@ export function ContactCta({ locale, dict }: { locale: Locale; dict: Dictionary;
               ))}
             </div>
           )}
-        </div>
+        </Card>
       </div>
     </section>
   );

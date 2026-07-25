@@ -27,14 +27,15 @@ Lumi consumes the published CyberSkill design package (portfolio grant; package 
 | **Styles** | `app/cs-package.css` (package tokens + base, **no** `fonts.css`) then `app/globals.css` (storytelling aliases + cosmos/genie/motion/scene) |
 | **Fonts** | `DeferredFonts` + `/fonts/brand-fonts.css` (`font-display: optional`); Space Grotesk display |
 | **Buttons** | Every button is a package button — the `Button` component on real `<button>`s, `.cs-button--*` classes on anchors/`Link`. Lumi's pill and gold CTA come from `--cs-component-button-*` tokens, not from restyling `.cs-button` |
-| **Import path** | `lib/design-system/button.tsx` re-exports from `@cyberskill/design` (bundler-native `_esm/react.mjs`, React as a peer dep) |
-| **Decisions** | First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1 fonts/tokens: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` · Phase 2 buttons: `docs/decisions/2026-07-25-lumi-ds-phase2-buttons.md` |
+| **Forms / tags / cards / icons** | Package `TextField`/`Select`/`Textarea`/`Checkbox`, `Tag`, `Card` (+ surface classes), and `Icon` via `lib/design-system/*`. Analytics wrappers stay on the CTA forms. Genie cloud chrome stays local |
+| **Import path** | `lib/design-system/button.tsx` (and forms/tag/card/icon) re-export from `@cyberskill/design` (bundler-native `_esm/react.mjs`, React as a peer dep) |
+| **Decisions** | First slice: `docs/decisions/2026-07-24-cyberskill-design-package.md` · Phase 1 fonts/tokens: `docs/decisions/2026-07-25-lumi-ds-phase1-fonts-tokens.md` · Phase 2 buttons: `docs/decisions/2026-07-25-lumi-ds-phase2-buttons.md` · Phase 3 forms/tags/cards/icons: `docs/decisions/2026-07-25-lumi-ds-phase3-forms-polish.md` |
 
 The dependency is pinned to a design-system **commit** rather than `1.0.0`: the published `1.0.0` tarball predates the React entry, and npm versions are immutable, so it can never be republished with one. Revisit at LAUNCH — see the Phase 2 decision note.
 
-**Kept local (storytelling, not design-system gaps):** the R3F/3D scene, cosmos CSS, scroll/motion choreography, genie cloud chrome, Space Grotesk as display face, and the button motion modifiers (`cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn`).
+**Kept local (storytelling, not design-system gaps):** the R3F/3D scene, cosmos CSS, scroll/motion choreography, genie cloud chrome (message rows + prompt), Space Grotesk as display face, button motion modifiers (`cs-cta-lumi`, `cs-lumi-alt`, `cs-wish-go`, `cs-header-cta`, `cs-footer-verify-btn`), and layout-specific glass surfaces (work/service cards, header).
 
-**Deferred:** forms/tags/cards/icons (Phase 3) and the “100%” proof sweep (Phase 4).
+**Deferred:** the “100%” proof sweep (Phase 4).
 
 ## Quick start
 

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { DesignSystemButton } from "@/lib/design-system/button";
+import { TextField, Select } from "@/lib/design-system/forms";
+import { Card } from "@/lib/design-system/card";
 
 type Locale = "en" | "vi";
 
@@ -132,15 +134,12 @@ export function TalentPoolForm({ locale }: TalentPoolFormProps) {
 
   if (status === "success") {
     return (
-      <div
-        className="cs-talent-success"
+      <Card
+        className="cs-talent-success cs-surface-standard"
         role="alert"
         style={{
-          background: "rgba(234, 160, 66, 0.08)",
-          border: "1px solid var(--cs-color-gold)",
-          borderRadius: "8px",
-          padding: "var(--cs-space-md) var(--cs-space-lg)",
           marginTop: "var(--cs-space-md)",
+          padding: "var(--cs-space-md) var(--cs-space-lg)",
         }}
       >
         <h3 style={{ color: "var(--cs-color-gold)", margin: "0 0 var(--cs-space-xs) 0" }}>
@@ -149,7 +148,7 @@ export function TalentPoolForm({ locale }: TalentPoolFormProps) {
         <p style={{ margin: 0, fontSize: "var(--cs-text-sm)", lineHeight: 1.6 }}>
           {t.successBody}
         </p>
-      </div>
+      </Card>
     );
   }
 
@@ -157,10 +156,11 @@ export function TalentPoolForm({ locale }: TalentPoolFormProps) {
     <div className="cs-talent-pool-form" style={{ marginTop: "var(--cs-space-md)" }}>
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "var(--cs-space-sm)", maxWidth: "480px" }}
+        className="cs-form"
+        style={{ maxWidth: "480px" }}
       >
         {/* Honeypot */}
-        <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true">
+        <div className="cs-visually-hidden" aria-hidden="true">
           <input
             type="text"
             name="website"
@@ -171,61 +171,30 @@ export function TalentPoolForm({ locale }: TalentPoolFormProps) {
           />
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "var(--cs-space-xs)" }}>
-          <label
-            htmlFor="talent-email"
-            style={{ fontSize: "var(--cs-text-sm)", fontWeight: 600, color: "var(--cs-color-fg)" }}
-          >
-            Email
-          </label>
-          <input
-            id="talent-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t.emailPlaceholder}
-            required
-            disabled={status === "loading"}
-            style={{
-              padding: "var(--cs-space-3) var(--cs-space-4)",
-              borderRadius: "4px",
-              border: "1px solid var(--cs-color-border)",
-              background: "rgba(255, 255, 255, 0.05)",
-              color: "var(--cs-color-fg)",
-              fontSize: "var(--cs-text-sm)",
-            }}
-          />
-        </div>
+        <TextField
+          id="talent-email"
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={t.emailPlaceholder}
+          required
+          disabled={status === "loading"}
+          autoComplete="email"
+          error={status === "error" ? errorMsg : undefined}
+        />
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "var(--cs-space-xs)" }}>
-          <label
-            htmlFor="talent-role"
-            style={{ fontSize: "var(--cs-text-sm)", fontWeight: 600, color: "var(--cs-color-fg)" }}
-          >
-            {t.roleLabel}
-          </label>
-          <select
-            id="talent-role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            disabled={status === "loading"}
-            style={{
-              padding: "var(--cs-space-3) var(--cs-space-4)",
-              borderRadius: "4px",
-              border: "1px solid var(--cs-color-border)",
-              background: "var(--cs-color-surface)",
-              color: role ? "var(--cs-color-fg)" : "var(--cs-color-text-muted)",
-              fontSize: "var(--cs-text-sm)",
-            }}
-          >
-            <option value="">{t.roleDefault}</option>
-            {roles.map((r) => (
-              <option key={r.value} value={r.value}>
-                {r.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          id="talent-role"
+          label={t.roleLabel}
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          disabled={status === "loading"}
+          options={[
+            { value: "", label: t.roleDefault },
+            ...roles,
+          ]}
+        />
 
         <DesignSystemButton
           type="submit"
@@ -236,25 +205,15 @@ export function TalentPoolForm({ locale }: TalentPoolFormProps) {
         >
           {status === "loading" ? t.submitting : t.submit}
         </DesignSystemButton>
-
-        {status === "error" && (
-          <p
-            role="alert"
-            style={{ color: "#EA3C3C", fontSize: "var(--cs-text-sm)", fontWeight: 600, margin: 0 }}
-          >
-            {errorMsg}
-          </p>
-        )}
       </form>
 
       {/* Bilingual retention & deletion statement (PDPL / TASK-CTA-020 §1.2, §1.3) */}
       <aside
+        className="cs-surface-light"
         style={{
           marginTop: "var(--cs-space-lg)",
           padding: "var(--cs-space-md)",
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid var(--cs-color-border)",
-          borderRadius: "6px",
+          borderRadius: "var(--cs-radius-md)",
           maxWidth: "480px",
         }}
       >

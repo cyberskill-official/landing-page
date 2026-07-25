@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { DesignSystemButton } from "@/lib/design-system/button";
+import { TextField } from "@/lib/design-system/forms";
 
 interface NewsletterFormProps {
   locale: "en" | "vi";
@@ -91,15 +92,17 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
           />
         </div>
 
-        <input
+        <TextField
+          className="cs-newsletter-field"
+          label={labels.title}
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder={labels.placeholder}
           required
-          aria-label={labels.title}
           disabled={status === "loading"}
           autoComplete="email"
+          error={status === "error" ? errorMsg : undefined}
         />
         <DesignSystemButton type="submit" variant="primary" disabled={status === "loading"}>
           {status === "loading" ? labels.submitting : labels.submit}
@@ -108,11 +111,6 @@ export function NewsletterForm({ locale }: NewsletterFormProps) {
       <p className="cs-newsletter-promise">
         {labels.promise}
       </p>
-      {status === "error" && (
-        <p className="cs-field-error" role="alert" style={{ marginTop: "var(--cs-space-2)", fontWeight: 600 }}>
-          {errorMsg}
-        </p>
-      )}
     </div>
   );
 }
