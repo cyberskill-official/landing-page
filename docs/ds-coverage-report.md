@@ -3,7 +3,7 @@
 **Date:** 2026-07-25  
 **Claim:** **100% design-system adoption for what maps** — not “every pixel is a DS component.”  
 **Identity:** `hoa` · `plasma`  
-**Package pin:** `github:cyberskill-official/design-system#49b7a4f7ca0c5b5c3e4778600e3f94be4fbd182d` (bundler-native `_esm/react.mjs`)
+**Package pin:** `github:cyberskill-official/design-system#3edeb1350c2e48761bee18f7c10c323e6103ff7d` (bundler-native `_esm/react.mjs`; includes `--cs-font-family-display`)
 
 ---
 
@@ -30,6 +30,7 @@ Approximate share of *all UI chrome including storytelling surfaces*: majority l
 | Mappable cards | DS | Package `Card` on lead/talent success, contact aside, careers shell |
 | Line icons (9) | DS | Package `Icon`; local `lib/icons` deleted |
 | Semantic tokens | Package SoT | `app/cs-package.css` + `scripts/check-ds-token-sot.mjs` |
+| Display / UI / mono type roles | Package SoT | `--cs-font-family-*` + `.cs-display-face`; optional Be Vietnam Pro + Space Grotesk bytes via `sync-ds-fonts` (mono token-only) |
 
 ---
 
@@ -41,7 +42,7 @@ Highlights:
 
 - **Genie message rows + prompt** — package `ChatMessage` / `PromptInput` do not map to cloud chrome (`components/genie/GenieChatPanel.tsx`); decision: [`docs/decisions/2026-07-25-lumi-genie-chat-keep-local.md`](./decisions/2026-07-25-lumi-genie-chat-keep-local.md)
 - **3D / cosmos / scroll / motion** — storytelling product (`components/canvas`, `scroll`, `motion`)
-- **Space Grotesk** — display face outside DS 1.0.0 typography
+- **DeferredFonts optional loading** — CLS adapter over package faces (not a display-role exception); see [`docs/decisions/2026-07-25-lumi-ds-display-face.md`](./decisions/2026-07-25-lumi-ds-display-face.md)
 - **Messaging chips / BrandIcon / wish field** — channel + scene chrome
 - **Allowlisted button modifiers** — motion/layout only on DS roots (`cs-cta-lumi`, …)
 - **Layout glass** — `.cs-surface-*` without forcing `.cs-card` on work/header/metric tiles

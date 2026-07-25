@@ -10,7 +10,7 @@ describe("Commit 2 tests — TASK-PERF-005, TASK-PERF-012, TASK-OPS-009", () => 
     const fonts = readFileSync(resolve(import.meta.dirname, "../app/fonts.ts"), "utf8");
     expect(fonts).not.toMatch(/next\/font\/google/);
     const css = readFileSync(resolve(import.meta.dirname, "../app/globals.css"), "utf8");
-    expect(css).toMatch(/--cs-font-display:\s*"Space Grotesk"/);
+    expect(css).toMatch(/--cs-font-display:\s*var\(--cs-font-family-display\)/);
     const brand = readFileSync(resolve(import.meta.dirname, "../public/fonts/brand-fonts.css"), "utf8");
     expect(brand).toMatch(/font-display:\s*optional/);
   });

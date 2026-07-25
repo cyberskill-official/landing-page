@@ -25,8 +25,10 @@ html,body{overflow-x:clip}
   --cs-color-focus:var(--cs-color-semantic-info);--cs-glass-border:rgba(69,33,14,.12);
   --cs-button-secondary-ink:var(--cs-color-brand-umber);
   --cs-box-shadow-3:0 12px 40px rgba(28,19,13,.12);
-  --cs-font-sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI","Helvetica Neue",arial,sans-serif;
-  --cs-font-display:"Space Grotesk",system-ui,"Segoe UI",sans-serif;
+  --cs-font-family-ui:'Be Vietnam Pro',ui-sans-serif,system-ui,sans-serif;
+  --cs-font-family-display:'Space Grotesk','Be Vietnam Pro',ui-sans-serif,system-ui,sans-serif;
+  --cs-font-sans:var(--cs-font-family-ui);--cs-font-display:var(--cs-font-family-display);
+  --cs-heading-family:var(--cs-font-family-display);
   --cs-text-xs:.8rem;--cs-text-sm:.9rem;--cs-text-base:1rem;--cs-text-lg:1.2rem;
   --cs-text-xl:clamp(1.35rem,1.1rem + 1vw,1.6rem);
   --cs-text-4xl:clamp(2.9rem,1.9rem + 5.4vw,5.6rem);
@@ -52,7 +54,7 @@ body{
   -webkit-font-smoothing:antialiased;
   background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(244,186,23,.07),transparent 55%)
 }
-h1,h2,h3{font-family:var(--cs-font-display);line-height:1.08;letter-spacing:-.02em;font-weight:700;margin:0 0 var(--cs-space-4)}
+h1,h2,h3{font-family:var(--cs-heading-family,var(--cs-font-display));line-height:1.08;letter-spacing:-.02em;font-weight:700;margin:0 0 var(--cs-space-4)}
 h1{font-size:var(--cs-text-4xl);letter-spacing:-.03em;line-height:1.02}
 p{margin:0 0 var(--cs-space-4)}
 a{color:inherit;text-underline-offset:.18em}

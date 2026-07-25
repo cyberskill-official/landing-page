@@ -12,7 +12,7 @@ This note **summarizes** the per-phase decisions. It does **not** delete or rewr
 
 **In scope:** semantic tokens from the package as SoT; interactive UI primitives that map (Button, form fields, Tag, mappable Card, line Icon); package CSS for those contracts; Lumi identity `hoa` · `plasma`; tests on DS class contracts.
 
-**Out of scope (keep local):** R3F/3D, cosmos, scroll/motion storytelling, genie cloud chrome, Space Grotesk display, messaging chips / BrandIcon / wish field, critical-CSS perf bridge, allowlisted button motion modifiers. Full inventory: [`docs/ds-keep-local-inventory.md`](../ds-keep-local-inventory.md). Coverage numbers: [`docs/ds-coverage-report.md`](../ds-coverage-report.md).
+**Out of scope (keep local):** R3F/3D, cosmos, scroll/motion storytelling, genie cloud chrome, messaging chips / BrandIcon / wish field, DeferredFonts optional-loading adapter, critical-CSS perf bridge, allowlisted button motion modifiers. Display face role is **package-owned** as of [`2026-07-25-lumi-ds-display-face.md`](./2026-07-25-lumi-ds-display-face.md). Full inventory: [`docs/ds-keep-local-inventory.md`](../ds-keep-local-inventory.md). Coverage numbers: [`docs/ds-coverage-report.md`](../ds-coverage-report.md).
 
 ---
 
@@ -27,6 +27,7 @@ This note **summarizes** the per-phase decisions. It does **not** delete or rewr
 | **3** | Forms, tags, cards, icons; genie stays local | [`2026-07-25-lumi-ds-phase3-forms-polish.md`](./2026-07-25-lumi-ds-phase3-forms-polish.md) |
 | **4** | Grep/CI proof, keep-local inventory, coverage report, this summary | This file + inventory + coverage report |
 | **Post-4** | Confirmed Genie ↛ `ChatMessage`/`PromptInput`; live whole-set gate | [`2026-07-25-lumi-genie-chat-keep-local.md`](./2026-07-25-lumi-genie-chat-keep-local.md) + `check:ds:live` |
+| **Display face** | Package `--cs-font-family-display` + `.cs-display-face`; drop ad-hoc Space Grotesk keep-local | [`2026-07-25-lumi-ds-display-face.md`](./2026-07-25-lumi-ds-display-face.md) |
 
 ---
 

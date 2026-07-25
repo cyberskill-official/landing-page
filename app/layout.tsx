@@ -1,5 +1,6 @@
 // Package tokens + base (no fonts.css); globals bridges storytelling locals.
-// DeferredFonts + /fonts/brand-fonts.css own webfonts (font-display: optional).
+// DeferredFonts + synced /fonts/brand-fonts.css own webfonts (optional).
+// .cs-display-face opts headings into --cs-font-family-display.
 import "./cs-package.css";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
@@ -79,6 +80,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      className="cs-display-face"
       data-theme="dark"
       data-cs-element="hoa"
       data-cs-variant="plasma"

@@ -14,7 +14,7 @@
     "safari >= 16.4"
   ],
   "scripts": {
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && node scripts/sync-ds-fonts.mjs",
     "dev": "next dev",
     "build": "node scripts/run-next-build.mjs",
     "analyze": "ANALYZE=true node scripts/run-next-build.mjs",
@@ -31,13 +31,13 @@
     "check:ds:tokens": "node scripts/check-ds-token-sot.mjs",
     "check:ds:phase4": "node scripts/check-ds-token-sot.mjs",
     "check:ds:live": "node scripts/probe-ds-live.mjs",
-
+    "sync:ds:fonts": "node scripts/sync-ds-fonts.mjs",
     "test": "vitest run",
     "clean": "rm -rf .next",
     "check:tasks": "node scripts/check-tasks.mjs"
   },
   "dependencies": {
-    "@cyberskill/design": "github:cyberskill-official/design-system#49b7a4f7ca0c5b5c3e4778600e3f94be4fbd182d",
+    "@cyberskill/design": "github:cyberskill-official/design-system#3edeb1350c2e48761bee18f7c10c323e6103ff7d",
     "@gsap/react": "2.1.2",
     "@hookform/resolvers": "5.4.0",
     "@next/third-parties": "16.2.10",

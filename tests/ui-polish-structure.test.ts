@@ -166,8 +166,8 @@ describe("ui polish structure", () => {
 
     const src = css();
     // Brand faces named in the stack from t=0 so optional faces never need a variable swap
-    expect(src).toMatch(/--cs-font-sans:\s*"Be Vietnam Pro"/);
-    expect(src).toMatch(/--cs-font-display:\s*"Space Grotesk"/);
+    expect(src).toMatch(/--cs-font-sans:\s*var\(--cs-font-family-ui\)/);
+    expect(src).toMatch(/--cs-font-display:\s*var\(--cs-font-family-display\)/);
     // Magical compass-point cursor ring
     expect(src).toMatch(/\.cs-cursor-dot\s*\{[^}]*radial-gradient/s);
     expect(src).toMatch(/\.cs-cursor-ring\s*\{[^}]*-17px\s+0\s+0\s+-14px/s);

@@ -1,6 +1,8 @@
 # Decision: Lumi Phase 1 — fonts + package token SoT
 
 > **Migration summary (Phases 0–4):** see [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md). This note remains the Phase 1 record.
+>
+> **Display face update (same day):** Space Grotesk is no longer a Lumi-local exception — see [`2026-07-25-lumi-ds-display-face.md`](./2026-07-25-lumi-ds-display-face.md). DeferredFonts + optional loading (decision §2.1–2.2) still stand.
 
 **Date:** 2026-07-25  
 **Status:** Adopted (Phase 1 of Lumi → 100% design-system migration)  
