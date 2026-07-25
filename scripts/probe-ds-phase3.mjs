@@ -5,14 +5,22 @@
  * Complements scripts/probe-ds-buttons.mjs (Phase 2). Does not invent new
  * contrast claims — presence + class contracts only.
  *
+ * Newsletter `.cs-field` is SSG-gated: `app/[lang]/layout.tsx` mounts
+ * `NewsletterForm` only when `RESEND_API_KEY` was set at *build* time. Lead
+ * and talent pool CTAs are Genie-primary on live routes; their package field
+ * markup is covered by `tests/ds-phase3-forms-polish.test.ts` +
+ * `tests/ui-primitives.test.ts`. To assert runtime `.cs-field` on home:
+ *   RESEND_API_KEY=… npm run build && PROBE_EXPECT_NEWSLETTER=1 node scripts/probe-ds-phase3.mjs
+ *
  * Usage: node scripts/probe-ds-phase3.mjs [baseUrl]
  */
 import puppeteer from "puppeteer";
 
 const BASE = process.argv[2] || "http://localhost:3000";
+const expectHomeField = process.env.PROBE_EXPECT_NEWSLETTER === "1";
 
 const PATHS = [
-  { path: "", expect: { field: true, tag: false, card: true } }, // footer Newsletter TextField + home contact Card aside
+  { path: "", expect: { field: expectHomeField, tag: false, card: true } }, // home contact Card; newsletter optional
   { path: "/work", expect: { field: false, tag: true, card: false } },
   { path: "/work/operations-platform", expect: { field: false, tag: true, card: false } },
   { path: "/services/mobile-apps", expect: { field: false, tag: true, card: false } },

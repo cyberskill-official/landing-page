@@ -1,5 +1,7 @@
 # Decision: Lumi Phase 1 — fonts + package token SoT
 
+> **Migration summary (Phases 0–4):** see [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md). This note remains the Phase 1 record.
+
 **Date:** 2026-07-25  
 **Status:** Adopted (Phase 1 of Lumi → 100% design-system migration)  
 **Supersedes (in part):** deferred items in [`2026-07-24-cyberskill-design-package.md`](./2026-07-24-cyberskill-design-package.md) (fonts reconcile + token SoT prep)  
@@ -27,8 +29,8 @@ Phase 0 (bundler-native React export) is tracked separately; this Phase 1 does *
 ## 3. Out of scope (later phases)
 
 - ~~Button / CTA sweep (`.cs-btn` → package `Button` / `Link`).~~ → **Done in Phase 2** — see [`2026-07-25-lumi-ds-phase2-buttons.md`](./2026-07-25-lumi-ds-phase2-buttons.md).
-- Forms, tags, cards, icons migration.
-- Grep/CI proof of “100%” and README keep-local inventory (Phase 4).
+- ~~Forms, tags, cards, icons migration.~~ → **Done in Phase 3** — see [`2026-07-25-lumi-ds-phase3-forms-polish.md`](./2026-07-25-lumi-ds-phase3-forms-polish.md).
+- ~~Grep/CI proof of “100%” and README keep-local inventory (Phase 4).~~ → **Done in Phase 4** — see [`2026-07-25-lumi-ds-migration-complete.md`](./2026-07-25-lumi-ds-migration-complete.md).
 
 ## 4. Related
 
