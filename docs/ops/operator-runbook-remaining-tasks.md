@@ -10,6 +10,7 @@
 
 | Do next (order) | task | You |
 |---|---|---|
+| 0. **Unblock the practice robots.txt** | BIZ-017 | Highest-value SEO action open. `/exam` + `/practice` are `Disallow`ed, which also stops Google seeing the ccaf 301s, so that migration is losing its authority instead of transferring it. Patch: `docs/ops/practice-subdomain-seo-patch.md` |
 | 1. Finish lead e2e residual | BIZ-003 | Tick `docs/verification/task-biz-003-lead-pipeline-e2e-2026-07-15.md` (/vi + Reply-To) |
 | 2. Social / messaging URLs | BIZ-007 | Paste live URLs → agent wires `lib/content/site.ts` |
 | 3. Google Business + NAP | BIZ-004 | Claim GBP; fill `docs/ops/nap-listings-register.md` |
@@ -48,6 +49,7 @@ Classification: **agent-doable** (done or scaffolded this wave) vs **human/block
 | TASK-BIZ-012 | human | **human** | PDPL counsel + CyberOS processor |
 | TASK-BIZ-014 | human | **human** | ISO/SOC path decision |
 | TASK-BIZ-015 | human | **human** | AI citation monitoring ritual |
+| TASK-BIZ-017 | mixed | **human** (spec ready) | Unblock `/exam` + `/practice` in the practice/ccaf robots.txt so the ccaf 301s become crawlable. Different repo; copy-pasteable patch in `docs/ops/practice-subdomain-seo-patch.md` |
 | TASK-CMS-004 | mixed | **human** (blocked) | Needs BIZ-006 cleared quotes |
 | TASK-CMS-009 | mixed | **human** (blocked) | Needs BIZ-006 cleared case studies |
 | TASK-BIZ-016 | draft | **human** | CyberOS platform APIs |

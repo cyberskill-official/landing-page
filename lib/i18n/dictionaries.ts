@@ -140,6 +140,13 @@ export type Dictionary = {
     privacy: string;
     accessibility: string;
     terms: string;
+    /**
+     * TASK-SEO-022 §1.2-1.3: link text for practice.cyberskill.world. Carries
+     * the destination's query intent (CCAF / Claude Certified Architect mock
+     * exam) rather than a generic label, because descriptive anchor text is
+     * part of what the target ranks on.
+     */
+    practice: string;
   };
   teardown: {
     title: string;
@@ -310,6 +317,7 @@ const en: Dictionary = {
     privacy: "Privacy",
     accessibility: "Accessibility",
     terms: "Terms",
+    practice: "Claude Certified Architect mock exam",
   },
   teardown: {
     title: "Get a free 15-point teardown",
@@ -479,6 +487,7 @@ const vi: Dictionary = {
     privacy: "Quyền riêng tư",
     accessibility: "Khả năng tiếp cận",
     terms: "Điều khoản",
+    practice: "Thi thử Claude Certified Architect",
   },
   teardown: {
     title: "Nhận đánh giá 15 điểm miễn phí",

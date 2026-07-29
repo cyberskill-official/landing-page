@@ -32,6 +32,7 @@
     "check:ds:phase4": "node scripts/check-ds-token-sot.mjs",
     "check:ds:live": "node scripts/probe-ds-live.mjs",
     "sync:ds:fonts": "node scripts/sync-ds-fonts.mjs",
+    "seo:indexnow": "node scripts/indexnow-submit.mjs",
     "test": "vitest run",
     "clean": "rm -rf .next",
     "check:tasks": "node scripts/check-tasks.mjs"
