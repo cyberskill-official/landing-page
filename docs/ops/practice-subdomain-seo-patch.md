@@ -9,32 +9,50 @@
 
 ## 1. What is wrong
 
+> **Correction, 2026-07-29.** An earlier revision of this document claimed the
+> `ccaf` host served its own blocking robots.txt with a cross-host `Sitemap`
+> line. That was wrong: it came from a `curl -L` that silently followed the 301
+> and displayed **practice's** robots.txt instead. The `ccaf` host serves no
+> robots.txt of its own and 301s every path, which is already the preferred
+> shape. §2.2 below is therefore a no-op. The real defect is on the destination
+> host and is described below.
+
 ### 1.1 The finding
 
+`practice.cyberskill.world/robots.txt`:
+
 ```
-$ curl -s https://ccaf.cyberskill.world/robots.txt
 User-Agent: *
 Allow: /
 Disallow: /api/
-Disallow: /exam          <-- blocks the highest-ranking URL on the property
-Disallow: /practice      <-- blocks the second
+Disallow: /exam          <-- prefix rule: also matches /exams/*
+Disallow: /practice
+Disallow: /result
 ...
-Sitemap: https://practice.cyberskill.world/sitemap.xml   <-- cross-host, ignored
-
-$ curl -sI https://ccaf.cyberskill.world/exam | head -1
-HTTP/2 301
-location: https://practice.cyberskill.world/exam
 ```
 
-`practice.cyberskill.world/robots.txt` carries the same `Disallow` block.
+robots.txt matches by **prefix**, not by path segment. `Disallow: /exam` therefore also matches:
 
-### 1.2 Why it compounds
+```
+/exams
+/exams/{code}
+/exams/{code}/sample-questions
+/exams/{code}/practice-exam        (pSEO)
+/exams/{code}/practice-questions   (pSEO)
+/exams/{code}/free-mock-test       (pSEO)
+```
 
-A `Disallow` forbids Google from **fetching** the URL. It does not forbid indexing.
+Measured against the live sitemap under RFC 9309 longest-match resolution: **25 of 52 sitemap URLs, 48 percent, were blocked** — the entire money-page tree, including every pSEO page targeting the exact query cluster in the Bing report (`ccaf mock exam`, `claude certified architect practice test`, `free claude ai mock exam`).
 
-`ccaf.cyberskill.world/exam` is disallowed **and** returns a 301. Google cannot fetch it, so it never sees the 301, so the redirect cannot consolidate anything. The migration from `ccaf` to `practice` is currently dropping its accumulated authority rather than transferring it, and will keep doing so for as long as the source URLs stay blocked.
+The site was advertising those URLs in its sitemap while forbidding crawlers to fetch them.
 
-This is the classic robots-blocked-redirect failure. It is silent: nothing in Search Console says "your migration is not working", it just reports 2 pages "Blocked by robots.txt" and 2 pages with "Page with redirect" and leaves you to connect them.
+### 1.2 Why the Disallow entries were also self-defeating
+
+`Disallow` blocks **crawling**, not **indexing**. A blocked URL can still be indexed from external links, showing with no title and no snippet.
+
+`src/lib/urlContract.ts` already declares the runtime routes "not in sitemap; must carry noindex", and all six (`/exam`, `/practice`, `/result`, `/flashcards`, `/score`, `/dashboard`) do carry `runtimeNoIndex`. But `noindex` can only be obeyed if the crawler is allowed to fetch the page and read the directive. Blocking those paths in robots.txt made the intended mechanism unreadable, while adding nothing.
+
+So the Disallow list was simultaneously too broad (catching `/exams/*`) and redundant (duplicating a `noindex` that already existed).
 
 ### 1.3 What it is costing
 
@@ -95,7 +113,11 @@ Judgement per path, to be confirmed against the actual routes:
 
 Verify each unblocked path enforces authentication in the application before shipping. Robots.txt was never a privacy control, but if anything has been relying on it as one, unblocking exposes that.
 
-### 2.2 `ccaf.cyberskill.world` — pick one
+### 2.2 `ccaf.cyberskill.world` — already correct, no action
+
+Verified 2026-07-29: `src/middleware.ts` 301s every path on the `ccaf` host to `practice` when `HOST_CUTOVER_REDIRECT=on`, including `/robots.txt`. The host serves no robots.txt of its own, so nothing on it is blocked and every 301 is crawlable. This is Option A below, already shipped. The rest of this section is retained only to document why no change is needed.
+
+<details><summary>Original options (superseded)</summary>
 
 **Option A (preferred): serve no robots.txt of its own.** The host exists only to redirect. Let `/robots.txt` 301 to the practice host along with every other path. Nothing is blocked, every redirect is crawlable.
 
@@ -107,6 +129,8 @@ Allow: /
 ```
 
 Either way: **no `Disallow` on the ccaf host.** Every path on it must be fetchable so Google can observe the 301.
+
+</details>
 
 ### 2.3 `noindex` on the genuinely private routes
 

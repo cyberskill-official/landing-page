@@ -1,7 +1,7 @@
 ---
 id: TASK-BIZ-017
 title: "Unblock the practice subdomain exam routes in robots.txt so the ccaf redirects can transfer"
-status: ready_to_implement
+status: ready_to_review
 class: improvement
 priority: MUST
 owner: mixed
@@ -17,36 +17,38 @@ traces_to: [gsc/2026-07-29-coverage, bing-wmt/2026-07-29-keyword-report]
 
 This task is off-site for this repository: the fix lands in the practice/ccaf application, not in landing-page. It is filed here because the evidence arrived through this property's Search Console and because TASK-SEO-022 links toward the affected pages.
 
-Measured 29 Jul 2026:
+> **Revised 2026-07-30 after inspecting the repo and re-measuring.** The original §0 asserted that the ccaf host served its own blocking robots.txt and that this made its 301s uncrawlable. That was an artefact of a `curl -L` which followed the redirect and displayed practice's robots.txt. The ccaf host serves no robots.txt and 301s every path. The real defect is on the destination host and is larger than first described.
 
-- `https://ccaf.cyberskill.world/robots.txt` and `https://practice.cyberskill.world/robots.txt` both contain `Disallow: /exam` and `Disallow: /practice`.
-- `https://ccaf.cyberskill.world/exam` returns `301 -> https://practice.cyberskill.world/exam`.
-- The GSC coverage export lists 2 pages under "Blocked by robots.txt" and 2 under "Page with redirect".
-- The Bing keyword report ranks `https://ccaf.cyberskill.world/exam` at average position 1.5 with a 37.5 percent CTR, and the surrounding query cluster (`ccaf mock exam`, `claude certified architect practice test`, `anthropic mock exam`) is the site's entire organic demand.
+Measured 29-30 Jul 2026:
 
-The compounding failure is the interaction, not either fact alone. A `Disallow` on `ccaf.cyberskill.world/exam` forbids Google from fetching that URL at all, which means it never observes the 301 sitting behind it. A redirect that cannot be crawled cannot consolidate signals: the migration from ccaf to practice is currently dropping its accumulated authority rather than transferring it, and will keep doing so for as long as the source URLs stay disallowed.
+- `practice.cyberskill.world/robots.txt` contained `Disallow: /exam`. robots.txt matches by PREFIX, so that rule also matched the whole `/exams/*` tree: `/exams`, every `/exams/{code}`, every `/exams/{code}/sample-questions`, and every pSEO path.
+- Resolved against the live sitemap under RFC 9309 (longest match wins), **25 of 52 sitemap URLs, 48 percent, were blocked** - the site advertised URLs its own robots.txt forbade fetching.
+- `ccaf.cyberskill.world` 301s every path including `/robots.txt`, so nothing on the legacy host is blocked and every redirect is crawlable. Already correct.
+- The Bing keyword report's entire demand cluster (`ccaf mock exam`, `claude certified architect practice test`, `anthropic mock exam`, `free claude ai mock exam`) targets exactly the pSEO pages inside the blocked tree.
 
-The likely original intent was to keep a logged-in exam session out of the index. `Disallow` is the wrong instrument for that. It blocks crawling, not indexing, and a blocked URL can still be indexed from external links with no snippet, which is the worst of both outcomes. `noindex` is the instrument that removes a page from the index, and it requires the page to be crawlable to be seen at all.
+The likely original intent was to keep a logged-in exam session out of the index. `Disallow` is the wrong instrument for that, on two counts. It blocks crawling, not indexing, so a blocked URL can still be indexed from external links with no snippet. And `src/lib/urlContract.ts` already declares those routes "must carry noindex" - which all six do - but `noindex` can only be obeyed if the crawler may fetch the page and read it. The Disallow list was simultaneously too broad and redundant with the mechanism it was suppressing.
 
 The copy-pasteable patch, with the diffs, the per-path judgement table and the order of operations, is in `docs/ops/practice-subdomain-seo-patch.md`.
 
 ## 1. Description (normative)
 
-- 1.1 `ccaf.cyberskill.world/robots.txt` MUST remove `Disallow: /exam` and `Disallow: /practice` so the 301 responses on those paths become crawlable and the migration can consolidate.
-- 1.2 `practice.cyberskill.world/robots.txt` MUST remove the `Disallow` rules for any path intended to rank, and SHALL retain `Disallow` only for genuinely non-public surfaces (`/api/`, `/admin`, `/account`, `/dashboard`).
-- 1.3 Any route that must stay out of the index while remaining crawlable SHALL carry a `noindex` robots meta tag or `X-Robots-Tag` header instead of a robots.txt `Disallow`.
-- 1.4 The `Sitemap:` directive in `ccaf.cyberskill.world/robots.txt` SHALL reference a sitemap on its own host, or the ccaf host SHALL serve only a redirect and no robots.txt of its own, because a cross-host sitemap reference is ignored.
+- 1.1 `ccaf.cyberskill.world` SHALL serve no blocking robots.txt, so every 301 on the legacy host stays crawlable and the migration can consolidate. **Verified 2026-07-30: already true.** The middleware 301s every path including `/robots.txt`; the earlier claim to the contrary was a `curl -L` artefact. No change required.
+- 1.2 `practice.cyberskill.world/robots.txt` MUST remove the `Disallow` rules for any path intended to rank, and SHALL retain `Disallow` only for genuinely non-public surfaces (`/api/`, `/admin`, `/account`, `/dashboard`). The operative defect was `Disallow: /exam`, which by prefix matching also blocked the whole `/exams/*` tree: 25 of 52 sitemap URLs.
+- 1.3 Any route that must stay out of the index while remaining crawlable SHALL carry a `noindex` robots meta tag or `X-Robots-Tag` header instead of a robots.txt `Disallow`. **Verified 2026-07-30: already true** for all six runtime routes via `runtimeNoIndex`; the robots.txt block was what made those directives unreadable.
+- 1.4 A `Sitemap:` directive SHALL reference a sitemap on its own host. **Verified 2026-07-30: already true** — practice's robots.txt names practice's own sitemap, and ccaf serves no robots.txt. No change required.
 - 1.5 The ccaf host SHALL keep its 301 responses in place for at least twelve months after the block is lifted, so Google has a full recrawl window to observe them.
-- 1.6 The practice application SHALL serve an IndexNow key file and submit its own URL set, mirroring TASK-SEO-021, since Bing raises the same recommendation for that property.
+- 1.6 The practice application SHALL serve an IndexNow key file at the site ROOT and submit its own URL set, mirroring TASK-SEO-021. Root placement is required, not stylistic: the protocol scopes a submission to the directory holding the key file, so a key under a subdirectory cannot authorise the whole host.
+- 1.7 A regression test MUST assert that no `Disallow` rule prefix-shadows any path in `indexedPaths()`, so the same class of defect cannot return under a different path name, and that test MUST be shown to fail against the pre-fix rule set.
 
 ## 2. Acceptance criteria
 
-- [ ] AC for 1.1 - a fetch of the ccaf robots.txt shows no Disallow for /exam or /practice - evidence: `docs/verification/<date>-ccaf-robots.md`
-- [ ] AC for 1.2 - a fetch of the practice robots.txt shows Disallow only for non-public surfaces - evidence: `docs/verification/<date>-practice-robots.md`
-- [ ] AC for 1.3 - each formerly disallowed private route returns a noindex directive in its markup or headers - evidence: `docs/verification/<date>-practice-noindex.md`
-- [ ] AC for 1.4 - the ccaf robots.txt either names its own host in the Sitemap directive or is no longer served - evidence: `docs/verification/<date>-ccaf-robots.md`
-- [ ] AC for 1.5 - the redirect retention window is recorded with a review date - evidence: `docs/verification/<date>-ccaf-redirect-retention.md`
-- [ ] AC for 1.6 - the practice IndexNow key file returns 200 and a submission is accepted - evidence: `docs/verification/<date>-practice-indexnow.md`
+- [ ] AC for 1.1 - the ccaf host serves no blocking robots.txt and 301s every path, confirmed without following redirects - evidence: `docs/verification/task-biz-017-practice-robots-2026-07-30.md` §1
+- [ ] AC for 1.2 - zero of the sitemap's URLs are blocked under RFC 9309 longest-match resolution, and Disallow covers only non-public surfaces - evidence: `docs/verification/task-biz-017-practice-robots-2026-07-30.md` §2, §4
+- [ ] AC for 1.3 - every runtime route carries noindex and is now fetchable so the directive can be read - evidence: `docs/verification/task-biz-017-practice-robots-2026-07-30.md` §3
+- [ ] AC for 1.4 - each host's Sitemap directive names its own host - evidence: `docs/verification/task-biz-017-practice-robots-2026-07-30.md` §1
+- [ ] AC for 1.5 - the redirect retention window is recorded with a review date - evidence: OUTSTANDING, operator
+- [ ] AC for 1.6 - the practice IndexNow key file returns 200 at the site root and a submission is accepted - evidence: OUTSTANDING, needs `INDEXNOW_KEY` on that project
+- [ ] AC for 1.7 - the robots contract test fails against the pre-fix rule set and passes after - evidence: `docs/verification/task-biz-017-practice-robots-2026-07-30.md` §5
 
 ## 3. Edge cases
 

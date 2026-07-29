@@ -194,7 +194,7 @@ These never enter the agent queue. They hold accounts, credentials, permissions 
 - [ready_to_implement] TASK-BIZ-005 - Create the directory profiles and earn verified reviews (improvement) [mixed] - depends: TASK-SEO-018, TASK-BIZ-004
 - [ready_to_implement] TASK-BIZ-007 - Establish the social and messaging profiles the site can link to (improvement) [human]
 - [ready_to_implement] TASK-BIZ-008 - Verify Search Console and Bing, submit the sitemap, and run the monthly review (improvement) [human]
-- [ready_to_implement] TASK-BIZ-017 - Unblock the practice subdomain exam routes in robots.txt so the ccaf redirects can transfer (improvement) [mixed]
+- [ready_to_review] TASK-BIZ-017 - Unblock the practice subdomain exam routes in robots.txt so the ccaf redirects can transfer (improvement) [mixed]
 - [ready_to_implement] TASK-BIZ-009 - Lead system of record, SLA ritual, and the weekly funnel review (improvement) [mixed] - depends: TASK-BIZ-002, TASK-OPS-011, TASK-OPS-020
 - [ready_to_implement] TASK-BIZ-010 - Standing programs: welcome sequence, founder LinkedIn, share workflow, quarterly client letter (improvement) [mixed] - depends: TASK-CTA-014, TASK-BIZ-007
 - [ready_to_implement] TASK-BIZ-011 - Earn third-party mentions: listicles, local press, and an awards submission (improvement) [mixed] - depends: TASK-BIZ-005, TASK-CMS-011
