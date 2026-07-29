@@ -109,7 +109,7 @@ describe("seo/indexnow-payload (TASK-SEO-021 §1.2)", () => {
     expect(payload).toEqual({
       host: new URL(siteUrl).host,
       key: KEY,
-      keyLocation: `${siteUrl}/indexnow/${KEY}.txt`,
+      keyLocation: `${siteUrl}/${KEY}.txt`,
       urlList: [`${siteUrl}/en`],
     });
   });
@@ -149,8 +149,20 @@ describe("seo/indexnow-payload (TASK-SEO-021 §1.2)", () => {
     expect(JSON.parse(fetchImpl.mock.calls[0][1].body).urlList).toEqual([`${siteUrl}/en`, `${siteUrl}/vi`]);
   });
 
-  it("points keyLocation at the served key route", () => {
-    expect(keyLocationFor(KEY)).toBe(`${siteUrl}/indexnow/${KEY}.txt`);
+  it("points keyLocation at the ROOT, which is what scopes the whole host (§3)", () => {
+    expect(keyLocationFor(KEY)).toBe(`${siteUrl}/${KEY}.txt`);
+  });
+
+  it("keeps every submitted URL inside the keyLocation directory (§1.7)", () => {
+    // The rule that produced a live 422: IndexNow scopes a submission by the
+    // directory holding the key file. A key at /indexnow/<key>.txt authorises
+    // only URLs under /indexnow/, so the whole sitemap was out of scope. Root
+    // placement is the only thing that makes the host submittable, and this
+    // asserts the invariant rather than the string.
+    const keyDir = keyLocationFor(KEY).slice(0, keyLocationFor(KEY).lastIndexOf("/") + 1);
+
+    expect(keyDir).toBe(`${siteUrl}/`);
+    for (const url of sitemapUrls()) expect(url.startsWith(keyDir)).toBe(true);
   });
 });
 

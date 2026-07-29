@@ -71,7 +71,9 @@ async function main() {
     const body = {
       host: new URL(siteUrl).host,
       key,
-      keyLocation: `${siteUrl}/indexnow/${key}.txt`,
+      // Root placement is required: the protocol scopes a submission by the
+      // key file's directory, so a non-root key cannot authorise the whole host.
+      keyLocation: `${siteUrl}/${key}.txt`,
       urlList: batch,
     };
     try {
@@ -80,8 +82,15 @@ async function main() {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify(body),
       });
-      if (res.ok) {
-        console.log(`indexnow: batch ${i + 1}/${batches.length} accepted (${res.status})`);
+      if (res.status === 202) {
+        // 202 is NOT confirmation. It means the URLs were received and the key
+        // check is queued. If keyLocation 404s when the engine gets to it, the
+        // whole submission is discarded silently. Observed 2026-07-29: a 202
+        // while the root key file was still undeployed.
+        console.log(`indexnow: batch ${i + 1}/${batches.length} received, key validation PENDING (202)`);
+        console.log(`indexnow: confirm ${body.keyLocation} returns 200 in production, or this submission is dropped`);
+      } else if (res.ok) {
+        console.log(`indexnow: batch ${i + 1}/${batches.length} accepted and key validated (${res.status})`);
       } else if (res.status === 422) {
         console.log(`indexnow: batch ${i + 1} rejected - key file at ${body.keyLocation} could not be verified (422)`);
       } else {
