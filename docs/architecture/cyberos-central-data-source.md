@@ -69,6 +69,7 @@ Keyword per id: **leave** | **update** | **depends_on** (new task) | **supersede
 | **TASK-BIZ-012** | **update** | PDPL review must include **CyberOS as processor/sub-processor** for leads + content, not only Anthropic chat transfer. |
 | **TASK-BIZ-014** | **leave** | ISO/SOC path. |
 | **TASK-BIZ-015** | **leave** | Citation monitoring. |
+| **TASK-BIZ-017** | **leave** | robots.txt and redirect config on the practice/ccaf subdomain. A different application in a different repository, with no lead or content data flowing through CyberOS. Nothing here changes if CyberOS becomes the SoR. |
 
 **Count check:** 21 ready tasks listed above (matches BACKLOG `ready_to_implement` set as of 2026-07-14).
 

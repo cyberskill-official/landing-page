@@ -99,6 +99,15 @@ export function SiteFooter({ locale, dict, hasNewsletter }: { locale: Locale; di
             <a href={`/${locale}/privacy`}>{dict.footer.privacy}</a>
             <a href={`/${locale}/accessibility`}>{dict.footer.accessibility}</a>
             <a href={`/${locale}/terms`}>{dict.footer.terms}</a>
+            {/* TASK-SEO-022 §1.1-1.5: the practice subdomain carries this
+                site's entire organic demand and had no inbound link from the
+                main domain. A plain server-rendered anchor, deliberately
+                followed (no nofollow) because the target is first-party. */}
+            {company.properties?.practice && (
+              <a href={company.properties.practice} rel="noopener" target="_blank">
+                {dict.footer.practice}
+              </a>
+            )}
             <ProfileDownloadLink locale={locale} location="footer" className="" />
           </nav>
           <p>

@@ -60,6 +60,16 @@ export const company = {
   // TASK-SEO-019: Opening hours for LocalBusiness JSON-LD.
   openingHours: ["Mo-Fr 09:00-18:00"],
 
+  // TASK-SEO-022: First-party properties on other hosts. The single source for
+  // every cross-property link the site emits, so a rename is a one-line change.
+  //
+  // practice.cyberskill.world carries the site's entire organic search demand
+  // (the CCAF mock-exam query cluster) and had zero inbound links from this
+  // domain, which left it an orphan: no discovery path, no authority flow.
+  properties: {
+    practice: "https://practice.cyberskill.world",
+  } as Record<string, string>,
+
   // TASK-CTA-012: Messaging app contact channels. Config-driven, only set
   // channels are rendered (contact section + footer chip row).
   contacts: {

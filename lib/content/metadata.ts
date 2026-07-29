@@ -291,6 +291,53 @@ export const routeMetadata: RouteMetadata[] = [
   },
 ];
 
+// TASK-SEO-023 §1.3: ONE source for the hreflang alternate set.
+// The document head (resolveMetadata) and app/sitemap.ts both read this, so the
+// two surfaces cannot disagree about which alternates exist. They previously
+// did: the head emitted en + vi + x-default, the sitemap emitted only en + vi,
+// and Google discards an hreflang set it cannot reconcile.
+//
+// x-default resolves to the DEFAULT locale (en), not the newest one, so adding
+// a third locale extends both surfaces without moving the default (§3).
+export const X_DEFAULT_LOCALE: Locale = "en";
+
+/** Path suffix for a route: "/" is the empty string, never a trailing slash. */
+function routeSuffix(route: string): string {
+  return route === "/" ? "" : route;
+}
+
+/**
+ * TASK-SEO-023 §1.1-1.2: the alternate map for any locale-less path.
+ *
+ * Total on strings by design. `resolveMetadata` is reachable with a routable
+ * page that is deliberately absent from the sitemap registry - `/lite` is the
+ * live example - and such a page still needs a correct hreflang set in its
+ * head. Throwing here would turn that documented fallback into a build error.
+ */
+function buildAlternates(route: string): Record<string, string> {
+  const p = routeSuffix(route);
+  return {
+    en: `${siteUrl}/en${p}`,
+    vi: `${siteUrl}/vi${p}`,
+    "x-default": `${siteUrl}/${X_DEFAULT_LOCALE}${p}`,
+  };
+}
+
+/**
+ * TASK-SEO-023 §1.3-1.4: the sitemap's entry point to the same map.
+ *
+ * The sitemap only ever iterates the registry, so a route outside it means the
+ * registry and the caller have drifted. That is worth a loud build failure
+ * rather than a silently half-populated annotation - which is the failure this
+ * task exists to remove.
+ */
+export function hreflangAlternates(route: string): Record<string, string> {
+  if (!routeMetadata.some((m) => m.route === route)) {
+    throw new Error(`hreflangAlternates: "${route}" is not in the route registry`);
+  }
+  return buildAlternates(route);
+}
+
 /** Resolve metadata for a locale + route. Returns title, description, and OG fields. */
 export function resolveMetadata(locale: Locale, route: string) {
   const meta = routeMetadata.find((m) => m.route === route);
@@ -322,12 +369,11 @@ export function resolveMetadata(locale: Locale, route: string) {
       description,
     },
     alternates: {
-      canonical: `${siteUrl}/${locale}${route === "/" ? "" : route}`,
-      languages: {
-        en: `${siteUrl}/en${route === "/" ? "" : route}`,
-        vi: `${siteUrl}/vi${route === "/" ? "" : route}`,
-        "x-default": `${siteUrl}/en${route === "/" ? "" : route}`,
-      },
+      canonical: `${siteUrl}/${locale}${routeSuffix(route)}`,
+      // TASK-SEO-023 §1.3: the same builder app/sitemap.ts reaches through
+      // hreflangAlternates, so the head and the sitemap can never declare
+      // different alternate sets for a route again.
+      languages: buildAlternates(route),
     },
   };
 }
