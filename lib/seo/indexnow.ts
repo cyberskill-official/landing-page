@@ -53,13 +53,20 @@ export function getIndexNowKey(env: EnvLike = process.env): string | null {
 }
 
 /**
- * Where the key file is served. Next.js already owns the root dynamic segment
- * for `[lang]`, so the key file cannot live at `/<key>.txt` without colliding
- * with locale routing. The protocol covers exactly this case with
- * `keyLocation`, which points the engine at the real location.
+ * Where the key file is served: the ROOT, `/<key>.txt`.
+ *
+ * The protocol scopes a submission by the directory holding the key file. A key
+ * at `/indexnow/<key>.txt` authorises only URLs under `/indexnow/`, so a
+ * site-wide submission of `/en`, `/vi`, ... came back 422 "key not verified"
+ * even though that file served a correct 200. Root placement is what makes the
+ * whole host submittable.
+ *
+ * `[lang]` owns the root dynamic segment, so there is no route file here; a
+ * `beforeFiles` rewrite in next.config.ts maps `/<key>.txt` onto the handler at
+ * `/indexnow/[key]` ahead of dynamic-route resolution.
  */
 export function keyLocationFor(key: string, base: string = siteUrl): string {
-  return `${base}/indexnow/${key}.txt`;
+  return `${base}/${key}.txt`;
 }
 
 /** Split a list into protocol-sized batches (§1.2). */

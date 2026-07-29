@@ -71,7 +71,9 @@ async function main() {
     const body = {
       host: new URL(siteUrl).host,
       key,
-      keyLocation: `${siteUrl}/indexnow/${key}.txt`,
+      // Root placement is required: the protocol scopes a submission by the
+      // key file's directory, so a non-root key cannot authorise the whole host.
+      keyLocation: `${siteUrl}/${key}.txt`,
       urlList: batch,
     };
     try {

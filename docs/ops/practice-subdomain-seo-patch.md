@@ -142,7 +142,7 @@ The canonical must be the `practice` URL.
 
 Bing raises the same recommendation for this property. Mirror what landing-page ships in TASK-SEO-021:
 
-- Serve the key file. If the framework's root dynamic segment is free, `/<key>.txt` is the conventional location; otherwise serve it anywhere and declare `keyLocation` in the payload.
+- Serve the key file **at the root**, `/<key>.txt`. This is not a convention, it is a scope rule: IndexNow authorises only URLs inside the key file's directory, so a key at `/indexnow/<key>.txt` cannot submit `/exam`. We hit exactly this on the main domain (live 422 on 2026-07-29 despite the key file returning a correct 200). If a root route file is impossible because a dynamic segment owns the root, use a `beforeFiles` rewrite, as `next.config.ts` in landing-page now does.
 - POST `{ host, key, keyLocation, urlList }` to `https://api.indexnow.org/IndexNow` after a publish.
 - Same key may be reused across both hosts only if each host serves its own copy of the key file. Simpler to generate one per host.
 

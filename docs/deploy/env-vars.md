@@ -125,9 +125,9 @@ This document maps and explains each environment variable used in the CyberSkill
 
 ### `INDEXNOW_KEY`
 - **Description**: IndexNow key (TASK-SEO-021). Pushes changed URLs to Bing and Yandex instead of waiting for their next crawl. Generate with `openssl rand -hex 16`; the protocol requires 8-128 hexadecimal characters.
-- **Where Set**: Server Environment. **Secret in the sense that it must not be guessable, but it is served publicly at `/indexnow/<key>.txt`** — that is how the engine verifies ownership. Never prefix it with `NEXT_PUBLIC_`; the route reads it server-side and echoes it deliberately.
+- **Where Set**: Server Environment. **Secret in the sense that it must not be guessable, but it is served publicly at `/<key>.txt`** — that is how the engine verifies ownership. Never prefix it with `NEXT_PUBLIC_`; the route reads it server-side and echoes it deliberately. Root placement is required, not stylistic: IndexNow scopes a submission by the key file's directory, so a non-root key cannot authorise the whole host.
 - **Environments**:
 - **Dev**: Optional (nothing is submitted locally).
 - **Preview**: Leave unset. Preview must never submit production URLs.
 - **Production**: Set to enable submission.
-- **What breaks**: Nothing. If absent or not protocol-conformant, `/indexnow/<key>.txt` returns 404 and `npm run seo:indexnow` prints a skip and exits 0. A build, a deploy, and every page render are unaffected. Does nothing for Google, which has not adopted IndexNow.
+- **What breaks**: Nothing. If absent or not protocol-conformant, `/<key>.txt` returns 404 and `npm run seo:indexnow` prints a skip and exits 0. A build, a deploy, and every page render are unaffected. Does nothing for Google, which has not adopted IndexNow.

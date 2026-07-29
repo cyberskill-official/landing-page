@@ -29,6 +29,7 @@ The cost is one static key file and one HTTP POST per publish. The protocol is d
 - 1.4 The submission helper SHALL treat any 2xx response as success and SHALL NOT throw on a non-2xx response, so that a search-engine outage can never fail a deploy or a request.
 - 1.5 A repository script SHALL submit every URL in the generated sitemap, so a publish can push the full set without hand-maintaining a URL list.
 - 1.6 The key SHALL be validated as protocol-conformant (8 to 128 characters, hexadecimal) before any request is made, and an invalid key SHALL be treated as an absent key per 1.3.
+- 1.7 Every submitted URL MUST sit inside the directory of the declared `keyLocation`, because the protocol scopes a submission by that directory. Since the submission covers the whole host, the key file MUST be served from the root.
 
 ## 2. Acceptance criteria
 
@@ -38,12 +39,15 @@ The cost is one static key file and one HTTP POST per publish. The protocol is d
 - [ ] AC for 1.4 - a 500 or a network error from the endpoint resolves to a non-throwing failure result - test: `seo/indexnow-never-throws`
 - [ ] AC for 1.5 - the submit script derives its URL list from the same route registry the sitemap uses - test: `seo/indexnow-sitemap-parity`
 - [ ] AC for 1.6 - a key that is too short, too long, or non-hexadecimal is rejected and treated as absent - test: `seo/indexnow-key-validation`
+- [ ] AC for 1.7 - every sitemap URL sits inside the keyLocation directory, and that directory is the site root - test: `seo/indexnow-payload`
 
 ## 3. Edge cases
 
 - Empty URL list: submit nothing and report a skip rather than posting an empty `urlList`.
 - A key containing a path separator or a dot must not be interpolated into the route path, or the key file becomes a path-traversal surface. The route derives its filename from the validated key only.
-- The endpoint returns 422 when the key file cannot be fetched. That is a configuration error, not a transient one, and must be distinguishable in the logged result.
+- The endpoint returns 422 when the key file cannot be fetched OR when a submitted URL falls outside the keyLocation directory. Observed live on 2026-07-29: the key file served a correct 200 at `/indexnow/<key>.txt` and submission still failed 422, because that path authorises only `/indexnow/*`. A 200 on the key file is therefore not sufficient evidence that submission will work.
+- `[lang]` owns the root dynamic segment, so a root key route file is impossible. A `beforeFiles` rewrite resolves ahead of dynamic routes and gets the root URL without the collision.
+- The rewrite pattern must be constrained to hexadecimal, or `/:key.txt` would also capture `/llms.txt` and `/robots.txt`.
 - Preview and local deploys must not submit production URLs. Submission is gated on the production environment.
 - A duplicate URL in the list is the caller's problem, not the endpoint's: de-duplicate before sending so the quota is not spent twice.
 

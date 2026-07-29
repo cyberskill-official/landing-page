@@ -27,6 +27,32 @@ const nextConfig: NextConfig = {
     // StaticPoster uses q=70 for a tighter LCP image than the default 75.
     qualities: [70, 75],
   },
+  // TASK-SEO-021 §1.1: serve the IndexNow key file at the ROOT.
+  //
+  // This is not cosmetic. The protocol scopes a submission by the directory the
+  // key file sits in: a key at /indexnow/<key>.txt only authorises URLs under
+  // /indexnow/, so submitting /en and /vi came back 422 "key not verified".
+  // Site-wide submission requires the key at /<key>.txt.
+  //
+  // The root dynamic segment belongs to [lang], so a real route file cannot
+  // live there. A `beforeFiles` rewrite runs ahead of filesystem and dynamic
+  // route resolution, which gets the root URL without the collision.
+  //
+  // The hex constraint is load-bearing: an unconstrained `/:key.txt` would also
+  // capture /llms.txt and /robots.txt.
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/:key([0-9a-fA-F]{8,128}).txt",
+          destination: "/indexnow/:key",
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
+
   async headers() {
     // TASK-PERF-010: content-stable public assets with immutable caching.
     // These files never change without a filename change (logo uses semantic
