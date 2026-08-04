@@ -38,10 +38,10 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
         window.dataLayer?.push(args);
       };
       window.gtag("js", new Date());
-      window.gtag("config", "G-C5VJCLKZE7");
+      window.gtag("config", "G-HBXWFJNMHD");
 
       const script = document.createElement("script");
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-C5VJCLKZE7";
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-HBXWFJNMHD";
       script.async = true;
       document.head.appendChild(script);
     };
