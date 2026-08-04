@@ -5,6 +5,10 @@ import {
   CONSENT_CHANGE_EVENT,
   ConsentGate,
 } from "@/lib/analytics/consent";
+import {
+  GA_MEASUREMENT_ID,
+  GA_SCRIPT_SRC,
+} from "@/lib/analytics/ga";
 
 declare global {
   interface Window {
@@ -13,8 +17,6 @@ declare global {
     clarity?: (...args: unknown[]) => void;
   }
 }
-
-const GA_MEASUREMENT_ID = "G-HBXWFJNMHD";
 
 function applyGaConsentFromGate(): void {
   if (typeof window.gtag !== "function") return;
@@ -26,49 +28,51 @@ function applyGaConsentFromGate(): void {
 }
 
 /**
- * Post-LCP analytics loaders. No inline <script> injection (static pages use
- * hash-based CSP without per-request nonces); gtag bootstrap runs in this
- * module which is already allowed via script-src 'self'.
- *
- * GA4 uses Google Consent Mode: the library may load after LCP with storage
- * denied by default so install verification can see the tag; analytics cookies
- * stay off until ConsentGate grants the analytics category.
+ * Ensures gtag exists (layout head normally ships it for Google install
+ * detection), upgrades Consent Mode from ConsentGate, and loads Clarity
+ * after LCP only when session-replay is granted.
  *
  * Reacts to ConsentBanner via `cs-consent-change` so Accept after first paint
- * still upgrades GA consent and loads Clarity without a full page reload.
+ * upgrades GA storage and loads Clarity without a full page reload.
  */
 export function AnalyticsScripts(_props: { nonce?: string } = {}) {
   useEffect(() => {
-    // Returning visitors: apply stored Accept before any load attempt.
     ConsentGate.hydrate();
 
-    let gaLoaded = false;
-    const loadGa = () => {
-      if (gaLoaded) return;
-      gaLoaded = true;
+    let gaEnsured = false;
+    const ensureGa = () => {
+      if (gaEnsured) return;
+      gaEnsured = true;
 
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function gtag(...args: unknown[]) {
-        window.dataLayer?.push(args);
-      };
-      // Consent Mode default MUST run before config.
-      window.gtag("consent", "default", {
-        analytics_storage: "denied",
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        wait_for_update: 500,
-      });
-      window.gtag("js", new Date());
-      window.gtag("config", GA_MEASUREMENT_ID);
+      if (typeof window.gtag !== "function") {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function gtag(...args: unknown[]) {
+          window.dataLayer?.push(args);
+        };
+        window.gtag("consent", "default", {
+          analytics_storage: "denied",
+          ad_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+          wait_for_update: 500,
+        });
+        window.gtag("js", new Date());
+        window.gtag("config", GA_MEASUREMENT_ID);
+      }
 
-      const script = document.createElement("script");
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-      script.async = true;
-      document.head.appendChild(script);
+      if (!document.querySelector(`script[src*="googletagmanager.com/gtag/js"]`)) {
+        const script = document.createElement("script");
+        script.src = GA_SCRIPT_SRC;
+        script.async = true;
+        document.head.appendChild(script);
+      }
 
       applyGaConsentFromGate();
     };
+
+    // Head snippet is present for install detection; still ensure + sync consent
+    // immediately so Accept/hydrate is not gated on LCP.
+    ensureGa();
 
     let clarityLoaded = false;
     const loadClarity = () => {
@@ -85,7 +89,6 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
 
       clarityLoaded = true;
 
-      // Clarity bootstrap without an inline script tag (CSP-safe).
       const w = window as Window & { clarity?: (...args: unknown[]) => void };
       w.clarity =
         w.clarity ||
@@ -98,20 +101,17 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
       script.async = true;
       script.src = `https://www.clarity.ms/tag/${clarityId}`;
       document.head.appendChild(script);
-      // Cookieless Clarity: no analytics/ad storage cookies.
       w.clarity("consent", false);
     };
 
     let lcpPainted = false;
-    const triggerLoadIfReady = () => {
+    const triggerClarityIfReady = () => {
       if (!lcpPainted) return;
-      loadGa();
       loadClarity();
     };
 
-    // Consent may arrive after LCP (banner Accept). Always re-attempt loaders.
     const onConsentChange = () => {
-      if (lcpPainted) loadGa();
+      ensureGa();
       applyGaConsentFromGate();
       loadClarity();
     };
@@ -120,7 +120,7 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
     const observer = new PerformanceObserver((list) => {
       if (list.getEntries().length > 0) {
         lcpPainted = true;
-        triggerLoadIfReady();
+        triggerClarityIfReady();
       }
     });
 
@@ -132,7 +132,7 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
 
     const handleLoad = () => {
       lcpPainted = true;
-      triggerLoadIfReady();
+      triggerClarityIfReady();
     };
     window.addEventListener("load", handleLoad);
 
@@ -159,7 +159,7 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
     };
 
     const onInteraction = () => {
-      triggerLoadIfReady();
+      triggerClarityIfReady();
       cleanupInteraction();
     };
     interactionEvents.forEach((event) => {
@@ -169,14 +169,14 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
     if ("requestIdleCallback" in window) {
       idleId = window.requestIdleCallback(
         () => {
-          triggerLoadIfReady();
+          triggerClarityIfReady();
           cleanupInteraction();
         },
         { timeout: 8000 },
       );
     } else {
       timeoutId = setTimeout(() => {
-        triggerLoadIfReady();
+        triggerClarityIfReady();
         cleanupInteraction();
       }, 8000);
     }

@@ -104,7 +104,7 @@ describe("TASK-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     expect(csp).toContain("'wasm-unsafe-eval'");
     // Three.js loads the same glTF blob: texture via fetch() on this path,
     // which connect-src governs, not img-src - both are needed.
-    expect(csp).toContain("connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com");
+    expect(csp).toContain("connect-src 'self' blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com");
     // Vercel Live Feedback/Toolbar: needs script-src (loads its script),
     // frame-src (opens its iframe), and font-src (its self-hosted Geist
     // webfonts, e.g. "Loading the font 'https://vercel.live/geist.woff2'

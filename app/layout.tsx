@@ -15,6 +15,7 @@ import { DeferredPoster } from "@/components/DeferredPoster";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 import { MotionPreferenceSync } from "@/components/a11y/MotionPreferenceSync";
 import { CRITICAL_CSS, CRITICAL_STYLE_ID } from "@/lib/critical-css";
+import { GA_BOOT_SCRIPT, GA_SCRIPT_SRC } from "@/lib/analytics/ga";
 
 // Vercel Analytics / Speed Insights inject /_vercel/*/script.js. Those routes
 // only exist on the Vercel edge — local `next start` 404s them, and Lighthouse
@@ -93,6 +94,11 @@ export default function RootLayout({
           id={CRITICAL_STYLE_ID}
           dangerouslySetInnerHTML={{ __html: CRITICAL_CSS }}
         />
+        {/* Google tag (gtag.js) — in initial HTML so GA install Retest can see
+            G-HBXWFJNMHD. Consent Mode defaults deny analytics/ad storage until
+            the visitor Accepts (see AnalyticsScripts + ConsentBanner). */}
+        <script async src={GA_SCRIPT_SRC} />
+        <script dangerouslySetInnerHTML={{ __html: GA_BOOT_SCRIPT }} />
       </head>
       <AnalyticsScripts />
       <body>

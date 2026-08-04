@@ -30,7 +30,7 @@ describe("Commit 2 tests — TASK-PERF-005, TASK-PERF-012, TASK-OPS-009", () => 
     expect(csp).not.toContain("nonce-");
     expect(csp).toContain("https://www.googletagmanager.com");
     expect(csp).toContain("style-src 'self' 'unsafe-inline'");
-    expect(csp).toContain("connect-src 'self' blob: https://*.google-analytics.com");
+    expect(csp).toContain("connect-src 'self' blob: https://www.googletagmanager.com https://*.google-analytics.com");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("base-uri 'self'");
     expect(csp).toContain("report-uri /api/csp-report");

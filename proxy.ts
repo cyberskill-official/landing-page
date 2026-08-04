@@ -29,7 +29,7 @@ export function proxy(req: NextRequest) {
     `style-src 'self' 'unsafe-inline'; ` +
     `img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; ` +
     `font-src 'self' https://vercel.live; ` +
-    `connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com https://va.vercel-scripts.com https://vitals.vercel-insights.com; ` +
+    `connect-src 'self' blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.clarity.ms https://*.clarity.ms https://va.vercel-scripts.com https://vitals.vercel-insights.com; ` +
     `frame-src 'self' https://vercel.live; ` +
     `child-src 'self' https://vercel.live; ` +
     `frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;
