@@ -27,9 +27,9 @@ export function proxy(req: NextRequest) {
     `default-src 'self'; ` +
     `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://www.googletagmanager.com https://www.clarity.ms https://vercel.live https://va.vercel-scripts.com; ` +
     `style-src 'self' 'unsafe-inline'; ` +
-    `img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com; ` +
+    `img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com; ` +
     `font-src 'self' https://vercel.live; ` +
-    `connect-src 'self' blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.clarity.ms https://*.clarity.ms https://va.vercel-scripts.com https://vitals.vercel-insights.com; ` +
+    `connect-src 'self' blob: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://google.com https://stats.g.doubleclick.net https://*.doubleclick.net https://www.clarity.ms https://*.clarity.ms https://va.vercel-scripts.com https://vitals.vercel-insights.com; ` +
     `frame-src 'self' https://vercel.live; ` +
     `child-src 'self' https://vercel.live; ` +
     `frame-ancestors 'none'; base-uri 'self'; report-uri /api/csp-report;`;

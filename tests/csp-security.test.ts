@@ -95,7 +95,7 @@ describe("TASK-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     // Verify Google Analytics/GTM is whitelisted in script, connect, img
     expect(csp).toContain("script-src 'self' 'unsafe-inline'");
     expect(csp).toContain("https://www.googletagmanager.com");
-    expect(csp).toContain("img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com");
+    expect(csp).toContain("img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com");
     // blob: (glTF texture decode) and 'wasm-unsafe-eval' (glTF mesh
     // decompression) are required by the Lumi mascot's Three.js scene -
     // regression guard for the CSP gap that made her render white / not
@@ -104,7 +104,10 @@ describe("TASK-OPS-015: Content-Security-Policy (CSP) dynamic headers", () => {
     expect(csp).toContain("'wasm-unsafe-eval'");
     // Three.js loads the same glTF blob: texture via fetch() on this path,
     // which connect-src governs, not img-src - both are needed.
-    expect(csp).toContain("connect-src 'self' blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com");
+    // GA4 Consent Mode also posts collect hits to www.google.com/g/collect.
+    expect(csp).toContain("https://www.google.com");
+    expect(csp).toContain("https://www.google-analytics.com");
+    expect(csp).toContain("connect-src 'self' blob: https://www.googletagmanager.com");
     // Vercel Live Feedback/Toolbar: needs script-src (loads its script),
     // frame-src (opens its iframe), and font-src (its self-hosted Geist
     // webfonts, e.g. "Loading the font 'https://vercel.live/geist.woff2'
