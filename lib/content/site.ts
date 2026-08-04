@@ -343,8 +343,8 @@ export const faqs: FaqItem[] = [
   {
     q: { en: "Does your site use cookies or tracking?", vi: "Site có dùng cookie hay theo dõi không?" },
     a: {
-      en: "No third-party cookies and no cross-site tracking. We collect anonymous, first-party usage events (page views and button clicks) to understand how the site is used. Your theme and language preferences are stored locally in your browser only, never on our servers.",
-      vi: "Không cookie bên thứ ba, không theo dõi chéo site. Chúng tôi thu sự kiện ẩn danh nội bộ (xem trang, bấm nút) để hiểu cách site được dùng. Giao diện và ngôn ngữ chỉ lưu trong trình duyệt của bạn, không lên máy chủ chúng tôi.",
+      en: "By default, no advertising cookies. We collect anonymous first-party usage events without cookies. After you Allow on the banner, Google Analytics may use measurement cookies and Microsoft Clarity may record anonymous sessions (forms and chat masked). Theme and language stay in your browser only.",
+      vi: "Mặc định không có cookie quảng cáo. Chúng tôi thu sự kiện ẩn danh nội bộ không cookie. Sau khi bạn Cho phép trên banner, Google Analytics có thể dùng cookie đo lường và Microsoft Clarity có thể ghi phiên ẩn danh (biểu mẫu và chat được che). Giao diện và ngôn ngữ chỉ lưu trong trình duyệt của bạn.",
     },
   },
 ];

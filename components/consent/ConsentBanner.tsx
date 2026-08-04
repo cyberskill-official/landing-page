@@ -8,13 +8,14 @@ import { ConsentGate } from "@/lib/analytics/consent";
 import { DesignSystemButton } from "@/lib/design-system/button";
 
 /**
- * Opt-in banner for session replay (Microsoft Clarity).
+ * Opt-in banner for GA4 (Consent Mode storage) + optional Clarity.
  *
- * Renders only when NEXT_PUBLIC_CLARITY_ID is set and the visitor has not
- * decided yet. Short idle deferral so it never competes with LCP.
- * Choice lives in first-party localStorage (not a tracking cookie).
+ * Shown until the visitor decides. Short idle deferral so it never competes
+ * with LCP. Choice lives in first-party localStorage (not a tracking cookie).
  *
  * No auto-accept: Accept must be an explicit click (PDPL/GDPR + consent stance).
+ * GA4 may already be present with analytics_storage denied; Accept upgrades
+ * storage. Clarity still loads only after Accept when configured.
  */
 export function ConsentBanner({
   locale,
@@ -27,9 +28,6 @@ export function ConsentBanner({
   const copy = dict.consentBanner;
 
   useEffect(() => {
-    const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
-    if (!clarityId) return;
-
     ConsentGate.hydrate();
     if (ConsentGate.hasDecision()) return;
 
@@ -54,12 +52,12 @@ export function ConsentBanner({
   if (!visible) return null;
 
   const accept = () => {
-    ConsentGate.decide({ "session-replay": true });
+    ConsentGate.decide({ analytics: true, "session-replay": true });
     setVisible(false);
   };
 
   const decline = () => {
-    ConsentGate.decide({ "session-replay": false });
+    ConsentGate.decide({ analytics: false, "session-replay": false });
     setVisible(false);
   };
 

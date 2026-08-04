@@ -42,9 +42,11 @@ Tags that do **not** require consent under this decision:
 
 ## 3. Chosen mechanism
 
-**Default state: no optional tag loads.**
+**Default state: optional storage denied.**
 
-Every optional (non-cookieless) analytics or tracking tag must call the typed `ConsentGate.canLoad(tag)` API before initialising. The gate defaults to `denied` for all categories. It is upgraded when the visitor explicitly Accepts the consent banner (`components/consent/ConsentBanner.tsx`), which persists the choice in first-party `localStorage` (`cs-consent`) and emits `cs-consent-change` so deferred loaders (e.g. Microsoft Clarity) can start without a full reload.
+Every optional (non-cookieless) analytics or tracking tag must call the typed `ConsentGate.canLoad(tag)` API before enabling storage or session-replay features. The gate defaults to `denied` for all categories. It is upgraded when the visitor explicitly Accepts the consent banner (`components/consent/ConsentBanner.tsx`), which persists the choice in first-party `localStorage` (`cs-consent`) and emits `cs-consent-change` so deferred loaders can start without a full reload.
+
+**Google Analytics 4 exception (Consent Mode):** the gtag library may load after LCP with Google Consent Mode defaults (`analytics_storage` / ad storage denied). That load does not grant cookies. Storage is upgraded only via `ConsentGate` + `gtag('consent','update',…)`. Clarity and marketing pixels still must not initialise until `canLoad` returns true.
 
 A TypeScript compile error is the enforcement mechanism: any tag that does not import and call `canLoad` fails the CI build via an ESLint rule (planned as `no-unconsented-tag`; currently enforced by the gate's type signature requiring explicit acknowledgement).
 
@@ -63,7 +65,7 @@ A TypeScript compile error is the enforcement mechanism: any tag that does not i
 This record must be updated before any of the following ships:
 
 - ~~Microsoft Clarity (TASK-OPS-012) — requires consent banner.~~ **Shipped:** cookieless Clarity loads only after Accept on the session-replay banner when `NEXT_PUBLIC_CLARITY_ID` is set in production.
-- Google Analytics 4 in non-consent-mode (TASK-PERF-009) — requires consent banner (analytics category; not yet offered in the banner).
+- ~~Google Analytics 4 in non-consent-mode (TASK-PERF-009) — requires consent banner (analytics category; not yet offered in the banner).~~ **Shipped (Consent Mode, 2026-08-04):** gtag may load after LCP with `analytics_storage` / ad storage **denied** by default (Google Consent Mode). The consent banner Accept grants `analytics` + `session-replay` and calls `gtag('consent','update',{analytics_storage:'granted'})`. Decline keeps storage denied. No marketing pixels.
 - Any retargeting or attribution pixel — requires consent banner.
 - The formal PDPL legal review (TASK-BIZ-012) may supersede the basis described here.
 
@@ -74,6 +76,6 @@ This record must be updated before any of the following ships:
 The privacy page at `/[lang]/privacy` must accurately reflect which tags can load and under what condition. As of this decision:
 
 - **Cookieless first-party events** — always on, no consent needed.
+- **Google Analytics 4 (Consent Mode)** — library deferred until after LCP; storage denied until banner Accept.
 - **Microsoft Clarity (session replay)** — opt-in via banner; cookieless; forms/chat masked.
-- **GA4 / marketing tags** — not offered in the banner yet; stay denied by default.
 - **Anthropic API** — disclosed at point of use in the chat.

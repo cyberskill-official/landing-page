@@ -14,13 +14,28 @@ declare global {
   }
 }
 
+const GA_MEASUREMENT_ID = "G-HBXWFJNMHD";
+
+function applyGaConsentFromGate(): void {
+  if (typeof window.gtag !== "function") return;
+  if (ConsentGate.canLoad("analytics")) {
+    window.gtag("consent", "update", { analytics_storage: "granted" });
+  } else {
+    window.gtag("consent", "update", { analytics_storage: "denied" });
+  }
+}
+
 /**
  * Post-LCP analytics loaders. No inline <script> injection (static pages use
  * hash-based CSP without per-request nonces); gtag bootstrap runs in this
  * module which is already allowed via script-src 'self'.
  *
+ * GA4 uses Google Consent Mode: the library may load after LCP with storage
+ * denied by default so install verification can see the tag; analytics cookies
+ * stay off until ConsentGate grants the analytics category.
+ *
  * Reacts to ConsentBanner via `cs-consent-change` so Accept after first paint
- * still loads Clarity without a full page reload.
+ * still upgrades GA consent and loads Clarity without a full page reload.
  */
 export function AnalyticsScripts(_props: { nonce?: string } = {}) {
   useEffect(() => {
@@ -30,20 +45,29 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
     let gaLoaded = false;
     const loadGa = () => {
       if (gaLoaded) return;
-      if (!ConsentGate.canLoad("analytics")) return;
       gaLoaded = true;
 
       window.dataLayer = window.dataLayer || [];
       window.gtag = function gtag(...args: unknown[]) {
         window.dataLayer?.push(args);
       };
+      // Consent Mode default MUST run before config.
+      window.gtag("consent", "default", {
+        analytics_storage: "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        wait_for_update: 500,
+      });
       window.gtag("js", new Date());
-      window.gtag("config", "G-HBXWFJNMHD");
+      window.gtag("config", GA_MEASUREMENT_ID);
 
       const script = document.createElement("script");
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-HBXWFJNMHD";
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
       script.async = true;
       document.head.appendChild(script);
+
+      applyGaConsentFromGate();
     };
 
     let clarityLoaded = false;
@@ -87,7 +111,8 @@ export function AnalyticsScripts(_props: { nonce?: string } = {}) {
 
     // Consent may arrive after LCP (banner Accept). Always re-attempt loaders.
     const onConsentChange = () => {
-      loadGa();
+      if (lcpPainted) loadGa();
+      applyGaConsentFromGate();
       loadClarity();
     };
     window.addEventListener(CONSENT_CHANGE_EVENT, onConsentChange);

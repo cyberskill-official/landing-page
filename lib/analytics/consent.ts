@@ -123,7 +123,13 @@ export const ConsentGate = {
   hydrate(): boolean {
     const stored = readStoredDecision();
     if (!stored) return false;
-    applyChoices(stored.choices);
+    const choices = { ...stored.choices };
+    // Pre-Consent-Mode Accept only set session-replay. Same click meant "allow
+    // optional measurement", so upgrade analytics when it was left unset.
+    if (choices["session-replay"] === true && choices.analytics === undefined) {
+      choices.analytics = true;
+    }
+    applyChoices(choices);
     _decided = true;
     emitChange();
     return true;

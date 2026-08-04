@@ -14,12 +14,30 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 // @ts-expect-error react act flag for createRoot
 global.IS_REACT_ACT_ENVIRONMENT = true;
 
-describe("Consent banner + session-replay gate", () => {
+describe("Consent banner + analytics / session-replay gate", () => {
   const originalEnv = process.env;
   let container: HTMLDivElement;
+  let memoryStore: Record<string, string>;
 
   beforeEach(() => {
     process.env = { ...originalEnv, NODE_ENV: "test" };
+    memoryStore = {};
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => memoryStore[key] ?? null,
+      setItem: (key: string, value: string) => {
+        memoryStore[key] = String(value);
+      },
+      removeItem: (key: string) => {
+        delete memoryStore[key];
+      },
+      clear: () => {
+        memoryStore = {};
+      },
+      key: () => null,
+      get length() {
+        return Object.keys(memoryStore).length;
+      },
+    });
     ConsentGate._reset(true);
     container = document.createElement("div");
     document.body.appendChild(container);
@@ -41,7 +59,7 @@ describe("Consent banner + session-replay gate", () => {
     vi.unstubAllGlobals();
   });
 
-  it("analytics/consent-banner: does not render when NEXT_PUBLIC_CLARITY_ID is missing", async () => {
+  it("analytics/consent-banner: renders after idle even when NEXT_PUBLIC_CLARITY_ID is missing", async () => {
     delete process.env.NEXT_PUBLIC_CLARITY_ID;
     const dict = getDictionary("en");
     const root = createRoot(container);
@@ -51,10 +69,10 @@ describe("Consent banner + session-replay gate", () => {
     await act(async () => {
       await new Promise((r) => setTimeout(r, 0));
     });
-    expect(container.querySelector(".cs-consent-banner")).toBeNull();
+    expect(container.querySelector(".cs-consent-banner")).not.toBeNull();
   });
 
-  it("analytics/consent-banner: Accept enables session-replay and persists choice", async () => {
+  it("analytics/consent-banner: Accept enables analytics + session-replay and persists choice", async () => {
     process.env.NEXT_PUBLIC_CLARITY_ID = "xngfe1jaip";
     const dict = getDictionary("en");
     const changeSpy = vi.fn();
@@ -71,6 +89,7 @@ describe("Consent banner + session-replay gate", () => {
     const banner = container.querySelector(".cs-consent-banner");
     expect(banner).not.toBeNull();
     expect(ConsentGate.canLoad("session-replay")).toBe(false);
+    expect(ConsentGate.canLoad("analytics")).toBe(false);
 
     const accept = Array.from(container.querySelectorAll("button")).find((b) =>
       b.textContent?.includes(dict.consentBanner.accept),
@@ -81,6 +100,7 @@ describe("Consent banner + session-replay gate", () => {
     });
 
     expect(ConsentGate.canLoad("session-replay")).toBe(true);
+    expect(ConsentGate.canLoad("analytics")).toBe(true);
     expect(ConsentGate.hasDecision()).toBe(true);
     expect(changeSpy).toHaveBeenCalled();
     expect(container.querySelector(".cs-consent-banner")).toBeNull();
@@ -88,11 +108,12 @@ describe("Consent banner + session-replay gate", () => {
     const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) || "{}");
     expect(stored.version).toBe(1);
     expect(stored.choices["session-replay"]).toBe(true);
+    expect(stored.choices.analytics).toBe(true);
 
     window.removeEventListener(CONSENT_CHANGE_EVENT, changeSpy);
   });
 
-  it("analytics/consent-banner: Decline keeps session-replay denied and hides banner", async () => {
+  it("analytics/consent-banner: Decline keeps analytics and session-replay denied and hides banner", async () => {
     process.env.NEXT_PUBLIC_CLARITY_ID = "xngfe1jaip";
     const dict = getDictionary("en");
     const root = createRoot(container);
@@ -111,11 +132,13 @@ describe("Consent banner + session-replay gate", () => {
     });
 
     expect(ConsentGate.canLoad("session-replay")).toBe(false);
+    expect(ConsentGate.canLoad("analytics")).toBe(false);
     expect(ConsentGate.hasDecision()).toBe(true);
     expect(container.querySelector(".cs-consent-banner")).toBeNull();
 
     const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) || "{}");
     expect(stored.choices["session-replay"]).toBe(false);
+    expect(stored.choices.analytics).toBe(false);
   });
 
   it("analytics/consent-banner: hydrate restores Accept so banner stays hidden", async () => {
@@ -139,6 +162,7 @@ describe("Consent banner + session-replay gate", () => {
     });
 
     expect(ConsentGate.canLoad("session-replay")).toBe(true);
+    expect(ConsentGate.canLoad("analytics")).toBe(true);
     expect(container.querySelector(".cs-consent-banner")).toBeNull();
   });
 

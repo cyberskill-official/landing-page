@@ -169,7 +169,7 @@ export type Dictionary = {
     successStep2: string;
     successStep3: string;
   };
-  /** Opt-in banner for session replay (Microsoft Clarity). */
+  /** Opt-in banner for GA4 storage + optional Clarity. */
   consentBanner: {
     title: string;
     body: string;
@@ -341,8 +341,8 @@ const en: Dictionary = {
     successStep3: "Reply to the report if you want to dig deeper with the team.",
   },
   consentBanner: {
-    title: "See how people use this site?",
-    body: "Anonymous session recordings (Microsoft Clarity) help us fix rough edges. Forms and chat stay masked — nothing loads until you allow.",
+    title: "Help us improve this site?",
+    body: "Allow Google Analytics (measurement cookies) and anonymous session recordings (Microsoft Clarity). Forms and chat stay masked. You can decline and keep browsing.",
     accept: "Allow",
     decline: "No thanks",
     privacyLink: "Privacy",
@@ -511,8 +511,8 @@ const vi: Dictionary = {
     successStep3: "Trả lời email báo cáo nếu muốn đào sâu cùng đội ngũ.",
   },
   consentBanner: {
-    title: "Xem cách mọi người dùng site?",
-    body: "Ghi phiên ẩn danh (Microsoft Clarity) giúp chúng tôi sửa chỗ khó dùng. Biểu mẫu và chat được che — không gì tải cho đến khi bạn cho phép.",
+    title: "Giúp chúng tôi cải thiện site?",
+    body: "Cho phép Google Analytics (cookie đo lường) và ghi phiên ẩn danh (Microsoft Clarity). Biểu mẫu và chat được che. Bạn có thể từ chối và vẫn dùng site.",
     accept: "Cho phép",
     decline: "Không",
     privacyLink: "Riêng tư",

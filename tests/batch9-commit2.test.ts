@@ -8,28 +8,57 @@ import { createRoot } from "react-dom/client";
 import { AnalyticsScripts } from "@/components/seo/AnalyticsScripts";
 import { ConsentGate } from "@/lib/analytics/consent";
 
-describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", () => {
+function installMemoryLocalStorage(): Record<string, string> {
+  const memoryStore: Record<string, string> = {};
+  const api: Storage = {
+    getItem: (key: string) => memoryStore[key] ?? null,
+    setItem: (key: string, value: string) => {
+      memoryStore[key] = String(value);
+    },
+    removeItem: (key: string) => {
+      delete memoryStore[key];
+    },
+    clear: () => {
+      for (const key of Object.keys(memoryStore)) delete memoryStore[key];
+    },
+    key: () => null,
+    get length() {
+      return Object.keys(memoryStore).length;
+    },
+  };
+  Object.defineProperty(window, "localStorage", {
+    value: api,
+    configurable: true,
+    writable: true,
+  });
+  return memoryStore;
+}
+
+describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent Mode Analytics)", () => {
   let container: HTMLDivElement;
 
   beforeEach(() => {
-    (ConsentGate as any)._reset();
+    installMemoryLocalStorage();
+    (ConsentGate as any)._reset(true);
 
     document.querySelectorAll("script").forEach((el) => {
       if (el.src.includes("googletagmanager") || el.innerHTML.includes("gtag")) {
         el.remove();
       }
     });
+    delete window.gtag;
+    delete window.dataLayer;
 
     container = document.createElement("div");
     document.body.appendChild(container);
   });
 
   afterEach(() => {
-    (ConsentGate as any)._reset();
-    container.remove();
+    (ConsentGate as any)._reset(true);
+    container?.remove();
   });
 
-  test("analytics/consent-gate: should NOT load GA scripts when consent is denied", async () => {
+  test("analytics/consent-gate: loads gtag with Consent Mode denied when analytics not granted", async () => {
     expect(ConsentGate.canLoad("analytics")).toBe(false);
 
     const root = createRoot(container);
@@ -42,11 +71,21 @@ describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", (
       window.dispatchEvent(new Event("scroll"));
     });
 
-    const gaScript = document.querySelector('script[src*="googletagmanager.com"]');
-    expect(gaScript).toBeNull();
+    const gaScript = document.querySelector(
+      'script[src*="googletagmanager.com"]',
+    ) as HTMLScriptElement | null;
+    expect(gaScript).not.toBeNull();
+    expect(gaScript?.src).toContain("G-HBXWFJNMHD");
+    expect(typeof window.gtag).toBe("function");
+
+    const consentDefault = (window.dataLayer as unknown[] | undefined)?.find(
+      (row) => Array.isArray(row) && row[0] === "consent" && row[1] === "default",
+    ) as unknown[] | undefined;
+    expect(consentDefault).toBeDefined();
+    expect(consentDefault?.[2]).toMatchObject({ analytics_storage: "denied" });
   });
 
-  test("analytics/consent-gate: should load GA scripts when consent is granted", async () => {
+  test("analytics/consent-gate: upgrades analytics_storage when consent is granted", async () => {
     (ConsentGate as any)._upgrade({ analytics: true });
     expect(ConsentGate.canLoad("analytics")).toBe(true);
 
@@ -60,7 +99,6 @@ describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", (
       window.dispatchEvent(new Event("scroll"));
     });
 
-    // External gtag loader only — bootstrap runs in the module (hash CSP, no inline/nonce)
     const gaScript = document.querySelector(
       'script[src*="googletagmanager.com"]',
     ) as HTMLScriptElement | null;
@@ -68,14 +106,21 @@ describe("Batch 9 Commit 2 tests — TASK-PERF-009 (Consent-gated Analytics)", (
     expect(gaScript?.getAttribute("nonce")).toBeNull();
     expect(gaScript?.async).toBe(true);
 
-    // No inline gtag bootstrap script tags
     const inlineScript = Array.from(document.querySelectorAll("script")).find((el) =>
       el.innerHTML.includes("window.dataLayer = window.dataLayer"),
     );
     expect(inlineScript).toBeUndefined();
 
-    // Module bootstrapped gtag on window
     expect(typeof window.gtag).toBe("function");
     expect(Array.isArray(window.dataLayer)).toBe(true);
+
+    const consentUpdate = (window.dataLayer as unknown[] | undefined)?.find(
+      (row) =>
+        Array.isArray(row) &&
+        row[0] === "consent" &&
+        row[1] === "update" &&
+        (row[2] as { analytics_storage?: string })?.analytics_storage === "granted",
+    );
+    expect(consentUpdate).toBeDefined();
   });
 });

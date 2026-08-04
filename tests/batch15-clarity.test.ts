@@ -41,7 +41,11 @@ describe("TASK-OPS-012: Microsoft Clarity Session Replay", () => {
     window.dispatchEvent(new Event("load"));
     window.dispatchEvent(new Event("scroll"));
 
-    expect(appendSpy).not.toHaveBeenCalled();
+    const hasClarity = appendSpy.mock.calls.some(([node]) => {
+      const el = node as HTMLScriptElement;
+      return el.src?.includes("clarity.ms") || el.innerHTML?.includes("clarity");
+    });
+    expect(hasClarity).toBe(false);
   });
 
   it("analytics/clarity-env-gate: does not load Clarity when consent is denied", async () => {

@@ -32,9 +32,10 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
       {
         h: "Consent and Tracking Tags",
         body: [
-          "No third-party tracking, marketing pixels, or analytics cookies are loaded by default. The site is cookieless-first.",
-          "Optional session replay: when configured, Microsoft Clarity may load only after you Accept on the consent banner. It runs in cookieless mode; form fields and chat content are masked so typed text is not recorded. You can Decline and continue using the site without it. Your Accept/Decline choice is stored only in your browser (localStorage) so we do not ask again.",
-          "Other optional tags (such as Google Analytics 4) will only load if you explicitly grant consent. They are deferred until interaction and strictly opt-in.",
+          "No marketing pixels or advertising cookies load by default. First-party anonymous usage events still run without cookies.",
+          "Google Analytics 4: the gtag library may load after the page is interactive with Google Consent Mode defaults (analytics and ad storage denied). Measurement cookies and identifiable GA storage turn on only after you Accept on the consent banner. Decline keeps storage denied.",
+          "Optional session replay: when configured, Microsoft Clarity loads only after you Accept. It runs in cookieless mode; form fields and chat content are masked so typed text is not recorded.",
+          "Your Accept/Decline choice is stored only in your browser (localStorage) so we do not ask again. You can clear site data to reset the choice.",
         ],
       },
       {
@@ -55,7 +56,7 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         ],
       },
     ],
-    updated: "Last updated 13 July 2026.",
+    updated: "Last updated 4 August 2026.",
   },
   vi: {
     title: "Quyền riêng tư",
@@ -76,9 +77,10 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
       {
         h: "Đồng ý và Thẻ theo dõi",
         body: [
-          "Không có trình theo dõi của bên thứ ba, pixel tiếp thị, hoặc cookie phân tích nào được tải theo mặc định. Website này ưu tiên không sử dụng cookie.",
-          "Ghi lại phiên tùy chọn: khi được cấu hình, Microsoft Clarity chỉ tải sau khi bạn bấm Đồng ý trên banner. Clarity chạy chế độ không cookie; trường biểu mẫu và nội dung chat được che nên chữ gõ không bị ghi. Bạn có thể Từ chối và vẫn dùng site bình thường. Lựa chọn Đồng ý/Từ chối chỉ lưu trong trình duyệt (localStorage) để chúng tôi không hỏi lại.",
-          "Các thẻ tùy chọn khác (như Google Analytics 4) chỉ tải nếu bạn đồng ý rõ ràng. Chúng tôi trì hoãn tải cho đến khi có tương tác và hoàn toàn dựa trên sự chọn lựa tự nguyện.",
+          "Không có pixel tiếp thị hay cookie quảng cáo nào được tải theo mặc định. Sự kiện sử dụng ẩn danh bên thứ nhất vẫn chạy không cookie.",
+          "Google Analytics 4: thư viện gtag có thể tải sau khi trang tương tác được, với Consent Mode mặc định (từ chối lưu trữ analytics và quảng cáo). Cookie đo lường và lưu trữ GA chỉ bật sau khi bạn bấm Cho phép trên banner. Từ chối giữ trạng thái không lưu trữ.",
+          "Ghi lại phiên tùy chọn: khi được cấu hình, Microsoft Clarity chỉ tải sau khi bạn Cho phép. Clarity chạy chế độ không cookie; trường biểu mẫu và nội dung chat được che nên chữ gõ không bị ghi.",
+          "Lựa chọn Cho phép/Từ chối chỉ lưu trong trình duyệt (localStorage) để chúng tôi không hỏi lại. Xóa dữ liệu site để đặt lại lựa chọn.",
         ],
       },
       {
@@ -99,7 +101,7 @@ const content: Record<Locale, { title: string; intro: string; blocks: Block[]; u
         ],
       },
     ],
-    updated: "Cập nhật lần cuối ngày 13 tháng 7 năm 2026.",
+    updated: "Cập nhật lần cuối ngày 4 tháng 8 năm 2026.",
   },
 };
 
